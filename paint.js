@@ -17,6 +17,14 @@ var PAINT = ((c)=>{
       args.push(a)
     }
     console.log.apply(console, ['PAINT.' + arguments.callee.caller.name + '()'].concat(args))
+    
+    let myargs = []
+    for(let a of arguments){
+      myargs.push(a)
+    }
+    if(myargs.length > 0){
+      console.log.apply(console, myargs)
+    }
   }
 
   return {

@@ -10,13 +10,15 @@
       PAINT.setColor(r, g, b)
       return 0
     }
-    LUA_EMULATOR.makeFunctionAvailableInLua(setColor)
+    LUA_EMULATOR.makeFunctionAvailableInLua(setColor, 'screen')
     
     function drawRectF(x, y, w, h){
       PAINT.drawRectF(x, y, w, h)
       return 0
     }
     LUA_EMULATOR.makeFunctionAvailableInLua(drawRectF)
+
+    $(global).trigger('stormworks_lua_api_loaded')
   }
 
 

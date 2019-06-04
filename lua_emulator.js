@@ -1,9 +1,9 @@
 var LUA_EMULATOR = ((global, $)=>{
-  "use strict";
+  
+  let supportedFunctions = {}
+  let namespaces = {}
 
-  let supportedFunctions = []
-
-  let print = function(e){
+  let print = function(){
     let args = []
     let i = 0
     while(arguments[i] !== undefined){
@@ -19,22 +19,43 @@ var LUA_EMULATOR = ((global, $)=>{
   }
   makeFunctionAvailableInLua(print)
 
+  function createNamespace(name){    
+    fengari.lua.lua_newtable(fengari.L)
+    fengari.lua.lua_setglobal(fengari.L, name)
+    namespaces[name] = true
+    supportedFunctions[name] = {}
+    log('created namespace', name)
+  }
 
-  function makeFunctionAvailableInLua(func){
+  function makeFunctionAvailableInLua(func, namespace){
+    let l = fengari.L    
     if(typeof func !== 'function'){
       throw new Error('passed variable is not a function!')
     }
-    supportedFunctions.push({name: func.name})
     const callback = func
     const name = callback.name
-    let middleware = function(l){
-      let args = extractArgumentsFromStack(l.stack, 'middleware')
+    let middleware = function(ll){
+      let args = extractArgumentsFromStack(ll.stack, 'middleware')
       let ret =  callback.apply(null, convertArguments(args))
-      let retlen = pushToStack(l, ret)
+      let retlen = pushToStack(ll, ret)
       return retlen
     }
-    fengari.lua.lua_pushjsfunction(fengari.L, middleware)   
-    fengari.lua.lua_setglobal(fengari.L, name)
+    if(typeof namespace === 'string'){
+      if(! namespaces[namespace]){
+        createNamespace(namespace)
+      }
+
+      fengari.lua.lua_getglobal(l, namespace)
+      pushToStack(l, name)
+      pushToStack(l, middleware)  
+      fengari.lua.lua_settable(l, l.top-3)
+      supportedFunctions[namespace][name] = true
+    } else {
+      fengari.lua.lua_pushjsfunction(fengari.L, middleware)   
+      fengari.lua.lua_setglobal(fengari.L, name)
+      supportedFunctions[name] = true
+    }
+    log('registered function', namespace ? namespace + '.' + name : name)
   }
 
   function extractArgumentsFromStack(stack, func_name){
@@ -103,6 +124,9 @@ var LUA_EMULATOR = ((global, $)=>{
     } else if (typeof ob === 'string'){
       fengari.lua.lua_pushliteral(l, ob)
       return 1;
+    } else if (typeof ob === 'function'){
+      fengari.lua.lua_pushjsfunction(l, ob) 
+      return 1
     } else if (ob instanceof Object){
       for(let k of Object.keys()){
         pushToStack(l, k)
@@ -137,15 +161,37 @@ var LUA_EMULATOR = ((global, $)=>{
         }
         return str.substring(0, str.length-2) + '}'
       } else {
-        return JSON.stringify(ob, null, " ").replace(/\n/g, '').replace(/\s\s/g, ' ')
+        let clean = {}
+        for(let k of Object.keys(ob)){
+          clean[k] = ob[k].toString()//TODO this is not correct! but if not doing this we got infitine recursion (cycling)
+        }
+        return JSON.stringify(clean, null, " ").replace(/\n/g, '').replace(/\s\s/g, ' ')
       }      
-    } else {
+    } else if (ob === null) {
+      return 'null'
+    }else {
       return ob.toString()
     }
   }
 
+  function log(){
+    let args = []
+    for(let a of arguments.callee.caller.arguments){
+      args.push(a)
+    }
+    console.log.apply(console, ['LUA_EMULATOR.' + arguments.callee.caller.name + '()'].concat(args))
+
+    let myargs = []
+    for(let a of arguments){
+      myargs.push(a)
+    }
+    if(myargs.length > 0){
+      console.log.apply(console, myargs)
+    }
+  }
+
   return {
-    supportedFunctions: supportedFunctions,
+    supportedFunctions: ()=>{return supportedFunctions},
     makeFunctionAvailableInLua: makeFunctionAvailableInLua,
     luaToString: luaToString
   }
