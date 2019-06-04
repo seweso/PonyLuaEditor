@@ -43,9 +43,16 @@
     </div>
     <div id="editor">
       <button id="run">Run</button>
-      <textarea id="code"></textarea>
+      <div id="code">function e()
+    test = "abc"
+    print2(2, test)
+end
+-- a comment
+e()
+    </div>
     </div>
     <div id="output">
+      <h3>Console Output:</h3>
       <textarea readonly id="console"></textarea>
     </div>
     
@@ -69,5 +76,12 @@
       }
     }, 500)
   </script>
+
+  <script src="/ace-builds/ace.js" type="text/javascript" charset="utf-8"></script>
+  <script>
+    var editor = ace.edit("code");
+    editor.setTheme("ace/theme/monokai");
+    editor.session.setMode("ace/mode/lua");
+</script>
 </body>
 </html>

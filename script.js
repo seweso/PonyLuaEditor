@@ -15,6 +15,7 @@
   	ctx  = $canvas.get(0).getContext('2d')
   	recalculateCanvas()
   	$('#run').on('click', run)
+  	$('#console').val('')
 
   	setupFengari()
   }
@@ -33,8 +34,8 @@
   }
 
   function run(){
-  	$('#console').html('')
-  	let code = $('#code').val()
+  	$('#console').val('')
+  	let code = editor.getValue()
   	try {
 	  	let feng = fengari.load(code)
   		feng()
@@ -59,9 +60,9 @@
       }
       console.log.apply(console, ['LUA output:'].concat(args))
       for(let arg of args){
-	      $('#console').append(luaToString(arg) + " ")
+	      $('#console').val($('#console').val() + luaToString(arg) + " ")
 	    }
-      $('#console').append('\n')
+      $('#console').val( $('#console').val() + '\n')
       return 0
     }
     makeFunctionAvailableInLua(print2)
