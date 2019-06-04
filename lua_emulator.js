@@ -40,6 +40,9 @@ var LUA_EMULATOR = ((global, $)=>{
       let retlen = pushToStack(ll, ret)
       return retlen
     }
+    middleware.toString = ()=>{
+      return 'function()'
+    }
     if(typeof namespace === 'string'){
       if(! namespaces[namespace]){
         createNamespace(namespace)

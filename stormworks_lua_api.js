@@ -16,7 +16,7 @@
       PAINT.drawRectF(x, y, w, h)
       return 0
     }
-    LUA_EMULATOR.makeFunctionAvailableInLua(drawRectF)
+    LUA_EMULATOR.makeFunctionAvailableInLua(drawRectF, 'screen')
 
     $(global).trigger('stormworks_lua_api_loaded')
   }

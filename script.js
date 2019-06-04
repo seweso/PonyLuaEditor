@@ -15,7 +15,7 @@
   				container.append(namespace)
   				printSupportedFunctions(sf, namespace, prefix ? prefix + '.' + k : k)
 	  		} else {
-	  			container.append('<div class="function">' + (prefix ? prefix + '.' + k : k) + '()</div>')
+	  			container.append('<div class="function">' + (prefix ? '.' + k : k) + '()</div>')
 	  		}
 	  	}
   	}

@@ -54,6 +54,9 @@ button[disabled] {
   min-height: 100vh;
 }
 
+#selection, #screen, #editor, #output, #functions {
+  padding: 20px;
+}
 
 #selection {
   background: #000;
@@ -62,7 +65,6 @@ button[disabled] {
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  padding: 20px;
 }
 
 #selection > label {
@@ -73,8 +75,9 @@ button[disabled] {
   margin-right: 30px;
 }
 
+
 #screen {
-  padding: 20px;
+
 }
 
 #monitor {
@@ -100,7 +103,7 @@ button[disabled] {
 
 
 #editor {
-  padding: 20px;
+  
 }
 
 #code {
@@ -110,7 +113,7 @@ button[disabled] {
 }
 
 #output {
-  padding: 20px;
+  
 }
 
 #console {
@@ -123,13 +126,25 @@ button[disabled] {
   border-radius: 3px;
 }
 
+#functions {
+  
+}
+
+#functions .namespace {
+  padding-left: 15px;
+}
+
+#functions .namespace > span {
+  margin-left: -15px;
+}
+
 
 
 /* information badges */
 #information {
   position: fixed;
   bottom: 0;
-  left: 0;
+  right: 0;
   display: flex;
   flex-direction: column;
   padding: 5px;
