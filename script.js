@@ -33,9 +33,14 @@
   }
 
   function run(){
+  	$('#console').html('')
   	let code = $('#code').val()
-  	let feng = fengari.load(code)
-  	feng()
+  	try {
+	  	let feng = fengari.load(code)
+  		feng()
+	  } catch (err){
+	  	$('#console').append(err)
+	  }
   }
 
   function setupFengari(){
@@ -46,16 +51,20 @@
   	makeFunctionAvailableInLua(func)
 
   	let print2 = function(e){
-  		let args = []
-  		let i = 0
-  		while(arguments[i] !== undefined){
-  			args.push(arguments[i])
-  			i++
-  		}
-  		console.log.apply(console, ['LUA output:'].concat(args))
-  		return 0
-  	}
-  	makeFunctionAvailableInLua(print2)
+      let args = []
+      let i = 0
+      while(arguments[i] !== undefined){
+        args.push(arguments[i])
+        i++
+      }
+      console.log.apply(console, ['LUA output:'].concat(args))
+      for(let arg of args){
+	      $('#console').append(luaToString(arg) + " ")
+	    }
+      $('#console').append('\n')
+      return 0
+    }
+    makeFunctionAvailableInLua(print2)
 	}
 
 
@@ -124,14 +133,7 @@
 		let argsConverted = {}
 		let promises = []
 		for(let a in args){
-			switch(args[a].type){
-				case 20: {
-					argsConverted[a] = arrayBufferToString(args[a].value.realstring)
-				}; break;
-				default: {
-					argsConverted[a] = args[a].value
-				}
-			}
+			argsConverted[a] = convertLuaValue(args[a])
 		}
 		let argArray = []
 		for(let k of Object.keys(argsConverted)){
@@ -139,6 +141,64 @@
 		}
 		return argArray
 	}
+
+	function convertLuaValue(value){
+		switch(value.type){
+			case 5: {
+				return luaTableToJSObject(value.value)
+			}
+			case 20: {
+				return arrayBufferToString(value.value.realstring)
+			}
+			default: {
+				return value.value
+			}
+		}
+	}
+
+	function luaTableToJSObject(table){
+		let ret = {}
+    if(table.l instanceof Object){
+      let current = table.l
+      ret[convertLuaValue(current.key)] = convertLuaValue(current.value)
+      while(current.p instanceof Object){
+        current = current.p
+        ret[convertLuaValue(current.key)] = convertLuaValue(current.value)
+      }
+      return ret
+    } else {
+      return {}
+    }
+	}
+
+	function luaToString(ob){
+    if(typeof ob === 'number'){
+      return ob.toString()
+    } else if(typeof ob === 'string'){
+      return ob
+    } else if(ob instanceof Object){
+    	let onlyNumberKeys = true
+    	for(let k of Object.keys(ob)){
+	    	if(isNaN(parseInt(k))){
+	    		onlyNumberKeys = false
+	    	}
+	    }    	
+    	if(onlyNumberKeys){
+    		if(Object.keys(ob).length === 0){
+	        return '{}'
+	      }
+	      let str = '{'
+	      for(let k of Object.keys(ob)){
+	        str += luaToString(ob[k]) + ', '
+	      }
+	      return str.substring(0, str.length-2) + '}'
+    	} else {
+	    	return JSON.stringify(ob, null, " ").replace(/\n/g, '').replace(/\s\s/g, ' ')
+	    }      
+    } else {
+      return ob.toString()
+    }
+  }
 
 	function pushToStack(l, ob){
 		if(typeof ob === 'number'){
