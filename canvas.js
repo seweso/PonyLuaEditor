@@ -32,8 +32,10 @@ var CANVAS = ((global, $)=>{
 
     let canvasWidth = dim.width + (showOverflow ? 64 : 0)
     let canvasHeight = dim.height + (showOverflow ? 64 : 0)
+    ctx.save()
     $canvas.get(0).width = canvasWidth
     $canvas.get(0).height = canvasHeight
+    ctx.restore()
     $('#monitor').css({width: canvasWidth, height: canvasHeight})
 
     $('#overflow').css('display', showOverflow ? '' : 'none')

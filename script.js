@@ -24,9 +24,14 @@
   function init(){
   	$('#run').on('click', run)
   	$('#console').val('')
+  	let codeFromStorage = getCodeFromStorage()
+  	if(typeof codeFromStorage === 'string' && codeFromStorage.length > 0){
+  		editor.setValue(codeFromStorage)	
+  	}
   }
 
   function run(){
+  	saveCodeInStorage()
   	$('#console').val('')
   	CANVAS.reset()
   	let code = editor.getValue()
@@ -39,4 +44,24 @@
 	  }
   }
 
+  function saveCodeInStorage(){
+  	localStorage.setItem('code', editor.getValue());
+  }
+
+  function getCodeFromStorage(){
+  	return localStorage.getItem('code');
+  }
+
 })(window, jQuery)
+
+window.onbeforeunload = function (e) {
+    e = e || window.event;
+
+    // For IE and Firefox prior to version 4
+    if (e) {
+        e.returnValue = 'Really want to leave?';
+    }
+
+    // For Safari
+    return 'Really want to leave?';
+};
