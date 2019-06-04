@@ -1,7 +1,3 @@
-:root {
-  --overflow: #ff000033;
-}
-
 body {
   width: 100%;
   height: 100%;
@@ -96,30 +92,12 @@ button[disabled] {
   top: 0;
   left: 0;
   z-index: 2;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(to bottom, var(--overflow) 0px, var(--overflow) 32px, transparent 32px, transparent calc(100% - 32px), var(--overflow) calc(100% - 32px), var(--overflow) 100%)
+  width: calc(100% - 63px);
+  height: calc(100% - 63px);
+  border: 1px solid #ff0000cc;
+  margin: 32px;
 }
 
-#overflow:before {
-  content: '';
-  position: absolute;
-  top: 32px;
-  left: 0;
-  width: 32px;
-  height: calc(100% - 64px);
-  background: var(--overflow);
-}
-
-#overflow:after {
-  content: '';
-  position: absolute;
-  top: 32px;
-  right: 0;
-  width: 32px;
-  height: calc(100% - 64px);
-  background: var(--overflow);
-}
 
 #editor {
   padding: 20px;
@@ -127,7 +105,7 @@ button[disabled] {
 
 #code {
   width: 100%;
-  min-height: 300px;
+  height: 300px;
   border-radius: 3px;
 }
 

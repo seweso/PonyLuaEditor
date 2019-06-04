@@ -1,50 +1,27 @@
-((global, $)=>{
-  "use strict";
+var PAINT = ((c)=>{
 
-  let $canvas
-  let ctx
-
-  $(global).on('load', init)
-  
-  function init(){
-    $('#monitor-size, #show-overflow').on('change', (e)=>{
-      recalculateCanvas()
-    })
-    $canvas = $('#canvas')
-    ctx  = $canvas.get(0).getContext('2d')
-    recalculateCanvas()
+  function setColor(r, g, b){
+    log()
+    c.ctx().fillStyle = "rgb(" + r + ', ' + g + ', ' + b + ')'
+    c.ctx().strokeStyle = "rgb(" + r + ', ' + g + ', ' + b + ')'
   }
 
-  function recalculateCanvas(){
-    let size = $('#monitor-size').val()
-    let showOverflow = $('#show-overflow').prop('checked')
-    let dim = getCanvasDimensions(size)
-    let width = dim.width + (showOverflow ? 64 : 0)
-    let height = dim.height + (showOverflow ? 64 : 0)
-    $canvas.get(0).width = width
-    $canvas.get(0).height = height
-    $('#monitor').css({width: width, height: height})
-
-    $('#overflow').css('display', showOverflow ? '' : 'none')
-  }
- 
-
-
-  /* helper functions */
-
-  const SIZES = {
-    "1x1": {width: 32, height: 32},
-    "2x2": {width: 64, height: 64},
-    "5x3": {width: 160, height: 96},
-    "9x5": {width: 288, height: 160}
+  function drawRectF(x, y, w, h){
+    log()
+    c.ctx().fillRect(c.left()+x, c.top()+y, w, h)
   }
 
-  function getCanvasDimensions(size){
-    if(! SIZES[size]){
-      console.error('size not found:', size)
-      return {width: 0, height: 0}
+  function log(){
+    let args = []
+    for(let a of arguments.callee.caller.arguments){
+      args.push(a)
     }
-    return SIZES[size]
+    console.log.apply(console, ['PAINT.' + arguments.callee.caller.name + '()'].concat(args))
   }
 
-})(window, jQuery)
+  return {
+    setColor: setColor,
+    drawRectF: drawRectF
+  }
+
+})(CANVAS)

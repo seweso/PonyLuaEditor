@@ -1,9 +1,23 @@
 var LUA_EMULATOR = ((global, $)=>{
   "use strict";
 
-
   let supportedFunctions = []
 
+  let print = function(e){
+    let args = []
+    let i = 0
+    while(arguments[i] !== undefined){
+      args.push(arguments[i])
+      i++
+    }
+    console.log.apply(console, ['LUA output:'].concat(args))
+    for(let arg of args){
+      $('#console').val($('#console').val() + luaToString(arg) + " ")
+    }
+    $('#console').val( $('#console').val() + '\n')
+    return 0
+  }
+  makeFunctionAvailableInLua(print)
 
 
   function makeFunctionAvailableInLua(func){

@@ -17,6 +17,7 @@
     <script type="text/javascript" src="jquery.js"></script>
     <script type="text/javascript" src="fengari_web.js"></script>
     <script type="text/javascript" src="script.js"></script>
+    <script type="text/javascript" src="canvas.js"></script>
     <script type="text/javascript" src="paint.js"></script>
     <script type="text/javascript" src="lua_emulator.js"></script>
     <script type="text/javascript" src="stormworks_lua_api.js"></script>
@@ -48,10 +49,12 @@
       <button id="run">Run</button>
       <div id="code">function e()
     test = "abc"
-    print2(2, test)
+    print(2, test)
 end
 -- a comment
 e()
+setColor(255,0,0)
+drawRectF(2,10,40,50)
     </div>
     </div>
     <div id="output">
