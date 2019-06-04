@@ -1,0 +1,152 @@
+:root {
+  --overflow: #ff000033;
+}
+
+body {
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  font-family: 'Helvetica', 'Arial', 'sans-serif';
+}
+
+body,  * {
+  box-sizing: border-box;
+}
+
+button {
+  background: #000;
+  border: 1px solid #bf5421;
+  border-radius: 3px;
+  color: #bf5421;
+  padding: 8px 24px;
+  cursor: pointer;
+  margin-bottom: 40px;
+  font-size: 20px;
+}
+
+button:hover {
+  color: #000;
+  background: #bf5421;
+}
+
+button[disabled] {
+  border-color: #dbdbdb;
+  color: #dbdbdb;
+  cursor: not-allowed;
+}
+
+.background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  background-color: #333;
+  /*background-image: url('background.jpg');*/
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;  
+}
+
+.content {
+  background: transparent;
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+}
+
+
+#selection {
+  background: #000;
+  color: #fff;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 20px;
+}
+
+#selection > label {
+  margin-right: 5px;
+}
+
+#selection > input, #selection > select {
+  margin-right: 30px;
+}
+
+#screen {
+  padding: 20px;
+}
+
+#monitor {
+  position: relative;
+}
+
+#canvas {
+  z-index: 1;
+  background: #000;
+}
+
+
+#overflow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, var(--overflow) 0px, var(--overflow) 32px, transparent 32px, transparent calc(100% - 32px), var(--overflow) calc(100% - 32px), var(--overflow) 100%)
+}
+
+#overflow:before {
+  content: '';
+  position: absolute;
+  top: 32px;
+  left: 0;
+  width: 32px;
+  height: calc(100% - 64px);
+  background: var(--overflow);
+}
+
+#overflow:after {
+  content: '';
+  position: absolute;
+  top: 32px;
+  right: 0;
+  width: 32px;
+  height: calc(100% - 64px);
+  background: var(--overflow);
+}
+
+#editor {
+  padding: 20px;
+}
+
+#code {
+  width: 100%;
+  min-height: 300px;
+  background: #fff;
+}
+
+
+/* information badges */
+#information {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+}
+
+#information > * {
+  margin-bottom: 5px;
+}
+
+#information a {
+  color: #BF5421;
+  text-decoration: none;  
+}
