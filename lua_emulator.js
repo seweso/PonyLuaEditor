@@ -87,7 +87,7 @@ var LUA_EMULATOR = ((global, $)=>{
                 args.push(s)
             }
         }
-        return args
+        return args.reverse()
     }
 
     function convertArguments(args){
