@@ -39,58 +39,136 @@ var PROPERTY = ((global, $)=>{
 
 
         $(container).append(dom)
+
+        let store = getFromStorage()
+        if(typeof store.bools === 'object' && store.bools !== null){
+            for(let k of Object.keys(store.bools)){
+                addNewBool(k, store.bools[k])
+            }
+        }
+
+        if(typeof store.numbers === 'object' && store.numbers !== null){
+            for(let k of Object.keys(store.numbers)){
+                let n = parseInt(store.numbers[k])
+                if(isNaN(n)){
+                    n = parseFloat(store.numbers[k])
+                }
+                if(isNaN(n)){
+                    return
+                }
+                addNewNumber(k, store.numbers[k])
+            }
+        }
+
+        if(typeof store.texts === 'object' && store.texts !== null){
+            for(let k of Object.keys(store.texts)){
+                addNewText(k, store.texts[k])
+            }
+        }
     }
 
-    function addNewBool(label){
+
+    function saveToStorage(){
+        localStorage.setItem('property_bools', JSON.stringify(bools))
+        localStorage.setItem('property_numbers', JSON.stringify(numbers))
+        localStorage.setItem('property_texts', JSON.stringify(texts))
+    }
+
+    function getFromStorage(){
+        let bools = localStorage.getItem('property_bools')
+        try {
+            bools = JSON.parse(bools)
+        } catch(e){
+            bools = null
+        }
+        let numbers = localStorage.getItem('property_numbers')
+        try {
+            numbers = JSON.parse(numbers)
+        } catch(e){
+            numbers = null
+        }
+        let texts = localStorage.getItem('property_texts')
+        try {
+            texts = JSON.parse(texts)
+        } catch(e){
+            texts = null
+        }
+        return {
+            bools: bools,
+            numbers: numbers,
+            texts: texts
+        }
+    }
+
+
+    function addNewBool(label, val){
         if(typeof label !== 'string' || label.length === 0){
             return
         }
-        bools[label] = false
+        bools[label] = val === true ? true : false
         let bool = addNew('bool', 'checkbox', label, (e)=>{
             bools[label] = $(e.target).prop('checked')
         }, (e)=>{
             bools[label] = false
             delete bools[label]
             $(e.target).parent().remove()
-        })
+        }, val)
         dom_bools.append(bool)  
     }
 
-    function addNewNumber(label){
+    function addNewNumber(label, val){
         if(typeof label !== 'string' || label.length === 0){
             return
         }
-        numbers[label] = 0
+        numbers[label] = typeof val === 'number' ? val : 0
         let number = addNew('number', 'number', label, (e)=>{
-            numbers[label] = $(e.target).val()
+            let n = parseInt($(e.target).val())
+            if(isNaN(n)){
+                n = parseFloat($(e.target).val())
+            }
+            if(isNaN(n)){
+                return
+            }
+            numbers[label] = n
         }, (e)=>{
-            numbers[label] = false
+            numbers[label] = 0
             delete numbers[label]
             $(e.target).parent().remove()
-        })
+        }, val)
         dom_numbers.append(number)  
     }
 
-    function addNewText(label){
+    function addNewText(label, val){
         if(typeof label !== 'string' || label.length === 0){
             return
         }
-        texts[label] = ""
+        texts[label] =  typeof val === 'string' ? val : ""
         let text = addNew('text', 'text', label, (e)=>{
             texts[label] = $(e.target).val()
         }, (e)=>{
-            texts[label] = false
+            texts[label] = ""
             delete texts[label]
             $(e.target).parent().remove()
-        })
+        }, val)
         dom_texts.append(text)  
     }
 
-    function addNew(type, inputType, label, changeCallback, removeCallback){
-        
-        let neww = $('<div clas="' + type + '"><label for="' + type + '_' + label + '">'+label+'</label><input type="' + inputType + '" id="' + type + '_' + label + '"/><button>x</button></div>')
-        neww.find('input').on('change', changeCallback)
-        neww.find('button').on('click', removeCallback)
+    function addNew(type, inputType, label, changeCallback, removeCallback, val){
+        let valtext = ''
+        if(inputType === 'checkbox' && val === true){
+            valtext = 'checked'
+        } else if (val !== undefined && val !== null ){
+            valtext = 'value="'+val+'"'
+        }
+        let neww = $('<div class="' + type + '"><label for="' + type + '_' + label + '">'+label+'</label><input type="' + inputType + '" id="' + type + '_' + label + '" ' + valtext + '/><button>x</button></div>')
+        neww.find('input').on('change', (e)=>{
+            changeCallback(e)
+            saveToStorage()
+        })
+        neww.find('button').on('click', (e)=>{
+            removeCallback(e)
+            saveToStorage()
+        })
         return neww
     }
 
@@ -160,7 +238,6 @@ var PROPERTY = ((global, $)=>{
         texts[label] = val
     }
 
-    
 
     return {
         init: init,
