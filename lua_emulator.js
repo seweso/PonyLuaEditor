@@ -72,11 +72,13 @@ var LUA_EMULATOR = ((global, $)=>{
     function extractArgumentsFromStack(stack, func_name){
         let args = []
         let argsBegin = false
-        for(let s of stack){
-            if(argsBegin && s !== undefined){
-                args.push(s)
-            } else if(typeof s === 'object' && s.type === 22 && s.value.name === func_name){
+        for(let k of Object.keys(stack).reverse()){
+            let s = stack[k]
+            if(typeof s === 'object' && s.type === 22 && s.value.name === func_name){
                 argsBegin = true
+            }
+            if(!argsBegin && s !== undefined){
+                args.push(s)
             }
         }
         return args
