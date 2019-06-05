@@ -23,8 +23,10 @@
 
     function init(){
     	$('#zoomfactor').on('change', ()=>{
-    		CANVAS.setZoomFactor($('#zoomfactor').val())
-    		PAINT.setZoomFactor($('#zoomfactor').val())
+    		let val = $('#zoomfactor').val()
+    		CANVAS.setZoomFactor(val)
+    		PAINT.setZoomFactor(val)
+    		$('.zoomfactor span').html(val+'x')
     	})
 	  	$('#run').on('click', run)
 	  	$('#console').val('')
