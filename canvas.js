@@ -80,6 +80,12 @@ var CANVAS = ((global, $)=>{
         left: ()=>{return left},
         width: ()=>{return width},
         height: ()=>{return height},
+        realWidth: ()=>{
+            return $canvas.get(0).width
+        },
+        realHeight: ()=>{
+            return $canvas.get(0).height
+        },
         reset: reset,
         setZoomFactor: setZoomFactor
     }

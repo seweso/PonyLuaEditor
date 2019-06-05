@@ -84,37 +84,37 @@
 
         /* screen (map related) */
         function drawMap(x, y, zoom){
-            PAINT.drawMap(x, y, zoom)
+            MAP.drawMap(x, y, zoom)
         }
         LUA_EMULATOR.makeFunctionAvailableInLua(drawMap, 'screen')
 
         function setMapColorOcean(r, g, b, a){
-            PAINT.setMapColorOcean(r, g, b, a)
+            MAP.setMapColorOcean(r, g, b, a)
         }
         LUA_EMULATOR.makeFunctionAvailableInLua(setMapColorOcean, 'screen')
 
         function setMapColorShallows(r, g, b, a){
-            PAINT.setMapColorShallows(r, g, b, a)
+            MAP.setMapColorShallows(r, g, b, a)
         }
         LUA_EMULATOR.makeFunctionAvailableInLua(setMapColorShallows, 'screen')
 
         function setMapColorLand(r, g, b, a){
-            PAINT.setMapColorLand(r, g, b, a)
+            MAP.setMapColorLand(r, g, b, a)
         }
         LUA_EMULATOR.makeFunctionAvailableInLua(setMapColorLand, 'screen')
 
         function setMapColorGrass(r, g, b, a){
-            PAINT.setMapColorGrass(r, g, b, a)
+            MAP.setMapColorGrass(r, g, b, a)
         }
         LUA_EMULATOR.makeFunctionAvailableInLua(setMapColorGrass, 'screen')
 
         function setMapColorSand(r, g, b, a){
-            PAINT.setMapColorSand(r, g, b, a)
+            MAP.setMapColorSand(r, g, b, a)
         }
         LUA_EMULATOR.makeFunctionAvailableInLua(setMapColorSand, 'screen')
 
         function setMapColorSnow(r, g, b, a){
-            PAINT.setMapColorSnow(r, g, b, a)
+            MAP.setMapColorSnow(r, g, b, a)
         }
         LUA_EMULATOR.makeFunctionAvailableInLua(setMapColorSnow, 'screen')
     }
@@ -123,13 +123,13 @@
 
         //worldX, worldY = map.screenToMap(mapX, mapY, zoom, screenW, screenH, pixelX, pixelY)
         function screenToMap(mapX, mapY, zoom, screenW, screenH, pixelX, pixelY){
-            //TODO
+            MAP.screenToMap(mapX, mapY, zoom, screenW, screenH, pixelX, pixelY)
         }
         LUA_EMULATOR.makeFunctionAvailableInLua(screenToMap, 'map')
 
         //pixelX, pixelY = map.mapToScreen(mapX, mapY, zoom, screenW, screenH, worldX, worldY)
         function mapToScreen(mapX, mapY, zoom, screenW, screenH, worldX, worldY){
-            //TODO
+            MAP.mapToScreen(mapX, mapY, zoom, screenW, screenH, worldX, worldY)
         }
         LUA_EMULATOR.makeFunctionAvailableInLua(mapToScreen, 'map')
     }
