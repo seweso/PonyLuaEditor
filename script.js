@@ -42,10 +42,11 @@
 	  	try {
 		  	let feng = fengari.load(code)
 	  		feng()
-		  } catch (err){
+	    } catch (err){
 		  	console.error(err)
 		  	$('#console').val( $('#console').val() + err)
-		  }
+	    }
+    	OUTPUT.refresh()
     }
 
     function saveCodeInStorage(){

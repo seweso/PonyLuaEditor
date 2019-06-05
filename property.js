@@ -161,7 +161,7 @@ var PROPERTY = ((global, $)=>{
         } else if (val !== undefined && val !== null ){
             valtext = 'value="'+val+'"'
         }
-        let neww = $('<div class="' + type + '"><label for="' + type + '_' + label + '">'+label+'</label><input type="' + inputType + '" id="' + type + '_' + label + '" ' + valtext + '/><button>x</button></div>')
+        let neww = $('<div class="' + type + '"><label for="property_' + type + '_' + label + '">'+label+'</label><input type="' + inputType + '" id="property_' + type + '_' + label + '" ' + valtext + '/><button>x</button></div>')
         neww.find('input').on('change', (e)=>{
             changeCallback(e)
             saveToStorage()

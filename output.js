@@ -4,12 +4,61 @@ var OUTPUT = ((global, $)=>{
     let bools = {}
     let numbers = {}
 
+    let inputBools = {}
+    let inputNumbers = {}
+
+    let dom
+    let dom_bools
+    let dom_numbers
+
     function init(container){
-        
+        dom = $(container)
+        dom.append('<div class="head">Outputs:</div>')
+
+        dom_bools = $('<div class="bools"><div class="head"><span>Booleans:</span></div></div>')
+        dom.append(dom_bools)
+
+        dom_numbers = $('<div class="numbers"><div class="head"><span>Numbers:</span></div></div>')
+        dom.append(dom_numbers)
+
+        $(container).append(dom)
     }
 
     function refresh(){
-        
+        bools = inputBools
+        numbers = inputNumbers
+        inputBools = {}
+        inputNumbers = {}
+
+        for(let k of Object.keys(bools)){
+            addNewBool(k, bools[k])
+        }
+
+        for(let k of Object.keys(numbers)){
+            let n = parseInt(numbers[k])
+            if(isNaN(n)){
+                n = parseFloat(numbers[k])
+            }
+            if(isNaN(n)){
+                return
+            }
+            addNewNumber(k, n)
+        }
+    }
+
+    function addNewBool(label, val){
+        let bool = addNew('bool', label, val === true ? 'true' : 'false')
+        dom_bools.append(bool) 
+    }
+
+    function addNewNumber(label, val){
+        let number = addNew('number', label, val)
+        dom_numbers.append(number)
+    }
+
+    function addNew(type, label, val){
+        let neww = $('<div class="' + type + '"><label for="output_' + type + '_' + label + '">'+label+'</label><span class="result" id="output_' + type + '_' + label + '">' + val + '</span></div>')        
+        return neww
     }
 
     function setBool(index, val){
@@ -19,8 +68,7 @@ var OUTPUT = ((global, $)=>{
         if(typeof val !== 'boolean'){
             throw new Error('second argument must be a boolean!')
         }
-        refresh()
-        bools[index] = val
+        inputBools[index] = val
     }
 
     function setNumber(index, val){
@@ -30,14 +78,14 @@ var OUTPUT = ((global, $)=>{
         if(typeof val !== 'number'){
             throw new Error('second argument must be a number!')
         }
-        refresh()
-        numbers[index] = val
+        inputNumbers[index] = val
     }
     
     return {
         init: init,
         setBool: setBool,
-        setNumber: setNumber
+        setNumber: setNumber,
+        refresh: refresh
     }
 
 })(window, jQuery)

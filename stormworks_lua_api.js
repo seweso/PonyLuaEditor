@@ -5,8 +5,16 @@
     $(global).on('load', init)
 
     function init(){
+        setScreenFunctions()
+        setMapFunctions()
+        setInputFunctions()
+        setOutputFunctions()
+        setPropertyFunctions()
+        $(global).trigger('stormworks_lua_api_loaded')
+    }
 
-        /* screen. */
+
+    function setScreenFunctions(){
 
         function getWidth(){
             return CANVAS.width()
@@ -109,9 +117,10 @@
             PAINT.setMapColorSnow(r, g, b, a)
         }
         LUA_EMULATOR.makeFunctionAvailableInLua(setMapColorSnow, 'screen')
+    }
 
-        
-        /* map. */
+    function setMapFunctions(){  
+
         //worldX, worldY = map.screenToMap(mapX, mapY, zoom, screenW, screenH, pixelX, pixelY)
         function screenToMap(mapX, mapY, zoom, screenW, screenH, pixelX, pixelY){
             //TODO
@@ -123,32 +132,52 @@
             //TODO
         }
         LUA_EMULATOR.makeFunctionAvailableInLua(mapToScreen, 'map')
+    }
 
+    function setInputFunctions(){
 
-
-        /* input. */
         function getBool(i){
-            //TODO
+            if(typeof i !== 'number'){
+                fengari.lauxlib.luaL_argerror(fengari.L, 1, 'expected number')
+                return
+            }
+            return INPUT.getBool(i)
         }
         LUA_EMULATOR.makeFunctionAvailableInLua(getBool, 'input')
 
         function getNumber(i){
-            //TODO
+            if(typeof i !== 'number'){
+                fengari.lauxlib.luaL_argerror(fengari.L, 1, 'expected number')
+                return
+            }
+            return INPUT.getNumber(i)
         }
-        LUA_EMULATOR.makeFunctionAvailableInLua(getNumber, 'input')
-        
-        /* output. */
-        function setBool(i){
-            //TODO
+        LUA_EMULATOR.makeFunctionAvailableInLua(getNumber, 'input')        
+    }
+
+    function setOutputFunctions(){
+
+        function setBool(i, val){
+            if(typeof i !== 'number'){
+                fengari.lauxlib.luaL_argerror(fengari.L, 1, 'expected number')
+                return
+            }
+            if(typeof val !== 'boolean'){
+                fengari.lauxlib.luaL_argerror(fengari.L, 2, 'expected boolean')
+                return
+            }
+            return OUTPUT.setBool(i, val)
         }
         LUA_EMULATOR.makeFunctionAvailableInLua(setBool, 'output')
 
-        function setNumber(i){
+        function setNumber(i, val){
             //TODO
         }
         LUA_EMULATOR.makeFunctionAvailableInLua(setNumber, 'output')
+    }
 
-        /* property. */
+    function setPropertyFunctions(){
+
         function getBool(label){
             return PROPERTY.getBool(label)
         }
@@ -163,7 +192,7 @@
             return PROPERTY.getText(label)
         }
         LUA_EMULATOR.makeFunctionAvailableInLua(getText, 'property')
-
+    }
         /* touch stuff */
         /* numberchannels:
             1 monitor width
@@ -177,12 +206,6 @@
             1 isinput1pressed
             2 isinputpressed
         */
-
-
-        $(global).trigger('stormworks_lua_api_loaded')
-    }
-
-
 
 
 })(window, jQuery)

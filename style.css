@@ -54,7 +54,7 @@ button[disabled] {
     min-height: 100vh;
 }
 
-#selection, #top, #editor, #output, #functions {
+#selection, #top, #editor, #out, #functions {
     padding: 20px;
 }
 
@@ -79,6 +79,11 @@ button[disabled] {
 #top {
     display: flex;
     flex-direction: row;
+    justify-content: center;
+}
+
+#top > :not(:last-of-type) {
+    margin-right: 30px;
 }
 
 #property {
@@ -167,10 +172,27 @@ button[disabled] {
 
 /* value_list */
 .value_list {
-    background: gray;
+    min-width: 200px;
+    background: black;
+    padding: 5px 5px 0 5px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+}
+
+.value_list > * {
+    background: #d7d7d7;
     border-radius: 3px;
     margin-bottom: 10px;
-    padding: 5px;
+}
+
+.value_list > *:last-of-type {
+    margin-bottom: 5px;
+}
+
+.value_list > .head {
+    font-weight: bold;
+    background: #000!important;
+    color: #bf5421;
 }
 
 .value_list .head {
@@ -226,19 +248,6 @@ button[disabled] {
     margin: 0 5px;
 }
 
-
-.value_list {
-    background: black;
-    padding: 5px 5px 0 5px;
-    border-radius: 6px;
-}
-
-.value_list > * {
-    background: #d7d7d7;
-    border-radius: 3px;
-    margin-bottom: 10px;
-}
-
-.value_list > *:last-of-type {
-    margin-bottom: 5px;
+.value_list .bool .result, .value_list .number .result, .value_list .text .result {
+    margin: 0 0 0 auto;
 }

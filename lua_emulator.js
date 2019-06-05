@@ -54,7 +54,7 @@ var LUA_EMULATOR = ((global, $)=>{
             }
         }
         middleware.toString = ()=>{
-            return callback.toString()//'function()'
+            return 'emulated function()'//callback.toString()
         }
         if(typeof namespace === 'string'){
             if(! namespaces[namespace]){
