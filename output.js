@@ -30,6 +30,9 @@ var OUTPUT = ((global, $)=>{
         inputBools = {}
         inputNumbers = {}
 
+        dom_bools.find('.bool').remove()
+        dom_numbers.find('.number').remove()
+
         for(let k of Object.keys(bools)){
             addNewBool(k, bools[k])
         }
