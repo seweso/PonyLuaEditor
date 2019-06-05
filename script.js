@@ -26,6 +26,7 @@
     		let val = $('#zoomfactor').val()
     		CANVAS.setZoomFactor(val)
     		PAINT.setZoomFactor(val)
+    		MAP.setZoomFactor(val)
     		$('.zoomfactor span').html(val+'x')
     	})
 	  	$('#run').on('click', run)
