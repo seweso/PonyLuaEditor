@@ -39,9 +39,12 @@
                 fengari.lauxlib.luaL_argerror(fengari.L, 3, 'expected number')
                 return
             }
-            if(typeof a !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 4, 'expected number')
+            if(a !== undefined && a !== null && typeof a !== 'number'){
+                fengari.lauxlib.luaL_argerror(fengari.L, 4, 'expected number or nil or undefined')
                 return
+            }
+            if(typeof a !== 'number'){
+                a = 255
             }
             PAINT.setColor(r, g, b, a)
         }
@@ -256,7 +259,6 @@
             if(typeof h_align !== 'number'){
                 h_align = -1
             }
-
             if(typeof v_align !== 'number'){
                 v_align = -1
             }
@@ -278,7 +280,6 @@
             if(typeof zoom !== 'number'){
                 fengari.lauxlib.luaL_argerror(fengari.L, 3, 'expected number')
                 return
-            }
             }
             MAP.drawMap(x, y, zoom)
         }
@@ -411,7 +412,7 @@
         LUA_EMULATOR.makeFunctionAvailableInLua(setMapColorSnow, 'screen')
     }
 
-    function setMapFunctions(){  
+    function setMapFunctions(){
 
         //worldX, worldY = map.screenToMap(mapX, mapY, zoom, screenW, screenH, pixelX, pixelY)
         function screenToMap(mapX, mapY, zoom, screenW, screenH, pixelX, pixelY){

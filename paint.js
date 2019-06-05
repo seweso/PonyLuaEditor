@@ -8,9 +8,6 @@ var PAINT = ((c)=>{
     let zoomFactor = 1
 
     function setColor(r, g, b, a){
-        if(typeof a !== 'number'){
-            a = 255
-        }
         log()
         c.ctx().fillStyle = "rgb(" + r + ', ' + g + ', ' + b + ', ' + a + ')'
         c.ctx().strokeStyle = "rgb(" + r + ', ' + g + ', ' + b + ', ' + a + ')'
