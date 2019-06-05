@@ -30,24 +30,31 @@ var LUA_EMULATOR = ((global, $)=>{
     }
 
     function makeFunctionAvailableInLua(func, namespace){
+        if(typeof func !== 'function'){
+            throw new Error('passed variable is not a function!')
+        }
+        makeFunctionAvailableInLuaViaName(func, func.name, namespace)
+    }
+
+    function makeFunctionAvailableInLuaViaName(func, name, namespace){
         let l = fengari.L    
         if(typeof func !== 'function'){
             throw new Error('passed variable is not a function!')
         }
         const callback = func
-        const name = callback.name
         let middleware = function(ll){
             let args = extractArgumentsFromStack(ll.stack, 'middleware')
             let ret =  callback.apply(null, convertArguments(args))
             if(ret === undefined){
-                return 0
+                let retlen = pushToStack(ll, null)
+                return retlen
             } else {
                 let retlen = pushToStack(ll, ret)
                 return retlen
             }
         }
         middleware.toString = ()=>{
-            return 'function()'
+            return callback.toString()//'function()'
         }
         if(typeof namespace === 'string'){
             if(! namespaces[namespace]){
@@ -55,7 +62,7 @@ var LUA_EMULATOR = ((global, $)=>{
             }
             fengari.lua.lua_getglobal(l, namespace)
             pushToStack(l, name)
-            pushToStack(l, middleware)  
+            pushToStack(l, middleware)
             fengari.lua.lua_settable(l, l.top-3)
             fengari.lua.lua_settop(l, 0)
             supportedFunctions[namespace][name] = true
@@ -211,6 +218,7 @@ var LUA_EMULATOR = ((global, $)=>{
     return {
         supportedFunctions: ()=>{return supportedFunctions},
         makeFunctionAvailableInLua: makeFunctionAvailableInLua,
+        makeFunctionAvailableInLuaViaName: makeFunctionAvailableInLuaViaName,
         luaToString: luaToString
     }
 })(window, jQuery)
