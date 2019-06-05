@@ -1,6 +1,9 @@
 var PAINT = ((c)=>{
 
-    const FONT = '10px "Lucida Console", Monaco, monospace'
+    const FONT_SIZE = 6
+    const FONT = 'px "Lucida Console", Monaco, monospace'
+
+    let zoomFactor = 1
 
     function setColor(r, g, b, a){
         if(typeof a !== 'number'){
@@ -13,23 +16,27 @@ var PAINT = ((c)=>{
 
     function drawRectF(x, y, w, h){
         log()
-        c.ctx().fillRect(c.left()+x, c.top()+y, w, h)
+        c.ctx().fillRect(c.left() + zoom(x), c.top() + zoom(y), zoom(w), zoom(h))
     }
 
     function drawLine(x1, y1, x2, y2){ 
         c.ctx().beginPath()
-        c.ctx().moveTo(c.left()+x1, c.top()+y1)
-        c.ctx().lineTo(c.left()+x2, c.top()+y2)
+        c.ctx().moveTo(c.left() + zoom(x1), c.top() + zoom(y1))
+        c.ctx().lineTo(c.left() + zoom(x2), c.top() + zoom(y2))
         c.ctx().stroke()
         c.ctx().closePath()
     }
 
-    function drawText(x, y, text){
-        c.ctx().font = FONT
-        c.ctx().fillText(text, c.left()+x, c.top()+y)
+    function drawText(x, y, text){//4px wide 5 px tall
+        c.ctx().font = FONT_SIZE * zoomFactor + FONT
+        c.ctx().fillText(text, c.left() + zoom(x), c.top() + zoom(y))
     }
 
     /* helper functions */
+
+    function zoom(val){
+        return val * zoomFactor
+    }
 
     function log(){
         let args = []
@@ -47,11 +54,16 @@ var PAINT = ((c)=>{
         }
     }
 
+    function setZoomFactor(_zoomFactor){
+        zoomFactor = _zoomFactor
+    }
+
     return {
         setColor: setColor,
         drawRectF: drawRectF,
         drawLine: drawLine,
-        drawText: drawText
+        drawText: drawText,
+        setZoomFactor: setZoomFactor
     }
 
 })(CANVAS)

@@ -1,6 +1,8 @@
 var CANVAS = ((global, $)=>{
     "use strict";
 
+    let zoomFactor = 1
+
     let $canvas
     let ctx
 
@@ -60,7 +62,16 @@ var CANVAS = ((global, $)=>{
             console.error('size not found:', size)
             return {width: 0, height: 0}
         }
-        return SIZES[size]
+        let ret =  SIZES[size]
+        return {
+            width: ret.width * zoomFactor,
+            height: ret.height * zoomFactor
+        }
+    }
+
+    function setZoomFactor(_zoomFactor){
+        zoomFactor = _zoomFactor
+        recalculateCanvas()
     }
 
     return {
@@ -69,7 +80,8 @@ var CANVAS = ((global, $)=>{
         left: ()=>{return left},
         width: ()=>{return width},
         height: ()=>{return height},
-        reset: reset
+        reset: reset,
+        setZoomFactor: setZoomFactor
     }
 
 })(window, jQuery)

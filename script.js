@@ -22,6 +22,10 @@
     })
 
     function init(){
+    	$('#zoomfactor').on('change', ()=>{
+    		CANVAS.setZoomFactor($('#zoomfactor').val())
+    		PAINT.setZoomFactor($('#zoomfactor').val())
+    	})
 	  	$('#run').on('click', run)
 	  	$('#console').val('')
 	  	let codeFromStorage = getCodeFromStorage()
@@ -32,6 +36,9 @@
 	  	INPUT.init($('#input'))
 	  	OUTPUT.init($('#output'))
 	  	PROPERTY.init($('#property'))
+	  	setTimeout(()=>{
+    		$('#zoomfactor').trigger('change')
+	  	}, 200)
     }
 
     function run(){
