@@ -2,10 +2,13 @@ var PAINT = ((c)=>{
 
     const FONT = '10px "Lucida Console", Monaco, monospace'
 
-    function setColor(r, g, b){
+    function setColor(r, g, b, a){
+        if(typeof a !== 'number'){
+            a = 255
+        }
         log()
-        c.ctx().fillStyle = "rgb(" + r + ', ' + g + ', ' + b + ')'
-        c.ctx().strokeStyle = "rgb(" + r + ', ' + g + ', ' + b + ')'
+        c.ctx().fillStyle = "rgb(" + r + ', ' + g + ', ' + b + ', ' + a + ')'
+        c.ctx().strokeStyle = "rgb(" + r + ', ' + g + ', ' + b + ', ' + a + ')'
     }
 
     function drawRectF(x, y, w, h){

@@ -28,6 +28,10 @@
 	  	if(typeof codeFromStorage === 'string' && codeFromStorage.length > 0){
 	  		editor.setValue(codeFromStorage)	
 	  	}
+
+	  	INPUT.init($('#input'))
+	  	OUTPUT.init($('#output'))
+	  	PROPERTY.init($('#property'))
     }
 
     function run(){

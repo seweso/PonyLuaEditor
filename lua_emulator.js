@@ -53,7 +53,6 @@ var LUA_EMULATOR = ((global, $)=>{
             if(! namespaces[namespace]){
                 createNamespace(namespace)
             }
-            console.log('stack top:', l.top)
             fengari.lua.lua_getglobal(l, namespace)
             pushToStack(l, name)
             pushToStack(l, middleware)  
@@ -139,6 +138,12 @@ var LUA_EMULATOR = ((global, $)=>{
             return 1;
         } else if (typeof ob === 'function'){
             fengari.lua.lua_pushjsfunction(l, ob) 
+            return 1
+        } else if (typeof ob === 'boolean'){
+            fengari.lua.lua_pushboolean(l, ob)
+            return 1
+        } else if (ob === null){
+            fengari.lua.lua_pushnil(l)
             return 1
         } else if (ob instanceof Object){
             for(let k of Object.keys()){
