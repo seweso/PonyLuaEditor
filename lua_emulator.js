@@ -186,7 +186,7 @@ var LUA_EMULATOR = ((global, $)=>{
                 return JSON.stringify(clean, null, " ").replace(/\n/g, '').replace(/\s\s/g, ' ')
             }      
         } else if (ob === null) {
-            return 'null'
+            return 'nil'
         }else {
             return ob.toString()
         }

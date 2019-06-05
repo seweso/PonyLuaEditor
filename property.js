@@ -11,30 +11,31 @@ var PROPERTY = ((global, $)=>{
     let dom_texts
 
     function init(container){
-        dom = $('<div class="output"></div>')
+        dom = $(container)
+        dom.append('<div class="head">Properties:</div>')
 
-        dom_bools = $('<div class="bools">Booleans:</div>')
+        dom_bools = $('<div class="bools"><div class="head"><span>Booleans:</span></div></div>')
         let dom_bools_add = $('<div class="add"><input type="text"/><button>+</button></div>')
         dom_bools_add.find('button').on('click', ()=>{
             addNewBool(dom_bools_add.find('input').val())
         })
-        dom_bools.append(dom_bools_add)
+        dom_bools.find('.head').append(dom_bools_add)
         dom.append(dom_bools)
 
-        dom_numbers = $('<div class="numbers">Numbers:</div>')
+        dom_numbers = $('<div class="numbers"><div class="head"><span>Numbers:</span></div></div>')
         let dom_numbers_add = $('<div class="add"><input type="text"/><button>+</button></div>')
         dom_numbers_add.find('button').on('click', ()=>{
             addNewNumber(dom_numbers_add.find('input').val())
         })
-        dom_numbers.append(dom_numbers_add)
+        dom_numbers.find('.head').append(dom_numbers_add)
         dom.append(dom_numbers)
 
-        dom_texts = $('<div class="texts">Texts:</div>')
+        dom_texts = $('<div class="texts"><div class="head"><span>Texts:</span></div></div>')
         let dom_texts_add = $('<div class="add"><input type="text"/><button>+</button></div>')
         dom_texts_add.find('button').on('click', ()=>{
             addNewText(dom_texts_add.find('input').val())
         })
-        dom_texts.append(dom_texts_add)
+        dom_texts.find('.head').append(dom_texts_add)
         dom.append(dom_texts)
 
 

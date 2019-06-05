@@ -43,14 +43,14 @@
         <label for="show-overflow">Show overflow</label>
         <input type="checkbox" id="show-overflow" name="show-overflow" checked>
     </div>
-    <div id="screen">
-        <div id="property"></div>
-        <div id="input"></div>
+    <div id="top">
+        <div id="property" class="value_list"></div>
+        <div id="input" class="value_list"></div>
         <div id="monitor">
             <canvas id="canvas"></canvas>
             <div id="overflow"></div>
         </div>
-        <div id="output"></div>
+        <div id="output" class="value_list"></div>
     </div>
     <div id="editor">
         <button id="run">Run</button>
@@ -65,7 +65,7 @@ screen.drawText(2,10,"text")
 print(screen)
         </div>
     </div>
-    <div id="output">
+    <div id="out">
         <h3>Console Output:</h3>
         <textarea readonly id="console"></textarea>
     </div>
