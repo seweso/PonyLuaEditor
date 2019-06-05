@@ -19,6 +19,8 @@ var LUA_EMULATOR = ((global, $)=>{
     }
     makeFunctionAvailableInLua(print)
 
+    //createNamespace('output')
+
     function createNamespace(name){    
         fengari.lua.lua_newtable(fengari.L)
         fengari.lua.lua_setglobal(fengari.L, name)
@@ -37,8 +39,12 @@ var LUA_EMULATOR = ((global, $)=>{
         let middleware = function(ll){
             let args = extractArgumentsFromStack(ll.stack, 'middleware')
             let ret =  callback.apply(null, convertArguments(args))
-            let retlen = pushToStack(ll, ret)
-            return retlen
+            if(ret === undefined){
+                return 0
+            } else {
+                let retlen = pushToStack(ll, ret)
+                return retlen
+            }
         }
         middleware.toString = ()=>{
             return 'function()'
@@ -47,15 +53,17 @@ var LUA_EMULATOR = ((global, $)=>{
             if(! namespaces[namespace]){
                 createNamespace(namespace)
             }
-
+            console.log('stack top:', l.top)
             fengari.lua.lua_getglobal(l, namespace)
             pushToStack(l, name)
             pushToStack(l, middleware)  
             fengari.lua.lua_settable(l, l.top-3)
+            fengari.lua.lua_settop(l, 0)
             supportedFunctions[namespace][name] = true
         } else {
-            fengari.lua.lua_pushjsfunction(fengari.L, middleware)   
-            fengari.lua.lua_setglobal(fengari.L, name)
+            fengari.lua.lua_pushjsfunction(l, middleware)   
+            fengari.lua.lua_setglobal(l, name)
+            fengari.lua.lua_settop(l, 0)
             supportedFunctions[name] = true
         }
         log('registered function', namespace ? namespace + '.' + name : name)
