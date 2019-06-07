@@ -51,13 +51,16 @@ var MAP = ((c, $)=>{
         }
     }
 
+    foundColors = {}
+    notFoundColors = {}
+
     function drawMap(x, y, zom){//zom from 0.1 to 50
         try {
             let centerx = MAP_ZERO_X + x
             let centery = MAP_ZERO_Y + y
 
-            let sWidth = c.width() / zom
-            let sHeight = c.height() / zom
+            let sWidth = unzoom(c.width()) / zom
+            let sHeight = unzoom(c.height()) / zom
             let sx = centerx - sWidth/2
             let sy = centery - sHeight/2
 
@@ -84,6 +87,9 @@ var MAP = ((c, $)=>{
         } catch (err){
             console.error(err)
         }
+
+        console.log('MAP.convertColor() could find colors', foundColors)
+        console.warn('MAP.convertColor() could not find colors', notFoundColors)        
     }
 
     function setMapColorOcean(r, g, b, a){
@@ -150,6 +156,8 @@ var MAP = ((c, $)=>{
 
     function reset(){
         colors = $.extend({}, DEFAULT_COLORS)
+        foundColors = {}
+        notFoundColors = {}
     }
 
     /* helper functions */
@@ -158,11 +166,17 @@ var MAP = ((c, $)=>{
         for(let k of Object.keys(DEFAULT_COLORS)){
             let c = DEFAULT_COLORS[k]
             if(c.r === r && c.g === g && c.b === b){
-                console.log('MAP.convertColor() found color', r, g, b)                
+                if(typeof foundColors[r+','+g+','+b] !== 'number'){
+                    foundColors[r+','+g+','+b] = 0
+                }
+                foundColors[r+','+g+','+b]++
                 return colors[k]
             }
         }
-        console.warn('MAP.convertColor() could not find color', r, g, b)
+        if(typeof notFoundColors[r+','+g+','+b] !== 'number'){
+            notFoundColors[r+','+g+','+b] = 0
+        }
+        notFoundColors[r+','+g+','+b]++
         return {r: r, g: g, b:b}
     }
 
