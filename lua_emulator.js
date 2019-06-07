@@ -23,7 +23,11 @@ var LUA_EMULATOR = ((global, $)=>{
             $('#console').val($('#console').val() + luaToString(arg) + " ")
         }
         $('#console').val( $('#console').val() + '\n')
-        return 0
+        //scroll down console
+        $("#console").each( function(){
+           let scrollHeight = Math.max(this.scrollHeight, this.clientHeight);
+           this.scrollTop = scrollHeight - this.clientHeight;
+        });
     }   
 
     function createNamespace(name){    

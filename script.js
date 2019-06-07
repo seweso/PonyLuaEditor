@@ -53,6 +53,7 @@
 
     function start(){
       $('#start').prop('disabled', true)
+      $('#code-container').addClass('locked')
 	  	saveCodeInStorage()
 	  	$('#console').val('')
 	  	CANVAS.reset()
@@ -79,6 +80,7 @@
 
       LUA_EMULATOR.reset().then(()=>{
         $('#start').prop('disabled', false)
+        $('#code-container').removeClass('locked')
       })
 
     }
