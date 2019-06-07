@@ -2,7 +2,7 @@
   "use strict";
 
 
-    $(global).on('load', init)
+    $(global).on('lua_emulator_loaded', init)
 
     function init(){
         setScreenFunctions()
@@ -10,7 +10,9 @@
         setInputFunctions()
         setOutputFunctions()
         setPropertyFunctions()
-        $(global).trigger('stormworks_lua_api_loaded')
+        setTimeout(()=>{
+            $(global).trigger('stormworks_lua_api_loaded')
+        }, 10)
     }
 
 
@@ -28,19 +30,19 @@
 
         function setColor(r, g, b, a){
             if(typeof r !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 1, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 1, 'expected number')
                 return
             }
             if(typeof g !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 2, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 2, 'expected number')
                 return
             }
             if(typeof b !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 3, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 3, 'expected number')
                 return
             }
             if(a !== undefined && a !== null && typeof a !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 4, 'expected number or nil or undefined')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 4, 'expected number or nil or undefined')
                 return
             }
             if(typeof a !== 'number'){
@@ -57,19 +59,19 @@
 
         function drawLine(x1, y1, x2, y2){
             if(typeof x1 !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 1, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 1, 'expected number')
                 return
             }
             if(typeof y1 !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 2, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 2, 'expected number')
                 return
             }
             if(typeof x2 !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 3, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 3, 'expected number')
                 return
             }
             if(typeof y2 !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 4, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 4, 'expected number')
                 return
             }
             PAINT.drawLine(x1, y1, x2, y2)
@@ -78,15 +80,15 @@
 
         function drawCircle(x, y, r){
             if(typeof x !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 1, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 1, 'expected number')
                 return
             }
             if(typeof y !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 2, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 2, 'expected number')
                 return
             }
             if(typeof r !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 3, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 3, 'expected number')
                 return
             }
             PAINT.drawCircle(x, y, r)
@@ -95,15 +97,15 @@
 
         function drawCircleF(x, y, r){
             if(typeof x !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 1, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 1, 'expected number')
                 return
             }
             if(typeof y !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 2, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 2, 'expected number')
                 return
             }
             if(typeof r !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 3, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 3, 'expected number')
                 return
             }
             PAINT.drawCircleF(x, y, r)
@@ -112,19 +114,19 @@
 
         function drawRect(x, y, w, h){
             if(typeof x !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 1, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 1, 'expected number')
                 return
             }
             if(typeof y !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 2, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 2, 'expected number')
                 return
             }
             if(typeof w !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 3, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 3, 'expected number')
                 return
             }
             if(typeof h !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 4, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 4, 'expected number')
                 return
             }
             PAINT.drawRect(x, y, w, h)
@@ -133,19 +135,19 @@
 
         function drawRectF(x, y, w, h){
             if(typeof x !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 1, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 1, 'expected number')
                 return
             }
             if(typeof y !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 2, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 2, 'expected number')
                 return
             }
             if(typeof w !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 3, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 3, 'expected number')
                 return
             }
             if(typeof h !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 4, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 4, 'expected number')
                 return
             }
             PAINT.drawRectF(x, y, w, h)
@@ -154,27 +156,27 @@
 
         function drawTriangle(x1, y1, x2, y2, x3, y3){
             if(typeof x1 !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 1, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 1, 'expected number')
                 return
             }
             if(typeof y1 !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 2, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 2, 'expected number')
                 return
             }
             if(typeof x2 !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 3, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 3, 'expected number')
                 return
             }
             if(typeof y2 !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 4, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 4, 'expected number')
                 return
             }
             if(typeof x3 !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 5, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 5, 'expected number')
                 return
             }
             if(typeof y3 !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 6, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 6, 'expected number')
                 return
             }
             PAINT.drawTriangle(x1, y1, x2, y2, x3, y3)
@@ -183,27 +185,27 @@
 
         function drawTriangleF(x1, y1, x2, y2, x3, y3){
             if(typeof x1 !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 1, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 1, 'expected number')
                 return
             }
             if(typeof y1 !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 2, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 2, 'expected number')
                 return
             }
             if(typeof x2 !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 3, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 3, 'expected number')
                 return
             }
             if(typeof y2 !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 4, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 4, 'expected number')
                 return
             }
             if(typeof x3 !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 5, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 5, 'expected number')
                 return
             }
             if(typeof y3 !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 6, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 6, 'expected number')
                 return
             }
             PAINT.drawTriangleF(x1, y1, x2, y2, x3, y3)
@@ -212,15 +214,15 @@
 
         function drawText(x, y, text){
             if(typeof x !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 1, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 1, 'expected number')
                 return
             }
             if(typeof y !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 2, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 2, 'expected number')
                 return
             }
             if(typeof text !== 'string'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 3, 'expected string')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 3, 'expected string')
                 return
             }
             PAINT.drawText(x, y, text)
@@ -229,31 +231,31 @@
 
         function drawTextBox(x, y, w, h, text, h_align, v_align){
             if(typeof x !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 1, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 1, 'expected number')
                 return
             }
             if(typeof y !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 2, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 2, 'expected number')
                 return
             }
             if(typeof w !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 3, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 3, 'expected number')
                 return
             }
             if(typeof h !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 4, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 4, 'expected number')
                 return
             }
             if(typeof text !== 'string'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 5, 'expected string')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 5, 'expected string')
                 return
             }
             if(h_align !== undefined && h_align !== null && typeof h_align !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 6, 'expected number or nil or undefined')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 6, 'expected number or nil or undefined')
                 return
             }
             if(v_align !== undefined && v_align !== null && typeof v_align !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 7, 'expected number or nil or undefined')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 7, 'expected number or nil or undefined')
                 return
             }
             if(typeof h_align !== 'number'){
@@ -270,15 +272,15 @@
         /* screen (map related) */
         function drawMap(x, y, zoom){
             if(typeof x !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 1, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 1, 'expected number')
                 return
             }
             if(typeof y !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 2, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 2, 'expected number')
                 return
             }
             if(typeof zoom !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 3, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 3, 'expected number')
                 return
             }
             MAP.drawMap(x, y, Math.max(0.1, Math.min(50,zoom)))
@@ -287,19 +289,19 @@
 
         function setMapColorOcean(r, g, b, a){
             if(typeof r !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 1, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 1, 'expected number')
                 return
             }
             if(typeof g !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 2, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 2, 'expected number')
                 return
             }
             if(typeof b !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 3, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 3, 'expected number')
                 return
             }
             if(typeof a !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 4, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 4, 'expected number')
                 return
             }
             MAP.setMapColorOcean(r, g, b, a)
@@ -308,19 +310,19 @@
 
         function setMapColorShallows(r, g, b, a){
             if(typeof r !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 1, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 1, 'expected number')
                 return
             }
             if(typeof g !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 2, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 2, 'expected number')
                 return
             }
             if(typeof b !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 3, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 3, 'expected number')
                 return
             }
             if(typeof a !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 4, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 4, 'expected number')
                 return
             }
             MAP.setMapColorShallows(r, g, b, a)
@@ -329,19 +331,19 @@
 
         function setMapColorLand(r, g, b, a){
             if(typeof r !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 1, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 1, 'expected number')
                 return
             }
             if(typeof g !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 2, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 2, 'expected number')
                 return
             }
             if(typeof b !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 3, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 3, 'expected number')
                 return
             }
             if(typeof a !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 4, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 4, 'expected number')
                 return
             }
             MAP.setMapColorLand(r, g, b, a)
@@ -350,19 +352,19 @@
 
         function setMapColorGrass(r, g, b, a){
             if(typeof r !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 1, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 1, 'expected number')
                 return
             }
             if(typeof g !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 2, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 2, 'expected number')
                 return
             }
             if(typeof b !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 3, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 3, 'expected number')
                 return
             }
             if(typeof a !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 4, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 4, 'expected number')
                 return
             }
             MAP.setMapColorGrass(r, g, b, a)
@@ -371,19 +373,19 @@
 
         function setMapColorSand(r, g, b, a){
             if(typeof r !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 1, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 1, 'expected number')
                 return
             }
             if(typeof g !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 2, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 2, 'expected number')
                 return
             }
             if(typeof b !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 3, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 3, 'expected number')
                 return
             }
             if(typeof a !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 4, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 4, 'expected number')
                 return
             }
             MAP.setMapColorSand(r, g, b, a)
@@ -392,19 +394,19 @@
 
         function setMapColorSnow(r, g, b, a){
             if(typeof r !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 1, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 1, 'expected number')
                 return
             }
             if(typeof g !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 2, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 2, 'expected number')
                 return
             }
             if(typeof b !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 3, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 3, 'expected number')
                 return
             }
             if(typeof a !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 4, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 4, 'expected number')
                 return
             }
             MAP.setMapColorSnow(r, g, b, a)
@@ -417,31 +419,31 @@
         //worldX, worldY = map.screenToMap(mapX, mapY, zoom, screenW, screenH, pixelX, pixelY)
         function screenToMap(mapX, mapY, zoom, screenW, screenH, pixelX, pixelY){
             if(typeof mapX !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 1, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 1, 'expected number')
                 return
             }
             if(typeof mapY !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 2, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 2, 'expected number')
                 return
             }
             if(typeof zoom !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 3, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 3, 'expected number')
                 return
             }
             if(typeof screenW !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 4, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 4, 'expected number')
                 return
             }
             if(typeof screenH !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 5, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 5, 'expected number')
                 return
             }
             if(typeof pixelX !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 6, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 6, 'expected number')
                 return
             }
             if(typeof pixelY !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 7, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 7, 'expected number')
                 return
             }
             return MAP.screenToMap(mapX, mapY, zoom, screenW, screenH, pixelX, pixelY)
@@ -451,31 +453,31 @@
         //pixelX, pixelY = map.mapToScreen(mapX, mapY, zoom, screenW, screenH, worldX, worldY)
         function mapToScreen(mapX, mapY, zoom, screenW, screenH, worldX, worldY){
             if(typeof mapX !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 1, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 1, 'expected number')
                 return
             }
             if(typeof mapY !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 2, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 2, 'expected number')
                 return
             }
             if(typeof zoom !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 3, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 3, 'expected number')
                 return
             }
             if(typeof screenW !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 4, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 4, 'expected number')
                 return
             }
             if(typeof screenH !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 5, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 5, 'expected number')
                 return
             }
             if(typeof worldX !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 6, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 6, 'expected number')
                 return
             }
             if(typeof worldY !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 7, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 7, 'expected number')
                 return
             }
             return MAP.mapToScreen(mapX, mapY, zoom, screenW, screenH, worldX, worldY)
@@ -487,7 +489,7 @@
 
         function getBool(i){
             if(typeof i !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 1, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 1, 'expected number')
                 return
             }
             return INPUT.getBool(i)
@@ -496,7 +498,7 @@
 
         function getNumber(i){
             if(typeof i !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 1, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 1, 'expected number')
                 return
             }
             return INPUT.getNumber(i)
@@ -508,11 +510,11 @@
 
         function setBool(i, val){
             if(typeof i !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 1, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 1, 'expected number')
                 return
             }
             if(typeof val !== 'boolean'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 2, 'expected boolean')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 2, 'expected boolean')
                 return
             }
             OUTPUT.setBool(i, val)
@@ -521,11 +523,11 @@
 
         function setNumber(i, val){
             if(typeof i !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 1, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 1, 'expected number')
                 return
             }
             if(typeof val !== 'number'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 2, 'expected number')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 2, 'expected number')
                 return
             }
             OUTPUT.setNumber(i, val)
@@ -537,7 +539,7 @@
 
         function getBool(label){
             if(typeof label !== 'string'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 1, 'expected string')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 1, 'expected string')
                 return
             }
             return PROPERTY.getBool(label)
@@ -546,7 +548,7 @@
 
         function getNumber(label){
             if(typeof label !== 'string'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 1, 'expected string')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 1, 'expected string')
                 return
             }
             return PROPERTY.getNumber(label)
@@ -555,7 +557,7 @@
 
         function getText(label){
             if(typeof label !== 'string'){
-                fengari.lauxlib.luaL_argerror(fengari.L, 1, 'expected string')
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 1, 'expected string')
                 return
             }
             return PROPERTY.getText(label)

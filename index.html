@@ -16,7 +16,7 @@
     <link rel="stylesheet" type="text/css" href="font.css"/>
 
     <script type="text/javascript" src="jquery.js"></script>
-    <script type="text/javascript" src="fengari_web.js"></script>
+    <script type="text/javascript" id="fengari-script" src="fengari_web.js"></script>
     <script type="text/javascript" src="script.js"></script>
     <script type="text/javascript" src="canvas.js"></script>
     <script type="text/javascript" src="paint.js"></script>
@@ -24,8 +24,8 @@
     <script type="text/javascript" src="input.js"></script>
     <script type="text/javascript" src="output.js"></script>
     <script type="text/javascript" src="property.js"></script>
-    <script type="text/javascript" src="lua_emulator.js"></script>
     <script type="text/javascript" src="stormworks_lua_api.js"></script>
+    <script type="text/javascript" src="lua_emulator.js"></script>
 
 
     <script type="text/javascript" src="version.js"></script>    
@@ -58,7 +58,10 @@
         <div id="output" class="value_list"></div>
     </div>
     <div id="editor">
-        <button id="run">Run</button>
+        <div id="controls">
+            <button id="start">Start</button>
+            <button id="stop">Stop</button>
+        </div>
         <div id="code">function e()
     test = "abc"
     print(2, test)

@@ -3,6 +3,8 @@ var LUA_EMULATOR = ((global, $)=>{
     let supportedFunctions = {}
     let namespaces = {}
 
+    let l = fengari.L
+
     let print = function(){
         let args = []
         let i = 0
@@ -19,11 +21,9 @@ var LUA_EMULATOR = ((global, $)=>{
     }
     makeFunctionAvailableInLua(print)
 
-    //createNamespace('output')
-
     function createNamespace(name){    
-        fengari.lua.lua_newtable(fengari.L)
-        fengari.lua.lua_setglobal(fengari.L, name)
+        fengari.lua.lua_newtable(l)
+        fengari.lua.lua_setglobal(l, name)
         namespaces[name] = true
         supportedFunctions[name] = {}
         log('created namespace', name)
@@ -37,10 +37,10 @@ var LUA_EMULATOR = ((global, $)=>{
     }
 
     function makeFunctionAvailableInLuaViaName(func, name, namespace){
-        let l = fengari.L    
         if(typeof func !== 'function'){
             throw new Error('passed variable is not a function!')
         }
+        fengari.lua.lua_settop(l, 0)
         const callback = func
         let middleware = function(ll){
             let args = extractArgumentsFromStack(ll.stack, 'middleware')
@@ -75,6 +75,26 @@ var LUA_EMULATOR = ((global, $)=>{
         log('registered function', namespace ? namespace + '.' + name : name)
     }
 
+    function getGlobalVariable(name){
+        fengari.lua.lua_settop(l, 0)
+        fengari.lua.lua_getglobal(l, name)
+        let res = l.stack[l.top-1]
+        fengari.lua.lua_settop(l, 1)
+        return convertLuaValue(res)
+    }
+
+    function callLuaFunction(name){
+        if(typeof name !== 'string'){
+            throw new Error('passed variable is not a string!')
+        }
+        fengari.lua.lua_settop(l, 0)
+        fengari.lua.lua_getglobal(l, name)
+        if (fengari.lua.lua_pcall(l, 0, 0, 0) != 0){
+            bluescreenError(l, 'error running function `' + name + '`:', fengari.lua.lua_tostring(l, -1))
+        }
+        fengari.lua.lua_settop(l, 0)
+    }
+
     function extractArgumentsFromStack(stack, func_name){
         let args = []
         let argsBegin = false
@@ -105,10 +125,16 @@ var LUA_EMULATOR = ((global, $)=>{
 
     function convertLuaValue(value){
         switch(value.type){
-            case 5: {
+            case 5: {//table
                 return luaTableToJSObject(value.value)
             }
-            case 20: {
+            case 6: {//function
+                return new Function()
+            }
+            case 19: {//number
+                return value.value
+            }
+            case 20: {//string
                 return arrayBufferToString(value.value.realstring)
             }
             default: {
@@ -164,11 +190,13 @@ var LUA_EMULATOR = ((global, $)=>{
         }
     }
 
-    function luaToString(ob){
+    function luaToString(ob){//can we instead use fengari.lua.lua_tostring ???
         if(typeof ob === 'number'){
             return ob.toString()
         } else if(typeof ob === 'string'){
             return ob
+        } else if(ob instanceof Uint8Array){
+           return arrayBufferToString(ob)
         } else if(ob instanceof Object){
             let onlyNumberKeys = true
             for(let k of Object.keys(ob)){
@@ -194,7 +222,9 @@ var LUA_EMULATOR = ((global, $)=>{
             }      
         } else if (ob === null) {
             return 'nil'
-        }else {
+        } else if (ob === undefined) {
+            return 'nil'
+        } else {
             return ob.toString()
         }
     }
@@ -215,10 +245,46 @@ var LUA_EMULATOR = ((global, $)=>{
         }
     }
 
+    function bluescreenError(l, message, luaObject){
+        console.error('LUA_EMULATOR.bluescreenError()', message, luaToString(luaObject))
+    }
+
+    function reset(){
+        return new Promise((fulfill, reject)=>{
+            console.log('reseting lua vm...')
+            delete fengari
+
+            $('head').append('<script type="text/javascript" src="' + $('#fengari-script').attr('src') + '"></script>')
+
+            setTimeout(()=>{
+                try {       
+                    //l = fengari.lua.lua_newstate()
+                    console.log('trigger lua emulator loaded', LUA_EMULATOR.getGlobalVariable('screen'))        
+                    $(global).trigger('lua_emulator_loaded')
+                    $(global).on('stormworks_lua_api_loaded', ()=>{
+                        fulfill()
+                        console.log('reseted lua vm', LUA_EMULATOR.getGlobalVariable('screen'))                        
+                    })
+                } catch (err){
+                    console.error('error reseting lua vm', err)
+                    fulfill()
+                }
+            }, 100)
+        })
+    }
+
     return {
         supportedFunctions: ()=>{return supportedFunctions},
         makeFunctionAvailableInLua: makeFunctionAvailableInLua,
         makeFunctionAvailableInLuaViaName: makeFunctionAvailableInLuaViaName,
-        luaToString: luaToString
+        callLuaFunction: callLuaFunction,
+        getGlobalVariable: getGlobalVariable,
+        luaToString: luaToString,
+        reset: reset,
+        l: ()=>{return l}
     }
 })(window, jQuery)
+
+
+
+$(window).trigger('lua_emulator_loaded')
