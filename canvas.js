@@ -47,7 +47,6 @@ var CANVAS = ((global, $)=>{
         ctx.clearRect(0, 0, $canvas.get(0).width, $canvas.get(0).height)
     }
 
-
     /* helper functions */
 
     const SIZES = {

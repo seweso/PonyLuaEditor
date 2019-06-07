@@ -28,9 +28,10 @@ button:hover {
 }
 
 button[disabled] {
-    border-color: #dbdbdb;
-    color: #dbdbdb;
+   border-color: #dbdbdb;
+    color: #898989;
     cursor: not-allowed;
+    background: #e5baa6;
 }
 
 .background {

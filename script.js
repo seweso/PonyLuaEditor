@@ -2,7 +2,10 @@
   "use strict";
 
     let intervalTick
-    let timeBetweenTicks = 1000
+    let timeBetweenTicks = 200
+
+    let intervalDraw
+    let timeBetweenDraws = 5000
 
     $(global).on('load', init)
 
@@ -33,7 +36,7 @@
     		$('.zoomfactor span').html(val+'x')
     	})
 	  	$('#start').on('click', start)
-      $('#stop').on('click', stop)
+      $('#stop').prop('disabled', true).on('click', stop)
 	  	$('#console').val('')
 	  	let codeFromStorage = getCodeFromStorage()
 	  	if(typeof codeFromStorage === 'string' && codeFromStorage.length > 0){
@@ -50,7 +53,6 @@
 
     function start(){
       $('#start').prop('disabled', true)
-      $('#stop').prop('disabled', false)
 	  	saveCodeInStorage()
 	  	$('#console').val('')
 	  	CANVAS.reset()
@@ -65,17 +67,20 @@
 	    }
     	OUTPUT.refresh()
 
-      //intervalTick = setInterval(doTick, timeBetweenTicks)
+      intervalTick = setInterval(doTick, timeBetweenTicks)
+      intervalDraw = setInterval(doDraw, timeBetweenDraws)
+      $('#stop').prop('disabled', false)
     }
 
     function stop(){
       $('#stop').prop('disabled', true)
-      $('#start').prop('disabled', false)
       clearInterval(intervalTick)
+      clearInterval(intervalDraw)
 
       LUA_EMULATOR.reset().then(()=>{
-
+        $('#start').prop('disabled', false)
       })
+
     }
 
     function doTick(){
@@ -85,6 +90,7 @@
     }
 
     function doDraw(){
+        CANVAS.reset()
         if(typeof LUA_EMULATOR.getGlobalVariable('onDraw') === 'function'){
           LUA_EMULATOR.callLuaFunction('onDraw')
         }

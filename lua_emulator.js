@@ -269,22 +269,24 @@ var LUA_EMULATOR = ((global, $)=>{
                     l = fengari.L
                     fengari.lua.lua_settop(l, 0)
                     init()
-                    console.log('trigger lua emulator loaded', LUA_EMULATOR.getGlobalVariable('screen'))        
                     $(global).trigger('lua_emulator_loaded')
                     $(global).on('stormworks_lua_api_loaded', ()=>{
                         if(fresh){
+                            console.log('its fresh!')
+                            fulfill()
                             return
                         } else {
                             fresh = true
-                        }
-                        fulfill()
+                            fulfill()
+                        }                      
                         console.log('reseted lua vm', LUA_EMULATOR.getGlobalVariable('screen'))                        
                     })
                 } catch (err){
                     console.error('error reseting lua vm', err)
+                    fresh = true
                     fulfill()
                 }
-            }, 300)
+            }, 100)
         })
     }
 
