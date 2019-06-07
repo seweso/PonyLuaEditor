@@ -55,6 +55,7 @@ var MAP = ((c, $)=>{
 
     function drawMap(x, y, zom){//zom from 0.1 to 50
         console.time('drawMap')
+        let currentFillStyle = c.ctx().fillStyle
         try {
             let centerx = MAP_ZERO_X + x
             let centery = MAP_ZERO_Y + y
@@ -83,10 +84,13 @@ var MAP = ((c, $)=>{
 
             fakectx.clearRect(0, 0, fakectx.width, fakectx.height)
             fakectx.putImageData(imageData, 0, 0)
+            c.ctx().fillStyle = 'rgb(' + DEFAULT_COLORS.ocean.r + ',' + DEFAULT_COLORS.ocean.g + ',' + DEFAULT_COLORS.ocean.b + ')'
+            c.ctx().fillRect(c.left(), c.top(), c.width(), c.height())
             c.ctx().drawImage(fakecanvas, 0, 0, fakectx.width, fakectx.height, c.left(), c.top(), c.width(), c.height())
         } catch (err){
             console.error(err)
         }  
+        c.ctx().fillStyle = currentFillStyle
         console.timeEnd('drawMap')
     }
 
