@@ -58,6 +58,7 @@ var MAP = ((global, c, $)=>{
 
     function drawMap(x, y, zom){//zom from 0.1 to 50
         console.time('drawMap')
+        matches = {}
         let currentFillStyle = c.ctx().fillStyle
         try {
             let centerx = MAP_ZERO_X + x
@@ -161,7 +162,6 @@ var MAP = ((global, c, $)=>{
 
     function reset(){
         colors = $.extend({}, DEFAULT_COLORS)
-        matches = {}
     }
 
     /* helper functions */
@@ -187,7 +187,7 @@ var MAP = ((global, c, $)=>{
             }
             return 0
         })
-        let bestMatch = DEFAULT_COLORS[distances[0].key]
+        let bestMatch = colors[distances[0].key]
         matches[r+','+g+','+b] = bestMatch
         console.log('bestMatch for ', r, g, b, 'is', distances[0].key, bestMatch)
         return bestMatch

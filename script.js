@@ -5,7 +5,7 @@
     let timeBetweenTicks = 200
 
     let intervalDraw
-    let timeBetweenDraws = 5000
+    let timeBetweenDraws = 1000
 
     $(global).on('load', init)
 
