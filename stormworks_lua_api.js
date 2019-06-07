@@ -281,7 +281,7 @@
                 fengari.lauxlib.luaL_argerror(fengari.L, 3, 'expected number')
                 return
             }
-            MAP.drawMap(x, y, zoom)
+            MAP.drawMap(x, y, Math.max(0.1, Math.min(50,zoom)))
         }
         LUA_EMULATOR.makeFunctionAvailableInLua(drawMap, 'screen')
 

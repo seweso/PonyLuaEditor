@@ -1,4 +1,4 @@
-var MAP = ((c, $)=>{
+var MAP = ((global, c, $)=>{
 
     const FONT_SIZE = 6
     const FONT = 'px "Lucida Console", Monaco, monospace'
@@ -7,6 +7,9 @@ var MAP = ((c, $)=>{
 
     let fakecanvas = document.createElement('canvas')
     let fakectx = fakecanvas.getContext('2d')
+    $(global).on('load', ()=>{
+        $('body').append(fakecanvas)    
+    })    
 
 
     const MAP_ZERO_X = 3274
@@ -66,13 +69,13 @@ var MAP = ((c, $)=>{
             let sy = centery - sHeight/2
 
 
-            fakectx.width = sWidth
-            fakectx.height = sHeight
+            fakecanvas.width = sWidth
+            fakecanvas.height = sHeight
             fakectx.fillStyle = '#0094FF'
             fakectx.fillRect(0, 0, sWidth, sHeight)
             fakectx.drawImage($('#map').get(0), sx, sy, sWidth, sHeight, 0, 0, sWidth, sHeight)
 
-            let imageData = fakectx.getImageData(0, 0, fakectx.width, fakectx.height)
+            let imageData = fakectx.getImageData(0, 0, fakecanvas.width, fakecanvas.height)
             let data = imageData.data
             for(let i = 0; i < data.length; i+=4 ){
                 let color = bestMatchColor(data[i], data[i+1], data[i+2])
@@ -82,11 +85,11 @@ var MAP = ((c, $)=>{
                 data[i+3] = color.a
             }
 
-            fakectx.clearRect(0, 0, fakectx.width, fakectx.height)
+            fakectx.clearRect(0, 0, fakecanvas.width, fakecanvas.height)
             fakectx.putImageData(imageData, 0, 0)
             c.ctx().fillStyle = 'rgb(' + DEFAULT_COLORS.shallows.r + ',' + DEFAULT_COLORS.shallows.g + ',' + DEFAULT_COLORS.shallows.b + ')'
             c.ctx().fillRect(c.left(), c.top(), c.width(), c.height())
-            c.ctx().drawImage(fakecanvas, 0, 0, fakectx.width, fakectx.height, c.left(), c.top(), c.width(), c.height())
+            c.ctx().drawImage(fakecanvas, 0, 0, fakecanvas.width, fakecanvas.height, c.left(), c.top(), c.width(), c.height())
         } catch (err){
             console.error(err)
         }  
@@ -234,4 +237,4 @@ var MAP = ((c, $)=>{
         reset: reset
     }
 
-})(CANVAS, jQuery)
+})(window, CANVAS, jQuery)
