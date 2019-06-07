@@ -93,9 +93,6 @@ var MAP = ((global, c, $)=>{
 
             fakectx2.drawImage(fakecanvas, 0, 0, fakecanvas.width, fakecanvas.height, 0, 0, fakecanvas2.width, fakecanvas2.height)
 
-            
-            //c.ctx().fillStyle = 'rgb(' + DEFAULT_COLORS.shallows.r + ',' + DEFAULT_COLORS.shallows.g + ',' + DEFAULT_COLORS.shallows.b + ')'
-            //c.ctx().fillRect(c.left(), c.top(), c.width(), c.height())
             c.ctx().drawImage(fakecanvas2, 0, 0, fakecanvas2.width, fakecanvas2.height, c.left(), c.top(), c.width(), c.height())
         } catch (err){
             console.error(err)
