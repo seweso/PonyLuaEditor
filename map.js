@@ -51,8 +51,9 @@ var MAP = ((c, $)=>{
         }
     }
 
-    foundColors = {}
-    notFoundColors = {}
+    let foundColors = {}
+    let notFoundColors = {}
+    let matches = {}
 
     function drawMap(x, y, zom){//zom from 0.1 to 50
         try {
@@ -158,6 +159,7 @@ var MAP = ((c, $)=>{
         colors = $.extend({}, DEFAULT_COLORS)
         foundColors = {}
         notFoundColors = {}
+        matches = {}
     }
 
     /* helper functions */
@@ -177,7 +179,34 @@ var MAP = ((c, $)=>{
             notFoundColors[r+','+g+','+b] = 0
         }
         notFoundColors[r+','+g+','+b]++
-        return {r: r, g: g, b:b}
+        return bestMatchColor(r, g, b)//{r: r, g: g, b:b}
+    }
+
+    function bestMatchColor(r, g, b){
+        if(matches[r+','+g+','+b]){
+            return matches[r+','+g+','+b]
+        }
+        let distances = []
+        for(let k of Object.keys(DEFAULT_COLORS)){
+            let c = DEFAULT_COLORS[k]
+            let dr =  Math.abs(c.r - r)
+            let dg =  Math.abs(c.g - g)
+            let db =  Math.abs(c.b - b)
+            distances.push({key: k, distance: dr + dg + db})
+        }
+        distances.sort((a, b)=>{
+            if(a.distance < b.distance){
+                return -1
+            }
+            if(a.distance > b.distance){
+                return 1
+            }
+            return 0
+        })
+        let bestMatch = DEFAULT_COLORS[distances[0].key]
+        matches[r+','+g+','+b] = bestMatch
+        console.log('bestMatch for ', r, g, b, 'is', distances[0].key, bestMatch)
+        return bestMatch
     }
 
     function zoom(val){
