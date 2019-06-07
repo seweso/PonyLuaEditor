@@ -51,11 +51,10 @@ var MAP = ((c, $)=>{
         }
     }
 
-    let foundColors = {}
-    let notFoundColors = {}
     let matches = {}
 
     function drawMap(x, y, zom){//zom from 0.1 to 50
+        console.time('drawMap')
         try {
             let centerx = MAP_ZERO_X + x
             let centery = MAP_ZERO_Y + y
@@ -75,7 +74,7 @@ var MAP = ((c, $)=>{
             let imageData = fakectx.getImageData(0, 0, fakectx.width, fakectx.height)
             let data = imageData.data
             for(let i = 0; i < data.length; i+=4 ){
-                let color = convertColor(data[i], data[i+1], data[i+2])
+                let color = bestMatchColor(data[i], data[i+1], data[i+2])
                 data[i] = color.r
                 data[i+1] = color.g
                 data[i+2] = color.b
@@ -87,10 +86,8 @@ var MAP = ((c, $)=>{
             c.ctx().drawImage(fakecanvas, 0, 0, fakectx.width, fakectx.height, c.left(), c.top(), c.width(), c.height())
         } catch (err){
             console.error(err)
-        }
-
-        console.log('MAP.convertColor() could find colors', foundColors)
-        console.warn('MAP.convertColor() could not find colors', notFoundColors)        
+        }  
+        console.timeEnd('drawMap')
     }
 
     function setMapColorOcean(r, g, b, a){
@@ -163,24 +160,6 @@ var MAP = ((c, $)=>{
     }
 
     /* helper functions */
-
-    function convertColor(r, g, b){
-        for(let k of Object.keys(DEFAULT_COLORS)){
-            let c = DEFAULT_COLORS[k]
-            if(c.r === r && c.g === g && c.b === b){
-                if(typeof foundColors[r+','+g+','+b] !== 'number'){
-                    foundColors[r+','+g+','+b] = 0
-                }
-                foundColors[r+','+g+','+b]++
-                return colors[k]
-            }
-        }
-        if(typeof notFoundColors[r+','+g+','+b] !== 'number'){
-            notFoundColors[r+','+g+','+b] = 0
-        }
-        notFoundColors[r+','+g+','+b]++
-        return bestMatchColor(r, g, b)//{r: r, g: g, b:b}
-    }
 
     function bestMatchColor(r, g, b){
         if(matches[r+','+g+','+b]){
