@@ -84,7 +84,7 @@ var MAP = ((c, $)=>{
 
             fakectx.clearRect(0, 0, fakectx.width, fakectx.height)
             fakectx.putImageData(imageData, 0, 0)
-            c.ctx().fillStyle = 'rgb(' + DEFAULT_COLORS.ocean.r + ',' + DEFAULT_COLORS.ocean.g + ',' + DEFAULT_COLORS.ocean.b + ')'
+            c.ctx().fillStyle = 'rgb(' + DEFAULT_COLORS.shallows.r + ',' + DEFAULT_COLORS.shallows.g + ',' + DEFAULT_COLORS.shallows.b + ')'
             c.ctx().fillRect(c.left(), c.top(), c.width(), c.height())
             c.ctx().drawImage(fakecanvas, 0, 0, fakectx.width, fakectx.height, c.left(), c.top(), c.width(), c.height())
         } catch (err){
