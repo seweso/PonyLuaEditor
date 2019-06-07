@@ -161,8 +161,6 @@ var MAP = ((global, c, $)=>{
 
     function reset(){
         colors = $.extend({}, DEFAULT_COLORS)
-        foundColors = {}
-        notFoundColors = {}
         matches = {}
     }
 
