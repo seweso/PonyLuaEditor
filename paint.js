@@ -63,8 +63,8 @@ var PAINT = ((c)=>{
 
     function drawText(x, y, text){//4px wide 5 px tall
         log()
-        c.ctx().font = FONT_SIZE * zoomFactor + FONT
-        c.ctx().fillText(text, c.left() + zoom(x), c.top() + zoom(y))
+        c.ctx().font = zoom(FONT_SIZE) + FONT
+        c.ctx().fillText(text, c.left() + zoom(x), c.top() + zoom(y) + zoom(FONT_SIZE))
     }
 
     function drawTextBox(x, y, w, h, text, h_align, v_align){
