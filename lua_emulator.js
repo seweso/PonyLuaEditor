@@ -5,6 +5,12 @@ var LUA_EMULATOR = ((global, $)=>{
 
     let l = fengari.L
 
+    let fresh = true
+
+    function init(){
+        makeFunctionAvailableInLua(print)
+    }
+
     let print = function(){
         let args = []
         let i = 0
@@ -18,8 +24,7 @@ var LUA_EMULATOR = ((global, $)=>{
         }
         $('#console').val( $('#console').val() + '\n')
         return 0
-    }
-    makeFunctionAvailableInLua(print)
+    }   
 
     function createNamespace(name){    
         fengari.lua.lua_newtable(l)
@@ -253,15 +258,25 @@ var LUA_EMULATOR = ((global, $)=>{
         return new Promise((fulfill, reject)=>{
             console.log('reseting lua vm...')
             delete fengari
+            supportedFunctions = {}
+            namespaces = {}
+            fresh = false
 
             $('head').append('<script type="text/javascript" src="' + $('#fengari-script').attr('src') + '"></script>')
 
             setTimeout(()=>{
                 try {       
-                    //l = fengari.lua.lua_newstate()
+                    l = fengari.L
+                    fengari.lua.lua_settop(l, 0)
+                    init()
                     console.log('trigger lua emulator loaded', LUA_EMULATOR.getGlobalVariable('screen'))        
                     $(global).trigger('lua_emulator_loaded')
                     $(global).on('stormworks_lua_api_loaded', ()=>{
+                        if(fresh){
+                            return
+                        } else {
+                            fresh = true
+                        }
                         fulfill()
                         console.log('reseted lua vm', LUA_EMULATOR.getGlobalVariable('screen'))                        
                     })
@@ -269,9 +284,11 @@ var LUA_EMULATOR = ((global, $)=>{
                     console.error('error reseting lua vm', err)
                     fulfill()
                 }
-            }, 100)
+            }, 300)
         })
     }
+
+    init()
 
     return {
         supportedFunctions: ()=>{return supportedFunctions},

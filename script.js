@@ -49,6 +49,8 @@
     }
 
     function start(){
+      $('#start').prop('disabled', true)
+      $('#stop').prop('disabled', false)
 	  	saveCodeInStorage()
 	  	$('#console').val('')
 	  	CANVAS.reset()
@@ -67,6 +69,8 @@
     }
 
     function stop(){
+      $('#stop').prop('disabled', true)
+      $('#start').prop('disabled', false)
       clearInterval(intervalTick)
 
       LUA_EMULATOR.reset().then(()=>{
