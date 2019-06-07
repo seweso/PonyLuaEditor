@@ -7,9 +7,8 @@ var MAP = ((global, c, $)=>{
 
     let fakecanvas = document.createElement('canvas')
     let fakectx = fakecanvas.getContext('2d')
-    $(global).on('load', ()=>{
-        $('body').append(fakecanvas)    
-    })    
+    let fakecanvas2 = document.createElement('canvas')
+    let fakectx2 = fakecanvas2.getContext('2d')
 
 
     const MAP_ZERO_X = 3274
@@ -87,10 +86,17 @@ var MAP = ((global, c, $)=>{
             }
 
             fakectx.clearRect(0, 0, fakecanvas.width, fakecanvas.height)
-            fakectx.putImageData(imageData, 0, 0)
-            c.ctx().fillStyle = 'rgb(' + DEFAULT_COLORS.shallows.r + ',' + DEFAULT_COLORS.shallows.g + ',' + DEFAULT_COLORS.shallows.b + ')'
-            c.ctx().fillRect(c.left(), c.top(), c.width(), c.height())
-            c.ctx().drawImage(fakecanvas, 0, 0, fakecanvas.width, fakecanvas.height, c.left(), c.top(), c.width(), c.height())
+            fakectx.putImageData(imageData, 0, 0, 0, 0, fakecanvas.width, fakecanvas.height)
+
+            fakecanvas2.width = c.width()
+            fakecanvas2.height = c.height()
+
+            fakectx2.drawImage(fakecanvas, 0, 0, fakecanvas.width, fakecanvas.height, 0, 0, fakecanvas2.width, fakecanvas2.height)
+
+            
+            //c.ctx().fillStyle = 'rgb(' + DEFAULT_COLORS.shallows.r + ',' + DEFAULT_COLORS.shallows.g + ',' + DEFAULT_COLORS.shallows.b + ')'
+            //c.ctx().fillRect(c.left(), c.top(), c.width(), c.height())
+            c.ctx().drawImage(fakecanvas2, 0, 0, fakecanvas2.width, fakecanvas2.height, c.left(), c.top(), c.width(), c.height())
         } catch (err){
             console.error(err)
         }  
