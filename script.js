@@ -48,6 +48,7 @@
 	  	saveCodeInStorage()
 	  	$('#console').val('')
 	  	CANVAS.reset()
+      MAP.reset()
 	  	let code = editor.getValue()
 	  	try {
 		  	let feng = fengari.load(code)
