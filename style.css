@@ -194,14 +194,64 @@ button[disabled] {
     
 }
 
-#functions .namespace {
-    padding-left: 15px;
+#functions .node {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1em;
 }
 
-#functions .namespace > span {
-    margin-left: -15px;
+#functions .node .information {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
 }
 
+#functions .node .information .left {
+    width: 200px;
+}
+
+#functions .node .information .name {
+    font-weight: bold;
+}
+
+#functions .node .information .args {
+    margin-left: 2px;
+    white-space: nowrap;
+}
+
+#functions .node .information .text {
+    margin-left: 20px;
+    color: #b1b1b1;
+}
+
+#functions .node .children {
+    padding-left: 20px;
+    margin-top: 1em;
+}
+
+#functions .node[ntype="object"] .name {
+    color: #A6CE28;
+}
+
+#functions .node[ntype="function"] .name {
+    color: #66D9EF;
+}
+
+/* informaton containers */
+.information_container {
+    background: #000000aa;
+    border-radius: 3px;
+    color: #fff;
+    padding: 10px;
+    margin: 20px;
+}
+
+.information_container h2 {
+    color: #bf5421;
+    margin: 0 0 20px 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #444444;
+}
 
 /* information badges */
 #information {
@@ -311,13 +361,15 @@ button[disabled] {
     position: relative;
     background: #3d3e38;
     color: #fff;
+    min-width: 250px;
 }
 
 .autocompletition .list {
     display: flex;
     flex-direction: column;
-    max-height: 5.5em;
+    max-height: 10.5em;
     overflow-y: auto;
+    position: relative;
 }
 
 .autocompletition .list .entry, .autocompletition .list .empty {
@@ -359,13 +411,21 @@ button[disabled] {
 .autocompletition .descriptions .description {
     display: none;
     background: #414141;
-    padding: 5px;
+    padding: 8px;
     width: 200%;
+    font-size: 120%;
+    line-height: 120%;
 }
 
-.autocompletition .descriptions .description .name {
+.autocompletition .descriptions .description .top {
+    display: flex;
+    flex-direction: row;
     font-weight: bold;
     margin-bottom: 5px;
+}
+
+.autocompletition .descriptions .description .args {
+    margin-left: 2px;
 }
 
 .autocompletition input {

@@ -11,20 +11,23 @@
 
     $(global).on('stormworks_lua_api_loaded', ()=>{
   	
-  		printSupportedFunctions(LUA_EMULATOR.supportedFunctions(), $('#functions'))
+        for(let name of Object.keys(AUTOCOMPLETE.AUTOCOMPLETITIONS.children)){
+            let child = AUTOCOMPLETE.AUTOCOMPLETITIONS.children[name]
+            printNode($('#functions'), child, name)
+        }
 
-	  	function printSupportedFunctions(supportedFunctions, container, prefix){
-	  		for(let k of Object.keys(supportedFunctions)){
-		  		let sf = supportedFunctions[k]
-		  		if(sf instanceof Object){
-		  			let namespace = $('<div class="namespace"><span>' + (prefix ? prefix + '.' + k : k) + '</span></div>')
-	  				container.append(namespace)
-	  				printSupportedFunctions(sf, namespace, prefix ? prefix + '.' + k : k)
-		  		} else {
-		  			container.append('<div class="function">' + (prefix ? '.' + k : k) + '()</div>')
-		  		}
-		  	}
-  		}
+        function printNode(container, node, name){
+            let me = $('<div class="node" ntype="' + node.type + '"><div class="information"><div class="name">' + name + '</div><div class="args">' + (node.args || '') + '</div><div class="text">' + node.description + '</div></div></div>')
+            container.append(me)
+            if(node.children){
+                let childcontainer = $('<div class="children"></div>')
+                me.append(childcontainer)
+                for(let name of Object.keys(node.children)){
+                    let child = node.children[name]
+                    printNode(childcontainer, child, '.' + name)
+                }
+            }
+        }
     })
 
     function init(){
