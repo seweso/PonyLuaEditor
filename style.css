@@ -154,6 +154,11 @@ button[disabled] {
     border-radius: 3px;
 }
 
+#autocompletition-container {
+    position: absolute;
+    background: #fff;
+}
+
 #out {
 
 }

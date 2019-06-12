@@ -26,6 +26,7 @@
     <script type="text/javascript" src="property.js"></script>
     <script type="text/javascript" src="stormworks_lua_api.js"></script>
     <script type="text/javascript" src="lua_emulator.js"></script>
+    <script type="text/javascript" src="editor_autocompletition.js"></script>
 
 
     <script type="text/javascript" src="version.js"></script>    
@@ -78,6 +79,7 @@ function onDraw()
 end
             </div>
             <div id="code-lock"></div>
+            <div id="autocompletition-container"></div>
         </div>
     </div>
     <div id="out">
@@ -117,8 +119,8 @@ end
         editor.setTheme("ace/theme/monokai");
         editor.session.setMode("ace/mode/lua");
         
-        editor.setOption('enableBasicAutocompletion', true)
-        editor.setOption('enableLiveAutocompletion', true)
+        /*editor.setOption('enableBasicAutocompletion', true)
+        editor.setOption('enableLiveAutocompletion', true)*/
     </script>
 
     <img src="/map.png" id="map" style="display: none;">
