@@ -134,17 +134,13 @@
     }
 
     function doTick(){
-        if(typeof LUA_EMULATOR.getGlobalVariable('onTick') === 'function'){
-          LUA_EMULATOR.callLuaFunction('onTick')
-        }
+        LUA_EMULATOR.tick()
     }
 
     function doDraw(){
         let begin = new Date().getTime()
         CANVAS.reset()
-        if(typeof LUA_EMULATOR.getGlobalVariable('onDraw') === 'function'){
-          LUA_EMULATOR.callLuaFunction('onDraw')
-        }
+        LUA_EMULATOR.draw()
         let end = new Date().getTime()
         let diff = end-begin        
         drawTimes.reverse()

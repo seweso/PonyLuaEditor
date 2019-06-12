@@ -9,6 +9,9 @@ var LUA_EMULATOR = ((global, $)=>{
 
     let fresh = true
 
+    let isInTick = false
+    let isInDraw = false
+
     function init(){
         makeFunctionAvailableInLua(print)
     }
@@ -299,6 +302,22 @@ var LUA_EMULATOR = ((global, $)=>{
         })
     }
 
+    function tick(){
+        isInTick = true
+        if(typeof getGlobalVariable('onTick') === 'function'){
+          callLuaFunction('onTick')
+        }
+        isInTick = false
+    }
+
+    function draw(){
+        isInDraw = true      
+        if(typeof getGlobalVariable('onDraw') === 'function'){
+          callLuaFunction('onDraw')
+        }
+        isInDraw = false
+    }
+
     init()
 
     return {
@@ -309,7 +328,11 @@ var LUA_EMULATOR = ((global, $)=>{
         getGlobalVariable: getGlobalVariable,
         luaToString: luaToString,
         reset: reset,
-        l: ()=>{return l}
+        l: ()=>{return l},
+        tick: tick,
+        draw: draw,
+        isInTick: ()=>{isInTick},
+        isInDraw: ()=>{isInDraw},
     }
 })(window, jQuery)
 
