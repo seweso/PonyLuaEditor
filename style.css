@@ -155,6 +155,22 @@ button[disabled] {
     line-height: 130%;
 }
 
+#code-editor-information {
+    color: #fff;
+    padding: 10px;
+    display: flex;
+    flex-direction: revert;
+    justify-content: space-between;
+}
+
+#charactercount {
+    font-weight: bold;
+}
+
+#charactercount.limit {
+    color: red;
+}
+
 #autocompletition-container {
     position: absolute;
     z-index: 10;
@@ -351,10 +367,6 @@ button[disabled] {
     font-weight: bold;
     margin-bottom: 5px;
 }
-
-
-
-
 
 .autocompletition input {
     position: absolute;

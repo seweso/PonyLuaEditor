@@ -64,20 +64,23 @@
             <button id="stop">Stop</button>
         </div>
         <div id="code-container">
-            <div id="code">i = 0
-
+            <div id="code">
 function onTick()
-    i = i +1
-    print(i)
-end
-        
+    -- Example that adds two composite channels together and outputs the result
+    in1 = input.getNumber(1)
+    in2 = input.getNumber(2)
+    output.setNumber(1, in1 + in2)
+end    
         
 function onDraw()
-    
-    screen.setColor(100,255,255)
-    screen.drawText(0, 0, "i"..i)
+    -- Example that draws a red circle in the center of the screen with a radius of 20 pixels
+    width = screen.getWidth()
+    height = screen.getHeight()
+    screen.setColor(255, 0, 0)
+    screen.drawCircleF(width / 2, height / 2, 20)
 end
             </div>
+            <div id="code-editor-information"><span id="selection-information">Line 0, Column 0, Char 0</span><span id="charactercount">0/4096</span></div>
             <div id="code-lock"></div>
             <div id="autocompletition-container"></div>
         </div>
@@ -118,9 +121,6 @@ end
         var editor = ace.edit("code");
         editor.setTheme("ace/theme/monokai");
         editor.session.setMode("ace/mode/lua");
-        
-        /*editor.setOption('enableBasicAutocompletion', true)
-        editor.setOption('enableLiveAutocompletion', true)*/
     </script>
 
     <img src="/map.png" id="map" style="display: none;">

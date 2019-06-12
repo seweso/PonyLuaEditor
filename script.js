@@ -36,18 +36,27 @@
     		$('.zoomfactor span').html(val+'x')
     	})
 	  	$('#start').on('click', start)
-      $('#stop').prop('disabled', true).on('click', stop)
+        $('#stop').prop('disabled', true).on('click', stop)
 	  	$('#console').val('')
 	  	let codeFromStorage = getCodeFromStorage()
 	  	if(typeof codeFromStorage === 'string' && codeFromStorage.length > 0){
-	  		editor.setValue(codeFromStorage)	
+	  		editor.setValue(codeFromStorage)
 	  	}
+
+        editor.on('change', ()=>{
+            refreshCharacterCount()
+        })
+
+        editor.selection.on('changeCursor', ()=>{
+            refreshPositionHint()
+        })
 
 	  	INPUT.init($('#input'))
 	  	OUTPUT.init($('#output'))
 	  	PROPERTY.init($('#property'))
 	  	setTimeout(()=>{
     		$('#zoomfactor').trigger('change')
+            refreshCharacterCount()
 	  	}, 200)
     }
 
@@ -78,10 +87,10 @@
       clearInterval(intervalTick)
       clearInterval(intervalDraw)
 
-      LUA_EMULATOR.reset().then(()=>{
-        $('#start').prop('disabled', false)
-        $('#code-container').removeClass('locked')
-      })
+        LUA_EMULATOR.reset().then(()=>{
+            $('#start').prop('disabled', false)
+            $('#code-container').removeClass('locked')
+        })
 
     }
 
@@ -104,6 +113,29 @@
 
     function getCodeFromStorage(){
   		return localStorage.getItem('code');
+    }
+
+    function refreshCharacterCount(){
+        let chars = countCharacters(editor.getValue())
+        $('#charactercount').html(chars + '/4096')
+        if(chars >= 4096){
+            $('#charactercount').addClass('limit')
+        } else {
+            $('#charactercount').removeClass('limit')
+        }
+    }
+
+    function refreshPositionHint(){
+        let pos = editor.getCursorPosition()
+        let chars = editor.session.doc.positionToIndex(pos)
+        $('#selection-information').html('Line ' + (pos.row + 1) + ', Column ' + (pos.column + 1) + ', Char ' + chars)
+    }
+
+    // why ? because stormworks string length differs from javascripts string length (the one counts only /n and ignores /r, the other one coutns both)
+    function countCharacters(str){
+        return typeof str === 'string' ? str.length : 0
+        /*let matches = str.match(/\n/g)
+        return str.length + (matches ? matches.length : 0))*/
     }
 
 })(window, jQuery)
