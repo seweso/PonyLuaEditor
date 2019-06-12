@@ -111,11 +111,16 @@ end
     </script>
 
     <script src="/ace-builds/ace.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/ace-builds/ext-language_tools.js" type="text/javascript" charset="utf-8"></script>
     <script>
         var editor = ace.edit("code");
         editor.setTheme("ace/theme/monokai");
         editor.session.setMode("ace/mode/lua");
+        
+        editor.setOption('enableBasicAutocompletion', true)
+        editor.setOption('enableLiveAutocompletion', true)
     </script>
+
     <img src="/map.png" id="map" style="display: none;">
 </body>
 </html>
