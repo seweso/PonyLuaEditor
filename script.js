@@ -1,6 +1,7 @@
 ((global, $)=>{
   "use strict";
 
+
     let intervalTick
     let timeBetweenTicks = 200
 
@@ -33,6 +34,9 @@
     })
 
     function init(){
+
+        global.noExitConfirm = false
+
     	$('#zoomfactor').on('change', ()=>{
     		let val = $('#zoomfactor').val()
     		CANVAS.setZoomFactor(val)
@@ -42,6 +46,13 @@
     	})
 	  	$('#start').on('click', start)
         $('#stop').prop('disabled', true).on('click', stop)
+        $('#reset').on('click', ()=>{
+            if(confirm('Are you sure? This will also remove the code in the editor!')){
+                localStorage.clear()
+                global.noExitConfirm = true
+                document.location.reload()
+            }
+        })
 	  	$('#console').val('')
 	  	let codeFromStorage = getCodeFromStorage()
 	  	if(typeof codeFromStorage === 'string' && codeFromStorage.length > 0){
@@ -182,6 +193,9 @@
 })(window, jQuery)
 
 window.onbeforeunload = function (e) {
+    if(window.noExitConfirm){
+        return
+    }
     e = e || window.event;
 
     // For IE and Firefox prior to version 4
