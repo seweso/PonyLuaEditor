@@ -84,6 +84,12 @@ button[disabled] {
     margin-right: 30px;
 }
 
+#selection .time_between {
+    display: flex;
+    flex-direction: column;
+    color: #fff;
+    margin: 0 20px;
+}
 
 #top {
     display: flex;

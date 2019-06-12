@@ -5,7 +5,9 @@
     let timeBetweenTicks = 200
 
     let intervalDraw
-    let timeBetweenDraws = 1000
+    let timeBetweenDraws = 500
+
+    let drawTimes = [0,0,0,0,0]
 
     $(global).on('load', init)
 
@@ -54,17 +56,40 @@
             refreshPositionHint()
         })
 
+        $('#timeBetweenTicks').on('input', ()=>{
+            refreshTimeBetweenTicks()
+        })
+
+        $('#timeBetweenDraws').on('input', ()=>{
+            refreshTimeBetweenDraws()
+        })
+
 	  	INPUT.init($('#input'))
 	  	OUTPUT.init($('#output'))
 	  	PROPERTY.init($('#property'))
 	  	setTimeout(()=>{
     		$('#zoomfactor').trigger('change')
             refreshCharacterCount()
+
+            refreshTimeBetweenTicks()
+            refreshTimeBetweenDraws()
 	  	}, 200)
     }
 
+    function refreshTimeBetweenTicks(){        
+        let val = $('#timeBetweenTicks').val()
+        timeBetweenTicks = val
+        $('#timeBetweenTicksVal').html(val + ' ms')
+    }
+
+    function refreshTimeBetweenDraws(){        
+        let val = $('#timeBetweenDraws').val()
+        timeBetweenDraws = val
+        $('#timeBetweenDrawsVal').html(val + ' ms')
+    }
+
     function start(){
-      $('#start').prop('disabled', true)
+      $('#start, #timeBetweenTicks, #timeBetweenDraws').prop('disabled', true)
       $('#code-container').addClass('locked')
 	  	saveCodeInStorage()
 	  	$('#console').val('')
@@ -91,7 +116,7 @@
       clearInterval(intervalDraw)
 
         LUA_EMULATOR.reset().then(()=>{
-            $('#start').prop('disabled', false)
+            $('#start, #timeBetweenTicks, #timeBetweenDraws').prop('disabled', false)
             $('#code-container').removeClass('locked')
         })
 
@@ -104,10 +129,23 @@
     }
 
     function doDraw(){
+        let begin = new Date().getTime()
         CANVAS.reset()
         if(typeof LUA_EMULATOR.getGlobalVariable('onDraw') === 'function'){
           LUA_EMULATOR.callLuaFunction('onDraw')
         }
+        let end = new Date().getTime()
+        let diff = end-begin        
+        drawTimes.reverse()
+        drawTimes.pop()
+        drawTimes.reverse()
+        drawTimes.push(diff)
+        let average = 0
+        for(let t of drawTimes){
+            average += t
+        }
+        
+        $('#drawtime').html(Math.floor(average/drawTimes.length) + ' ms')
     }
 
     function saveCodeInStorage(){
