@@ -311,7 +311,7 @@ button[disabled] {
 }
 
 .autocompletition .list .entry.selected {
-    background: #c7c7c7;
+    background: #b4b4b4;
 }
 
 .autocompletition .descriptions {
@@ -322,5 +322,10 @@ button[disabled] {
 
 .autocompletition .descriptions .description {
     display: none;
+}
+
+.autocompletition input {
+    position: absolute;
+    left: -99999999px;
 }
 

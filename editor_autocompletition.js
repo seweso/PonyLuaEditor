@@ -143,9 +143,11 @@ var AUTOCOMPLETE = ((global, $)=>{
     }
 
     function closeAutocomplete(){
+        console.log('closing currentAutocomplete')
         autocompletitionIsShown = false
         $('#autocompletition-container').html('')
         currentAutocomplete = null
+        editor.focus()
     }
 
     return {
@@ -221,6 +223,10 @@ function AutocompletitionElement(completitions, part){
         }
     })
 
+    this.$input.on('focusout', ()=>{
+        AUTOCOMPLETE.closeAutocomplete()        
+    })
+
     setTimeout(()=>{
         this.$input.focus()
     }, 100)
@@ -243,7 +249,7 @@ AutocompletitionElement.prototype.arrowDown = function() {
 AutocompletitionElement.prototype.arrowUp = function() {
     this.selected--
     if(this.selected < 0){
-        this.destroy()
+        AUTOCOMPLETE.closeAutocomplete()
         return
     }
     let it = this.$list.find('.entry').get(this.selected)
@@ -271,10 +277,5 @@ AutocompletitionElement.prototype.insertAutoCompletition = function(completition
         text = completition
     }
     editor.insert(text)
-    this.destroy()
-}
-
-AutocompletitionElement.prototype.destroy = function() {
-    this.$dom.remove()
-    editor.focus()
+    AUTOCOMPLETE.closeAutocomplete()   
 }
