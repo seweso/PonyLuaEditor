@@ -304,12 +304,17 @@ button[disabled] {
     overflow-y: auto;
 }
 
-.autocompletition .list .entry {
+.autocompletition .list .entry, .autocompletition .list .empty {
     padding: 3px 5px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     cursor: pointer;
+}
+
+.autocompletition .list .empty {
+    cursor: not-allowed;
+    color: #EE4A4B;
 }
 
 .autocompletition .list .entry.selected {

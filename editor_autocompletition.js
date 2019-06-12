@@ -42,7 +42,12 @@ var AUTOCOMPLETE = ((global, $)=>{
             }
         })*/
 
-
+        $('#code').contextmenu((e)=>{
+            e.preventDefault()
+            e.stopImmediatePropagation()
+           
+            suggestAutocomplete()
+        })
     }
 
     function suggestAutocomplete(){
@@ -190,6 +195,7 @@ function AutocompletitionElement(completitions, part){
     } else {
         let id = 0
         for(let c of completitions) {
+            const myid = id
             let cdescription = $('<div class="description" aid="' + id + '" atype="' + c.type + '"><div class="name">' + c.name + '</div><div class="text">' + c.description + '</div></div>')
             this.$descriptions.append(cdescription)
 
@@ -198,6 +204,9 @@ function AutocompletitionElement(completitions, part){
             centry.on('click', ()=>{
                 this.click = true
                 this.insertAutoCompletition(c.full, c.type)
+            })
+            centry.mouseenter(()=>{
+                this.select(myid)
             })
             id++
         }
@@ -248,31 +257,27 @@ function AutocompletitionElement(completitions, part){
 
 AutocompletitionElement.prototype.arrowDown = function() {
     if(this.$list.find('.entry').length > this.selected + 1){
-        this.selected++
-        let it = this.$list.find('.entry').get(this.selected)
-        if(it){
-            this.$list.find('.entry.selected').removeClass('selected')
-            $(it).addClass('selected').focus()
-
-            this.$descriptions.find('.description').hide()
-            $('.description[aid="' + this.selected + '"]').show()
-        }
+        this.select(this.selected + 1)
     }
 }
 
 AutocompletitionElement.prototype.arrowUp = function() {
-    this.selected--
-    if(this.selected < 0){
+    if(this.selected - 1 < 0){
         AUTOCOMPLETE.closeAutocomplete()
         return
     }
-    let it = this.$list.find('.entry').get(this.selected)
+    this.select(this.selected - 1)
+}
+
+AutocompletitionElement.prototype.select = function(index) {
+    let it = this.$list.find('.entry').get(index)
     if(it){
+        this.selected = index
         this.$list.find('.entry.selected').removeClass('selected')
         $(it).addClass('selected').focus()
         
         this.$descriptions.find('.description').hide()
-        $('[aid="' + this.selected + '"]').show()
+        $('[aid="' + index + '"]').show()
     }
 }
 
