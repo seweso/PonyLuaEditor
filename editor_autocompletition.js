@@ -22,6 +22,7 @@ var AUTOCOMPLETE = ((global, $)=>{
     }
 
     let autocompletitionIsShown = false
+    let currentAutocomplete
 
     $(global).on('load', init)
 
@@ -35,17 +36,13 @@ var AUTOCOMPLETE = ((global, $)=>{
             readOnly: false
         })
 
-        $(global).on('keydown', (e)=>{
-            if(e.keyCode !== 13 && autocompletitionIsShown){
-                closeAutocomplete()
-            }
-        })
-
         /*$(global).on('click', (e)=>{
             if(autocompletitionIsShown){
                 closeAutocomplete()
             }
         })*/
+
+
     }
 
     function suggestAutocomplete(){
@@ -108,21 +105,15 @@ var AUTOCOMPLETE = ((global, $)=>{
 
         path = path.substring(1)
 
-        if(partLeft){
-            let ret = []
+        let ret = []
+        if(node.children){
             for(let [key, value] of Object.entries(node.children)) {
-              if(key.indexOf(partLeft) >= 0){                
+              if(!partLeft.length > 0 || key.indexOf(partLeft) >= 0){                
                 ret.push({name: key, type: value.type, description: value.description, full: path + '.' + key})
               }
             }
-            return [ret, partLeft]
-        } else {
-            let ret = []
-            for(let [key, value] of Object.entries(node.children)) {
-              ret.push({name: key, type: value.type, description: value.description, full: path + '.' + key})
-            }
-            return [ret, '']
         }
+        return [ret, partLeft]
     }
 
     function showAutocompletitions(container, completitions, part){
@@ -134,9 +125,9 @@ var AUTOCOMPLETE = ((global, $)=>{
         let $c = $(container)
         $c.html('')
 
-        let autocompletitionElement = new AutocompletitionElement(completitions, part)
+        currentAutocomplete = new AutocompletitionElement(completitions, part)
 
-        $c.append(autocompletitionElement.getDom())
+        $c.append(currentAutocomplete.getDom())
 
         let cursor = $('#code .ace_cursor').offset()
         let containerpos = $('#code-container').offset()
@@ -154,12 +145,14 @@ var AUTOCOMPLETE = ((global, $)=>{
     function closeAutocomplete(){
         autocompletitionIsShown = false
         $('#autocompletition-container').html('')
+        currentAutocomplete = null
     }
 
     return {
         getWordInFrontOfPosition: getWordInFrontOfPosition,
         getAutocompletitions: getAutocompletitions,
-        showAutocompletitions: showAutocompletitions
+        showAutocompletitions: showAutocompletitions,
+        closeAutocomplete: closeAutocomplete
     }
 
 })(window, jQuery)
@@ -174,7 +167,7 @@ var AUTOCOMPLETE = ((global, $)=>{
 
 
 function AutocompletitionElement(completitions, part){
-    this.$dom = $('<div class"autocompletition"></div>')
+    this.$dom = $('<div class="autocompletition"></div>')
     this.$list = $('<div class="list"></div>')
     this.$dom.append(this.$list)
     this.$descriptions = $('<div class="descriptions"></div>')
@@ -183,32 +176,83 @@ function AutocompletitionElement(completitions, part){
     this.completitions = completitions
     this.part = part
 
+    this.$input = $('<input type="text" />')
+    this.$dom.append(this.$input)
+
 
     if(completitions instanceof Array === false || completitions.length === 0){
         this.$list.append('<div class="empty">nothing found</div>')
     } else {
+        let id = 0
         for(let c of completitions) {
-            let cdescription = $('<div class="description" atype="' + c.type + '"><div class="name">' + c.name + '</div><div class="description">' + c.description + '</div></div>')
+            let cdescription = $('<div class="description" aid="' + id + '" atype="' + c.type + '"><div class="name">' + c.name + '</div><div class="description">' + c.description + '</div></div>')
             this.$descriptions.append(cdescription)
 
-            let centry = $('<div class="entry" atype="' + c.type + '">' + c.name + '</div>')
+            let centry = $('<div class="entry" aid="' + id + '" full="' + c.full + '" atype="' + c.type + '"><div class="name">' + c.name + '</div><div class="type">' + c.type + '</div></div>')
             this.$list.append(centry)
-            centry.on('focus', ()=>{
-                this.$descriptions.find('.description').hide()
-                cdescription.show()
-            })
             centry.on('click', ()=>{
                 this.insertAutoCompletition(c.full)
             })
-            centry.on('keydown', (e)=>{
-                if(e.keyCode === 13){
-                    e.preventDefault()
-                    e.stopPropagation()
-
-                    this.insertAutoCompletition(c.full)
-                }
-            })        
+            id++
         }
+        this.selected = 0
+        $(this.$list.find('.entry').get(0)).addClass('selected').focus()
+    }
+
+
+    this.$input.on('keydown', (e)=>{
+        console.log('keydown', e.keyCode)
+        if(e.keyCode === 40){//arrow down
+            e.preventDefault()
+            e.stopImmediatePropagation()
+
+            this.arrowDown()
+        } else if (e.keyCode === 38){//arrow up
+            e.preventDefault()
+            e.stopImmediatePropagation()
+
+            this.arrowUp()
+        } else if(e.keyCode === 13) {
+            this.insertAutoCompletition( this.$list.find('.entry.selected').attr('full') )
+        } else {
+            editor.focus()
+            $('.ace_text-input').trigger(e)
+            AUTOCOMPLETE.closeAutocomplete()
+        }
+    })
+
+    setTimeout(()=>{
+        this.$input.focus()
+    }, 100)
+}
+
+AutocompletitionElement.prototype.arrowDown = function() {
+    if(this.$list.find('.entry').length > this.selected + 1){
+        this.selected++
+        let it = this.$list.find('.entry').get(this.selected)
+        if(it){
+            this.$list.find('.entry.selected').removeClass('selected')
+            $(it).addClass('selected').focus()
+
+            this.$descriptions.find('.description').hide()
+            $('[aid="' + $(it).attr('aid') + '"]').show()
+        }
+    }
+}
+
+AutocompletitionElement.prototype.arrowUp = function() {
+    this.selected--
+    if(this.selected < 0){
+        this.destroy()
+        return
+    }
+    let it = this.$list.find('.entry').get(this.selected)
+    if(it){
+        this.$list.find('.entry.selected').removeClass('selected')
+        $(it).addClass('selected').focus()
+        
+        this.$descriptions.find('.description').hide()
+        $('[aid="' + $(it).attr('aid') + '"]').show()
     }
 }
 
@@ -232,4 +276,5 @@ AutocompletitionElement.prototype.insertAutoCompletition = function(completition
 
 AutocompletitionElement.prototype.destroy = function() {
     this.$dom.remove()
+    editor.focus()
 }

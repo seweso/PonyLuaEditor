@@ -156,7 +156,7 @@ button[disabled] {
 
 #autocompletition-container {
     position: absolute;
-    background: #fff;
+    z-index: 10;
 }
 
 #out {
@@ -184,7 +184,6 @@ button[disabled] {
 #functions .namespace > span {
     margin-left: -15px;
 }
-
 
 
 /* information badges */
@@ -288,3 +287,40 @@ button[disabled] {
 .value_list .bool .result, .value_list .number .result, .value_list .text .result {
     margin: 0 0 0 auto;
 }
+
+/* autocompletition */
+
+.autocompletition {
+    position: relative;
+    background: #3d3e38;
+    color: #fff;
+}
+
+.autocompletition .list {
+    display: flex;
+    flex-direction: column;
+    max-height: 5.5em;
+    overflow-y: auto;
+}
+
+.autocompletition .list .entry {
+    padding: 3px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.autocompletition .list .entry.selected {
+    background: #c7c7c7;
+}
+
+.autocompletition .descriptions {
+    position: absolute;
+    top: 0;
+    left: 100%;
+}
+
+.autocompletition .descriptions .description {
+    display: none;
+}
+
