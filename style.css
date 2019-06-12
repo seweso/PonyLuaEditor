@@ -34,6 +34,14 @@ button[disabled] {
     background: #e5baa6;
 }
 
+#logo {
+    background: url('logo.png') center 100% no-repeat;
+    height: 3em;
+    width: 3em;
+    background-size: contain;
+    margin-right: 30px;
+}
+
 .background {
     position: fixed;
     top: 0;
