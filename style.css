@@ -152,6 +152,7 @@ button[disabled] {
     width: 100%;
     height: 300px;
     border-radius: 3px;
+    line-height: 130%;
 }
 
 #autocompletition-container {
@@ -271,7 +272,7 @@ button[disabled] {
     width: 20px;
 }
 
-.value_list .bool, .number, .text {
+.value_list .bool, .value_list .number, .value_list .text {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
@@ -280,7 +281,7 @@ button[disabled] {
     padding: 5px;
 }
 
-.value_list .bool input, .number input, .text input {
+.value_list .bool input, .value_list .number input, .value_list .text input {
     margin: 0 5px;
 }
 
@@ -304,14 +305,28 @@ button[disabled] {
 }
 
 .autocompletition .list .entry {
-    padding: 3px;
+    padding: 3px 5px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    cursor: pointer;
 }
 
 .autocompletition .list .entry.selected {
-    background: #b4b4b4;
+    background: #666666;
+}
+
+.autocompletition .list .entry .type {
+    margin-left: 15px;
+    font-style: italic;
+}
+
+.autocompletition .list .entry[atype="object"] .type, .autocompletition .descriptions .description[atype="object"] .name {
+    color: #A6CE28;
+}
+
+.autocompletition .list .entry[atype="function"] .type, .autocompletition .descriptions .description[atype="function"] .name {
+    color: #66D9EF;
 }
 
 .autocompletition .descriptions {
@@ -322,10 +337,21 @@ button[disabled] {
 
 .autocompletition .descriptions .description {
     display: none;
+    background: #414141;
+    padding: 5px;
+    width: 200%;
 }
+
+.autocompletition .descriptions .description .name {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+
+
+
 
 .autocompletition input {
     position: absolute;
     left: -99999999px;
 }
-

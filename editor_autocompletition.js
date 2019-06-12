@@ -109,7 +109,7 @@ var AUTOCOMPLETE = ((global, $)=>{
         if(node.children){
             for(let [key, value] of Object.entries(node.children)) {
               if(!partLeft.length > 0 || key.indexOf(partLeft) >= 0){                
-                ret.push({name: key, type: value.type, description: value.description, full: path + '.' + key})
+                ret.push({name: key, type: value.type, description: value.description || '...', full: path + '.' + key})
               }
             }
         }
@@ -136,7 +136,7 @@ var AUTOCOMPLETE = ((global, $)=>{
         let left = cursor.left - containerpos.left
 
         $c.css({
-            'top': 'calc(' + top + 'px + ' + $('#code').css('font-size') + ')',
+            'top': top,//top + 'px + ' + $('#code').css('font-size'),
             'left': left + 3,
             'font-size': $('#code').css('font-size')
         })
@@ -190,7 +190,7 @@ function AutocompletitionElement(completitions, part){
     } else {
         let id = 0
         for(let c of completitions) {
-            let cdescription = $('<div class="description" aid="' + id + '" atype="' + c.type + '"><div class="name">' + c.name + '</div><div class="description">' + c.description + '</div></div>')
+            let cdescription = $('<div class="description" aid="' + id + '" atype="' + c.type + '"><div class="name">' + c.name + '</div><div class="text">' + c.description + '</div></div>')
             this.$descriptions.append(cdescription)
 
             let centry = $('<div class="entry" aid="' + id + '" afull="' + c.full + '" atype="' + c.type + '"><div class="name">' + c.name + '</div><div class="type">' + c.type + '</div></div>')
@@ -202,7 +202,10 @@ function AutocompletitionElement(completitions, part){
             id++
         }
         this.selected = 0
-        $(this.$list.find('.entry').get(0)).addClass('selected').focus()
+        $(this.$list.find('.entry').get(0)).addClass('selected').focus()        
+        setTimeout(()=>{
+            $('.description[aid="0"]').show()
+        }, 200)
     }
 
 
@@ -252,7 +255,7 @@ AutocompletitionElement.prototype.arrowDown = function() {
             $(it).addClass('selected').focus()
 
             this.$descriptions.find('.description').hide()
-            $('[aid="' + $(it).attr('aid') + '"]').show()
+            $('.description[aid="' + this.selected + '"]').show()
         }
     }
 }
@@ -269,7 +272,7 @@ AutocompletitionElement.prototype.arrowUp = function() {
         $(it).addClass('selected').focus()
         
         this.$descriptions.find('.description').hide()
-        $('[aid="' + $(it).attr('aid') + '"]').show()
+        $('[aid="' + this.selected + '"]').show()
     }
 }
 
