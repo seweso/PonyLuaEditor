@@ -301,8 +301,7 @@
                 return
             }
             if(typeof a !== 'number'){
-                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 4, 'expected number')
-                return
+                a = 255
             }
             MAP.setMapColorOcean(r, g, b, a)
         }
@@ -322,8 +321,7 @@
                 return
             }
             if(typeof a !== 'number'){
-                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 4, 'expected number')
-                return
+                a = 255
             }
             MAP.setMapColorShallows(r, g, b, a)
         }
@@ -343,8 +341,7 @@
                 return
             }
             if(typeof a !== 'number'){
-                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 4, 'expected number')
-                return
+                a = 255
             }
             MAP.setMapColorLand(r, g, b, a)
         }
@@ -364,8 +361,7 @@
                 return
             }
             if(typeof a !== 'number'){
-                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 4, 'expected number')
-                return
+                a = 255
             }
             MAP.setMapColorGrass(r, g, b, a)
         }
@@ -385,8 +381,7 @@
                 return
             }
             if(typeof a !== 'number'){
-                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 4, 'expected number')
-                return
+                a = 255
             }
             MAP.setMapColorSand(r, g, b, a)
         }
@@ -406,8 +401,7 @@
                 return
             }
             if(typeof a !== 'number'){
-                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 4, 'expected number')
-                return
+                a = 255
             }
             MAP.setMapColorSnow(r, g, b, a)
         }
