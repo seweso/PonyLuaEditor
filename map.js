@@ -1,5 +1,7 @@
 var MAP = ((global, c, $)=>{
 
+    const DO_LOG = false
+
     const FONT_SIZE = 6
     const FONT = 'px "Lucida Console", Monaco, monospace'
 
@@ -63,8 +65,8 @@ var MAP = ((global, c, $)=>{
             let centerx = MAP_ZERO_X + x
             let centery = MAP_ZERO_Y + y
 
-            let sWidth = unzoom(c.width()) / zom
-            let sHeight = unzoom(c.height()) / zom
+            let sWidth = c.width() / zom
+            let sHeight = c.height() / zom
             let sx = centerx - sWidth/2
             let sy = centery - sHeight/2
 
@@ -88,12 +90,12 @@ var MAP = ((global, c, $)=>{
             fakectx.clearRect(0, 0, fakecanvas.width, fakecanvas.height)
             fakectx.putImageData(imageData, 0, 0, 0, 0, fakecanvas.width, fakecanvas.height)
 
-            fakecanvas2.width = c.width()
-            fakecanvas2.height = c.height()
+            fakecanvas2.width = zoomn(c.width())
+            fakecanvas2.height = zoom(c.height())
 
             fakectx2.drawImage(fakecanvas, 0, 0, fakecanvas.width, fakecanvas.height, 0, 0, fakecanvas2.width, fakecanvas2.height)
 
-            c.ctx().drawImage(fakecanvas2, 0, 0, fakecanvas2.width, fakecanvas2.height, c.left(), c.top(), c.width(), c.height())
+            c.ctx().drawImage(fakecanvas2, 0, 0, fakecanvas2.width, fakecanvas2.height, c.left(), c.top(), zoom(c.width()), zoom(c.height()))
         } catch (err){
             console.error(err)
         }  
@@ -155,12 +157,20 @@ var MAP = ((global, c, $)=>{
         }
     }
 
+    const meterPerMapPixel = 50
     function screenToMap(mapX, mapY, zoom, screenW, screenH, pixelX, pixelY){
-
+        let screenCenterX = screenW/2
+        let screenCenterY = screenH/2
+        let deltaPixelX = (pixelX - screenCenterX) / zoom
+        let deltaPixelY = (pixelY - screenCenterY) / zoom
+        return [meterPerMapPixel * deltaPixelX + mapX, meterPerMapPixel * deltaPixelY + mapY]
     }
 
     function mapToScreen(mapX, mapY, zoom, screenW, screenH, worldX, worldY){
+        let pixelX = (worldX - mapX) * zoom / meterPerMapPixel + screenW/2
+        let pixelY = (worldY - mapY) * zoom / meterPerMapPixel + screenH/2
 
+        return [pixelX, pixelY]
     }
 
     function reset(){
@@ -205,6 +215,9 @@ var MAP = ((global, c, $)=>{
     }
 
     function log(){
+        if(!DO_LOG){
+            return
+        }
         let args = []
         for(let a of arguments.callee.caller.arguments){
             args.push(a)

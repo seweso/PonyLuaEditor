@@ -1,5 +1,7 @@
 var PAINT = ((c)=>{
 
+    const DO_LOG = false
+
     const FONT_SIZE = 6
     const FONT = 'px "Lucida Console", Monaco, monospace'
 
@@ -31,12 +33,20 @@ var PAINT = ((c)=>{
 
     function drawCircle(x, y, r){
         log()
-
+        c.ctx().lineWidth = zoom(LINE_WIDTH)
+        c.ctx().beginPath()
+        c.ctx().arc(x, y, r, 0, 2 * Math.PI, true)
+        c.ctx().stroke()
+        c.ctx().closePath()
     }
 
     function drawCircleF(x, y, r){
         log()
-
+        c.ctx().lineWidth = zoom(LINE_WIDTH)
+        c.ctx().beginPath()
+        c.ctx().arc(x, y, r, 0, 2 * Math.PI, true)
+        c.ctx().fill()
+        c.ctx().closePath()
     }
 
     function drawRect(x, y, w, h){
@@ -53,12 +63,25 @@ var PAINT = ((c)=>{
 
     function drawTriangle(x1, y1, x2, y2, x3, y3){
         log()
+        c.ctx().lineWidth = zoom(LINE_WIDTH)
+        c.ctx().beginPath()
+        c.ctx().moveTo(c.left() + zoom(x1), c.top() + zoom(y1))
+        c.ctx().lineTo(c.left() + zoom(x2), c.top() + zoom(y2))
+        c.ctx().lineTo(c.left() + zoom(x3), c.top() + zoom(y3))
+        c.ctx().stroke()
+        c.ctx().closePath()
 
     }
 
     function drawTriangleF(x1, y1, x2, y2, x3, y3){
         log()
-
+        c.ctx().lineWidth = zoom(LINE_WIDTH)
+        c.ctx().beginPath()
+        c.ctx().moveTo(c.left() + zoom(x1), c.top() + zoom(y1))
+        c.ctx().lineTo(c.left() + zoom(x2), c.top() + zoom(y2))
+        c.ctx().lineTo(c.left() + zoom(x3), c.top() + zoom(y3))
+        c.ctx().fill()
+        c.ctx().closePath()
     }
 
     function drawText(x, y, text){//4px wide 5 px tall
@@ -69,7 +92,8 @@ var PAINT = ((c)=>{
 
     function drawTextBox(x, y, w, h, text, h_align, v_align){
         log()
-
+        c.ctx().font = zoom(FONT_SIZE) + FONT
+        c.ctx().fillText(text,c.left() + zoom(x)+(zoom(rectWidth)/2)*h_align,c.top() + zoom(y) + zoom(FONT_SIZE)+(zoom(rectHeight)/2)*v_align);
     }
 
     /* helper functions */
@@ -79,6 +103,9 @@ var PAINT = ((c)=>{
     }
 
     function log(){
+        if(!DO_LOG){
+            return
+        }
         let args = []
         for(let a of arguments.callee.caller.arguments){
             args.push(a)

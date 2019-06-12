@@ -62,7 +62,7 @@ var AUTOCOMPLETE = ((global, $)=>{
                     drawTextBox: {
                         type: TF,
                         args: '(x, y, width, height, text, h_align, v_align)',
-                        description: 'Draw text within a rectangle at (x,y) with widht and height. Text alignment can be specified using the last two parameters and ranges from -1 to 1 (left to right, top to bottom). If either of the alignment paramters are omitted, the text will be drawn top-left by default. Text will automatically wrap at spaces when possible, and will overflow the top/bottom of the specified rectangle if too large.'
+                        description: 'Draw text within a rectangle at (x,y) with widht and height. Text alignment can be specified using the last two parameters and ranges from -1 to 1 (left to right, top to bottom). If either of the alignment paramters are omitted, the text will be drawn top-left by default. Text will automatically wrap at spaces when possible, and will overflow the top/bottom of the specified rectangle if too large. THIS IS NOT FULLY SUPPORTED IN THIS EDITOR!'
                     },
                     drawMap: {
                         type: TF,
@@ -290,7 +290,7 @@ var AUTOCOMPLETE = ((global, $)=>{
     function getWordInFrontOfPosition(row, column){
         let line = editor.session.getLine(row)
         let lineUntilPosition = line.substring(0, column)
-        let matches = lineUntilPosition.match(/(.* )?([^\s]*)/)
+        let matches = lineUntilPosition.match(/(.*[\s(])?([^\s\(]*)/)
         if(matches instanceof Array === false || matches.length !== 3){
             return ''
         }

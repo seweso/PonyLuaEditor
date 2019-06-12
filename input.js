@@ -60,9 +60,9 @@ var INPUT = ((global, $)=>{
 
         if(typeof store.numbers === 'object' && store.numbers !== null){
             for(let k of Object.keys(store.numbers)){
-                let n = parseInt(store.numbers[k])
+                let n = parseFloat(store.numbers[k])
                 if(isNaN(n)){
-                    n = parseFloat(store.numbers[k])
+                    n = parseInt(store.numbers[k])
                 }
                 if(isNaN(n)){
                     return
@@ -148,9 +148,9 @@ var INPUT = ((global, $)=>{
         }
         numbers[label] = typeof val === 'number' ? val : 0
         let number = addNew('number', 'number', label, (e)=>{
-            let n = parseInt($(e.target).val())
+            let n = parseFloat($(e.target).val())
             if(isNaN(n)){
-                n = parseFloat($(e.target).val())
+                n = parseInt($(e.target).val())
             }
             if(isNaN(n)){
                 return
@@ -174,7 +174,7 @@ var INPUT = ((global, $)=>{
         } else if (val !== undefined && val !== null ){
             valtext = 'value="'+val+'"'
         }
-        let neww = $('<div class="' + type + '"><label for="input_' + type + '_' + label + '">'+label+'</label><input type="' + inputType + '" id="input_' + type + '_' + label + '" ' + valtext + '/><button>x</button></div>')
+        let neww = $('<div class="' + type + '"><label for="input_' + type + '_' + label + '">'+label+'</label><input type="' + inputType + '" ' + (inputType === 'number' ? 'step="0.000001"': '') + ' id="input_' + type + '_' + label + '" ' + valtext + '/><button>x</button></div>')
         neww.find('input').on('change', (e)=>{
             changeCallback(e)
             saveToStorage()

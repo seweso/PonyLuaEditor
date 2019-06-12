@@ -1,5 +1,7 @@
 var LUA_EMULATOR = ((global, $)=>{
     
+    const DO_LOG = false
+
     let supportedFunctions = {}
     let namespaces = {}
 
@@ -188,7 +190,7 @@ var LUA_EMULATOR = ((global, $)=>{
             fengari.lua.lua_pushnil(l)
             return 1
         } else if (ob instanceof Object){
-            for(let k of Object.keys()){
+            for(let k of Object.keys(ob)){
                 pushToStack(l, k)
                 pushToStack(l, ob[k])
                 fengari.lua.lua_settable(l, l.stack.top)
@@ -239,6 +241,9 @@ var LUA_EMULATOR = ((global, $)=>{
     }
 
     function log(){
+        if(!DO_LOG){
+            return
+        }
         let args = []
         for(let a of arguments.callee.caller.arguments){
             args.push(a)

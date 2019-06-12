@@ -27,8 +27,8 @@ var CANVAS = ((global, $)=>{
         let showOverflow = $('#show-overflow').prop('checked')
         let dim = getCanvasDimensions(size)
 
-        width = dim.width
-        height = dim.height
+        width = unzoom(dim.width)
+        height = unzoom(dim.height)
         top = showOverflow ? 32 : 0
         left = showOverflow ? 32 : 0
 
@@ -63,9 +63,17 @@ var CANVAS = ((global, $)=>{
         }
         let ret =  SIZES[size]
         return {
-            width: ret.width * zoomFactor,
-            height: ret.height * zoomFactor
+            width: zoom(ret.width),
+            height: zoom(ret.height)
         }
+    }
+
+    function zoom(val){
+        return val * zoomFactor
+    }
+
+    function unzoom(val){
+        return val / zoomFactor
     }
 
     function setZoomFactor(_zoomFactor){
