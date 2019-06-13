@@ -139,6 +139,17 @@ button[disabled] {
     padding: 0;
 }
 
+#controls {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 30px;
+    align-items: center;
+}
+
+#controls button {
+    margin: 0 10px 0 0;
+}
+
 #editor {
     
 }
@@ -465,4 +476,91 @@ button[disabled] {
 .autocompletition input {
     position: absolute;
     left: -99999999px;
+}
+
+/* share */
+
+.share {
+    background: linear-gradient(15deg, #0194E2aa 0%, #792692aa 100%);
+    box-shadow: 1px 0px 3px 1px #0194E277;
+    color: #fff;
+    border-radius: 10px;
+    padding: 10px 25px;
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-left: auto;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+}
+
+.share:not(.isopen):hover {
+    background: linear-gradient(15deg, #4db4eaaa 0%, #a167b2aa 100%);
+}
+
+
+.share .inner, .share .outer {
+   overflow: hidden;
+   position: relative;
+   top: 0;
+}
+
+.share .close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    transition: all 0.2s ease 0s;
+    opacity: 0;
+    line-height: 0;
+    height: 20px;
+    width: 20px;
+    text-align: center;
+    background: #0004;
+    color: #fff;
+    border-bottom-left-radius: 10px;
+    line-height: 17px;
+}
+
+.share .close:hover {
+    background: #fff4;
+    color: #0004;
+}
+
+.share.isopen .close {
+    opacity: 1;
+}
+
+.share .open, .share .close {
+    cursor: pointer;
+}
+
+.share .inner {
+    display: flex;
+    flex-direction: column;
+}
+
+.share .docreate, .share .doreceive {
+    background: #0004;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 3px;
+    margin-top: 10px;
+}
+
+.share:not(.has_share) .doreceive {
+    background: #dbdbdb;
+    background: #e7e7e7;
+    cursor: not-allowed;
+}
+
+.share .currentshare {
+    background: #000a;
+    border-radius: 3px;
+    border: none;
+    color: #fff;
+    font-size: 16px;
+    line-height: 16px;
+    padding: 6px 6px;
 }

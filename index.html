@@ -24,6 +24,7 @@
 
     <script type="text/javascript" src="jquery.js"></script>
     <script type="text/javascript" id="fengari-script" src="fengari_web.js"></script>
+    <script type="text/javascript" src="share.js"></script>
     <script type="text/javascript" src="script.js"></script>
     <script type="text/javascript" src="canvas.js"></script>
     <script type="text/javascript" src="paint.js"></script>
@@ -80,6 +81,21 @@
             <button id="start">Start</button>
             <button id="stop">Stop</button>
             <button id="reset">Reset all data</button>
+
+            <div id="share" class="share">
+                <span class="close">x</span>
+                <div class="outer">
+                    Share
+                </div>
+                <div class="inner">
+                    <div class="currentshare_container">
+                        <label>Pastebin-Code:</label>
+                        <input type="text" class="currentshare" name="currentshare"/>
+                    </div>
+                    <span class="docreate">Create New</span>
+                    <span class="doreceive">Receive existing</span>
+                </div>
+            </div>
         </div>
         <div id="code-container">
             <div id="code">
