@@ -35,7 +35,7 @@ var PAINT = ((c)=>{
         log()
         c.ctx().lineWidth = zoom(LINE_WIDTH)
         c.ctx().beginPath()
-        c.ctx().arc(x, y, r, 0, 2 * Math.PI, true)
+        c.ctx().arc(c.left() + zoom(x), c.top()+zoom(y), zoom(r), 0, 2 * Math.PI, true)
         c.ctx().stroke()
         c.ctx().closePath()
     }
@@ -44,7 +44,7 @@ var PAINT = ((c)=>{
         log()
         c.ctx().lineWidth = zoom(LINE_WIDTH)
         c.ctx().beginPath()
-        c.ctx().arc(x, y, r, 0, 2 * Math.PI, true)
+        c.ctx().arc(c.left() + zoom(x), c.top()+zoom(y), zoom(r), 0, 2 * Math.PI, true)
         c.ctx().fill()
         c.ctx().closePath()
     }
