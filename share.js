@@ -145,4 +145,8 @@ var SHARE = ((global, $)=>{
         console.log.apply(console, ['SHARE.' + arguments.callee.caller.name + '()'].concat(args))
     }
 
+    function error(msg){
+        alert('An error occured while sharing:' + msg)
+    }
+
 })(window, jQuery)
