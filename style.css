@@ -270,11 +270,14 @@ button[disabled] {
 /* information badges */
 #information {
     position: fixed;
-    bottom: 0;
-    right: 0;
+    bottom: 10px;
+    right: 10px;
     display: flex;
     flex-direction: column;
-    padding: 5px;
+    padding: 10px 20px;
+    text-align: center;
+    background: #000000aa;
+    border-radius: 10000px;
 }
 
 #information > * {
@@ -283,7 +286,20 @@ button[disabled] {
 
 #information a {
     color: #BF5421;
-    text-decoration: none;  
+    text-decoration: underline;  
+}
+
+.network {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+}
+
+.network img {
+    width: 2em;
+    height: 2em;
 }
 
 
