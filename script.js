@@ -12,8 +12,8 @@ var YYY = ((global, $)=>{
 
     $(global).on('load', init)
 
-    $(global).on('stormworks_lua_api_loaded', ()=>{
-  	
+    function init(){
+
         for(let name of Object.keys(AUTOCOMPLETE.AUTOCOMPLETITIONS.children)){
             let child = AUTOCOMPLETE.AUTOCOMPLETITIONS.children[name]
             printNode($('#functions'), child, name)
@@ -31,9 +31,6 @@ var YYY = ((global, $)=>{
                 }
             }
         }
-    })
-
-    function init(){
 
         global.noExitConfirm = false
 
