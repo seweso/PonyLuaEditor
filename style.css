@@ -177,6 +177,10 @@ button[disabled] {
     justify-content: space-between;
 }
 
+#autocompletition-hint {
+    margin: 0 10px;
+}
+
 #charactercount {
     font-weight: bold;
 }
