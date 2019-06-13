@@ -92,8 +92,15 @@ var PAINT = ((c)=>{
 
     function drawTextBox(x, y, w, h, text, h_align, v_align){
         log()
+        let maxCharsPerLine = Math.floor(w / 4)
+        if(maxCharsPerLine < text.length){
+            drawTextBox(x, y + FONT_SIZE, w, h, text.substring(maxCharsPerLine), h_align, v_align)
+            text = text.substring(0, maxCharsPerLine)
+        }
         c.ctx().font = zoom(FONT_SIZE) + FONT
-        c.ctx().fillText(text,c.left() + zoom(x)+(zoom(rectWidth)/2)*h_align,c.top() + zoom(y) + zoom(FONT_SIZE)+(zoom(rectHeight)/2)*v_align);
+        let xx = c.left() + zoom(x) + (zoom(w)/2) + (zoom(w)/2)*h_align
+        let yy = c.top() + zoom(y) + zoom(FONT_SIZE) + (zoom(h)/2) + (zoom(h)/2)*v_align
+        c.ctx().fillText(text, xx, yy);
     }
 
     /* helper functions */

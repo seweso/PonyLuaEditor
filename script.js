@@ -1,4 +1,4 @@
-((global, $)=>{
+var YYY = ((global, $)=>{
   "use strict";
 
 
@@ -100,37 +100,45 @@
     }
 
     function start(){
-      $('#start, #timeBetweenTicks, #timeBetweenDraws').prop('disabled', true)
-      $('#code-container').addClass('locked')
+        $('#start, #timeBetweenTicks, #timeBetweenDraws').prop('disabled', true)
+        $('#code-container').addClass('locked')
 	  	saveCodeInStorage()
 	  	$('#console').val('')
 	  	CANVAS.reset()
-      MAP.reset()
-      let code = editor.getValue()
+        MAP.reset()
+        let code = editor.getValue()
 	  	try {
 		  	let feng = fengari.load(code)
 	  		feng()
 	    } catch (err){
-		  	console.error(err)
-		  	$('#console').val( $('#console').val() + err)
+		  	LUA_EMULATOR.bluescreenError(fengari.L, 'error starting script', err)
 	    }
     	OUTPUT.refresh()
 
-      intervalTick = setInterval(doTick, timeBetweenTicks)
-      intervalDraw = setInterval(doDraw, timeBetweenDraws)
-      $('#stop').prop('disabled', false)
+        intervalTick = setInterval(doTick, timeBetweenTicks)
+        intervalDraw = setInterval(doDraw, timeBetweenDraws)
+        $('#stop').prop('disabled', false)
     }
 
     function stop(){
-      $('#stop').prop('disabled', true)
-      clearInterval(intervalTick)
-      clearInterval(intervalDraw)
+        $('#stop').prop('disabled', true)
+        clearInterval(intervalTick)
+        clearInterval(intervalDraw)
 
         LUA_EMULATOR.reset().then(()=>{
             $('#start, #timeBetweenTicks, #timeBetweenDraws').prop('disabled', false)
             $('#code-container').removeClass('locked')
         })
 
+    }
+
+    function errorStop(){
+        console.log('\nerror stop!!!\n')
+        clearInterval(intervalTick)
+        clearInterval(intervalDraw)
+        setTimeout(()=>{
+            stop()
+        }, 500)
     }
 
     function doTick(){
@@ -184,6 +192,10 @@
         return typeof str === 'string' ? str.length : 0
         /*let matches = str.match(/\n/g)
         return str.length + (matches ? matches.length : 0))*/
+    }
+
+    return {
+        errorStop: errorStop
     }
 
 })(window, jQuery)

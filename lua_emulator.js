@@ -263,7 +263,15 @@ var LUA_EMULATOR = ((global, $)=>{
     }
 
     function bluescreenError(l, message, luaObject){
+        YYY.errorStop()
         console.error('LUA_EMULATOR.bluescreenError()', message, luaToString(luaObject))
+        setTimeout(()=>{
+            console.log('paint bluescreen error')
+            PAINT.setColor(0,0,255, 255)
+            PAINT.drawRectF(0,0,CANVAS.width(), CANVAS.height())
+            PAINT.setColor(255,255,255, 255)
+            PAINT.drawTextBox(2, 2, CANVAS.width(), CANVAS.height(), message + luaToString(luaObject), -1, -1)
+        }, 500)
     }
 
     function reset(){
@@ -322,6 +330,7 @@ var LUA_EMULATOR = ((global, $)=>{
 
     return {
         supportedFunctions: ()=>{return supportedFunctions},
+        bluescreenError: bluescreenError,
         makeFunctionAvailableInLua: makeFunctionAvailableInLua,
         makeFunctionAvailableInLuaViaName: makeFunctionAvailableInLuaViaName,
         callLuaFunction: callLuaFunction,
@@ -331,8 +340,8 @@ var LUA_EMULATOR = ((global, $)=>{
         l: ()=>{return l},
         tick: tick,
         draw: draw,
-        isInTick: ()=>{isInTick},
-        isInDraw: ()=>{isInDraw},
+        isInTick: ()=>{return isInTick},
+        isInDraw: ()=>{return isInDraw},
     }
 })(window, jQuery)
 
