@@ -24,6 +24,14 @@ var OUTPUT = ((global, $)=>{
         $(container).append(dom)
     }
 
+    function reset(){
+        bools = {}
+        numbers = {}
+
+        inputBools = {}
+        inputNumbers = {}
+    }
+
     function refresh(){
         bools = inputBools
         numbers = inputNumbers
@@ -38,9 +46,9 @@ var OUTPUT = ((global, $)=>{
         }
 
         for(let k of Object.keys(numbers)){
-            let n = parseInt(numbers[k])
+            let n = parseFloat(numbers[k])
             if(isNaN(n)){
-                n = parseFloat(numbers[k])
+                n = parseInt(numbers[k])
             }
             if(isNaN(n)){
                 return
@@ -88,7 +96,8 @@ var OUTPUT = ((global, $)=>{
         init: init,
         setBool: setBool,
         setNumber: setNumber,
-        refresh: refresh
+        refresh: refresh,
+        reset: reset
     }
 
 })(window, jQuery)

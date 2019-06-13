@@ -113,7 +113,7 @@ var YYY = ((global, $)=>{
 	    } catch (err){
 		  	LUA_EMULATOR.bluescreenError(fengari.L, 'error starting script', err)
 	    }
-    	OUTPUT.refresh()
+        OUTPUT.reset()
 
         intervalTick = setInterval(doTick, timeBetweenTicks)
         intervalDraw = setInterval(doDraw, timeBetweenDraws)
@@ -143,6 +143,7 @@ var YYY = ((global, $)=>{
 
     function doTick(){
         LUA_EMULATOR.tick()
+        OUTPUT.refresh()
     }
 
     function doDraw(){
