@@ -547,6 +547,12 @@ button[disabled] {
     padding: 5px 10px;
     border-radius: 3px;
     margin-top: 10px;
+    transition: all 0.2s ease 0s;
+}
+
+.share .docreate:hover, .share .doreceive:hover {
+    background: #fff4;
+    color: #000;
 }
 
 .share:not(.has_share) .doreceive {
@@ -563,4 +569,115 @@ button[disabled] {
     font-size: 16px;
     line-height: 16px;
     padding: 6px 6px;
+}
+
+.share:not(.has_share) .share_link {
+    display: none;
+}
+
+.share_link {
+    color: #fff;
+    text-decoration: none;
+    transition: all 0.2s ease 0s;
+}
+
+.share_link:hover {
+    color: #0194E2;
+}
+
+/* pastebin overlay */
+
+.pastebin_overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 10000;
+    background: #000c;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.pastebin_overlay .inner {
+    display: flex;
+    flex-direction: column;
+}
+
+.pastebin_overlay .circle {
+    background: linear-gradient(15deg, #F2DF17aa 0%, #6EBC88aa 100%);
+    box-shadow: 0px 0px 5px 3px #F2DF1777;
+    color: #000;
+    border-radius: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 80vw;
+    max-width: 250px;
+    height: 80vw;
+    max-height: 250px;
+    padding: 20%;
+    animation-duration: 3s;
+    animation-name: circle;
+    animation-iteration-count: infinite;
+}
+
+.pastebin_overlay .circle p {
+    text-align: center;
+    line-height: 150%;
+    font-weight: bold;
+    animation-duration: 3s;
+    animation-name: anticircle;
+    animation-iteration-count: infinite;
+}
+
+.pastebin_overlay .circle [dot] {
+    animation-iteration-count: infinite;
+    animation-duration: 2s;    
+}
+
+.pastebin_overlay .circle [dot="1"] {
+    animation-name: dot1;
+}
+
+.pastebin_overlay .circle [dot="2"] {
+    animation-name: dot2;
+}
+
+.pastebin_overlay .circle [dot="3"] {
+    animation-name: dot3;
+}
+
+@keyframes circle {
+    0% { background-color: #F2DF17 }
+    25% { background-color: #6EBC88 }
+    50% { background-color: #EE4A4B }
+    75% { background-color: #F4812E}
+    100% { background-color: #F2DF17 }
+}
+
+@keyframes dot1 {
+    0% { opacity: 0 }
+    25% { opacity: 0 }    
+    50% { opacity: 1 }
+    75% { opacity: 1 }
+    100% { opacity: 1 }
+}
+
+@keyframes dot2 {
+    0% { opacity: 0 }
+    25% { opacity: 0 }    
+    50% { opacity: 0 }
+    75% { opacity: 1 }
+    100% { opacity: 1 }
+}
+
+@keyframes dot3 {
+    0% { opacity: 0 }
+    25% { opacity: 0 }    
+    50% { opacity: 0 }
+    75% { opacity: 0 }
+    100% { opacity: 1 }
 }

@@ -14,7 +14,7 @@ var SHARE = ((global, $)=>{
     function init(){
         let stored = localStorage.getItem('share')
         if(typeof stored === 'string' && stored.length > 0){
-            currentShare = stored
+            setCurrentShare(stored)
         }
 
         let innerHeight = $('#share .inner').height()
@@ -67,16 +67,20 @@ var SHARE = ((global, $)=>{
 
 
         $('#share .currentshare').on('input', ()=>{
-            currentShare = $('#share .currentshare').val()
-            if(typeof currentShare === 'string' && currentShare.length > 0){
-                $('#share').addClass('has_share')
-                localStorage.setItem('share', currentShare)
-            } else {
-                $('#share').removeClass('has_share')
-            }
+            setCurrentShare( $('#share .currentshare').val() )
         })
+    }
+
+    function setCurrentShare(val){
+        currentShare = val
+        if(typeof currentShare === 'string' && currentShare.length > 0){
+            $('#share').addClass('has_share')
+            localStorage.setItem('share', currentShare)
+            $('#share .share_link').attr('href', 'https://pastebin.com/' + currentShare)
+        } else {
+            $('#share').removeClass('has_share')
+        }
         $('#share .currentshare').val(currentShare)
-        $('#share .currentshare').trigger('input')
     }
 
     function doCreate(){
@@ -86,6 +90,7 @@ var SHARE = ((global, $)=>{
             return
         }
         log('creating new share')
+        $('#pastebin-create-overlay').show()
         $.post('https://cors.io/?https://pastebin.com/api/api_post.php', {
             api_dev_key: API_DEV_KEY,
             api_option: 'paste',
@@ -96,12 +101,12 @@ var SHARE = ((global, $)=>{
             api_paste_expire_date: PASTE_EXPIRE_DATE
         }).done((data)=>{
             let id = ("" + data).replace('https://pastebin.com/', '')
-            currentShare = id
-            $('#share .currentshare').val(currentShare)
-            $('#share .currentshare').trigger('input')
+            setCurrentShare(id)
         }).fail((e)=>{
             console.error(e)
             error('Cannot share via pastebin')
+        }).always(()=>{
+            $('#pastebin-create-overlay').hide()
         })
     }
 
@@ -111,11 +116,14 @@ var SHARE = ((global, $)=>{
             return
         }
         log('receiving share', currentShare)
+        $('#pastebin-receive-overlay').show()
         $.get('https://cors.io/?https://pastebin.com/raw/' + encodeURIComponent(currentShare)).done((data)=>{
             editor.setValue(data)
         }).fail((e)=>{
             console.error(e)
             error('Cannot get data from pastebin')
+        }).always(()=>{
+            $('#pastebin-receive-overlay').hide()
         })
     }
 
