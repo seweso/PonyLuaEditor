@@ -58,7 +58,6 @@ var MAP = ((global, c, $)=>{
     let matches = {}
 
     function drawMap(x, y, zom){//zom from 0.1 to 50
-        console.time('drawMap')
         matches = {}
         let currentFillStyle = c.ctx().fillStyle
         try {
@@ -90,7 +89,7 @@ var MAP = ((global, c, $)=>{
             fakectx.clearRect(0, 0, fakecanvas.width, fakecanvas.height)
             fakectx.putImageData(imageData, 0, 0, 0, 0, fakecanvas.width, fakecanvas.height)
 
-            fakecanvas2.width = zoomn(c.width())
+            fakecanvas2.width = zoom(c.width())
             fakecanvas2.height = zoom(c.height())
 
             fakectx2.drawImage(fakecanvas, 0, 0, fakecanvas.width, fakecanvas.height, 0, 0, fakecanvas2.width, fakecanvas2.height)
@@ -100,7 +99,6 @@ var MAP = ((global, c, $)=>{
             console.error(err)
         }  
         c.ctx().fillStyle = currentFillStyle
-        console.timeEnd('drawMap')
     }
 
     function setMapColorOcean(r, g, b, a){
@@ -202,7 +200,9 @@ var MAP = ((global, c, $)=>{
         })
         let bestMatch = colors[distances[0].key]
         matches[r+','+g+','+b] = bestMatch
-        console.log('bestMatch for ', r, g, b, 'is', distances[0].key, bestMatch)
+        if(DO_LOG){
+            console.log('bestMatch for ', r, g, b, 'is', distances[0].key, bestMatch)
+        }
         return bestMatch
     }
 

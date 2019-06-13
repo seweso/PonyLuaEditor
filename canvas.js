@@ -1,6 +1,8 @@
 var CANVAS = ((global, $)=>{
     "use strict";
 
+    const DO_LOG = false
+
     let zoomFactor = 1
 
     let $canvas
@@ -44,7 +46,9 @@ var CANVAS = ((global, $)=>{
     }
  
     function reset(){
-        console.log('resetting canvas')
+        if(DO_LOG){
+            console.log('resetting canvas')
+        }
         ctx.clearRect(0, 0, $canvas.get(0).width, $canvas.get(0).height)
     }
 
