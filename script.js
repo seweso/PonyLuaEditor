@@ -47,7 +47,7 @@ var YYY = ((global, $)=>{
             if(confirm('Are you sure? This will also remove the code in the editor!')){
                 localStorage.clear()
                 global.noExitConfirm = true
-                document.location.reload()
+                document.location = document.location.href.split('?')[0]
             }
         })
 	  	$('#console').val('')

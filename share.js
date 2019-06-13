@@ -69,6 +69,13 @@ var SHARE = ((global, $)=>{
         $('#share .currentshare').on('input', ()=>{
             setCurrentShare( $('#share .currentshare').val() )
         })
+
+        let params = new URLSearchParams( document.location.search)
+        let paramid = params.get('id')
+        if(paramid){
+            setCurrentShare(paramid)
+            doReceive()
+        }
     }
 
     function setCurrentShare(val){
@@ -102,6 +109,7 @@ var SHARE = ((global, $)=>{
         }).done((data)=>{
             let id = ("" + data).replace('https://pastebin.com/', '')
             setCurrentShare(id)
+            window.history.pushState(null, 'Stormworks Lua', document.location.href.split('?')[0] + '?id=' + id);
         }).fail((e)=>{
             console.error(e)
             error('Cannot share via pastebin')
