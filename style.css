@@ -444,6 +444,10 @@ button[disabled] {
     margin-top: 5px;
 }
 
+.value_list .number .settings .group input + label {
+    margin-left: 5px;
+}
+
 .value_list .number:not(.isslider) .settings {
     display: none;
 }
