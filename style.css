@@ -248,6 +248,10 @@ button[disabled] {
     white-space: nowrap;
 }
 
+#functions .node .information .url {
+    margin-left: 6px;
+}
+
 #functions .node .information .text {
     margin-left: 20px;
     color: #b1b1b1;
@@ -447,17 +451,22 @@ button[disabled] {
     color: #66D9EF;
 }
 
+.autocompletition .list .entry[isstormworks="true"] {
+    background: #3e2215;
+}
+
 .autocompletition .descriptions {
     position: absolute;
     top: 0;
     left: 100%;
+    min-width: 100px;
+    max-width: 90vw;
 }
 
 .autocompletition .descriptions .description {
     display: none;
     background: #414141;
     padding: 8px;
-    width: 200%;
     font-size: 120%;
     line-height: 120%;
 }
@@ -476,6 +485,14 @@ button[disabled] {
 .autocompletition input {
     position: absolute;
     left: -99999999px;
+}
+
+.autocompletition .descriptions .description .is_stormworks {
+    color: #bf5421;
+}
+
+.autocompletition .description[isstormworks="true"] {
+    background: #391909;
 }
 
 /* share */

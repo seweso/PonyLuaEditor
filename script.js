@@ -14,13 +14,14 @@ var YYY = ((global, $)=>{
 
     function init(){
 
-        for(let name of Object.keys(AUTOCOMPLETE.AUTOCOMPLETITIONS.children)){
-            let child = AUTOCOMPLETE.AUTOCOMPLETITIONS.children[name]
+        let autocompletitions = AUTOCOMPLETE.getAllAUTOCOMPLETITIONSParsed()
+        for(let name of Object.keys(autocompletitions.children)){
+            let child = autocompletitions.children[name]
             printNode($('#functions'), child, name)
         }
 
         function printNode(container, node, name){
-            let me = $('<div class="node" ntype="' + node.type + '"><div class="information"><div class="name">' + name + '</div><div class="args">' + (node.args || '') + '</div><div class="text">' + node.description + '</div></div></div>')
+            let me = $('<div class="node" ntype="' + node.type + '" isstormworks="' + (node.is_stormworks ? 'true' : 'false') + '"><div class="information"><div class="name">' + name + '</div><div class="args">' + (node.args || '') + '</div>' + (node.url ? '<div class="url">' + node.url + '</div>' : '') + '<div class="text">' + node.description + '</div></div></div>')
             container.append(me)
             if(node.children){
                 let childcontainer = $('<div class="children"></div>')
@@ -104,6 +105,7 @@ var YYY = ((global, $)=>{
 	  	CANVAS.reset()
         MAP.reset()
         let code = editor.getValue()
+        console.log('running code...')
 	  	try {
 		  	let feng = fengari.load(code)
 	  		feng()
