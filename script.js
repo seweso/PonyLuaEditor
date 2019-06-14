@@ -14,6 +14,10 @@ var YYY = ((global, $)=>{
 
     function init(){
 
+        if(document.location.pathname.indexOf('beta') || document.location.host === 'localhost'){
+            $('#beta').show()
+        }
+
         let autocompletitions = AUTOCOMPLETE.getAllAUTOCOMPLETITIONSParsed()
         for(let name of Object.keys(autocompletitions.children)){
             let child = autocompletitions.children[name]
@@ -110,6 +114,9 @@ var YYY = ((global, $)=>{
 		  	let feng = fengari.load(code)
 	  		feng()
 	    } catch (err){
+            if(err instanceof SyntaxError){
+                err = err.message
+            }
 		  	LUA_EMULATOR.bluescreenError(fengari.L, 'error', err)
 	    }
         OUTPUT.reset()
@@ -142,6 +149,7 @@ var YYY = ((global, $)=>{
 
     function doTick(){
         LUA_EMULATOR.tick()
+        $(global).trigger('lua_tick')
         OUTPUT.refresh()
     }
 

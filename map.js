@@ -64,8 +64,8 @@ var MAP = ((global, c, $)=>{
             let centerx = MAP_ZERO_X + x
             let centery = MAP_ZERO_Y + y
 
-            let sWidth = c.width() / zom
-            let sHeight = c.height() / zom
+            let sWidth = Math.max(c.width() / zom, 1)
+            let sHeight = Math.max(c.height() / zom, 1)
             let sx = centerx - sWidth/2
             let sy = centery - sHeight/2
 

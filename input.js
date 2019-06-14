@@ -39,7 +39,7 @@ var INPUT = ((global, $)=>{
             if(isNaN(n)){
                 return
             }
-            addNewNumber(n)
+            addNewNumber(n, "0")
         })
         dom_numbers.find('.head').append(dom_numbers_add)
         dom.append(dom_numbers)
@@ -156,6 +156,8 @@ var INPUT = ((global, $)=>{
                 return
             }
             numbers[label] = n
+            number.find('.change input').val(n)
+            number.find('.slidervalue').html(n)
             refreshNumbersAddSelect()
         }, (e)=>{
             numbers[label] = 0
@@ -163,8 +165,99 @@ var INPUT = ((global, $)=>{
             $(e.target).parent().remove()
             refreshNumbersAddSelect()
         }, val)
+
+        let openSettings = $('<button>&equiv;</button>')
+        let settings = $('<div class="settings"></div>')
+        openSettings.on('click', ()=>{
+            settings.toggle()
+        })
+        openSettings.insertBefore(number.find('button'))
+
+        let slider = $('<div class="group"><div><input type="checkbox" class="slider_check"/><label>Use slider</label></div><div><input type="number" class="slider_min" value="-10"/><label>Min</label></div><div><input type="number" class="slider_max" value="10"/><label>Max</label></div><div><input type="number" class="slider_step" value="0.1"/><label>Step</label></div></div>')
+        settings.append(slider)
+        let slidercheck = slider.find('.slider_check')
+        slidercheck.on('input', ()=>{
+            if(slidercheck.prop('checked')){
+                number.addClass('isslider')
+            } else {
+                number.removeClass('isslider')
+            }
+        })
+        let slidermin = slider.find('.slider_min')
+        slidermin.on('input', ()=>{
+            number.find('input[type="range"]').prop('min', slidermin.val()).trigger('change')
+        })
+        let slidermax = slider.find('.slider_max')
+        slidermax.on('input', ()=>{
+            number.find('input[type="range"]').prop('max', slidermax.val()).trigger('change')
+        })
+        let sliderstep = slider.find('.slider_step')
+        sliderstep.on('input', ()=>{
+            number.find('input[type="range"]').prop('step', sliderstep.val()).trigger('change')
+        })
+
+        let oscilate = $('<div class="group"><div><input type="checkbox" class="oscilate_check"/><label>Use oscilate</label></div></div>')
+        settings.append(oscilate)
+        let oscilatecheck = oscilate.find('.oscilate_check')
+        oscilatecheck.on('input', ()=>{
+            if(oscilatecheck.prop('checked')){
+                number.addClass('isoscilate')
+            } else {
+                number.removeClass('isoscilate')
+            }
+        })
+
+        let myOscilateDirection = true
+
+        $(global).on('lua_tick', ()=>{
+            if(oscilatecheck.prop('checked')){
+                let val = number.find('.change input[type="number"]').val()
+                val = parseFloat(val)
+                if(isNaN(val)){
+                    val = parseInt(val)
+                }
+                if(isNaN(val)){
+                    return
+                }
+
+                let step = sliderstep.val()
+                step = parseFloat(step)
+                if(isNaN(step)){
+                    step = parseInt(step)
+                }
+                if(isNaN(step)){
+                    return
+                }
+
+                val = precise(myOscilateDirection ? val + step : val - step, step.toString().length - step.toString().indexOf('.'))
+
+
+                if(val >= slidermax.val()){
+                    myOscilateDirection = false
+                    val = slidermax.val()
+                } else if (val <= slidermin.val()){
+                    myOscilateDirection = true
+                    val = slidermin.val()
+                }
+
+                numbers[label] = val
+                number.find('.change input').val(val)
+                number.find('.slidervalue').html(val)
+                refreshNumbersAddSelect()
+            }
+        })
+
+
+        number.append(settings)
+
         dom_numbers.append(number)
         refreshNumbersAddSelect()
+    }
+
+    function precise(float, precision){
+        const mult = Math.pow(10, precision)
+        let ret =  Math.round(float * mult) / mult
+        return ret
     }
 
     function addNew(type, inputType, label, changeCallback, removeCallback, val){
@@ -174,8 +267,8 @@ var INPUT = ((global, $)=>{
         } else if (val !== undefined && val !== null ){
             valtext = 'value="'+val+'"'
         }
-        let neww = $('<div class="' + type + '"><label for="input_' + type + '_' + label + '">'+label+'</label><input type="' + inputType + '" ' + (inputType === 'number' ? 'step="0.000001"': '') + ' id="input_' + type + '_' + label + '" ' + valtext + '/><button>x</button></div>')
-        neww.find('input').on('change', (e)=>{
+        let neww = $('<div class="' + type + '"><div class="change"><label class="channel" for="input_' + type + '_' + label + '">'+label+'</label><input type="' + inputType + '" ' + (inputType === 'number' ? 'step="0.1"': '') + ' id="input_' + type + '_' + label + '" ' + valtext + '/>' + (inputType === 'number' ? '<input type="range" min="-10" max="10" value="0" step="0.1"/><label class="slidervalue">0</label>': '') + '<button>x</button></div></div>')
+        neww.find('input').on('change input', (e)=>{
             changeCallback(e)
             saveToStorage()
         })
