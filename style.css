@@ -50,7 +50,7 @@ button[disabled] {
     height: 100vh;
     z-index: -1;
     background-color: #333;
-    /*background-image: url('background.jpg');*/
+    background-image: url('background.jpg');
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;  
@@ -63,7 +63,7 @@ button[disabled] {
     min-height: 100vh;
 }
 
-#selection, #top, #editor, #out, #functions {
+#selection, #top, #editor, #out, #documentation {
     padding: 20px;
 }
 
@@ -205,8 +205,8 @@ button[disabled] {
     z-index: 10;
 }
 
-#out {
-
+#out h3 {
+    color: #fff;
 }
 
 #console {
@@ -219,56 +219,76 @@ button[disabled] {
     border-radius: 3px;
 }
 
-#functions {
+#documentation {
     
 }
 
-#functions .node {
+#documentation .node {
     display: flex;
     flex-direction: column;
     margin-bottom: 1em;
+    padding: 5px;
+    border-radius: 3px;
 }
 
-#functions .node .information {
+#documentation .node[isstormworks="true"] {
+    background: #28160e;
+}
+
+#documentation .node .information {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
 }
 
-#functions .node .information .left {
+#documentation .node .information .left {
     width: 200px;
 }
 
-#functions .node .information .name {
+#documentation .node .information .name {
     font-weight: bold;
 }
 
-#functions .node .information .args {
+#documentation .node .information .args {
     margin-left: 2px;
     white-space: nowrap;
 }
 
-#functions .node .information .text {
+#documentation .node .information .is_stormworks {
+    margin-left: 6px;
+    color: #bf5421!important;
+}
+
+#documentation .node .information .url {
+    margin-left: 6px;
+}
+
+#documentation .node .information .text {
     margin-left: 20px;
     color: #b1b1b1;
 }
 
-#functions .node .children {
+#documentation .node .children {
     padding-left: 20px;
     margin-top: 1em;
 }
 
-#functions .node[ntype="object"] .name {
+#documentation .node[ntype="object"] .name {
     color: #A6CE28;
 }
 
-#functions .node[ntype="function"] .name {
+#documentation .node[ntype="function"] .name {
     color: #66D9EF;
 }
 
+#documentation a {
+    color: #bf5421!important;
+}
+
+
 /* informaton containers */
 .information_container {
-    background: #000000aa;
+    background: #000000dd;
     border-radius: 3px;
     color: #fff;
     padding: 10px;
@@ -289,10 +309,12 @@ button[disabled] {
     right: 10px;
     display: flex;
     flex-direction: column;
-    padding: 10px 20px;
+    padding: 5px 15px;
     text-align: center;
-    background: #000000aa;
     border-radius: 10000px;
+    background: linear-gradient(15deg, #EE4A4B 0%, #F4812E 100%);
+    box-shadow: 0px 0px 3px 2px #EE4A4B77;
+    font-size: 80%;
 }
 
 #information > * {
@@ -300,7 +322,7 @@ button[disabled] {
 }
 
 #information a {
-    color: #BF5421;
+    color: #fff;
     text-decoration: underline;  
 }
 
@@ -447,17 +469,22 @@ button[disabled] {
     color: #66D9EF;
 }
 
+.autocompletition .list .entry[isstormworks="true"] {
+    background: #3e2215;
+}
+
 .autocompletition .descriptions {
     position: absolute;
     top: 0;
     left: 100%;
+    min-width: 100px;
+    max-width: 90vw;
 }
 
 .autocompletition .descriptions .description {
     display: none;
     background: #414141;
     padding: 8px;
-    width: 200%;
     font-size: 120%;
     line-height: 120%;
 }
@@ -476,6 +503,18 @@ button[disabled] {
 .autocompletition input {
     position: absolute;
     left: -99999999px;
+}
+
+.autocompletition .descriptions .description .is_stormworks {
+    color: #bf5421;
+}
+
+.autocompletition .description[isstormworks="true"] {
+    background: #391909;
+}
+
+.autocompletition a {
+    color: #bf5421!important;
 }
 
 /* share */

@@ -37,6 +37,10 @@
         LUA_EMULATOR.makeFunctionAvailableInLua(getHeight, 'screen')
 
         function setColor(r, g, b, a){
+            if(!LUA_EMULATOR.isInDraw()){
+                fengari.lauxlib.luaL_error(LUA_EMULATOR.l(), 'screen can only be called from within onDraw()')
+                return
+            }
             if(typeof r !== 'number'){
                 fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 1, 'expected number')
                 return
@@ -56,10 +60,6 @@
             if(typeof a !== 'number'){
                 a = 255
             }
-            if(!LUA_EMULATOR.isInDraw()){
-                fengari.lauxlib.luaL_error(LUA_EMULATOR.l(), 'screen can only be called from within onDraw()')
-                return
-            }
             PAINT.setColor(r, g, b, a)
         }
         LUA_EMULATOR.makeFunctionAvailableInLua(setColor, 'screen')
@@ -74,6 +74,10 @@
         LUA_EMULATOR.makeFunctionAvailableInLua(drawClear, 'screen')
 
         function drawLine(x1, y1, x2, y2){
+            if(!LUA_EMULATOR.isInDraw()){
+                fengari.lauxlib.luaL_error(LUA_EMULATOR.l(), 'screen can only be called from within onDraw()')
+                return
+            }
             if(typeof x1 !== 'number'){
                 fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 1, 'expected number')
                 return
@@ -90,15 +94,15 @@
                 fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 4, 'expected number')
                 return
             }
-            if(!LUA_EMULATOR.isInDraw()){
-                fengari.lauxlib.luaL_error(LUA_EMULATOR.l(), 'screen can only be called from within onDraw()')
-                return
-            }
             PAINT.drawLine(x1, y1, x2, y2)
         }
         LUA_EMULATOR.makeFunctionAvailableInLua(drawLine, 'screen')
 
         function drawCircle(x, y, r){
+            if(!LUA_EMULATOR.isInDraw()){
+                fengari.lauxlib.luaL_error(LUA_EMULATOR.l(), 'screen can only be called from within onDraw()')
+                return
+            }
             if(typeof x !== 'number'){
                 fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 1, 'expected number')
                 return
@@ -109,10 +113,6 @@
             }
             if(typeof r !== 'number'){
                 fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 3, 'expected number')
-                return
-            }
-            if(!LUA_EMULATOR.isInDraw()){
-                fengari.lauxlib.luaL_error(LUA_EMULATOR.l(), 'screen can only be called from within onDraw()')
                 return
             }
             PAINT.drawCircle(x, y, r)
@@ -120,6 +120,10 @@
         LUA_EMULATOR.makeFunctionAvailableInLua(drawCircle, 'screen')
 
         function drawCircleF(x, y, r){
+            if(!LUA_EMULATOR.isInDraw()){
+                fengari.lauxlib.luaL_error(LUA_EMULATOR.l(), 'screen can only be called from within onDraw()')
+                return
+            }
             if(typeof x !== 'number'){
                 fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 1, 'expected number')
                 return
@@ -132,15 +136,15 @@
                 fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 3, 'expected number')
                 return
             }
-            if(!LUA_EMULATOR.isInDraw()){
-                fengari.lauxlib.luaL_error(LUA_EMULATOR.l(), 'screen can only be called from within onDraw()')
-                return
-            }
             PAINT.drawCircleF(x, y, r)
         }
         LUA_EMULATOR.makeFunctionAvailableInLua(drawCircleF, 'screen')
 
         function drawRect(x, y, w, h){
+            if(!LUA_EMULATOR.isInDraw()){
+                fengari.lauxlib.luaL_error(LUA_EMULATOR.l(), 'screen can only be called from within onDraw()')
+                return
+            }
             if(typeof x !== 'number'){
                 fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 1, 'expected number')
                 return
@@ -155,10 +159,6 @@
             }
             if(typeof h !== 'number'){
                 fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 4, 'expected number')
-                return
-            }
-            if(!LUA_EMULATOR.isInDraw()){
-                fengari.lauxlib.luaL_error(LUA_EMULATOR.l(), 'screen can only be called from within onDraw()')
                 return
             }
             PAINT.drawRect(x, y, w, h)
@@ -166,6 +166,10 @@
         LUA_EMULATOR.makeFunctionAvailableInLua(drawRect, 'screen')
 
         function drawRectF(x, y, w, h){
+            if(!LUA_EMULATOR.isInDraw()){
+                fengari.lauxlib.luaL_error(LUA_EMULATOR.l(), 'screen can only be called from within onDraw()')
+                return
+            }
             if(typeof x !== 'number'){
                 fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 1, 'expected number')
                 return
@@ -182,15 +186,15 @@
                 fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 4, 'expected number')
                 return
             }
-            if(!LUA_EMULATOR.isInDraw()){
-                fengari.lauxlib.luaL_error(LUA_EMULATOR.l(), 'screen can only be called from within onDraw()')
-                return
-            }
             PAINT.drawRectF(x, y, w, h)
         }
         LUA_EMULATOR.makeFunctionAvailableInLua(drawRectF, 'screen')
 
         function drawTriangle(x1, y1, x2, y2, x3, y3){
+            if(!LUA_EMULATOR.isInDraw()){
+                fengari.lauxlib.luaL_error(LUA_EMULATOR.l(), 'screen can only be called from within onDraw()')
+                return
+            }
             if(typeof x1 !== 'number'){
                 fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 1, 'expected number')
                 return
@@ -215,15 +219,15 @@
                 fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 6, 'expected number')
                 return
             }
-            if(!LUA_EMULATOR.isInDraw()){
-                fengari.lauxlib.luaL_error(LUA_EMULATOR.l(), 'screen can only be called from within onDraw()')
-                return
-            }
             PAINT.drawTriangle(x1, y1, x2, y2, x3, y3)
         }
         LUA_EMULATOR.makeFunctionAvailableInLua(drawTriangle, 'screen')
 
         function drawTriangleF(x1, y1, x2, y2, x3, y3){
+            if(!LUA_EMULATOR.isInDraw()){
+                fengari.lauxlib.luaL_error(LUA_EMULATOR.l(), 'screen can only be called from within onDraw()')
+                return
+            }
             if(typeof x1 !== 'number'){
                 fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 1, 'expected number')
                 return
@@ -253,6 +257,10 @@
         LUA_EMULATOR.makeFunctionAvailableInLua(drawTriangleF, 'screen')
 
         function drawText(x, y, text){
+            if(!LUA_EMULATOR.isInDraw()){
+                fengari.lauxlib.luaL_error(LUA_EMULATOR.l(), 'screen can only be called from within onDraw()')
+                return
+            }
             if(typeof x !== 'number'){
                 fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 1, 'expected number')
                 return
@@ -265,15 +273,15 @@
                 fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 3, 'expected string')
                 return
             }
-            if(!LUA_EMULATOR.isInDraw()){
-                fengari.lauxlib.luaL_error(LUA_EMULATOR.l(), 'screen can only be called from within onDraw()')
-                return
-            }
             PAINT.drawText(x, y, text)
         }
         LUA_EMULATOR.makeFunctionAvailableInLua(drawText, 'screen')
 
         function drawTextBox(x, y, w, h, text, h_align, v_align){
+            if(!LUA_EMULATOR.isInDraw()){
+                fengari.lauxlib.luaL_error(LUA_EMULATOR.l(), 'screen can only be called from within onDraw()')
+                return
+            }
             if(typeof x !== 'number'){
                 fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 1, 'expected number')
                 return
@@ -308,10 +316,6 @@
             if(typeof v_align !== 'number'){
                 v_align = -1
             }
-            if(!LUA_EMULATOR.isInDraw()){
-                fengari.lauxlib.luaL_error(LUA_EMULATOR.l(), 'screen can only be called from within onDraw()')
-                return
-            }
             PAINT.drawTextBox(x, y, w, h, text, h_align, v_align)
         }
         LUA_EMULATOR.makeFunctionAvailableInLua(drawTextBox, 'screen')
@@ -319,6 +323,10 @@
 
         /* screen (map related) */
         function drawMap(x, y, zoom){
+            if(!LUA_EMULATOR.isInDraw()){
+                fengari.lauxlib.luaL_error(LUA_EMULATOR.l(), 'screen can only be called from within onDraw()')
+                return
+            }
             if(typeof x !== 'number'){
                 fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 1, 'expected number')
                 return
@@ -331,15 +339,15 @@
                 fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 3, 'expected number')
                 return
             }
-            if(!LUA_EMULATOR.isInDraw()){
-                fengari.lauxlib.luaL_error(LUA_EMULATOR.l(), 'screen can only be called from within onDraw()')
-                return
-            }
             MAP.drawMap(x, y, Math.max(0.1, Math.min(50,zoom)))
         }
         LUA_EMULATOR.makeFunctionAvailableInLua(drawMap, 'screen')
 
         function setMapColorOcean(r, g, b, a){
+            if(!LUA_EMULATOR.isInDraw()){
+                fengari.lauxlib.luaL_error(LUA_EMULATOR.l(), 'screen can only be called from within onDraw()')
+                return
+            }
             if(typeof r !== 'number'){
                 fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 1, 'expected number')
                 return
@@ -354,16 +362,16 @@
             }
             if(typeof a !== 'number'){
                 a = 255
-            }
-            if(!LUA_EMULATOR.isInDraw()){
-                fengari.lauxlib.luaL_error(LUA_EMULATOR.l(), 'screen can only be called from within onDraw()')
-                return
             }
             MAP.setMapColorOcean(r, g, b, a)
         }
         LUA_EMULATOR.makeFunctionAvailableInLua(setMapColorOcean, 'screen')
 
         function setMapColorShallows(r, g, b, a){
+            if(!LUA_EMULATOR.isInDraw()){
+                fengari.lauxlib.luaL_error(LUA_EMULATOR.l(), 'screen can only be called from within onDraw()')
+                return
+            }
             if(typeof r !== 'number'){
                 fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 1, 'expected number')
                 return
@@ -378,16 +386,16 @@
             }
             if(typeof a !== 'number'){
                 a = 255
-            }
-            if(!LUA_EMULATOR.isInDraw()){
-                fengari.lauxlib.luaL_error(LUA_EMULATOR.l(), 'screen can only be called from within onDraw()')
-                return
             }
             MAP.setMapColorShallows(r, g, b, a)
         }
         LUA_EMULATOR.makeFunctionAvailableInLua(setMapColorShallows, 'screen')
 
         function setMapColorLand(r, g, b, a){
+            if(!LUA_EMULATOR.isInDraw()){
+                fengari.lauxlib.luaL_error(LUA_EMULATOR.l(), 'screen can only be called from within onDraw()')
+                return
+            }
             if(typeof r !== 'number'){
                 fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 1, 'expected number')
                 return
@@ -402,16 +410,16 @@
             }
             if(typeof a !== 'number'){
                 a = 255
-            }
-            if(!LUA_EMULATOR.isInDraw()){
-                fengari.lauxlib.luaL_error(LUA_EMULATOR.l(), 'screen can only be called from within onDraw()')
-                return
             }
             MAP.setMapColorLand(r, g, b, a)
         }
         LUA_EMULATOR.makeFunctionAvailableInLua(setMapColorLand, 'screen')
 
         function setMapColorGrass(r, g, b, a){
+            if(!LUA_EMULATOR.isInDraw()){
+                fengari.lauxlib.luaL_error(LUA_EMULATOR.l(), 'screen can only be called from within onDraw()')
+                return
+            }
             if(typeof r !== 'number'){
                 fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 1, 'expected number')
                 return
@@ -426,16 +434,16 @@
             }
             if(typeof a !== 'number'){
                 a = 255
-            }
-            if(!LUA_EMULATOR.isInDraw()){
-                fengari.lauxlib.luaL_error(LUA_EMULATOR.l(), 'screen can only be called from within onDraw()')
-                return
             }
             MAP.setMapColorGrass(r, g, b, a)
         }
         LUA_EMULATOR.makeFunctionAvailableInLua(setMapColorGrass, 'screen')
 
         function setMapColorSand(r, g, b, a){
+            if(!LUA_EMULATOR.isInDraw()){
+                fengari.lauxlib.luaL_error(LUA_EMULATOR.l(), 'screen can only be called from within onDraw()')
+                return
+            }
             if(typeof r !== 'number'){
                 fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 1, 'expected number')
                 return
@@ -450,16 +458,16 @@
             }
             if(typeof a !== 'number'){
                 a = 255
-            }
-            if(!LUA_EMULATOR.isInDraw()){
-                fengari.lauxlib.luaL_error(LUA_EMULATOR.l(), 'screen can only be called from within onDraw()')
-                return
             }
             MAP.setMapColorSand(r, g, b, a)
         }
         LUA_EMULATOR.makeFunctionAvailableInLua(setMapColorSand, 'screen')
 
         function setMapColorSnow(r, g, b, a){
+            if(!LUA_EMULATOR.isInDraw()){
+                fengari.lauxlib.luaL_error(LUA_EMULATOR.l(), 'screen can only be called from within onDraw()')
+                return
+            }
             if(typeof r !== 'number'){
                 fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 1, 'expected number')
                 return
@@ -474,10 +482,6 @@
             }
             if(typeof a !== 'number'){
                 a = 255
-            }
-            if(!LUA_EMULATOR.isInDraw()){
-                fengari.lauxlib.luaL_error(LUA_EMULATOR.l(), 'screen can only be called from within onDraw()')
-                return
             }
             MAP.setMapColorSnow(r, g, b, a)
         }
@@ -558,12 +562,12 @@
     function setInputFunctions(){
 
         function getBool(i){
-            if(typeof i !== 'number'){
-                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 1, 'expected number')
-                return
-            }
             if(!LUA_EMULATOR.isInTick()){
                 fengari.lauxlib.luaL_error(LUA_EMULATOR.l(), 'input can only be called from within onTick()')
+                return
+            }
+            if(typeof i !== 'number'){
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 1, 'expected number')
                 return
             }
             return INPUT.getBool(i)
@@ -571,12 +575,12 @@
         LUA_EMULATOR.makeFunctionAvailableInLua(getBool, 'input')
 
         function getNumber(i){
-            if(typeof i !== 'number'){
-                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 1, 'expected number')
-                return
-            }
             if(!LUA_EMULATOR.isInTick()){
                 fengari.lauxlib.luaL_error(LUA_EMULATOR.l(), 'input can only be called from within onTick()')
+                return
+            }
+            if(typeof i !== 'number'){
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 1, 'expected number')
                 return
             }
             return INPUT.getNumber(i)
@@ -587,6 +591,10 @@
     function setOutputFunctions(){
 
         function setBool(i, val){
+            if(!LUA_EMULATOR.isInTick()){
+                fengari.lauxlib.luaL_error(LUA_EMULATOR.l(), 'output can only be called from within onTick()')
+                return
+            }
             if(typeof i !== 'number'){
                 fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 1, 'expected number')
                 return
@@ -595,25 +603,21 @@
                 fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 2, 'expected boolean')
                 return
             }
-            if(!LUA_EMULATOR.isInTick()){
-                fengari.lauxlib.luaL_error(LUA_EMULATOR.l(), 'output can only be called from within onTick()')
-                return
-            }
             OUTPUT.setBool(i, val)
         }
         LUA_EMULATOR.makeFunctionAvailableInLua(setBool, 'output')
 
         function setNumber(i, val){
+            if(!LUA_EMULATOR.isInTick()){
+                fengari.lauxlib.luaL_error(LUA_EMULATOR.l(), 'output can only be called from within onTick()')
+                return
+            }
             if(typeof i !== 'number'){
                 fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 1, 'expected number')
                 return
             }
             if(typeof val !== 'number'){
                 fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 2, 'expected number')
-                return
-            }
-            if(!LUA_EMULATOR.isInTick()){
-                fengari.lauxlib.luaL_error(LUA_EMULATOR.l(), 'output can only be called from within onTick()')
                 return
             }
             OUTPUT.setNumber(i, val)

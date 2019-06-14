@@ -24,16 +24,22 @@ var LUA_EMULATOR = ((global, $)=>{
             i++
         }
         console.log.apply(console, ['LUA output:'].concat(args))
+        let text = ''
         for(let arg of args){
-            $('#console').val($('#console').val() + luaToString(arg) + " ")
+            text += luaToString(arg) + ' '
         }
-        $('#console').val( $('#console').val() + '\n')
+        printToConsole(text)
+    }   
+
+    function printToConsole(text){
+        $('#console').val($('#console').val() + text + '\n')
+
         //scroll down console
         $("#console").each( function(){
            let scrollHeight = Math.max(this.scrollHeight, this.clientHeight);
            this.scrollTop = scrollHeight - this.clientHeight;
         });
-    }   
+    }
 
     function createNamespace(name){    
         fengari.lua.lua_newtable(l)
@@ -265,6 +271,7 @@ var LUA_EMULATOR = ((global, $)=>{
     function bluescreenError(l, message, luaObject){
         YYY.errorStop()
         console.error('LUA_EMULATOR.bluescreenError()', message, luaToString(luaObject))
+        printToConsole(message + ' ' + luaToString(luaObject))
         setTimeout(()=>{
             console.log('paint bluescreen error')
             PAINT.setColor(0,0,255, 255)
