@@ -430,14 +430,44 @@ button[disabled] {
     align-items: center;
 }
 
-.value_list .bool:not(.isslider) .settings, .value_list .number:not(.isslider) .settings, .value_list .text:not(.isslider) .settings {
+.value_list .number .channel {
+    border: 1px solid #000;
+    border-radius: 10000px;
+    padding: 2px;
+}
+
+.value_list .number .settings .group {
+    margin-top: 10px;
+}
+
+.value_list .number .settings .group > * {
+    margin-top: 5px;
+}
+
+.value_list .number:not(.isslider) .settings {
     display: none;
 }
 
+.value_list .number .slidervalue {
+    margin: 0 4px;
+    min-width: 3em;
+    text-align: center;
+}
 
+.value_list .number:not(.isslider) .change input[type="range"], .value_list .number:not(.isslider) .slidervalue {
+    display: none;
+}
+
+.number.isslider .change input[type="number"]{
+    display: none;
+}
 
 .value_list .bool input, .value_list .number input, .value_list .text input {
-    margin: 0 5px;
+    margin: 0 0 0 5px;
+}
+
+.value_list .bool button, .value_list .number button, .value_list .text button {
+    margin-left: 5px;
 }
 
 .value_list .bool .result, .value_list .number .result, .value_list .text .result {

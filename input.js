@@ -39,7 +39,7 @@ var INPUT = ((global, $)=>{
             if(isNaN(n)){
                 return
             }
-            addNewNumber(n)
+            addNewNumber(n, "0")
         })
         dom_numbers.find('.head').append(dom_numbers_add)
         dom.append(dom_numbers)
@@ -157,6 +157,7 @@ var INPUT = ((global, $)=>{
             }
             numbers[label] = n
             number.find('.change input').val(n)
+            number.find('.slidervalue').html(n)
             refreshNumbersAddSelect()
         }, (e)=>{
             numbers[label] = 0
@@ -195,7 +196,7 @@ var INPUT = ((global, $)=>{
             number.find('input[type="range"]').prop('step', sliderstep.val()).trigger('change')
         })
 
-        let oscilate = $('<div class="group"><div><input type="checkbox" class="oscilate_check"/><label>Use oscilate</label></div><div><input type="number" class="oscilate_min" value="-10"/><label>Min</label></div><div><input type="number" class="oscilate_max" value="10"/><label>Max</label></div><div><input type="number" class="oscilate_step" value="0.1"/><label>Step</label></div></div>')
+        let oscilate = $('<div class="group"><div><input type="checkbox" class="oscilate_check"/><label>Use oscilate</label></div></div>')
         settings.append(oscilate)
         let oscilatecheck = oscilate.find('.oscilate_check')
         oscilatecheck.on('input', ()=>{
@@ -204,18 +205,6 @@ var INPUT = ((global, $)=>{
             } else {
                 number.removeClass('isoscilate')
             }
-        })
-        let oscilatemin = oscilate.find('.oscilate_min')
-        oscilatemin.on('input', ()=>{
-            mymin = oscilatemin.val()
-        })
-        let oscilatemax = oscilate.find('.oscilate_max')
-        oscilatemax.on('input', ()=>{
-            number.find('input[type="range"]').prop('max', oscilatemax.val()).trigger('change')
-        })
-        let oscilatestep = oscilate.find('.oscilate_step')
-        oscilatestep.on('input', ()=>{
-            number.find('input[type="range"]').prop('step', oscilatestep.val()).trigger('change')
         })
 
         let myOscilateDirection = true
@@ -230,13 +219,8 @@ var INPUT = ((global, $)=>{
                 if(isNaN(val)){
                     return
                 }
-                if(val >= oscilatemax.val()){
-                    myOscilateDirection = false
-                } else if (val <= oscilatemin.val()){
-                    myOscilateDirection = true
-                }
 
-                let step = oscilatestep.val()
+                let step = sliderstep.val()
                 step = parseFloat(step)
                 if(isNaN(step)){
                     step = parseInt(step)
@@ -245,7 +229,21 @@ var INPUT = ((global, $)=>{
                     return
                 }
 
-                number.find('.change input[type="number"]').val( myOscilateDirection ? val + step : val - step).trigger('change')
+                val = precise(myOscilateDirection ? val + step : val - step, step.toString().length - step.toString().indexOf('.'))
+
+
+                if(val >= slidermax.val()){
+                    myOscilateDirection = false
+                    val = slidermax.val()
+                } else if (val <= slidermin.val()){
+                    myOscilateDirection = true
+                    val = slidermin.val()
+                }
+
+                numbers[label] = val
+                number.find('.change input').val(val)
+                number.find('.slidervalue').html(val)
+                refreshNumbersAddSelect()
             }
         })
 
@@ -256,6 +254,12 @@ var INPUT = ((global, $)=>{
         refreshNumbersAddSelect()
     }
 
+    function precise(float, precision){
+        const mult = Math.pow(10, precision)
+        let ret =  Math.round(float * mult) / mult
+        return ret
+    }
+
     function addNew(type, inputType, label, changeCallback, removeCallback, val){
         let valtext = ''
         if(inputType === 'checkbox' && val === true){
@@ -263,8 +267,8 @@ var INPUT = ((global, $)=>{
         } else if (val !== undefined && val !== null ){
             valtext = 'value="'+val+'"'
         }
-        let neww = $('<div class="' + type + '"><div class="change"><label for="input_' + type + '_' + label + '">'+label+'</label><input type="' + inputType + '" ' + (inputType === 'number' ? 'step="0.1"': '') + ' id="input_' + type + '_' + label + '" ' + valtext + '/>' + (inputType === 'number' ? '<input type="range" min="-10" max="10" value="0" step="0.1"/>': '') + '<button>x</button></div></div>')
-        neww.find('input').on('change', (e)=>{
+        let neww = $('<div class="' + type + '"><div class="change"><label class="channel" for="input_' + type + '_' + label + '">'+label+'</label><input type="' + inputType + '" ' + (inputType === 'number' ? 'step="0.1"': '') + ' id="input_' + type + '_' + label + '" ' + valtext + '/>' + (inputType === 'number' ? '<input type="range" min="-10" max="10" value="0" step="0.1"/><label class="slidervalue">0</label>': '') + '<button>x</button></div></div>')
+        neww.find('input').on('change input', (e)=>{
             changeCallback(e)
             saveToStorage()
         })
