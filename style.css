@@ -50,7 +50,7 @@ button[disabled] {
     height: 100vh;
     z-index: -1;
     background-color: #333;
-    /*background-image: url('background.jpg');*/
+    background-image: url('background.jpg');
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;  
@@ -205,8 +205,8 @@ button[disabled] {
     z-index: 10;
 }
 
-#out {
-
+#out h3 {
+    color: #fff;
 }
 
 #console {
@@ -288,7 +288,7 @@ button[disabled] {
 
 /* informaton containers */
 .information_container {
-    background: #000000aa;
+    background: #000000dd;
     border-radius: 3px;
     color: #fff;
     padding: 10px;
@@ -309,10 +309,12 @@ button[disabled] {
     right: 10px;
     display: flex;
     flex-direction: column;
-    padding: 10px 20px;
+    padding: 5px 15px;
     text-align: center;
-    background: #000000aa;
     border-radius: 10000px;
+    background: linear-gradient(15deg, #EE4A4B 0%, #F4812E 100%);
+    box-shadow: 0px 0px 3px 2px #EE4A4B77;
+    font-size: 80%;
 }
 
 #information > * {
@@ -320,7 +322,7 @@ button[disabled] {
 }
 
 #information a {
-    color: #BF5421;
+    color: #fff;
     text-decoration: underline;  
 }
 
