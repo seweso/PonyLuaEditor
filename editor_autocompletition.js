@@ -250,11 +250,6 @@ var AUTOCOMPLETE = ((global, $)=>{
                         args: '(x)',
                         description: 'Returns the arc sine of x (in radians). '
                     },
-                    abs: {
-                        type: TF,
-                        args: '(x)',
-                        description: 'xxx'
-                    },
                     atan: {
                         type: TF,
                         args: '(y [,x])',
