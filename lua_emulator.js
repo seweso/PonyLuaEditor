@@ -144,6 +144,9 @@ var LUA_EMULATOR = ((global, $)=>{
     }
 
     function convertLuaValue(value){
+        if(!value){
+            return undefined
+        }
         switch(value.type){
             case 5: {//table
                 return luaTableToJSObject(value.value)
@@ -153,6 +156,9 @@ var LUA_EMULATOR = ((global, $)=>{
             }
             case 19: {//number
                 return value.value
+            }
+            case 7: {//TypeError
+                return value.value.data.data
             }
             case 20: {//string
                 return arrayBufferToString(value.value.realstring)
@@ -270,7 +276,7 @@ var LUA_EMULATOR = ((global, $)=>{
 
     function bluescreenError(l, message, luaObject){
         YYY.errorStop()
-        console.error('LUA_EMULATOR.bluescreenError()', message, luaToString(luaObject))
+        console.error('LUA_EMULATOR.bluescreenError()', message, luaToString(luaObject), convertLuaValue(l.stack[l.top-1]))
         printToConsole(message + ' ' + luaToString(luaObject))
         setTimeout(()=>{
             console.log('paint bluescreen error')
