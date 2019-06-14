@@ -108,7 +108,7 @@ var YYY = ((global, $)=>{
 		  	let feng = fengari.load(code)
 	  		feng()
 	    } catch (err){
-		  	LUA_EMULATOR.bluescreenError(fengari.L, 'error starting script', err)
+		  	LUA_EMULATOR.bluescreenError(fengari.L, 'error', err)
 	    }
         OUTPUT.reset()
 
