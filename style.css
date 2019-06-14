@@ -91,6 +91,17 @@ button[disabled] {
     margin: 0 20px;
 }
 
+#selection #beta {
+    color: #fff;
+    font-weight: 30px;
+    font-weight: bold;
+    padding:  10px;
+    margin: 0 0 0 auto;
+    border-radius: 10000px;
+    background: linear-gradient(15deg, #EE4A4B 0%, #F4812E 100%);
+    box-shadow: 0px 0px 3px 2px #EE4A4B77;
+}
+
 #top {
     display: flex;
     flex-direction: row;

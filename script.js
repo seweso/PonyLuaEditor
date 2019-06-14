@@ -14,6 +14,10 @@ var YYY = ((global, $)=>{
 
     function init(){
 
+        if(document.location.pathname.indexOf('beta') || document.location.host === 'localhost'){
+            $('#beta').show()
+        }
+
         let autocompletitions = AUTOCOMPLETE.getAllAUTOCOMPLETITIONSParsed()
         for(let name of Object.keys(autocompletitions.children)){
             let child = autocompletitions.children[name]
