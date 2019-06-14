@@ -63,7 +63,7 @@ button[disabled] {
     min-height: 100vh;
 }
 
-#selection, #top, #editor, #out, #functions {
+#selection, #top, #editor, #out, #documentation {
     padding: 20px;
 }
 
@@ -219,56 +219,72 @@ button[disabled] {
     border-radius: 3px;
 }
 
-#functions {
+#documentation {
     
 }
 
-#functions .node {
+#documentation .node {
     display: flex;
     flex-direction: column;
     margin-bottom: 1em;
+    padding: 5px;
+    border-radius: 3px;
 }
 
-#functions .node .information {
+#documentation .node[isstormworks="true"] {
+    background: #28160e;
+}
+
+#documentation .node .information {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
 }
 
-#functions .node .information .left {
+#documentation .node .information .left {
     width: 200px;
 }
 
-#functions .node .information .name {
+#documentation .node .information .name {
     font-weight: bold;
 }
 
-#functions .node .information .args {
+#documentation .node .information .args {
     margin-left: 2px;
     white-space: nowrap;
 }
 
-#functions .node .information .url {
+#documentation .node .information .is_stormworks {
+    margin-left: 6px;
+    color: #bf5421!important;
+}
+
+#documentation .node .information .url {
     margin-left: 6px;
 }
 
-#functions .node .information .text {
+#documentation .node .information .text {
     margin-left: 20px;
     color: #b1b1b1;
 }
 
-#functions .node .children {
+#documentation .node .children {
     padding-left: 20px;
     margin-top: 1em;
 }
 
-#functions .node[ntype="object"] .name {
+#documentation .node[ntype="object"] .name {
     color: #A6CE28;
 }
 
-#functions .node[ntype="function"] .name {
+#documentation .node[ntype="function"] .name {
     color: #66D9EF;
 }
+
+#documentation a {
+    color: #bf5421!important;
+}
+
 
 /* informaton containers */
 .information_container {
@@ -493,6 +509,10 @@ button[disabled] {
 
 .autocompletition .description[isstormworks="true"] {
     background: #391909;
+}
+
+.autocompletition a {
+    color: #bf5421!important;
 }
 
 /* share */

@@ -17,11 +17,11 @@ var YYY = ((global, $)=>{
         let autocompletitions = AUTOCOMPLETE.getAllAUTOCOMPLETITIONSParsed()
         for(let name of Object.keys(autocompletitions.children)){
             let child = autocompletitions.children[name]
-            printNode($('#functions'), child, name)
+            printNode($('#documentation'), child, name)
         }
 
         function printNode(container, node, name){
-            let me = $('<div class="node" ntype="' + node.type + '" isstormworks="' + (node.is_stormworks ? 'true' : 'false') + '"><div class="information"><div class="name">' + name + '</div><div class="args">' + (node.args || '') + '</div>' + (node.url ? '<div class="url">' + node.url + '</div>' : '') + '<div class="text">' + node.description + '</div></div></div>')
+            let me = $('<div class="node" ntype="' + node.type + '" isstormworks="' + (node.is_stormworks ? 'true' : 'false') + '"><div class="information"><div class="name">' + name + '</div><div class="args">' + (node.args || '') + '</div>' + (node.is_stormworks ? '<div class="is_stormworks">Stormworks API</div>' : '') + (node.url ? '<div class="url">' + node.url + '</div>' : '') + '<div class="text">' + node.description + '</div></div></div>')
             container.append(me)
             if(node.children){
                 let childcontainer = $('<div class="children"></div>')
