@@ -233,12 +233,149 @@ var AUTOCOMPLETE = ((global, $)=>{
             math: {
                 type: TO,
                 url: 'https://www.lua.org/manual/5.3/manual.html#6.7',
-                description: 'Documentation missing'
+                description: 'This library provides basic mathematical functions. It provides all its functions and constants inside the table math. Functions with the annotation "integer/float" give integer results for integer arguments and float results for float (or mixed) arguments. Rounding functions (math.ceil, math.floor, and math.modf) return an integer when the result fits in the range of an integer, or a float otherwise.',
+                children: {                    
+                    abs: {
+                        type: TF,
+                        args: '(x)',
+                        description: 'Returns the absolute value of x. (integer/float) '
+                    },
+                    acos: {
+                        type: TF,
+                        args: '(x)',
+                        description: 'Returns the arc cosine of x (in radians). '
+                    },
+                    asin: {
+                        type: TF,
+                        args: '(x)',
+                        description: 'Returns the arc sine of x (in radians). '
+                    },
+                    abs: {
+                        type: TF,
+                        args: '(x)',
+                        description: 'xxx'
+                    },
+                    atan: {
+                        type: TF,
+                        args: '(y [,x])',
+                        description: ' Returns the arc tangent of y/x (in radians), but uses the signs of both arguments to find the quadrant of the result. (It also handles correctly the case of x being zero.)\nThe default value for x is 1, so that the call math.atan(y) returns the arc tangent of y.'
+                    },
+                    ceil: {
+                        type: TF,
+                        args: '(x)',
+                        description: 'Returns the smallest integral value larger than or equal to x.'
+                    },
+                    cos: {
+                        type: TF,
+                        args: '(x)',
+                        description: 'Returns the cosine of x (assumed to be in radians).'
+                    },
+                    deg: {
+                        type: TF,
+                        args: '(x)',
+                        description: 'Converts the angle x from radians to degrees.'
+                    },
+                    exp: {
+                        type: TF,
+                        args: '(x)',
+                        description: 'Returns the value ex (where e is the base of natural logarithms).'
+                    },
+                    floor: {
+                        type: TF,
+                        args: '(x)',
+                        description: 'Returns the largest integral value smaller than or equal to x.'
+                    },
+                    fmod: {
+                        type: TF,
+                        args: '(x, y)',
+                        description: 'Returns the remainder of the division of x by y that rounds the quotient towards zero. (integer/float)'
+                    },
+                    huge: {
+                        type: TF,
+                        args: '()',
+                        description: 'The float value HUGE_VAL, a value larger than any other numeric value.'
+                    },
+                    max: {
+                        type: TF,
+                        args: '(x, ···)',
+                        description: 'Returns the argument with the maximum value, according to the Lua operator <. (integer/float)'
+                    },
+                    maxinteger: {
+                        type: TF,
+                        args: '()',
+                        description: 'An integer with the maximum value for an integer. '
+                    },
+                    min: {
+                        type: TF,
+                        args: '(x, ···)',
+                        description: 'Returns the argument with the minimum value, according to the Lua operator <. (integer/float)'
+                    },
+                    mininteger: {
+                        type: TF,
+                        args: '()',
+                        description: 'An integer with the minimum value for an integer. '
+                    },
+                    modf: {
+                        type: TF,
+                        args: '(x)',
+                        description: 'Returns the integral part of x and the fractional part of x. Its second result is always a float.'
+                    },
+                    pi: {
+                        type: TF,
+                        args: '(x)',
+                        description: 'The value of π.'
+                    },
+                    rad: {
+                        type: TF,
+                        args: '(x)',
+                        description: 'Converts the angle x from degrees to radians.'
+                    },
+                    random: {
+                        type: TF,
+                        args: '[m [, n]]',
+                        description: ' When called without arguments, returns a pseudo-random float with uniform distribution in the range [0,1). When called with two integers m and n, math.random returns a pseudo-random integer with uniform distribution in the range [m, n]. (The value n-m cannot be negative and must fit in a Lua integer.) The call math.random(n) is equivalent to math.random(1,n).\nThis function is an interface to the underling pseudo-random generator function provided by C.'
+                    },
+                    randomseed: {
+                        type: TF,
+                        args: '(x)',
+                        description: 'Sets x as the "seed" for the pseudo-random generator: equal seeds produce equal sequences of numbers.'
+                    },
+                    sin: {
+                        type: TF,
+                        args: '(x)',
+                        description: 'Returns the sine of x (assumed to be in radians).'
+                    },
+                    sqrt: {
+                        type: TF,
+                        args: '(x)',
+                        description: 'Returns the square root of x. (You can also use the expression x^0.5 to compute this value.)'
+                    },
+                    tan: {
+                        type: TF,
+                        args: '(x)',
+                        description: 'Returns the tangent of x (assumed to be in radians).'
+                    },
+                    tointeger: {
+                        type: TF,
+                        args: '(x)',
+                        description: 'If the value x is convertible to an integer, returns that integer. Otherwise, returns nil.'
+                    },
+                    type: {
+                        type: TF,
+                        args: '(x)',
+                        description: 'Returns "integer" if x is an integer, "float" if it is a float, or nil if x is not a number.'
+                    },
+                    ult: {
+                        type: TF,
+                        args: '(m, n)',
+                        description: 'Returns a boolean, true if and only if integer m is below integer n when they are compared as unsigned integers.'
+                    }
+                }
             },
             table: {
                 type: TO,
                 url: 'https://www.lua.org/manual/5.3/manual.html#6.6',
-                description: 'Documentation missing',
+                description: ' This library provides generic functions for table manipulation. It provides all its functions inside the table table.\nRemember that, whenever an operation needs the length of a table, all caveats about the length operator apply (see §3.4.7). All functions ignore non-numeric keys in the tables given as arguments.',
                 children: {
                     concat: {
                         type: TF,
@@ -683,7 +820,7 @@ AutocompletitionElement.prototype.select = function(index, scroll) {
         this.$descriptions.css('width', width)
     }
     if(scroll){
-        let top = $('.entry[aid="0"]').height() * this.selected
+        let top = $('.entry[aid="0"]').outerHeight() * this.selected
         this.blockMouseEnter = true
         this.$list.scrollTop(top)
         setTimeout(()=>{
