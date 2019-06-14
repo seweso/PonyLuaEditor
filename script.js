@@ -14,7 +14,7 @@ var YYY = ((global, $)=>{
 
     function init(){
 
-        if(document.location.pathname.indexOf('beta') || document.location.host === 'localhost'){
+        if(document.location.pathname.indexOf('beta') >= 0 || document.location.host === 'localhost'){
             $('#beta').show()
         }
 
