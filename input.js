@@ -156,6 +156,7 @@ var INPUT = ((global, $)=>{
                 return
             }
             numbers[label] = n
+            number.find('.change input').val(n)
             refreshNumbersAddSelect()
         }, (e)=>{
             numbers[label] = 0
@@ -163,6 +164,94 @@ var INPUT = ((global, $)=>{
             $(e.target).parent().remove()
             refreshNumbersAddSelect()
         }, val)
+
+        let openSettings = $('<button>&equiv;</button>')
+        let settings = $('<div class="settings"></div>')
+        openSettings.on('click', ()=>{
+            settings.toggle()
+        })
+        openSettings.insertBefore(number.find('button'))
+
+        let slider = $('<div class="group"><div><input type="checkbox" class="slider_check"/><label>Use slider</label></div><div><input type="number" class="slider_min" value="-10"/><label>Min</label></div><div><input type="number" class="slider_max" value="10"/><label>Max</label></div><div><input type="number" class="slider_step" value="0.1"/><label>Step</label></div></div>')
+        settings.append(slider)
+        let slidercheck = slider.find('.slider_check')
+        slidercheck.on('input', ()=>{
+            if(slidercheck.prop('checked')){
+                number.addClass('isslider')
+            } else {
+                number.removeClass('isslider')
+            }
+        })
+        let slidermin = slider.find('.slider_min')
+        slidermin.on('input', ()=>{
+            number.find('input[type="range"]').prop('min', slidermin.val()).trigger('change')
+        })
+        let slidermax = slider.find('.slider_max')
+        slidermax.on('input', ()=>{
+            number.find('input[type="range"]').prop('max', slidermax.val()).trigger('change')
+        })
+        let sliderstep = slider.find('.slider_step')
+        sliderstep.on('input', ()=>{
+            number.find('input[type="range"]').prop('step', sliderstep.val()).trigger('change')
+        })
+
+        let oscilate = $('<div class="group"><div><input type="checkbox" class="oscilate_check"/><label>Use oscilate</label></div><div><input type="number" class="oscilate_min" value="-10"/><label>Min</label></div><div><input type="number" class="oscilate_max" value="10"/><label>Max</label></div><div><input type="number" class="oscilate_step" value="0.1"/><label>Step</label></div></div>')
+        settings.append(oscilate)
+        let oscilatecheck = oscilate.find('.oscilate_check')
+        oscilatecheck.on('input', ()=>{
+            if(oscilatecheck.prop('checked')){
+                number.addClass('isoscilate')
+            } else {
+                number.removeClass('isoscilate')
+            }
+        })
+        let oscilatemin = oscilate.find('.oscilate_min')
+        oscilatemin.on('input', ()=>{
+            mymin = oscilatemin.val()
+        })
+        let oscilatemax = oscilate.find('.oscilate_max')
+        oscilatemax.on('input', ()=>{
+            number.find('input[type="range"]').prop('max', oscilatemax.val()).trigger('change')
+        })
+        let oscilatestep = oscilate.find('.oscilate_step')
+        oscilatestep.on('input', ()=>{
+            number.find('input[type="range"]').prop('step', oscilatestep.val()).trigger('change')
+        })
+
+        let myOscilateDirection = true
+
+        $(global).on('lua_tick', ()=>{
+            if(oscilatecheck.prop('checked')){
+                let val = number.find('.change input[type="number"]').val()
+                val = parseFloat(val)
+                if(isNaN(val)){
+                    val = parseInt(val)
+                }
+                if(isNaN(val)){
+                    return
+                }
+                if(val >= oscilatemax.val()){
+                    myOscilateDirection = false
+                } else if (val <= oscilatemin.val()){
+                    myOscilateDirection = true
+                }
+
+                let step = oscilatestep.val()
+                step = parseFloat(step)
+                if(isNaN(step)){
+                    step = parseInt(step)
+                }
+                if(isNaN(step)){
+                    return
+                }
+
+                number.find('.change input[type="number"]').val( myOscilateDirection ? val + step : val - step).trigger('change')
+            }
+        })
+
+
+        number.append(settings)
+
         dom_numbers.append(number)
         refreshNumbersAddSelect()
     }
@@ -174,7 +263,7 @@ var INPUT = ((global, $)=>{
         } else if (val !== undefined && val !== null ){
             valtext = 'value="'+val+'"'
         }
-        let neww = $('<div class="' + type + '"><label for="input_' + type + '_' + label + '">'+label+'</label><input type="' + inputType + '" ' + (inputType === 'number' ? 'step="0.000001"': '') + ' id="input_' + type + '_' + label + '" ' + valtext + '/><button>x</button></div>')
+        let neww = $('<div class="' + type + '"><div class="change"><label for="input_' + type + '_' + label + '">'+label+'</label><input type="' + inputType + '" ' + (inputType === 'number' ? 'step="0.1"': '') + ' id="input_' + type + '_' + label + '" ' + valtext + '/>' + (inputType === 'number' ? '<input type="range" min="-10" max="10" value="0" step="0.1"/>': '') + '<button>x</button></div></div>')
         neww.find('input').on('change', (e)=>{
             changeCallback(e)
             saveToStorage()

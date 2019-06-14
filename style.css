@@ -418,12 +418,23 @@ button[disabled] {
 
 .value_list .bool, .value_list .number, .value_list .text {
     display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
+    flex-direction: column;
     margin: 3px 0;
     padding: 5px;
 }
+
+.value_list .bool .change, .value_list .number .change, .value_list .text .change {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.value_list .bool:not(.isslider) .settings, .value_list .number:not(.isslider) .settings, .value_list .text:not(.isslider) .settings {
+    display: none;
+}
+
+
 
 .value_list .bool input, .value_list .number input, .value_list .text input {
     margin: 0 5px;

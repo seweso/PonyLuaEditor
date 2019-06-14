@@ -114,6 +114,9 @@ var YYY = ((global, $)=>{
 		  	let feng = fengari.load(code)
 	  		feng()
 	    } catch (err){
+            if(err instanceof SyntaxError){
+                err = err.message
+            }
 		  	LUA_EMULATOR.bluescreenError(fengari.L, 'error', err)
 	    }
         OUTPUT.reset()
@@ -146,6 +149,7 @@ var YYY = ((global, $)=>{
 
     function doTick(){
         LUA_EMULATOR.tick()
+        $(global).trigger('lua_tick')
         OUTPUT.refresh()
     }
 
