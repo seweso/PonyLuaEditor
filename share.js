@@ -2,11 +2,7 @@ var SHARE = ((global, $)=>{
     
     let currentShare
 
-    let BASE_URL = 'https://lua.flaffipony.rocks'
-
-    if(document.location.hostname.indexOf('localhost') >= 0){
-        BASE_URL = 'http://' + document.location.host
-    }
+    let BASE_URL = document.location.protocol + '//' + document.location.host
 
     $(global).on('load', init)
 
