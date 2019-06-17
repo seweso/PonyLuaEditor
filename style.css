@@ -416,6 +416,17 @@ button[disabled] {
     width: 20px;
 }
 
+.value_list button:not(:last-of-type) {
+    margin-right: 3px;
+}
+
+#property.value_list .bool, #property.value_list .number, #property.value_list .text {
+    display: flex;
+    flex-direction: row;
+    margin: 3px 0;
+    padding: 5px;
+}
+
 .value_list .bool, .value_list .number, .value_list .text {
     display: flex;
     flex-direction: column;
@@ -467,12 +478,9 @@ button[disabled] {
 }
 
 .value_list .bool input, .value_list .number input, .value_list .text input {
-    margin: 0 0 0 5px;
+    margin: 0 5px 0 5px;
 }
 
-.value_list .bool button, .value_list .number button, .value_list .text button {
-    margin-left: 5px;
-}
 
 .value_list .bool .result, .value_list .number .result, .value_list .text .result {
     margin: 0 0 0 auto;
