@@ -171,7 +171,7 @@ var INPUT = ((global, $)=>{
         }
     }
 
-    function addNewNumber(label, val){
+    function addNewNumber(label, val, config){
         if(typeof label !== 'number' || label.length === 0){
             return
         }
