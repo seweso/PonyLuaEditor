@@ -125,7 +125,8 @@ var PROPERTY = ((global, $)=>{
             delete bools[label]
             $(e.target).parent().remove()
         }, val)
-        dom_bools.append(bool)  
+        dom_bools.append(bool)
+        saveToStorage()
     }
 
     function addNewNumber(label, val){
@@ -141,13 +142,14 @@ var PROPERTY = ((global, $)=>{
             if(isNaN(n)){
                 return
             }
-            numbers[label] = n
+            numbers[label] = n 
         }, (e)=>{
             numbers[label] = 0
             delete numbers[label]
-            $(e.target).parent().remove()
+            $(e.target).parent().remove() 
         }, val)
-        dom_numbers.append(number)  
+        dom_numbers.append(number)
+        saveToStorage()
     }
 
     function addNewText(label, val){
