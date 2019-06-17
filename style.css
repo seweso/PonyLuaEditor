@@ -246,6 +246,10 @@ button[disabled] {
     background: #28160e;
 }
 
+#documentation .node[isdev="true"] {
+    background: #300101;
+}
+
 #documentation .node .information {
     display: flex;
     flex-direction: row;
@@ -261,13 +265,18 @@ button[disabled] {
 }
 
 #documentation .node .information .args {
-    margin-left: 2px;
+    margin: 0 0 4px 2px;
     white-space: nowrap;
 }
 
 #documentation .node .information .is_stormworks {
-    margin-left: 6px;
+    margin: 0 0 4px 2px;
     color: #bf5421!important;
+}
+
+#documentation .node .information .is_dev {
+    margin: 0 0 4px 2px;
+    color: #ae6767!important;
 }
 
 #documentation .node .information .url {
@@ -537,6 +546,10 @@ button[disabled] {
     background: #3e2215;
 }
 
+.autocompletition .list .entry[isdev="true"] {
+    background: #300101;
+}
+
 .autocompletition .descriptions {
     position: absolute;
     top: 0;
@@ -570,11 +583,21 @@ button[disabled] {
 }
 
 .autocompletition .descriptions .description .is_stormworks {
+    margin-bottom: 4px;
     color: #bf5421;
+}
+
+.autocompletition .descriptions .description .is_dev {
+    margin-bottom: 4px;
+    color: #ae6767;
 }
 
 .autocompletition .description[isstormworks="true"] {
     background: #391909;
+}
+
+.autocompletition .description[isdev="true"] {
+    background: #300101;
 }
 
 .autocompletition a {

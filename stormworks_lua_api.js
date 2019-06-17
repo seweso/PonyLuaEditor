@@ -8,6 +8,7 @@
         setScreenFunctions()
         setMapFunctions()
         setInputFunctions()
+        setDevInputFunctions()
         setOutputFunctions()
         setPropertyFunctions()
         setTimeout(()=>{
@@ -586,6 +587,43 @@
             return INPUT.getNumber(i)
         }
         LUA_EMULATOR.makeFunctionAvailableInLua(getNumber, 'input')        
+    }
+
+    function setDevInputFunctions(){
+
+        function setBool(i, val){
+            if(!LUA_EMULATOR.isInTick()){
+                fengari.lauxlib.luaL_error(LUA_EMULATOR.l(), 'devinput can only be called from within onTick()')
+                return
+            }
+            if(typeof i !== 'number'){
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 1, 'expected number')
+                return
+            }
+            if(typeof val !== 'boolean'){
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 2, 'expected boolean')
+                return
+            }
+            INPUT.setBool(i, val)
+        }
+        LUA_EMULATOR.makeFunctionAvailableInLuaViaName(setBool, 'setBool', 'devinput')
+
+        function setNumber(i, val){
+            if(!LUA_EMULATOR.isInTick()){
+                fengari.lauxlib.luaL_error(LUA_EMULATOR.l(), 'devinput can only be called from within onTick()')
+                return
+            }
+            if(typeof i !== 'number'){
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 1, 'expected number')
+                return
+            }
+            if(typeof val !== 'number'){
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 2, 'expected number')
+                return
+            }
+            INPUT.setNumber(i, val)
+        }
+        LUA_EMULATOR.makeFunctionAvailableInLuaViaName(setNumber, 'setNumber', 'devinput')
     }
 
     function setOutputFunctions(){

@@ -149,6 +149,23 @@ var AUTOCOMPLETE = ((global, $)=>{
                     }
                 }
             },
+            devinput: {
+                type: TO,
+                is_dev: true,
+                description: 'Manipulate input values.\nNOT AVAILABLE IN THE GAME!',
+                children: {
+                    setBool: {
+                        type: TF,
+                        args: '(index)',
+                        description: 'Sets the boolean value of the output composite on index to value. Index ranges from 1 - 32.\nNOT AVAILABLE IN THE GAME!'                        
+                    },
+                    setNumber: {
+                        type: TF,
+                        args: '(index)',
+                        description: 'Sets the number value of the output composite on index to value. Index ranges from 1 - 32.\nNOT AVAILABLE IN THE GAME!'                        
+                    }
+                }
+            },
             output: {
                 type: TO,
                 is_stormworks: true,
@@ -199,6 +216,12 @@ var AUTOCOMPLETE = ((global, $)=>{
                 is_stormworks: true,
                 args: '()',
                 description: 'The draw function will be called any time this script is dran by a monitor. Note that it can be called multiple times if this microcontroller is connected to multiple monitors whereas onTick is only called once. Composite input/output functions will not work within onDraw!'
+            },
+            print: {
+                type: TF,
+                is_dev: true,
+                args: '(text)',
+                description: 'Prints text to the console.\nNOT AVAILABLE IN THE GAME!'
             },
             pairs: {
                 type: TF,
@@ -577,7 +600,7 @@ var AUTOCOMPLETE = ((global, $)=>{
         if(node.children){
             for(let [key, value] of Object.entries(node.children)) {
               if(!partLeft.length > 0 || key.indexOf(partLeft) === 0){                
-                ret.push({name: key, type: value.type, is_stormworks: value.is_stormworks, url: value.url, args: value.args || '', description: value.description || '...', full: path + '.' + key})
+                ret.push({name: key, type: value.type, is_stormworks: value.is_stormworks, is_dev: value.is_dev, url: value.url, args: value.args || '', description: value.description || '...', full: path + '.' + key})
               }
             }
         }
@@ -612,6 +635,9 @@ var AUTOCOMPLETE = ((global, $)=>{
             }
             if(parent && parent.is_stormworks){
                 node.is_stormworks = true
+            }
+            if(parent && parent.is_dev){
+                node.is_dev = true
             }
             if(node.children){
                 for(let k of Object.keys(node.children)){
@@ -704,10 +730,10 @@ function AutocompletitionElement(completitions, part){
         let id = 0
         for(let c of completitions) {
             const myid = id
-            let cdescription = $('<div class="description" aid="' + id + '" atype="' + c.type + '" isstormworks="' + (c.is_stormworks ? 'true' : 'false') + '"><div class="top"><div class="name">' + c.name + '</div><div class="args">' + c.args + '</div></div>' + (c.is_stormworks ? '<div class="is_stormworks">Stormworks API</div>' : '') + (c.url ? '<div class="url">' + c.url + '</div>' : '') + '<div class="text">' + c.description + '</div></div>')
+            let cdescription = $('<div class="description" aid="' + id + '" atype="' + c.type + '" isdev="' + (c.is_dev ? 'true' : 'false') + '" isstormworks="' + (c.is_stormworks ? 'true' : 'false') + '"><div class="top"><div class="name">' + c.name + '</div><div class="args">' + c.args + '</div></div>' + (c.is_dev ? '<div class="is_dev">Dev API</div>' : '') + (c.is_stormworks ? '<div class="is_stormworks">Stormworks API</div>' : '') + (c.url ? '<div class="url">' + c.url + '</div>' : '') + '<div class="text">' + c.description + '</div></div>')
             this.$descriptions.append(cdescription)
 
-            let centry = $('<div class="entry" aid="' + id + '" afull="' + c.full + '" atype="' + c.type + '" isstormworks="' + (c.is_stormworks ? 'true' : 'false') + '"><div class="name">' + c.name  + (c.type === AUTOCOMPLETE.TF ? '()' : '') + '</div><div class="type">' + c.type + '</div></div>')
+            let centry = $('<div class="entry" aid="' + id + '" afull="' + c.full + '" atype="' + c.type + '" isdev="' + (c.is_dev ? 'true' : 'false') + '" isstormworks="' + (c.is_stormworks ? 'true' : 'false') + '"><div class="name">' + c.name  + (c.type === AUTOCOMPLETE.TF ? '()' : '') + '</div><div class="type">' + c.type + '</div></div>')
             this.$list.append(centry)
             centry.get(0).completition = c
             centry.on('click', ()=>{

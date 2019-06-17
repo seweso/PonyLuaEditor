@@ -138,7 +138,7 @@ var INPUT = ((global, $)=>{
         }
         bools[label] = val === true ? true : false
         let bool = addNew('bool', 'checkbox', label, (e)=>{
-            bools[label] = $(e.target).prop('checked')
+            doSetBool(label, $(e.target).prop('checked'))
             refreshBoolsAddSelect()
         }, (e)=>{
             bools[label] = false
@@ -150,7 +150,28 @@ var INPUT = ((global, $)=>{
         refreshBoolsAddSelect()
     }
 
-    function addNewNumber(label, val, config){
+    function doSetBool(label, val){
+        let bool = $('.bools .bool').get(label-1)
+        if(bool){
+            $(bool).find('.change input').prop('checked', val)  
+            bools[label] = val
+        } else {
+            addNewBool(label, val)
+        }
+    }
+
+    function doSetNumber(label, val){
+        let number = $('.numbers .number').get(label-1)
+        if(number){
+            numbers[label].val = val
+            $(number).find('.change input').val(val)
+            $(number).find('.slidervalue').html(val)
+        } else {
+            addNewNumber(label, val)
+        }
+    }
+
+    function addNewNumber(label, val){
         if(typeof label !== 'number' || label.length === 0){
             return
         }
@@ -358,13 +379,35 @@ var INPUT = ((global, $)=>{
             return 0
         }
     }
+
+    function setBool(index, val){
+        if(typeof index !== 'number'){
+            throw new Error('first argument must be a number!')
+        }
+        if(typeof val !== 'boolean'){
+            throw new Error('second argument must be a boolean!')
+        }
+        doSetBool(index, val)
+    }
+
+    function setNumber(index, val){
+        if(typeof index !== 'number'){
+            throw new Error('first argument must be a number!')
+        }
+        if(typeof val !== 'number'){
+            throw new Error('second argument must be a number!')
+        }
+        doSetNumber(index, val)
+    }
     
     return {
         init: init,
         getBool: getBool,
         getNumber: getNumber,
         getStorage: getFromStorage,
-        setStorage: setStorage
+        setStorage: setStorage,
+	setBool: setBool,
+        setNumber: setNumber
     }
 
 })(window, jQuery)
