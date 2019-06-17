@@ -373,8 +373,8 @@ var INPUT = ((global, $)=>{
         if(typeof index !== 'number'){
             throw new Error('first argument must be a number!')
         }
-        if(typeof numbers[index] === 'number'){
-            return numbers[index]
+        if(typeof numbers[index] === 'object' && typeof numbers[index].val === 'number'){
+            return numbers[index].val
         } else {
             return 0
         }
