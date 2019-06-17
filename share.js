@@ -2,12 +2,11 @@ var SHARE = ((global, $)=>{
     
     let currentShare
 
-    /* i trust you to not mess around with my pastebin API key! */
-    const API_DEV_KEY = '56db6234c64843a2e48c40d28a5834f0'
-    const PASTE_NAME = 'Stormworks Lua - lua.flaffipony.rocks'
-    const PASTE_FORMAT = 'lua'
-    const PASTE_EXPIRE_DATE = 'N'
-    const PASTE_PRIVATE = 0
+    let BASE_URL = 'https://lua.flaffipony.rocks'
+
+    if(document.location.hostname.indexOf('localhost') >= 0){
+        BASE_URL = 'http://' + document.location.host
+    }
 
     $(global).on('load', init)
 
@@ -70,6 +69,11 @@ var SHARE = ((global, $)=>{
             setCurrentShare( $('#share .currentshare').val() )
         })
 
+        $('#share .copy_share_to_clipboard').on('click', ()=>{
+            $('#share .currentshare').focus().select()
+            document.execCommand('copy')
+        })
+
         let params = new URLSearchParams( document.location.search)
         let paramid = params.get('id')
         if(paramid){
@@ -78,16 +82,15 @@ var SHARE = ((global, $)=>{
         }
     }
 
-    function setCurrentShare(val){
-        currentShare = val
+    function setCurrentShare(id){
+        currentShare = id.replace(BASE_URL + '/?id=', '')
         if(typeof currentShare === 'string' && currentShare.length > 0){
             $('#share').addClass('has_share')
             localStorage.setItem('share', currentShare)
-            $('#share .share_link').attr('href', 'https://pastebin.com/' + currentShare)
         } else {
             $('#share').removeClass('has_share')
         }
-        $('#share .currentshare').val(currentShare)
+        $('#share .currentshare').val(BASE_URL + '/?id=' + currentShare)
     }
 
     function doCreate(){
@@ -98,18 +101,19 @@ var SHARE = ((global, $)=>{
         }
         log('creating new share')
         $('#pastebin-create-overlay').show()
-        $.post('https://cors.io/?https://pastebin.com/api/api_post.php', {
-            api_dev_key: API_DEV_KEY,
-            api_option: 'paste',
-            api_paste_code: code,
-            api_paste_name: PASTE_NAME,
-            api_paste_format: PASTE_FORMAT,
-            api_paste_private: PASTE_PRIVATE,
-            api_paste_expire_date: PASTE_EXPIRE_DATE
+        $.post(BASE_URL + '/api/create', {
+            code: code,
+            settings: null
         }).done((data)=>{
-            let id = ("" + data).replace('https://pastebin.com/', '')
-            setCurrentShare(id)
-            window.history.pushState(null, 'Stormworks Lua', document.location.href.split('?')[0] + '?id=' + id);
+            try {
+                let json = JSON.parse(data)
+                let id = json.key
+                setCurrentShare(id)
+                window.history.pushState(null, 'Stormworks Lua', document.location.href.split('?')[0] + '?id=' + id);                
+            } catch (e){
+                console.error(e)
+                error('Cannot share via pastebin')                
+            }
         }).fail((e)=>{
             console.error(e)
             error('Cannot share via pastebin')
@@ -125,8 +129,19 @@ var SHARE = ((global, $)=>{
         }
         log('receiving share', currentShare)
         $('#pastebin-receive-overlay').show()
-        $.get('https://cors.io/?https://pastebin.com/raw/' + encodeURIComponent(currentShare)).done((data)=>{
-            editor.setValue(data)
+        $.post(BASE_URL + '/api/get', {
+            key: currentShare
+        }).done((data)=>{
+            try {
+                let json = JSON.parse(data)
+
+                if(typeof json.luabin === 'object' && typeof json.luabin.code === 'string'){
+                    editor.setValue(json.luabin.code)
+                }
+            } catch (e){
+                console.error(e)
+                error('Cannot get data from pastebin')             
+            }
         }).fail((e)=>{
             console.error(e)
             error('Cannot get data from pastebin')
