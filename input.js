@@ -151,7 +151,7 @@ var INPUT = ((global, $)=>{
     }
 
     function doSetBool(label, val){
-        let bool = $('.bools .bool').get(label-1)
+        let bool = dom_bools.find('.bool').get(label-1)
         if(bool){
             $(bool).find('.change input').prop('checked', val)  
             bools[label] = val
@@ -161,7 +161,7 @@ var INPUT = ((global, $)=>{
     }
 
     function doSetNumber(label, val){
-        let number = $('.numbers .number').get(label-1)
+        let number = dom_numbers.find('.number').get(label-1)
         if(number){
             numbers[label].val = val
             $(number).find('.change input').val(val)
