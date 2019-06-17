@@ -11,6 +11,9 @@ var PROPERTY = ((global, $)=>{
     let dom_texts
 
     function init(container){
+	bools = {}
+	numbers = {}
+	texts = {}
         dom = $(container)
         dom.html('')
         dom.append('<div class="head">Properties:</div>')

@@ -48,7 +48,7 @@ var SHARE = ((global, $)=>{
             }, 200)
             $('#share .inner').animate({
                 height: 0
-            }, 200)            
+            }, 200)
             $('#share').removeClass('isopen')
         })
 
@@ -74,12 +74,12 @@ var SHARE = ((global, $)=>{
         let paramid = params.get('id')
         if(paramid){
             setCurrentShare(paramid)
-            doReceive()
+            setTimeout(doReceive, 500)
         }
     }
 
     function setCurrentShare(id){
-        currentShare = id.replace(BASE_URL + '/?id=', '')
+        currentShare = id.replace('/beta', '').replace(BASE_URL + '/?id=', '')
         if(typeof currentShare === 'string' && currentShare.length > 0){
             $('#share').addClass('has_share')
             localStorage.setItem('share', currentShare)
@@ -105,7 +105,7 @@ var SHARE = ((global, $)=>{
 
         $.post(BASE_URL + '/api/create', {
             code: code,
-            settings: settings
+            settings: JSON.stringify(settings)
         }).done((data)=>{
             try {
                 let json = JSON.parse(data)
@@ -113,7 +113,7 @@ var SHARE = ((global, $)=>{
                 setCurrentShare(id)
             } catch (e){
                 console.error(e)
-                error('Cannot share via pastebin')                
+                error('Cannot share via pastebin')
             }
         }).fail((e)=>{
             console.error(e)
@@ -131,7 +131,7 @@ var SHARE = ((global, $)=>{
         log('receiving share', currentShare)
         $('#pastebin-receive-overlay').show()
         $.post(BASE_URL + '/api/get', {
-            key: currentShare
+            key: currentShare.replace('/beta', '').replace(BASE_URL + '/?id=', '')
         }).done((data)=>{
             try {
                 let json = JSON.parse(data)
@@ -152,7 +152,7 @@ var SHARE = ((global, $)=>{
                 }
             } catch (e){
                 console.error(e)
-                error('Cannot get data from pastebin')             
+                error('Cannot get data from pastebin')
             }
         }).fail((e)=>{
             console.error(e)

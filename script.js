@@ -46,6 +46,7 @@ var YYY = ((global, $)=>{
     		PAINT.setZoomFactor(val)
     		MAP.setZoomFactor(val)
     		$('.zoomfactor span').html(val+'x')
+		updateStorage()
     	})
 	  	$('#start').on('click', start)
         $('#stop').prop('disabled', true).on('click', stop)
@@ -86,7 +87,7 @@ var YYY = ((global, $)=>{
 
         setTimeout(()=>{
             refreshAll()
-        }, 200)     
+        }, 200)
     }
 
     function refreshAll(){
@@ -95,19 +96,19 @@ var YYY = ((global, $)=>{
         PROPERTY.init($('#property'))
 
         let store = getStorage()
-        if(store && typeof store.timeBetweenTicks === 'number'){
-            $('#timeBetweenTicks').val(store.timeBetweenTicks)
+        if(store && isNaN(parseInt(store.timeBetweenTicks)) === false){
+            $('#timeBetweenTicks').val(parseInt(store.timeBetweenTicks))
         }
-        if(store && typeof store.timeBetweenDraws === 'number'){
-            $('#timeBetweenDraws').val(store.timeBetweenDraws)
+        if(store && isNaN(parseInt(store.timeBetweenDraws)) === false){
+            $('#timeBetweenDraws').val(parseInt(store.timeBetweenDraws))
         }
-        if(store && typeof store.zoomfactor === 'number'){
-            $('#zoomfactor').val(store.zoomfactor)
+        if(store && isNaN(parseInt(store.zoomfactor)) === false){
+            $('#zoomfactor').val(parseInt(store.zoomfactor))
         }
         $('#zoomfactor').trigger('change')
         if(store && typeof store.monitorSize === 'string'){
             $('#monitor-size').find('option[selected]').prop('selected', false)
-            $('#monitor-size').find('option[val="'+store.monitorSize+'"]').prop('selected', true)
+            $('#monitor-size').find('option[value="'+store.monitorSize+'"]').prop('selected', true)
         }
         if(store && typeof store.showOverflow === 'boolean'){
             $('#show-overflow').prop('checked', store.showOverflow)
@@ -190,7 +191,7 @@ var YYY = ((global, $)=>{
         CANVAS.reset()
         LUA_EMULATOR.draw()
         let end = new Date().getTime()
-        let diff = end-begin        
+        let diff = end-begin
         drawTimes.reverse()
         drawTimes.pop()
         drawTimes.reverse()
@@ -199,15 +200,15 @@ var YYY = ((global, $)=>{
         for(let t of drawTimes){
             average += t
         }
-        
+
         $('#drawtime').html(Math.floor(average/drawTimes.length) + ' ms')
     }
 
     function updateStorage(){
         var toStore = {
-            timeBetweenTicks: $('#timeBetweenTicks').val(),
-            timeBetweenDraws: $('#timeBetweenDraws').val(),
-            zoomfactor: $('#zoomfactor').val(),
+            timeBetweenTicks: parseInt($('#timeBetweenTicks').val()),
+            timeBetweenDraws: parseInt($('#timeBetweenDraws').val()),
+            zoomfactor: parseInt($('#zoomfactor').val()),
             monitorSize: $('#monitor-size').val(),
             showOverflow: $('#show-overflow').prop('checked')
         }

@@ -11,6 +11,8 @@ var INPUT = ((global, $)=>{
     let dom_numbers_add
 
     function init(container){
+	bools = {}
+	numbers = {}
         dom = $(container)
         dom.html('')
         dom.append('<div class="head">Inputs:</div>')
