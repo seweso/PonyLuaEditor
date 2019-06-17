@@ -105,7 +105,6 @@ var SHARE = ((global, $)=>{
                 let json = JSON.parse(data)
                 let id = json.key
                 setCurrentShare(id)
-                window.history.pushState(null, 'Stormworks Lua', document.location.href.split('?')[0] + '?id=' + id);                
             } catch (e){
                 console.error(e)
                 error('Cannot share via pastebin')                
