@@ -164,7 +164,8 @@ var PROPERTY = ((global, $)=>{
             delete texts[label]
             $(e.target).parent().remove()
         }, val)
-        dom_texts.append(text)  
+        dom_texts.append(text)
+        saveToStorage()
     }
 
     function addNew(type, inputType, label, changeCallback, removeCallback, val){

@@ -113,7 +113,7 @@ var YYY = ((global, $)=>{
         if(store && typeof store.showOverflow === 'boolean'){
             $('#show-overflow').prop('checked', store.showOverflow)
         }
-
+	setStorage(store)
         CANVAS.refresh()
 
         refreshCharacterCount()
