@@ -19,9 +19,13 @@ var CANVAS = ((global, $)=>{
         $('#monitor-size, #show-overflow').on('change', (e)=>{
             recalculateCanvas()
         })
+        refresh()
+    }
+
+    function refresh(){
         $canvas = $('#canvas')
         ctx  = $canvas.get(0).getContext('2d')
-        recalculateCanvas()
+        recalculateCanvas()        
     }
 
     function recalculateCanvas(){
@@ -99,6 +103,7 @@ var CANVAS = ((global, $)=>{
             return $canvas.get(0).height
         },
         reset: reset,
+        refresh: refresh,
         setZoomFactor: setZoomFactor
     }
 

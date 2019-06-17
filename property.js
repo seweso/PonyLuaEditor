@@ -12,6 +12,7 @@ var PROPERTY = ((global, $)=>{
 
     function init(container){
         dom = $(container)
+        dom.html('')
         dom.append('<div class="head">Properties:</div>')
 
         dom_bools = $('<div class="bools"><div class="head"><span>Booleans:</span></div></div>')
@@ -68,11 +69,18 @@ var PROPERTY = ((global, $)=>{
         }
     }
 
+    function setStorage(data){
+        localStorage.setItem('property_bools', JSON.stringify(data.bools))
+        localStorage.setItem('property_numbers', JSON.stringify(data.numbers))
+        localStorage.setItem('property_texts', JSON.stringify(data.texts))
+    }
 
     function saveToStorage(){
-        localStorage.setItem('property_bools', JSON.stringify(bools))
-        localStorage.setItem('property_numbers', JSON.stringify(numbers))
-        localStorage.setItem('property_texts', JSON.stringify(texts))
+        setStorage({
+            bools: bools,
+            numbers: numbers,
+            texts: texts
+        })
     }
 
     function getFromStorage(){
@@ -247,7 +255,9 @@ var PROPERTY = ((global, $)=>{
         getText: getText,
         setBool: setBool,
         setNumber: setNumber,
-        setText: setText
+        setText: setText,
+        getStorage: getFromStorage,
+        setStorage: setStorage
     }
 
 })(window, jQuery)

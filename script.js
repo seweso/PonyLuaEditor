@@ -10,6 +10,7 @@ var YYY = ((global, $)=>{
 
     let drawTimes = [0,0,0,0,0]
 
+
     $(global).on('load', init)
 
     function init(){
@@ -61,6 +62,10 @@ var YYY = ((global, $)=>{
 	  		editor.setValue(codeFromStorage)
 	  	}
 
+        $('#monitor-size, #show-overflow').on('change', (e)=>{
+            updateStorage()
+        })
+
         editor.on('change', ()=>{
             refreshCharacterCount()
         })
@@ -71,31 +76,58 @@ var YYY = ((global, $)=>{
 
         $('#timeBetweenTicks').on('input', ()=>{
             refreshTimeBetweenTicks()
+            updateStorage()
         })
 
         $('#timeBetweenDraws').on('input', ()=>{
             refreshTimeBetweenDraws()
+            updateStorage()
         })
 
-	  	INPUT.init($('#input'))
-	  	OUTPUT.init($('#output'))
-	  	PROPERTY.init($('#property'))
-	  	setTimeout(()=>{
-    		$('#zoomfactor').trigger('change')
-            refreshCharacterCount()
-
-            refreshTimeBetweenTicks()
-            refreshTimeBetweenDraws()
-	  	}, 200)
+        setTimeout(()=>{
+            refreshAll()
+        }, 200)     
     }
 
-    function refreshTimeBetweenTicks(){        
+    function refreshAll(){
+        INPUT.init($('#input'))
+        OUTPUT.init($('#output'))
+        PROPERTY.init($('#property'))
+
+        let store = getStorage()
+        if(store && typeof store.timeBetweenTicks === 'number'){
+            $('#timeBetweenTicks').val(store.timeBetweenTicks)
+        }
+        if(store && typeof store.timeBetweenDraws === 'number'){
+            $('#timeBetweenDraws').val(store.timeBetweenDraws)
+        }
+        if(store && typeof store.zoomfactor === 'number'){
+            $('#zoomfactor').val(store.zoomfactor)
+        }
+        $('#zoomfactor').trigger('change')
+        if(store && typeof store.monitorSize === 'string'){
+            $('#monitor-size').find('option[selected]').prop('selected', false)
+            $('#monitor-size').find('option[val="'+store.monitorSize+'"]').prop('selected', true)
+        }
+        if(store && typeof store.showOverflow === 'boolean'){
+            $('#show-overflow').prop('checked', store.showOverflow)
+        }
+
+        CANVAS.refresh()
+
+        refreshCharacterCount()
+
+        refreshTimeBetweenTicks()
+        refreshTimeBetweenDraws()   
+    }
+
+    function refreshTimeBetweenTicks(){
         let val = $('#timeBetweenTicks').val()
         timeBetweenTicks = val
         $('#timeBetweenTicksVal').html(val + ' ms')
     }
 
-    function refreshTimeBetweenDraws(){        
+    function refreshTimeBetweenDraws(){
         let val = $('#timeBetweenDraws').val()
         timeBetweenDraws = val
         $('#timeBetweenDrawsVal').html(val + ' ms')
@@ -171,12 +203,36 @@ var YYY = ((global, $)=>{
         $('#drawtime').html(Math.floor(average/drawTimes.length) + ' ms')
     }
 
+    function updateStorage(){
+        var toStore = {
+            timeBetweenTicks: $('#timeBetweenTicks').val(),
+            timeBetweenDraws: $('#timeBetweenDraws').val(),
+            zoomfactor: $('#zoomfactor').val(),
+            monitorSize: $('#monitor-size').val(),
+            showOverflow: $('#show-overflow').prop('checked')
+        }
+        setStorage(toStore)
+    }
+
     function saveCodeInStorage(){
   		localStorage.setItem('code', editor.getValue());
     }
 
     function getCodeFromStorage(){
   		return localStorage.getItem('code');
+    }
+
+    function setStorage(data){
+        localStorage.setItem('general', JSON.stringify(data));
+    }
+
+    function getStorage(){
+        try {
+            let parse = JSON.parse( localStorage.getItem('general') )
+            return parse
+        } catch (e){
+            return null
+        }
     }
 
     function refreshCharacterCount(){
@@ -195,15 +251,15 @@ var YYY = ((global, $)=>{
         $('#selection-information').html('Line ' + (pos.row + 1) + ', Column ' + (pos.column + 1) + ', Char ' + chars)
     }
 
-    // why ? because stormworks string length differs from javascripts string length (the one counts only /n and ignores /r, the other one coutns both)
     function countCharacters(str){
         return typeof str === 'string' ? str.length : 0
-        /*let matches = str.match(/\n/g)
-        return str.length + (matches ? matches.length : 0))*/
     }
 
     return {
-        errorStop: errorStop
+        errorStop: errorStop,
+        setStorage: setStorage,
+        getStorage: getStorage,
+        refreshAll: refreshAll
     }
 
 })(window, jQuery)

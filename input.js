@@ -12,6 +12,7 @@ var INPUT = ((global, $)=>{
 
     function init(container){
         dom = $(container)
+        dom.html('')
         dom.append('<div class="head">Inputs:</div>')
 
         dom_bools = $('<div class="bools"><div class="head"><span>Booleans:</span></div></div>')
@@ -92,10 +93,17 @@ var INPUT = ((global, $)=>{
         dom_numbers_add.find('option[value="' + (i+1) + '"]').prop('selected', true)
     }
 
+    function setStorage(data){
+        localStorage.setItem('input_bools', JSON.stringify(data.bools))
+        localStorage.setItem('input_numbers', JSON.stringify(data.numbers))        
+    }
+
 
     function saveToStorage(){
-        localStorage.setItem('input_bools', JSON.stringify(bools))
-        localStorage.setItem('input_numbers', JSON.stringify(numbers))
+        setStorage({
+            bools: bools,
+            numbers: numbers
+        })
     }
 
     function getFromStorage(){
@@ -305,7 +313,9 @@ var INPUT = ((global, $)=>{
     return {
         init: init,
         getBool: getBool,
-        getNumber: getNumber
+        getNumber: getNumber,
+        getStorage: getFromStorage,
+        setStorage: setStorage
     }
 
 })(window, jQuery)

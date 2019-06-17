@@ -97,9 +97,15 @@ var SHARE = ((global, $)=>{
         }
         log('creating new share')
         $('#pastebin-create-overlay').show()
+
+        let settings = {}
+        settings.input = INPUT.getStorage()
+        settings.property = PROPERTY.getStorage()
+        settings.general = YYY.getStorage()
+
         $.post(BASE_URL + '/api/create', {
             code: code,
-            settings: null
+            settings: settings
         }).done((data)=>{
             try {
                 let json = JSON.parse(data)
@@ -132,6 +138,17 @@ var SHARE = ((global, $)=>{
 
                 if(typeof json.luabin === 'object' && typeof json.luabin.code === 'string'){
                     editor.setValue(json.luabin.code)
+                }
+                if(typeof json.luabin === 'object' && typeof json.luabin.settings === 'string'){
+                    try {
+                        let parsed = JSON.parse(json.luabin.settings)
+                        INPUT.setStorage(parsed.input)
+                        PROPERTY.setStorage(parsed.property)
+                        YYY.setStorage(parsed.general)
+                        YYY.refreshAll()
+                    } catch (e){
+                        console.error('error parsing settings from pastebin', e)
+                    }
                 }
             } catch (e){
                 console.error(e)
