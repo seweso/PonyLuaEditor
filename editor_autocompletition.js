@@ -867,7 +867,7 @@ AutocompletitionElement.prototype.insertAutoCompletition = function(completition
         text += args
         setTimeout(()=>{
             editor.navigateLeft(args.length - 1)
-        }, 200)
+        }, 10)
     }
     editor.insert(text)
     AUTOCOMPLETE.closeAutocomplete()
