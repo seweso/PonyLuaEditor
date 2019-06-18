@@ -175,7 +175,7 @@ var PROPERTY = ((global, $)=>{
         } else if (val !== undefined && val !== null ){
             valtext = 'value="'+val+'"'
         }
-        let neww = $('<div class="' + type + '"><label for="property_' + type + '_' + label + '">'+label+'</label><input type="' + inputType + '" id="property_' + type + '_' + label + '" ' + valtext + '/><button>x</button></div>')
+        let neww = $('<div class="' + type + '"><label for="property_' + type + '_' + label + '">'+label+'</label><input type="' + inputType + '" ' + (inputType === 'number' ? 'step="0.000001"': '') + ' id="property_' + type + '_' + label + '" ' + valtext + '/><button>x</button></div>')
         neww.find('input').on('change', (e)=>{
             changeCallback(e)
             saveToStorage()
