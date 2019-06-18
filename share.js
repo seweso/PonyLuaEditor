@@ -61,7 +61,7 @@ var SHARE = ((global, $)=>{
         })
 
 
-        $('#share .currentshare').on('input', ()=>{
+        $('#share .currentshare').on('change paste mouseleave', ()=>{
             setCurrentShare( $('#share .currentshare').val() )
         })
 
