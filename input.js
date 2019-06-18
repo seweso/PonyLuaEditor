@@ -239,7 +239,7 @@ var INPUT = ((global, $)=>{
         })
         openSettings.insertBefore(number.find('button'))
 
-        let slider = $('<div class="group"><div><input type="checkbox" class="slider_check"/><label>Use slider</label></div><div><input type="number" class="slider_min" value="-10"/><label>Min</label></div><div><input type="number" class="slider_max" value="10"/><label>Max</label></div><div><input type="number" class="slider_step" value="0.1" min="0" max="10000" step="0.000001"/><label>Step</label></div></div>')
+        let slider = $('<div class="group"><div><input type="checkbox" class="slider_check"/><label>Use slider</label></div><div><input type="number" class="slider_min" value="-10" step="0.000001"/><label>Min</label></div><div><input type="number" class="slider_max" value="10" step="0.000001"/><label>Max</label></div><div><input type="number" class="slider_step" value="0.1" min="0" max="10000" step="0.000001"/><label>Step</label></div></div>')
         settings.append(slider)
         slidercheck = slider.find('.slider_check')
         slidercheck.on('input', ()=>{
@@ -354,7 +354,11 @@ var INPUT = ((global, $)=>{
             valtext = 'value="'+val+'"'
         }
         let neww = $('<div class="' + type + '"><div class="change"><label class="channel" for="input_' + type + '_' + label + '">'+label+'</label><input type="' + inputType + '" ' + (inputType === 'number' ? 'step="0.1"': '') + ' id="input_' + type + '_' + label + '" ' + valtext + '/>' + (inputType === 'number' ? '<input type="range" min="-10" max="10" value="0" step="0.1"/><label class="slidervalue">0</label>': '') + '<button>x</button></div></div>')
-        neww.find('input').on('change input', (e)=>{
+        neww.find('input[type="number"], input[type="checkbox"]').on('change paste mouseleave', (e)=>{
+            changeCallback(e)
+            saveToStorage()
+        })
+        neww.find('input[type="range"]').on('change input', (e)=>{
             changeCallback(e)
             saveToStorage()
         })
