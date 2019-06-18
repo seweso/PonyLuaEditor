@@ -11,8 +11,8 @@ var INPUT = ((global, $)=>{
     let dom_numbers_add
 
     function init(container){
-	bools = {}
-	numbers = {}
+    bools = {}
+    numbers = {}
         dom = $(container)
         dom.html('')
         dom.append('<div class="head">Inputs:</div>')
@@ -163,7 +163,7 @@ var INPUT = ((global, $)=>{
     function doSetNumber(label, val){
         let number = dom_numbers.find('#input_number_'+label).get(0)
         if(number){
-		val = parseFloat(val)
+        val = parseFloat(val)
                 if(isNaN(val)){
                     val = parseInt(val)
                 }
@@ -172,7 +172,7 @@ var INPUT = ((global, $)=>{
                 }
 
             numbers[label].val = val
-	    $(number).parent().find('input').val(val)
+        $(number).parent().find('input').val(val)
             $(number).parent().find('.slidervalue').html(val)
         } else {
             addNewNumber(label, val)
@@ -239,7 +239,7 @@ var INPUT = ((global, $)=>{
         })
         openSettings.insertBefore(number.find('button'))
 
-        let slider = $('<div class="group"><div><input type="checkbox" class="slider_check"/><label>Use slider</label></div><div><input type="number" class="slider_min" value="-10"/><label>Min</label></div><div><input type="number" class="slider_max" value="10"/><label>Max</label></div><div><input type="number" class="slider_step" value="0.1"/><label>Step</label></div></div>')
+        let slider = $('<div class="group"><div><input type="checkbox" class="slider_check"/><label>Use slider</label></div><div><input type="number" class="slider_min" value="-10"/><label>Min</label></div><div><input type="number" class="slider_max" value="10"/><label>Max</label></div><div><input type="number" class="slider_step" value="0.1" min="0" max="10000" step="0.000001"/><label>Step</label></div></div>')
         settings.append(slider)
         slidercheck = slider.find('.slider_check')
         slidercheck.on('input', ()=>{
@@ -414,7 +414,7 @@ var INPUT = ((global, $)=>{
         getNumber: getNumber,
         getStorage: getFromStorage,
         setStorage: setStorage,
-	setBool: setBool,
+    setBool: setBool,
         setNumber: setNumber
     }
 
