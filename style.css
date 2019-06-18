@@ -526,7 +526,7 @@ button[disabled] {
 }
 
 .autocompletition .list .entry.selected {
-    background: #666666;
+    background: #666666!important;
 }
 
 .autocompletition .list .entry .type {
