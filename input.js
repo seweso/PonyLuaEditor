@@ -143,7 +143,7 @@ var INPUT = ((global, $)=>{
         }, (e)=>{
             bools[label] = false
             delete bools[label]
-            $(e.target).parent().remove()
+            $(e.target).parent().parent().remove()
             refreshBoolsAddSelect()
         }, val)
         dom_bools.append(bool)
@@ -151,9 +151,9 @@ var INPUT = ((global, $)=>{
     }
 
     function doSetBool(label, val){
-        let bool = dom_bools.find('.bool').get(label-1)
+        let bool = dom_bools.find('#input_bool_'+label).get(0)
         if(bool){
-            $(bool).find('.change input').prop('checked', val)  
+            $(bool).prop('checked', val)  
             bools[label] = val
         } else {
             addNewBool(label, val)
@@ -161,11 +161,19 @@ var INPUT = ((global, $)=>{
     }
 
     function doSetNumber(label, val){
-        let number = dom_numbers.find('.number').get(label-1)
+        let number = dom_numbers.find('#input_number_'+label).get(0)
         if(number){
+		val = parseFloat(val)
+                if(isNaN(val)){
+                    val = parseInt(val)
+                }
+                if(isNaN(val)){
+                    return
+                }
+
             numbers[label].val = val
-            $(number).find('.change input').val(val)
-            $(number).find('.slidervalue').html(val)
+	    $(number).parent().find('input').val(val)
+            $(number).parent().find('.slidervalue').html(val)
         } else {
             addNewNumber(label, val)
         }
@@ -207,7 +215,7 @@ var INPUT = ((global, $)=>{
                 return
             }
             numbers[label] = {
-                val: $(number.find('.change input').get(0)).val(),
+                val: n,
                 slidercheck: slidercheck.prop('checked'),
                 slidermin: slidermin.val(),
                 slidermax: slidermax.val(),
@@ -220,7 +228,7 @@ var INPUT = ((global, $)=>{
         }, (e)=>{
             numbers[label] = null
             delete numbers[label]
-            $(e.target).parent().remove()
+            $(e.target).parent().parent().remove()
             refreshNumbersAddSelect()
         }, val)
 
