@@ -215,11 +215,11 @@ button[disabled] {
     margin: 0 10px;
 }
 
-#charactercount {
+#charactercount, #modified-charactercount {
     font-weight: bold;
 }
 
-#charactercount.limit {
+#charactercount.limit, #modified-charactercount.limit {
     color: red;
 }
 

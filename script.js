@@ -58,9 +58,22 @@ var YYY = ((global, $)=>{
             }
         })
          $('#minify').on('click', ()=>{
-            let minified = luamin.minify(editor.getValue())
-            $('#minified-code-container').show()
-            minifiedEditor.setValue(minified)
+            try {
+                let minified = luamin.minify(editor.getValue())
+                $('#minified-code-container').show()
+                minifiedEditor.setValue(minified)
+                $('#minified-charactercount').html(minified.length + '/4096')
+                if(minified.length > 4096){
+                    $('#minified-charactercount').addClass('limit')
+                } else {
+                    $('#minified-charactercount').removeClass('limit')
+                }
+            } catch (ex){
+                console.log(ex)
+                minifiedEditor.setValue('Error: ' + ex.message)
+                $('#minified-charactercount').html('0/4096')
+                $('#minified-charactercount').removeClass('limit')
+            }
         })
          minifiedEditor.setValue('')
 	  	$('#console').val('')
