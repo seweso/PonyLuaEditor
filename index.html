@@ -34,6 +34,8 @@
     <script type="text/javascript" src="stormworks_lua_api.js"></script>
     <script type="text/javascript" src="lua_emulator.js"></script>
     <script type="text/javascript" src="editor_autocompletition.js"></script>
+    <script type="text/javascript" src="luaparse.js"></script>
+    <script type="text/javascript" src="luamin.js"></script>
 
 
     <script type="text/javascript" src="version.js"></script>    
@@ -83,6 +85,9 @@
             <button id="stop">Stop</button>
             <button id="reset">Reset all data</button>
 
+
+            <button id="minify">Minify</button>
+
             <div id="share" class="share">
                 <span class="close">x</span>
                 <div class="outer">
@@ -125,6 +130,14 @@ end
             <div id="autocompletition-container"></div>
         </div>
     </div>
+
+    <div id="minified-code-container" class="container" style="display: none;">
+        <h3>Minified Code:</h3>
+        <h4>(Use <span style="color: #F92672">local</span>'s for better minifying)</h4>
+        <div id="minified-code">
+        </div>
+    </div>
+
     <div id="out">
         <h3>Console Output:</h3>
         <textarea readonly id="console"></textarea>
@@ -219,6 +232,10 @@ end
         var editor = ace.edit("code");
         editor.setTheme("ace/theme/monokai");
         editor.session.setMode("ace/mode/lua");
+
+        var minifiedEditor = ace.edit("minified-code");
+        minifiedEditor.setTheme("ace/theme/monokai");
+        minifiedEditor.session.setMode("ace/mode/lua");
     </script>
 
     <img src="map.png" id="map" style="display: none;">

@@ -57,6 +57,12 @@ var YYY = ((global, $)=>{
                 document.location = document.location.href.split('?')[0]
             }
         })
+         $('#minify').on('click', ()=>{
+            let minified = luamin.minify(editor.getValue())
+            $('#minified-code-container').show()
+            minifiedEditor.setValue(minified)
+        })
+         minifiedEditor.setValue('')
 	  	$('#console').val('')
 	  	let codeFromStorage = getCodeFromStorage()
 	  	if(typeof codeFromStorage === 'string' && codeFromStorage.length > 0){
@@ -136,6 +142,7 @@ var YYY = ((global, $)=>{
 
     function start(){
         $('#start, #timeBetweenTicks, #timeBetweenDraws').prop('disabled', true)
+        $('#minified-code-container').hide()
         $('#code-container').addClass('locked')
 	  	saveCodeInStorage()
 	  	$('#console').val('')
