@@ -59,7 +59,8 @@ var YYY = ((global, $)=>{
         })
          $('#minify').on('click', ()=>{
             try {
-                let minified = luamin.minify(editor.getValue()).replace(/([;\s]|end)local\s/g, '  ').replace(/^local\s/g, '')
+                let ast = luaparse.parse(editor.getValue())
+                let minified = luamin.minify(ast)
                 $('#minified-code-container').show()
                 minifiedEditor.setValue(minified)
                 $('#minified-charactercount').html(minified.length + '/4096')
