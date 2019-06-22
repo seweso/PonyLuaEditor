@@ -171,11 +171,11 @@ var LUA_EMULATOR = ((global, $)=>{
 
     function luaTableToJSObject(table){
         let ret = {}
-        if(table.l instanceof Object){
-            let current = table.l
+        if(table.f instanceof Object){
+            let current = table.f
             ret[convertLuaValue(current.key)] = convertLuaValue(current.value)
-            while(current.p instanceof Object){
-                current = current.p
+            while(current.n instanceof Object && current.n !== null){
+                current = current.n
                 ret[convertLuaValue(current.key)] = convertLuaValue(current.value)
             }
             return ret
@@ -204,11 +204,17 @@ var LUA_EMULATOR = ((global, $)=>{
         } else if (ob === null){
             fengari.lua.lua_pushnil(l)
             return 1
+        } else if (ob instanceof Array){
+            for(let i in ob){
+                pushToStack(l, ob[i])                
+            }
+            return ob.length
         } else if (ob instanceof Object){
+            fengari.lua.lua_createtable(l)
             for(let k of Object.keys(ob)){
                 pushToStack(l, k)
                 pushToStack(l, ob[k])
-                fengari.lua.lua_settable(l, l.stack.top)
+                fengari.lua.lua_settable(l, -3)
             }
             return 1;
         } else {
