@@ -13,13 +13,56 @@ var CANVAS = ((global, $)=>{
     let width = 0
     let height = 0
 
+    let isTouchDown = false
+
     $(global).on('load', init)
 
     function init(){
         $('#monitor-size, #show-overflow').on('change', (e)=>{
             recalculateCanvas()
         })
+        $('#monitor').on('mousedown', handleMouseDown)
+        $('#monitor').on('mouseleave mouseup', handleMouseLeaveAndUp)
         refresh()
+    }
+
+    function handleMouseDown(evt){
+        if( $('#enable-touchscreen').prop('checked') === false){
+            return
+        }
+        let deltaX = evt.originalEvent.clientX - $('#monitor').offset().left - left
+        let deltaY = evt.originalEvent.clientY - $('#monitor').offset().top - top
+
+        let pX = unzoom(deltaX)
+        let pY = unzoom(deltaY)
+
+        if(pX > 0 && pX < width && pY > 0 && pY < height){
+            // its a touch click!
+            evt.preventDefault()
+            evt.stopImmediatePropagation()
+
+            isTouchDown = true
+
+            INPUT.setNumber(1, width)
+            INPUT.setNumber(2, height)
+            INPUT.setNumber(3, Math.floor(pX))
+            INPUT.setNumber(4, Math.floor(pY))
+
+            INPUT.setBool(1, true)
+        }
+    }
+
+    function handleMouseLeaveAndUp(){
+        if(isTouchDown){
+            isTouchDown = false
+
+            INPUT.setNumber(1, 0)
+            INPUT.setNumber(2, 0)
+            INPUT.setNumber(3, 0)
+            INPUT.setNumber(4, 0)
+
+            INPUT.setBool(1, false)
+        }
     }
 
     function refresh(){
