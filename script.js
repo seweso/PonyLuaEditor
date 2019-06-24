@@ -105,6 +105,15 @@ var YYY = ((global, $)=>{
             updateStorage()
         })
 
+        /* resizable ace code editors */
+        $('#code').resizable().on('resize', ()=>{
+            editor.resize()
+        })
+
+        $('#minified-code').resizable().on('resize', ()=>{
+            minifiedEditor.resize()
+        })
+
         setTimeout(()=>{
             refreshAll()
         }, 200)
