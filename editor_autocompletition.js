@@ -694,6 +694,7 @@ var AUTOCOMPLETE = ((global, $)=>{
         closeAutocomplete: closeAutocomplete,
         TO: TO,
         TF: TF,
+        getAllAutocompletitions: ()=>{ return AUTOCOMPLETITIONS; },
         getAllAUTOCOMPLETITIONSParsed: getAllAUTOCOMPLETITIONSParsed
     }
 

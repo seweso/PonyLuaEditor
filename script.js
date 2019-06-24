@@ -10,10 +10,20 @@ var YYY = ((global, $)=>{
 
     let drawTimes = [0,0,0,0,0]
 
+    const IDENTIFIERS_NOT_ALLOWED_TO_MINIFY = ['onTick', 'onDraw']
+
+    const IDENTIFIERS_NOT_ALLOWED_TO_SHORTIFY = ['onTick', 'onDraw']
+
+    let shortenedIdentifiers = []
+
 
     $(global).on('load', init)
 
     function init(){
+
+        for(let k of Object.keys(AUTOCOMPLETE.getAllAutocompletitions().children)){
+            IDENTIFIERS_NOT_ALLOWED_TO_MINIFY.push(k)
+        }
 
         if(document.location.pathname.indexOf('beta') >= 0 || document.location.host === 'localhost'){
             $('#beta').show()
@@ -60,7 +70,38 @@ var YYY = ((global, $)=>{
          $('#minify').on('click', ()=>{
             try {
                 let ast = luaparse.parse(editor.getValue())
+
+                shortenedIdentifiers = []
+
+
+                for(let g of ast.globals){
+                    if(IDENTIFIERS_NOT_ALLOWED_TO_MINIFY.indexOf(g.name) === -1){
+                        makeIdentifierLocal(g.name, ast)
+                        removeFromAstGlobals(g.name, ast)
+                    } else {
+                        if (IDENTIFIERS_NOT_ALLOWED_TO_SHORTIFY.indexOf(g.name) === -1){
+                            shortifyIdentifier(g.name, ast)
+                        }
+                    }
+                }
+
+                let minifyIdentation = $('#minify-identation').prop('checked')//TODO
+
+
                 let minified = luamin.minify(ast)
+                let prefix = ''
+
+                for(let s of shortenedIdentifiers){
+                    let localStatement = minified.substring(0, minified.indexOf(';') + 1)
+                    let match = localStatement.match(/local\s([\w]+)=([\w]+);/)
+                    let short = match[1]
+                    let shortenedGlobal = match[2]
+                    prefix += short + '=' + shortenedGlobal + ';'
+                    minified = minified.substring(localStatement.length)
+                }
+
+                minified = prefix + minified
+
                 $('#minified-code-container').show()
                 minifiedEditor.setValue(minified)
                 $('#minified-charactercount').html(minified.length + '/4096')
@@ -76,7 +117,7 @@ var YYY = ((global, $)=>{
                 $('#minified-charactercount').removeClass('limit')
             }
         })
-         minifiedEditor.setValue('')
+        minifiedEditor.setValue('')
 	  	$('#console').val('')
 	  	let codeFromStorage = getCodeFromStorage()
 	  	if(typeof codeFromStorage === 'string' && codeFromStorage.length > 0){
@@ -117,6 +158,142 @@ var YYY = ((global, $)=>{
         setTimeout(()=>{
             refreshAll()
         }, 200)
+    }
+
+    function removeFromAstGlobals(identifier, ast){
+        let newGlobals = []
+        for(let g of ast.globals){
+            if(g.name !== identifier){
+                newGlobals.push(g)
+            }
+        }
+        ast.globals = newGlobals
+    }
+
+    function makeIdentifierLocal(identifier, ast){
+        if(ast.identifier && ast.identifier.name === identifier){
+            ast.identifier.isLocal = true
+            ast.isLocal = true
+        }
+        if(ast.name === identifier){
+            ast.isLocal = true
+        }
+        if(ast.body instanceof Array){
+            for(let e of ast.body){
+                makeIdentifierLocal(identifier, e)
+            }
+        }
+        if(ast.variables instanceof Array){
+            for(let e of ast.variables){
+                makeIdentifierLocal(identifier, e)
+            }
+        }
+        if(ast.expression){
+            if(ast.expression.base && ast.expression.base.base.name === identifier){
+                ast.expression.base.base.isLocal = true
+            }
+            if(ast.expression.arguments instanceof Array){
+                for(let e of ast.expression.arguments){
+                    if(e.left){
+                        makeIdentifierLocal(identifier, e.left)
+                    }
+                    if(e.right){
+                        makeIdentifierLocal(identifier, e.right)
+                    }
+                }
+            }
+        }
+        if (ast.init instanceof Array){
+            for(let e of ast.init){
+                if(e.base && e.base.base.name === identifier){
+                    e.base.base.isLocal = true
+                }
+            }
+        }
+    }
+
+    function replaceIdentifierName(identifier, ast, newIdentifier){
+        if(ast.identifier && ast.identifier.name === identifier){
+            if(newIdentifier){
+                ast.identifier.name = newIdentifier
+            }
+        }
+        if(ast.name === identifier){
+            if(newIdentifier){
+                ast.name = newIdentifier
+            }
+        }
+        if(ast.body instanceof Array){
+            for(let e of ast.body){
+                replaceIdentifierName(identifier, e, newIdentifier)
+            }
+        }
+        if(ast.variables instanceof Array){
+            for(let e of ast.variables){
+                replaceIdentifierName(identifier, e, newIdentifier)
+            }
+        }
+        if(ast.expression){
+            if(ast.expression.base && ast.expression.base.base.name === identifier){
+
+                if(newIdentifier){
+                    ast.expression.base.base.name = newIdentifier
+                }
+
+            }
+            if(ast.expression.arguments instanceof Array){
+                for(let e of ast.expression.arguments){
+                    if(e.left){
+                        replaceIdentifierName(identifier, e.left, newIdentifier)
+                    }
+                    if(e.right){
+                        replaceIdentifierName(identifier, e.right, newIdentifier)
+                    }
+                }
+            }
+        }
+        if (ast.init instanceof Array){
+            for(let e of ast.init){
+                if(e.base && e.base.base.name === identifier){
+                    e.base.base.name = newIdentifier
+                }
+            }
+        }
+    }
+
+    function shortifyIdentifier(identifier, ast){
+        if(shortenedIdentifiers.indexOf(identifier) >= 0){
+            return
+        }
+        shortenedIdentifiers.push(identifier)
+        //TODO
+        /*
+            e.g.
+            local sc = screen
+            
+            screen.getWidth() => sc.getWidth()
+        */
+
+        replaceIdentifierName(identifier, ast, identifier+'tmp')
+        makeIdentifierLocal(identifier+'tmp', ast)
+        removeFromAstGlobals(identifier+'tmp', ast)
+
+        ast.body.reverse()
+        ast.body.push({
+            type: 'LocalStatement',
+            init: [{
+                isLocal: false,
+                name: identifier,
+                type: 'Identifier'
+            }],
+            variables: [{
+                isLocal: true,
+                name: identifier+'tmp',
+                type: 'Identifier'
+            }]
+        })
+        ast.body.reverse()
+
     }
 
     function refreshAll(){
@@ -286,11 +463,16 @@ var YYY = ((global, $)=>{
         return typeof str === 'string' ? str.length : 0
     }
 
+    function isMinificationAllowed(keyword){
+        return IDENTIFIERS_NOT_ALLOWED_TO_MINIFY.indexOf(keyword) === -1
+    }
+
     return {
         errorStop: errorStop,
         setStorage: setStorage,
         getStorage: getStorage,
-        refreshAll: refreshAll
+        refreshAll: refreshAll,
+        isMinificationAllowed: isMinificationAllowed
     }
 
 })(window, jQuery)

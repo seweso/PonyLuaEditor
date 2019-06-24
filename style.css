@@ -628,7 +628,6 @@ button[disabled] {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-left: auto;
     overflow: hidden;
     position: relative;
     cursor: pointer;
