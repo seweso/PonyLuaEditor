@@ -56,7 +56,7 @@ var YYY = ((global, $)=>{
     		PAINT.setZoomFactor(val)
     		MAP.setZoomFactor(val)
     		$('.zoomfactor span').html(val+'x')
-		updateStorage()
+		  updateStorage()
     	})
 	  	$('#start').on('click', start)
         $('#stop').prop('disabled', true).on('click', stop)
@@ -85,9 +85,6 @@ var YYY = ((global, $)=>{
                     }
                 }
 
-                let minifyIdentation = $('#minify-identation').prop('checked')//TODO
-
-
                 let minified = luamin.minify(ast)
                 let prefix = ''
 
@@ -101,6 +98,17 @@ var YYY = ((global, $)=>{
                 }
 
                 minified = prefix + minified
+
+                if($('#minify-identation').prop('checked')){
+                    minified = minified
+                        .replace(/;/g, '\n')
+                        .replace(/\(\)/g, '()\n')
+                        .replace(/end/g, '\nend')
+                        .replace(/then/g, 'then\n')
+                        .replace(/do/g, 'do\n')
+                        .replace(/\)([\w]+)=/g, ')\n$1=')
+                        .replace(/\)([\w\.]+)\(/g, ')\n$1(') 
+                }
 
                 $('#minified-code-container').show()
                 minifiedEditor.setValue(minified)
