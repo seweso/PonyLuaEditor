@@ -666,7 +666,6 @@
         }
 
         let ret = formatStatementList(ast.body, true);
-        console.log('shortenedMembers', shortenedMembers)
         return ret
     };
 
