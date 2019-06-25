@@ -95,16 +95,23 @@ var YYY = ((global, $)=>{
                     console.log(k, '=>', identifierMap[k])
                 }
 
-                let prefix = ''
-
-                for(let s of shortenedIdentifiers){
-                    let localStatement = minified.substring(0, Math.min(minified.indexOf(' '), minified.indexOf(';')) + 1)
+                let offset = 0
+                while(offset < minified.length) {
+                    let localStatement = minified.substring(offset, Math.min(minified.indexOf(' ', offset), minified.indexOf(';', offset)) + 1)
                     let match = localStatement.match(/(local\s)?([\w]+)=([\w]+)(;|\s)/)
-                    let short = match[2]
-                    let shortenedGlobal = match[3]
-                    prefix += short + '=' + shortenedGlobal + ';'
-                    minified = minified.substring(localStatement.length)
-                    minified = minified.replace(new RegExp('' + shortenedGlobal + 'tmp', 'g'), short)
+                    if(match){
+                        let short = match[2]
+                        let shortenedGlobal = match[3]
+
+                        for(let s of shortenedIdentifiers){
+                            if(identifierMap[s] === shortenedGlobal){
+                                minified = minified.replace(localStatement, localStatement.replace(shortenedGlobal, s))
+                                break
+                            }
+                        }
+                    }
+
+                    offset += localStatement.length
                 }
 
                 let suffix = ''
@@ -117,7 +124,7 @@ var YYY = ((global, $)=>{
                     suffix += sm.base + '.' + sm.expression + '=' + sm.base + '.' + sm.original + ';'
                 }
 
-                minified = prefix + minified + ';' + suffix
+                minified = minified + ';' + suffix
 
                 if($('#minify-identation').prop('checked')){
                     minified = minified
