@@ -203,7 +203,7 @@ button[disabled] {
     height: 100px;
 }
 
-#code-editor-information {
+#code-editor-information, #code-minified-editor-information {
     color: #fff;
     padding: 10px;
     display: flex;
@@ -215,11 +215,11 @@ button[disabled] {
     margin: 0 10px;
 }
 
-#charactercount, #modified-charactercount {
+#charactercount, #minified-charactercount {
     font-weight: bold;
 }
 
-#charactercount.limit, #modified-charactercount.limit {
+#charactercount.limit, #minified-charactercount.limit {
     color: red;
 }
 
