@@ -325,8 +325,9 @@ var INPUT = ((global, $)=>{
                     myOscilateDirection = true
                     val = slidermin.val()
                 }
-
-                numbers[label].val = val
+                if(numbers[label]){
+                    numbers[label].val = val
+                }
                 number.find('.change input').val(val)
                 number.find('.slidervalue').html(val)
                 refreshNumbersAddSelect()
