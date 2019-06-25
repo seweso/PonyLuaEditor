@@ -95,9 +95,20 @@ var YYY = ((global, $)=>{
                     let shortenedGlobal = match[3]
                     prefix += short + '=' + shortenedGlobal + ';'
                     minified = minified.substring(localStatement.length)
+                    minified = minified.replace(new RegExp('' + shortenedGlobal + 'tmp', 'g'), short)
                 }
 
-                minified = prefix + minified
+                let suffix = ''
+
+                let shortenedMembers = luamin.getShortenedMembers()
+                for(let sm of shortenedMembers){
+                    if(sm.expression === sm.original){
+                        continue
+                    }
+                    suffix += sm.base + '.' + sm.expression + '=' + sm.base + '.' + sm.original + ';'
+                }
+
+                minified = prefix + minified + ';' + suffix
 
                 if($('#minify-identation').prop('checked')){
                     minified = minified
@@ -108,6 +119,7 @@ var YYY = ((global, $)=>{
                         .replace(/do/g, 'do\n')
                         .replace(/\)([\w]+)=/g, ')\n$1=')
                         .replace(/\)([\w\.]+)\(/g, ')\n$1(') 
+                        .replace(/\}([\w\.]+[;\s=])/g, '}\n$1')
                 }
 
                 $('#minified-code-container').show()
@@ -213,11 +225,16 @@ var YYY = ((global, $)=>{
         }
         if (ast.init instanceof Array){
             for(let e of ast.init){
-                if(e.base && e.base.base.name === identifier){
-                    e.base.base.isLocal = true
-                }
+                makeIdentifierLocal(identifier, e)
             }
         }
+        if(ast.base && ast.base.name === identifier){
+            ast.base.isLocal = true
+        }
+        if(ast.base && ast.base.base){
+            makeIdentifierLocal(identifier, ast.base)
+        }
+
     }
 
     function replaceIdentifierName(identifier, ast, newIdentifier){
@@ -242,12 +259,8 @@ var YYY = ((global, $)=>{
             }
         }
         if(ast.expression){
-            if(ast.expression.base && ast.expression.base.base.name === identifier){
-
-                if(newIdentifier){
-                    ast.expression.base.base.name = newIdentifier
-                }
-
+            if(ast.expression.base){
+                replaceIdentifierName(identifier, ast.expression.base, newIdentifier)
             }
             if(ast.expression.arguments instanceof Array){
                 for(let e of ast.expression.arguments){
@@ -262,10 +275,14 @@ var YYY = ((global, $)=>{
         }
         if (ast.init instanceof Array){
             for(let e of ast.init){
-                if(e.base && e.base.base.name === identifier){
-                    e.base.base.name = newIdentifier
-                }
+                replaceIdentifierName(identifier, e, newIdentifier)
             }
+        }
+        if(ast.base && ast.base.name === identifier && newIdentifier){
+            ast.base.name = newIdentifier
+        }
+        if(ast.base && ast.base.base){
+            replaceIdentifierName(identifier, ast.base, newIdentifier)
         }
     }
 

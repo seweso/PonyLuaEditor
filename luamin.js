@@ -119,6 +119,9 @@
         return false;
     }
 
+    let shortenedMembers = []
+    let shortenedMembersFullNames = []
+
     var currentIdentifier;
     var identifierMap;
     var identifiersInUse;
@@ -377,11 +380,16 @@
                 formatExpression(expression.index, {}, toplevel) + ']';
 
         } else if (expressionType == 'MemberExpression') {
-
-            result = formatBase(expression.base, toplevel) + expression.indexer +
-                formatExpression(expression.identifier, {
-                    'preserveIdentifiers': true
+            let base = formatBase(expression.base, toplevel)
+            let express = formatExpression(expression.identifier, {
+                    'preserveIdentifiers': false
                 }, toplevel);
+            result = base + expression.indexer + express
+                
+            if(! shortenedMembersFullNames[base + '.' + expression + '.' + expression.identifier.name]){
+                shortenedMembersFullNames[base + '.' + expression + '.' + expression.identifier.name] = true
+                shortenedMembers.push({base: base, expression: express, original: expression.identifier.name})
+            }
 
         } else if (expressionType == 'FunctionDeclaration') {
 
@@ -638,6 +646,8 @@
             : argument;
 
         // (Re)set temporary identifier values
+        shortenedMembers = []
+
         identifierMap = {};
         identifiersInUse = [];
         // This is a shortcut to help generate the first identifier (`a`) faster
@@ -654,14 +664,19 @@
             throw Error('Missing required AST property: `globals`');
         }
 
-        return formatStatementList(ast.body, true);
+        let ret = formatStatementList(ast.body, true);
+        console.log('shortenedMembers', shortenedMembers)
+        return ret
     };
 
     /*--------------------------------------------------------------------------*/
 
     var luamin = {
         'version': '1.0.4',
-        'minify': minify
+        'minify': minify,
+        getShortenedMembers: function(){
+            return shortenedMembers
+        }
     };
 
     // Some AMD build optimizers, like r.js, check for specific condition patterns
