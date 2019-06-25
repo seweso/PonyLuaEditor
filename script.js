@@ -16,6 +16,8 @@ var YYY = ((global, $)=>{
 
     let shortenedIdentifiers = []
 
+    let running = false
+
 
     $(global).on('load', init)
 
@@ -360,7 +362,7 @@ var YYY = ((global, $)=>{
         if(store && typeof store.showOverflow === 'boolean'){
             $('#show-overflow').prop('checked', store.showOverflow)
         }
-	setStorage(store)
+	    setStorage(store)
         CANVAS.refresh()
 
         refreshCharacterCount()
@@ -382,12 +384,14 @@ var YYY = ((global, $)=>{
     }
 
     function start(){
+        running = true
         $('#start, #timeBetweenTicks, #timeBetweenDraws').prop('disabled', true)
         $('#minified-code-container').hide()
         $('#code-container').addClass('locked')
 	  	saveCodeInStorage()
 	  	$('#console').val('')
 	  	CANVAS.reset()
+        CANVAS.resetTouchpoints()
         MAP.reset()
         let code = editor.getValue()
         console.log('running code...')
@@ -405,6 +409,9 @@ var YYY = ((global, $)=>{
         intervalTick = setInterval(doTick, timeBetweenTicks)
         intervalDraw = setInterval(doDraw, timeBetweenDraws)
         $('#stop').prop('disabled', false)
+        setTimeout(()=>{
+            $('#start').blur()
+        }, 100)        
     }
 
     function stop(){
@@ -417,6 +424,7 @@ var YYY = ((global, $)=>{
             $('#code-container').removeClass('locked')
         })
 
+        running = false
     }
 
     function errorStop(){
@@ -513,7 +521,10 @@ var YYY = ((global, $)=>{
         setStorage: setStorage,
         getStorage: getStorage,
         refreshAll: refreshAll,
-        isMinificationAllowed: isMinificationAllowed
+        isMinificationAllowed: isMinificationAllowed,
+        isRunning: ()=>{
+            return running
+        }
     }
 
 })(window, jQuery)
