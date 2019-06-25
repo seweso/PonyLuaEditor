@@ -270,6 +270,9 @@
                 fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 2, 'expected number')
                 return
             }
+            if(typeof text === 'number'){
+                text = '' + text
+            }
             if(typeof text !== 'string'){
                 fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 3, 'expected string')
                 return
@@ -298,6 +301,9 @@
             if(typeof h !== 'number'){
                 fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 4, 'expected number')
                 return
+            }
+            if(typeof text === 'number'){
+                text = '' + text
             }
             if(typeof text !== 'string'){
                 fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 5, 'expected string')

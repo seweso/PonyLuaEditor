@@ -76,16 +76,25 @@ var YYY = ((global, $)=>{
 
                 for(let g of ast.globals){
                     if(IDENTIFIERS_NOT_ALLOWED_TO_MINIFY.indexOf(g.name) === -1){
+                        console.log('making identifier local', g.name)
                         makeIdentifierLocal(g.name, ast)
                         removeFromAstGlobals(g.name, ast)
                     } else {
                         if (IDENTIFIERS_NOT_ALLOWED_TO_SHORTIFY.indexOf(g.name) === -1){
+                            console.log('shortifiying identifier', g.name)
                             shortifyIdentifier(g.name, ast)
                         }
                     }
                 }
 
                 let minified = luamin.minify(ast).trim()
+
+
+                let identifierMap = luamin.getIdentifierMap()
+                for(let k in identifierMap){
+                    console.log(k, '=>', identifierMap[k])
+                }
+
                 let prefix = ''
 
                 for(let s of shortenedIdentifiers){
@@ -209,7 +218,7 @@ var YYY = ((global, $)=>{
             }
         }
         if(ast.expression){
-            if(ast.expression.base && ast.expression.base.base.name === identifier){
+            if(ast.expression.base && ast.expression.base.base && ast.expression.base.base.name === identifier){
                 ast.expression.base.base.isLocal = true
             }
             if(ast.expression.arguments instanceof Array){

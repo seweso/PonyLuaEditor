@@ -126,15 +126,16 @@
     var identifierMap;
     var identifiersInUse;
     var generateIdentifier = function(originalName) {
+        //console.log('identifierMap', identifierMap)
         // Preserve `self` in methods
         if (originalName == 'self') {
-            console.log('generateIdentifier(', originalName, ')', originalName)
+            //console.log('generateIdentifier(', originalName, ')', originalName)
             return originalName;
         }
 
         if (hasOwnProperty.call(identifierMap, originalName)) {
             let ret = identifierMap[originalName];
-            console.log('generateIdentifier(', originalName, ')', ret)
+            //console.log('generateIdentifier(', originalName, ')', ret)
             return ret
         }
         var length = currentIdentifier.length;
@@ -152,12 +153,12 @@
                     indexOf(identifiersInUse, currentIdentifier) > -1
                 ) {
                     let ret = generateIdentifier(originalName);
-                    console.log('generateIdentifier(', originalName, ')', ret)
+                    //console.log('generateIdentifier(', originalName, ')', ret)
                     return ret
                 }
                 identifierMap[originalName] = currentIdentifier;
                 let ret = currentIdentifier;                
-                console.log('generateIdentifier(', originalName, ')', ret)
+                //console.log('generateIdentifier(', originalName, ')', ret)
                 return ret
             }
             --position;
@@ -165,12 +166,12 @@
         currentIdentifier = 'a' + generateZeroes(length);
         if (indexOf(identifiersInUse, currentIdentifier) > -1) {
             let ret = generateIdentifier(originalName);
-            console.log('generateIdentifier(', originalName, ')', ret)
+            //console.log('generateIdentifier(', originalName, ')', ret)
             return ret
         }
         identifierMap[originalName] = currentIdentifier;
         let ret = currentIdentifier;
-        console.log('generateIdentifier(', originalName, ')', ret)
+        //console.log('generateIdentifier(', originalName, ')', ret)
         return ret
     };
 
@@ -243,8 +244,8 @@
         return result;
     };
 
-    var formatExpression = function(expression, options, toplevel) {
-
+    var formatExpression = function(expression, options) {
+        let toplevel = false //TODO: REMOVE
         options = extend({
             'precedence': 0,
             'preserveIdentifiers': false
@@ -676,6 +677,9 @@
         'minify': minify,
         getShortenedMembers: function(){
             return shortenedMembers
+        },
+        getIdentifierMap: function(){
+            return identifierMap
         }
     };
 
