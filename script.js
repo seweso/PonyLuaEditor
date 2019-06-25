@@ -85,14 +85,14 @@ var YYY = ((global, $)=>{
                     }
                 }
 
-                let minified = luamin.minify(ast)
+                let minified = luamin.minify(ast).trim()
                 let prefix = ''
 
                 for(let s of shortenedIdentifiers){
-                    let localStatement = minified.substring(0, minified.indexOf(';') + 1)
-                    let match = localStatement.match(/local\s([\w]+)=([\w]+);/)
-                    let short = match[1]
-                    let shortenedGlobal = match[2]
+                    let localStatement = minified.substring(0, Math.min(minified.indexOf(' '), minified.indexOf(';')) + 1)
+                    let match = localStatement.match(/(local\s)?([\w]+)=([\w]+)(;|\s)/)
+                    let short = match[2]
+                    let shortenedGlobal = match[3]
                     prefix += short + '=' + shortenedGlobal + ';'
                     minified = minified.substring(localStatement.length)
                 }
