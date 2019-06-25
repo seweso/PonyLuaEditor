@@ -133,6 +133,7 @@ var YYY = ((global, $)=>{
                         .replace(/end/g, '\nend')
                         .replace(/then/g, 'then\n')
                         .replace(/do/g, 'do\n')
+                        .replace(/([\w\.]+)=([\w\.]+)[;\s]/g, '$1=$2\n')
                         .replace(/\)([\w]+)=/g, ')\n$1=')
                         .replace(/\)([\w\.]+)\(/g, ')\n$1(') 
                         .replace(/\}([\w\.]+[;\s=])/g, '}\n$1')
