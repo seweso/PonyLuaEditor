@@ -69,7 +69,7 @@ var YYY = ((global, $)=>{
                 document.location = document.location.href.split('?')[0]
             }
         })
-         $('#minify').on('click', ()=>{
+        $('#minify').on('click', ()=>{
             try {
                 let ast = luaparse.parse(editor.getValue())
 
@@ -192,6 +192,38 @@ var YYY = ((global, $)=>{
         $('#minified-code').resizable().on('resize', ()=>{
             minifiedEditor.resize()
         })
+
+        /* help badge */
+        let firstHelpOpen = true
+        let scrollPosition = 0
+        $('#help-badge').on('click', ()=>{
+            if(firstHelpOpen){
+                firstHelpOpen = false
+                $('#help-youtube-video').html('<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/hHgnNmwmZCY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>')
+            }
+            scrollPosition = $(window).scrollTop()
+            $('body').css({
+                'max-height': '100vh',
+                'overflow-y': 'hidden'
+            })
+            $('#help').fadeIn()
+        })
+        $('#help-close').on('click', closeHelp)
+        $('#help').on('click', (evt)=>{
+            if(evt.target !== $('#help-content').get(0)){
+                closeHelp()
+            }
+        })
+
+        function closeHelp(){
+            $('body').css({
+                'max-height': '',
+                'overflow-y': ''
+            })
+            $(window).scrollTop(scrollPosition)
+            $('#help').fadeOut()            
+        }
+
 
         setTimeout(()=>{
             refreshAll()

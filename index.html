@@ -20,6 +20,7 @@
 
 
     <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="iconfont.css">
     <link rel="stylesheet" type="text/css" href="jquery_ui.css">
 
     <script type="text/javascript" src="jquery.js"></script>
@@ -51,7 +52,6 @@
         <select id="monitor-size" name="monitor-size">
             <option value="1x1">1x1</option>
             <option value="2x2">2x2</option>
-            <option value="3x3">3x3</option>
             <option value="5x3">5x3</option>
             <option value="9x5">9x5</option>
         </select>
@@ -94,8 +94,8 @@
             </div>
             <div class="controls_container">
                 <button id="minify" style="margin-left: auto;">Minify (Beta)</button>
-                <input type="checkbox" name="minify-identation" id="minify-identation">
-                <label>Minify identation</label>
+                <input type="checkbox" name="minify-identation" id="minify-identation" checked>
+                <label>Line breaks</label>
             </div>
             <div class="controls_container">
                 <div id="share" class="share">
@@ -154,8 +154,14 @@ end
     <br>
     
     <div class="information_container">
+        View the public source code of this page <a target="_blank" rel="noopener noreferrer" href="https://gitlab.com/stormworks-lua-editor/editor">here</a>
+    </div>
+
+    <div class="information_container">
         <h2>Lua manual:</h2>
-        <p><a href="https://www.lua.org/manual/5.3/">https://www.lua.org/manual/5.3/</a></p>
+        <p>
+            <a href="https://www.lua.org/manual/5.3/" target="_blank" rel="noopener noreferrer">https://www.lua.org/manual/5.3/</a>
+        </p>
     </div>
 
     <div id="documentation" class="information_container">
@@ -215,13 +221,18 @@ end
     </div>
 
 
-    <div id="information">
-        <!--<img src="https://gitlab.com/stormworks-model-analyzer/stormworks-model-analyzer.gitlab.io/badges/master/pipeline.svg">
-        <a target="_blank" rel="noopener noreferrer" class="version" href="https://gitlab.com/stormworks-model-analyzer/analyzer/commits/master">
-            <img src="https://img.shields.io/badge/version-unknown-%239e9e9e.svg">
-        </a>-->
-        <a target="_blank" rel="noopener noreferrer" href="https://gitlab.com/stormworks-lua-editor/editor">Source Code</a>
-        <div class="network"><img src="discord.png">CrazyFluffyPony#0587</div>
+    <div id="fixed-information-badges">
+        <div id="help-badge" class="hoverable">
+            <div>
+                <span class="icon-question"></span>
+                <span class="heading">Help</span>
+            </div>
+        </div>
+        <div>
+            <span class="heading">Report a bug</span>
+            <div class="discord"><img src="discord.png">CrazyFluffyPony#0587</div>
+            <div class="email"><span class="icon-mail"></span><a href="mailto://crazyfluffypony@gmail.com">crazyfluffypony@gmail.com</a></div>            
+        </div>
     </div>
 
 
@@ -246,6 +257,77 @@ end
         minifiedEditor.setTheme("ace/theme/monokai");
         minifiedEditor.session.setMode("ace/mode/lua");
     </script>
+
+    <div id="help" style="display: none;">
+        <div id="help-content">
+            <span id="help-close" class="icon-cross"></span>
+            <div class="section">
+                <h3>Short introduction into the page:</h3>
+                <div id="help-youtube-video">https://www.youtube.com/watch?v=hHgnNmwmZCY</div>
+            </div>
+            <div class="section">
+                <h3>Lua</h3>
+                <p>
+                    You can find the complete documentation and some examples on the official lua website:
+                    <a href="https://www.lua.org/manual/5.3/" target="_blank" rel="noopener noreferrer">https://www.lua.org/manual/5.3/</a>
+                </p>
+            </div>
+            <div class="section">
+                <h3>Monitor, Properties, Inputs, Outputs ...</h3>
+                <p>
+                    Coming soon...
+                </p>
+            </div>
+            <div class="section">
+                <h3>Code Editor</h3>
+                <p>
+                    The code editor has more functionality than you would expect. Most of them are similar to Sublime Text 3:
+                    <ul>
+                        <li>Multiselect (Hold ctrl and click)</li>
+                        <li>Search and Replace (Ctrl + F, Ctrl + H)</li>
+                        <li>Undo, Redo (Ctrl + Z, Ctrl + Y)</li>
+                        <li>Autocompletition (Ctrl + Space)</li>
+                    </ul>
+                </p>
+            </div>
+            <div class="section">
+                <h3>Minifying</h3>
+                <p>
+                    <b>This feature is work in progress!</b>                    
+                    <br>
+                    The more complicated your code is the higher is the risk of something not working after minifying it.
+                    <br>
+                    Always test your code after minifying it!
+                    <br>
+                    <br>
+                    When your code is exceeding the maximum length allowed in Stormworks you have several options:
+                    <ul>
+                        <li>Edit the code manually and shorten variable names or function names</li>
+                        <li>Split up your code into 2 or more parts which then run in different luascript components ingame</li>
+                        <li>Click the minify button (for better reading you can check the option "Line breaks")</li>
+                    </ul>
+                    If you used the minify button then your minified code will appear below the original code.
+                    You will propably see that the minified code has less characters then the original one.
+                </p>
+            </div>
+            <div class="section">
+                <h3>Sharing</h3>
+                <p>Sharing your code with other people is pretty easy:
+                    <ul>
+                        <li>Write your code or paste it into the code editor</li>
+                        <li>Adjust all the settings (monitor size, inputs, properties, time between draws) as you need them</li>
+                        <li>Click the blueish share button and a url is generated</li>
+                        <li>Send this url to other people</li>
+                        <li>When they open the url they will see your code as well as all of your settings</li>
+                    </ul>
+                    <br>
+                    <b>Hint: You cannot change anything you shared</b>
+                    <br>
+                    <i>(because we do not know if you are the owner of the code)</i>
+                </p>
+            </div>
+        </div>
+    </div>
 
     <img src="map.png" id="map" style="display: none;">
 
