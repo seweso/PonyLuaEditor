@@ -6,63 +6,41 @@ var SHARE = ((global, $)=>{
 
     $(global).on('load', init)
 
+    let isShareOpen = false
+
     function init(){
-        let stored = localStorage.getItem('share')
-        if(typeof stored === 'string' && stored.length > 0){
-            setCurrentShare(stored)
-        }
 
-        let innerHeight = $('#share .inner').height()
+        let moreWidth = $('#share .more').width()
 
-        $('#share .inner').css({
-            height: 0
+        $('#share .more').css({
+            width: 0
         })
-
-        let outerHeight = $('#share .outer').height()
-
-        $('#share .outer').css({
-            height: outerHeight
-        })
-
-        $('#share').on('click', ()=>{
-            if($('#share').hasClass('isopen')){
-                return
-            }
-            $('#share').addClass('isopen')
-            $('#share .outer').animate({
-                height: 0
-            }, 200)
-            $('#share .inner').animate({
-                height: innerHeight
-            }, 200)
-        })
-        $('#share .close').on('click', (e)=>{
-            if($('#share').hasClass('isopen') === false){
-                return
-            }
-            e.preventDefault()
-            e.stopImmediatePropagation()
-
-            $('#share .outer').animate({
-                height: outerHeight
-            }, 200)
-            $('#share .inner').animate({
-                height: 0
-            }, 200)
-            $('#share').removeClass('isopen')
-        })
-
 
         $('#share .docreate').on('click', ()=>{
             doCreate()
-        })
-        $('#share .doreceive').on('click', ()=>{
-            doReceive()
+
+            if(isShareOpen){
+                return
+            }
+            isShareOpen = true
+            $('#share .more').animate({
+                width: moreWidth
+            }, 200)
+
+            $('#share .docreate').animate({
+                'margin-right': '10px'
+            }, 200)
+        
+            $('#share .docreate').html('Share again')
+
+            setTimeout(()=>{
+                $('#share .more').css('overflow', 'visible')
+            }, 300)
         })
 
 
-        $('#share .currentshare').on('change paste mouseleave', ()=>{
-            setCurrentShare( $('#share .currentshare').val() )
+        $('#share .currentshare').on('change', ()=>{
+            $('#share .currentshare').val(currentShare)
         })
 
         $('#share .copy_share_to_clipboard').on('click', ()=>{
@@ -82,7 +60,6 @@ var SHARE = ((global, $)=>{
         currentShare = id.replace('/beta', '').replace(BASE_URL + '/?id=', '')
         if(typeof currentShare === 'string' && currentShare.length > 0){
             $('#share').addClass('has_share')
-            localStorage.setItem('share', currentShare)
         } else {
             $('#share').removeClass('has_share')
         }

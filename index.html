@@ -85,28 +85,29 @@
     </div>
     <div id="editor">
         <div id="controls">
-            <button id="start">Start</button>
-            <button id="stop">Stop</button>
-            <button id="reset">Reset all data</button>
-
-
-            <button id="minify" style="margin-left: auto;">Minify</button>
-            <input type="checkbox" name="minify-identation" id="minify-identation">
-            <label>Minify identation</label>
-
-            <div id="share" class="share">
-                <span class="close">x</span>
-                <div class="outer">
-                    Share
-                </div>
-                <div class="inner">
-                    <span class="docreate">Create share code</span>
-                    <div class="currentshare_container">
-                        <label>Sharecode:</label>
-                        <input type="text" class="currentshare" name="currentshare"/>
-                        <span class="copy_share_to_clipboard">Copy</span>
+            <div class="controls_container">
+                <button id="start">Start</button>
+                <button id="stop">Stop</button>            
+            </div>
+            <div class="controls_container">
+                <button id="reset">Reset all data</button>
+            </div>
+            <div class="controls_container">
+                <button id="minify" style="margin-left: auto;">Minify (Beta)</button>
+                <input type="checkbox" name="minify-identation" id="minify-identation">
+                <label>Minify identation</label>
+            </div>
+            <div class="controls_container">
+                <div id="share" class="share">
+                    <div class="docreate">
+                        Share
                     </div>
-                    <span class="doreceive">View shared code</span>
+                    <div class="more">
+                        <div class="currentshare_container">
+                            <input type="text" class="currentshare" name="currentshare"/>
+                            <span class="copy_share_to_clipboard">Copy</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

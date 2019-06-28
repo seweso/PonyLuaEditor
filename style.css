@@ -158,7 +158,21 @@ button[disabled] {
 }
 
 #controls button {
-    margin: 0 10px 0 0;
+    margin: 0;
+}
+
+#controls button:not(:last-child) {
+    margin-right: 10px;
+}
+
+#controls .controls_container {
+    background: #000a;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+#controls .controls_container:not(:last-child) {
+    margin-right: 10px;
 }
 
 #editor {
@@ -619,83 +633,56 @@ button[disabled] {
 /* share */
 
 .share {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.share .docreate {
+    padding: 10px 25px;
+}
+
+.share .currentshare_container {
+    padding: 8px;    
+}
+
+.share .docreate, .share .currentshare_container {
     background: linear-gradient(15deg, #0194E2aa 0%, #792692aa 100%);
     box-shadow: 1px 0px 3px 1px #0194E277;
     color: #fff;
-    border-radius: 10px;
-    padding: 10px 25px;
-    display: inline-flex;
-    flex-direction: column;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 20px;
+    display: flex;
+    flex-direction: revert;
     justify-content: center;
     align-items: center;
-    overflow: hidden;
-    position: relative;
-    cursor: pointer;
 }
 
-.share:not(.isopen):hover {
+.share .docreate:hover {
     background: linear-gradient(15deg, #4db4eaaa 0%, #a167b2aa 100%);
 }
 
-
-.share .inner, .share .outer {
-   overflow: hidden;
-   position: relative;
-   top: 0;
-}
-
-.share .close {
-    position: absolute;
-    top: 0;
-    right: 0;
-    transition: all 0.2s ease 0s;
-    opacity: 0;
-    line-height: 0;
-    height: 20px;
-    width: 20px;
-    text-align: center;
-    background: #0004;
-    color: #fff;
-    border-bottom-left-radius: 10px;
-    line-height: 17px;
-}
-
-.share .close:hover {
-    background: #fff4;
-    color: #0004;
-}
-
-.share.isopen .close {
-    opacity: 1;
-}
-
-.share .open, .share .close {
-    cursor: pointer;
-}
-
-.share .inner {
+.share .more {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    overflow: hidden;
 }
 
-.share .docreate, .share .doreceive {
+.share .copy_share_to_clipboard {
     background: #0004;
     color: #fff;
     padding: 5px 10px;
     border-radius: 3px;
-    margin-top: 10px;
     transition: all 0.2s ease 0s;
+    font-size: 16px;
 }
 
-.share .docreate:hover, .share .doreceive:hover {
+.share .copy_share_to_clipboard:hover {
     background: #fff4;
     color: #000;
-}
-
-.share:not(.has_share) .doreceive {
-    background: #dbdbdb;
-    background: #e7e7e7;
-    cursor: not-allowed;
 }
 
 .share .currentshare {
@@ -703,23 +690,10 @@ button[disabled] {
     border-radius: 3px;
     border: none;
     color: #fff;
-    font-size: 16px;
+    font-size: 12px;
     line-height: 16px;
     padding: 6px 6px;
-}
-
-.share:not(.has_share) .share_link {
-    display: none;
-}
-
-.share_link {
-    color: #fff;
-    text-decoration: none;
-    transition: all 0.2s ease 0s;
-}
-
-.share_link:hover {
-    color: #0194E2;
+    margin-right: 10px;
 }
 
 /* pastebin overlay */
