@@ -474,7 +474,7 @@ a:hover {
     background: #c6c6c6;
     color: #222;
     border-radius: 6px;
-    padding: 2%;
+    padding: 2% 1% 1%;
 }
 
 #help-close {
@@ -487,6 +487,25 @@ a:hover {
 
 #help-close:hover {
     color: #F4812E;
+}
+
+#help-content .section {
+    background: #0002;
+    padding: 1%;
+    border-radius: 6px;
+}
+
+#help-content .section:not(:last-child){
+    margin-bottom: 20px;
+}
+
+#help-content .section > h3 {
+    display: inline-block;
+    margin: 0 0 10px 0;
+    background: linear-gradient(5deg, #EE4A4B 0%, #F4812E 100%);
+    color: #222;
+    padding: 3px 12px;
+    border-radius: 10000px;
 }
 
 
