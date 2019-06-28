@@ -426,6 +426,15 @@ a:hover {
     margin-right: 5px;
 }
 
+#fixed-information-badges #help-badge {
+    background: linear-gradient(15deg, #9A8D00 0%, #4d835f 100%);
+    box-shadow: 0px 0px 3px 2px #a99c1077
+}
+
+#fixed-information-badges #help-badge:hover {
+    background: linear-gradient(15deg, #F2DF17 0%, #6EBC88 100%);
+}
+
 #help-badge > div {
     display: flex;
     flex-direction: row;
