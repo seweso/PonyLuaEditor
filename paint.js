@@ -11,8 +11,8 @@ var PAINT = ((c)=>{
 
     function setColor(r, g, b, a){
         log()
-        c.ctx().fillStyle = "rgb(" + r + ', ' + g + ', ' + b + ', ' + a + ')'
-        c.ctx().strokeStyle = "rgb(" + r + ', ' + g + ', ' + b + ', ' + a + ')'
+        c.ctx().fillStyle = "rgb(" + r + ', ' + g + ', ' + b + ', ' + a/255 + ')'
+        c.ctx().strokeStyle = "rgb(" + r + ', ' + g + ', ' + b + ', ' + a/255 + ')'
     }
 
     function drawClear(){
