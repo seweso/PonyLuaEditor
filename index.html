@@ -274,8 +274,23 @@ end
             </div>
             <div class="section">
                 <h3>Monitor, Properties, Inputs, Outputs ...</h3>
+                <br>
+                <h4>Monitor</h5>
                 <p>
-                    Coming soon...
+                    You can select different monitor sizes. On zoom=1 one pixel of the monitor is exactly one pixel of your real monitor. You can zoom the monitor for easier development (this does not influence the screen.getHeight() in the lua script!).
+                </p>
+                <h4>Properties</h5>
+                <p>
+                    Like in the game you can set properties. Choose a property type, then write the label of the property into the input field of the property type you want. Depending on the type you can now set the value of the property: boolean, number or text.
+                </p>
+                <h4>Inputs</h5>
+                <p>
+                   The inputs simulate the lua scripts input composite. To write a value to the composite select the channel on the type of composite you want to have (boolean or number). Then You can enter the value for that channel.
+                   <b>Numbers</b> have an additional settings button where you can switch between normal number input and slider. You can also activate the oscilate function for this input. Oscilate means the input value will change every tick by the set step. Once it reaches the upper or lower limit it will change direction.
+                </p>
+                <h4>Outputs</h5>
+                <p>
+                    This simulates the lua scripts output composite. When the lua script assigns values to the output, they will show up here.                    
                 </p>
             </div>
             <div class="section">

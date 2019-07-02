@@ -493,9 +493,6 @@ a:hover {
     background: #0002;
     padding: 1%;
     border-radius: 6px;
-}
-
-#help-content .section:not(:last-child){
     margin-bottom: 20px;
 }
 
@@ -506,6 +503,12 @@ a:hover {
     color: #222;
     padding: 3px 12px;
     border-radius: 10000px;
+}
+
+#help-content .section > h4 {
+    border-image: linear-gradient(5deg, #EE4A4B 0%, #F4812E 100%) 1 / 1px round;
+    border-image-width: 0 0 2px 0;
+    display: inline-block;
 }
 
 
