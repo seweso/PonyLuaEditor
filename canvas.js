@@ -64,8 +64,8 @@ var CANVAS = ((global, $)=>{
                     })
                 }
             }
+            calculateTouchscreenInput()
         }
-        calculateTouchscreenInput()
     }
 
     function calculateTouchscreenInput(){
@@ -103,7 +103,7 @@ var CANVAS = ((global, $)=>{
     }
 
     function handleKeyUp(evt){
-        if(YYY.isRunning()){
+        if(YYY.isRunning() && $('#enable-touchscreen').prop('checked')){
             if(evt.originalEvent.key === 'q' || evt.originalEvent.key === 'e'){
                 evt.preventDefault()
                 evt.stopImmediatePropagation()
@@ -118,8 +118,8 @@ var CANVAS = ((global, $)=>{
                     console.warn('e or q keyup but no touchpoint found!', touchpoints)
                 }
             }
+            calculateTouchscreenInput()
         }
-        calculateTouchscreenInput()
     }
 
     function refresh(){
