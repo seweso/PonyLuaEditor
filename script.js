@@ -210,9 +210,10 @@ var YYY = ((global, $)=>{
         })
         $('#help-close').on('click', closeHelp)
         $('#help').on('click', (evt)=>{
-            if(evt.target !== $('#help-content').get(0)){
-                closeHelp()
-            }
+            closeHelp()
+        })
+        $('#help-content').on('click', (evt)=>{
+            evt.stopPropagation()
         })
 
         function closeHelp(){
