@@ -185,17 +185,12 @@ var YYY = ((global, $)=>{
 
                 $('#minified-code-container').show()
                 minifiedEditor.setValue(minified)
-                $('#minified-charactercount').html(minified.length + '/4096')
-                if(minified.length >= 4096){
-                    $('#minified-charactercount').addClass('limit')
-                } else {
-                    $('#minified-charactercount').removeClass('limit')
+                refreshMinifiedEditorCharacterCount()
                 }
             } catch (ex){
                 console.log(ex)
                 minifiedEditor.setValue('Error: ' + ex.message)
-                $('#minified-charactercount').html('0/4096')
-                $('#minified-charactercount').removeClass('limit')
+                refreshMinifiedEditorCharacterCount()
             }
         })
         minifiedEditor.setValue('')
@@ -210,7 +205,11 @@ var YYY = ((global, $)=>{
         })
 
         editor.on('change', ()=>{
-            refreshCharacterCount()
+            refreshEditorCharacterCount()
+        })
+
+        minifiedEditor.on('change', ()=>{
+            refreshMinifiedEditorCharacterCount()
         })
 
         editor.selection.on('changeCursor', ()=>{
@@ -441,7 +440,7 @@ var YYY = ((global, $)=>{
 	    setStorage(store)
         CANVAS.refresh()
 
-        refreshCharacterCount()
+        refreshEditorCharacterCount()
 
         refreshTimeBetweenTicks()
         refreshTimeBetweenDraws()   
@@ -568,13 +567,23 @@ var YYY = ((global, $)=>{
         }
     }
 
-    function refreshCharacterCount(){
+    function refreshEditorCharacterCount(){
         let chars = countCharacters(editor.getValue())
         $('#charactercount').html(chars + '/4096')
         if(chars >= 4096){
             $('#charactercount').addClass('limit')
         } else {
             $('#charactercount').removeClass('limit')
+        }
+    }
+    
+    function refreshMinifiedEditorCharacterCount(){
+        let chars = countCharacters(minifiedEditor.getValue())
+        $('#minified-charactercount').html(chars + '/4096')
+        if(chars >= 4096){
+            $('#minified-charactercount').addClass('limit')
+        } else {
+            $('#minified-charactercount').removeClass('limit')
         }
     }
 
