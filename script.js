@@ -131,16 +131,56 @@ var YYY = ((global, $)=>{
                 minified = minified + ';' + suffix
 
                 if($('#minify-identation').prop('checked')){
-                    minified = minified
-                        .replace(/;/g, '\n')
-                        .replace(/\(\)/g, '()\n')
-                        .replace(/end/g, '\nend')
-                        .replace(/then/g, 'then\n')
-                        .replace(/do/g, 'do\n')
-                        .replace(/([\w\.]+)=([\w\.]+)[;\s]/g, '$1=$2\n')
-                        .replace(/\)([\w]+)=/g, ')\n$1=')
-                        .replace(/\)([\w\.]+)\(/g, ')\n$1(') 
-                        .replace(/\}([\w\.]+[;\s=])/g, '}\n$1')
+                    let split = minified.split('"')
+                    let identedMinified = ''
+                    let i = 0
+                    let inText= false
+                    while (i < minified.length){
+                        let indexOf = minified.indexOf('"', i)
+                        console.log('found a " at', indexOf, minified.substring(indexOf-3, indexOf+3))
+                        if(indexOf < 0){                            
+                            identedMinified += '\n' + ident(minified.substring(i))
+                            console.log('x')
+                            break
+                        } else {//found a ""
+                            if(inText){
+                                console.log('y')
+                                let tmp = '"' + minified.substring(i, indexOf)
+                                identedMinified += tmp
+                                console.log('tmped', tmp)
+                            } else {
+                                console.log('z')
+                                identedMinified += '\n' + ident(minified.substring(i, indexOf))
+                            }
+                            let char = minified.charAt(indexOf-1)
+                            console.log('char before', indexOf, 'is', char)
+                            console.log('\\', char !== '\\')
+                            if(char !== '\\'){// check for \"
+                                if(inText){
+                                    identedMinified += '"'
+                                }
+                                inText = !inText
+                            }
+
+                            i = indexOf + 1
+                        }
+                    }
+                    minified = identedMinified
+
+                    function ident(text){
+                        let ret = text
+                            .replace(/;/g, '\n')
+                            .replace(/\(\)/g, '()\n')
+                            .replace(/end/g, '\nend')
+                            .replace(/then/g, 'then\n')
+                            .replace(/do/g, 'do\n')
+                            .replace(/([\w\.]+)=([\w\.]+)[;\s]/g, '$1=$2\n')
+                            .replace(/\)([\w]+)=/g, ')\n$1=')
+                            .replace(/\)([\w\.]+)\(/g, ')\n$1(') 
+                            .replace(/\}([\w\.]+[;\s=])/g, '}\n$1')
+                        console.log('idented', text, 'to', ret)
+                        return ret
+                    }
                 }
 
                 $('#minified-code-container').show()
