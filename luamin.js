@@ -648,11 +648,13 @@
 
         // (Re)set temporary identifier values
         shortenedMembers = []
+        shortenedMembersFullNames = []
 
         identifierMap = {};
         identifiersInUse = [];
         // This is a shortcut to help generate the first identifier (`a`) faster
         currentIdentifier = '9';
+        
 
         // Make sure global variable names aren't renamed
         if (ast.globals) {
