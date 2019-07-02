@@ -111,6 +111,9 @@ var YYY = ((global, $)=>{
                             }
                         }
                     }
+                    if(localStatement.length === 0){
+                        break
+                    }
 
                     offset += localStatement.length
                 }
