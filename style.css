@@ -302,7 +302,7 @@ a:hover {
 
 #documentation .node .information .args {
     margin: 0 0 4px 2px;
-    white-space: nowrap;
+    white-space: break-spaces;
 }
 
 #documentation .node .information .is_stormworks {
