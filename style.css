@@ -517,7 +517,7 @@ a:hover {
 #help-content .section > h3 {
     display: inline-block;
     margin: 0 0 10px 0;
-    background: linear-gradient(5deg, #EE4A4B 0%, #F4812E 100%);
+    background: linear-gradient(10deg, #EE4A4B 0%, #F4812E 100%);
     color: #222;
     padding: 3px 12px;
     border-radius: 10000px;
