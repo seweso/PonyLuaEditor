@@ -117,8 +117,8 @@ var PAINT = ((c)=>{
         let lineCounter = 0
         for(let l of lines){
             let widthOfCurrentLine = l.length * 4
-            let xx = c.left() + zoom(horizontalCenter - widthOfCurrentLine/2)
-            let yy = c.top() + zoom(lineCounter * lineHeight + verticalCenter - lines.length * lineHeight/4) + zoom(FONT_SIZE)
+            let xx = c.left() + zoom(horizontalCenter - widthOfCurrentLine/2) - zoom(h_align * widthOfCurrentLine/2)
+            let yy = c.top() + zoom(lineCounter * lineHeight + verticalCenter - lines.length * lineHeight/4) + zoom(FONT_SIZE) - zoom(v_align * lines.length * lineHeight/2) - zoom(lines.length * lineHeight/2) + zoom(lineHeight/2)
 
             c.ctx().fillText(l, xx, yy);
 
