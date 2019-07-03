@@ -92,15 +92,38 @@ var PAINT = ((c)=>{
 
     function drawTextBox(x, y, w, h, text, h_align, v_align){
         log()
+
         let maxCharsPerLine = Math.floor(w / 4)
-        if(maxCharsPerLine < text.length){
-            drawTextBox(x, y + FONT_SIZE, w, h, text.substring(maxCharsPerLine), h_align, v_align)
-            text = text.substring(0, maxCharsPerLine)
+        if(maxCharsPerLine <= 0){
+            return
         }
+
+        let lines = []
+        let i = 0
+        while (i < text.length){
+            lines.push(text.substring(i, i + maxCharsPerLine))
+            i += maxCharsPerLine
+        }
+
         c.ctx().font = zoom(FONT_SIZE) + FONT
-        let xx = c.left() + zoom(x) + (zoom(w)/2) + (zoom(w)/2)*h_align
-        let yy = c.top() + zoom(y) + zoom(FONT_SIZE) + (zoom(h)/2) + (zoom(h)/2)*v_align
-        c.ctx().fillText(text, xx, yy);
+
+        let lineHeight = FONT_SIZE
+
+        let horizontalCenter = x + w/2 + h_align * w/2
+        let verticalCenter = y + h/2 + v_align * h/2
+
+        drawRectF(horizontalCenter, verticalCenter, 1, 1)
+
+        let lineCounter = 0
+        for(let l of lines){
+            let widthOfCurrentLine = l.length * 4
+            let xx = c.left() + zoom(horizontalCenter - widthOfCurrentLine/2)
+            let yy = c.top() + zoom(lineCounter * lineHeight + verticalCenter - lines.length * lineHeight/4) + zoom(FONT_SIZE)
+
+            c.ctx().fillText(l, xx, yy);
+
+            lineCounter++
+        }
     }
 
     /* helper functions */
