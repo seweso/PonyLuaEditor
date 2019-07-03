@@ -11,8 +11,8 @@ var INPUT = ((global, $)=>{
     let dom_numbers_add
 
     function init(container){
-    bools = {}
-    numbers = {}
+        bools = {}
+        numbers = {}
         dom = $(container)
         dom.html('')
         dom.append('<div class="head">Inputs:</div>')
@@ -355,6 +355,9 @@ var INPUT = ((global, $)=>{
             valtext = 'value="'+val+'"'
         }
         let neww = $('<div class="' + type + '"><div class="change"><label class="channel" for="input_' + type + '_' + label + '">'+label+'</label><input type="' + inputType + '" ' + (inputType === 'number' ? 'step="0.1"': '') + ' id="input_' + type + '_' + label + '" ' + valtext + '/>' + (inputType === 'number' ? '<input type="range" min="-10" max="10" value="0" step="0.1"/><label class="slidervalue">0</label>': '') + '<button>x</button></div></div>')
+        if(inputType === 'number'){//force value set
+            neww.find('input[type="number"]').val(val)
+        }
         neww.find('input[type="number"], input[type="checkbox"]').on('change paste mouseleave', (e)=>{
             changeCallback(e)
             saveToStorage()

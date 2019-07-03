@@ -158,7 +158,9 @@ var CANVAS = ((global, $)=>{
 
     function resetTouchpoints(){        
         touchpoints = []
-        calculateTouchscreenInput()
+        if($('#enable-touchscreen').prop('checked')){
+            calculateTouchscreenInput()
+        }
     }
 
 
