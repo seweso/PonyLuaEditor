@@ -100,6 +100,10 @@ var EXAMPLES = ((global, $)=>{
 
         $('#learn-badge').on('click', ()=>{
             $('#editor-bottom-container').addClass('show_examples')
+
+            $('html, body').animate({
+                scrollTop: ($('#editor-bottom-container').offset().top - $(window).height()/3)
+            }, 200);            
         })
 
         $('#examples-heading .close').on('click', ()=>{
@@ -141,7 +145,7 @@ var EXAMPLES = ((global, $)=>{
                     if(!wasopen){
                         example.addClass('open')
                     }
-                    
+
                     $('#examples').animate({
                         scrollTop: (example.offset().top - 30 - $('#examples').offset().top)
                     }, 200);

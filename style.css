@@ -322,7 +322,7 @@ a:hover {
 }
 
 #documentation .node .information .args {
-    margin: 0 0 4px 2px;
+    margin: 0 6px 4px 6px;
     white-space: break-spaces;
 }
 
@@ -330,6 +330,7 @@ a:hover {
     border: 1px solid transparent;
     border-radius: 10000px;
     padding: 2px 6px;
+    height: 1.5em;
 }
 
 #documentation .node[lib="stormworks"] .information .lib_title {
@@ -941,7 +942,7 @@ a:hover {
 }
 
 #example-container #examples-heading {
-    background: #0194E2;
+    background: linear-gradient(15deg, #0194E2 0%, #792692 100%);
     color: #fff;
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
@@ -988,10 +989,26 @@ a:hover {
 #examples .chapter .chapter_head {
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
-    background: #002c43;
+    background: linear-gradient(15deg, #002c43 0%, #325668 100%);
     color: #fff;
     cursor: pointer;
     padding: 5px;
+    position: relative;
+}
+
+#examples .chapter .chapter_head:after {
+    position: absolute;
+    top: 50%;
+    right: 5px;
+    font-family: 'Iconfont';
+    content: '\ea43';
+    transition: all 0.2s ease 0s;
+    transform: translateY(-50%);
+    line-height: 0;
+}
+
+#examples .chapter.open .chapter_head:after {
+    transform: translateY(-50%) rotate(180deg);
 }
 
 #examples .chapter .chapter_body {
@@ -1018,7 +1035,8 @@ a:hover {
     position: relative;
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
-    background: #bf5421;
+    background: #;
+    background: linear-gradient(15deg, #bf5421 0%, #cb764d 100%);
     cursor: pointer;
     padding: 5px;
 }
