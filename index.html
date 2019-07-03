@@ -92,7 +92,7 @@
                 <button id="stop">Stop</button>            
             </div>
             <div class="controls_container">
-                <button id="reset">Reset all data</button>
+                <button id="reset">New Lua Script</button>
             </div>
             <div class="controls_container">
                 <button id="minify" style="margin-left: auto;">Minify (Beta)</button>
@@ -116,20 +116,13 @@
         <div id="code-container">
             <div id="code">
 function onTick()
-    -- Example that adds two composite channels together and outputs the result
-    in1 = input.getNumber(1)
-    in2 = input.getNumber(2)
-    output.setNumber(1, in1 + in2)
+    -- your code
 end    
         
 function onDraw()
-    -- Example that draws a red circle in the center of the screen with a radius of 20 pixels
-    width = screen.getWidth()
-    height = screen.getHeight()
-    screen.setColor(255, 0, 0)
-    screen.drawCircleF(width / 2, height / 2, 20)
+    -- your code
 end
-            </div>
+</div>
             <div id="code-editor-information">
                 <span id="selection-information">Line 0, Column 0, Char 0</span>
                 <span id="autocompletition-hint">Use right click, Ctrl+Space or Command+Space to open the autocompletition menu</span>
