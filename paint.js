@@ -112,8 +112,6 @@ var PAINT = ((c)=>{
         let horizontalCenter = x + w/2 + h_align * w/2
         let verticalCenter = y + h/2 + v_align * h/2
 
-        drawRectF(horizontalCenter, verticalCenter, 1, 1)
-
         let lineCounter = 0
         for(let l of lines){
             let widthOfCurrentLine = l.length * 4
