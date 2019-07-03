@@ -278,12 +278,16 @@ a:hover {
     border-radius: 3px;
 }
 
-#documentation .node[isstormworks="true"] {
+#documentation .node[lib="stormworks"] {
     background: #28160e;
 }
 
-#documentation .node[isdev="true"] {
+#documentation .node[lib="dev"] {
     background: #300101;
+}
+
+#documentation .node[lib="lua"] {
+    background: #002c43;
 }
 
 #documentation .node .information {
@@ -305,14 +309,28 @@ a:hover {
     white-space: break-spaces;
 }
 
-#documentation .node .information .is_stormworks {
-    margin: 0 0 4px 2px;
-    color: #bf5421!important;
+#documentation .node .information .lib_title {
+    border: 1px solid transparent;
+    border-radius: 10000px;
+    padding: 2px 6px;
 }
 
-#documentation .node .information .is_dev {
+#documentation .node[lib="stormworks"] .information .lib_title {
+    margin: 0 0 4px 2px;
+    color: #bf5421!important;
+    border-color: #bf5421;
+}
+
+#documentation .node[lib="dev"] .information .lib_title {
     margin: 0 0 4px 2px;
     color: #ae6767!important;
+    border-color: #ae6767;
+}
+
+#documentation .node[lib="lua"] .information .lib_title {
+    margin: 0 0 4px 2px;
+    color: #0194E2!important;
+    border-color: #0194E2;
 }
 
 #documentation .node .information .url {
@@ -699,12 +717,16 @@ a:hover {
     color: #66D9EF;
 }
 
-.autocompletition .list .entry[isstormworks="true"] {
+.autocompletition .list .entry[lib="stormworks"] {
     background: #3e2215;
 }
 
-.autocompletition .list .entry[isdev="true"] {
+.autocompletition .list .entry[lib="dev"] {
     background: #300101;
+}
+
+.autocompletition .list .entry[lib="lua"] {
+    background: #002c43;
 }
 
 .autocompletition .descriptions {
@@ -734,27 +756,50 @@ a:hover {
     margin-left: 2px;
 }
 
+.autocompletition .descriptions .description .url {
+    margin-bottom: 5px;
+}
+
 .autocompletition input {
     position: absolute;
     left: -99999999px;
 }
 
-.autocompletition .descriptions .description .is_stormworks {
+.autocompletition .descriptions .description .lib_title {
+    border: 1px solid transparent;
+    border-radius: 100000px;
+    padding: 2px 6px;
+    display: inline-block;
+}
+
+.autocompletition .descriptions .description[lib="stormworks"] .lib_title {
     margin-bottom: 4px;
     color: #bf5421;
+    border-color: #bf5421;
 }
 
-.autocompletition .descriptions .description .is_dev {
+.autocompletition .descriptions .description[lib="dev"] .lib_title {
     margin-bottom: 4px;
     color: #ae6767;
+    border-color: #ae6767;
 }
 
-.autocompletition .description[isstormworks="true"] {
+.autocompletition .descriptions .description[lib="lua"] .lib_title {
+    margin-bottom: 4px;
+    color: #0194E2;
+    border-color: #0194E2;
+}
+
+.autocompletition .description[lib="stormworks"] {
     background: #391909;
 }
 
-.autocompletition .description[isdev="true"] {
+.autocompletition .description[lib="dev"] {
     background: #300101;
+}
+
+.autocompletition .description[lib="lua"] {
+    background: #002c43;
 }
 
 .autocompletition a {

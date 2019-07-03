@@ -6,11 +6,18 @@ var AUTOCOMPLETE = ((global, $)=>{
 
     const TO = 'object'
     const TF = 'function'
+
+    const LIB_TITLES = {
+        'stormworks': 'Stormworks API',
+        'dev': 'Dev API (Editor Only)',
+        'lua': 'Lua API'
+    }
+
     const AUTOCOMPLETITIONS = {
         children: {
             screen: {
                 type: TO,
-                is_stormworks: true,
+                lib: 'stormworks',
                 description: 'Used to show stuff on the video output. Can only be called within the onDraw function!',
                 children: {
                     setColor: {
@@ -117,7 +124,7 @@ var AUTOCOMPLETE = ((global, $)=>{
             },
             map: {
                 type: TO,
-                is_stormworks: true,
+                lib: 'stormworks',
                 description: 'Functions to interact with the map.',
                 children: {
                     screenToMap: {
@@ -134,7 +141,7 @@ var AUTOCOMPLETE = ((global, $)=>{
             },
             input: {
                 type: TO,
-                is_stormworks: true,
+                lib: 'stormworks',
                 description: 'Read values from the composite input.',
                 children: {
                     getBool: {
@@ -151,24 +158,24 @@ var AUTOCOMPLETE = ((global, $)=>{
             },
             devinput: {
                 type: TO,
-                is_dev: true,
-                description: 'Manipulate input values.\nNOT AVAILABLE IN THE GAME!',
+                lib: 'dev',
+                description: 'Manipulate input values.',
                 children: {
                     setBool: {
                         type: TF,
                         args: '(index)',
-                        description: 'Sets the boolean value of the output composite on index to value. Index ranges from 1 - 32.\nNOT AVAILABLE IN THE GAME!'                        
+                        description: 'Sets the boolean value of the output composite on index to value. Index ranges from 1 - 32.'                        
                     },
                     setNumber: {
                         type: TF,
                         args: '(index)',
-                        description: 'Sets the number value of the output composite on index to value. Index ranges from 1 - 32.\nNOT AVAILABLE IN THE GAME!'                        
+                        description: 'Sets the number value of the output composite on index to value. Index ranges from 1 - 32.'                        
                     }
                 }
             },
             output: {
                 type: TO,
-                is_stormworks: true,
+                lib: 'stormworks',
                 description: 'Set values on the composite output.',
                 children: {
                     setBool: {
@@ -185,7 +192,7 @@ var AUTOCOMPLETE = ((global, $)=>{
             },
             property: {
                 type: TO,
-                is_stormworks: true,
+                lib: 'stormworks',
                 description: 'Read the values of property components within this microcontroller directly. The label passed to each function should match the label that has been set for the property you#re trying to access (case-sensitive).',
                 children: {
                     getBool: {
@@ -207,54 +214,60 @@ var AUTOCOMPLETE = ((global, $)=>{
             },
             onTick: {
                 type: TF,
-                is_stormworks: true,
+                lib: 'stormworks',
                 args: '()',
                 description: 'The tick function will be called once every logic tick and should be used for reading composite data and any required processing. "screen" functions will not work within onTick!'
             },
             onDraw: {
                 type: TF,
-                is_stormworks: true,
+                lib: 'stormworks',
                 args: '()',
                 description: 'The draw function will be called any time this script is dran by a monitor. Note that it can be called multiple times if this microcontroller is connected to multiple monitors whereas onTick is only called once. Composite input/output functions will not work within onDraw!'
             },
             print: {
                 type: TF,
-                is_dev: true,
+                lib: 'dev',
                 args: '(text)',
-                description: 'Prints text to the console.\nNOT AVAILABLE IN THE GAME!'
+                description: 'Prints text to the console.'
             },
             pairs: {
                 type: TF,
+                lib: 'lua',
                 url: 'https://www.lua.org/manual/5.3/manual.html#6.1',
                 args: '(t)',
                 description: 'If t has a metamethod __pairs, calls it with t as argument and returns the first three results from the call.\nOtherwise, returns three values: the next function, the table t, and nil, so that the construction\n     for k,v in pairs(t) do body end\nwill iterate over all key–value pairs of table t.\nSee function next for the caveats of modifying the table during its traversal.'
             },
             ipairs: {
                 type: TF,
+                lib: 'lua',
                 url: 'https://www.lua.org/manual/5.3/manual.html#6.1',
                 args: '(t)',
                 description: 'Returns three values (an iterator function, the table t, and 0) so that the construction\nfor i,v in ipairs(t) do body end\nwill iterate over the key–value pairs (1,t[1]), (2,t[2]), ..., up to the first nil value.'
             },
             next: {
                 type: TF,
+                lib: 'lua',
                 url: 'https://www.lua.org/manual/5.3/manual.html#6.1',
                 args: '(table [, index])',
                 description: 'Allows a program to traverse all fields of a table. Its first argument is a table and its second argument is an index in this table. next returns the next index of the table and its associated value. When called with nil as its second argument, next returns an initial index and its associated value. When called with the last index, or with nil in an empty table, next returns nil. If the second argument is absent, then it is interpreted as nil. In particular, you can use next(t) to check whether a table is empty.\nThe order in which the indices are enumerated is not specified, even for numeric indices. (To traverse a table in numerical order, use a numerical for.)\nThe behavior of next is undefined if, during the traversal, you assign any value to a non-existent field in the table. You may however modify existing fields. In particular, you may clear existing fields.'
             },
             tostring: {
                 type: TF,
+                lib: 'lua',
                 url: 'https://www.lua.org/manual/5.3/manual.html#6.1',
                 args: '(v)',
                 description: 'Receives a value of any type and converts it to a string in a human-readable format. (For complete control of how numbers are converted, use string.format.)\nIf the metatable of v has a __tostring field, then tostring calls the corresponding value with v as argument, and uses the result of the call as its result.'
             },
             tonumber: {
                 type: TF,
+                lib: 'lua',
                 url: 'https://www.lua.org/manual/5.3/manual.html#6.1',
                 args: '(e [,base])',
                 description: 'When called with no base, tonumber tries to convert its argument to a number. If the argument is already a number or a string convertible to a number, then tonumber returns this number; otherwise, it returns nil.\nThe conversion of strings can result in integers or floats, according to the lexical conventions of Lua (see §3.1). (The string may have leading and trailing spaces and a sign.)\nWhen called with base, then e must be a string to be interpreted as an integer numeral in that base. The base may be any integer between 2 and 36, inclusive. In bases above 10, the letter "A" (in either upper or lower case) represents 10, "B" represents 11, and so forth, with "Z" representing 35. If the string e is not a valid numeral in the given base, the function returns nil.'
             },
             math: {
                 type: TO,
+                lib: 'lua',
                 url: 'https://www.lua.org/manual/5.3/manual.html#6.7',
                 description: 'This library provides basic mathematical functions. It provides all its functions and constants inside the table math. Functions with the annotation "integer/float" give integer results for integer arguments and float results for float (or mixed) arguments. Rounding functions (math.ceil, math.floor, and math.modf) return an integer when the result fits in the range of an integer, or a float otherwise.',
                 children: {                    
@@ -392,6 +405,7 @@ var AUTOCOMPLETE = ((global, $)=>{
             },
             table: {
                 type: TO,
+                lib: 'lua',
                 url: 'https://www.lua.org/manual/5.3/manual.html#6.6',
                 description: ' This library provides generic functions for table manipulation. It provides all its functions inside the table table.\nRemember that, whenever an operation needs the length of a table, all caveats about the length operator apply (see §3.4.7). All functions ignore non-numeric keys in the tables given as arguments.',
                 children: {
@@ -434,6 +448,7 @@ var AUTOCOMPLETE = ((global, $)=>{
             },
             string: {
                 type: TO,
+                lib: 'lua',
                 url: 'https://www.lua.org/manual/5.3/manual.html#6.4',
                 description: ' This library provides generic functions for string manipulation, such as finding and extracting substrings, and pattern matching. When indexing a string in Lua, the first character is at position 1 (not at 0, as in C). Indices are allowed to be negative and are interpreted as indexing backwards, from the end of the string. Thus, the last character is at position -1, and so on.\nThe string library assumes one-byte character encodings.',
                 children: {
@@ -600,7 +615,7 @@ var AUTOCOMPLETE = ((global, $)=>{
         if(node.children){
             for(let [key, value] of Object.entries(node.children)) {
               if(!partLeft.length > 0 || key.indexOf(partLeft) === 0){                
-                ret.push({name: key, type: value.type, is_stormworks: value.is_stormworks, is_dev: value.is_dev, url: value.url, args: value.args || '', description: value.description || '...', full: path + '.' + key})
+                ret.push({name: key, type: value.type, lib: value.lib, url: value.url, args: value.args || '', description: value.description || '...', full: path + '.' + key})
               }
             }
         }
@@ -633,11 +648,8 @@ var AUTOCOMPLETE = ((global, $)=>{
             } else if(parent && typeof parent.url === 'string'){
                 node.url = parent.url
             }
-            if(parent && parent.is_stormworks){
-                node.is_stormworks = true
-            }
-            if(parent && parent.is_dev){
-                node.is_dev = true
+            if(parent && parent.lib){
+                node.lib = parent.lib
             }
             if(node.children){
                 for(let k of Object.keys(node.children)){
@@ -694,6 +706,7 @@ var AUTOCOMPLETE = ((global, $)=>{
         closeAutocomplete: closeAutocomplete,
         TO: TO,
         TF: TF,
+        LIB_TITLES: LIB_TITLES,
         getAllAutocompletitions: ()=>{ return AUTOCOMPLETITIONS; },
         getAllAUTOCOMPLETITIONSParsed: getAllAUTOCOMPLETITIONSParsed
     }
@@ -731,10 +744,10 @@ function AutocompletitionElement(completitions, part){
         let id = 0
         for(let c of completitions) {
             const myid = id
-            let cdescription = $('<div class="description" aid="' + id + '" atype="' + c.type + '" isdev="' + (c.is_dev ? 'true' : 'false') + '" isstormworks="' + (c.is_stormworks ? 'true' : 'false') + '"><div class="top"><div class="name">' + c.name + '</div><div class="args">' + c.args + '</div></div>' + (c.is_dev ? '<div class="is_dev">Dev API</div>' : '') + (c.is_stormworks ? '<div class="is_stormworks">Stormworks API</div>' : '') + (c.url ? '<div class="url">' + c.url + '</div>' : '') + '<div class="text">' + c.description + '</div></div>')
+            let cdescription = $('<div class="description" aid="' + id + '" atype="' + c.type + '" ' + (c.lib ? 'lib="' + c.lib + '"' : '') + '><div class="top"><div class="name">' + c.name + '</div><div class="args">' + c.args + '</div></div>' + (c.lib ? '<div class="lib_title">' + AUTOCOMPLETE.LIB_TITLES[c.lib] + '</div>' : '') + (c.url ? '<div class="url">' + c.url + '</div>' : '') + '<div class="text">' + c.description + '</div></div>')
             this.$descriptions.append(cdescription)
 
-            let centry = $('<div class="entry" aid="' + id + '" afull="' + c.full + '" atype="' + c.type + '" isdev="' + (c.is_dev ? 'true' : 'false') + '" isstormworks="' + (c.is_stormworks ? 'true' : 'false') + '"><div class="name">' + c.name  + (c.type === AUTOCOMPLETE.TF ? '()' : '') + '</div><div class="type">' + c.type + '</div></div>')
+            let centry = $('<div class="entry" aid="' + id + '" afull="' + c.full + '" atype="' + c.type + '" ' + (c.lib ? 'lib="' + c.lib + '"' : '') + '><div class="name">' + c.name  + (c.type === AUTOCOMPLETE.TF ? '()' : '') + '</div><div class="type">' + c.type + '</div></div>')
             this.$list.append(centry)
             centry.get(0).completition = c
             centry.on('click', ()=>{
@@ -826,7 +839,7 @@ AutocompletitionElement.prototype.select = function(index, scroll) {
             top: 0,
         })
 
-        let length = Math.max(this.$descriptions.find('.description[aid="' + index + '"] .text').html().length * 2, (this.$descriptions.find('.description[aid="' + index + '"] .name').html().length + 1 + this.$descriptions.find('.description[aid="' + index + '"] .args').html().length) * 3)
+        let length = Math.max(this.$descriptions.find('.description[aid="' + index + '"] .text').html().length * 2, (this.$descriptions.find('.description[aid="' + index + '"] .name').html().length + 1 + this.$descriptions.find('.description[aid="' + index + '"] .args').html().length) * 3, this.$descriptions.find('.description[aid="' + index + '"] .lib_title').html().length * 3)
         let width = length
         if(width > 50){
             width = $('body').width() * 0.9 - this.$list.get(0).getBoundingClientRect().right
