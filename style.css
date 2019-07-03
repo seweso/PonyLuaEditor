@@ -102,10 +102,6 @@ a:hover {
     margin-right: 5px;
 }
 
-#selection input, #selection select {
-    margin-right: 30px;
-}
-
 #selection .time_between {
     display: flex;
     flex-direction: column;
@@ -304,7 +300,7 @@ a:hover {
 }
 
 #documentation .node[lib="lua"] {
-    background: #002c43;
+    background: #001a28;
 }
 
 #documentation .node .information {
@@ -769,7 +765,7 @@ a:hover {
 }
 
 .autocompletition .list .entry[lib="lua"] {
-    background: #002c43;
+    background: #001a28;
 }
 
 .autocompletition .descriptions {
@@ -842,7 +838,7 @@ a:hover {
 }
 
 .autocompletition .description[lib="lua"] {
-    background: #002c43;
+    background: #001a28;
 }
 
 .autocompletition a {
