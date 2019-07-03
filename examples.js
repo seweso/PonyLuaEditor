@@ -141,8 +141,9 @@ var EXAMPLES = ((global, $)=>{
                     if(!wasopen){
                         example.addClass('open')
                     }
-                    $('html, body').animate({
-                        scrollTop: (example.offset().top - 30)
+                    
+                    $('#examples').animate({
+                        scrollTop: (example.offset().top - 30 - $('#examples').offset().top)
                     }, 200);
                 })
 
@@ -158,8 +159,9 @@ var EXAMPLES = ((global, $)=>{
                     if(!wasopen){
                         chapter.addClass('open')
                     }
-                    $('html, body').animate({
-                        scrollTop: (chapter.offset().top - 30)
+
+                    $('#examples').animate({
+                        scrollTop: (chapter.offset().top - 30 - $('#examples').offset().top)
                     }, 200);
             })
 

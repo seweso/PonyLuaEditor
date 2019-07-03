@@ -47,29 +47,43 @@
 <body>
   <div class="background"></div>
   <div class="content">
-    <div id="selection">
-        <div id="logo"></div>
-        <label for="monitor-size">Monitor</label>
-        <select id="monitor-size" name="monitor-size">
-            <option value="1x1">1x1</option>
-            <option value="2x2">2x2</option>
-            <option value="5x3">5x3</option>
-            <option value="9x5">9x5</option>
-        </select>
-        <label for="show-overflow">Show overflow</label>
-        <input type="checkbox" id="show-overflow" name="show-overflow" checked>
-        <label for="enable-touchscreen">Enable Touchscreen</label>
-        <input type="checkbox" id="enable-touchscreen" name="enable-touchscreen">
-        <div class="time_between">
-            <label>Time between ticks (ms): <span id="timeBetweenTicksVal">200 ms</span></label>
-            <input type="range" min="20" max="2000" value="200" id="timeBetweenTicks">
+    <div id="navigation">
+        <div style="display: flex; flex-direction: row; justify-content: space-between;">
+            <div id="logo"></div>
+            <div style="display: none" id="beta">Beta</div>            
         </div>
-        <div class="time_between">
-            <label>Time between draws (ms): <span id="timeBetweenDrawsVal">500 ms</span></label>
-            <input type="range" min="50" max="5000" value="500" id="timeBetweenDraws">
-            <span>Average time for a draw:<span id="drawtime">0 ms</span></span>
+        <div id="selection">
+            <div class="selection_group">
+                <label for="monitor-size">Monitor</label>
+                <select id="monitor-size" name="monitor-size">
+                    <option value="1x1">1x1</option>
+                    <option value="2x2">2x2</option>
+                    <option value="5x3">5x3</option>
+                    <option value="9x5">9x5</option>
+                </select>            
+            </div>
+            <div class="selection_group">
+                <label for="show-overflow">Show overflow</label>
+                <input type="checkbox" id="show-overflow" name="show-overflow" checked>
+            </div>
+            <div class="selection_group">
+                <label for="enable-touchscreen">Enable Touchscreen</label>
+                <input type="checkbox" id="enable-touchscreen" name="enable-touchscreen">
+            </div>
+            <div class="selection_group">            
+                <div class="time_between">
+                    <label>Time between ticks (ms): <span id="timeBetweenTicksVal">200 ms</span></label>
+                    <input type="range" min="20" max="2000" value="200" id="timeBetweenTicks">
+                </div>
+            </div>        
+            <div class="selection_group"> 
+                <div class="time_between">
+                    <label>Time between draws (ms): <span id="timeBetweenDrawsVal">500 ms</span></label>
+                    <input type="range" min="50" max="5000" value="500" id="timeBetweenDraws">
+                    <span>Average time for a draw:<span id="drawtime">0 ms</span></span>
+                </div>
+            </div>
         </div>
-        <div style="display: none" id="beta">Beta</div>
     </div>
     <div id="top">
         <div id="property" class="value_list"></div>

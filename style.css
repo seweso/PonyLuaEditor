@@ -77,20 +77,32 @@ a:hover {
     padding: 20px;
 }
 
+#navigation {
+    background: #000;   
+    padding: 5px; 
+}
+
 #selection {
-    background: #000;
     color: #fff;
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
 }
 
-#selection > label {
+#selection .selection_group {
+    border: 1px solid #535353;
+    border-radius: 6px;
+    padding: 3px 6px;
+    margin: 5px;
+}
+
+#selection label {
     margin-right: 5px;
 }
 
-#selection > input, #selection > select {
+#selection input, #selection select {
     margin-right: 30px;
 }
 
@@ -101,9 +113,10 @@ a:hover {
     margin: 0 20px;
 }
 
-#selection #beta {
+#beta {
+    display: inline-block;
     color: #fff;
-    font-weight: 30px;
+    font-size: 22px;
     font-weight: bold;
     padding:  10px;
     margin: 0 0 0 auto;
@@ -115,11 +128,12 @@ a:hover {
 #top {
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
 }
 
-#top > :not(:last-of-type) {
-    margin-right: 30px;
+#top > * {
+    margin: 15px;
 }
 
 #property {
@@ -164,7 +178,9 @@ a:hover {
     display: flex;
     flex-direction: row;
     margin-bottom: 30px;
+    justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
 }
 
 #controls button {
@@ -179,6 +195,7 @@ a:hover {
     background: #000a;
     padding: 10px;
     border-radius: 5px;
+    margin-bottom: 10px;
 }
 
 #controls .controls_container:not(:last-child) {
@@ -904,6 +921,11 @@ a:hover {
     flex-direction: row;
 }
 
+
+#editor-bottom-container > * {
+    width: 100%;
+}
+
 #editor-bottom-container.show_examples > * {
     width: 48%;
 }
@@ -946,9 +968,12 @@ a:hover {
 }
 
 #examples {
+    position: relative;
     display: flex;
     flex-direction: column;
     padding: 5px;
+    max-height: 50vh;
+    overflow-y: auto;
 }
 
 #examples .chapter {

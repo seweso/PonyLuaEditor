@@ -145,6 +145,7 @@ var CANVAS = ((global, $)=>{
         $canvas.get(0).height = canvasHeight
         ctx.restore()
         $('#monitor').css({width: canvasWidth, height: canvasHeight})
+        $('.zoomfactor').css({width: canvasWidth})
 
         $('#overflow').css('display', showOverflow ? '' : 'none')
     }
