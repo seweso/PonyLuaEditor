@@ -39,6 +39,7 @@
     <script type="text/javascript" src="editor_autocompletition.js"></script>
     <script type="text/javascript" src="luaparse.js"></script>
     <script type="text/javascript" src="luamin.js"></script>
+    <script type="text/javascript" src="examples.js"></script>
 
 
     <script type="text/javascript" src="version.js"></script>    
@@ -113,8 +114,9 @@
                 </div>
             </div>
         </div>
-        <div id="code-container">
-            <div id="code">
+        <div id="editor-bottom-container">
+            <div id="code-container">
+                <div id="code">
 function onTick()
     -- your code
 end    
@@ -123,13 +125,18 @@ function onDraw()
     -- your code
 end
 </div>
-            <div id="code-editor-information">
-                <span id="selection-information">Line 0, Column 0, Char 0</span>
-                <span id="autocompletition-hint">Use right click, Ctrl+Space or Command+Space to open the autocompletition menu</span>
-                <span id="charactercount">0/4096</span>
+                <div id="code-editor-information">
+                    <span id="selection-information">Line 0, Column 0, Char 0</span>
+                    <span id="autocompletition-hint">Use right click, Ctrl+Space or Command+Space to open the autocompletition menu</span>
+                    <span id="charactercount">0/4096</span>
+                </div>
+                <div id="code-lock"></div>
+                <div id="autocompletition-container"></div>
             </div>
-            <div id="code-lock"></div>
-            <div id="autocompletition-container"></div>
+            <div id="example-container">
+                <div id="examples-heading"><h3>Learn & Examples:</h3><span class="close icon-cross"></span></div>
+                <div id="examples"></div>
+            </div>
         </div>
     </div>
 
@@ -217,6 +224,15 @@ end
 
 
     <div id="fixed-information-badges">
+        <div id="learn-badge" class="hoverable">
+            <div>
+                <span class="icon-books"></span>
+                <div style="display: flex;flex-direction: column;">
+                    <span class="heading">Learn &</span>
+                    <span class="heading">Examples</span>
+                </div>
+            </div>
+        </div>
         <div id="help-badge" class="hoverable">
             <div>
                 <span class="icon-question"></span>
