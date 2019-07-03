@@ -564,7 +564,7 @@ a:hover {
 }
 
 .value_list .head .add input {
-    width: 100px;
+    width: calc(100% - 23px);
     margin: 0 5px;
 }
 
@@ -606,6 +606,8 @@ a:hover {
     border: 1px solid #000;
     border-radius: 10000px;
     padding: 2px;
+    min-width: 1.5em;
+    text-align: center;
 }
 
 .value_list .number .settings .group {
@@ -642,6 +644,9 @@ a:hover {
     margin: 0 5px 0 5px;
 }
 
+.value_list .number input, .value_list .text input {
+    width: calc(100% - 70px);
+}
 
 .value_list .bool .result, .value_list .number .result, .value_list .text .result {
     margin: 0 0 0 auto;
