@@ -133,8 +133,8 @@ a:hover {
 #canvas {
     z-index: 1;
     background: #000;
+    filter: brightness(200%);
 }
-
 
 #overflow {
     position: absolute;

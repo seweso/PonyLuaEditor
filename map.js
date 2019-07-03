@@ -13,44 +13,46 @@ var MAP = ((global, c, $)=>{
     let fakectx2 = fakecanvas2.getContext('2d')
 
 
+    const COLOR_MULTIPLIER = 0.75
+
     const MAP_ZERO_X = 3274
     const MAP_ZERO_Y = 920
 
     const DEFAULT_COLORS = {
         ocean: {
             r: 0,
-            g: 38,
-            b: 255,
+            g: 0,
+            b: 205,
             a: 255
         },
         shallows: {
             r: 0,
-            g: 148,
-            b: 255,
+            g: 98,
+            b: 205,
             a: 255
         },
         land: {
-            r: 64,
-            g: 64,
-            b: 64,
+            r: 14,
+            g: 14,
+            b: 14,
             a: 255
         },
         grass: {
-            r: 77,
-            g: 153,
-            b: 55,
+            r: 27,
+            g: 103,
+            b: 5,
             a: 255
         },
         sand: {
-            r: 204,
-            g: 147,
-            b: 67,
+            r: 154,
+            g: 97,
+            b: 17,
             a: 255
         },
         snow: {
-            r: 255,
-            g: 255,
-            b: 255,
+            r: 205,
+            g: 205,
+            b: 205,
             a: 255
         }
     }
@@ -80,10 +82,10 @@ var MAP = ((global, c, $)=>{
             let data = imageData.data
             for(let i = 0; i < data.length; i+=4 ){
                 let color = bestMatchColor(data[i], data[i+1], data[i+2])
-                data[i] = color.r
-                data[i+1] = color.g
-                data[i+2] = color.b
-                data[i+3] = color.a
+                data[i] = color.r * COLOR_MULTIPLIER
+                data[i+1] = color.g * COLOR_MULTIPLIER
+                data[i+2] = color.b * COLOR_MULTIPLIER
+                data[i+3] = color.a * COLOR_MULTIPLIER
             }
 
             fakectx.clearRect(0, 0, fakecanvas.width, fakecanvas.height)
