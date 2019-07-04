@@ -478,8 +478,8 @@ var INPUT = ((global, $)=>{
         if(typeof index !== 'number'){
             throw new Error('first argument must be a number!')
         }
-        if(typeof bools[index] === 'boolean'){
-            return bools[index]
+        if(bools[index] && typeof bools[index].val === 'boolean'){
+            return bools[index].val
         } else {
             return false
         }

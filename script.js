@@ -556,12 +556,10 @@ var YYY = ((global, $)=>{
         CANVAS.reset()
         CANVAS.resetTouchpoints()
         MAP.reset()
-        console.log('running code...', code)
+        console.log('running code...')
         try {
             let feng = fengari.load(code, null, LUA_EMULATOR.l())
-            console.log(LUA_EMULATOR.getGlobalVariable('onTick'))
             feng()
-            console.log(LUA_EMULATOR.getGlobalVariable('onTick'))
         } catch (err){
             if(err.message){
                 err = err.message
