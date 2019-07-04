@@ -1101,9 +1101,9 @@ a:hover {
 }
 
 
-/* pastebin overlay */
+/* ponybin overlay */
 
-.pastebin_overlay {
+.ponybin_overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -1117,12 +1117,12 @@ a:hover {
     align-items: center;
 }
 
-.pastebin_overlay .inner {
+.ponybin_overlay .inner {
     display: flex;
     flex-direction: column;
 }
 
-.pastebin_overlay .circle {
+.ponybin_overlay .circle {
     background: linear-gradient(15deg, #F2DF17aa 0%, #6EBC88aa 100%);
     box-shadow: 0px 0px 5px 3px #F2DF1777;
     color: #000;
@@ -1140,7 +1140,7 @@ a:hover {
     animation-iteration-count: infinite;
 }
 
-.pastebin_overlay .circle p {
+.ponybin_overlay .circle p {
     text-align: center;
     line-height: 150%;
     font-weight: bold;
@@ -1149,20 +1149,20 @@ a:hover {
     animation-iteration-count: infinite;
 }
 
-.pastebin_overlay .circle [dot] {
+.ponybin_overlay .circle [dot] {
     animation-iteration-count: infinite;
     animation-duration: 2s;    
 }
 
-.pastebin_overlay .circle [dot="1"] {
+.ponybin_overlay .circle [dot="1"] {
     animation-name: dot1;
 }
 
-.pastebin_overlay .circle [dot="2"] {
+.ponybin_overlay .circle [dot="2"] {
     animation-name: dot2;
 }
 
-.pastebin_overlay .circle [dot="3"] {
+.ponybin_overlay .circle [dot="3"] {
     animation-name: dot3;
 }
 

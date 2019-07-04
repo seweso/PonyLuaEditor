@@ -76,7 +76,7 @@ var SHARE = ((global, $)=>{
             return
         }
        
-        $('#pastebin-create-overlay').show()
+        $('#ponybin-create-overlay').show()
 
         let settings = {}
         settings.input = INPUT.getStorage()
@@ -100,13 +100,13 @@ var SHARE = ((global, $)=>{
                 setCurrentShare(id)
             } catch (e){
                 console.error(e)
-                error('Cannot share via pastebin')
+                error('Cannot share via ponybin')
             }
         }).fail((e)=>{
             console.error(e)
-            error('Cannot share via pastebin')
+            error('Cannot share via ponybin')
         }).always(()=>{
-            $('#pastebin-create-overlay').hide()
+            $('#ponybin-create-overlay').hide()
         })
     }
 
@@ -116,7 +116,7 @@ var SHARE = ((global, $)=>{
             return
         }
         log('receiving share', currentShare)
-        $('#pastebin-receive-overlay').show()
+        $('#ponybin-receive-overlay').show()
         $.post(BASE_URL + '/api/get', {
             key: currentShare.replace('/beta', '').replace(BASE_URL + '/?id=', '')
         }).done((data)=>{
@@ -141,18 +141,18 @@ var SHARE = ((global, $)=>{
                         YYY.setStorage(parsed.general)
                         YYY.refreshAll()
                     } catch (e){
-                        console.error('error parsing settings from pastebin', e)
+                        console.error('error parsing settings from ponybin', e)
                     }
                 }
             } catch (e){
                 console.error(e)
-                error('Cannot get data from pastebin')
+                error('Cannot get data from ponybin')
             }
         }).fail((e)=>{
             console.error(e)
-            error('Cannot get data from pastebin')
+            error('Cannot get data from ponybin')
         }).always(()=>{
-            $('#pastebin-receive-overlay').hide()
+            $('#ponybin-receive-overlay').hide()
         })
     }
 
