@@ -722,6 +722,10 @@ a:hover {
     display: none;
 }
 
+.value_list .bool .settings {
+    display: none;
+}
+
 .value_list .number .slidervalue {
     margin: 0 4px;
     min-width: 3em;
