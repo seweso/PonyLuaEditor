@@ -103,6 +103,14 @@ var LUA_EMULATOR = ((global, $)=>{
         return convertLuaValue(res)
     }
 
+    function getGlobalVariableFromState(name, luastate){
+        fengari.lua.lua_settop(luastate, 0)
+        fengari.lua.lua_getglobal(luastate, name)
+        let res = luastate.stack[luastate.top-1]
+        fengari.lua.lua_settop(luastate, 1)
+        return convertLuaValue(res)
+    }
+
     function callLuaFunction(name){
         if(typeof name !== 'string'){
             throw new Error('passed variable is not a string!')
@@ -296,36 +304,36 @@ var LUA_EMULATOR = ((global, $)=>{
     function reset(){
         return new Promise((fulfill, reject)=>{
             console.log('reseting lua vm...')
-            delete fengari
             supportedFunctions = {}
             namespaces = {}
             fresh = false
 
-            $('head').append('<script type="text/javascript" src="' + $('#fengari-script').attr('src') + '"></script>')
+            //$('head').append('<script type="text/javascript" src="' + $('#fengari-script').attr('src') + '"></script>')
 
-            setTimeout(()=>{
-                try {       
-                    l = fengari.L
-                    fengari.lua.lua_settop(l, 0)
-                    init()
-                    $(global).trigger('lua_emulator_loaded')
-                    $(global).on('stormworks_lua_api_loaded', ()=>{
-                        if(fresh){
-                            console.log('its fresh!')
-                            fulfill()
-                            return
-                        } else {
-                            fresh = true
-                            fulfill()
-                        }                      
-                        console.log('reseted lua vm', LUA_EMULATOR.getGlobalVariable('screen'))                        
-                    })
-                } catch (err){
-                    console.error('error reseting lua vm', err)
+            try {       
+                l = fengari.lauxlib.luaL_newstate()
+                fengari.lua.lua_settop(l, 0)
+
+                /* open standard libraries */
+                fengari.lualib.luaL_openlibs(l);
+                fengari.lauxlib.luaL_requiref(l, fengari.to_luastring("js"), fengari.interop.luaopen_js, 1);
+                fengari.lua.lua_pop(l, 1); /* remove lib */
+
+                console.log('screen after luaL_newstate()', getGlobalVariableFromState('screen', l))
+
+                init()
+                $(global).trigger('lua_emulator_loaded')
+                $(global).on('stormworks_lua_api_loaded', ()=>{
+                    $(global).off('stormworks_lua_api_loaded')
                     fresh = true
-                    fulfill()
-                }
-            }, 100)
+                    fulfill() 
+                    console.log('reseted lua vm', LUA_EMULATOR.getGlobalVariable('screen'))                        
+                })
+            } catch (err){
+                console.error('error reseting lua vm', err)
+                fresh = true
+                fulfill()
+            }
         })
     }
 
@@ -354,6 +362,7 @@ var LUA_EMULATOR = ((global, $)=>{
         makeFunctionAvailableInLuaViaName: makeFunctionAvailableInLuaViaName,
         callLuaFunction: callLuaFunction,
         getGlobalVariable: getGlobalVariable,
+        getGlobalVariableFromState: getGlobalVariableFromState,
         luaToString: luaToString,
         reset: reset,
         l: ()=>{return l},

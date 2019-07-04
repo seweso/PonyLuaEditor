@@ -698,19 +698,5 @@
         }
         LUA_EMULATOR.makeFunctionAvailableInLua(getText, 'property')
     }
-        /* touch stuff */
-        /* numberchannels:
-            1 monitor width
-            2 monitor height
-            3 input1x
-            4 input1y
-            5 input2x
-            6 input2y
-
-          onoff channels
-            1 isinput1pressed
-            2 isinputpressed
-        */
-
-
+    
 })(window, jQuery)

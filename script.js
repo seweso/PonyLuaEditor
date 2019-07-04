@@ -523,15 +523,17 @@ var YYY = ((global, $)=>{
         CANVAS.reset()
         CANVAS.resetTouchpoints()
         MAP.reset()
-        console.log('running code...')
+        console.log('running code...', code)
         try {
-            let feng = fengari.load(code)
+            let feng = fengari.load(code, null, LUA_EMULATOR.l())
+            console.log(LUA_EMULATOR.getGlobalVariable('onTick'))
             feng()
+            console.log(LUA_EMULATOR.getGlobalVariable('onTick'))
         } catch (err){
-            if(err instanceof SyntaxError){
+            if(err.message){
                 err = err.message
             }
-            LUA_EMULATOR.bluescreenError(fengari.L, 'error', err)
+            LUA_EMULATOR.bluescreenError(LUA_EMULATOR.l(), 'error', err)
         }
         OUTPUT.reset()
 
