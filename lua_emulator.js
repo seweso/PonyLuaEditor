@@ -310,8 +310,6 @@ var LUA_EMULATOR = ((global, $)=>{
                 fengari.lauxlib.luaL_requiref(l, fengari.to_luastring("js"), fengari.interop.luaopen_js, 1);
                 fengari.lua.lua_pop(l, 1); /* remove lib */
 
-                console.log('screen after luaL_newstate()', getGlobalVariableFromState('screen', l))
-
                 init()
                 $(global).trigger('lua_emulator_loaded')
                 $(global).on('stormworks_lua_api_loaded', ()=>{
