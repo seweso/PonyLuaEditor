@@ -105,7 +105,7 @@
         <div id="output" class="value_list"></div>
     </div>
     <div id="editor">
-        <div id="controls">
+        <div class="controls">
             <div class="controls_container">
                 <button id="start">Start</button>
                 <button id="stop">Stop</button>            
@@ -145,10 +145,10 @@ end
 </div>
                 <div id="code-editor-information">
                     <span id="selection-information">Line 0, Column 0, Char 0</span>
-                    <span id="autocompletition-hint">Use right click, Ctrl+Space or Command+Space to open the autocompletition menu</span>
+                    <span id="autocompletition-hint">Autocomplete: right click, Ctrl+Space or Command+Space</span>
                     <span id="charactercount">0/4096</span>
                 </div>
-                <div id="code-lock"></div>
+                <div class="code_lock"></div>
                 <div id="autocompletition-container"></div>
             </div>
             <div id="example-container">
@@ -160,11 +160,19 @@ end
 
     <div id="minified-code-container" class="container" style="display: none;">
         <h3>Minified Code:</h3>
+        <div id="minified-controls" class="controls">
+            <div class="controls_container">
+                <button id="start-minified">Start Minified</button>        
+            </div>
+        </div>
+        <div class="custom_hint" style="display: none;">You are using custom minified code! It will be overwritten when minifying the next time!<br>When sharing the original code as well as the custom minified code will be shared.</div>
         <div id="minified-code">
         </div>
         <div id="code-minified-editor-information">
+            <span id="minified-selection-information">Line 0, Column 0, Char 0</span>
             <span id="minified-charactercount">0/4096</span>
         </div>
+        <div class="code_lock"></div>
     </div>
 
     <div id="out">

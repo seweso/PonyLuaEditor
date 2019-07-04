@@ -18,10 +18,20 @@ var YYY = ((global, $)=>{
 
     let running = false
 
+    let isCustomMinifiedCode = false
+
 
     $(global).on('load', init)
 
     function init(){
+
+        let scrollTop = parseInt(localStorage.getItem('scroll'))
+        if(!isNaN(scrollTop)){
+            setTimeout(()=>{
+                console.log('scrolling to ', scrollTop)
+                $('html, body').scrollTop(scrollTop)
+            }, 300)            
+        }        
 
         for(let k of Object.keys(AUTOCOMPLETE.getAllAutocompletitions().children)){
             IDENTIFIERS_NOT_ALLOWED_TO_MINIFY.push(k)
@@ -58,9 +68,10 @@ var YYY = ((global, $)=>{
     		PAINT.setZoomFactor(val)
     		MAP.setZoomFactor(val)
     		$('.zoomfactor span').html(val+'x')
-		  updateStorage()
+		    updateStorage()
     	})
 	  	$('#start').on('click', start)
+        $('#start-minified').on('click', startMinified)
         $('#stop').prop('disabled', true).on('click', stop)
         $('#reset').on('click', ()=>{
             if(confirm('Are you sure? This will also remove the code in the editor!')){
@@ -186,18 +197,31 @@ var YYY = ((global, $)=>{
                 $('#minified-code-container').show()
                 minifiedEditor.setValue(minified)
                 refreshMinifiedEditorCharacterCount()
+                $('#minified-code-container .custom_hint').hide()
+                isCustomMinifiedCode = false
+
+
+                saveCodeInStorage()
+                removeMinifiedCodeFromStorage()
             } catch (ex){
                 console.log(ex)
                 minifiedEditor.setValue('Error: ' + ex.message)
                 refreshMinifiedEditorCharacterCount()
             }
         })
-        minifiedEditor.setValue('')
-	  	$('#console').val('')
+        $('#console').val('')
 	  	let codeFromStorage = getCodeFromStorage()
 	  	if(typeof codeFromStorage === 'string' && codeFromStorage.length > 0){
 	  		editor.setValue(codeFromStorage)
 	  	}
+
+        let minifiedCodeFromStorage = getMinifiedCodeFromStorage()
+        if(typeof minifiedCodeFromStorage === 'string' && minifiedCodeFromStorage.length > 0){
+            minifiedEditor.setValue(minifiedCodeFromStorage)
+            $('#minified-code-container').show()
+            $('#minified-code-container .custom_hint').show()
+            isCustomMinifiedCode = true
+        }
 
         $('#monitor-size, #show-overflow').on('change', (e)=>{
             updateStorage()
@@ -209,10 +233,17 @@ var YYY = ((global, $)=>{
 
         minifiedEditor.on('change', ()=>{
             refreshMinifiedEditorCharacterCount()
+            $('#minified-code-container .custom_hint').show()
+            isCustomMinifiedCode = true
         })
 
         editor.selection.on('changeCursor', ()=>{
             refreshPositionHint()
+        })
+
+
+        minifiedEditor.selection.on('changeCursor', ()=>{
+            refreshMinifiedPositionHint()
         })
 
         $('#timeBetweenTicks').on('input', ()=>{
@@ -458,34 +489,55 @@ var YYY = ((global, $)=>{
     }
 
     function start(){
+        $('#code-container, #minified-code-container').addClass('locked')
+        saveCodeInStorage()
+
+        let code = editor.getValue()
+
+        startCode(code)
+
+        setTimeout(()=>{
+            $('#start').blur()
+            $('#start-minified').blur()
+        }, 100)
+    }
+
+    function startMinified(){
+        $('#code-container, #minified-code-container').addClass('locked')
+        saveMinifiedCodeInStorage()
+
+        let code = minifiedEditor.getValue()
+
+        startCode(code)
+
+        setTimeout(()=>{
+            $('#start').blur()
+            $('#start-minified').blur()
+        }, 100)
+    }
+
+    function startCode(code){
         running = true
-        $('#start, #timeBetweenTicks, #timeBetweenDraws').prop('disabled', true)
-        $('#minified-code-container').hide()
-        $('#code-container').addClass('locked')
-	  	saveCodeInStorage()
-	  	$('#console').val('')
-	  	CANVAS.reset()
+        $('#start, #start-minified, #timeBetweenTicks, #timeBetweenDraws').prop('disabled', true)
+        $('#console').val('')
+        CANVAS.reset()
         CANVAS.resetTouchpoints()
         MAP.reset()
-        let code = editor.getValue()
         console.log('running code...')
-	  	try {
-		  	let feng = fengari.load(code)
-	  		feng()
-	    } catch (err){
+        try {
+            let feng = fengari.load(code)
+            feng()
+        } catch (err){
             if(err instanceof SyntaxError){
                 err = err.message
             }
-		  	LUA_EMULATOR.bluescreenError(fengari.L, 'error', err)
-	    }
+            LUA_EMULATOR.bluescreenError(fengari.L, 'error', err)
+        }
         OUTPUT.reset()
 
         intervalTick = setInterval(doTick, timeBetweenTicks)
         intervalDraw = setInterval(doDraw, timeBetweenDraws)
         $('#stop').prop('disabled', false)
-        setTimeout(()=>{
-            $('#start').blur()
-        }, 100)        
     }
 
     function stop(){
@@ -494,8 +546,8 @@ var YYY = ((global, $)=>{
         clearInterval(intervalDraw)
 
         LUA_EMULATOR.reset().then(()=>{
-            $('#start, #timeBetweenTicks, #timeBetweenDraws').prop('disabled', false)
-            $('#code-container').removeClass('locked')
+            $('#start, #start-minified, #timeBetweenTicks, #timeBetweenDraws').prop('disabled', false)
+            $('#code-container, #minified-code-container').removeClass('locked')
         })
 
         running = false
@@ -549,8 +601,20 @@ var YYY = ((global, $)=>{
   		localStorage.setItem('code', editor.getValue());
     }
 
+    function saveMinifiedCodeInStorage(){
+        localStorage.setItem('minified-code', minifiedEditor.getValue());
+    }
+
+    function removeMinifiedCodeFromStorage(){
+        localStorage.removeItem('minified-code')
+    }
+
     function getCodeFromStorage(){
   		return localStorage.getItem('code');
+    }
+
+    function getMinifiedCodeFromStorage(){
+        return localStorage.getItem('minified-code');
     }
 
     function setStorage(data){
@@ -592,6 +656,12 @@ var YYY = ((global, $)=>{
         $('#selection-information').html('Line ' + (pos.row + 1) + ', Column ' + (pos.column + 1) + ', Char ' + chars)
     }
 
+    function refreshMinifiedPositionHint(){
+        let pos = minifiedEditor.getCursorPosition()
+        let chars = minifiedEditor.session.doc.positionToIndex(pos)
+        $('#minified-selection-information').html('Line ' + (pos.row + 1) + ', Column ' + (pos.column + 1) + ', Char ' + chars)
+    }
+
     function countCharacters(str){
         return typeof str === 'string' ? str.length : 0
     }
@@ -608,12 +678,18 @@ var YYY = ((global, $)=>{
         isMinificationAllowed: isMinificationAllowed,
         isRunning: ()=>{
             return running
+        },
+        isCustomMinifiedCode: ()=>{
+            return isCustomMinifiedCode
         }
     }
 
 })(window, jQuery)
 
 window.onbeforeunload = function (e) {
+    const scrollTop = $(window).scrollTop()
+    console.log('saved scrollTop', scrollTop)
+    localStorage.setItem('scroll', scrollTop)
     if(window.noExitConfirm){
         return
     }

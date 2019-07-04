@@ -177,7 +177,7 @@ a:hover {
     padding: 0;
 }
 
-#controls {
+.controls {
     display: flex;
     flex-direction: row;
     margin-bottom: 30px;
@@ -186,22 +186,22 @@ a:hover {
     flex-wrap: wrap;
 }
 
-#controls button {
+.controls button {
     margin: 0;
 }
 
-#controls button:not(:last-child) {
+.controls button:not(:last-child) {
     margin-right: 10px;
 }
 
-#controls .controls_container {
+.controls .controls_container {
     background: #000a;
     padding: 10px;
     border-radius: 5px;
     margin-bottom: 10px;
 }
 
-#controls .controls_container:not(:last-child) {
+.controls .controls_container:not(:last-child) {
     margin-right: 10px;
 }
 
@@ -217,7 +217,22 @@ a:hover {
     display: none;
 }
 
-#code-container.locked #code-lock {
+#code-container.locked .code_lock {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    cursor: not-allowed;
+    z-index: 100000;
+}
+
+#minified-code-container.locked #code textarea {
+    display: none;
+}
+
+#minified-code-container.locked .code_lock {
     position: absolute;
     top: 0;
     left: 0;
@@ -231,6 +246,15 @@ a:hover {
 #minified-code-container {
     padding: 20px;
     color: #fff;
+}
+
+#minified-code-container .custom_hint {
+    display: inline-block;
+    background: linear-gradient(10deg, #d62323 0%, #6b1111 100%);
+    color: #fff;
+    border-radius: 3px;
+    padding: 5px;
+    margin-bottom: 10px;
 }
 
 #code, #minified-code {

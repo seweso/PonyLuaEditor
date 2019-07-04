@@ -67,12 +67,15 @@ var SHARE = ((global, $)=>{
     }
 
     function doCreate(){
+        log('creating new share')
+
+
         let code = editor.getValue()
         if(typeof code !== 'string' || code.length === 0){
             error('code is empty')
             return
         }
-        log('creating new share')
+       
         $('#pastebin-create-overlay').show()
 
         let settings = {}
@@ -80,10 +83,17 @@ var SHARE = ((global, $)=>{
         settings.property = PROPERTY.getStorage()
         settings.general = YYY.getStorage()
 
-        $.post(BASE_URL + '/api/create', {
+        let data = {
             code: code,
             settings: JSON.stringify(settings)
-        }).done((data)=>{
+        }
+
+        let minifiedCode = minifiedEditor.getValue()
+        if(typeof minifiedCode === 'string' && minifiedCode.length > 0 && YYY.isCustomMinifiedCode()){
+            data.minified_code = minifiedCode
+        }
+
+        $.post(BASE_URL + '/api/create', data).done((data)=>{
             try {
                 let json = JSON.parse(data)
                 let id = json.key
@@ -116,6 +126,13 @@ var SHARE = ((global, $)=>{
                 if(typeof json.luabin === 'object' && typeof json.luabin.code === 'string'){
                     editor.setValue(json.luabin.code)
                 }
+
+                if(typeof json.luabin === 'object' && typeof json.luabin.minified_code === 'string'){
+                    minifiedEditor.setValue(json.luabin.minified_code)
+                    $('#minified-code-container').show()
+                    $('#minified-code-container .custom_hint').show()
+                }
+
                 if(typeof json.luabin === 'object' && typeof json.luabin.settings === 'string'){
                     try {
                         let parsed = JSON.parse(json.luabin.settings)

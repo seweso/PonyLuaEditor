@@ -222,7 +222,7 @@ var AUTOCOMPLETE = ((global, $)=>{
                 type: TF,
                 lib: 'stormworks',
                 args: '()',
-                description: 'The draw function will be called any time this script is dran by a monitor. Note that it can be called multiple times if this microcontroller is connected to multiple monitors whereas onTick is only called once. Composite input/output functions will not work within onDraw!'
+                description: 'The draw function will be called any time this script is drawn by a monitor. Note that it can be called multiple times if this microcontroller is connected to multiple monitors whereas onTick is only called once. Composite input/output functions will not work within onDraw!'
             },
             print: {
                 type: TF,
