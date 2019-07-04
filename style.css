@@ -1166,6 +1166,53 @@ a:hover {
     animation-name: dot3;
 }
 
+
+/* dialogs */
+
+.dialog {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1000000;
+    background: #000c;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.dialog .inner {
+    display: flex;
+    flex-direction: column;
+    background: #fffa;
+    padding: 20px;
+    border-radius: 3px;
+    box-shadow: 2px 2px 3px #555;
+}
+
+.dialog .title {
+    margin: 0;
+    color: #bf5421;
+    font-weight: bold;
+    text-align: center;
+}
+
+.dialog .message {
+    margin: 20px 0;
+}
+
+.dialog .buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.dialog .buttons button {
+    margin: 0 10px;
+}
+
 @keyframes circle {
     0% { background-color: #F2DF17 }
     25% { background-color: #6EBC88 }

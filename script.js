@@ -74,11 +74,15 @@ var YYY = ((global, $)=>{
         $('#start-minified').on('click', startMinified)
         $('#stop').prop('disabled', true).on('click', stop)
         $('#reset').on('click', ()=>{
-            if(confirm('Are you sure? This will also remove the code in the editor!')){
-                localStorage.clear()
-                global.noExitConfirm = true
-                document.location = document.location.href.split('?')[0]
-            }
+            confirm('Are you sure? This will also remove the code in the editor!').then((result)=>{
+                if(result === true){
+                    localStorage.clear()
+                    global.noExitConfirm = true
+                    document.location = document.location.href.split('?')[0]
+                }
+            }).catch(()=>{
+                /* do nothing */
+            })
         })
         $('#minify').on('click', ()=>{
             try {
@@ -301,6 +305,35 @@ var YYY = ((global, $)=>{
         setTimeout(()=>{
             refreshAll()
         }, 200)
+    }
+
+    function confirm(text){
+        return new Promise((fulfill, reject)=>{
+            $('#confirm .message').html(text)
+            $('#confirm').show()
+            $('#confirm .yes').on('click', ()=>{
+                $('#confirm .yes, #confirm .no').off('click')
+                $('#confirm').hide()
+                fulfill(true)
+            })
+            $('#confirm .no').on('click', ()=>{
+                $('#confirm .yes, #confirm .no').off('click')
+                $('#confirm').hide()
+                fulfill(false)
+            })
+        })
+    }
+
+    function alert(text){
+        return new Promise((fulfill, reject)=>{
+            $('#alert .message').html(text)
+            $('#alert').show()
+            $('#alert .ok').on('click', ()=>{
+                $('#alert .ok').off('click')
+                $('#alert').hide()
+                fulfill(true)
+            })
+        })
     }
 
     function removeFromAstGlobals(identifier, ast){
@@ -683,7 +716,9 @@ var YYY = ((global, $)=>{
         },
         isCustomMinifiedCode: ()=>{
             return isCustomMinifiedCode
-        }
+        },
+        confirm: confirm,
+        alert: alert
     }
 
 })(window, jQuery)
