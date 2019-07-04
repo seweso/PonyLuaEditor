@@ -159,14 +159,14 @@ a:hover {
 }
 
 #monitor-sizes {
-    background: #bf5421;
+    background: linear-gradient(10deg, #bf5421 0%, #cb764d 100%);
     border-radius: 3px;
     padding: 5px;
     margin-top: 10px;
 }
 
 .zoomfactor {
-    background: #bf5421;
+    background: linear-gradient(10deg, #bf5421 0%, #cb764d 100%);
     border-radius: 3px;
     padding: 5px;
     margin-top: 10px;
@@ -629,7 +629,7 @@ a:hover {
     display: flex;
     flex-direction: row;
     padding: 5px;
-    background: #bf5421;
+    background: linear-gradient(10deg, #bf5421 0%, #cb764d 100%);
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
 }
