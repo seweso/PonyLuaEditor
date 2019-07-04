@@ -73,7 +73,16 @@ var EXAMPLES = ((global, $)=>{
             title: 'Touchscreen',
             contents: [{
                 type: 'text',
-                content: 'Coming soon...'
+                content: 'The composite output from the monitors contains data that can be interpreted in your script to create touchscreens. The layout of the composite data is as follows:'
+            },{
+                type: 'text',
+                content: '<b>Number Channels</b><ol><li>monitorResolutionX</li><li>monitorResolutionY</li><li>input1X</li><li>input1Y</li><li>input2X</li><li>input2Y</li></ol>'
+            },{
+                type: 'text',
+                content: '<b>On/Off Channels</b><ol><li>isInput1Pressed</li><li>isInput2Pressed</li></ol>'
+            },{
+                type: 'text',
+                content: 'Hint: As long as an input is pressed the x and y coordinated will not change! This means you cannot implement drag functionality!'
             }]
         }]
     },{
@@ -91,6 +100,18 @@ var EXAMPLES = ((global, $)=>{
                 content: 'Coming soon...'
             }]
         }]
+    },{
+        title: 'Information from the Stormworks developers',
+        examples: [{
+            title: 'Meta from the devs',
+            contents: [{
+                type: 'text',
+                content: 'This scripting API is very powerful and as such there are some important reminders to take note of:'
+            },{
+                type: 'text',
+                content: '<ul><li>Your script has a max execution time of 1000 milliseconds, however it is still possible to create scripts that significantly slow down the game. It is your responsibility to ensure your script runs efficiently.</li><li>Random number functions are provided by the Lua math library. Use of randomness in your scripts is likey to cause desync in multiplayer, so use these functions at your own risk</li><li>When your vehicle despawns and respawns, your script will be executed "fresh" and any state stored within the script will be lost. We recommend keeping your script as stateless as possible, and making use of existing logic components (e.g. memory register) to store values that you with to persist</li><li>Your scripts run as a "black box" with only the logic inputs/outputs being synced in multiplayer. Keep in mind that complex logic in your script may behave differently for different players in a multiplayer session.</li><li>A number of safeguards are in place to sandbox your script, however it is still possible to write scripts that will potentially crash your game. If you crash your game with a script it\'s likely that you\'re doing something (very) wrong. This is your own responsibility. If you suspect you have encountered a legitimate bug, please report it on the Stormworks issue tracker (accessible from the pause-menu).</li><li>Malicious and harmful scripts will not be tolerated on the Stormworks Steam Workshop</li></ul>'
+            }]
+        }]
     }]
 
 
@@ -102,7 +123,7 @@ var EXAMPLES = ((global, $)=>{
             $('#editor-bottom-container').addClass('show_examples')
 
             $('html, body').animate({
-                scrollTop: ($('#editor-bottom-container').offset().top - $(window).height()/3)
+                scrollTop: ($('#editor-bottom-container').offset().top - $(window).height()/5)
             }, 200);            
         })
 
@@ -118,7 +139,7 @@ var EXAMPLES = ((global, $)=>{
                     let c
                     switch(co.type){
                         case 'text': {
-                            c = $('<p class="example_text">' + co.content + '</p>')
+                            c = $('<div class="example_text">' + co.content + '</div>')
                         }; break;
                         case 'code': {
                             c = $('<div class="example_code">' + co.content + '</div>')
