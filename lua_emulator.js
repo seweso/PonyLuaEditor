@@ -322,6 +322,7 @@ var LUA_EMULATOR = ((global, $)=>{
                 })
             } catch (err){
                 console.error('error reseting lua vm', err)
+                YYY.alert('Cannot reset the Lua VM, please reload the page and tell me about this bug!')
                 fresh = true
                 fulfill()
             }
