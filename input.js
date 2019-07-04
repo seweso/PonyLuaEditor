@@ -10,7 +10,13 @@ var INPUT = ((global, $)=>{
     let dom_numbers
     let dom_numbers_add
 
+    const SUPPORTED_INPUT_KEYS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+
     function init(container){
+
+        $(global).on('keydown', handleKeyDown)
+        $(global).on('keyup', handleKeyUp)
+
         bools = {}
         numbers = {}
         dom = $(container)
@@ -52,11 +58,13 @@ var INPUT = ((global, $)=>{
         let store = getFromStorage()
         if(typeof store.bools === 'object' && store.bools !== null){
             for(let k of Object.keys(store.bools)){
+                let b = store.bools[k]
+                let val = b.val
 
                 if(isNaN(parseInt(k))){
                     return
                 } 
-                addNewBool(parseInt(k), store.bools[k])
+                addNewBool(parseInt(k), val, b)
             }
         }
 
@@ -76,6 +84,40 @@ var INPUT = ((global, $)=>{
                     return
                 }                
                 addNewNumber(parseInt(k), val, n)
+            }
+        }
+    }
+
+    function handleKeyDown(evt){
+        if(YYY.isRunning()){
+            for(let k of Object.keys(bools)){
+                let b = bools[k]
+                if(evt.originalEvent.key === b.key){
+                    evt.preventDefault()
+                    evt.stopImmediatePropagation()
+
+                    if(b.type === 'push'){ /* push */
+                        doSetBool(k, true)
+                    }
+                }
+            }
+        }
+    }
+
+    function handleKeyUp(evt){
+        if(YYY.isRunning()){
+            for(let k of Object.keys(bools)){
+                let b = bools[k]
+                if(evt.originalEvent.key === b.key){
+                    evt.preventDefault()
+                    evt.stopImmediatePropagation()
+
+                    if(b.type === 'push'){ /* push */
+                        doSetBool(k, false)
+                    } else {/* toggle */
+                        doSetBool(k, !bools[k].val)
+                    }
+                }
             }
         }
     }
@@ -129,16 +171,35 @@ var INPUT = ((global, $)=>{
     }
 
 
-    function addNewBool(label, val){
+    function addNewBool(label, val, config){
         if(typeof label !== 'number' || label.length === 0){
             return
         }
         if(bools[label] !== undefined){
             return
         }
-        bools[label] = val === true ? true : false
+
+        let typeSelect
+        let keySelect
+
+        if(!config){
+            config = {
+                val: typeof val === 'boolean' ? val : false,
+                type: 'push',
+                key: label
+            }
+        }
+
+        bools[label] = config
+
         let bool = addNew('bool', 'checkbox', label, (e)=>{
-            doSetBool(label, $(e.target).prop('checked'))
+            bools[label] = {
+                val: $(e.target).prop('checked'),
+                type: typeSelect.val(),
+                key: keySelect.val()
+            }
+            bool.find('.change input').prop('checked', $(e.target).prop('checked'))
+
             refreshBoolsAddSelect()
         }, (e)=>{
             bools[label] = false
@@ -146,6 +207,45 @@ var INPUT = ((global, $)=>{
             $(e.target).parent().parent().remove()
             refreshBoolsAddSelect()
         }, val)
+
+        let openSettings = $('<button>&equiv;</button>')
+        let settings = $('<div class="settings"></div>')
+        openSettings.on('click', ()=>{
+            settings.toggle()
+        })
+        openSettings.insertBefore(bool.find('button'))
+
+        typeSelect = $('<div class="group"><span>Type</span><select><option value="push" selected>Push</option><option value="toggle">Toggle</option></select></div>')
+        settings.append(typeSelect)
+
+        typeSelect.find('option[selected]').prop('selected', false)
+        typeSelect.find('option[value="' + config.type + '"]').prop('selected', true)
+        typeSelect.find('select').on('change', ()=>{            
+            bools[label].type = typeSelect.find('select').val()
+            saveToStorage()
+        })
+
+        keySelect = $('<div class="group"><span>Key</span><select></select></div>')
+        for(let k of SUPPORTED_INPUT_KEYS){
+            keySelect.find('select').append('<option value="' + k + '">' + k + '</option>')
+        }
+        settings.append(keySelect)
+
+        keySelect.find('option[selected]').prop('selected', false)
+        keySelect.find('option[value="' + config.key + '"]').prop('selected', true)
+        keySelect.find('select').on('change', ()=>{            
+            bools[label].key = keySelect.find('select').val()
+            saveToStorage()
+        })
+
+        typeSelect.find('select').trigger('change')
+        keySelect.find('select').trigger('change')
+
+
+        bool.append(settings)
+
+
+
         dom_bools.append(bool)
         refreshBoolsAddSelect()
     }
@@ -154,7 +254,7 @@ var INPUT = ((global, $)=>{
         let bool = dom_bools.find('#input_bool_'+label).get(0)
         if(bool){
             $(bool).prop('checked', val)  
-            bools[label] = val
+            bools[label].val = val
         } else {
             addNewBool(label, val)
         }
@@ -163,13 +263,13 @@ var INPUT = ((global, $)=>{
     function doSetNumber(label, val){
         let number = dom_numbers.find('#input_number_'+label).get(0)
         if(number){
-        val = parseFloat(val)
-                if(isNaN(val)){
-                    val = parseInt(val)
-                }
-                if(isNaN(val)){
-                    return
-                }
+            val = parseFloat(val)
+            if(isNaN(val)){
+                val = parseInt(val)
+            }
+            if(isNaN(val)){
+                return
+            }
 
             numbers[label].val = val
         $(number).parent().find('input').val(val)
