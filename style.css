@@ -157,6 +157,13 @@ a:hover {
     margin: 32px;
 }
 
+#monitor-sizes {
+    background: #bf5421;
+    border-radius: 3px;
+    padding: 5px;
+    margin-top: 10px;
+}
+
 .zoomfactor {
     background: #bf5421;
     border-radius: 3px;

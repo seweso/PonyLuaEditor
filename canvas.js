@@ -133,8 +133,13 @@ var CANVAS = ((global, $)=>{
         let showOverflow = $('#show-overflow').prop('checked')
         let dim = getCanvasDimensions(size)
 
+
         width = unzoom(dim.width)
         height = unzoom(dim.height)
+
+        $('#monitor-sizes .width').html(width)
+        $('#monitor-sizes .height').html(height)
+
         top = showOverflow ? 32 : 0
         left = showOverflow ? 32 : 0
 
@@ -145,7 +150,7 @@ var CANVAS = ((global, $)=>{
         $canvas.get(0).height = canvasHeight
         ctx.restore()
         $('#monitor').css({width: canvasWidth, height: canvasHeight})
-        $('.zoomfactor').css({width: canvasWidth})
+        $('#monitor-sizes, .zoomfactor').css({width: canvasWidth})
 
         $('#overflow').css('display', showOverflow ? '' : 'none')
     }
