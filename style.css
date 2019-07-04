@@ -71,6 +71,7 @@ a:hover {
     width: 100%;
     height: 100%;
     min-height: 100vh;
+    padding-bottom: 150px;
 }
 
 #selection, #top, #editor, #out, #documentation {
@@ -431,6 +432,7 @@ a:hover {
     display: flex;
     flex-direction: row;
     font-size: 12px;
+    flex-wrap: wrap;
 }
 
 #fixed-information-badges > div {
@@ -443,6 +445,7 @@ a:hover {
     border-radius: 10000px;
     background: linear-gradient(15deg, #EE4A4B 0%, #F4812E 100%);
     box-shadow: 0px 0px 3px 2px #EE4A4B77;
+    margin: 5px;
 }
 
 #fixed-information-badges > div.hoverable {
@@ -453,9 +456,6 @@ a:hover {
     background: linear-gradient(15deg, #f16e6e 0%, #f69a57 100%)
 }
 
-#fixed-information-badges > div:not(:last-child) {
-    margin-right: 20px;
-}
 
 #fixed-information-badges a {
     color: #fff;
