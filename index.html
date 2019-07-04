@@ -158,7 +158,7 @@ end
         </div>
     </div>
 
-    <div id="minified-code-container" class="container" style="display: none;">
+    <div id="minified-editor" style="display: none;">
         <h3>Minified Code:</h3>
         <div id="minified-controls" class="controls">
             <div class="controls_container">
@@ -166,13 +166,16 @@ end
             </div>
         </div>
         <div class="custom_hint" style="display: none;">You are using custom minified code! It will be overwritten when minifying the next time!<br>When sharing the original code as well as the custom minified code will be shared.</div>
-        <div id="minified-code">
+        <div id="minified-code-container">
+        
+            <div id="minified-code">
+            </div>
+            <div id="code-minified-editor-information">
+                <span id="minified-selection-information">Line 0, Column 0, Char 0</span>
+                <span id="minified-charactercount">0/4096</span>
+            </div>
+            <div class="code_lock"></div>
         </div>
-        <div id="code-minified-editor-information">
-            <span id="minified-selection-information">Line 0, Column 0, Char 0</span>
-            <span id="minified-charactercount">0/4096</span>
-        </div>
-        <div class="code_lock"></div>
     </div>
 
     <div id="out">

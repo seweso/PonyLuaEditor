@@ -74,7 +74,7 @@ a:hover {
     padding-bottom: 150px;
 }
 
-#selection, #top, #editor, #out, #documentation {
+#selection, #top, #editor, #minified-editor, #out, #documentation {
     padding: 20px;
 }
 
@@ -245,8 +245,8 @@ a:hover {
 }
 
 #minified-code-container {
-    padding: 20px;
     color: #fff;
+    position: relative;
 }
 
 #minified-code-container .custom_hint {
@@ -685,6 +685,10 @@ a:hover {
     flex-direction: column;
     margin: 3px 0;
     padding: 5px;
+}
+
+#output.value_list .bool, #output.value_list .number, #output.value_list .text {
+    flex-direction: row;
 }
 
 .value_list .bool .change, .value_list .number .change, .value_list .text .change {

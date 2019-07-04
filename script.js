@@ -198,7 +198,7 @@ var YYY = ((global, $)=>{
                     }
                 }
 
-                $('#minified-code-container').show()
+                $('#minified-editor').show()
                 minifiedEditor.setValue(minified)
                 refreshMinifiedEditorCharacterCount()
                 $('#minified-code-container .custom_hint').hide()
@@ -222,7 +222,7 @@ var YYY = ((global, $)=>{
         let minifiedCodeFromStorage = getMinifiedCodeFromStorage()
         if(typeof minifiedCodeFromStorage === 'string' && minifiedCodeFromStorage.length > 0){
             minifiedEditor.setValue(minifiedCodeFromStorage)
-            $('#minified-code-container').show()
+            $('#minified-editor').show()
             $('#minified-code-container .custom_hint').show()
             isCustomMinifiedCode = true
         }
@@ -569,7 +569,9 @@ var YYY = ((global, $)=>{
         OUTPUT.reset()
 
         intervalTick = setInterval(doTick, timeBetweenTicks)
-        intervalDraw = setInterval(doDraw, timeBetweenDraws)
+        setTimeout(()=>{
+            intervalDraw = setInterval(doDraw, timeBetweenDraws)            
+        }, timeBetweenTicks * 1.1)
         $('#stop').prop('disabled', false)
     }
 
