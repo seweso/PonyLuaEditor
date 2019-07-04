@@ -103,14 +103,6 @@ var LUA_EMULATOR = ((global, $)=>{
         return convertLuaValue(res)
     }
 
-    function getGlobalVariableFromState(name, luastate){
-        fengari.lua.lua_settop(luastate, 0)
-        fengari.lua.lua_getglobal(luastate, name)
-        let res = luastate.stack[luastate.top-1]
-        fengari.lua.lua_settop(luastate, 1)
-        return convertLuaValue(res)
-    }
-
     function callLuaFunction(name){
         if(typeof name !== 'string'){
             throw new Error('passed variable is not a string!')
@@ -308,8 +300,7 @@ var LUA_EMULATOR = ((global, $)=>{
             namespaces = {}
             fresh = false
 
-            //$('head').append('<script type="text/javascript" src="' + $('#fengari-script').attr('src') + '"></script>')
-
+            
             try {       
                 l = fengari.lauxlib.luaL_newstate()
                 fengari.lua.lua_settop(l, 0)
@@ -362,7 +353,6 @@ var LUA_EMULATOR = ((global, $)=>{
         makeFunctionAvailableInLuaViaName: makeFunctionAvailableInLuaViaName,
         callLuaFunction: callLuaFunction,
         getGlobalVariable: getGlobalVariable,
-        getGlobalVariableFromState: getGlobalVariableFromState,
         luaToString: luaToString,
         reset: reset,
         l: ()=>{return l},
