@@ -683,6 +683,9 @@ var AUTOCOMPLETE = ((global, $)=>{
 
         let top = cursor.top - containerpos.top
         let left = cursor.left - containerpos.left
+        if(left + $c.width() > $(window).width()){
+            left = left - $c.width()
+        }
 
         $c.css({
             'top': top,//top + 'px + ' + $('#code').css('font-size'),
