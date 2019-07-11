@@ -359,6 +359,7 @@ var LUA_EMULATOR = ((global, $)=>{
         draw: draw,
         isInTick: ()=>{return isInTick},
         isInDraw: ()=>{return isInDraw},
+        printToConsole: printToConsole
     }
 })(window, jQuery)
 

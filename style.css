@@ -206,6 +206,10 @@ a:hover {
     margin-right: 10px;
 }
 
+#drawtime.warning, #ticktime.warning {
+    color: red;
+}
+
 #editor {
     
 }

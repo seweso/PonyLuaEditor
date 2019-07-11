@@ -8,6 +8,7 @@ var YYY = ((global, $)=>{
     let intervalDraw
     let timeBetweenDraws = 500
 
+    let tickTimes = [0,0,0,0,0]
     let drawTimes = [0,0,0,0,0]
 
     const IDENTIFIERS_NOT_ALLOWED_TO_MINIFY = ['onTick', 'onDraw']
@@ -598,17 +599,46 @@ var YYY = ((global, $)=>{
     }
 
     function doTick(){
+        let begin = new Date().getTime()
+
         LUA_EMULATOR.tick()
         $(global).trigger('lua_tick')
         OUTPUT.refresh()
+
+        let end = new Date().getTime()
+        let diff = end-begin
+        if(diff > 1000){
+            LUA_EMULATOR.printToConsole('onTick() execution was longer then 1000ms!')
+            $('#ticktime').addClass('warning')
+        } else {
+            $('#ticktime').removeClass('warning')
+        }
+        tickTimes.reverse()
+        tickTimes.pop()
+        tickTimes.reverse()
+        tickTimes.push(diff)
+        let average = 0
+        for(let t of tickTimes){
+            average += t
+        }
+
+        $('#ticktime').html(Math.floor(average/tickTimes.length) + ' ms')
     }
 
     function doDraw(){
         let begin = new Date().getTime()
+
         CANVAS.reset()
         LUA_EMULATOR.draw()
+
         let end = new Date().getTime()
         let diff = end-begin
+        if(diff > 1000){
+            LUA_EMULATOR.printToConsole('onDraw() execution was longer then 1000ms!')
+            $('#drawtime').addClass('warning')
+        } else {
+            $('#drawtime').removeClass('warning')
+        }
         drawTimes.reverse()
         drawTimes.pop()
         drawTimes.reverse()
