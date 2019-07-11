@@ -41,6 +41,12 @@ var CANVAS = ((global, $)=>{
                 mouseY = evt.originalEvent.clientY + $(global).scrollTop()
             }
         })
+        $('#enable-touchscreen').on('change', ()=>{
+            if($('#enable-touchscreen').prop('checked') === false){
+            }
+
+            calculateTouchscreenInput()
+        })
         $(global).on('keydown', handleKeyDown)
         $(global).on('keyup', handleKeyUp)
         refresh()
@@ -69,36 +75,47 @@ var CANVAS = ((global, $)=>{
     }
 
     function calculateTouchscreenInput(){
-        if(touchpoints.length > 0){
+        if(YYY.isRunning() && $('#enable-touchscreen').prop('checked')){
             INPUT.setNumber(1, width)
-            INPUT.setNumber(2, height)            
+            INPUT.setNumber(2, height)
+
+
+
+            if(touchpoints[0]){
+                INPUT.setNumber(3, Math.floor(touchpoints[0].x))
+                INPUT.setNumber(4, Math.floor(touchpoints[0].y))
+
+                INPUT.setBool(1, true)
+            } else {
+                INPUT.setNumber(3, 0)
+                INPUT.setNumber(4, 0)
+
+                INPUT.setBool(1, false)
+            }
+
+            if(touchpoints[1]){
+                INPUT.setNumber(5, Math.floor(touchpoints[1].x))
+                INPUT.setNumber(6, Math.floor(touchpoints[1].y))
+
+                INPUT.setBool(2, true)
+            } else {
+                INPUT.setNumber(5, 0)
+                INPUT.setNumber(6, 0)
+
+                INPUT.setBool(2, false)
+            }
+
+
         } else {
-            INPUT.setNumber(1, 0)
-            INPUT.setNumber(2, 0)             
-        }
+            INPUT.removeNumber(1)
+            INPUT.removeNumber(2)
+            INPUT.removeNumber(3)
+            INPUT.removeNumber(4)
+            INPUT.removeNumber(5)
+            INPUT.removeNumber(6)
 
-        if(touchpoints[0]){
-            INPUT.setNumber(3, Math.floor(touchpoints[0].x))
-            INPUT.setNumber(4, Math.floor(touchpoints[0].y))
-
-            INPUT.setBool(1, true)
-        } else {
-            INPUT.setNumber(3, 0)
-            INPUT.setNumber(4, 0)
-
-            INPUT.setBool(1, false)
-        }
-
-        if(touchpoints[1]){
-            INPUT.setNumber(5, Math.floor(touchpoints[1].x))
-            INPUT.setNumber(6, Math.floor(touchpoints[1].y))
-
-            INPUT.setBool(2, true)
-        } else {
-            INPUT.setNumber(5, 0)
-            INPUT.setNumber(6, 0)
-
-            INPUT.setBool(2, false)
+            INPUT.removeBool(1)
+            INPUT.removeBool(2)     
         }
     }
 

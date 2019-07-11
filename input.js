@@ -254,7 +254,7 @@ var INPUT = ((global, $)=>{
         let bool = dom_bools.find('#input_bool_'+label).get(0)
         if(bool){
             $(bool).prop('checked', val)  
-            bools[label].val = val
+            bools[label.toString()].val = val
         } else {
             addNewBool(label, val)
         }
@@ -271,7 +271,7 @@ var INPUT = ((global, $)=>{
                 return
             }
 
-            numbers[label].val = val
+            numbers[label.toString()].val = val
         $(number).parent().find('input').val(val)
             $(number).parent().find('.slidervalue').html(val)
         } else {
@@ -516,14 +516,44 @@ var INPUT = ((global, $)=>{
         doSetNumber(index, val)
     }
     
+    function removeNumber(index){
+        if(typeof index !== 'number'){
+            throw new Error('first argument must be a number!')
+        }
+
+        let number = dom_numbers.find('#input_number_'+index).get(0)
+        if(number){
+            $(number).parent().parent().remove()
+            numbers[index.toString()] = null
+            delete numbers[index.toString()]
+            refreshNumbersAddSelect()
+        }
+    }
+
+    function removeBool(index){
+        if(typeof index !== 'number'){
+            throw new Error('first argument must be a number!')
+        }
+
+        let bool = dom_bools.find('#input_bool_'+index).get(0)
+        if(bool){
+            $(bool).parent().parent().remove()
+            bools[index.toString()] = null
+            delete bools[index.toString()]
+            refreshBoolsAddSelect()
+        }
+    }
+
     return {
         init: init,
         getBool: getBool,
         getNumber: getNumber,
         getStorage: getFromStorage,
         setStorage: setStorage,
-    setBool: setBool,
-        setNumber: setNumber
+        setBool: setBool,
+        setNumber: setNumber,
+        removeBool: removeBool,
+        removeNumber: removeNumber
     }
 
 })(window, jQuery)
