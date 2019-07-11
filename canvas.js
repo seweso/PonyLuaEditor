@@ -47,13 +47,16 @@ var CANVAS = ((global, $)=>{
 
             calculateTouchscreenInput()
         })
-        $(global).on('keydown', handleKeyDown)
-        $(global).on('keyup', handleKeyUp)
+        $(global).on('keydown mousedown', handleKeyDown)
+        $(global).on('keyup mouseup', handleKeyUp)
         refresh()
     }
 
     function handleKeyDown(evt){
         if(YYY.isRunning() && $('#enable-touchscreen').prop('checked')){
+            if(evt.originalEvent.button === 0){
+                evt.originalEvent.key = 'e'
+            }
             if(evt.originalEvent.key === 'q' || evt.originalEvent.key === 'e'){
                 evt.preventDefault()
                 evt.stopImmediatePropagation()
@@ -68,6 +71,29 @@ var CANVAS = ((global, $)=>{
                         x: pX,
                         y: pY
                     })
+                }
+            }
+            calculateTouchscreenInput()
+        }
+    }
+
+    function handleKeyUp(evt){
+        if(YYY.isRunning() && $('#enable-touchscreen').prop('checked')){
+            if(evt.originalEvent.button === 0){
+                evt.originalEvent.key = 'e'
+            }
+            if(evt.originalEvent.key === 'q' || evt.originalEvent.key === 'e'){
+                evt.preventDefault()
+                evt.stopImmediatePropagation()
+                    
+                if(touchpoints[0] && touchpoints[0].key === evt.originalEvent.key){
+                    let tmp = touchpoints[1]
+                    touchpoints = tmp ? [tmp] : []
+                } else if (touchpoints[1] && touchpoints[1].key === evt.originalEvent.key){
+                    let tmp = touchpoints[0]
+                    touchpoints = tmp ? [tmp] : []
+                } else {
+                    console.warn('e or q keyup but no touchpoint found!', touchpoints)
                 }
             }
             calculateTouchscreenInput()
@@ -116,26 +142,6 @@ var CANVAS = ((global, $)=>{
 
             INPUT.removeBool(1)
             INPUT.removeBool(2)     
-        }
-    }
-
-    function handleKeyUp(evt){
-        if(YYY.isRunning() && $('#enable-touchscreen').prop('checked')){
-            if(evt.originalEvent.key === 'q' || evt.originalEvent.key === 'e'){
-                evt.preventDefault()
-                evt.stopImmediatePropagation()
-                    
-                if(touchpoints[0] && touchpoints[0].key === evt.originalEvent.key){
-                    let tmp = touchpoints[1]
-                    touchpoints = tmp ? [tmp] : []
-                } else if (touchpoints[1] && touchpoints[1].key === evt.originalEvent.key){
-                    let tmp = touchpoints[0]
-                    touchpoints = tmp ? [tmp] : []
-                } else {
-                    console.warn('e or q keyup but no touchpoint found!', touchpoints)
-                }
-            }
-            calculateTouchscreenInput()
         }
     }
 
