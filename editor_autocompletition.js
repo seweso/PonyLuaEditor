@@ -634,6 +634,8 @@ var AUTOCOMPLETE = ((global, $)=>{
                 for(let m of matches){
                     let parts = m[1].split('.').reverse()
 
+                    let documentPosition = editor.session.getDocument().indexToPosition(m.index+1, 0)
+
                     let node = ret
 
                     while(parts.length > 0){
@@ -643,7 +645,7 @@ var AUTOCOMPLETE = ((global, $)=>{
                                 node[p] = {
                                     type: TO,
                                     lib: 'user',
-                                    description: '---',
+                                    description: 'Defined on LINE ' + (1 + documentPosition.row),
                                     children: {}
                                 }
                                 node = node[p].children
@@ -651,7 +653,7 @@ var AUTOCOMPLETE = ((global, $)=>{
                                 node[p] = {
                                     type: type,
                                     lib: 'user',
-                                    description: '---'
+                                    description: 'Defined on LINE ' + (1 + documentPosition.row)
                                 }
                                 node = node[p]                           
                             }
@@ -661,7 +663,7 @@ var AUTOCOMPLETE = ((global, $)=>{
                                     node[p] = {
                                         type: TO,
                                         lib: 'user',
-                                        description: '---',
+                                        description: 'Defined on LINE ' + (1 + documentPosition.row),
                                         children: {}
                                     }
                                 }
