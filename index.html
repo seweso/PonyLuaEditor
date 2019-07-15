@@ -47,42 +47,66 @@
 <body>
   <div class="background"></div>
   <div class="content">
-    <div id="navigation">
-        <div style="display: flex; flex-direction: row; justify-content: space-between;">
-            <div id="logo"></div>
-            <div style="display: none" id="beta">Beta</div>            
+      <div id="mobile-menu">
+        <div id="mobile-menu-inner">
+            <div class="mobile_menu_logo">
+                <img src="pony.png">
+            </div>
+            <div class="menu_group">
+                <div class="menu_group_title">Page Navigation</div>
+                <a href="#editor">Code</a>
+                <a href="#documentation">Available Functions</a>
+                <div id="learn-menu-entry"><span>Learn & Examples</span></div>
+                <div id="help-menu-entry"><span>Help / Manual</span></div>
+            </div>
+            <div class="menu_group">
+                <div class="menu_group_title">Contact me</div>
+                <span>Discord: CrazyFluffyPony#0587</span>
+                <a href="mailto://crazyfluffypony@gmail.com">crazyfluffypony@gmail.com</a>
+            </div>
+            <div class="menu_group">
+                <div class="menu_group_title">Other Information</div>
+                <a href="https://www.lua.org/manual/5.3/" target="_blank" rel="noopener noreferrer">Official Lua manual</a>
+                <a target="_blank" rel="noopener noreferrer" href="https://gitlab.com/stormworks-lua-editor/editor">View source code</a>
+            </div>
         </div>
-        <div id="selection">
-            <div class="selection_group">
-                <label for="monitor-size">Monitor</label>
-                <select id="monitor-size" name="monitor-size">
-                    <option value="1x1">1x1</option>
-                    <option value="2x2">2x2</option>
-                    <option value="5x3">5x3</option>
-                    <option value="9x5">9x5</option>
-                </select>            
+        <div id="mobile-menu-close-sidebar"></div>
+      </div>
+    <div id="navigation">
+        <div id="mobile-menu-open" style="display: none;"></div>
+        <div id="logo"></div>
+        <div style="display: none" id="beta">Beta</div>
+    </div>
+    <div id="selection">
+        <div class="selection_group">
+            <label for="monitor-size">Monitor</label>
+            <select id="monitor-size" name="monitor-size">
+                <option value="1x1">1x1</option>
+                <option value="2x2">2x2</option>
+                <option value="5x3">5x3</option>
+                <option value="9x5">9x5</option>
+            </select>            
+        </div>
+        <div class="selection_group">
+            <label for="show-overflow">Show overflow</label>
+            <input type="checkbox" id="show-overflow" name="show-overflow" checked>
+        </div>
+        <div class="selection_group">
+            <label for="enable-touchscreen">Enable Touchscreen</label>
+            <input type="checkbox" id="enable-touchscreen" name="enable-touchscreen">
+        </div>
+        <div class="selection_group">            
+            <div class="time_between">
+                <label>Time between ticks (ms): <span id="timeBetweenTicksVal">200 ms</span></label>
+                <input type="range" min="20" max="2000" value="200" id="timeBetweenTicks">
+                <span>Average time for a tick:<span id="ticktime">0 ms</span></span>
             </div>
-            <div class="selection_group">
-                <label for="show-overflow">Show overflow</label>
-                <input type="checkbox" id="show-overflow" name="show-overflow" checked>
-            </div>
-            <div class="selection_group">
-                <label for="enable-touchscreen">Enable Touchscreen</label>
-                <input type="checkbox" id="enable-touchscreen" name="enable-touchscreen">
-            </div>
-            <div class="selection_group">            
-                <div class="time_between">
-                    <label>Time between ticks (ms): <span id="timeBetweenTicksVal">200 ms</span></label>
-                    <input type="range" min="20" max="2000" value="200" id="timeBetweenTicks">
-                    <span>Average time for a tick:<span id="ticktime">0 ms</span></span>
-                </div>
-            </div>        
-            <div class="selection_group"> 
-                <div class="time_between">
-                    <label>Time between draws (ms): <span id="timeBetweenDrawsVal">500 ms</span></label>
-                    <input type="range" min="50" max="5000" value="500" id="timeBetweenDraws">
-                    <span>Average time for a draw:<span id="drawtime">0 ms</span></span>
-                </div>
+        </div>        
+        <div class="selection_group"> 
+            <div class="time_between">
+                <label>Time between draws (ms): <span id="timeBetweenDrawsVal">500 ms</span></label>
+                <input type="range" min="50" max="5000" value="500" id="timeBetweenDraws">
+                <span>Average time for a draw:<span id="drawtime">0 ms</span></span>
             </div>
         </div>
     </div>
@@ -220,9 +244,9 @@ end
             </div>
         </div>
         <div>
-            <span class="heading">Report a bug</span>
+            <span class="heading">Contact me</span>
             <div class="discord"><img src="discord.png">CrazyFluffyPony#0587</div>
-            <div class="email"><span class="icon-mail"></span><a href="mailto://crazyfluffypony@gmail.com">crazyfluffypony@gmail.com</a></div>            
+            <div class="email"><span class="icon-mail"></span><a href="mailto://crazyfluffypony@gmail.com">crazyfluffypony@gmail.com</a></div>
         </div>
     </div>
 

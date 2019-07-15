@@ -79,8 +79,14 @@ a:hover {
 }
 
 #navigation {
-    background: #000;   
-    padding: 5px; 
+    position: sticky;
+    top: 0;
+    z-index: 100000000;
+    background: #000;
+    padding: 5px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 #selection {
@@ -1195,6 +1201,92 @@ a:hover {
 }
 
 
+/* mobile menu */
+
+
+#mobile-menu {
+    display: none;
+    flex-direction: row;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1000000000000;
+}
+
+#mobile-menu-close-sidebar {
+    width: 20%;
+    background: #fff7;
+}
+
+#mobile-menu-inner {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    height: 100%;
+    background: #000;
+    color: #ddd;
+}
+
+#mobile-menu .mobile_menu_logo {
+        height: 5em;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background: #000;
+}
+
+#mobile-menu .mobile_menu_logo img {
+    height: 70%;
+    width: auto;
+}
+
+#mobile-menu .menu_group {
+    display: flex;
+    flex-direction: column;
+    background: #111;
+}
+
+#mobile-menu .menu_group > * {
+    padding: 10px;
+}
+
+#mobile-menu .menu_group > :not(.menu_group_title) {
+    padding-left: 25px;
+}
+
+#mobile-menu .menu_group_title {
+    background: #000;
+}
+
+#mobile-menu-open {
+    background: url('menu_icon.png');
+    background-size: cover;
+    height: 2em;
+    width: 2em;
+    margin: 0.5em;
+    cursor: pointer;
+}
+
+#learn-menu-entry span, #help-menu-entry span {
+    cursor: pointer;
+    padding: 4px 10px;
+    border-radius: 10000px;
+    font-weight: bold;
+}
+
+#learn-menu-entry span {
+    background: linear-gradient(15deg, #0194E2 0%, #792692 100%);
+    box-shadow: 1px 0px 3px 1px #0194E277;
+}
+
+#help-menu-entry span {
+    background: linear-gradient(15deg, #9A8D00 0%, #4d835f 100%);
+    box-shadow: 0px 0px 3px 2px #a99c1077;
+}
+
 /* dialogs */
 
 .dialog {
@@ -1290,6 +1382,14 @@ a:hover {
     #example-container {
         margin-left: 0;
     }
+
+    #mobile-menu-open {
+        display: block !important;
+    }
+
+    #fixed-information-badges {
+        display: none;
+    }   
 }
 
 @media (max-width: 767) {

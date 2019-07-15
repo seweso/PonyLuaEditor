@@ -155,7 +155,7 @@ var EXAMPLES = ((global, $)=>{
 
     function init(){
 
-        $('#learn-badge').on('click', ()=>{
+        $('#learn-badge, #learn-menu-entry').on('click', ()=>{
             $('#editor-bottom-container').addClass('show_examples')
 
             $('html, body').animate({

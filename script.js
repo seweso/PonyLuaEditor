@@ -273,7 +273,7 @@ var YYY = ((global, $)=>{
         /* help badge */
         let firstHelpOpen = true
         let scrollPosition = 0
-        $('#help-badge').on('click', ()=>{
+        $('#help-badge, #help-menu-entry').on('click', ()=>{
             if(firstHelpOpen){
                 firstHelpOpen = false
                 $('#help-youtube-video').html('<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/hHgnNmwmZCY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>')
@@ -302,6 +302,14 @@ var YYY = ((global, $)=>{
             $('#help').fadeOut()            
         }
 
+
+        /* mobile menu */
+        $('#mobile-menu-open').on('click', ()=>{
+            $('#mobile-menu').css('display', 'flex')
+        })
+        $('#mobile-menu .menu_group > :not(.menu_group_title), #mobile-menu-close-sidebar').on('click', ()=>{
+            $('#mobile-menu').hide()
+        })
 
         setTimeout(()=>{
             refreshAll()
