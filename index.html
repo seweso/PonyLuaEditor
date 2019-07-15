@@ -233,10 +233,12 @@ end
         var editor = ace.edit("code");
         editor.setTheme("ace/theme/monokai");
         editor.session.setMode("ace/mode/lua");
+        editor.session.setUseSoftTabs(false); 
 
         var minifiedEditor = ace.edit("minified-code");
         minifiedEditor.setTheme("ace/theme/monokai");
         minifiedEditor.session.setMode("ace/mode/lua");
+        minifiedEditor.session.setUseSoftTabs(false); 
     </script>
 
     <div id="help" style="display: none;">

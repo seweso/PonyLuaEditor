@@ -34,7 +34,7 @@ var EXAMPLES = ((global, $)=>{
                 content: 'functions are like a small programm you can execute. They can return a value but dont have to.'
             },{
                 type: 'code',
-                content: 'function textLength(text)\n    return text.length\nend\n\n\nvariable = textLength("abc")\n-- variable is now 3'
+                content: 'function textLength(text)\n	return text.length\nend\n\n\nvariable = textLength("abc")\n-- variable is now 3'
             },{
                 type: 'text',
                 content: 'tables are arrays or key -> value maps.'
@@ -109,7 +109,7 @@ var EXAMPLES = ((global, $)=>{
                 content: 'A monitor has a composite output. When you connect that output to the lua script input you can read out interactions from the user.'
             },{
                 type: 'code',
-                content: 'function onTick()\n    isPressed1 = input.getBool(1)\n    isPressed2 = input.getBool(2)\n    \n    screenWidth = input.getNumber(1)\n    screenHeight = input.getNumber(2)\n    \n    input1X = input.getNumber(3)\n    input1Y = input.getNumber(4)\n    input2X = input.getNumber(5)\n    input2Y = input.getNumber(6)\nend    \n        \nfunction onDraw()\n    if isPressed1 then\n        screen.setColor(0, 255, 0)\n        screen.drawCircleF(input1X, input1Y, 4)\n    end\n    \n    if isPressed2 then\n        screen.setColor(255, 0, 0)\n        screen.drawCircleF(input2X, input2Y, 4)\n    end\n    \n    if isPressed1 and isPressed2 then\n        screen.setColor(0, 0, 255)\n        screen.drawLine(input1X, input1Y, input2X, input2Y)\n    end\nend\n'
+                content: 'function onTick()\n	isPressed1 = input.getBool(1)\n	isPressed2 = input.getBool(2)\n	\n	screenWidth = input.getNumber(1)\n	screenHeight = input.getNumber(2)\n	\n	input1X = input.getNumber(3)\n	input1Y = input.getNumber(4)\n	input2X = input.getNumber(5)\n	input2Y = input.getNumber(6)\nend    \n	    \nfunction onDraw()\n	if isPressed1 then\n	    screen.setColor(0, 255, 0)\n	    screen.drawCircleF(input1X, input1Y, 4)\n	end\n	\n	if isPressed2 then\n	    screen.setColor(255, 0, 0)\n	    screen.drawCircleF(input2X, input2Y, 4)\n	end\n	\n	if isPressed1 and isPressed2 then\n	    screen.setColor(0, 0, 255)\n	    screen.drawLine(input1X, input1Y, input2X, input2Y)\n	end\nend\n'
             },{
                 type: 'text',
                 content: 'It will draw a green circle at the position of the first press and a red circle at the position of the second press.\nIf both keys are pressed it will also draw a line between the red and green circle.'
@@ -124,7 +124,7 @@ var EXAMPLES = ((global, $)=>{
                 content: 'We need to define a hitbox and check if the player press is in that hitbox. Then we can set the buttons state. In the draw function we colorize the button depending on its state.\nIf the player now clicks on that hitbox (either with q or with e) it will push the button.'
             },{
                 type: 'code',
-                content: 'buttonX = 0\nbuttonY = 0\nbuttonWidth = 12\nbuttonHeight = 6\nbuttonActive = false\n\n\nfunction onTick()\n    isPressed1 = input.getBool(1)\n    isPressed2 = input.getBool(2)\n    \n    screenWidth = input.getNumber(1)\n    screenHeight = input.getNumber(2)\n    \n    input1X = input.getNumber(3)\n    input1Y = input.getNumber(4)\n    input2X = input.getNumber(5)\n    input2Y = input.getNumber(6)\n    \n    if isPressed1 and input1X >= buttonX and input1X <= buttonX + buttonWidth and input1Y >= buttonY and input1Y <= buttonY + buttonHeight then\n        buttonActive = true\n    elseif isPressed2 and input2X >= buttonX and input2X <= buttonX + buttonWidth and input2Y >= buttonY and input2Y <= buttonY + buttonHeight then\n        buttonActive = true\n    else\n        buttonActive = false\n    end\n    \n    output.setBool(1, buttonActive)\nend    \n        \nfunction onDraw()\n    if buttonActive then\n       screen.setColor(0,150,0) \n    else\n       screen.setColor(10,10,10) \n    end\n    screen.drawRectF(buttonX, buttonY, buttonWidth, buttonHeight)\nend\n'
+                content: 'buttonX = 0\nbuttonY = 0\nbuttonWidth = 12\nbuttonHeight = 6\nbuttonActive = false\n\n\nfunction onTick()\n	isPressed1 = input.getBool(1)\n	isPressed2 = input.getBool(2)\n	\n	screenWidth = input.getNumber(1)\n	screenHeight = input.getNumber(2)\n	\n	input1X = input.getNumber(3)\n	input1Y = input.getNumber(4)\n	input2X = input.getNumber(5)\n	input2Y = input.getNumber(6)\n	\n	if isPressed1 and input1X >= buttonX and input1X <= buttonX + buttonWidth and input1Y >= buttonY and input1Y <= buttonY + buttonHeight then\n	    buttonActive = true\n	elseif isPressed2 and input2X >= buttonX and input2X <= buttonX + buttonWidth and input2Y >= buttonY and input2Y <= buttonY + buttonHeight then\n	    buttonActive = true\n	else\n	    buttonActive = false\n	end\n	\n	output.setBool(1, buttonActive)\nend    \n	    \nfunction onDraw()\n	if buttonActive then\n	   screen.setColor(0,150,0) \n	else\n	   screen.setColor(10,10,10) \n	end\n	screen.drawRectF(buttonX, buttonY, buttonWidth, buttonHeight)\nend\n'
             },{
                 type: 'text',
                 content: 'The button will light up green and the output channel 1 will be true when its active.'
@@ -133,7 +133,7 @@ var EXAMPLES = ((global, $)=>{
                 content: 'A toggle button (supporting e and q) is a little bit different:'
             },{
                 type: 'code',
-                content: 'buttonX = 0\nbuttonY = 0\nbuttonWidth = 12\nbuttonHeight = 6\nbuttonActive = false\n\nwasButton1Pressed = false\nwasButton2Pressed = false\n\nfunction onTick()\n    isPressed1 = input.getBool(1)\n    isPressed2 = input.getBool(2)\n    \n    screenWidth = input.getNumber(1)\n    screenHeight = input.getNumber(2)\n    \n    input1X = input.getNumber(3)\n    input1Y = input.getNumber(4)\n    input2X = input.getNumber(5)\n    input2Y = input.getNumber(6)\n    \n    if isPressed1 and input1X >= buttonX and input1X <= buttonX + buttonWidth and input1Y >= buttonY and input1Y <= buttonY + buttonHeight then\n        wasButton1Pressed = true\n    elseif isPressed2 and input2X >= buttonX and input2X <= buttonX + buttonWidth and input2Y >= buttonY and input2Y <= buttonY + buttonHeight then\n        wasButton2Pressed = true\n    end\n    \n    if not isPressed1 and wasButton1Pressed then\n        wasButton1Pressed = false\n        buttonActive = not buttonActive\n    end\n    \n    if not isPressed2 and wasButton2Pressed then\n        wasButton2Pressed = false\n        buttonActive = not buttonActive\n    end\n    \n    output.setBool(1, buttonActive)\nend    \n        \nfunction onDraw()\n    if buttonActive then\n       screen.setColor(0,150,0) \n    else\n       screen.setColor(10,10,10) \n    end\n    screen.drawRectF(buttonX, buttonY, buttonWidth, buttonHeight)\nend\n'
+                content: 'buttonX = 0\nbuttonY = 0\nbuttonWidth = 12\nbuttonHeight = 6\nbuttonActive = false\n\nwasButton1Pressed = false\nwasButton2Pressed = false\n\nfunction onTick()\n	isPressed1 = input.getBool(1)\n	isPressed2 = input.getBool(2)\n	\n	screenWidth = input.getNumber(1)\n	screenHeight = input.getNumber(2)\n	\n	input1X = input.getNumber(3)\n	input1Y = input.getNumber(4)\n	input2X = input.getNumber(5)\n	input2Y = input.getNumber(6)\n	\n	if isPressed1 and input1X >= buttonX and input1X <= buttonX + buttonWidth and input1Y >= buttonY and input1Y <= buttonY + buttonHeight then\n	    wasButton1Pressed = true\n	elseif isPressed2 and input2X >= buttonX and input2X <= buttonX + buttonWidth and input2Y >= buttonY and input2Y <= buttonY + buttonHeight then\n	    wasButton2Pressed = true\n	end\n	\n	if not isPressed1 and wasButton1Pressed then\n	    wasButton1Pressed = false\n	    buttonActive = not buttonActive\n	end\n	\n	if not isPressed2 and wasButton2Pressed then\n	    wasButton2Pressed = false\n	    buttonActive = not buttonActive\n	end\n	\n	output.setBool(1, buttonActive)\nend    \n	    \nfunction onDraw()\n	if buttonActive then\n	   screen.setColor(0,150,0) \n	else\n	   screen.setColor(10,10,10) \n	end\n	screen.drawRectF(buttonX, buttonY, buttonWidth, buttonHeight)\nend\n'
             }]
         }]
     },{
@@ -185,6 +185,7 @@ var EXAMPLES = ((global, $)=>{
                             });
                             editor.setTheme("ace/theme/monokai");
                             editor.session.setMode("ace/mode/lua");
+                            editor.session.setUseSoftTabs(false); 
                             editor.setReadOnly(true)
                         }; break;
                         default: {
