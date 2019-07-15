@@ -6,11 +6,13 @@ var AUTOCOMPLETE = ((global, $)=>{
 
     const TO = 'object'
     const TF = 'function'
+    const TV = 'variable'
 
     const LIB_TITLES = {
         'stormworks': 'Stormworks API',
         'dev': 'Dev API (Editor Only)',
-        'lua': 'Lua API'
+        'lua': 'Lua API',
+        'user': 'User defined (that\'s you!)'
     }
 
     const AUTOCOMPLETITIONS = {
@@ -211,18 +213,6 @@ var AUTOCOMPLETE = ((global, $)=>{
                         description: 'Reads the string value of the property with the specified label'                        
                     }
                 }
-            },
-            onTick: {
-                type: TF,
-                lib: 'stormworks',
-                args: '()',
-                description: 'The tick function will be called once every logic tick and should be used for reading composite data and any required processing. "screen" functions will not work within onTick!'
-            },
-            onDraw: {
-                type: TF,
-                lib: 'stormworks',
-                args: '()',
-                description: 'The draw function will be called any time this script is drawn by a monitor. Note that it can be called multiple times if this microcontroller is connected to multiple monitors whereas onTick is only called once. Composite input/output functions will not work within onDraw!'
             },
             print: {
                 type: TF,
@@ -596,7 +586,13 @@ var AUTOCOMPLETE = ((global, $)=>{
 
     function getAutocompletitions(text){
         let parts = text.split('.').reverse()
-        let node = PARSED_AUTOCOMPLETITIONS
+        let tmp = JSON.parse(JSON.stringify(PARSED_AUTOCOMPLETITIONS))
+
+        let keywords = getKeywordsFromCode()
+        for(let k of Object.keys(keywords)){
+            tmp.children[k] = keywords[k]
+        }
+        let node = tmp
         let partLeft = ''
         let path = ''
         while(parts.length > 0){
@@ -620,6 +616,65 @@ var AUTOCOMPLETE = ((global, $)=>{
             }
         }
         return [ret, partLeft]
+    }
+
+    function getKeywordsFromCode(){
+        let ret = {}
+
+        let code = editor.getValue()
+        if(typeof code === 'string'){
+            let vars = [...code.matchAll(/[\s;]?([a-zA-Z0-9\.]+)[\s]*?=/g)]
+            let functions = [...code.matchAll(/function[\s]+([a-zA-Z0-9\.]+)\(/g)]
+
+            addToRet(vars, TV)
+            addToRet(functions, TF)
+
+            function addToRet(matches, type){
+
+                for(let m of matches){
+                    let parts = m[1].split('.').reverse()
+
+                    let node = ret
+
+                    while(parts.length > 0){
+                        let p = parts.pop()
+                        if(!node[p]){
+                            if(parts.length > 0){//has children
+                                node[p] = {
+                                    type: TO,
+                                    lib: 'user',
+                                    description: '---',
+                                    children: {}
+                                }
+                                node = node[p].children
+                            } else {
+                                node[p] = {
+                                    type: type,
+                                    lib: 'user',
+                                    description: '---'
+                                }
+                                node = node[p]                           
+                            }
+                        } else {
+                            if(parts.length > 0){
+                                if(!node[p].children){
+                                    node[p] = {
+                                        type: TO,
+                                        lib: 'user',
+                                        description: '---',
+                                        children: {}
+                                    }
+                                }
+                                node = node[p].children
+                            } else {
+                                node = node[p]                                
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return ret
     }
 
     function parseDescription(description){

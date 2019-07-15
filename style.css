@@ -880,6 +880,12 @@ a:hover {
     border-color: #0194E2;
 }
 
+.autocompletition .descriptions .description[lib="user"] .lib_title {
+    margin-bottom: 4px;
+    color: #fff;
+    border-color: #fff;
+}
+
 .autocompletition .description[lib="stormworks"] {
     background: #391909;
 }
@@ -891,6 +897,7 @@ a:hover {
 .autocompletition .description[lib="lua"] {
     background: #001a28;
 }
+
 
 .autocompletition a {
     color: #bf5421!important;
