@@ -45,7 +45,7 @@ a:hover {
 
 
 #logo {
-    background: url('logo.png') center 100% no-repeat;
+    background: url('../images/logo.png') center 100% no-repeat;
     height: 3em;
     width: 3em;
     background-size: contain;
@@ -60,7 +60,7 @@ a:hover {
     height: 100vh;
     z-index: -1;
     background-color: #333;
-    background-image: url('background.jpg');
+    background-image: url('../images/background.jpg');
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;  
@@ -1276,7 +1276,7 @@ a:hover {
 }
 
 #mobile-menu-open {
-    background: url('menu_icon.png');
+    background: url('../images/menu_icon.png');
     background-size: cover;
     height: 2em;
     width: 2em;
