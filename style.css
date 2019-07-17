@@ -90,6 +90,7 @@ a:hover {
 }
 
 #selection {
+    background: #000b;
     color: #fff;
     display: flex;
     flex-direction: row;
