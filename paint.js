@@ -101,7 +101,17 @@ var PAINT = ((c)=>{
         let lines = []
         let i = 0
         while (i < text.length){
-            lines.push(text.substring(i, i + maxCharsPerLine))
+            let line = text.substring(i, i + maxCharsPerLine)
+            let indexOfNewLine = line.indexOf('\n')
+            if(indexOfNewLine === 0){//new line at the beginning
+                i++
+                continue
+            } else if(indexOfNewLine > 0){//new line somewhere in the middle of the text
+                lines.push(line.substring(0, indexOfNewLine))
+                i += indexOfNewLine
+                continue
+            }
+            lines.push(line)
             i += maxCharsPerLine
         }
 
