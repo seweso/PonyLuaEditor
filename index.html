@@ -76,6 +76,9 @@
         <div id="mobile-menu-open" style="display: none;"></div>
         <div id="logo"></div>
         <div style="display: none" id="beta">Beta</div>
+        <div style="display: none" id="offline">Offline</div>
+        <a id="download-offline" href="https://gitlab.com/stormworks-lua-editor/editor/-/archive/master/editor-master.zip" download="" rel="nofollow">Download for offline use</a>
+        
     </div>
     <div id="selection">
         <div class="selection_group">
@@ -370,6 +373,17 @@ end
         <div class="inner">
             <div class="circle">
                 <p>Receiving code from Ponybin<span dot="1">.</span><span dot="2">.</span><span dot="3">.</span></p>
+            </div>
+        </div>
+    </div>
+
+    <div style="display: none" id="message" class="dialog">
+        <div class="inner">
+            <h3 class="title"></h3>
+            <div class="message">
+            </div>
+            <div class="buttons">
+                <button class="ok">Ok</button>
             </div>
         </div>
     </div>

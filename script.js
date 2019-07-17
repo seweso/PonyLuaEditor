@@ -42,6 +42,17 @@ var YYY = ((global, $)=>{
             $('#beta').show()
         }
 
+        if(!document.location.host || !document.location.href || document.location.href.indexOf('file') === 0){
+            $('#offline').show()
+            $('#download-offline').hide()
+            $('#share').parent().hide()
+        }
+
+
+        $('#download-offline').on('click', ()=>{
+            message('How to use the offline version:', '<ul><li>extract the zip folder</li><li>doubleclick "index.html"</li><li>This opens the offline version with your default browser</li><ul>')
+        })
+
         let autocompletitions = AUTOCOMPLETE.getAllAUTOCOMPLETITIONSParsed()
         for(let name of Object.keys(autocompletitions.children)){
             let child = autocompletitions.children[name]
@@ -329,7 +340,20 @@ var YYY = ((global, $)=>{
         }, 200)
     }
 
-    function confirm(text){
+    function message(title, text){
+        return new Promise((fulfill, reject)=>{
+            $('#message .title').html(title)
+            $('#message .message').html(text)
+            $('#message').show()
+            $('#message .ok').on('click', ()=>{
+                $('#message .ok').off('click')
+                $('#message').hide()
+                fulfill(true)
+            })
+        })
+    }
+
+     function confirm(text){
         return new Promise((fulfill, reject)=>{
             $('#confirm .message').html(text)
             $('#confirm').show()
@@ -344,7 +368,7 @@ var YYY = ((global, $)=>{
                 fulfill(false)
             })
         })
-    }
+    }    
 
     function alert(text){
         return new Promise((fulfill, reject)=>{
@@ -768,6 +792,7 @@ var YYY = ((global, $)=>{
         isCustomMinifiedCode: ()=>{
             return isCustomMinifiedCode
         },
+        message: message,
         confirm: confirm,
         alert: alert
     }
