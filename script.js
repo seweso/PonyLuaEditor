@@ -284,7 +284,20 @@ var YYY = ((global, $)=>{
                 'overflow-y': 'hidden'
             })
             $('#help').fadeIn()
+            resizeYoutubeIframe()
         })
+        $(window).on('resize', ()=>{
+            resizeYoutubeIframe()
+        })
+
+        function resizeYoutubeIframe(){            
+            $('#help-youtube-video iframe').css({
+                width: $('#help-youtube-video').width(),
+                height: $('#help-youtube-video').width() / (16/9)
+            })
+        }
+
+
         $('#help-close').on('click', closeHelp)
         $('#help').on('click', (evt)=>{
             closeHelp()
