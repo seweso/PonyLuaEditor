@@ -1,6 +1,6 @@
 {
-    "name": "Lua IDE",
-    "short_name": "Lua IDE",
+    "name": "Stormworks Lua",
+    "short_name": "Stormworks Lua",
     "icons": [
         {
             "src": "/favicon/android-chrome-192x192.png",
