@@ -1327,6 +1327,9 @@ a:hover {
 
 #ui-builder-container .canvas_container {
     position: relative;
+}
+
+#ui-builder-container .canvas_container canvas {
     background: #000;
 }
 

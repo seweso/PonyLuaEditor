@@ -21,6 +21,8 @@ var UI_BUILDER = ((global, $)=>{
 
     let MODE = MODE_MOVE
 
+    let allElements = []
+
     $(global).on('load', init)
 
     function init(){
@@ -45,14 +47,17 @@ var UI_BUILDER = ((global, $)=>{
         $('#ui-builder-container .controls').append('<div class="control settings"><span class="icon-equalizer"></span></div>')
 
         $('#ui-builder-container .controls .control.move').on('click', ()=>{
+            deactivateAllElements()
             $('#ui-builder-container .controls').attr('mode', MODE_MOVE)
             MODE = MODE_MOVE
         })
         $('#ui-builder-container .controls .control.resize').on('click', ()=>{
+            deactivateAllElements()
             $('#ui-builder-container .controls').attr('mode', MODE_RESIZE)
             MODE = MODE_RESIZE
         })
         $('#ui-builder-container .controls .control.settings').on('click', ()=>{
+            deactivateAllElements()
             $('#ui-builder-container .controls').attr('mode', MODE_SETTINGS)
             MODE = MODE_SETTINGS
         })
@@ -64,6 +69,12 @@ var UI_BUILDER = ((global, $)=>{
                 currentElements.push(e.object.apply(Object.create(Element.prototype), [false, canvas_container]))
             })
             $('#ui-builder-container .element_list').append(entry)
+        }
+    }
+
+    function deactivateAllElements(){
+        for(let e of allElements){
+            e.deactivate()
         }
     }
 
@@ -80,10 +91,15 @@ var UI_BUILDER = ((global, $)=>{
             return console.error('UI_BUILDER.Element:', 'argument "container" is missing!')
         }
 
+        allElements.push(this)
+
         this.x = 0
         this.y = 0
         this.width = 24
         this.height = 8
+
+        this.minWidth = 6
+        this.minHeight = 4
 
         this.settings = {
             background: {
@@ -199,19 +215,41 @@ var UI_BUILDER = ((global, $)=>{
         $(global).off('click')
     }
 
+    Element.prototype.deactivate = function(){
+        this.deactivateDrag()
+        this.deactivateResize()
+        this.closeSettings()
+    }
+
     Element.prototype.refreshPosition = function(){
         console.log(this.x, this.y)
+        /* x */
         if(this.x < 0){
             this.x = 0
         }
+        if(this.x >= maxX){
+            this.x = maxX-1
+        }
+        /* y */
         if(this.y < 0){
             this.y = 0
         }
-        if(this.x + this.width > this.maxX){
-            this.x = this.maxX - this.width
+        if(this.y >= maxY){
+            this.y = maxY-1
         }
-        if(this.y + this.height > this.maxY){
-            this.y = this.maxY - this.height
+        /* width limit */
+        if(this.x + this.width > maxX){
+            this.width = maxX - this.x
+        }
+        if(this.width < this.minWidth){
+            this.width = this.minWidth
+        }
+        /* height limit */
+        if(this.y + this.height > maxY){
+            this.height = maxY - this.y
+        }
+        if(this.height < this.minHeight){
+            this.height = this.minHeight
         }
 
         this.dom.css({
