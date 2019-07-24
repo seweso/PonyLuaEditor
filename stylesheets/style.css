@@ -1327,6 +1327,7 @@ a:hover {
 
 #ui-builder-container > * {
     margin-right: 10px;
+    user-select: none;
 }
 
 #ui-builder-container .canvas_container {

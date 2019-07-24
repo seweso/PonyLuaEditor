@@ -7,10 +7,7 @@ var UI_BUILDER = ((global, $)=>{
     let canvas
     let ctx
 
-    const ELEMENTS = [{
-        name: 'Label',
-        object: Label
-    }]
+    
 
     const currentElements = []
 
@@ -73,7 +70,7 @@ var UI_BUILDER = ((global, $)=>{
         for(let e of ELEMENTS){
             let entry = $('<div class="element">' + e.name + '</div>')
             entry.on('click', ()=>{
-                currentElements.push(e.object.apply(Object.create(Element.prototype), [false, canvas_container]))
+                currentElements.push(new e.object(false, canvas_container))
             })
             $('#ui-builder-container .element_list').append(entry)
         }
@@ -93,223 +90,281 @@ var UI_BUILDER = ((global, $)=>{
         maxY = canvas.height()       
     }
 
-    function Element(params, container){
-        if(!container){
-            return console.error('UI_BUILDER.Element:', 'argument "container" is missing!')
-        }
+    class Element {
 
-        allElements.push(this)
-        this.zindex = allElements.length
-
-        this.x = 0
-        this.y = 0
-        this.width = 24
-        this.height = 8
-
-        this.minWidth = 6
-        this.minHeight = 4
-
-        this.settings = {
-            background: {
-                type: 'color',
-                value: createRandomColor()
-            },
-            color: {
-                type: 'color',
-                value: '000'
-            },
-            text: {
-                type: 'text',
-                value: ''
+        constructor(params, container){
+            console.log('new Element')
+            if(!container){
+                return console.error('UI_BUILDER.Element:', 'argument "container" is missing!')
             }
+
+            allElements.push(this)
+            this.zindex = allElements.length
+
+            this.x = 0
+            this.y = 0
+            this.width = 24
+            this.height = 8
+
+            this.minWidth = 6
+            this.minHeight = 4
+
+            this.settings = {
+                background: {
+                    type: 'color',
+                    value: createRandomColor()
+                }
+            }
+
+            this.beforeBuild()
+
+            this.dom = this.buildDom()
+            $(container).append(this.dom)
+
+            this.refresh()
         }
 
-        this.dom = this.buildDom()
+        beforeBuild(){
+            /* put special logic of subclasses in here */        
+        }
 
-        $(container).append(this.dom)
+        buildContent(){
+            /* put special logic of subclasses in here */      
+        }
 
-        this.refresh()
-    }
+        refreshContent(){
+            /* put special logic of subclasses in here */    
+        }
 
-    Element.prototype.buildDom = function(){
-        let that = this
+        buildDom(){
+            let that = this
 
-        let elem = $('<div class="element"><span class="text">' + this.text + '</span><div class="settings"><span class="close">x</span></div></div>')
+            let elem = $('<div class="element"></div>')
 
-        for(let k of Object.keys(this.settings)){
-            let s = this.settings[k]
-            let set = $('<div class="setting"><span class="name">' + k + '</span><input type="' + s.type + '" value="' + makeValidHexOrEmpty(s.value) + '"/></div>')
-            set.on('change input', ()=>{
-                s.value = set.find('input').val()
-                that.refresh()
+            this.content = $('<div class="content"></div>')
+            this.content.append(this.buildContent())
+            elem.append(this.content)
+
+            elem.append('<div class="settings"><span class="close">x</span></div>')
+
+            for(let k of Object.keys(this.settings)){
+                let s = this.settings[k]
+                let value
+                switch(s.type){
+                    case 'color': {
+                        value = makeValidHexOrEmpty(s.value)
+                    }; break;
+                    default: {
+                        value = s.value
+                    }
+                }
+                let set = $('<div class="setting"><span class="name">' + k + '</span><input type="' + s.type + '" value="' + value + '"/></div>')
+                set.on('change input', ()=>{
+                    s.value = set.find('input').val()
+                    that.refresh()
+                })
+
+                elem.find('.settings').append(set)
+            }
+
+            elem.find('.settings').on('mousedown', (evt)=>{
+                evt.stopPropagation()
             })
 
-            elem.find('.settings').append(set)
-        }
+            elem.find('.close').on('click', (evt)=>{
+                evt.stopPropagation()
+                this.closeSettings()
+            })
 
-        elem.find('.settings').on('mousedown', (evt)=>{
-            evt.stopPropagation()
-        })
+            elem.on('mousedown', (evt)=>{
+                if(MODE === MODE_SETTINGS){
+                    this.openSettings(evt)
+                } else if(MODE === MODE_MOVE && evt.originalEvent.button === 0){
+                    this.activateDrag()                
+                } else if (MODE === MODE_RESIZE && evt.originalEvent.button === 0){
+                    this.activateResize()
+                } else if (MODE === MODE_ZINDEX && evt.originalEvent.button === 0){
+                    moveElementZindexToFront(this)
+                }
+            })
 
-        elem.find('.close').on('click', (evt)=>{
-            evt.stopPropagation()
-            this.closeSettings()
-        })
-
-        elem.on('mousedown', (evt)=>{
-            if(MODE === MODE_SETTINGS){
+            elem.on('contextmenu', (evt)=>{
+                evt.preventDefault()
                 this.openSettings(evt)
-            } else if(MODE === MODE_MOVE && evt.originalEvent.button === 0){
-                this.activateDrag()                
-            } else if (MODE === MODE_RESIZE && evt.originalEvent.button === 0){
-                this.activateResize()
-            } else if (MODE === MODE_ZINDEX && evt.originalEvent.button === 0){
-                moveElementZindexToFront(this)
-            }
-        })
+            })
 
-        elem.on('contextmenu', (evt)=>{
-            evt.preventDefault()
-            this.openSettings(evt)
-        })
+            return elem
+        }
 
-        return elem
-    }
+        activateDrag(evt){
+            this.offX = $('#ui-builder-container').find('.canvas_container').offset().left - window.scrollX
+            this.offY = $('#ui-builder-container').find('.canvas_container').offset().top - window.scrollY
 
-    Element.prototype.activateDrag = function(evt){
-        this.offX = $('#ui-builder-container').find('.canvas_container').offset().left - window.scrollX
-        this.offY = $('#ui-builder-container').find('.canvas_container').offset().top - window.scrollY
+            $(global).on('mousemove', (evt)=>{
+                this.drag(evt)
+            })
+            $(global).on('mouseup', ()=>{
+                this.deactivateDrag()
+            })
+        }
 
-        $(global).on('mousemove', (evt)=>{
-            this.drag(evt)
-        })
-        $(global).on('mouseup', ()=>{
+        drag(evt){
+            this.x = evt.clientX - this.offX
+            this.y = evt.clientY - this.offY
+
+            this.refreshPosition()
+        }
+
+        deactivateDrag(){
+            $(global).off('mousemove')
+            $(global).off('mouseup')
+        }
+
+        activateResize(evt){
+            console.log('activate resize')
+            this.offX = $('#ui-builder-container').find('.canvas_container').offset().left - window.scrollX
+            this.offY = $('#ui-builder-container').find('.canvas_container').offset().top - window.scrollY
+
+            $(global).on('mousemove', (evt)=>{
+                this.resize(evt)
+            })
+            $(global).on('mouseup', ()=>{
+                this.deactivateResize()
+            })
+        }
+
+        resize(evt){
+            this.width = evt.clientX - this.offX
+            this.height = evt.clientY - this.offY
+
+            this.refreshPosition()
+        }
+
+        deactivateResize(){
+            $(global).off('mousemove')
+            $(global).off('mouseup')
+        }
+
+        deactivate(){
             this.deactivateDrag()
-        })
-    }
-
-    Element.prototype.drag = function(evt){
-        this.x = evt.clientX - this.offX
-        this.y = evt.clientY - this.offY
-
-        this.refreshPosition()
-    }
-
-    Element.prototype.deactivateDrag = function(){
-        $(global).off('mousemove')
-        $(global).off('mouseup')
-    }
-
-    Element.prototype.activateResize = function(evt){
-        console.log('activate resize')
-        this.offX = $('#ui-builder-container').find('.canvas_container').offset().left - window.scrollX
-        this.offY = $('#ui-builder-container').find('.canvas_container').offset().top - window.scrollY
-
-        $(global).on('mousemove', (evt)=>{
-            this.resize(evt)
-        })
-        $(global).on('mouseup', ()=>{
             this.deactivateResize()
-        })
-    }
-
-    Element.prototype.resize = function(evt){
-        this.width = evt.clientX - this.offX
-        this.height = evt.clientY - this.offY
-
-        this.refreshPosition()
-    }
-
-    Element.prototype.deactivateResize = function(){
-        $(global).off('mousemove')
-        $(global).off('mouseup')
-    }
-
-    Element.prototype.deactivate = function(){
-        this.deactivateDrag()
-        this.deactivateResize()
-        this.closeSettings()
-    }
-
-    Element.prototype.refreshPosition = function(){
-        console.log(this.x, this.y)
-        /* x */
-        if(this.x < 0){
-            this.x = 0
-        }
-        if(this.x >= maxX){
-            this.x = maxX-1
-        }
-        /* y */
-        if(this.y < 0){
-            this.y = 0
-        }
-        if(this.y >= maxY){
-            this.y = maxY-1
-        }
-        /* width limit */
-        if(this.x + this.width > maxX){
-            this.width = maxX - this.x
-        }
-        if(this.width < this.minWidth){
-            this.width = this.minWidth
-        }
-        /* height limit */
-        if(this.y + this.height > maxY){
-            this.height = maxY - this.y
-        }
-        if(this.height < this.minHeight){
-            this.height = this.minHeight
-        }
-
-        this.dom.css({
-            left: this.x,
-            top: this.y,
-            width: this.width,
-            height: this.height
-        })
-    }
-
-    Element.prototype.refreshZindex = function(){
-        this.dom.css({
-            'z-index': this.zindex
-        })
-    }
-
-    Element.prototype.refresh = function(){        
-        this.dom.css({
-            background: makeValidHexOrEmpty(this.settings.background.value),
-            color: makeValidHexOrEmpty(this.settings.color.value)
-        })
-        this.dom.find('.text').html(this.settings.text.value)
-        this.refreshPosition()
-        this.refreshZindex()
-    }
-
-    Element.prototype.openSettings = function(evt){
-        if(evt) evt.stopPropagation()
-        this.dom.addClass('settings_open')
-        this.closeHandler = ()=>{
             this.closeSettings()
         }
-        $(global).on('mousedown', this.closeHandler)
+
+        refreshPosition(){
+            console.log(this.x, this.y)
+            /* x */
+            if(this.x < 0){
+                this.x = 0
+            }
+            if(this.x >= maxX){
+                this.x = maxX-1
+            }
+            /* y */
+            if(this.y < 0){
+                this.y = 0
+            }
+            if(this.y >= maxY){
+                this.y = maxY-1
+            }
+            /* width limit */
+            if(this.x + this.width > maxX){
+                this.width = maxX - this.x
+            }
+            if(this.width < this.minWidth){
+                this.width = this.minWidth
+            }
+            /* height limit */
+            if(this.y + this.height > maxY){
+                this.height = maxY - this.y
+            }
+            if(this.height < this.minHeight){
+                this.height = this.minHeight
+            }
+
+            this.dom.css({
+                left: this.x,
+                top: this.y,
+                width: this.width,
+                height: this.height
+            })
+        }
+
+        refreshZindex(){
+            this.dom.css({
+                'z-index': this.zindex
+            })
+        }
+
+        refresh(){        
+            this.dom.css({
+                background: makeValidHexOrEmpty(this.settings.background.value)
+            })
+            this.refreshPosition()
+            this.refreshZindex()
+            this.refreshContent()
+        }
+
+        openSettings(evt){
+            if(evt) evt.stopPropagation()
+            this.dom.addClass('settings_open')
+            this.closeHandler = ()=>{
+                this.closeSettings()
+            }
+            $(global).on('mousedown', this.closeHandler)
+        }
+
+        closeSettings(){
+            this.dom.removeClass('settings_open')
+            $(global).off('mousedown', this.closeHandler)
+        }
     }
 
-    Element.prototype.closeSettings = function(){
-        this.dom.removeClass('settings_open')
-        $(global).off('mousedown', this.closeHandler)
+
+    /* Element Subclasses */
+
+    class Label extends Element {
+
+        beforeBuild(){
+            let additionalSettings = {
+                color: {
+                    type: 'color',
+                    value: '000'
+                },
+                text: {
+                    type: 'text',
+                    value: 'label'
+                }
+            }
+            Object.assign(this.settings, additionalSettings)
+        }
+
+        buildContent(){
+            let text = $('<span class="text">' + this.settings.text.value + '</span>')
+
+            text.css({
+                color: makeValidHexOrEmpty(this.settings.color.value)
+            })
+
+            return text
+        }
+
+        refreshContent(){
+            this.content.find('.text')
+                .css({
+                    color: makeValidHexOrEmpty(this.settings.color.value)
+                })
+                .html(this.settings.text.value)
+        }
     }
 
-
-    function Label(params, container){
-        Element.apply(this, arguments)
-        this.text = "wuff"
-        console.log("this", this)
-    }
-
-    Label.prototype = Object.create(Element.prototype)
-    Label.prototype.constructor = Label
-
+    const ELEMENTS = [{
+        name: 'Label',
+        object: Label
+    },{
+        name: 'Rectangle',
+        object: Element
+    }]
 
 
 
