@@ -58,8 +58,8 @@ var UI_BUILDER = ((global, $)=>{
 
         this.x = 0
         this.y = 0
-        this.width = 60
-        this.height = 20
+        this.width = 24
+        this.height = 8
 
         this.settings = {
             background: {
@@ -90,8 +90,8 @@ var UI_BUILDER = ((global, $)=>{
 
         for(let k of Object.keys(this.settings)){
             let s = this.settings[k]
-            let set = $('<div class="setting"><span class="name">' + k + '</span><input type="' + s.type + '" value="' + s.value + '"/></div>')
-            set.on('change', ()=>{
+            let set = $('<div class="setting"><span class="name">' + k + '</span><input type="' + s.type + '" value="' + makeValidHexOrEmpty(s.value) + '"/></div>')
+            set.on('change input', ()=>{
                 s.value = set.find('input').val()
                 that.refresh()
             })
@@ -99,8 +99,12 @@ var UI_BUILDER = ((global, $)=>{
             elem.find('.settings').append(set)
         }
 
+        elem.find('.settings').on('click', (evt)=>{
+            evt.stopPropagation()
+        })
+
         elem.find('.close').on('click', ()=>{
-            elem.removeClass('settings_open')
+            this.closeSettings()
         })
 
         elem.on('mousedown', ()=>{
@@ -163,8 +167,8 @@ var UI_BUILDER = ((global, $)=>{
 
     Element.prototype.refresh = function(){        
         this.dom.css({
-            background: '#' + this.settings.background.value.replace('#', ''),
-            color: '#' + this.settings.color.value.replace('#', '')
+            background: makeValidHexOrEmpty(this.settings.background.value),
+            color: makeValidHexOrEmpty(this.settings.color.value)
         })
         this.dom.find('.text').html(this.settings.text.value)
         this.refreshPosition()
@@ -172,6 +176,16 @@ var UI_BUILDER = ((global, $)=>{
 
     Element.prototype.openSettings = function(){
         this.dom.addClass('settings_open')
+        this.closeHandler = ()=>{
+            this.closeSettings()
+        }
+        $(global).on('click', this.closeHandler)
+    }
+
+    Element.prototype.closeSettings = function(){
+        console.log('closeSettings')
+        this.dom.removeClass('settings_open')
+        $(global).off('click', this.closeHandler)
     }
 
 
@@ -185,6 +199,25 @@ var UI_BUILDER = ((global, $)=>{
     Label.prototype.constructor = Label
 
 
+
+
+    /* helpers */
+
+    function makeValidHexOrEmpty(hexstring){
+        hexstring = hexstring.trim()
+        let match = hexstring.match(/^#?([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/)
+
+        if(!match){
+            return ''
+        }
+
+        let hex = match[1]
+        if(hex.length === 3){
+            return '#' + hex + hex
+        } else {
+            return '#' + hex
+        }
+    }
 
 
 
