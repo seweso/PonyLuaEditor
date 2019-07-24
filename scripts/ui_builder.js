@@ -43,10 +43,10 @@ var UI_BUILDER = ((global, $)=>{
 
 
         $('#ui-builder-container').append('<div class="controls" mode="move"></div>')
-        $('#ui-builder-container .controls').append('<div class="control move"><span class="icon-enlarge"></span></div>')
-        $('#ui-builder-container .controls').append('<div class="control resize"><span class="icon-enlarge2"></span></div>')
-        $('#ui-builder-container .controls').append('<div class="control settings"><span class="icon-equalizer"></span></div>')
-        $('#ui-builder-container .controls').append('<div class="control zindex"><span class="icon-stack"></span></div>')
+        $('#ui-builder-container .controls').append('<div class="control move"><span class="icon-enlarge"></span>&nbsp;Move</div>')
+        $('#ui-builder-container .controls').append('<div class="control resize"><span class="icon-enlarge2"></span>&nbsp;Size</div>')
+        $('#ui-builder-container .controls').append('<div class="control settings"><span class="icon-equalizer"></span>&nbsp;Setup</div>')
+        $('#ui-builder-container .controls').append('<div class="control zindex"><span class="icon-stack"></span>&nbsp;Layer</div>')
 
         $('#ui-builder-container .controls .control.move').on('click', ()=>{
             deactivateAllElements()

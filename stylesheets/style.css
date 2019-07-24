@@ -198,7 +198,7 @@ a:hover {
     padding: 0;
 }
 
-.controls {
+#editor .controls {
     display: flex;
     flex-direction: row;
     margin-bottom: 30px;
@@ -207,22 +207,22 @@ a:hover {
     flex-wrap: wrap;
 }
 
-.controls button {
+#editor .controls button {
     margin: 0;
 }
 
-.controls button:not(:last-child) {
+#editor .controls button:not(:last-child) {
     margin-right: 10px;
 }
 
-.controls .controls_container {
+#editor .controls .controls_container {
     background: #000a;
     padding: 10px;
     border-radius: 5px;
     margin-bottom: 10px;
 }
 
-.controls .controls_container:not(:last-child) {
+#editor .controls .controls_container:not(:last-child) {
     margin-right: 10px;
 }
 
@@ -1384,10 +1384,20 @@ a:hover {
 #ui-builder-container .controls {
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
 }
 
 #ui-builder-container .controls .control {
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 10px;
+}
 
+#ui-builder-container .controls .control > span {
+    margin-right: 5px;
 }
 
 #ui-builder-container .controls[mode="move"] .control.move {
