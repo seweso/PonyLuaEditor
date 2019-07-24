@@ -14,7 +14,12 @@ var UI_BUILDER = ((global, $)=>{
 
     const currentElements = []
 
-    
+
+    let MODE_MOVE = 'move'
+    let MODE_RESIZE = 'resize'
+    let MODE_SETTINGS = 'settings'
+
+    let MODE = MODE_MOVE
 
     $(global).on('load', init)
 
@@ -32,6 +37,25 @@ var UI_BUILDER = ((global, $)=>{
         let canvas_container = $('<div class="canvas_container"></div>')
         $('#ui-builder-container').append(canvas_container)
         $('#ui-builder-container').find('.canvas_container').append(canvas)
+
+
+        $('#ui-builder-container').append('<div class="controls" mode="move"></div>')
+        $('#ui-builder-container .controls').append('<div class="control move"><span class="icon-enlarge"></span></div>')
+        $('#ui-builder-container .controls').append('<div class="control resize"><span class="icon-enlarge2"></span></div>')
+        $('#ui-builder-container .controls').append('<div class="control settings"><span class="icon-equalizer"></span></div>')
+
+        $('#ui-builder-container .controls .control.move').on('click', ()=>{
+            $('#ui-builder-container .controls').attr('mode', MODE_MOVE)
+            MODE = MODE_MOVE
+        })
+        $('#ui-builder-container .controls .control.resize').on('click', ()=>{
+            $('#ui-builder-container .controls').attr('mode', MODE_RESIZE)
+            MODE = MODE_RESIZE
+        })
+        $('#ui-builder-container .controls .control.settings').on('click', ()=>{
+            $('#ui-builder-container .controls').attr('mode', MODE_SETTINGS)
+            MODE = MODE_SETTINGS
+        })
 
         
         for(let e of ELEMENTS){
@@ -99,20 +123,28 @@ var UI_BUILDER = ((global, $)=>{
             elem.find('.settings').append(set)
         }
 
-        elem.find('.settings').on('click', (evt)=>{
+        elem.find('.settings').on('mousedown', (evt)=>{
             evt.stopPropagation()
         })
 
-        elem.find('.close').on('click', ()=>{
+        elem.find('.close').on('click', (evt)=>{
+            evt.stopPropagation()
             this.closeSettings()
         })
 
-        elem.on('mousedown', ()=>{
-            this.activateDrag()
+        elem.on('mousedown', (evt)=>{
+            if(MODE === MODE_SETTINGS){
+                this.openSettings(evt)
+            } else if(MODE === MODE_MOVE){
+                this.activateDrag()                
+            } else if (MODE === MODE_RESIZE && evt.originalEvent.button === 0){
+                this.activateResize()
+            }
         })
+
         elem.on('contextmenu', (evt)=>{
             evt.preventDefault()
-            this.openSettings()
+            this.openSettings(evt)
         })
 
         return elem
@@ -140,6 +172,31 @@ var UI_BUILDER = ((global, $)=>{
     Element.prototype.deactivateDrag = function(){
         $(global).off('mousemove')
         $(global).off('mouseup')
+    }
+
+    Element.prototype.activateResize = function(evt){
+        console.log('activate resize')
+        this.offX = $('#ui-builder-container').find('.canvas_container').offset().left - window.scrollX
+        this.offY = $('#ui-builder-container').find('.canvas_container').offset().top - window.scrollY
+
+        $(global).on('mousemove', (evt)=>{
+            this.resize(evt)
+        })
+        $(global).on('click', ()=>{
+            this.deactivateResize()
+        })
+    }
+
+    Element.prototype.resize = function(evt){
+        this.width = evt.clientX - this.offX
+        this.height = evt.clientY - this.offY
+
+        this.refreshPosition()
+    }
+
+    Element.prototype.deactivateResize = function(){
+        $(global).off('mousemove')
+        $(global).off('click')
     }
 
     Element.prototype.refreshPosition = function(){
@@ -174,18 +231,18 @@ var UI_BUILDER = ((global, $)=>{
         this.refreshPosition()
     }
 
-    Element.prototype.openSettings = function(){
+    Element.prototype.openSettings = function(evt){
+        if(evt) evt.stopPropagation()
         this.dom.addClass('settings_open')
         this.closeHandler = ()=>{
             this.closeSettings()
         }
-        $(global).on('click', this.closeHandler)
+        $(global).on('mousedown', this.closeHandler)
     }
 
     Element.prototype.closeSettings = function(){
-        console.log('closeSettings')
         this.dom.removeClass('settings_open')
-        $(global).off('click', this.closeHandler)
+        $(global).off('mousedown', this.closeHandler)
     }
 
 

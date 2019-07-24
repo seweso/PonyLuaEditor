@@ -1325,22 +1325,22 @@ a:hover {
     flex-direction: row;
 }
 
-.canvas_container {
+#ui-builder-container .canvas_container {
     position: relative;
     background: #000;
 }
 
-.canvas_container .element {
+#ui-builder-container .canvas_container .element {
     position: absolute;
     cursor: pointer;
     font: 12px "Lucida Console", Monaco, monospace;
 }
 
-.canvas_container .element:not(.settings_open) .settings {
+#ui-builder-container .canvas_container .element:not(.settings_open) .settings {
     display: none;
 }
 
-.canvas_container .element .settings {
+#ui-builder-container .canvas_container .element .settings {
     position: absolute;
     top: calc(100% + 5px);
     display: flex;
@@ -1352,7 +1352,7 @@ a:hover {
     padding-top: 10px;
 }
 
-.canvas_container .element .settings .close {
+#ui-builder-container .canvas_container .element .settings .close {
     position: absolute;
     top: 0;
     right: 0;
@@ -1363,15 +1363,36 @@ a:hover {
     border-bottom-left-radius: 5px;
 }
 
-.canvas_container .element .settings .setting {
+#ui-builder-container .canvas_container .element .settings .setting {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     padding: 5px;
 }
 
-.canvas_container .element .settings .setting .name {
+#ui-builder-container .canvas_container .element .settings .setting .name {
     margin-right: 5px;
+}
+
+#ui-builder-container .controls {
+    display: flex;
+    flex-direction: column;
+}
+
+#ui-builder-container .controls .control {
+
+}
+
+#ui-builder-container .controls[mode="move"] .control.move {
+    color: #bf5421;
+}
+
+#ui-builder-container .controls[mode="resize"] .control.resize {
+    color: #bf5421;
+}
+
+#ui-builder-container .controls[mode="settings"] .control.settings {
+    color: #bf5421;
 }
 
 
