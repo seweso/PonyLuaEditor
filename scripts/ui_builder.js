@@ -18,6 +18,7 @@ var UI_BUILDER = ((global, $)=>{
     let MODE_MOVE = 'move'
     let MODE_RESIZE = 'resize'
     let MODE_SETTINGS = 'settings'
+    let MODE_ZINDEX = 'zindex'
 
     let MODE = MODE_MOVE
 
@@ -45,6 +46,7 @@ var UI_BUILDER = ((global, $)=>{
         $('#ui-builder-container .controls').append('<div class="control move"><span class="icon-enlarge"></span></div>')
         $('#ui-builder-container .controls').append('<div class="control resize"><span class="icon-enlarge2"></span></div>')
         $('#ui-builder-container .controls').append('<div class="control settings"><span class="icon-equalizer"></span></div>')
+        $('#ui-builder-container .controls').append('<div class="control zindex"><span class="icon-stack"></span></div>')
 
         $('#ui-builder-container .controls .control.move').on('click', ()=>{
             deactivateAllElements()
@@ -60,6 +62,11 @@ var UI_BUILDER = ((global, $)=>{
             deactivateAllElements()
             $('#ui-builder-container .controls').attr('mode', MODE_SETTINGS)
             MODE = MODE_SETTINGS
+        })
+        $('#ui-builder-container .controls .control.zindex').on('click', ()=>{
+            deactivateAllElements()
+            $('#ui-builder-container .controls').attr('mode', MODE_ZINDEX)
+            MODE = MODE_ZINDEX
         })
 
         
@@ -92,6 +99,7 @@ var UI_BUILDER = ((global, $)=>{
         }
 
         allElements.push(this)
+        this.zindex = allElements.length
 
         this.x = 0
         this.y = 0
@@ -104,7 +112,7 @@ var UI_BUILDER = ((global, $)=>{
         this.settings = {
             background: {
                 type: 'color',
-                value: 'fff'
+                value: createRandomColor()
             },
             color: {
                 type: 'color',
@@ -151,10 +159,12 @@ var UI_BUILDER = ((global, $)=>{
         elem.on('mousedown', (evt)=>{
             if(MODE === MODE_SETTINGS){
                 this.openSettings(evt)
-            } else if(MODE === MODE_MOVE){
+            } else if(MODE === MODE_MOVE && evt.originalEvent.button === 0){
                 this.activateDrag()                
             } else if (MODE === MODE_RESIZE && evt.originalEvent.button === 0){
                 this.activateResize()
+            } else if (MODE === MODE_ZINDEX && evt.originalEvent.button === 0){
+                moveElementZindexToFront(this)
             }
         })
 
@@ -198,7 +208,7 @@ var UI_BUILDER = ((global, $)=>{
         $(global).on('mousemove', (evt)=>{
             this.resize(evt)
         })
-        $(global).on('click', ()=>{
+        $(global).on('mouseup', ()=>{
             this.deactivateResize()
         })
     }
@@ -212,7 +222,7 @@ var UI_BUILDER = ((global, $)=>{
 
     Element.prototype.deactivateResize = function(){
         $(global).off('mousemove')
-        $(global).off('click')
+        $(global).off('mouseup')
     }
 
     Element.prototype.deactivate = function(){
@@ -260,6 +270,12 @@ var UI_BUILDER = ((global, $)=>{
         })
     }
 
+    Element.prototype.refreshZindex = function(){
+        this.dom.css({
+            'z-index': this.zindex
+        })
+    }
+
     Element.prototype.refresh = function(){        
         this.dom.css({
             background: makeValidHexOrEmpty(this.settings.background.value),
@@ -267,6 +283,7 @@ var UI_BUILDER = ((global, $)=>{
         })
         this.dom.find('.text').html(this.settings.text.value)
         this.refreshPosition()
+        this.refreshZindex()
     }
 
     Element.prototype.openSettings = function(evt){
@@ -314,6 +331,34 @@ var UI_BUILDER = ((global, $)=>{
         }
     }
 
+    const HEX_CHARS = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f']
+    function createRandomColor(){
+        let res = '#'
+        for(let i = 0; i<6; i++){
+            res += HEX_CHARS[Math.floor(Math.random()*16)]
+        }
+        return res
+    }
+
+    function moveElementZindexToFront(element){
+        element.zindex = allElements.length * 2 /* to be sure its the biggest value */
+        allElements.sort((a, b)=>{
+            if(a.zindex < b.zindex){
+                return -1
+            }
+
+            if(a.zindex > b.zindex){
+                return 1
+            }
+
+            return 0
+        })
+
+        for(let i = 0; i < allElements.length; i++){
+            allElements[i].zindex = i+1
+            allElements[i].refreshZindex()
+        }
+    }
 
 
     return {

@@ -1325,6 +1325,10 @@ a:hover {
     flex-direction: row;
 }
 
+#ui-builder-container > * {
+    margin-right: 10px;
+}
+
 #ui-builder-container .canvas_container {
     position: relative;
 }
@@ -1395,6 +1399,10 @@ a:hover {
 }
 
 #ui-builder-container .controls[mode="settings"] .control.settings {
+    color: #bf5421;
+}
+
+#ui-builder-container .controls[mode="zindex"] .control.zindex {
     color: #bf5421;
 }
 
