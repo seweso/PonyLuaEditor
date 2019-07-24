@@ -109,10 +109,20 @@ var UI_BUILDER = ((global, $)=>{
             this.minWidth = 6
             this.minHeight = 4
 
+            let color = createRandomColor()
+
             this.settings = {
                 background: {
                     type: 'color',
-                    value: createRandomColor()
+                    value: color
+                },
+                border: {
+                    type: 'color',
+                    value: color
+                },
+                borderWidth: {
+                    type: 'number',
+                    value: 1
                 }
             }
 
@@ -145,7 +155,7 @@ var UI_BUILDER = ((global, $)=>{
             this.content.append(this.buildContent())
             elem.append(this.content)
 
-            elem.append('<div class="settings"><span class="close">x</span></div>')
+            elem.append('<div class="settings"><span class="name">' + this.constructor.name + '</span><span class="close">x</span></div>')
 
             for(let k of Object.keys(this.settings)){
                 let s = this.settings[k]
@@ -153,6 +163,9 @@ var UI_BUILDER = ((global, $)=>{
                 switch(s.type){
                     case 'color': {
                         value = makeValidHexOrEmpty(s.value)
+                    }; break;
+                    case 'checkbox': {
+                        value = s.value ? '" checked="checked' : ''
                     }; break;
                     default: {
                         value = s.value
@@ -298,7 +311,10 @@ var UI_BUILDER = ((global, $)=>{
 
         refresh(){        
             this.dom.css({
-                background: makeValidHexOrEmpty(this.settings.background.value)
+                background: makeValidHexOrEmpty(this.settings.background.value),
+                'border-style': 'solid',
+                'border-color': makeValidHexOrEmpty(this.settings.border.value),
+                'border-width': makeValidPixelOrZero(this.settings.borderWidth.value)
             })
             this.refreshPosition()
             this.refreshZindex()
@@ -340,13 +356,7 @@ var UI_BUILDER = ((global, $)=>{
         }
 
         buildContent(){
-            let text = $('<span class="text">' + this.settings.text.value + '</span>')
-
-            text.css({
-                color: makeValidHexOrEmpty(this.settings.color.value)
-            })
-
-            return text
+            return $('<span class="text">' + this.settings.text.value + '</span>')
         }
 
         refreshContent(){
@@ -355,15 +365,75 @@ var UI_BUILDER = ((global, $)=>{
                     color: makeValidHexOrEmpty(this.settings.color.value)
                 })
                 .html(this.settings.text.value)
+
+            this.content.css('cssText', 'display: flex; flex-direction: column; justify-content: center; align-items: center;')
+        }
+    }
+
+    class Button extends Element {
+
+        beforeBuild(){
+            let additionalSettings = {
+                background: {
+                    type: 'color',
+                    value: '000'
+                },
+                backgroundOn: {
+                    type: 'color',
+                    value: 'fff'
+                },
+                borderOn: {
+                    type: 'color',
+                    value: 'aaa'
+                },
+                color: {
+                    type: 'color',
+                    value: 'fff'
+                },
+                colorOn: {
+                    type: 'color',
+                    value: '000'
+                },
+                text: {
+                    type: 'text',
+                    value: 'Off'
+                },
+                textOn: {
+                    type: 'text',
+                    value: 'On'
+                },
+                isToggle: {
+                    type: 'checkbox',
+                    value: false
+                }
+            }
+            Object.assign(this.settings, additionalSettings)
+        }
+
+        buildContent(){
+            return $('<span class="text">' + this.settings.text.value + '</span>')
+        }
+
+        refreshContent(){
+            this.content.find('.text')
+                .css({
+                    color: makeValidHexOrEmpty(this.settings.color.value)
+                })
+                .html(this.settings.text.value)
+
+            this.content.css('cssText', 'display: flex; flex-direction: column; justify-content: center; align-items: center;')
         }
     }
 
     const ELEMENTS = [{
+        name: 'Rectangle',
+        object: Element
+    },{
         name: 'Label',
         object: Label
     },{
-        name: 'Rectangle',
-        object: Element
+        name: 'Button',
+        object: Button
     }]
 
 
@@ -384,6 +454,21 @@ var UI_BUILDER = ((global, $)=>{
         } else {
             return '#' + hex
         }
+    }
+
+    function makeValidPixelOrZero(pxstring){
+        pxstring = ('' + pxstring).replace('px', '').trim()
+        let int = parseInt(pxstring)
+        if(isNaN(int)){
+            let float = parseFloat(pxstring)
+            if(isNaN(float)){
+                return '0'
+            }
+
+            return float
+        }
+
+        return int
     }
 
     const HEX_CHARS = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f']
