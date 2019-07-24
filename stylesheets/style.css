@@ -1330,6 +1330,20 @@ a:hover {
     user-select: none;
 }
 
+#ui-builder-container .element_list {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+#ui-builder-container .element_list .element {
+    cursor: pointer;
+    margin-bottom: 5px;
+}
+
+#ui-builder-container .element_list .element:hover {
+    color: #bf5421;
+}
+
 #ui-builder-container .canvas_container {
     position: relative;
 }
@@ -1342,6 +1356,10 @@ a:hover {
     position: absolute;
     cursor: pointer;
     font: 12px "Lucida Console", Monaco, monospace;
+}
+
+#ui-builder-container .canvas_container .element.settings_open {
+    z-index: 10000000000000 !important;
 }
 
 #ui-builder-container .canvas_container .element:not(.settings_open) .settings {

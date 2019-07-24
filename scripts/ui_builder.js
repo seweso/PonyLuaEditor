@@ -68,7 +68,7 @@ var UI_BUILDER = ((global, $)=>{
 
         
         for(let e of ELEMENTS){
-            let entry = $('<div class="element">' + e.name + '</div>')
+            let entry = $('<div class="element ' + e.name.toLowerCase() + '">' + e.name + '</div>')
             entry.on('click', ()=>{
                 currentElements.push(new e.object(false, canvas_container))
             })
@@ -149,7 +149,7 @@ var UI_BUILDER = ((global, $)=>{
         buildDom(){
             let that = this
 
-            let elem = $('<div class="element"></div>')
+            let elem = $('<div class="element ' + this.constructor.name.toLowerCase() + '"></div>')
 
             this.content = $('<div class="content"></div>')
             this.content.append(this.buildContent())
@@ -339,6 +339,10 @@ var UI_BUILDER = ((global, $)=>{
 
     /* Element Subclasses */
 
+    class Rectangle extends Element {
+
+    }
+
     class Label extends Element {
 
         beforeBuild(){
@@ -427,7 +431,7 @@ var UI_BUILDER = ((global, $)=>{
 
     const ELEMENTS = [{
         name: 'Rectangle',
-        object: Element
+        object: Rectangle
     },{
         name: 'Label',
         object: Label
