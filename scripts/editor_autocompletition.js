@@ -549,12 +549,6 @@ var AUTOCOMPLETE = ((global, $)=>{
             readOnly: false
         })
 
-        /*$(global).on('click', (e)=>{
-            if(autocompletitionIsShown){
-                closeAutocomplete()
-            }
-        })*/
-
         $('#code').contextmenu((e)=>{
             e.preventDefault()
             e.stopImmediatePropagation()
@@ -775,6 +769,7 @@ var AUTOCOMPLETE = ((global, $)=>{
     }
 
     return {
+        suggestAutocomplete: suggestAutocomplete,
         getWordInFrontOfPosition: getWordInFrontOfPosition,
         getAutocompletitions: getAutocompletitions,
         showAutocompletitions: showAutocompletitions,
@@ -867,13 +862,18 @@ function AutocompletitionElement(completitions, part){
                 AUTOCOMPLETE.closeAutocomplete()                
             }
         } else {
+            this.preventFocusOut = true
             editor.focus()
-            $('.ace_text-input').trigger(e)
-            AUTOCOMPLETE.closeAutocomplete()
+            $('#code .ace_text-input').trigger(e)
+            setTimeout(AUTOCOMPLETE.suggestAutocomplete, 10)
         }
     })
 
     this.$input.on('focusout', ()=>{
+        if(this.preventFocusOut){
+            this.preventFocusOut = false
+            return
+        }
         setTimeout(()=>{
             if(!this.click){
                 AUTOCOMPLETE.closeAutocomplete()
