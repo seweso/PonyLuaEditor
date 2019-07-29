@@ -470,6 +470,9 @@ var INPUT = ((global, $)=>{
             removeCallback(e)
             saveToStorage()
         })
+        neww.on('keydown keyup', (e)=>{
+            e.stopPropagation()
+        })
         saveToStorage()
         return neww
     }
