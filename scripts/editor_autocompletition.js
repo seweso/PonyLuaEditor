@@ -342,8 +342,7 @@ var AUTOCOMPLETE = ((global, $)=>{
                         description: 'Returns the integral part of x and the fractional part of x. Its second result is always a float.'
                     },
                     pi: {
-                        type: TF,
-                        args: '(x)',
+                        type: TV,
                         description: 'The value of π.'
                     },
                     rad: {
