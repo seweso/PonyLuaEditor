@@ -7,6 +7,7 @@ var AUTOCOMPLETE = ((global, $)=>{
     const TO = 'object'
     const TF = 'function'
     const TV = 'variable'
+    const TA = 'argument'
 
     const LIB_TITLES = {
         'stormworks': 'Stormworks API',
@@ -623,10 +624,25 @@ var AUTOCOMPLETE = ((global, $)=>{
         let code = editor.getValue()
         if(typeof code === 'string'){
             let vars = [...code.matchAll(/[\s;]?([a-zA-Z0-9\.]+)[\s]*?=/g)]
+            let functionHeads = [...code.matchAll(/function [\w]+[\s]*\([\s]*([^\)]+)[\s]*\)/g)]
+            let functionArguments = []
+            for(let fh of functionHeads){
+                let split = fh[1].replace(/\s/g, '').split(',')
+                for(let s of split){
+                    functionArguments.push({
+                        0: fh[0],
+                        1: s,
+                        index: fh.index,
+                        input: fh.input,
+                        length: 2
+                    })
+                }
+            }
             let functions = [...code.matchAll(/function[\s]+([a-zA-Z0-9\.]+)\(/g)]
 
             addToRet(vars, TV)
             addToRet(functions, TF)
+            addToRet(functionArguments, TA)
 
             function addToRet(matches, type){
 
@@ -654,7 +670,7 @@ var AUTOCOMPLETE = ((global, $)=>{
                                     lib: 'user',
                                     description: 'Defined on LINE ' + (1 + documentPosition.row)
                                 }
-                                node = node[p]                           
+                                node = node[p]
                             }
                         } else {
                             if(parts.length > 0){
@@ -765,6 +781,8 @@ var AUTOCOMPLETE = ((global, $)=>{
         closeAutocomplete: closeAutocomplete,
         TO: TO,
         TF: TF,
+        TV: TV,
+        TA: TA,
         LIB_TITLES: LIB_TITLES,
         getAllAutocompletitions: ()=>{ return AUTOCOMPLETITIONS; },
         getAllAUTOCOMPLETITIONSParsed: getAllAUTOCOMPLETITIONSParsed
