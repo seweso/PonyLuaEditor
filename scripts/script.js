@@ -221,6 +221,7 @@ var YYY = ((global, $)=>{
                 removeMinifiedCodeFromStorage()
             } catch (ex){
                 console.log(ex)
+                $('#minified-editor').show()
                 minifiedEditor.setValue('Error: ' + ex.message)
                 refreshMinifiedEditorCharacterCount()
             }
