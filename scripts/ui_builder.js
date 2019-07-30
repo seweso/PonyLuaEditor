@@ -25,6 +25,8 @@ var UI_BUILDER = ((global, $)=>{
 
     let uuid = 1
 
+    const GLOBAL_LIB = 'function setC(r,g,b,a)\nscreen.setColor(r,g,b,a)\nend'
+
     $(global).on('load', ()=>{
         init($('#ui-builder-container'))
     })
@@ -212,9 +214,9 @@ var UI_BUILDER = ((global, $)=>{
             return {
                 init: '',
                 onTick: '',
-                onDraw: 'screen.setColor(' + makeColorCorrectedRGBString(this.settings.border.value) + ')\n'
+                onDraw: luaBuildSetColor(this.settings.border.value) + '\n'
                     + 'screen.drawRectF(' + this.x + ',' + this.y + ',' + this.width + ',' + this.height + ')\n'
-                    + 'screen.setColor(' + makeColorCorrectedRGBString(this.settings.background.value) + ')\n'
+                    + luaBuildSetColor(this.settings.background.value) + '\n'
                     + 'screen.drawRectF(' + (this.x + this.settings.borderWidth.value) + ',' + (this.y + this.settings.borderWidth.value) + ',' + (this.width - 2 * this.settings.borderWidth.value) + ',' + (this.height - 2 * this.settings.borderWidth.value) + ')',
                 lib: ''
             }
@@ -472,7 +474,7 @@ var UI_BUILDER = ((global, $)=>{
             return {
                 init: superRet.init,
                 onDraw: superRet.onDraw + '\n'
-                    + 'screen.setColor(' + makeColorCorrectedRGBString(this.settings.color.value) + ')\n'
+                    + luaBuildSetColor(this.settings.color.value) + '\n'
                     + 'screen.drawTextBox(' + this.x + ', ' + this.y + ', ' + this.width + ', ' + this.height + ', "' + this.settings.text.value + '", 0, 0)',
                 onTick: superRet.onTick,
                 lib: superRet.lib
@@ -582,6 +584,7 @@ var UI_BUILDER = ((global, $)=>{
             + '\nfunction onTick()\n' + code.onTick + '\nend\n'
             + '\nfunction onDraw()\n' + code.onDraw + '\nend\n'
             + '\n' + code.lib
+            + '\n' + GLOBAL_LIB
 
         allCode = allCode.replace(/[\n]{3,}/g, '\n\n')
 
@@ -690,7 +693,7 @@ var UI_BUILDER = ((global, $)=>{
         resortAllElements()
     }
 
-     function moveElementZindexUp(element){
+    function moveElementZindexUp(element){
         if(element.zindex >= allElements.length){
             return
         }
@@ -698,6 +701,11 @@ var UI_BUILDER = ((global, $)=>{
         element.zindex = allElements[originalZindex - 1 + 1].zindex
         allElements[originalZindex - 1 + 1].zindex = originalZindex
         resortAllElements()
+    }
+
+    /* build lua code helpers */
+    function luaBuildSetColor(hex){
+        return 'setC(' + makeColorCorrectedRGBString(hex) + ')'
     }
 
     return {
