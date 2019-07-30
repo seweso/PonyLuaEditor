@@ -1418,6 +1418,11 @@ a:hover {
     justify-content: flex-start;
     align-items: center;
     margin-bottom: 10px;
+    transition: color 0.2s ease 0s;
+}
+
+#ui-builder-container .controls .control:hover {
+    color: #bf5421;
 }
 
 #ui-builder-container .controls .control > span {
