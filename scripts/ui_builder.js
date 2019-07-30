@@ -303,9 +303,7 @@ var UI_BUILDER = ((global, $)=>{
             $(global).on('mousemove', (evt)=>{
                 this.drag(evt)
             })
-            $(global).on('mouseup', ()=>{
-                this.deactivateDrag()
-            })
+            $(global).on('mouseup', this.deactivateDrag)
         }
 
         drag(evt){
@@ -317,7 +315,7 @@ var UI_BUILDER = ((global, $)=>{
 
         deactivateDrag(){
             $(global).off('mousemove')
-            $(global).off('mouseup')
+            $(global).off('mouseup', this.deactivateDrag)
         }
 
         activateResize(evt){
@@ -327,9 +325,7 @@ var UI_BUILDER = ((global, $)=>{
             $(global).on('mousemove', (evt)=>{
                 this.resize(evt)
             })
-            $(global).on('mouseup', ()=>{
-                this.deactivateResize()
-            })
+            $(global).on('mouseup', this.deactivateResize)
         }
 
         resize(evt){
@@ -341,7 +337,7 @@ var UI_BUILDER = ((global, $)=>{
 
         deactivateResize(){
             $(global).off('mousemove')
-            $(global).off('mouseup')
+            $(global).off('mouseup', this.deactivateResize)
         }
 
         deactivate(){

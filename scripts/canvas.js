@@ -81,6 +81,7 @@ var CANVAS = ((global, $)=>{
         if(YYY.isRunning() && $('#enable-touchscreen').prop('checked')){
             if(evt.originalEvent.button === 0){
                 evt.originalEvent.key = 'e'
+                console.log('mouseup')
             }
             if(evt.originalEvent.key === 'q' || evt.originalEvent.key === 'e'){
                 evt.preventDefault()
