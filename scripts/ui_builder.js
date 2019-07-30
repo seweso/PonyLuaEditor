@@ -43,7 +43,7 @@ var UI_BUILDER = ((global, $)=>{
         $('#ui-builder-container .controls').append('<div class="control move"><span class="icon-enlarge"></span>&nbsp;Move</div>')
         $('#ui-builder-container .controls').append('<div class="control resize"><span class="icon-enlarge2"></span>&nbsp;Size</div>')
         $('#ui-builder-container .controls').append('<div class="control settings"><span class="icon-equalizer"></span>&nbsp;Setup</div>')
-        $('#ui-builder-container .controls').append('<div class="control zindex"><span class="icon-stack"></span>&nbsp;Layer</div>')
+        $('#ui-builder-container .controls').append('<div class="control zindex"><span class="icon-stack"></span>&nbsp;To Top</div>')
 
         $('#ui-builder-container .controls .control.move').on('click', ()=>{
             deactivateAllElements()
@@ -65,6 +65,9 @@ var UI_BUILDER = ((global, $)=>{
             $('#ui-builder-container .controls').attr('mode', MODE_ZINDEX)
             MODE = MODE_ZINDEX
         })
+
+
+        $('#ui-builder-container').append('<div class="element_layer_list"></div>')
 
         
         for(let e of ELEMENTS){
@@ -100,6 +103,28 @@ var UI_BUILDER = ((global, $)=>{
 
             allElements.push(this)
             this.zindex = allElements.length
+
+            this.layerListEntry = $('<div class="layer_list_entry" type="' + this.constructor.name + '">'
+                + '<div class="left"><span class="name">' + this.constructor.name + '</span><div class="background"></div></div>'
+                + '<div class="lcontrols"><span class="up icon-circle-up"></span><span class="down icon-circle-down"></span></div>'
+                + '</div>')
+
+            this.layerListEntry.find('.up').on('click', ()=>{
+                this.layerListEntry.addClass('light_up')
+                moveElementZindexUp(this)
+                setTimeout(()=>{
+                    this.layerListEntry.removeClass('light_up')
+                }, 500)
+            })
+            this.layerListEntry.find('.down').on('click', ()=>{
+                this.layerListEntry.addClass('light_up')
+                moveElementZindexDown(this)
+                setTimeout(()=>{
+                    this.layerListEntry.removeClass('light_up')
+                }, 500)
+            })
+
+            $('#ui-builder-container .element_layer_list').append(this.layerListEntry)
 
             this.x = 0
             this.y = 0
@@ -314,7 +339,9 @@ var UI_BUILDER = ((global, $)=>{
                 'border-style': 'solid',
                 'border-color': makeValidHexOrEmpty(this.settings.border.value),
                 'border-width': makeValidPixelOrZero(this.settings.borderWidth.value)
-            })
+            })            
+            this.layerListEntry.find('.background').css('background', makeValidHexOrEmpty(this.settings.background.value))
+
             this.refreshPosition()
             this.refreshZindex()
             this.refreshContent()
@@ -423,7 +450,6 @@ var UI_BUILDER = ((global, $)=>{
                     color: makeValidHexOrEmpty(this.settings.color.value)
                 })
                 .html(this.settings.text.value)
-
             this.content.css('cssText', 'display: flex; flex-direction: column; justify-content: center; align-items: center;')
         }
     }
@@ -483,8 +509,7 @@ var UI_BUILDER = ((global, $)=>{
         return res
     }
 
-    function moveElementZindexToFront(element){
-        element.zindex = allElements.length * 2 /* to be sure its the biggest value */
+    function resortAllElements(){
         allElements.sort((a, b)=>{
             if(a.zindex < b.zindex){
                 return -1
@@ -501,6 +526,44 @@ var UI_BUILDER = ((global, $)=>{
             allElements[i].zindex = i+1
             allElements[i].refreshZindex()
         }
+
+
+        /* resort layer list */
+        let tmp = $('<div></div>')
+        $('#ui-builder-container .element_layer_list').children().appendTo(tmp)
+        for(let e of allElements){
+            $('#ui-builder-container .element_layer_list').append(e.layerListEntry)
+        }
+    }
+
+    function moveElementZindexToFront(element){
+        element.zindex = allElements.length * 2 /* to be sure its the biggest value */
+        
+        element.layerListEntry.addClass('light_up')
+        resortAllElements()
+        setTimeout(()=>{
+            element.layerListEntry.removeClass('light_up')
+        }, 500)
+    }
+
+    function moveElementZindexDown(element){
+        if(element.zindex <= 1){
+            return
+        }
+        let originalZindex = element.zindex
+        element.zindex = allElements[originalZindex - 1 - 1].zindex
+        allElements[originalZindex - 1 - 1].zindex = originalZindex
+        resortAllElements()
+    }
+
+     function moveElementZindexUp(element){
+        if(element.zindex >= allElements.length){
+            return
+        }
+        let originalZindex = element.zindex
+        element.zindex = allElements[originalZindex - 1 + 1].zindex
+        allElements[originalZindex - 1 + 1].zindex = originalZindex
+        resortAllElements()
     }
 
 

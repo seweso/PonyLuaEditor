@@ -52,7 +52,7 @@ a:hover {
     margin-right: 30px;
 }
 
-.background {
+#background {
     position: fixed;
     top: 0;
     left: 0;
@@ -1330,9 +1330,9 @@ a:hover {
     user-select: none;
 }
 
-#ui-builder-container .element_list {
+#ui-builder-container .element_list, #ui-builder-container .element_layer_list {
     max-height: 300px;
-    overflow-y: auto;
+    overflow-y: scroll;
 }
 
 #ui-builder-container .element_list .element {
@@ -1438,6 +1438,54 @@ a:hover {
 
 #ui-builder-container .controls[mode="zindex"] .control.zindex {
     color: #bf5421;
+}
+
+
+#ui-builder-container .element_layer_list {
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: flex-end;
+}
+
+#ui-builder-container .element_layer_list .layer_list_entry {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 3px;
+    padding: 3px;
+    background: #222;
+    border-radius: 3px;
+    transition: background 0.5s ease 0s;
+}
+
+#ui-builder-container .element_layer_list .layer_list_entry.light_up {
+    background: #888;
+}
+
+#ui-builder-container .element_layer_list .layer_list_entry .lcontrols {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 10px;
+}
+
+#ui-builder-container .element_layer_list .layer_list_entry .lcontrols .up, #ui-builder-container .element_layer_list .layer_list_entry .lcontrols .down {
+    cursor: pointer;
+}
+
+#ui-builder-container .element_layer_list .layer_list_entry .lcontrols .up {
+    margin-bottom: 3px;
+}
+
+#ui-builder-container .element_layer_list .layer_list_entry:last-of-type .up, #ui-builder-container .element_layer_list .layer_list_entry:first-of-type .down {
+    color: transparent;
+    cursor: initial;
+}
+
+#ui-builder-container .element_layer_list .layer_list_entry .background {
+    height: 1em;
+    margin-top: 3px;
 }
 
 
