@@ -193,9 +193,9 @@ var UI_BUILDER = ((global, $)=>{
                 if(MODE === MODE_SETTINGS){
                     this.openSettings(evt)
                 } else if(MODE === MODE_MOVE && evt.originalEvent.button === 0){
-                    this.activateDrag()                
+                    this.activateDrag(evt)
                 } else if (MODE === MODE_RESIZE && evt.originalEvent.button === 0){
-                    this.activateResize()
+                    this.activateResize(evt)
                 } else if (MODE === MODE_ZINDEX && evt.originalEvent.button === 0){
                     moveElementZindexToFront(this)
                 }
@@ -210,8 +210,10 @@ var UI_BUILDER = ((global, $)=>{
         }
 
         activateDrag(evt){
-            this.offX = $('#ui-builder-container').find('.canvas_container').offset().left - window.scrollX
-            this.offY = $('#ui-builder-container').find('.canvas_container').offset().top - window.scrollY
+            let offset = $('#ui-builder-container').find('.canvas_container').offset()
+            this.offX = offset.left - window.scrollX
+            this.offY = offset.top - window.scrollY
+
 
             $(global).on('mousemove', (evt)=>{
                 this.drag(evt)
@@ -235,8 +237,9 @@ var UI_BUILDER = ((global, $)=>{
 
         activateResize(evt){
             console.log('activate resize')
-            this.offX = $('#ui-builder-container').find('.canvas_container').offset().left - window.scrollX
-            this.offY = $('#ui-builder-container').find('.canvas_container').offset().top - window.scrollY
+            let offset = $('#ui-builder-container').find('.canvas_container').offset()
+            this.offX = window.scrollX + evt.clientX - this.width
+            this.offY = window.scrollY + evt.clientY - this.height
 
             $(global).on('mousemove', (evt)=>{
                 this.resize(evt)
@@ -247,8 +250,9 @@ var UI_BUILDER = ((global, $)=>{
         }
 
         resize(evt){
-            this.width = evt.clientX - this.offX
-            this.height = evt.clientY - this.offY
+            this.width = (window.scrollX + evt.clientX) - this.offX
+            this.height = (window.scrollY + evt.clientY) - this.offY
+            console.log(this.width, this.height)
 
             this.refreshPosition()
         }
@@ -265,7 +269,7 @@ var UI_BUILDER = ((global, $)=>{
         }
 
         refreshPosition(){
-            console.log(this.x, this.y)
+            //console.log(this.x, this.y)
             /* x */
             if(this.x < 0){
                 this.x = 0
