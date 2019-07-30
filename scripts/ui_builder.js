@@ -15,17 +15,22 @@ var UI_BUILDER = ((global, $)=>{
     let MODE_MOVE = 'move'
     let MODE_RESIZE = 'resize'
     let MODE_SETTINGS = 'settings'
+    let MODE_DELETE = 'delete'
     let MODE_ZINDEX = 'zindex'
 
     let MODE = MODE_MOVE
 
     let allElements = []
 
-    $(global).on('load', init)
+    let gcontainer
 
-    function init(){
+    $(global).on('load', ()=>{
+        init($('#ui-builder-container'))
+    })
 
-        $('#ui-builder-container').append('<div class="element_list"></div>')
+    function init(container){
+        gcontainer = container
+        container.append('<div class="element_list"></div>')
         canvas = $('<canvas/>')
 
         $('#monitor-size').on('change', (e)=>{
@@ -35,39 +40,45 @@ var UI_BUILDER = ((global, $)=>{
 
         ctx = canvas.get(0).getContext('2d')
         let canvas_container = $('<div class="canvas_container"></div>')
-        $('#ui-builder-container').append(canvas_container)
-        $('#ui-builder-container').find('.canvas_container').append(canvas)
+        container.append(canvas_container)
+        container.find('.canvas_container').append(canvas)
 
 
-        $('#ui-builder-container').append('<div class="controls" mode="move"></div>')
-        $('#ui-builder-container .controls').append('<div class="control move"><span class="icon-enlarge"></span>&nbsp;Move</div>')
-        $('#ui-builder-container .controls').append('<div class="control resize"><span class="icon-enlarge2"></span>&nbsp;Size</div>')
-        $('#ui-builder-container .controls').append('<div class="control settings"><span class="icon-equalizer"></span>&nbsp;Setup</div>')
-        $('#ui-builder-container .controls').append('<div class="control zindex"><span class="icon-stack"></span>&nbsp;To Top</div>')
+        container.append('<div class="controls" mode="move"></div>')
+        container.find('.controls').append('<div class="control move"><span class="icon-enlarge"></span>&nbsp;Move</div>')
+        container.find('.controls').append('<div class="control resize"><span class="icon-enlarge2"></span>&nbsp;Size</div>')
+        container.find('.controls').append('<div class="control settings"><span class="icon-equalizer"></span>&nbsp;Setup</div>')
+        container.find('.controls').append('<div class="control delete"><span class="icon-cancel-circle"></span>&nbsp;Delete</div>')
+        container.find('.controls').append('<div class="control zindex"><span class="icon-stack"></span>&nbsp;To Top</div>')
 
-        $('#ui-builder-container .controls .control.move').on('click', ()=>{
+        container.find('.controls .control.move').on('click', ()=>{
             deactivateAllElements()
-            $('#ui-builder-container .controls').attr('mode', MODE_MOVE)
+            container.find('.controls').attr('mode', MODE_MOVE)
             MODE = MODE_MOVE
         })
-        $('#ui-builder-container .controls .control.resize').on('click', ()=>{
+        container.find('.controls .control.resize').on('click', ()=>{
             deactivateAllElements()
-            $('#ui-builder-container .controls').attr('mode', MODE_RESIZE)
+            container.find('.controls').attr('mode', MODE_RESIZE)
             MODE = MODE_RESIZE
         })
-        $('#ui-builder-container .controls .control.settings').on('click', ()=>{
+        container.find('.controls .control.settings').on('click', ()=>{
             deactivateAllElements()
-            $('#ui-builder-container .controls').attr('mode', MODE_SETTINGS)
+            container.find('.controls').attr('mode', MODE_SETTINGS)
             MODE = MODE_SETTINGS
         })
-        $('#ui-builder-container .controls .control.zindex').on('click', ()=>{
+        container.find('.controls .control.delete').on('click', ()=>{
             deactivateAllElements()
-            $('#ui-builder-container .controls').attr('mode', MODE_ZINDEX)
+            container.find('.controls').attr('mode', MODE_DELETE)
+            MODE = MODE_DELETE
+        })
+        container.find('.controls .control.zindex').on('click', ()=>{
+            deactivateAllElements()
+            container.find('.controls').attr('mode', MODE_ZINDEX)
             MODE = MODE_ZINDEX
         })
 
 
-        $('#ui-builder-container').append('<div class="element_layer_list"></div>')
+        container.append('<div class="element_layer_list"></div>')
 
         
         for(let e of ELEMENTS){
@@ -75,7 +86,7 @@ var UI_BUILDER = ((global, $)=>{
             entry.on('click', ()=>{
                 currentElements.push(new e.object(false, canvas_container))
             })
-            $('#ui-builder-container .element_list').append(entry)
+            container.find('.element_list').append(entry)
         }
     }
 
@@ -104,7 +115,7 @@ var UI_BUILDER = ((global, $)=>{
             allElements.push(this)
             this.zindex = allElements.length
 
-            this.layerListEntry = $('<div class="layer_list_entry" type="' + this.constructor.name + '">'
+            this.layerListEntry = $('<div class="layer_list_entry" type="' + this.constructor.name.toLowerCase() + '">'
                 + '<div class="left"><span class="name">' + this.constructor.name + '</span><div class="background"></div></div>'
                 + '<div class="lcontrols"><span class="up icon-circle-up"></span><span class="down icon-circle-down"></span></div>'
                 + '</div>')
@@ -124,7 +135,7 @@ var UI_BUILDER = ((global, $)=>{
                 }, 500)
             })
 
-            $('#ui-builder-container .element_layer_list').append(this.layerListEntry)
+            gcontainer.find('.element_layer_list').append(this.layerListEntry)
 
             this.x = 0
             this.y = 0
@@ -221,6 +232,8 @@ var UI_BUILDER = ((global, $)=>{
                     this.activateDrag(evt)
                 } else if (MODE === MODE_RESIZE && evt.originalEvent.button === 0){
                     this.activateResize(evt)
+                } else if (MODE === MODE_DELETE && evt.originalEvent.button === 0){
+                    this.delete()
                 } else if (MODE === MODE_ZINDEX && evt.originalEvent.button === 0){
                     moveElementZindexToFront(this)
                 }
@@ -359,6 +372,13 @@ var UI_BUILDER = ((global, $)=>{
         closeSettings(){
             this.dom.removeClass('settings_open')
             $(global).off('mousedown', this.closeHandler)
+        }
+
+        delete(){
+            this.dom.remove()
+            this.layerListEntry.remove()
+            allElements.splice(this.zindex-1,1)
+            resortAllElements()
         }
     }
 
@@ -530,9 +550,9 @@ var UI_BUILDER = ((global, $)=>{
 
         /* resort layer list */
         let tmp = $('<div></div>')
-        $('#ui-builder-container .element_layer_list').children().appendTo(tmp)
+        gcontainer.find('.element_layer_list').children().appendTo(tmp)
         for(let e of allElements){
-            $('#ui-builder-container .element_layer_list').append(e.layerListEntry)
+            gcontainer.find('.element_layer_list').append(e.layerListEntry)
         }
     }
 

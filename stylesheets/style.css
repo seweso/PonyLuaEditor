@@ -1436,10 +1436,13 @@ a:hover {
     color: #bf5421;
 }
 
-#ui-builder-container .controls[mode="zindex"] .control.zindex {
+#ui-builder-container .controls[mode="delete"] .control.delete {
     color: #bf5421;
 }
 
+#ui-builder-container .controls[mode="zindex"] .control.zindex {
+    color: #bf5421;
+}
 
 #ui-builder-container .element_layer_list {
     display: flex;
