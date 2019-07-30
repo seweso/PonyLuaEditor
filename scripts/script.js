@@ -163,24 +163,17 @@ var YYY = ((global, $)=>{
                     let inText= false
                     while (i < minified.length){
                         let indexOf = minified.indexOf('"', i)
-                        console.log('found a " at', indexOf, minified.substring(indexOf-3, indexOf+3))
                         if(indexOf < 0){                            
                             identedMinified += '\n' + ident(minified.substring(i))
-                            console.log('x')
                             break
                         } else {//found a ""
                             if(inText){
-                                console.log('y')
                                 let tmp = '"' + minified.substring(i, indexOf)
                                 identedMinified += tmp
-                                console.log('tmped', tmp)
                             } else {
-                                console.log('z')
                                 identedMinified += '\n' + ident(minified.substring(i, indexOf))
                             }
                             let char = minified.charAt(indexOf-1)
-                            console.log('char before', indexOf, 'is', char)
-                            console.log('\\', char !== '\\')
                             if(char !== '\\'){// check for \"
                                 if(inText){
                                     identedMinified += '"'
@@ -204,7 +197,6 @@ var YYY = ((global, $)=>{
                             .replace(/\)([\w]+)=/g, ')\n$1=')
                             .replace(/\)([\w\.]+)\(/g, ')\n$1(') 
                             .replace(/\}([\w\.]+[;\s=])/g, '}\n$1')
-                        console.log('idented', text, 'to', ret)
                         return ret
                     }
                 }
