@@ -25,8 +25,6 @@ var UI_BUILDER = ((global, $)=>{
 
     let uuid = 1
 
-    const GLOBAL_LIB = 'function setC(r,g,b,a)\nscreen.setColor(r,g,b,a)\nend'
-
     $(global).on('load', ()=>{
         init($('#ui-builder-container'))
     })
@@ -544,9 +542,19 @@ var UI_BUILDER = ((global, $)=>{
             return {
                 init: superRet.init + '\n' + this.id + 'Toggled = false',
                 onDraw: superRet.onDraw + 'text="' + this.settings.text.value + '"\n'
-                    + 'if ' + this.id + 'Toggled then text="' + this.settings.textOn.value + '" end\n'
+                    + 'if ' + this.id + 'Toggled then\ntext="' + this.settings.textOn.value + '"\nend\n'
+                    + 'if ' + this.id + 'Toggled then\n' + luaBuildSetColor(this.settings.colorOn.value) + '\n'
+                    + 'else\n' + luaBuildSetColor(this.settings.color.value) + '\nend\n'
                     + 'screen.drawTextBox(' + this.x + ', ' + this.y + ', ' + this.width + ', ' + this.height + ', "' + this.settings.text.value + '", 0, 0)',
-                onTick: superRet.onTick + '\n' + 'output.setBool(' + this.settings.channel.value + ', ' + this.id + 'Toggled)',
+                onTick: superRet.onTick + '\n'
+                    + 'if isP1 and in1X >= ' + this.x + ' and in1X <= ' + (this.x + this.width) + ' and in1Y >= ' + this.y + ' and in1Y <= ' + (this.y + this.height) + ' then\n'
+                    + this.id + 'Toggled=true\n'
+                    + 'elseif isP2 and in2X >= ' + this.x + ' and in2X <= ' + (this.x + this.width) + ' and in2Y >= ' + this.y + ' and in2Y <= ' + (this.y + this.height) + ' then\n'
+                    + this.id + 'Toggled=true\n'
+                    + 'else\n'
+                    + this.id + 'Toggled=false\n'
+                    + 'end\n'
+                    + 'output.setBool(' + this.settings.channel.value + ', ' + this.id + 'Toggled)',
                 lib: superRet.lib
             }
         }
@@ -581,10 +589,12 @@ var UI_BUILDER = ((global, $)=>{
         }
 
         let allCode = code.init
-            + '\nfunction onTick()\n' + code.onTick + '\nend\n'
+            + '\nfunction onTick()\n'
+                + 'isP1 = input.getBool(1)\nisP2 = input.getBool(2)\n\nin1X = input.getNumber(3)\nin1Y = input.getNumber(4)\nin2X = input.getNumber(5)\nin2Y = input.getNumber(6)\n\n'
+                + code.onTick + '\nend\n'
             + '\nfunction onDraw()\n' + code.onDraw + '\nend\n'
             + '\n' + code.lib
-            + '\n' + GLOBAL_LIB
+            + '\n' + 'function setC(r,g,b,a)\nscreen.setColor(r,g,b,a)\nend'
 
         allCode = allCode.replace(/[\n]{3,}/g, '\n\n')
 
