@@ -133,6 +133,12 @@ var UI_BUILDER = ((global, $)=>{
                 setTimeout(()=>{
                     this.layerListEntry.removeClass('light_up')
                 }, 500)
+            })            
+            this.layerListEntry.on('mouseenter', ()=>{
+                this.dom.addClass('highlight')
+            })
+            this.layerListEntry.on('mouseleave', ()=>{
+                this.dom.removeClass('highlight')
             })
 
             gcontainer.find('.element_layer_list').append(this.layerListEntry)
