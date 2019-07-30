@@ -107,7 +107,6 @@ var UI_BUILDER = ((global, $)=>{
     class Element {
 
         constructor(params, container){
-            console.log('new Element')
             if(!container){
                 return console.error('UI_BUILDER.Element:', 'argument "container" is missing!')
             }

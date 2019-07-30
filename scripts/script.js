@@ -29,7 +29,6 @@ var YYY = ((global, $)=>{
         let scrollTop = parseInt(localStorage.getItem('scroll'))
         if(!isNaN(scrollTop)){
             setTimeout(()=>{
-                console.log('scrolling to ', scrollTop)
                 $('html, body').scrollTop(scrollTop)
             }, 300)            
         }        
