@@ -83,6 +83,7 @@ var YYY = ((global, $)=>{
     	})
 	  	$('#start').on('click', start)
         $('#start-minified').on('click', startMinified)
+        $('#start-generated').on('click', startGenerated)
         $('#stop').prop('disabled', true).on('click', stop)
         $('#reset').on('click', ()=>{
             confirm('Are you sure? This will also remove the code in the editor!').then((result)=>{
@@ -588,6 +589,28 @@ var YYY = ((global, $)=>{
             $('#start').blur()
             $('#start-minified').blur()
         }, 100)
+
+        $('html, body').animate({
+            scrollTop: $("#monitor").offset().top
+        }, 200);
+    }
+
+    function startGenerated(){
+        $('#code-container, #minified-code-container').addClass('locked')
+
+        let code = uiBuilderEditor.getValue()
+
+        startCode(code)
+
+        setTimeout(()=>{
+            $('#start').blur()
+            $('#start-minified').blur()
+            $('#start-generated').blur()
+        }, 100)
+
+        $('html, body').animate({
+            scrollTop: $("#monitor").offset().top
+        }, 200);
     }
 
     function startCode(code){
@@ -622,7 +645,7 @@ var YYY = ((global, $)=>{
         clearInterval(intervalDraw)
 
         LUA_EMULATOR.reset().then(()=>{
-            $('#start, #start-minified, #timeBetweenTicks, #timeBetweenDraws').prop('disabled', false)
+            $('#start, #start-minified, #start-generated, #timeBetweenTicks, #timeBetweenDraws').prop('disabled', false)
             $('#code-container, #minified-code-container').removeClass('locked')
         })
 
