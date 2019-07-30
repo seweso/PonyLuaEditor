@@ -167,6 +167,7 @@ a:hover {
     filter: brightness(258%);
 }
 
+
 #overflow {
     position: absolute;
     top: 0;
@@ -1323,6 +1324,7 @@ a:hover {
 #ui-builder-container {
     display: flex;
     flex-direction: row;
+    margin-bottom: 20px;
 }
 
 #ui-builder-container > * {
@@ -1346,10 +1348,7 @@ a:hover {
 
 #ui-builder-container .canvas_container {
     position: relative;
-}
-
-#ui-builder-container .canvas_container canvas {
-    background: #000;
+    background: #000
 }
 
 #ui-builder-container .canvas_container .element {
@@ -1504,6 +1503,9 @@ a:hover {
     margin-top: 3px;
 }
 
+#ui-builder-code {
+    height: 300px;
+}
 
 /* dialogs */
 

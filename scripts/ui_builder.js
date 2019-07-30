@@ -4,8 +4,7 @@ var UI_BUILDER = ((global, $)=>{
     let maxX
     let maxY
 
-    let canvas
-    let ctx
+    let canvas_container
 
     
 
@@ -24,6 +23,8 @@ var UI_BUILDER = ((global, $)=>{
 
     let gcontainer
 
+    let uuid = 1
+
     $(global).on('load', ()=>{
         init($('#ui-builder-container'))
     })
@@ -31,17 +32,15 @@ var UI_BUILDER = ((global, $)=>{
     function init(container){
         gcontainer = container
         container.append('<div class="element_list"></div>')
-        canvas = $('<canvas/>')
+
+        canvas_container = $('<div class="canvas_container"></div>')
+        container.append(canvas_container)
+
 
         $('#monitor-size').on('change', (e)=>{
-            recalculateCanvas()
+            recalculateSize()
         })
-        recalculateCanvas()
-
-        ctx = canvas.get(0).getContext('2d')
-        let canvas_container = $('<div class="canvas_container"></div>')
-        container.append(canvas_container)
-        container.find('.canvas_container').append(canvas)
+        recalculateSize()
 
 
         container.append('<div class="controls" mode="move"></div>')
@@ -88,6 +87,10 @@ var UI_BUILDER = ((global, $)=>{
             })
             container.find('.element_list').append(entry)
         }
+
+        $('#generate-ui-builder-lua-code').on('click', ()=>{
+            generateLuaCode()
+        })
     }
 
     function deactivateAllElements(){
@@ -96,12 +99,12 @@ var UI_BUILDER = ((global, $)=>{
         }
     }
 
-    function recalculateCanvas(){
-        canvas.width( CANVAS.width() )
-        canvas.height( CANVAS.height() ) 
+    function recalculateSize(){
+        canvas_container.width( CANVAS.width() )
+        canvas_container.height( CANVAS.height() ) 
         
-        maxX = canvas.width()
-        maxY = canvas.height()       
+        maxX = canvas_container.width()
+        maxY = canvas_container.height()      
     }
 
     class Element {
@@ -110,6 +113,8 @@ var UI_BUILDER = ((global, $)=>{
             if(!container){
                 return console.error('UI_BUILDER.Element:', 'argument "container" is missing!')
             }
+            this.id = 'i' + uuid
+            uuid++
 
             allElements.push(this)
             this.zindex = allElements.length
@@ -176,15 +181,43 @@ var UI_BUILDER = ((global, $)=>{
         }
 
         beforeBuild(){
-            /* put special logic of subclasses in here */        
+            /* put special logic of subclasses in here
+            *  register custom settings here
+            */        
         }
 
         buildContent(){
-            /* put special logic of subclasses in here */      
+            /* put special logic of subclasses in here
+            *  called when the content html is build (only on instantiation)
+            */      
         }
 
         refreshContent(){
-            /* put special logic of subclasses in here */    
+            /* put special logic of subclasses in here
+            *  called everytime a setting changed
+            */    
+        }
+
+        buildLuaCode(){
+            /* returns the lua script code for this element
+            *
+            *  Structure:
+            *  {
+            *    init: 'code put on the beginning of the script',
+            *    onTick: 'code put inside the onTick function',
+            *    onDraw: 'code put inside the onDraw function',
+            *    lib: 'code put at the end of the script (e.g. helper functions)'
+            *  }
+            */
+            return {
+                init: '',
+                onTick: '',
+                onDraw: 'screen.setColor(' + makeColorCorrectedRGBString(this.settings.border.value) + ')\n'
+                    + 'screen.drawRectF(' + this.x + ',' + this.y + ',' + this.width + ',' + this.height + ')\n'
+                    + 'screen.setColor(' + makeColorCorrectedRGBString(this.settings.background.value) + ')\n'
+                    + 'screen.drawRectF(' + (this.x + this.settings.borderWidth.value) + ',' + (this.y + this.settings.borderWidth.value) + ',' + (this.width - 2 * this.settings.borderWidth.value) + ',' + (this.height - 2 * this.settings.borderWidth.value) + ')',
+                lib: ''
+            }
         }
 
         buildDom(){
@@ -204,6 +237,7 @@ var UI_BUILDER = ((global, $)=>{
                 switch(s.type){
                     case 'color': {
                         value = makeValidHexOrEmpty(s.value)
+                        s.value = value
                     }; break;
                     case 'checkbox': {
                         value = s.value ? '" checked="checked' : ''
@@ -214,7 +248,16 @@ var UI_BUILDER = ((global, $)=>{
                 }
                 let set = $('<div class="setting"><span class="name">' + k + '</span><input type="' + s.type + '" value="' + value + '"/></div>')
                 set.on('change input', ()=>{
-                    s.value = set.find('input').val()
+                    let val = set.find('input').val()
+                    if(s.type === 'number'){
+                        let parsed = parseInt(val)
+                        if(isNaN(parsed)){
+                            parsed = parseFloat(val)
+                        }
+                        s.value = isNaN(parsed) ? val : parsed
+                    } else {
+                        s.value = val
+                    }
                     that.refresh()
                 })
 
@@ -400,7 +443,7 @@ var UI_BUILDER = ((global, $)=>{
             let additionalSettings = {
                 color: {
                     type: 'color',
-                    value: '000'
+                    value: '#000'
                 },
                 text: {
                     type: 'text',
@@ -423,6 +466,18 @@ var UI_BUILDER = ((global, $)=>{
 
             this.content.css('cssText', 'display: flex; flex-direction: column; justify-content: center; align-items: center;')
         }
+
+        buildLuaCode(){
+            let superRet = super.buildLuaCode()
+            return {
+                init: superRet.init,
+                onDraw: superRet.onDraw + '\n'
+                    + 'screen.setColor(' + makeColorCorrectedRGBString(this.settings.color.value) + ')\n'
+                    + 'screen.drawTextBox(' + this.x + ', ' + this.y + ', ' + this.width + ', ' + this.height + ', "' + this.settings.text.value + '", 0, 0)',
+                onTick: superRet.onTick,
+                lib: superRet.lib
+            }
+        }
     }
 
     class Button extends Element {
@@ -431,23 +486,23 @@ var UI_BUILDER = ((global, $)=>{
             let additionalSettings = {
                 background: {
                     type: 'color',
-                    value: '000'
+                    value: '#000'
                 },
                 backgroundOn: {
                     type: 'color',
-                    value: 'fff'
+                    value: '#fff'
                 },
                 borderOn: {
                     type: 'color',
-                    value: 'aaa'
+                    value: '#aaa'
                 },
                 color: {
                     type: 'color',
-                    value: 'fff'
+                    value: '#fff'
                 },
                 colorOn: {
                     type: 'color',
-                    value: '000'
+                    value: '#000'
                 },
                 text: {
                     type: 'text',
@@ -460,6 +515,10 @@ var UI_BUILDER = ((global, $)=>{
                 isToggle: {
                     type: 'checkbox',
                     value: false
+                },
+                channel: {
+                    type: 'number',
+                    value: 1
                 }
             }
             Object.assign(this.settings, additionalSettings)
@@ -477,6 +536,18 @@ var UI_BUILDER = ((global, $)=>{
                 .html(this.settings.text.value)
             this.content.css('cssText', 'display: flex; flex-direction: column; justify-content: center; align-items: center;')
         }
+
+        buildLuaCode(){
+            let superRet = super.buildLuaCode()
+            return {
+                init: superRet.init + '\n' + this.id + 'Toggled = false',
+                onDraw: superRet.onDraw + 'text="' + this.settings.text.value + '"\n'
+                    + 'if ' + this.id + 'Toggled then text="' + this.settings.textOn.value + '" end\n'
+                    + 'screen.drawTextBox(' + this.x + ', ' + this.y + ', ' + this.width + ', ' + this.height + ', "' + this.settings.text.value + '", 0, 0)',
+                onTick: superRet.onTick + '\n' + 'output.setBool(' + this.settings.channel.value + ', ' + this.id + 'Toggled)',
+                lib: superRet.lib
+            }
+        }
     }
 
     const ELEMENTS = [{
@@ -491,6 +562,32 @@ var UI_BUILDER = ((global, $)=>{
     }]
 
 
+    function generateLuaCode(){
+        const fields = ['init', 'onTick', 'onDraw', 'lib']
+        let code = {}
+        for(let i of fields){
+            code[i] = ''
+        }
+
+        for(let e of allElements){
+            let c = e.buildLuaCode()
+            for(let i of fields){
+                if(typeof c[i] === 'string'){
+                    code[i] += '\n\n' + c[i]
+                }
+            }
+        }
+
+        let allCode = code.init
+            + '\nfunction onTick()\n' + code.onTick + '\nend\n'
+            + '\nfunction onDraw()\n' + code.onDraw + '\nend\n'
+            + '\n' + code.lib
+
+        allCode = allCode.replace(/[\n]{3,}/g, '\n\n')
+
+        $('#ui-builder-code').show()
+        uiBuilderEditor.setValue(allCode)
+    }
 
     /* helpers */
 
@@ -523,6 +620,18 @@ var UI_BUILDER = ((global, $)=>{
         }
 
         return int
+    }
+
+    function makeColorCorrectedRGBString(hex){
+        let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
+        result = result ? {
+            r: Math.floor(parseInt(result[1], 16) * 0.38),
+            g: Math.floor(parseInt(result[2], 16) * 0.38),
+            b: Math.floor(parseInt(result[3], 16) * 0.38)
+          } : '';
+
+
+        return result.r + ',' + result.g + ',' + result.b
     }
 
     const HEX_CHARS = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f']
@@ -590,7 +699,6 @@ var UI_BUILDER = ((global, $)=>{
         allElements[originalZindex - 1 + 1].zindex = originalZindex
         resortAllElements()
     }
-
 
     return {
         Element: Element,

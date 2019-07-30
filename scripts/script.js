@@ -272,6 +272,10 @@ var YYY = ((global, $)=>{
             minifiedEditor.resize()
         })
 
+        $('#ui-builder-code').resizable().on('resize', ()=>{
+            uiBuilderEditor.resize()
+        })
+
         /* help badge */
         let firstHelpOpen = true
         let scrollPosition = 0

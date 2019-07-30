@@ -216,7 +216,9 @@ end
 
     <div id="ui-builder">
         <h2>UI Builder</h2>
+        <button id="generate-ui-builder-lua-code">Generate Lua Code</button>
         <div id="ui-builder-container"></div>
+        <div id="ui-builder-code" style="display: none;"></div>
     </div>
     
     <div class="information_container">
@@ -273,6 +275,11 @@ end
         minifiedEditor.setTheme("ace/theme/monokai");
         minifiedEditor.session.setMode("ace/mode/lua");
         minifiedEditor.session.setUseSoftTabs(false); 
+
+        var uiBuilderEditor = ace.edit("ui-builder-code");
+        uiBuilderEditor.setTheme("ace/theme/monokai");
+        uiBuilderEditor.session.setMode("ace/mode/lua");
+        uiBuilderEditor.session.setUseSoftTabs(false); 
     </script>
 
     <div id="help" style="display: none;">
