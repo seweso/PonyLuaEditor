@@ -210,7 +210,6 @@ var UI_BUILDER = ((global, $)=>{
         }
 
         activateDrag(evt){
-            let offset = $('#ui-builder-container').find('.canvas_container').offset()
             this.offX = window.scrollX + evt.clientX - this.x
             this.offY = window.scrollY + evt.clientY - this.y
 
@@ -236,8 +235,6 @@ var UI_BUILDER = ((global, $)=>{
         }
 
         activateResize(evt){
-            console.log('activate resize')
-            let offset = $('#ui-builder-container').find('.canvas_container').offset()
             this.offX = (window.scrollX + evt.clientX) - this.width
             this.offY = (window.scrollY + evt.clientY) - this.height
 
@@ -252,7 +249,6 @@ var UI_BUILDER = ((global, $)=>{
         resize(evt){
             this.width = (window.scrollX + evt.clientX) - this.offX
             this.height = (window.scrollY + evt.clientY) - this.offY
-            console.log(this.width, this.height)
 
             this.refreshPosition()
         }
@@ -269,7 +265,6 @@ var UI_BUILDER = ((global, $)=>{
         }
 
         refreshPosition(){
-            //console.log(this.x, this.y)
             /* x */
             if(this.x < 0){
                 this.x = 0
