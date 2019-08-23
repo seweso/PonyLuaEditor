@@ -46,7 +46,22 @@ var EXAMPLES = ((global, $)=>{
             title: 'Functions',
             contents: [{
                 type: 'text',
-                content: 'Coming soon.'
+                content: 'Functions are small programs inside your main program. They are usefull when you do similar things multiple times. Functions can return a value but they do not have to.'
+            },{
+                type: 'code',
+                content: 'varA = 5 .. "% battery"\nvarB = 10 .. "% battery"'
+            },{
+                type: 'text',
+                content: 'This can be replaced with a function (in this case we do not save characters, but our code is easier to maintain which i will explain below)'
+            },{
+                type: 'code',
+                content: 'varA = makeBatteryString(5)\nvarB = makeBatteryString(10)\n\nfunction makeBatteryString(percent)\n	return value .."% battery"\nend'
+            },{
+                type: 'text',
+                content: 'When you now want to change the string "battery" to "Bat." there is only one place where you have to change the code.\n\nIn this example our code got quite big, but in most cases, using functions will make your code shorter (see example bellow).'
+            },{
+                type: 'code',
+                content: '-- long and ugly:\nscreen.setColor(1,1,1)\nscreen.drawRect(1,2,3,4)\nscreen.setColor(2,2,2)\nscreen.drawRect(5,6,7,8)\nscreen.setColor(3,3,3)\nscreen.drawRect(9,10,11,12)\nscreen.setColor(4,4,4)\nscreen.drawRect(13,14,15,16)\n\n\n-- shorter and beautifull:\nsC(1,1,1)\nsR(1,2,3,4)\nsC(2,2,2)\nsR(5,6,7,8)\nsC(3,3,3)\nsR(9,10,11,12)sC(4,4,4)\nsR(13,14,15,16)\nfunction sC(r,g,b)\n	screen.setColor(r,g,b)\nend\n\nfunction sR(x,y,w,h)\n	screen.drawRect(x,y,w,h)\nend'
             }]
         }]
     },{
@@ -55,19 +70,49 @@ var EXAMPLES = ((global, $)=>{
             title: 'onTick / onDraw',
             contents: [{
                 type: 'text',
-                content: 'Coming soon...'
+                content: 'The onTick() <keyword>function</keyword> will be called everytime the games physics engine does a calculation. The calculation includes forces, electricity, movement and also logic states.\nUsually the function is being called 60 times a second. Everything that interacts with other logic components (input, output, property) must be calculated within this function! When the game pauses this function will not be called.'
+            },{
+                type: 'text',
+                content: 'The onDraw() <keyword>function</keyword> is slightly different. It will also be called 60 times per second or less (that is your FPS). Everything related to "draw on screen" must be done inside this function. This function will still be called while the game is paused!'
             }]
         },{
             title: 'input, output, property',
             contents: [{
                 type: 'text',
-                content: 'Coming soon...'
+                content: 'The <obj>input</obj> object offers methods to read values from the composite connected to the lua script component.'
+            },{
+                type: 'code',
+                content: '-- get number on composite channel 5\ninputChannel5 = input.getNumber(5)\n\n-- get boolean on composite channel 10\ninputChannel10 = input.getBool(10)'
+            },{
+                type: 'text',
+                content: 'The <obj>output</obj> object offers methods to write values to the composite connected to the lua script component.'
+            },{
+                type: 'code',
+                content: '-- set number on composite channel 5\nvalue = 42\noutput.setNumber(5, value)\n\n-- set boolean on composite channel 10\nvalue = true\noutput.setBool(10, value)'
+            },{
+                type: 'text',
+                content: 'The <obj>property</obj> object offers methods to read values from property components that are in the same microcontroller.'
+            },{
+                type: 'code',
+                content: '-- get number of a number property called "blubb"\npropertyText = property.getText("blubb")'
             }]
         },{
             title: 'Draw stuff onto the screen',
             contents: [{
                 type: 'text',
-                content: 'Coming soon...'
+                content: 'Drawing stuff onto the screen is done by calling methods of the <obj>screen</obj> object.\nBefore you draw you set the color of your "drawing tool".\nShapes will be drawn above each other (last one drawed is on top).\nExamples:\n'
+            },{
+                type: 'code',
+                content: '-- draw a red circle (not filled)\n\n-- set paint color to red\n-- screen.setColor(r, g, b)\nscreen.setColor(255,0,0)\n\n-- screen.drawCircle(x, y, radius)\nscreen.drawCircle(20,15, 4)'
+            },{
+                type: 'code',
+                content: '-- draw a green Triangle (filled)\n\n-- set paint color to green\n-- screen.setColor(r, g, b)\nscreen.setColor(0,255,0)\n\n-- screen.drawTriangleF(x1, y1, x2, y2, x3, y3)\nscreen.drawTriangleF(3,4,15,10,3,20)'
+            },{
+                type: 'text',
+                content: 'The map is a special case. Instead of drawing a single shape onto the screen, it will paint a map of the world onto the whole screen.\nIf you want to draw shapes on top of the map, draw them after you draw the map.\nThe colors of the map can be adjust by calling one of the screen.setMapColorXXX() functions.'
+            },{
+                type: 'code',
+                content: '--screen.drawMap(gpsX, gpsY, zoom)\n-- zoom ranges from 0.1 to 50\nscreen.drawMap(4000,1234,1)'
             }]
         },{
             title: 'Touchscreen',
@@ -91,7 +136,16 @@ var EXAMPLES = ((global, $)=>{
             title: 'Trigonometry (2D and 3D calculations)',
             contents: [{
                 type: 'text',
-                content: 'Coming soon...'
+                content: 'The most important thing is the rotation of a point around another point:'
+            },{
+            	type: 'code',
+            	content: '-- cx => x of rotation center\n-- cy => y of rotation center\n-- angle => the angle of rotation in radians (2pi = 360degree)\n-- x => x of point to rotate\n-- y => y of point to rotate\n\nfunction rotatePoint(cx, cy, angle, px, py)\n	s = math.sin(angle);\n	c = math.cos(angle);\n\n	--translate point back to origin:\n	px = px - cx;\n	py = py - cy;\n\n	-- rotate point\n	xnew = px * c - py * s;\n	ynew = px * s + py * c;\n\n	-- translate point back:\n	px = xnew + cx;\n	py = ynew + cy;\n	return {x=px, y=py}\nend'
+            },{
+                type: 'text',
+                content: 'Example usage: continuisly rotate a circle around the center of the screen.'
+            },{
+            	type: 'code',
+            	content: 'angle = 0\nfunction onDraw()\n	angle = angle + 0.05\n	if angle > math.pi*2 then\n		angle = 0\n	end\n	p = rotatePoint(screen.getWidth()/2, screen.getHeight()/2, angle, screen.getWidth()/2, screen.getHeight()/4)\n	screen.setColor(255,0,100)\n	screen.drawCircle(p.x, p.y, 5)\nend\n\nfunction rotatePoint(cx, cy, angle, px, py)\n	s = math.sin(angle);\n	c = math.cos(angle);\n\n	--translate point back to origin:\n	px = px - cx;\n	py = py - cy;\n\n	-- rotate point\n	xnew = px * c - py * s;\n	ynew = px * s + py * c;\n\n	-- translate point back:\n	px = xnew + cx;\n	py = ynew + cy;\n	return {x=px, y=py}\nend'
             }]
         },{
             title: 'Randomness',
@@ -110,6 +164,15 @@ var EXAMPLES = ((global, $)=>{
             },{
                 type: 'text',
                 content: 'Experiment with more then two possible random numbers by changing "max", BUT DONT GO OVER 5!'
+            }]
+        },{
+            title: 'Information for Multiplayer',
+            contents: [{
+                type: 'text',
+                content: 'The problem when using scripts in multiplayer games: the scripts do run on every client.\nThat means players can have different behaviour.'
+            },{
+                type: 'text',
+                content: 'Since the in and outputs of logic components are still synchronized and calculated on the server, some parts of your vehicle may be totally in sync (e.g. the length of a winch) but your screens may look different.\nThis is also the case for camera signals shown on monitors.'
             }]
         }]
     },{
