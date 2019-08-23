@@ -2,8 +2,8 @@ var PAINT = ((c)=>{
 
     const DO_LOG = false
 
-    const FONT_SIZE = 6
-    const FONT = 'px "Lucida Console", Monaco, monospace'
+    const FONT_SIZE = 5
+    const FONT = 'px "Screen Mono", "Lucida Console", Monaco, monospace'
 
     const LINE_WIDTH = 1
 
