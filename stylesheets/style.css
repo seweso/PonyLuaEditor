@@ -1,3 +1,7 @@
+:root {
+    --background-orange-gradient: linear-gradient(10deg, #bf5421 0%, #cb764d 100%);
+}
+
 
 @font-face {
     font-family: "Screen Mono";
@@ -185,14 +189,14 @@ a:hover {
 }
 
 #monitor-sizes {
-    background: linear-gradient(10deg, #bf5421 0%, #cb764d 100%);
+    background: var(--background-orange-gradient);
     border-radius: 3px;
     padding: 5px;
     margin-top: 10px;
 }
 
 .zoomfactor {
-    background: linear-gradient(10deg, #bf5421 0%, #cb764d 100%);
+    background: var(--background-orange-gradient);
     border-radius: 3px;
     padding: 5px;
     margin-top: 10px;
@@ -659,7 +663,7 @@ a:hover {
     display: flex;
     flex-direction: row;
     padding: 5px;
-    background: linear-gradient(10deg, #bf5421 0%, #cb764d 100%);
+    background: var(--background-orange-gradient);
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
 }

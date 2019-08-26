@@ -26,6 +26,7 @@
     <link rel="stylesheet" type="text/css" href="stylesheets/style.css">
     <link rel="stylesheet" type="text/css" href="stylesheets/iconfont.css">
     <link rel="stylesheet" type="text/css" href="stylesheets/jquery_ui.css">
+    <link rel="stylesheet" type="text/css" href="stylesheets/incognito.css">
 
     <script type="text/javascript" src="scripts/jquery.js"></script>
     <script type="text/javascript" src="scripts/jquery_ui.js"></script>
@@ -43,9 +44,20 @@
     <script type="text/javascript" src="scripts/editor_autocompletition.js"></script>
     <script type="text/javascript" src="scripts/luaparse.js"></script>
     <script type="text/javascript" src="scripts/luamin.js"></script>
-    <script type="text/javascript" src="scripts/examples.js"></script>  
+    <script type="text/javascript" src="scripts/examples.js"></script>
 </head>
 <body>
+    <script type="text/javascript">
+        if(new URLSearchParams(window.location.search).has("incognito")){
+            /*let link = document.createElement('link', )
+            link.setAttribute('rel', 'stylesheet')
+            link.setAttribute('type', 'text/css')
+            link.setAttribute('href', 'stylesheets/incognito.css')
+            document.head.appendChild(link)*/
+            document.body.className += " incognito "
+        }
+    </script> 
+
   <div class="background"></div>
   <div class="content">
       <div id="mobile-menu">
