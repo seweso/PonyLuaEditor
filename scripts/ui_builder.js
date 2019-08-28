@@ -225,7 +225,7 @@ var UI_BUILDER = ((global, $)=>{
                 onDraw += luaBuildSetColor(this.settings.border.value) + '\n'
                 + 'screen.drawRectF(' + this.x + ',' + this.y + ',' + this.width + ',' + this.height + ')\n'
             }
-            if(this.settings.background){
+            if(this.settings.background && this.settings.borderWidth){
                 onDraw += luaBuildSetColor(this.settings.background.value) + '\n'
                 + 'screen.drawRectF(' + (this.x + this.settings.borderWidth.value) + ',' + (this.y + this.settings.borderWidth.value) + ',' + (this.width - 2 * this.settings.borderWidth.value) + ',' + (this.height - 2 * this.settings.borderWidth.value) + ')'
             }
@@ -336,7 +336,6 @@ var UI_BUILDER = ((global, $)=>{
         drag(evt){
             this.x = uiUnzoom((window.scrollX + evt.clientX) - this.offX)
             this.y = uiUnzoom((window.scrollY + evt.clientY) - this.offY)
-            console.log(this)
             this.refreshPosition()
         }
 
@@ -420,15 +419,17 @@ var UI_BUILDER = ((global, $)=>{
 
         refresh(){
             try {
-                this.dom.css({
-                    background: makeValidHexOrEmpty(this.settings.background.value),
-                    'border-style': 'solid',
-                    'border-color': makeValidHexOrEmpty(this.settings.border.value),
-                    'border-width': makeValidPixelOrZero(this.settings.borderWidth.value)
-                })            
+                if(this.settings.background && this.settings.borderWidth){
+                    this.dom.css({
+                        background: makeValidHexOrEmpty(this.settings.background.value),
+                        'border-style': 'solid',
+                        'border-color': makeValidHexOrEmpty(this.settings.border.value),
+                        'border-width': makeValidPixelOrZero(this.settings.borderWidth.value)
+                    })
+                }
                 this.layerListEntry.find('.background').css('background', makeValidHexOrEmpty(this.settings.background.value))
             } catch (ex){
-                console.error('catched error while Element.refresh():', this, ex)
+                console.warn('catched error while Element.refresh():', this, ex)
             }
 
             this.refreshPosition()
@@ -469,7 +470,7 @@ var UI_BUILDER = ((global, $)=>{
 
         beforeBuild(){
             this.settings = {
-                color: {
+                background: {
                     type: 'color',
                     value: createRandomColor()
                 },
@@ -482,14 +483,19 @@ var UI_BUILDER = ((global, $)=>{
 
         buildContent(){
             if(this.settings.reverse.value){
-                return '<svg viewBox="0 0 ' + uiZoom(this.width) + ' ' + uiZoom(this.height) + '"><polyline points="0,' + uiZoom(this.height) + ' ' + uiZoom(this.width) + ',0" stroke="' + makeValidHexOrEmpty(this.settings.color.value) + '"></polyline></svg>'
+                return '<svg viewBox="0 0 ' + uiZoom(this.width) + ' ' + uiZoom(this.height) + '"><polyline points="0,' + uiZoom(this.height) + ' ' + uiZoom(this.width) + ',0" stroke="' + makeValidHexOrEmpty(this.settings.background.value) + '"></polyline></svg>'
             } else {
-                return '<svg viewBox="0 0 ' + uiZoom(this.width) + ' ' + uiZoom(this.height) + '"><polyline points="0,0 ' + uiZoom(this.width) + ',' + uiZoom(this.height) + '" stroke="' + makeValidHexOrEmpty(this.settings.color.value) + '"></polyline></svg>'
+                return '<svg viewBox="0 0 ' + uiZoom(this.width) + ' ' + uiZoom(this.height) + '"><polyline points="0,0 ' + uiZoom(this.width) + ',' + uiZoom(this.height) + '" stroke="' + makeValidHexOrEmpty(this.settings.background.value) + '"></polyline></svg>'
             }
         }
 
         refreshContent(){
             this.content.html(this.buildContent())
+        }
+
+        refreshPosition(){
+            super.refreshPosition()
+            this.refreshContent()
         }
 
         buildLuaCode(){
@@ -499,7 +505,7 @@ var UI_BUILDER = ((global, $)=>{
                 return {
                     init: superRet.init,
                     onDraw: superRet.onDraw + '\n'
-                        + luaBuildSetColor(this.settings.color.value) + '\n'
+                        + luaBuildSetColor(this.settings.background.value) + '\n'
                         + 'screen.drawLine(' + this.x + ', ' + (this.y + this.height) + ', ' + (this.x + this.width) + ', ' + this.y + ')',
                     onTick: superRet.onTick,
                     lib: superRet.lib
@@ -508,7 +514,7 @@ var UI_BUILDER = ((global, $)=>{
                 return {
                     init: superRet.init,
                     onDraw: superRet.onDraw + '\n'
-                        + luaBuildSetColor(this.settings.color.value) + '\n'
+                        + luaBuildSetColor(this.settings.background.value) + '\n'
                         + 'screen.drawLine(' + this.x + ', ' + this.y + ', ' + (this.x + this.width) + ', ' + (this.y + this.height) + ')',
                     onTick: superRet.onTick,
                     lib: superRet.lib
@@ -822,7 +828,10 @@ var UI_BUILDER = ((global, $)=>{
 
     return {
         Element: Element,
-        Label: Label
+        Label: Label,
+        allElements: ()=>{
+            return allElements
+        }
     }
 
 })(window, jQuery)
