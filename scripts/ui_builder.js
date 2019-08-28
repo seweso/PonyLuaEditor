@@ -33,7 +33,7 @@ var UI_BUILDER = ((global, $)=>{
         gcontainer = container
         container.append('<div class="element_list"></div>')
 
-        canvas_container = $('<div class="canvas_container"></div>')
+        canvas_container = $('<div class="canvas_container" mode="move"></div>')
         container.append(canvas_container)
 
 
@@ -57,27 +57,27 @@ var UI_BUILDER = ((global, $)=>{
 
         container.find('.controls .control.move').on('click', ()=>{
             deactivateAllElements()
-            container.find('.controls').attr('mode', MODE_MOVE)
+            container.find('.controls, .canvas_container').attr('mode', MODE_MOVE)
             MODE = MODE_MOVE
         })
         container.find('.controls .control.resize').on('click', ()=>{
             deactivateAllElements()
-            container.find('.controls').attr('mode', MODE_RESIZE)
+            container.find('.controls, .canvas_container').attr('mode', MODE_RESIZE)
             MODE = MODE_RESIZE
         })
         container.find('.controls .control.settings').on('click', ()=>{
             deactivateAllElements()
-            container.find('.controls').attr('mode', MODE_SETTINGS)
+            container.find('.controls, .canvas_container').attr('mode', MODE_SETTINGS)
             MODE = MODE_SETTINGS
         })
         container.find('.controls .control.delete').on('click', ()=>{
             deactivateAllElements()
-            container.find('.controls').attr('mode', MODE_DELETE)
+            container.find('.controls, .canvas_container').attr('mode', MODE_DELETE)
             MODE = MODE_DELETE
         })
         container.find('.controls .control.zindex').on('click', ()=>{
             deactivateAllElements()
-            container.find('.controls').attr('mode', MODE_ZINDEX)
+            container.find('.controls, .canvas_container').attr('mode', MODE_ZINDEX)
             MODE = MODE_ZINDEX
         })
 
@@ -236,6 +236,13 @@ var UI_BUILDER = ((global, $)=>{
 
             let elem = $('<div class="element ' + this.constructor.name.toLowerCase() + '"></div>')
             elem.css('font-size', uiZoom(6) + 'px')
+
+            elem.on('mouseenter', ()=>{
+                elem.addClass('delete_overlay')
+            })
+            elem.on('mouseleave', ()=>{
+                elem.removeClass('delete_overlay')
+            })
 
             this.content = $('<div class="content"></div>')
             this.content.append(this.buildContent())
