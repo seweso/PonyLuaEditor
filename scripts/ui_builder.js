@@ -274,6 +274,8 @@ var UI_BUILDER = ((global, $)=>{
                             parsed = parseFloat(val)
                         }
                         s.value = isNaN(parsed) ? val : parsed
+                    } else if(s.type === 'checkbox'){
+                        s.value = set.find('input').prop('checked') === true
                     } else {
                         s.value = val
                     }
@@ -555,23 +557,42 @@ var UI_BUILDER = ((global, $)=>{
 
         buildLuaCode(){
             let superRet = super.buildLuaCode()
-            return {
-                init: superRet.init + '\n' + this.id + 'Toggled = false',
-                onDraw: superRet.onDraw + 'text="' + this.settings.text.value + '"\n'
-                    + 'if ' + this.id + 'Toggled then\ntext="' + this.settings.textOn.value + '"\nend\n'
-                    + 'if ' + this.id + 'Toggled then\n' + luaBuildSetColor(this.settings.colorOn.value) + '\n'
-                    + 'else\n' + luaBuildSetColor(this.settings.color.value) + '\nend\n'
-                    + 'screen.drawTextBox(' + this.x + ', ' + this.y + ', ' + this.width + ', ' + this.height + ', "' + this.settings.text.value + '", 0, 0)',
-                onTick: superRet.onTick + '\n'
-                    + 'if isP1 and in1X >= ' + this.x + ' and in1X <= ' + (this.x + this.width) + ' and in1Y >= ' + this.y + ' and in1Y <= ' + (this.y + this.height) + ' then\n'
-                    + this.id + 'Toggled=true\n'
-                    + 'elseif isP2 and in2X >= ' + this.x + ' and in2X <= ' + (this.x + this.width) + ' and in2Y >= ' + this.y + ' and in2Y <= ' + (this.y + this.height) + ' then\n'
-                    + this.id + 'Toggled=true\n'
-                    + 'else\n'
-                    + this.id + 'Toggled=false\n'
-                    + 'end\n'
-                    + 'output.setBool(' + this.settings.channel.value + ', ' + this.id + 'Toggled)',
-                lib: superRet.lib
+            if(this.settings.isToggle.value){
+                return {
+                    init: superRet.init + '\n' + this.id + 'Toggled = false\n' + this.id + 'ToggledP = false\n',
+                    onDraw: superRet.onDraw + 'text="' + this.settings.text.value + '"\n'
+                        + 'if ' + this.id + 'Toggled then\ntext="' + this.settings.textOn.value + '"\nend\n'
+                        + 'if ' + this.id + 'Toggled then\n' + luaBuildSetColor(this.settings.colorOn.value) + '\n'
+                        + 'else\n' + luaBuildSetColor(this.settings.color.value) + '\nend\n'
+                        + 'screen.drawTextBox(' + this.x + ', ' + this.y + ', ' + this.width + ', ' + this.height + ', "' + this.settings.text.value + '", 0, 0)',
+                    onTick: superRet.onTick + '\n'
+                        + 'if (isP1 and in1X >= ' + this.x + ' and in1X <= ' + (this.x + this.width) + ' and in1Y >= ' + this.y + ' and in1Y <= ' + (this.y + this.height) + ') or (isP2 and in2X >= ' + this.x + ' and in2X <= ' + (this.x + this.width) + ' and in2Y >= ' + this.y + ' and in2Y <= ' + (this.y + this.height) + ') then\n'
+                        + this.id + 'ToggledP=true\n'
+                        + 'end\n'
+                        + 'if not (isP1 or isP2) and ' + this.id + 'ToggledP then\n'
+                        + this.id + 'ToggledP = false\n'
+                        + this.id + 'Toggled = not ' + this.id + 'Toggled\n'
+                        + 'end\n'
+                        + 'output.setBool(' + this.settings.channel.value + ', ' + this.id + 'Toggled)',
+                    lib: superRet.lib
+                }
+            } else {
+                return {
+                    init: superRet.init + '\n' + this.id + 'Toggled = false\n',
+                    onDraw: superRet.onDraw + 'text="' + this.settings.text.value + '"\n'
+                        + 'if ' + this.id + 'Toggled then\ntext="' + this.settings.textOn.value + '"\nend\n'
+                        + 'if ' + this.id + 'Toggled then\n' + luaBuildSetColor(this.settings.colorOn.value) + '\n'
+                        + 'else\n' + luaBuildSetColor(this.settings.color.value) + '\nend\n'
+                        + 'screen.drawTextBox(' + this.x + ', ' + this.y + ', ' + this.width + ', ' + this.height + ', "' + this.settings.text.value + '", 0, 0)',
+                    onTick: superRet.onTick + '\n'
+                        + 'if (isP1 and in1X >= ' + this.x + ' and in1X <= ' + (this.x + this.width) + ' and in1Y >= ' + this.y + ' and in1Y <= ' + (this.y + this.height) + ') or (isP2 and in2X >= ' + this.x + ' and in2X <= ' + (this.x + this.width) + ' and in2Y >= ' + this.y + ' and in2Y <= ' + (this.y + this.height) + ') then\n'
+                        + this.id + 'Toggled=true\n'
+                        + 'else\n'
+                        + this.id + 'Toggled=false\n'
+                        + 'end\n'
+                        + 'output.setBool(' + this.settings.channel.value + ', ' + this.id + 'Toggled)',
+                    lib: superRet.lib
+                }
             }
         }
     }
