@@ -40,12 +40,14 @@ var UI_BUILDER = ((global, $)=>{
         $('#monitor-size').on('change', ()=>{
             recalculateSize()
         })
-        recalculateSize()
 
         $('#ui-builder-zoom').on('change', ()=>{
             recalculateSize()
             $('[for="ui-builder-zoom"] span').html($('#ui-builder-zoom').val() + 'x')
         })
+        
+        recalculateSize()
+        $('[for="ui-builder-zoom"] span').html($('#ui-builder-zoom').val() + 'x')
 
 
         container.append('<div class="controls" mode="move"></div>')

@@ -1394,7 +1394,7 @@ a:hover {
 #ui-builder-container .canvas_container .element {
     position: absolute;
     cursor: pointer;
-    font: 12px "Lucida Console", Monaco, monospace;
+    font: 12px "Screen Mono", "Lucida Console", Monaco, monospace;
 }
 
 #ui-builder-container .canvas_container .element.highlight {
