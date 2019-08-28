@@ -2,8 +2,8 @@ var PAINT = ((c)=>{
 
     const DO_LOG = false
 
-    const FONT_SIZE = 6
-    const FONT = 'px "Lucida Console", Monaco, monospace'
+    const FONT_SIZE = 5
+    const FONT = 'px "Screen Mono", "Lucida Console", Monaco, monospace'
 
     const LINE_WIDTH = 1
 
@@ -85,12 +85,16 @@ var PAINT = ((c)=>{
     }
 
     function drawText(x, y, text){//4px wide 5 px tall
+        text = text.toUpperCase()
         log()
+
         c.ctx().font = zoom(FONT_SIZE) + FONT
         c.ctx().fillText(text, c.left() + zoom(x), c.top() + zoom(y) + zoom(FONT_SIZE))
     }
 
     function drawTextBox(x, y, w, h, text, h_align, v_align){
+        text = text.toUpperCase()
+
         log()
 
         let maxCharsPerLine = Math.floor(w / 4)

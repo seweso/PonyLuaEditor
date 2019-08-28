@@ -46,7 +46,22 @@ var EXAMPLES = ((global, $)=>{
             title: 'Functions',
             contents: [{
                 type: 'text',
-                content: 'Coming soon.'
+                content: 'Functions are small programs inside your main program. They are usefull when you do similar things multiple times. Functions can return a value but they do not have to.'
+            },{
+                type: 'code',
+                content: 'varA = 5 .. "% battery"\nvarB = 10 .. "% battery"'
+            },{
+                type: 'text',
+                content: 'This can be replaced with a function (in this case we do not save characters, but our code is easier to maintain which i will explain below)'
+            },{
+                type: 'code',
+                content: 'varA = makeBatteryString(5)\nvarB = makeBatteryString(10)\n\nfunction makeBatteryString(percent)\n	return value .."% battery"\nend'
+            },{
+                type: 'text',
+                content: 'When you now want to change the string "battery" to "Bat." there is only one place where you have to change the code.\n\nIn this example our code got quite big, but in most cases, using functions will make your code shorter (see example bellow).'
+            },{
+                type: 'code',
+                content: '-- long and ugly:\nscreen.setColor(1,1,1)\nscreen.drawRect(1,2,3,4)\nscreen.setColor(2,2,2)\nscreen.drawRect(5,6,7,8)\nscreen.setColor(3,3,3)\nscreen.drawRect(9,10,11,12)\nscreen.setColor(4,4,4)\nscreen.drawRect(13,14,15,16)\n\n\n-- shorter and beautifull:\nsC(1,1,1)\nsR(1,2,3,4)\nsC(2,2,2)\nsR(5,6,7,8)\nsC(3,3,3)\nsR(9,10,11,12)sC(4,4,4)\nsR(13,14,15,16)\nfunction sC(r,g,b)\n	screen.setColor(r,g,b)\nend\n\nfunction sR(x,y,w,h)\n	screen.drawRect(x,y,w,h)\nend'
             }]
         }]
     },{
@@ -55,19 +70,49 @@ var EXAMPLES = ((global, $)=>{
             title: 'onTick / onDraw',
             contents: [{
                 type: 'text',
-                content: 'Coming soon...'
+                content: 'The onTick() <keyword>function</keyword> will be called everytime the games physics engine does a calculation. The calculation includes forces, electricity, movement and also logic states.\nUsually the function is being called 60 times a second. Everything that interacts with other logic components (input, output, property) must be calculated within this function! When the game pauses this function will not be called.'
+            },{
+                type: 'text',
+                content: 'The onDraw() <keyword>function</keyword> is slightly different. It will also be called 60 times per second or less (that is your FPS). Everything related to "draw on screen" must be done inside this function. This function will still be called while the game is paused!'
             }]
         },{
             title: 'input, output, property',
             contents: [{
                 type: 'text',
-                content: 'Coming soon...'
+                content: 'The <obj>input</obj> object offers methods to read values from the composite connected to the lua script component.'
+            },{
+                type: 'code',
+                content: '-- get number on composite channel 5\ninputChannel5 = input.getNumber(5)\n\n-- get boolean on composite channel 10\ninputChannel10 = input.getBool(10)'
+            },{
+                type: 'text',
+                content: 'The <obj>output</obj> object offers methods to write values to the composite connected to the lua script component.'
+            },{
+                type: 'code',
+                content: '-- set number on composite channel 5\nvalue = 42\noutput.setNumber(5, value)\n\n-- set boolean on composite channel 10\nvalue = true\noutput.setBool(10, value)'
+            },{
+                type: 'text',
+                content: 'The <obj>property</obj> object offers methods to read values from property components that are in the same microcontroller.'
+            },{
+                type: 'code',
+                content: '-- get number of a number property called "blubb"\npropertyText = property.getText("blubb")'
             }]
         },{
             title: 'Draw stuff onto the screen',
             contents: [{
                 type: 'text',
-                content: 'Coming soon...'
+                content: 'Drawing stuff onto the screen is done by calling methods of the <obj>screen</obj> object.\nBefore you draw you set the color of your "drawing tool".\nShapes will be drawn above each other (last one drawed is on top).\nExamples:\n'
+            },{
+                type: 'code',
+                content: '-- draw a red circle (not filled)\n\n-- set paint color to red\n-- screen.setColor(r, g, b)\nscreen.setColor(255,0,0)\n\n-- screen.drawCircle(x, y, radius)\nscreen.drawCircle(20,15, 4)'
+            },{
+                type: 'code',
+                content: '-- draw a green Triangle (filled)\n\n-- set paint color to green\n-- screen.setColor(r, g, b)\nscreen.setColor(0,255,0)\n\n-- screen.drawTriangleF(x1, y1, x2, y2, x3, y3)\nscreen.drawTriangleF(3,4,15,10,3,20)'
+            },{
+                type: 'text',
+                content: 'The map is a special case. Instead of drawing a single shape onto the screen, it will paint a map of the world onto the whole screen.\nIf you want to draw shapes on top of the map, draw them after you draw the map.\nThe colors of the map can be adjust by calling one of the screen.setMapColorXXX() functions.'
+            },{
+                type: 'code',
+                content: '--screen.drawMap(gpsX, gpsY, zoom)\n-- zoom ranges from 0.1 to 50\nscreen.drawMap(4000,1234,1)'
             }]
         },{
             title: 'Touchscreen',
@@ -91,7 +136,16 @@ var EXAMPLES = ((global, $)=>{
             title: 'Trigonometry (2D and 3D calculations)',
             contents: [{
                 type: 'text',
-                content: 'Coming soon...'
+                content: 'The most important thing is the rotation of a point around another point:'
+            },{
+            	type: 'code',
+            	content: '-- cx => x of rotation center\n-- cy => y of rotation center\n-- angle => the angle of rotation in radians (2pi = 360degree)\n-- x => x of point to rotate\n-- y => y of point to rotate\n\nfunction rotatePoint(cx, cy, angle, px, py)\n	s = math.sin(angle);\n	c = math.cos(angle);\n\n	--translate point back to origin:\n	px = px - cx;\n	py = py - cy;\n\n	-- rotate point\n	xnew = px * c - py * s;\n	ynew = px * s + py * c;\n\n	-- translate point back:\n	px = xnew + cx;\n	py = ynew + cy;\n	return {x=px, y=py}\nend'
+            },{
+                type: 'text',
+                content: 'Example usage: continuisly rotate a circle around the center of the screen.'
+            },{
+            	type: 'code',
+            	content: 'angle = 0\nfunction onDraw()\n	angle = angle + 0.05\n	if angle > math.pi*2 then\n		angle = 0\n	end\n	p = rotatePoint(screen.getWidth()/2, screen.getHeight()/2, angle, screen.getWidth()/2, screen.getHeight()/4)\n	screen.setColor(255,0,100)\n	screen.drawCircle(p.x, p.y, 5)\nend\n\nfunction rotatePoint(cx, cy, angle, px, py)\n	s = math.sin(angle);\n	c = math.cos(angle);\n\n	--translate point back to origin:\n	px = px - cx;\n	py = py - cy;\n\n	-- rotate point\n	xnew = px * c - py * s;\n	ynew = px * s + py * c;\n\n	-- translate point back:\n	px = xnew + cx;\n	py = ynew + cy;\n	return {x=px, y=py}\nend'
             }]
         },{
             title: 'Randomness',
@@ -110,6 +164,15 @@ var EXAMPLES = ((global, $)=>{
             },{
                 type: 'text',
                 content: 'Experiment with more then two possible random numbers by changing "max", BUT DONT GO OVER 5!'
+            }]
+        },{
+            title: 'Information for Multiplayer',
+            contents: [{
+                type: 'text',
+                content: 'The problem when using scripts in multiplayer games: the scripts do run on every client.\nThat means players can have different behaviour.'
+            },{
+                type: 'text',
+                content: 'Since the in and outputs of logic components are still synchronized and calculated on the server, some parts of your vehicle may be totally in sync (e.g. the length of a winch) but your screens may look different.\nThis is also the case for camera signals shown on monitors.'
             }]
         }]
     },{
@@ -146,6 +209,36 @@ var EXAMPLES = ((global, $)=>{
             },{
                 type: 'code',
                 content: 'buttonX = 0\nbuttonY = 0\nbuttonWidth = 12\nbuttonHeight = 6\nbuttonActive = false\n\nwasButton1Pressed = false\nwasButton2Pressed = false\n\nfunction onTick()\n	isPressed1 = input.getBool(1)\n	isPressed2 = input.getBool(2)\n	\n	screenWidth = input.getNumber(1)\n	screenHeight = input.getNumber(2)\n	\n	input1X = input.getNumber(3)\n	input1Y = input.getNumber(4)\n	input2X = input.getNumber(5)\n	input2Y = input.getNumber(6)\n	\n	if isPressed1 and input1X >= buttonX and input1X <= buttonX + buttonWidth and input1Y >= buttonY and input1Y <= buttonY + buttonHeight then\n	    wasButton1Pressed = true\n	elseif isPressed2 and input2X >= buttonX and input2X <= buttonX + buttonWidth and input2Y >= buttonY and input2Y <= buttonY + buttonHeight then\n	    wasButton2Pressed = true\n	end\n	\n	if not isPressed1 and wasButton1Pressed then\n	    wasButton1Pressed = false\n	    buttonActive = not buttonActive\n	end\n	\n	if not isPressed2 and wasButton2Pressed then\n	    wasButton2Pressed = false\n	    buttonActive = not buttonActive\n	end\n	\n	output.setBool(1, buttonActive)\nend    \n	    \nfunction onDraw()\n	if buttonActive then\n	   screen.setColor(0,150,0) \n	else\n	   screen.setColor(10,10,10) \n	end\n	screen.drawRectF(buttonX, buttonY, buttonWidth, buttonHeight)\nend\n'
+            }]
+        },{
+            title: 'Flight Instruments - Altimeter',
+            contents: [{
+                type: 'text',
+                content: 'An instrument showing the altitude (meter or feet).'
+            },{
+                type: 'text',
+                content: 'The most important function is "rotatePoint()". It rotates an xy coordinate around another coordinate.'
+            },{
+                type: 'code',
+                content: 'height = 0\nwidth = 0\ncenterX = 0\ncenterY = 0\n\naltitude = 0\n\nunitAsFeet = false -- set to true to have units in feet\n\nfunction onTick()\n	altitude = input.getNumber(1)\n	if unitAsFeet then\n		altitude = altitude * 3.28084\n	end\nend\n\nfunction onDraw()\n	height = screen.getHeight()\n	width = screen.getWidth()\n	\n	min = math.min(height, width)\n	centerX = min/2\n	centerY = min/2\n	height = min - 2\n	width = min - 2\n	\n	-- draw lines grey\n	screen.setColor(30, 30, 30)\n	for i=0, math.pi*2, math.pi/15 do\n		p1 = rotatePoint(centerX, centerY, i, centerX, centerY+height/2)\n		p2 = rotatePoint(centerX, centerY, i, centerX, centerY+height/2.2)\n		screen.drawLine(p1.x, p1.y, p2.x, p2.y)\n	end\n	\n	-- draw lines white\n	screen.setColor(255, 255, 255)\n	for i=math.pi+0.01, math.pi*3, math.pi/5 do\n		p1 = rotatePoint(centerX, centerY, i, centerX, centerY+height/2)\n		p2 = rotatePoint(centerX, centerY, i, centerX, centerY+height/2.2)\n		screen.drawLine(p1.x, p1.y, p2.x, p2.y) \n	end\n	\n	-- draw numbers\n	counter = 0\n	for i=math.pi+0.01, math.pi*3, math.pi/5 do\n		p = rotatePoint(centerX, centerY, i, centerX, centerY+height/2.9)\n		screen.drawText(p.x-2, p.y-3, counter)\n		counter = counter+1\n	end\n	\n	-- draw inner circle\n	screen.drawCircle(centerX, centerY, width/4.5)\n	\n	-- draw 10.000m pointer\n	p10000 = altitude/10000\n	p = rotatePoint(centerX, centerY, math.pi + math.pi/5 * p10000, centerX, centerY+height/2.1)\n	screen.setColor(255,0,0)\n	screen.drawLine(centerX, centerY, p.x, p.y)\n	\n	-- draw 1000m pointer\n	p1000 = (altitude%10000)/1000\n	p = rotatePoint(centerX, centerY, math.pi + math.pi/5 * p1000, centerX, centerY+height/4.8)\n	screen.setColor(0,255,0)\n	screen.drawLine(centerX, centerY, p.x, p.y)\n	\n	-- draw 100m pointer\n	p100 = (altitude%1000)/100\n	p = rotatePoint(centerX, centerY, math.pi + math.pi/5 * p100, centerX, centerY+height/3)\n	screen.setColor(0,0,255)\n	screen.drawLine(centerX, centerY, p.x, p.y)\nend\n\nfunction rotatePoint(cx, cy, angle, px, py)\n	s = math.sin(angle);\n	c = math.cos(angle);\n\n	--translate point back to origin:\n	px = px - cx;\n	py = py - cy;\n\n	-- rotate point\n	xnew = px * c - py * s;\n	ynew = px * s + py * c;\n\n	-- translate point back:\n	px = xnew + cx;\n	py = ynew + cy;\n	return {x=px, y=py}\nend\n'
+            },{
+                type: 'text',
+                content: 'The red line is the x10000 meter/feet value, the green line is the x1000 meter/feet value, the blue line is the x100 meter/feet value.\nHow to read the current altitude:\nred value x 10000 + green value x 1000 + blue value x 100'
+            }]
+        },{
+            title: 'Flight Instruments - Airspeed',
+            contents: [{
+                type: 'text',
+                content: 'An instrument showing the speed (m/s, km/h or mph).'
+            },{
+                type: 'text',
+                content: 'The function "rotatePoint()" rotates an xy coordinate around another coordinate.\nThe function "clear" draws black triangles to create the arcs.'
+            },{
+                type: 'code',
+                content: 'height = 0\nwidth = 0\ncenterX = 0\ncenterY = 0\n\nspeed = 0\n\nflapsDownStallSpeed = 40 -- bottom of white arc\nflapsUpStallSpeed = 50 -- bottom of green arc\nmaxFlapsExtendSpeed = 80 -- top of white arc\nmaxStructuralCruisingSpeed = 130 -- top of green arc\nneverExceedSpeed = 160 -- top of yellow arc\n\nspeedForWholeCircle = 250\n\nunit = "m/s" -- set to "m/s", "km/h" or "mph"\n\nfunction onTick()\n	speed = input.getNumber(1)\n	if unit == "km/h" then\n		speed = speed * 3.6\n	elseif unit == "mph" then\n		speed = speed * 2.23694\n	end\nend\n\nfunction onDraw()\n	height = screen.getHeight()\n	width = screen.getWidth()\n	\n	min = math.min(height, width)\n	centerX = min/2\n	centerY = min/2\n	height = min - 2\n	width = min - 2\n	\n	\n	-- draw white arc\n	screen.setColor(255,255,255)\n	screen.drawCircleF(centerX, centerY, width/2.2)\n	screen.setColor(0,0,0)\n	screen.drawCircleF(centerX, centerY, width/2.4)\n	\n	clear(math.pi + (maxFlapsExtendSpeed/speedForWholeCircle)*math.pi*2, math.pi + (flapsDownStallSpeed/speedForWholeCircle)*math.pi*2, width)\n	\n	-- draw green arc\n	screen.setColor(0,200,0)\n	screen.drawCircleF(centerX, centerY, width/2.4)\n	screen.setColor(0,0,0)\n	screen.drawCircleF(centerX, centerY, width/2.6)\n	\n	clear(math.pi + (maxStructuralCruisingSpeed/speedForWholeCircle)*math.pi*2, math.pi + (flapsUpStallSpeed/speedForWholeCircle)*math.pi*2, width/1.068) -- for 2x2 screens use width/1.068, for 1x1 screens use width/1.04\n	\n	-- draw yellow arc\n	screen.setColor(200,200,0)\n	screen.drawCircleF(centerX, centerY, width/2.6)\n	screen.setColor(0,0,0)\n	screen.drawCircleF(centerX, centerY, width/2.8)\n	\n	clear(math.pi + (neverExceedSpeed/speedForWholeCircle)*math.pi*2, math.pi + (maxStructuralCruisingSpeed/speedForWholeCircle)*math.pi*2, width/1.105) -- for 2x2 screens use width/1.105, for 1x1 screens use width/1.08\n	\n	\n	-- draw grey lines\n	screen.setColor(50, 50, 50)\n	for i=flapsDownStallSpeed, speedForWholeCircle-flapsDownStallSpeed, speedForWholeCircle/20 do\n		p1 = rotatePoint(centerX, centerY, math.pi + i/speedForWholeCircle * math.pi * 2, centerX, centerY+height/2.5)\n		p2 = rotatePoint(centerX, centerY, math.pi + i/speedForWholeCircle * math.pi * 2, centerX, centerY+height/2.1)\n		screen.drawLine(p1.x, p1.y, p2.x, p2.y)\n	end\n	\n	-- draw numbers\n	screen.setColor(255, 255, 255)\n	for i=flapsDownStallSpeed, speedForWholeCircle-flapsDownStallSpeed, speedForWholeCircle/10 do\n		label = math.floor(i)\n		p = rotatePoint(centerX, centerY, math.pi + i/speedForWholeCircle * math.pi * 2, centerX, centerY+height/3.4)\n		screen.drawText(p.x - string.len(label)*1.5, p.y-4, label)\n		\n		-- draw white line\n		p1 = rotatePoint(centerX, centerY, math.pi + i/speedForWholeCircle * math.pi * 2, centerX, centerY+height/2.6)\n		p2 = rotatePoint(centerX, centerY, math.pi + i/speedForWholeCircle * math.pi * 2, centerX, centerY+height/2.1)\n		screen.drawLine(p1.x, p1.y, p2.x, p2.y)\n	end\n	\n	\n	screen.setColor(255,255,255)\n	screen.drawTextBox(centerX - width/2, centerY - height/2, width, height/4, "Airspeed", 0, 0)\n	\n	-- draw pointer\n	p = rotatePoint(centerX, centerY, math.pi + speed / speedForWholeCircle * math.pi *2, centerX, centerY+height/2.1)\n	screen.setColor(255,255,255)\n	screen.drawLine(centerX, centerY, p.x, p.y)\nend\n\nstep = math.pi/18\nfunction clear(fromAngle, toAngle, y)\n	print("clear", fromAngle, toAngle,y)\n	fromAngle = fromAngle % (math.pi*2)\n	toAngle = toAngle % (math.pi*2)\n	print("clear", fromAngle, toAngle,y)\n	angle = fromAngle\n	while angle < toAngle-step or angle > toAngle do\n		p1 = rotatePoint(centerX, centerY, angle-step/10, centerX, y)\n		p2 = rotatePoint(centerX, centerY, angle+step+step/10, centerX, y)\n		screen.setColor(0,0,0)\n		screen.drawTriangleF(centerX, centerY, p1.x, p1.y, p2.x, p2.y)\n		\n		angle = angle + step\n		if angle >= math.pi*2 then\n			angle = 0\n		end\n	end\nend\n\nfunction rotatePoint(cx, cy, angle, px, py)\n	s = math.sin(angle);\n	c = math.cos(angle);\n\n	--translate point back to origin:\n	px = px - cx;\n	py = py - cy;\n\n	-- rotate point\n	xnew = px * c - py * s;\n	ynew = px * s + py * c;\n\n	-- translate point back:\n	px = xnew + cx;\n	py = ynew + cy;\n	return {x=px, y=py}\nend\n'
+            },{
+                type: 'text',
+                content: 'The white area is the speed you can fly with flaps down.\nThe green area is the speed you can fly with flaps up.\nThe yellow area is emergency speed, exceeding this speed will result in structural damage of the plane.\n\nAll the speeds for these areas can be set in the code.'
             }]
         }]
     },{

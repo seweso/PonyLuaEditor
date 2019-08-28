@@ -7,6 +7,7 @@ var AUTOCOMPLETE = ((global, $)=>{
     const TO = 'object'
     const TF = 'function'
     const TV = 'variable'
+    const TA = 'argument'
 
     const LIB_TITLES = {
         'stormworks': 'Stormworks API',
@@ -342,8 +343,7 @@ var AUTOCOMPLETE = ((global, $)=>{
                         description: 'Returns the integral part of x and the fractional part of x. Its second result is always a float.'
                     },
                     pi: {
-                        type: TF,
-                        args: '(x)',
+                        type: TV,
                         description: 'The value of π.'
                     },
                     rad: {
@@ -549,12 +549,6 @@ var AUTOCOMPLETE = ((global, $)=>{
             readOnly: false
         })
 
-        /*$(global).on('click', (e)=>{
-            if(autocompletitionIsShown){
-                closeAutocomplete()
-            }
-        })*/
-
         $('#code').contextmenu((e)=>{
             e.preventDefault()
             e.stopImmediatePropagation()
@@ -577,7 +571,7 @@ var AUTOCOMPLETE = ((global, $)=>{
     function getWordInFrontOfPosition(row, column){
         let line = editor.session.getLine(row)
         let lineUntilPosition = line.substring(0, column)
-        let matches = lineUntilPosition.match(/(.*[\s;\(])?([^\s\(]*)/)
+        let matches = lineUntilPosition.match(/(.*[\s;\(\+\-\*\/\%\=])?([^\s\(]*)/)
         if(matches instanceof Array === false || matches.length !== 3){
             return ''
         }
@@ -624,10 +618,25 @@ var AUTOCOMPLETE = ((global, $)=>{
         let code = editor.getValue()
         if(typeof code === 'string'){
             let vars = [...code.matchAll(/[\s;]?([a-zA-Z0-9\.]+)[\s]*?=/g)]
+            let functionHeads = [...code.matchAll(/function [\w]+[\s]*\([\s]*([^\)]+)[\s]*\)/g)]
+            let functionArguments = []
+            for(let fh of functionHeads){
+                let split = fh[1].replace(/\s/g, '').split(',')
+                for(let s of split){
+                    functionArguments.push({
+                        0: fh[0],
+                        1: s,
+                        index: fh.index,
+                        input: fh.input,
+                        length: 2
+                    })
+                }
+            }
             let functions = [...code.matchAll(/function[\s]+([a-zA-Z0-9\.]+)\(/g)]
 
             addToRet(vars, TV)
             addToRet(functions, TF)
+            addToRet(functionArguments, TA)
 
             function addToRet(matches, type){
 
@@ -655,7 +664,7 @@ var AUTOCOMPLETE = ((global, $)=>{
                                     lib: 'user',
                                     description: 'Defined on LINE ' + (1 + documentPosition.row)
                                 }
-                                node = node[p]                           
+                                node = node[p]
                             }
                         } else {
                             if(parts.length > 0){
@@ -760,12 +769,15 @@ var AUTOCOMPLETE = ((global, $)=>{
     }
 
     return {
+        suggestAutocomplete: suggestAutocomplete,
         getWordInFrontOfPosition: getWordInFrontOfPosition,
         getAutocompletitions: getAutocompletitions,
         showAutocompletitions: showAutocompletitions,
         closeAutocomplete: closeAutocomplete,
         TO: TO,
         TF: TF,
+        TV: TV,
+        TA: TA,
         LIB_TITLES: LIB_TITLES,
         getAllAutocompletitions: ()=>{ return AUTOCOMPLETITIONS; },
         getAllAUTOCOMPLETITIONSParsed: getAllAUTOCOMPLETITIONSParsed
@@ -850,13 +862,18 @@ function AutocompletitionElement(completitions, part){
                 AUTOCOMPLETE.closeAutocomplete()                
             }
         } else {
+            this.preventFocusOut = true
             editor.focus()
-            $('.ace_text-input').trigger(e)
-            AUTOCOMPLETE.closeAutocomplete()
+            $('#code .ace_text-input').trigger(e)
+            setTimeout(AUTOCOMPLETE.suggestAutocomplete, 10)
         }
     })
 
     this.$input.on('focusout', ()=>{
+        if(this.preventFocusOut){
+            this.preventFocusOut = false
+            return
+        }
         setTimeout(()=>{
             if(!this.click){
                 AUTOCOMPLETE.closeAutocomplete()

@@ -208,11 +208,10 @@ var YYY = ((global, $)=>{
                 $('#minified-code-container .custom_hint').hide()
                 isCustomMinifiedCode = false
 
-
-                saveCodeInStorage()
                 removeMinifiedCodeFromStorage()
             } catch (ex){
                 console.log(ex)
+                $('#minified-editor').show()
                 minifiedEditor.setValue('Error: ' + ex.message)
                 refreshMinifiedEditorCharacterCount()
             }
@@ -262,6 +261,31 @@ var YYY = ((global, $)=>{
         $('#timeBetweenDraws').on('input', ()=>{
             refreshTimeBetweenDraws()
             updateStorage()
+        })
+
+        $('#save').on('click', ()=>{
+            saveCodeInStorage()
+        })
+
+        let controlKeyDown = false
+        $(window).on('keydown', (evt)=>{
+            if(evt.originalEvent.keyCode === 17 || evt.originalEvent.keyCode === 15){
+                controlKeyDown = true
+            } else if(controlKeyDown && evt.originalEvent.key === 's'){
+                evt.preventDefault()
+                evt.stopPropagation()
+
+                saveCode()
+            }
+        })        
+        $(window).on('keyup', (evt)=>{
+            if(evt.originalEvent.keyCode === 17 || evt.originalEvent.keyCode === 15){
+                controlKeyDown = false
+            }
+        })
+
+        $('#save-minified').on('click', ()=>{
+            saveMinifiedCodeInStorage()
         })
 
         /* resizable ace code editors */
@@ -565,7 +589,7 @@ var YYY = ((global, $)=>{
 
     function start(){
         $('#code-container, #minified-code-container').addClass('locked')
-        saveCodeInStorage()
+        saveCode()
 
         let code = editor.getValue()
 
@@ -579,7 +603,7 @@ var YYY = ((global, $)=>{
 
     function startMinified(){
         $('#code-container, #minified-code-container').addClass('locked')
-        saveMinifiedCodeInStorage()
+        saveCode()
 
         let code = minifiedEditor.getValue()
 
@@ -725,11 +749,24 @@ var YYY = ((global, $)=>{
         setStorage(toStore)
     }
 
+    function saveCode(){
+        saveCodeInStorage()
+        saveMinifiedCodeInStorage()
+    }
+
     function saveCodeInStorage(){
+        $('#save').addClass('saved')
+        setTimeout(()=>{
+            $('#save').removeClass('saved')
+        }, 1000)
   		localStorage.setItem('code', editor.getValue());
     }
 
     function saveMinifiedCodeInStorage(){
+        $('#save-minified').addClass('saved')
+        setTimeout(()=>{
+            $('#save-minified').removeClass('saved')
+        }, 1000)
         localStorage.setItem('minified-code', minifiedEditor.getValue());
     }
 

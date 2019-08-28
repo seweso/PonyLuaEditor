@@ -26,6 +26,7 @@
     <link rel="stylesheet" type="text/css" href="stylesheets/style.css">
     <link rel="stylesheet" type="text/css" href="stylesheets/iconfont.css">
     <link rel="stylesheet" type="text/css" href="stylesheets/jquery_ui.css">
+    <link rel="stylesheet" type="text/css" href="stylesheets/incognito.css">
 
     <script type="text/javascript" src="scripts/jquery.js"></script>
     <script type="text/javascript" src="scripts/jquery_ui.js"></script>
@@ -44,11 +45,21 @@
     <script type="text/javascript" src="scripts/editor_autocompletition.js"></script>
     <script type="text/javascript" src="scripts/luaparse.js"></script>
     <script type="text/javascript" src="scripts/luamin.js"></script>
-    <script type="text/javascript" src="scripts/examples.js"></script>  
+    <script type="text/javascript" src="scripts/examples.js"></script>
 </head>
 <body>
-  <div id="background"></div>
-  <div class="main-content">
+    <script type="text/javascript">
+        if(new URLSearchParams(window.location.search).has("incognito")){
+            /*let link = document.createElement('link', )
+            link.setAttribute('rel', 'stylesheet')
+            link.setAttribute('type', 'text/css')
+            link.setAttribute('href', 'stylesheets/incognito.css')
+            document.head.appendChild(link)*/
+            document.body.className += " incognito "
+        }
+    </script>
+  <div class="background"></div>
+  <div class="content">
       <div id="mobile-menu">
         <div id="mobile-menu-inner">
             <div class="mobile_menu_logo">
@@ -60,6 +71,7 @@
                 <a href="#documentation">Available Functions</a>
                 <div id="learn-menu-entry"><span>Learn & Examples</span></div>
                 <div id="help-menu-entry"><span>Help / Manual</span></div>
+                <a href="?incognito">@work mode (no fancy colors)</a>
             </div>
             <div class="menu_group">
                 <div class="menu_group_title">Contact me</div>
@@ -88,6 +100,7 @@
             <select id="monitor-size" name="monitor-size">
                 <option value="1x1">1x1</option>
                 <option value="2x2">2x2</option>
+                <option value="3x3">3x3</option>
                 <option value="5x3">5x3</option>
                 <option value="9x5">9x5</option>
             </select>            
@@ -136,6 +149,9 @@
     </div>
     <div id="editor">
         <div class="controls">
+            <div class="controls_container">
+                <button id="save">Save</button>          
+            </div>
             <div class="controls_container">
                 <button id="start">Start</button>
                 <button id="stop">Stop</button>            
@@ -192,12 +208,16 @@ end
         <h3>Minified Code:</h3>
         <div id="minified-controls" class="controls">
             <div class="controls_container">
-                <button id="start-minified">Start Minified</button>        
+                <button id="save-minified">Save Minified</button>
             </div>
-        </div>
-        <div class="custom_hint" style="display: none;">You are using custom minified code! It will be overwritten when minifying the next time!<br>When sharing the original code as well as the custom minified code will be shared.</div>
+            <div class="controls_container">
+                <button id="start-minified">Start Minified</button>
+            </div>
+        </div>        
         <div id="minified-code-container">
-        
+            <div class="custom_hint" style="display: none;">
+                You are using custom minified code! It will be overwritten when minifying the next time!<br>When sharing the original code as well as the custom minified code will be shared.
+            </div>
             <div id="minified-code">
             </div>
             <div id="code-minified-editor-information">

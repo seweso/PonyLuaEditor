@@ -1,0 +1,29 @@
+:root {
+    --background-orange-gradient: linear-gradient(10deg, #666 0%, #888 100%);
+}
+
+body.incognito #navigation {
+    display: none;
+}
+
+body.incognito #fixed-information-badges {
+    display: none;
+}
+
+body.incognito .background {
+    background-image: none;
+}
+
+body.incognito button {
+    background: #444;
+    border: 1px solid #444;
+}
+
+body.incognito button:hover {
+    background: #888;
+}
+
+body.incognito button[disabled] {
+    background: #222;
+    color: #666;
+}
