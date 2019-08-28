@@ -483,9 +483,9 @@ var UI_BUILDER = ((global, $)=>{
 
         buildContent(){
             if(this.settings.reverse.value){
-                return '<svg viewBox="0 0 ' + uiZoom(this.width) + ' ' + uiZoom(this.height) + '"><polyline points="0,' + uiZoom(this.height) + ' ' + uiZoom(this.width) + ',0" stroke="' + makeValidHexOrEmpty(this.settings.background.value) + '"></polyline></svg>'
+                return '<svg viewBox="0 0 ' + uiZoom(this.width) + ' ' + uiZoom(this.height) + '"><polyline points="0,' + uiZoom(this.height) + ' ' + uiZoom(this.width) + ',0" stroke-width="' + uiZoom(1) + '" stroke="' + makeValidHexOrEmpty(this.settings.background.value) + '"></polyline></svg>'
             } else {
-                return '<svg viewBox="0 0 ' + uiZoom(this.width) + ' ' + uiZoom(this.height) + '"><polyline points="0,0 ' + uiZoom(this.width) + ',' + uiZoom(this.height) + '" stroke="' + makeValidHexOrEmpty(this.settings.background.value) + '"></polyline></svg>'
+                return '<svg viewBox="0 0 ' + uiZoom(this.width) + ' ' + uiZoom(this.height) + '"><polyline points="0,0 ' + uiZoom(this.width) + ',' + uiZoom(this.height) + '" stroke-width="' + uiZoom(1) + '" stroke="' + makeValidHexOrEmpty(this.settings.background.value) + '"></polyline></svg>'
             }
         }
 
