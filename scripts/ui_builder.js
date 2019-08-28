@@ -37,10 +37,15 @@ var UI_BUILDER = ((global, $)=>{
         container.append(canvas_container)
 
 
-        $('#monitor-size').on('change', (e)=>{
+        $('#monitor-size').on('change', ()=>{
             recalculateSize()
         })
         recalculateSize()
+
+        $('#ui-builder-zoom').on('change', ()=>{
+            recalculateSize()
+            $('[for="ui-builder-zoom"] span').html($('#ui-builder-zoom').val() + 'x')
+        })
 
 
         container.append('<div class="controls" mode="move"></div>')
@@ -100,11 +105,15 @@ var UI_BUILDER = ((global, $)=>{
     }
 
     function recalculateSize(){
-        canvas_container.width( CANVAS.width() )
-        canvas_container.height( CANVAS.height() ) 
+        canvas_container.width( uiZoom(CANVAS.width()) )
+        canvas_container.height( uiZoom(CANVAS.height()) ) 
         
-        maxX = canvas_container.width()
-        maxY = canvas_container.height()      
+        maxX = CANVAS.width()
+        maxY = CANVAS.height()
+
+        for(let e of allElements){
+            e.refreshPosition()
+        }
     }
 
     class Element {
@@ -296,8 +305,8 @@ var UI_BUILDER = ((global, $)=>{
         }
 
         activateDrag(evt){
-            this.offX = window.scrollX + evt.clientX - this.x
-            this.offY = window.scrollY + evt.clientY - this.y
+            this.offX = window.scrollX + evt.clientX - uiZoom(this.x)
+            this.offY = window.scrollY + evt.clientY - uiZoom(this.y)
 
             this.dragLambda = (evt)=>{
                 this.drag(evt)
@@ -307,8 +316,8 @@ var UI_BUILDER = ((global, $)=>{
         }
 
         drag(evt){
-            this.x = (window.scrollX + evt.clientX) - this.offX
-            this.y = (window.scrollY + evt.clientY) - this.offY
+            this.x = uiUnzoom((window.scrollX + evt.clientX) - this.offX)
+            this.y = uiUnzoom((window.scrollY + evt.clientY) - this.offY)
             console.log(this)
             this.refreshPosition()
         }
@@ -319,8 +328,8 @@ var UI_BUILDER = ((global, $)=>{
         }
 
         activateResize(evt){
-            this.offX = (window.scrollX + evt.clientX) - this.width
-            this.offY = (window.scrollY + evt.clientY) - this.height
+            this.offX = (window.scrollX + evt.clientX) - uiZoom(this.width)
+            this.offY = (window.scrollY + evt.clientY) - uiZoom(this.height)
 
             this.resizeLambda = (evt)=>{
                 this.resize(evt)
@@ -330,8 +339,8 @@ var UI_BUILDER = ((global, $)=>{
         }
 
         resize(evt){
-            this.width = (window.scrollX + evt.clientX) - this.offX
-            this.height = (window.scrollY + evt.clientY) - this.offY
+            this.width = uiUnzoom((window.scrollX + evt.clientX) - this.offX)
+            this.height = uiUnzoom((window.scrollY + evt.clientY) - this.offY)
 
             this.refreshPosition()
         }
@@ -378,10 +387,10 @@ var UI_BUILDER = ((global, $)=>{
             }
 
             this.dom.css({
-                left: this.x,
-                top: this.y,
-                width: this.width,
-                height: this.height
+                left: uiZoom(this.x),
+                top: uiZoom(this.y),
+                width: uiZoom(this.width),
+                height: uiZoom(this.height)
             })
         }
 
@@ -721,5 +730,13 @@ var UI_BUILDER = ((global, $)=>{
     }
 
 })(window, jQuery)
+
+function uiZoom(v){
+    return v * $('#ui-builder-zoom').val()
+}
+
+function uiUnzoom(v){
+    return v / $('#ui-builder-zoom').val()
+}
 
 
