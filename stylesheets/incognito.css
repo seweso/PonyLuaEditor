@@ -10,7 +10,7 @@ body.incognito #fixed-information-badges {
     display: none;
 }
 
-body.incognito .background {
+body.incognito #background {
     background-image: none;
 }
 
