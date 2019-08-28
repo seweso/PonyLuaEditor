@@ -45,7 +45,7 @@ var UI_BUILDER = ((global, $)=>{
             recalculateSize()
             $('[for="ui-builder-zoom"] span').html($('#ui-builder-zoom').val() + 'x')
         })
-        
+
         recalculateSize()
         $('[for="ui-builder-zoom"] span').html($('#ui-builder-zoom').val() + 'x')
 
@@ -632,6 +632,8 @@ var UI_BUILDER = ((global, $)=>{
                     init: superRet.init + '\n' + this.id + 'Toggled = false\n' + this.id + 'ToggledP = false\n',
                     onDraw: superRet.onDraw + 'text="' + this.settings.text.value + '"\n'
                         + 'if ' + this.id + 'Toggled then\ntext="' + this.settings.textOn.value + '"\nend\n'
+                        + 'if ' + this.id + 'Toggled then\n' + luaBuildSetColor(this.settings.backgroundOn.value) + '\n'
+                        + 'screen.drawRectF(' + this.x + ', ' + this.y + ', ' + this.width + ', ' + this.height + ')\nend\n'
                         + 'if ' + this.id + 'Toggled then\n' + luaBuildSetColor(this.settings.colorOn.value) + '\n'
                         + 'else\n' + luaBuildSetColor(this.settings.color.value) + '\nend\n'
                         + 'screen.drawTextBox(' + this.x + ', ' + this.y + ', ' + this.width + ', ' + this.height + ', "' + this.settings.text.value + '", 0, 0)',
@@ -651,6 +653,8 @@ var UI_BUILDER = ((global, $)=>{
                     init: superRet.init + '\n' + this.id + 'Toggled = false\n',
                     onDraw: superRet.onDraw + 'text="' + this.settings.text.value + '"\n'
                         + 'if ' + this.id + 'Toggled then\ntext="' + this.settings.textOn.value + '"\nend\n'
+                        + 'if ' + this.id + 'Toggled then\n' + luaBuildSetColor(this.settings.backgroundOn.value) + '\n'
+                        + 'screen.drawRectF(' + this.x + ', ' + this.y + ', ' + this.width + ', ' + this.height + ')\nend\n'
                         + 'if ' + this.id + 'Toggled then\n' + luaBuildSetColor(this.settings.colorOn.value) + '\n'
                         + 'else\n' + luaBuildSetColor(this.settings.color.value) + '\nend\n'
                         + 'screen.drawTextBox(' + this.x + ', ' + this.y + ', ' + this.width + ', ' + this.height + ', "' + this.settings.text.value + '", 0, 0)',
