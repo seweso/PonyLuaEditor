@@ -1565,7 +1565,7 @@ a:hover {
 #ui-builder-controls {
     display: flex;
     flex-direction: row;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     justify-content: flex-start;
     align-items: center;
     flex-wrap: wrap;
@@ -1573,6 +1573,15 @@ a:hover {
 
 #ui-builder-controls > *:not(:last-child) {
     margin-right: 10px;
+}
+
+#ui-builder-controls .controls_container button {
+    margin-bottom: 0;
+}
+
+.ui_builder_zoom {
+    display: flex;
+    flex-direction: column;
 }
 
 /* dialogs */
