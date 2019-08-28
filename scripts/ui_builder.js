@@ -111,6 +111,8 @@ var UI_BUILDER = ((global, $)=>{
         maxX = CANVAS.width()
         maxY = CANVAS.height()
 
+        canvas_container.find('.element').css('font-size', uiZoom(6) + 'px')
+
         for(let e of allElements){
             e.refreshPosition()
         }
@@ -233,6 +235,7 @@ var UI_BUILDER = ((global, $)=>{
             let that = this
 
             let elem = $('<div class="element ' + this.constructor.name.toLowerCase() + '"></div>')
+            elem.css('font-size', uiZoom(6) + 'px')
 
             this.content = $('<div class="content"></div>')
             this.content.append(this.buildContent())
