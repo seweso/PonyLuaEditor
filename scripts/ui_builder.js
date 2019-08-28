@@ -299,33 +299,34 @@ var UI_BUILDER = ((global, $)=>{
             this.offX = window.scrollX + evt.clientX - this.x
             this.offY = window.scrollY + evt.clientY - this.y
 
-
-            $(global).on('mousemove', (evt)=>{
+            this.dragLambda = (evt)=>{
                 this.drag(evt)
-            })
-            $(global).on('mouseup', this.deactivateDrag)
+            }
+            $(gcontainer).on('mousemove', this.dragLambda)
+            $(gcontainer).on('mouseup', this.deactivateDrag)
         }
 
         drag(evt){
             this.x = (window.scrollX + evt.clientX) - this.offX
             this.y = (window.scrollY + evt.clientY) - this.offY
-
+            console.log(this)
             this.refreshPosition()
         }
 
         deactivateDrag(){
-            $(global).off('mousemove')
-            $(global).off('mouseup', this.deactivateDrag)
+            $(gcontainer).off('mousemove', this.dragLambda)
+            $(gcontainer).off('mouseup', this.deactivateDrag)
         }
 
         activateResize(evt){
             this.offX = (window.scrollX + evt.clientX) - this.width
             this.offY = (window.scrollY + evt.clientY) - this.height
 
-            $(global).on('mousemove', (evt)=>{
+            this.resizeLambda = (evt)=>{
                 this.resize(evt)
-            })
-            $(global).on('mouseup', this.deactivateResize)
+            }
+            $(gcontainer).on('mousemove', this.resizeLambda)
+            $(gcontainer).on('mouseup', this.deactivateResize)
         }
 
         resize(evt){
@@ -336,8 +337,8 @@ var UI_BUILDER = ((global, $)=>{
         }
 
         deactivateResize(){
-            $(global).off('mousemove')
-            $(global).off('mouseup', this.deactivateResize)
+            $(gcontainer).off('mousemove', this.resizeLambda)
+            $(gcontainer).off('mouseup', this.deactivateResize)
         }
 
         deactivate(){
@@ -410,12 +411,12 @@ var UI_BUILDER = ((global, $)=>{
             this.closeHandler = ()=>{
                 this.closeSettings()
             }
-            $(global).on('mousedown', this.closeHandler)
+            $(gcontainer).on('mousedown', this.closeHandler)
         }
 
         closeSettings(){
             this.dom.removeClass('settings_open')
-            $(global).off('mousedown', this.closeHandler)
+            $(gcontainer).off('mousedown', this.closeHandler)
         }
 
         delete(){
