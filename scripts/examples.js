@@ -242,6 +242,18 @@ var EXAMPLES = ((global, $)=>{
             }]
         }]
     },{
+        title: 'Frameworks (Collections of helpfull functions)',
+        examples: [{
+                title: 'Tajins Lua Framework',
+                contents: [{
+                    type: 'text',
+                    content: 'This is a collection of helpfull functions (all in one place). Copy only what you need (e.g. 3d rotation)\n\nSource: <a href="http://rising.at/Stormworks/lua/framework.lua">rising.at/Stormworks/lua/framework.lua</a>'
+                },{
+                    type: 'code',
+                    content: '-- shorcuts (remove what you don\'t need)\nM=math\nsi=M.sin\nco=M.cos\npi=M.pi\npi2=pi*2\n\nS=screen\ndL=S.drawLine\ndC=S.drawCircle\ndCF=S.drawCircleF\ndR=S.drawRect\ndRF=S.drawRectF\ndT=S.drawTriangle\ndTF=S.drawTriangleF\ndTx=S.drawText\ndTxB=S.drawTextBox\n\nC=S.setColor\n\nMS=map.mapToScreen\nSM=map.screenToMap\n\nI=input\nO=output\nP=property\nprB=P.getBool\nprN=P.getNumber\nprT=P.getText\n\ntU=table.unpack\n\n\n-- useful functions (remove what you don\'t need)\nfunction getN(...)local a={}for b,c in ipairs({...})do a[b]=I.getNumber(c)end;return tU(a)end\n    -- get a list of input numbers\nfunction outN(o, ...) for i,v in ipairs({...}) do O.setNumber(o+i-1,v) end end\n    -- set a list of number outputs\nfunction getB(...)local a={}for b,c in ipairs({...})do a[b]=I.getBool(c)end;return tU(a)end\n  -- get a list of input booleans\nfunction outB(o, ...) for i,v in ipairs({...}) do O.setBool(o+i-1,v) end end\n -- set a list of boolean outputs\nfunction round(x,...)local a=10^(... or 0)return M.floor(a*x+0.5)/a end\n -- round(x) or round(x,a) where a is the number of decimals\nfunction clamp(a,b,c) return M.min(M.max(a,b),c) end\n -- limit a between b and c\nfunction inRect(x,y,a,b,w,h) return x>a and y>b and x<a+w and y<b+h end\n   -- check if x,y is inside the rectangle a,b,w,h\nfunction rot3D(x,y,z,a,b,c) return {(co(b)*co(c)*x)+(-co(a)*si(c)+si(a)*si(b)*co(z))*y+(si(a)*si(c)+co(a)*si(b)*co(c))*z,(co(b)*si(c)*x)+(co(a)*co(c)+si(a)*si(b)*si(c))*y+(-si(a)*co(c)+co(a)*si(b)*si(c))*z,-si(b)*x+si(a)*co(b)*y+co(a)*co(b)*z} end\n  -- rotate point x,y,z around by a,b,c and return the resulting position\n\n-- touch handling (remove if you don\'t need it)\n    TOUCH = {\n     {5,5,30,10,"1"}, --Button1\n        {5,20,30,10,"2"}, --Button2\n       {5,35,30,10,"text",0,0}, --Button3\n    }\n act = {}\n  btn = {}\n  \n  test = 0\n  act[3] = function(i) -- function for button 3, executed on click\n      test = test+1\n end\n--\n\nfunction onTick()\n  myNumVar,myOtherNum = getN(10,15)\n myBoolVar,myOtherBool = getB(5,9)\n \n  -- touch handling (remove if you don\'t need it)\n       w,h,tx,ty=getN(1,2,3,4,5,6);t1,t2=getB(1,2)\n       \n      for i,t in ipairs(TOUCH) do\n           b = btn[i] or {}\n          if inRect(tx,ty,t[1],t[2],t[3],t[4]) then\n             b.click = t1 and not b.hold\n               b.hold = t1\n               if b.click then\n                   b.toggle = not b.toggle\n                   if act[i] then act[i](i) end\n              end\n           else\n              b.hold = false\n            end\n           btn[i] = b\n        end\n   --\n    \n  outN(11, myNumVar,myOtherNum) -- output to 11 and 12\n  outB(1, true,false)\nend\n\nfunction onDraw()\n if t1==nil then return true end -- safety check to make sure variables are set\n    w = S.getWidth()\n  h = S.getHeight()\n cx,cy = w/2,h/2 -- coordinates of the screen center (always useful)\n   \n  for i,t in ipairs(TOUCH) do -- loop through defined buttons and render them\n       C(20,20,20)\n       if btn[i].hold then C(80,80,80) end -- color while holding the button\n     dRF(tU(t,1,4)) -- draw button background (tU outputs the first 4 values from the button as parameters here)\n       C(255,0,0)\n        if btn[i].toggle then C(0,255,0) end -- text green if button is toggled on\n        dTxB(tU(t)) -- draw textbox with the button text\n  end\n   \n  C(255,255,255)\n    dTx(cx,cy,test) -- test output for the function of button 3\nend'
+                }]
+            }]
+    },{
         title: 'Information from the Stormworks developers',
         examples: [{
             title: 'Meta from the devs',
@@ -283,7 +295,7 @@ var EXAMPLES = ((global, $)=>{
                             c = $('<div class="example_text">' + co.content + '</div>')
                         }; break;
                         case 'code': {
-                            c = $('<div class="example_code">' + co.content + '</div>')
+                            c = $('<div class="example_code">' + co.content.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</div>')
 
                             let editor = ace.edit(c.get(0),{
                                 maxLines: 50
