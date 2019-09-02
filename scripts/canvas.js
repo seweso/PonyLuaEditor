@@ -35,7 +35,7 @@ var CANVAS = ((global, $)=>{
         $('#monitor').on('mouseleave', ()=>{
             mouseIsOverMonitor = false
         })
-        $(global).on('mousemove', (evt)=>{
+        $('#monitor').on('mousemove', (evt)=>{
             if(mouseIsOverMonitor){
                 mouseX = evt.originalEvent.clientX
                 mouseY = evt.originalEvent.clientY + $(global).scrollTop()
@@ -47,8 +47,8 @@ var CANVAS = ((global, $)=>{
 
             calculateTouchscreenInput()
         })
-        $(global).on('keydown mousedown', handleKeyDown)
-        $(global).on('keyup mouseup', handleKeyUp)
+        $('#monitor').on('keydown mousedown', handleKeyDown)
+        $('#monitor').on('keyup mouseup', handleKeyUp)
         refresh()
     }
 
