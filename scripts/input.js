@@ -295,13 +295,17 @@ var INPUT = ((global, $)=>{
         let oscilatecheck
 
         if(!config){
+            let lastNumber = dom_numbers.find('.number').last()
+            if(lastNumber.length === 0){
+                lastNumber = false
+            }
             config = {
                 val: typeof val === 'number' ? val : 0,
-                slidercheck: true,
-                slidermin: -1,
-                slidermax: 1,
-                sliderstep: 0.01,
-                oscilatecheck: typeof val === 'number' ? false : true
+                slidercheck:  lastNumber ? lastNumber.find('.slider_check').prop('checked') : true,
+                slidermin: lastNumber ? lastNumber.find('.slider_min').val() : -1,
+                slidermax: lastNumber ? lastNumber.find('.slider_max').val() : 1,
+                sliderstep: lastNumber ? lastNumber.find('.slider_step').val() : 0.01,
+                oscilatecheck: lastNumber ? lastNumber.find('.oscilate_check').prop('checked') : (typeof val === 'number' ? false : true)
             }
         }
 
@@ -333,7 +337,7 @@ var INPUT = ((global, $)=>{
         }, val)
 
         let openSettings = $('<button>&equiv;</button>')
-        let settings = $('<div class="settings"></div>')
+        let settings = $('<div class="settings" style="display: block"></div>')
         openSettings.on('click', ()=>{
             settings.toggle()
         })
