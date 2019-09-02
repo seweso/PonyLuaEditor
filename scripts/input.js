@@ -297,11 +297,11 @@ var INPUT = ((global, $)=>{
         if(!config){
             config = {
                 val: typeof val === 'number' ? val : 0,
-                slidercheck: false,
-                slidermin: -10,
-                slidermax: 10,
-                sliderstep: 0.1,
-                oscilatecheck: false
+                slidercheck: true,
+                slidermin: -1,
+                slidermax: 1,
+                sliderstep: 0.01,
+                oscilatecheck: typeof val === 'number' ? false : true
             }
         }
 
@@ -339,7 +339,7 @@ var INPUT = ((global, $)=>{
         })
         openSettings.insertBefore(number.find('button'))
 
-        let slider = $('<div class="group"><div><input type="checkbox" class="slider_check"/><label>Use slider</label></div><div><input type="number" class="slider_min" value="-10" step="0.000001"/><label>Min</label></div><div><input type="number" class="slider_max" value="10" step="0.000001"/><label>Max</label></div><div><input type="number" class="slider_step" value="0.1" min="0" max="10000" step="0.000001"/><label>Step</label></div></div>')
+        let slider = $('<div class="group"><div><input type="checkbox" class="slider_check"/><label>Use slider</label></div><div><input type="number" class="slider_min" value="-1" step="0.000001"/><label>Min</label></div><div><input type="number" class="slider_max" value="1" step="0.000001"/><label>Max</label></div><div><input type="number" class="slider_step" value="0.01" min="0" max="10000" step="0.000001"/><label>Step</label></div></div>')
         settings.append(slider)
         slidercheck = slider.find('.slider_check')
         slidercheck.on('input', ()=>{
