@@ -27,6 +27,7 @@ var UI_BUILDER = ((global, $)=>{
 
     const LIBS = {
         IS_IN_RECT: 'is_in_rect',
+        IS_IN_RECT_O: 'is_in_rect_o',
         SET_COLOR: 'set_color'
     }
 
@@ -36,6 +37,7 @@ var UI_BUILDER = ((global, $)=>{
 
     const LIBS_CODE = {
         is_in_rect: 'function isInRect(x,y,w,h,px,py)\nreturn px>=x and px<=x+w and py>=y and py<=y+h\nend',
+        is_in_rect_o: 'function isInRectO(o,px,py)\nreturn px>=o.x and px<=o.x+o.w and py>=o.y and py<=o.y+o.h\nend',
         set_color: 'function setC(r,g,b,a)\nscreen.setColor(r,g,b,a)\nend'
     }
 
@@ -147,7 +149,7 @@ var UI_BUILDER = ((global, $)=>{
             this.zindex = allElements.length
 
             this.layerListEntry = $('<div class="layer_list_entry" type="' + this.constructor.name.toLowerCase() + '">'
-                + '<div class="left"><span class="name">' + this.constructor.name + '</span><div class="background"></div></div>'
+                + '<div class="left"><span class="name">' + this.constructor.name.toLowerCase() + '</span><div class="background"></div></div>'
                 + '<div class="lcontrols"><span class="up icon-circle-up"></span><span class="down icon-circle-down"></span></div>'
                 + '</div>')
 
@@ -287,13 +289,13 @@ var UI_BUILDER = ((global, $)=>{
                         value = s.value
                     }
                 }
-                let set = $('<div class="setting"><span class="name">' + k + '</span><input type="' + s.type + '" value="' + value + '"/></div>')
+                let set = $('<div class="setting"><span class="name">' + k + '</span><input type="' + s.type + '" value="' + value + '" ' + (s.type === 'number' ? 'step="0.01"' : '') + '/></div>')
                 set.on('change input', ()=>{
                     let val = set.find('input').val()
                     if(s.type === 'number'){
-                        let parsed = parseInt(val)
+                        let parsed = parseFloat(val)
                         if(isNaN(parsed)){
-                            parsed = parseFloat(val)
+                            parsed = parseInt(val)
                         }
                         s.value = isNaN(parsed) ? val : parsed
                     } else if(s.type === 'checkbox'){
@@ -303,6 +305,9 @@ var UI_BUILDER = ((global, $)=>{
                     }
                     that.refresh()
                 })
+                if(s.description){
+                    set.append('<div class="element_description"><span class="icon-question"></span><div class="element_description_content">' + s.description + '</div></div>')
+                }
 
                 elem.find('.settings').append(set)
             }
@@ -636,7 +641,6 @@ var UI_BUILDER = ((global, $)=>{
                     color: makeValidHexOrEmpty(this.settings.color.value)
                 })
                 .html(this.settings.text.value)
-            this.content.css('cssText', 'display: flex; flex-direction: column; justify-content: center; align-items: center;')
         }
 
         buildLuaCode(){
@@ -652,7 +656,7 @@ var UI_BUILDER = ((global, $)=>{
                         + 'else\n' + luaBuildSetColor(this.settings.color.value) + '\nend\n'
                         + 'screen.drawTextBox(' + this.x + ', ' + this.y + ', ' + this.width + ', ' + this.height + ', "' + this.settings.text.value + '", 0, 0)',
                     onTick: superRet.onTick + '\n'
-                        + 'if (isP1 and isInRect(' + this.x + ',' + this.y + ',' + this.width + ',' + this.height + ',in1X,in1Y)) or (isP2 and isInRect(' + this.x + ',' + this.y + ',' + this.width + ',' + this.height + ',in1X,in1Y)) then\n'
+                        + 'if (isP1 and isInRect(' + this.x + ',' + this.y + ',' + this.width + ',' + this.height + ',in1X,in1Y)) or (isP2 and isInRect(' + this.x + ',' + this.y + ',' + this.width + ',' + this.height + ',in2X,in2Y)) then\n'
                         + this.id + 'ToggledP=true\n'
                         + 'end\n'
                         + 'if not (isP1 or isP2) and ' + this.id + 'ToggledP then\n'
@@ -673,7 +677,7 @@ var UI_BUILDER = ((global, $)=>{
                         + 'else\n' + luaBuildSetColor(this.settings.color.value) + '\nend\n'
                         + 'screen.drawTextBox(' + this.x + ', ' + this.y + ', ' + this.width + ', ' + this.height + ', "' + this.settings.text.value + '", 0, 0)',
                     onTick: superRet.onTick + '\n'
-                        + 'if (isP1 and isInRect(' + this.x + ',' + this.y + ',' + this.width + ',' + this.height + ',in1X,in1Y)) or (isP2 and isInRect(' + this.x + ',' + this.y + ',' + this.width + ',' + this.height + ',in1X,in1Y)) then\n'
+                        + 'if (isP1 and isInRect(' + this.x + ',' + this.y + ',' + this.width + ',' + this.height + ',in1X,in1Y)) or (isP2 and isInRect(' + this.x + ',' + this.y + ',' + this.width + ',' + this.height + ',in2X,in2Y)) then\n'
                         + this.id + 'Toggled=true\n'
                         + 'else\n'
                         + this.id + 'Toggled=false\n'
@@ -681,6 +685,87 @@ var UI_BUILDER = ((global, $)=>{
                         + 'output.setBool(' + this.settings.channel.value + ', ' + this.id + 'Toggled)',
                     libs: Object.assign(superRet.libs, {[LIBS.IS_IN_RECT]:true})
                 }
+            }
+        }
+    }
+
+    class VerticalSlider extends Element {
+
+        beforeBuild(){
+            this.width = 8
+            this.height = 24
+            let additionalSettings = {
+                background: {
+                    type: 'color',
+                    value: '#000'
+                },
+                border: {
+                    type: 'color',
+                    value: '#666'
+                },
+                defaultValue: {
+                    type: 'number',
+                    value: 0
+                },
+                sliderColor: {
+                    type: 'color',
+                    value: '#fff'
+                },
+                sliderThresholdZero: {
+                    type: 'number',
+                    value: 0.1,
+                    description: 'Values below this value will be outputed as 0'
+                },
+                sliderThresholdFull: {
+                    type: 'number',
+                    value: 0.9,
+                    description: 'Values above this value will be outputed as 1'
+                },
+                channel: {
+                    type: 'number',
+                    value: 1
+                }
+            }
+            this.settings = additionalSettings
+        }
+
+        buildContent(){
+            return $('<div class="slider_value"></div>')
+        }
+
+        refreshContent(){
+            this.content.find('.slider_value')
+                .css({
+                    top: uiZoom((1-this.settings.defaultValue.value)*this.height),
+                    height: this.settings.defaultValue.value*100 + '%',
+                    background: makeValidHexOrEmpty(this.settings.sliderColor.value)
+                })
+            this.content.css({
+                background: makeValidHexOrEmpty(this.settings.background.value),
+                border: uiZoom(1)+'px solid ' + makeValidHexOrEmpty(this.settings.border.value)
+            })
+        }
+
+        buildLuaCode(){
+            let superRet = super.buildLuaCode()
+            return {
+                init: superRet.init + '\n' + this.id + 'sliderv={x=' + this.x + ',y=' + this.y + ',w=' + this.width + ',h=' + this.height + ',v=' + this.settings.defaultValue.value + '}\n',
+                onDraw: superRet.onDraw + luaBuildSetColor(this.settings.background.value) + '\nscreen.drawRectF(' + this.id + 'sliderv.x,' + this.id + 'sliderv.y,' + this.id + 'sliderv.w,' + this.id + 'sliderv.h)\n'
+                 + luaBuildSetColor(this.settings.sliderColor.value) + '\nscreen.drawRectF(' + this.id + 'sliderv.x,(1-' + this.id + 'sliderv.v)*' + this.id + 'sliderv.h+' + this.id + 'sliderv.y,' + this.id + 'sliderv.w,(' + this.id + 'sliderv.v)*' + this.id + 'sliderv.h)\n'
+                    + luaBuildSetColor(this.settings.border.value) + '\nscreen.drawRect(' + this.id + 'sliderv.x,' + this.id + 'sliderv.y,' + this.id + 'sliderv.w,' + this.id + 'sliderv.h)\n',
+                onTick: superRet.onTick + '\n'
+                    + 'if isP1 and isInRectO('+this.id+'sliderv,in1X,in1Y) then\n'
+                    + this.id+'sliderv.v=(('+this.id+'sliderv.y+'+this.id+'sliderv.h)-in1Y)/'+this.id+'sliderv.h\n'
+                    + 'elseif isP2 and isInRectO('+this.id+'sliderv,in2X,in2Y) then\n'
+                    + this.id+'sliderv.v=(('+this.id+'sliderv.y+'+this.id+'sliderv.h)-in2Y)/'+this.id+'sliderv.h\n'
+                    + 'end\n'
+                    + 'if '+this.id+'sliderv.v<'+this.settings.sliderThresholdZero.value+' then\n'
+                    + this.id+'sliderv.v=0\n'
+                    + 'elseif '+this.id+'sliderv.v>'+this.settings.sliderThresholdFull.value+' then\n'
+                    + this.id+'sliderv.v=1\n'
+                    + 'end\n'
+                    + 'output.setNumber(' + this.settings.channel.value + ','+this.id+'sliderv.v)\n',
+                libs: Object.assign(superRet.libs, {[LIBS.IS_IN_RECT_O]:true})
             }
         }
     }
@@ -697,6 +782,9 @@ var UI_BUILDER = ((global, $)=>{
     },{
         name: 'Button',
         object: Button
+    },{
+        name: 'Vertical Slider',
+        object: VerticalSlider
     }]
 
 
@@ -722,6 +810,9 @@ var UI_BUILDER = ((global, $)=>{
 
             let libCode = ''
             for(let l in libs){
+                if(!LIBS_CODE[l]){
+                    throw new Error('lib "'+l+'" not found!')
+                }
                 libCode += LIBS_CODE[l] + '\n\n'
             }
 
@@ -762,9 +853,9 @@ var UI_BUILDER = ((global, $)=>{
 
     function makeValidPixelOrZero(pxstring){
         pxstring = ('' + pxstring).replace('px', '').trim()
-        let int = parseInt(pxstring)
+        let int = parseFloat(pxstring)
         if(isNaN(int)){
-            let float = parseFloat(pxstring)
+            let float = parseInt(pxstring)
             if(isNaN(float)){
                 return '0'
             }
