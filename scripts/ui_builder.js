@@ -25,6 +25,20 @@ var UI_BUILDER = ((global, $)=>{
 
     let uuid = 1
 
+    const LIBS = {
+        IS_IN_RECT: 'is_in_rect',
+        SET_COLOR: 'set_color'
+    }
+
+    const DEFAULT_LIBS = {
+        [LIBS.SET_COLOR]: true
+    }
+
+    const LIBS_CODE = {
+        is_in_rect: 'function isInRect(x,y,w,h,px,py)\nreturn px>=x and px<=x+w and py>=y and py<=y+h\nend',
+        set_color: 'function setC(r,g,b,a)\nscreen.setColor(r,g,b,a)\nend'
+    }
+
     $(global).on('load', ()=>{
         init($('#ui-builder-container'))
     })
@@ -235,7 +249,7 @@ var UI_BUILDER = ((global, $)=>{
                 init: '',
                 onTick: '',
                 onDraw: onDraw,
-                lib: ''
+                libs: DEFAULT_LIBS
             }
         }
 
@@ -510,7 +524,7 @@ var UI_BUILDER = ((global, $)=>{
                         + luaBuildSetColor(this.settings.background.value) + '\n'
                         + 'screen.drawLine(' + this.x + ', ' + (this.y + this.height) + ', ' + (this.x + this.width) + ', ' + this.y + ')',
                     onTick: superRet.onTick,
-                    lib: superRet.lib
+                    libs: superRet.libs
                 }
             } else {
                 return {
@@ -519,7 +533,7 @@ var UI_BUILDER = ((global, $)=>{
                         + luaBuildSetColor(this.settings.background.value) + '\n'
                         + 'screen.drawLine(' + this.x + ', ' + this.y + ', ' + (this.x + this.width) + ', ' + (this.y + this.height) + ')',
                     onTick: superRet.onTick,
-                    lib: superRet.lib
+                    libs: superRet.libs
                 }
             }
         }
@@ -563,7 +577,7 @@ var UI_BUILDER = ((global, $)=>{
                     + luaBuildSetColor(this.settings.color.value) + '\n'
                     + 'screen.drawTextBox(' + this.x + ', ' + this.y + ', ' + this.width + ', ' + this.height + ', "' + this.settings.text.value + '", 0, 0)',
                 onTick: superRet.onTick,
-                lib: superRet.lib
+                libs: superRet.libs
             }
         }
     }
@@ -638,7 +652,7 @@ var UI_BUILDER = ((global, $)=>{
                         + 'else\n' + luaBuildSetColor(this.settings.color.value) + '\nend\n'
                         + 'screen.drawTextBox(' + this.x + ', ' + this.y + ', ' + this.width + ', ' + this.height + ', "' + this.settings.text.value + '", 0, 0)',
                     onTick: superRet.onTick + '\n'
-                        + 'if (isP1 and in1X >= ' + this.x + ' and in1X <= ' + (this.x + this.width) + ' and in1Y >= ' + this.y + ' and in1Y <= ' + (this.y + this.height) + ') or (isP2 and in2X >= ' + this.x + ' and in2X <= ' + (this.x + this.width) + ' and in2Y >= ' + this.y + ' and in2Y <= ' + (this.y + this.height) + ') then\n'
+                        + 'if (isP1 and isInRect(' + this.x + ',' + this.y + ',' + this.width + ',' + this.height + ',in1X,in1Y)) or (isP2 and isInRect(' + this.x + ',' + this.y + ',' + this.width + ',' + this.height + ',in1X,in1Y)) then\n'
                         + this.id + 'ToggledP=true\n'
                         + 'end\n'
                         + 'if not (isP1 or isP2) and ' + this.id + 'ToggledP then\n'
@@ -646,7 +660,7 @@ var UI_BUILDER = ((global, $)=>{
                         + this.id + 'Toggled = not ' + this.id + 'Toggled\n'
                         + 'end\n'
                         + 'output.setBool(' + this.settings.channel.value + ', ' + this.id + 'Toggled)',
-                    lib: superRet.lib
+                    libs: Object.assign(superRet.libs, {[LIBS.IS_IN_RECT]:true})
                 }
             } else {
                 return {
@@ -659,13 +673,13 @@ var UI_BUILDER = ((global, $)=>{
                         + 'else\n' + luaBuildSetColor(this.settings.color.value) + '\nend\n'
                         + 'screen.drawTextBox(' + this.x + ', ' + this.y + ', ' + this.width + ', ' + this.height + ', "' + this.settings.text.value + '", 0, 0)',
                     onTick: superRet.onTick + '\n'
-                        + 'if (isP1 and in1X >= ' + this.x + ' and in1X <= ' + (this.x + this.width) + ' and in1Y >= ' + this.y + ' and in1Y <= ' + (this.y + this.height) + ') or (isP2 and in2X >= ' + this.x + ' and in2X <= ' + (this.x + this.width) + ' and in2Y >= ' + this.y + ' and in2Y <= ' + (this.y + this.height) + ') then\n'
+                        + 'if (isP1 and isInRect(' + this.x + ',' + this.y + ',' + this.width + ',' + this.height + ',in1X,in1Y)) or (isP2 and isInRect(' + this.x + ',' + this.y + ',' + this.width + ',' + this.height + ',in1X,in1Y)) then\n'
                         + this.id + 'Toggled=true\n'
                         + 'else\n'
                         + this.id + 'Toggled=false\n'
                         + 'end\n'
                         + 'output.setBool(' + this.settings.channel.value + ', ' + this.id + 'Toggled)',
-                    lib: superRet.lib
+                    libs: Object.assign(superRet.libs, {[LIBS.IS_IN_RECT]:true})
                 }
             }
         }
@@ -687,33 +701,45 @@ var UI_BUILDER = ((global, $)=>{
 
 
     function generateLuaCode(){
-        const fields = ['init', 'onTick', 'onDraw', 'lib']
-        let code = {}
-        for(let i of fields){
-            code[i] = ''
-        }
-
-        for(let e of allElements){
-            let c = e.buildLuaCode()
+        try {
+            const fields = ['init', 'onTick', 'onDraw']
+            let code = {}
             for(let i of fields){
-                if(typeof c[i] === 'string'){
-                    code[i] += '\n\n' + c[i]
+                code[i] = ''
+            }
+
+            let libs = {}
+
+            for(let e of allElements){
+                let c = e.buildLuaCode()
+                Object.assign(libs, c.libs)
+                for(let i of fields){
+                    if(typeof c[i] === 'string'){
+                        code[i] += '\n\n' + c[i]
+                    }
                 }
             }
+
+            let libCode = ''
+            for(let l in libs){
+                libCode += LIBS_CODE[l] + '\n\n'
+            }
+
+            let allCode = code.init
+                + '\nfunction onTick()\n'
+                    + 'isP1 = input.getBool(1)\nisP2 = input.getBool(2)\n\nin1X = input.getNumber(3)\nin1Y = input.getNumber(4)\nin2X = input.getNumber(5)\nin2Y = input.getNumber(6)\n\n'
+                    + code.onTick + '\nend\n'
+                + '\nfunction onDraw()\n' + code.onDraw + '\nend\n'
+                + '\n' + libCode
+
+            allCode = allCode.replace(/[\n]{3,}/g, '\n\n')
+
+            $('#ui-builder-code').show()
+            uiBuilderEditor.setValue(allCode)
+        } catch (ex){
+            console.error('Error building lua code', ex)
+            YYY.alert('Error building lua code.\nPlease contact the developer.')
         }
-
-        let allCode = code.init
-            + '\nfunction onTick()\n'
-                + 'isP1 = input.getBool(1)\nisP2 = input.getBool(2)\n\nin1X = input.getNumber(3)\nin1Y = input.getNumber(4)\nin2X = input.getNumber(5)\nin2Y = input.getNumber(6)\n\n'
-                + code.onTick + '\nend\n'
-            + '\nfunction onDraw()\n' + code.onDraw + '\nend\n'
-            + '\n' + code.lib
-            + '\n' + 'function setC(r,g,b,a)\nscreen.setColor(r,g,b,a)\nend'
-
-        allCode = allCode.replace(/[\n]{3,}/g, '\n\n')
-
-        $('#ui-builder-code').show()
-        uiBuilderEditor.setValue(allCode)
     }
 
     /* helpers */
