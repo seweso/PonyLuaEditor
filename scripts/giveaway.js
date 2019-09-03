@@ -61,5 +61,5 @@ var GIVEAWAY = (($)=>{
 })(jQuery)
 
 $(window).on('load', ()=>{
-    /* GIVEAWAY.init() */
+    GIVEAWAY.init()
 })
