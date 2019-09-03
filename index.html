@@ -47,6 +47,7 @@
     <script type="text/javascript" src="scripts/luaparse.js"></script>
     <script type="text/javascript" src="scripts/luamin.js"></script>
     <script type="text/javascript" src="scripts/examples.js"></script>
+    <script type="text/javascript" src="scripts/giveaway.js"></script>
 </head>
 <body>
     <script type="text/javascript">
@@ -453,6 +454,28 @@ end
             </div>
             <div class="buttons">
                 <button class="ok">Ok</button>
+            </div>
+        </div>
+    </div>
+
+    <div style="display: none;" id="giveaway-container" class="dialog">
+        <div class="inner">
+            <h3 class="title">Pony has a giveaway for you!</h3>
+            <div class="message"></div>
+            <div class="claimed_by_container">
+                <label>Your Discord Tag or email (so i can send you the giveaway):</label>
+                <input type="text" name="giveaway-claimed-by" class="claimed_by" placeholder="CrazyFluffyPony#0587">
+            </div>
+            <div class="error" style="display: none;">Error occured</div>
+            <div class="progress" style="display: none;">Claiming ...</div>
+            <div class="success" style="display: none;">
+                You claimed the giveaway!<br>I will contact you soon!
+            </div>
+            <div class="buttons">
+                <button class="cancel">Cancel</button>
+                <button class="reload" style="display: none;">Reload</button>
+                <button class="send">Send</button>
+                <button class="close" style="display: none;">Close</button>
             </div>
         </div>
     </div>

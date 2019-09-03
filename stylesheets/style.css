@@ -1623,7 +1623,7 @@ a:hover {
 .dialog .inner {
     display: flex;
     flex-direction: column;
-    background: #fffa;
+    background: #e3e3e3;
     padding: 20px;
     border-radius: 3px;
     box-shadow: 2px 2px 3px #555;
@@ -1648,6 +1648,47 @@ a:hover {
 
 .dialog .buttons button {
     margin: 0 10px;
+}
+
+
+/* giveaway */
+#giveaway-container {
+    background: url('../images/giveaway_background.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+#giveaway-container .claimed_by_container {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+#giveaway-container .claimed_by_container input {
+    margin: 10px 0;
+    padding: 3px 6px;
+    font-size: 16px;
+    font-family: 'Helvetica', 'Arial', 'sans-serif';
+    border-radius: 3px;
+    border: 1px solid #535353;
+}
+
+#giveaway-container .inner .error, #giveaway-container .inner .progress, #giveaway-container .inner .success {
+    margin-bottom: 20px;
+    padding: 10px;
+    color: #fff;
+}
+
+#giveaway-container .inner .error {
+    background: #94342a;
+}
+
+#giveaway-container .inner .progress {
+    background: #21648d;
+}
+
+#giveaway-container .inner .success {
+    background: #3a7830;
 }
 
 @keyframes circle {
