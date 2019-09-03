@@ -137,6 +137,21 @@ a:hover {
     border-radius: 10000px;
 }
 
+#giveaway-hint {
+    background: url('../images/giveaway_background_small.jpg');
+    background-size: cover;
+    background-position: center bottom;
+    box-shadow: 0px 0px 3px 2px #67096A78;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 5px 10px;
+    border-radius: 10000px;
+    color: #fff;
+    font-weight: bold;
+}
+
 #beta {
     background: linear-gradient(15deg, #EE4A4B 0%, #F4812E 100%);
     box-shadow: 0px 0px 3px 2px #EE4A4B77;    
