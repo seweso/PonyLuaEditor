@@ -88,11 +88,13 @@ var PAINT = ((c)=>{
         text = text.toUpperCase()
         log()
 
-        c.ctx().font = zoom(FONT_SIZE) + FONT
+        c.ctx().font = Math.floor(zoom(FONT_SIZE)) + FONT
         let lines = text.split('\n')
         let lineCounter = 0
-        for(let l of lines){            
-            c.ctx().fillText(l, c.left() + zoom(x), c.top() + zoom(y + lineCounter*6) + zoom(FONT_SIZE))
+        for(let l of lines){    
+            let x = c.left() + zoom(x)
+            let y = c.top() + zoom(y + lineCounter*6) + zoom(FONT_SIZE)     
+            c.ctx().fillText(l, Math.round(x), Math.round(y))
             lineCounter++
         }
     }
@@ -125,7 +127,7 @@ var PAINT = ((c)=>{
             i += maxCharsPerLine
         }
 
-        c.ctx().font = zoom(FONT_SIZE) + FONT
+        c.ctx().font = Math.floor(zoom(FONT_SIZE)) + FONT
 
         let lineHeight = FONT_SIZE+1
 
@@ -135,11 +137,11 @@ var PAINT = ((c)=>{
         //old
         let lineCounter = 0
         for(let l of lines){
-            let widthOfCurrentLine = l.length * 5
+            let widthOfCurrentLine = l.length * 5 - 1
             let xx = c.left() + zoom(horizontalCenter - widthOfCurrentLine/2) - zoom(h_align * widthOfCurrentLine/2)
-            let yy = c.top() + zoom(lineCounter * lineHeight + verticalCenter) - zoom(v_align * lines.length * lineHeight/2) - zoom(lines.length * lineHeight/2) + zoom(lineHeight)
+            let yy = c.top() + zoom(lineCounter * lineHeight + verticalCenter) - zoom(v_align * lines.length * lineHeight/2) - zoom(lines.length * lineHeight/2) + zoom(lineHeight) - zoom(1-(lineCounter/lines.length))
 
-            c.ctx().fillText(l, xx, yy);
+            c.ctx().fillText(l, Math.round(xx), Math.round(yy));
 
             lineCounter++
         }
