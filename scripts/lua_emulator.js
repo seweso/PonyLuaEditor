@@ -205,10 +205,13 @@ var LUA_EMULATOR = ((global, $)=>{
             fengari.lua.lua_pushnil(l)
             return 1
         } else if (ob instanceof Array){
+            fengari.lua.lua_createtable(l)
             for(let i in ob){
-                pushToStack(l, ob[i])                
+                pushToStack(l, i)
+                pushToStack(l, ob[i])
+                fengari.lua.lua_settable(l, -3)
             }
-            return ob.length
+            return 1
         } else if (ob instanceof Object){
             fengari.lua.lua_createtable(l)
             for(let k of Object.keys(ob)){
