@@ -89,7 +89,12 @@ var PAINT = ((c)=>{
         log()
 
         c.ctx().font = zoom(FONT_SIZE) + FONT
-        c.ctx().fillText(text, c.left() + zoom(x), c.top() + zoom(y) + zoom(FONT_SIZE))
+        let lines = text.split('\n')
+        let lineCounter = 0
+        for(let l of lines){            
+            c.ctx().fillText(l, c.left() + zoom(x), c.top() + zoom(y + lineCounter*6) + zoom(FONT_SIZE))
+            lineCounter++
+        }
     }
 
     function drawTextBox(x, y, w, h, text, h_align, v_align){
