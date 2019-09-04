@@ -191,9 +191,9 @@ var YYY = ((global, $)=>{
                         let ret = text
                             .replace(/;/g, '\n')
                             .replace(/\(\)/g, '()\n')
-                            .replace(/end/g, '\nend')
-                            .replace(/then/g, 'then\n')
-                            .replace(/do/g, 'do\n')
+                            .replace(/end[\s]+/g, '\nend')
+                            .replace(/then[\s]+/g, 'then\n')
+                            .replace(/do[\s]+/g, 'do\n')
                             .replace(/([\w\.]+)=([\w\.]+)[;\s]/g, '$1=$2\n')
                             .replace(/\)([\w]+)=/g, ')\n$1=')
                             .replace(/\)([\w\.]+)\(/g, ')\n$1(') 
