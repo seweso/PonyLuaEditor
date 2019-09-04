@@ -102,7 +102,7 @@ var PAINT = ((c)=>{
 
         log()
 
-        let maxCharsPerLine = Math.floor(w / 4)
+        let maxCharsPerLine = Math.floor(w / 5)
         if(maxCharsPerLine <= 0){
             return
         }
@@ -113,6 +113,7 @@ var PAINT = ((c)=>{
             let line = text.substring(i, i + maxCharsPerLine)
             let indexOfNewLine = line.indexOf('\n')
             if(indexOfNewLine === 0){//new line at the beginning
+                lines.push('\n')
                 i++
                 continue
             } else if(indexOfNewLine > 0){//new line somewhere in the middle of the text
@@ -126,16 +127,17 @@ var PAINT = ((c)=>{
 
         c.ctx().font = zoom(FONT_SIZE) + FONT
 
-        let lineHeight = FONT_SIZE
+        let lineHeight = FONT_SIZE+1
 
         let horizontalCenter = x + w/2 + h_align * w/2
         let verticalCenter = y + h/2 + v_align * h/2
 
+        //old
         let lineCounter = 0
         for(let l of lines){
-            let widthOfCurrentLine = l.length * 4
+            let widthOfCurrentLine = l.length * 5
             let xx = c.left() + zoom(horizontalCenter - widthOfCurrentLine/2) - zoom(h_align * widthOfCurrentLine/2)
-            let yy = c.top() + zoom(lineCounter * lineHeight + verticalCenter - lines.length * lineHeight/4) + zoom(FONT_SIZE) - zoom(v_align * lines.length * lineHeight/2) - zoom(lines.length * lineHeight/2) + zoom(lineHeight/2)
+            let yy = c.top() + zoom(lineCounter * lineHeight + verticalCenter) - zoom(v_align * lines.length * lineHeight/2) - zoom(lines.length * lineHeight/2) + zoom(lineHeight)
 
             c.ctx().fillText(l, xx, yy);
 
