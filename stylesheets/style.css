@@ -195,13 +195,13 @@ a:hover {
 
 #overflow {
     position: absolute;
-    top: 0;
-    left: 0;
+    top: 31px;
+    left: 31px;
     z-index: 2;
-    width: calc(100% - 63px);
-    height: calc(100% - 63px);
+    width: calc(100% - 62px);
+    height: calc(100% - 62px);
     border: 1px solid #ff0000cc;
-    margin: 32px;
+    margin: 0;
 }
 
 #monitor-sizes {
