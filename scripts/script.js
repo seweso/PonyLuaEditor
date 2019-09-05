@@ -188,17 +188,30 @@ var YYY = ((global, $)=>{
                     minified = identedMinified
 
                     function ident(text){
+                        const replacements = [
+                            [/;/g, '\n'],
+                            [/\(\)/g, '()\n'],
+                            [/([\w\.]+)=([\w\.]+)[;\s]/g, '$1=$2\n'],
+                            [/\)([\w]+)=/g, ')\n$1='],
+                            [/\)([\w\.]+)\(/g, ')\n$1('],
+                            [/\}([\w\.]+[;\s=])/g, '}\n$1']
+                        ]
+
+                        for(let k of ['if', 'end', 'elseif', 'for', 'while', 'goto', 'break', 'continue', 'return', 'function', 'local']){
+                            replacements.push([new RegExp('([\\s\\);])'+k+'([\\s\\(;])', 'g'), '$1\n' + k + '$2'])
+                        }
+                        for(let k of ['then', 'end', 'do']){
+                            replacements.push([new RegExp(k+'([\\s;])', 'g'), k + '\n'])
+                        }
+
+
                         let ret = text
-                            .replace(/;/g, '\n')
-                            .replace(/\(\)/g, '()\n')
-                            .replace(/end[;\s]+/g, 'end\n')
-                            .replace(/then[;\s]+/g, 'then\n')
-                            .replace(/do[;\s]+/g, 'do\n')
-                            .replace(/([\w\.]+)=([\w\.]+)[;\s]/g, '$1=$2\n')
-                            .replace(/\)([\w]+)=/g, ')\n$1=')
-                            .replace(/\)([\w\.]+)\(/g, ')\n$1(') 
-                            .replace(/\}([\w\.]+[;\s=])/g, '}\n$1')
-                        return ret
+
+                        for(let r of replacements){
+                            ret = ret.replace(r[0], r[1])
+                        }
+
+                        return ret.replace(/[\n]{2,}/g, '\n').replace(/end\nfunction/g, 'end\n\nfunction')
                     }
                 }
 
