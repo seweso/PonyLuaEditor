@@ -430,18 +430,21 @@ var YYY = ((global, $)=>{
                 makeIdentifierLocal(identifier, e)
             }
         }
+        if(ast.variable && ast.variable.name === identifier){
+            ast.variable.isLocal = true
+        }
+        if(ast.arguments instanceof Array){
+            for(let a of ast.arguments){
+                makeIdentifierLocal(identifier, a)
+            }
+        }
         if(ast.expression){
             if(ast.expression.base && ast.expression.base.base && ast.expression.base.base.name === identifier){
                 ast.expression.base.base.isLocal = true
             }
             if(ast.expression.arguments instanceof Array){
                 for(let e of ast.expression.arguments){
-                    if(e.left){
-                        makeIdentifierLocal(identifier, e.left)
-                    }
-                    if(e.right){
-                        makeIdentifierLocal(identifier, e.right)
-                    }
+                    makeIdentifierLocal(identifier, e)
                 }
             }
         }
@@ -455,6 +458,21 @@ var YYY = ((global, $)=>{
         }
         if(ast.base && ast.base.base){
             makeIdentifierLocal(identifier, ast.base)
+        }        
+        if(ast.end){
+            makeIdentifierLocal(identifier, ast.end)
+        }
+        if(ast.start){
+            makeIdentifierLocal(identifier, ast.start)
+        }
+        if(ast.step){
+            makeIdentifierLocal(identifier, ast.step)
+        }
+        if(ast.left){
+            makeIdentifierLocal(identifier, ast.left)
+        }
+        if(ast.right){
+            makeIdentifierLocal(identifier, ast.right)
         }
 
     }
@@ -480,18 +498,21 @@ var YYY = ((global, $)=>{
                 replaceIdentifierName(identifier, e, newIdentifier)
             }
         }
+        if(ast.variable && ast.variable.name === identifier){
+            ast.variable.name = newIdentifier
+        }
+        if(ast.arguments instanceof Array){
+            for(let a of ast.arguments){
+                replaceIdentifierName(identifier, a, newIdentifier)
+            }
+        }
         if(ast.expression){
             if(ast.expression.base){
                 replaceIdentifierName(identifier, ast.expression.base, newIdentifier)
             }
             if(ast.expression.arguments instanceof Array){
                 for(let e of ast.expression.arguments){
-                    if(e.left){
-                        replaceIdentifierName(identifier, e.left, newIdentifier)
-                    }
-                    if(e.right){
-                        replaceIdentifierName(identifier, e.right, newIdentifier)
-                    }
+                    replaceIdentifierName(identifier, e, newIdentifier)
                 }
             }
         }
@@ -505,6 +526,21 @@ var YYY = ((global, $)=>{
         }
         if(ast.base && ast.base.base){
             replaceIdentifierName(identifier, ast.base, newIdentifier)
+        }
+        if(ast.end){
+            replaceIdentifierName(identifier, ast.end, newIdentifier)
+        }
+        if(ast.start){
+            replaceIdentifierName(identifier, ast.start, newIdentifier)
+        }
+        if(ast.step){
+            replaceIdentifierName(identifier, ast.step, newIdentifier)
+        }
+        if(ast.left){
+            replaceIdentifierName(identifier, ast.left, newIdentifier)
+        }
+        if(ast.right){
+            replaceIdentifierName(identifier, ast.right, newIdentifier)
         }
     }
 
