@@ -91,10 +91,10 @@ var PAINT = ((c)=>{
         c.ctx().font = Math.floor(zoom(FONT_SIZE)) + FONT
         let lines = text.split('\n')
         let lineCounter = 0
-        for(let l of lines){    
+        for(let l of lines){
             let xx = c.left() + zoom(x)
-            let yy = c.top() + zoom(y + lineCounter*6) + zoom(FONT_SIZE)     
-            c.ctx().fillText(l, Math.round(x), Math.round(y))
+            let yy = c.top() + zoom(y + lineCounter*6) + zoom(FONT_SIZE)
+            c.ctx().fillText(l, Math.round(xx), Math.round(yy))
             lineCounter++
         }
     }
