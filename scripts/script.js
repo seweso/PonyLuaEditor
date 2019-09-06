@@ -333,7 +333,7 @@ var YYY = ((global, $)=>{
         $('#help-badge, #help-menu-entry').on('click', ()=>{
             if(firstHelpOpen){
                 firstHelpOpen = false
-                $('#help-youtube-video').html('<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/hHgnNmwmZCY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>')
+                $('#help-youtube-video').html('<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/Z8cLxmVd07c" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>')
             }
             scrollPosition = $(window).scrollTop()
             $('body').css({
