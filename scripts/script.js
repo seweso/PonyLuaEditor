@@ -798,7 +798,7 @@ var YYY = ((global, $)=>{
             average += t
         }
 
-        $('#ticktime').html( Math.round(Math.min(60, 1000/(average/tickTimes.length))))
+        $('#ticktime').html( Math.round(Math.min(1000/timeBetweenTicks*0.96, 1000/(average/tickTimes.length))))
     }
 
     function doDraw(){
@@ -826,7 +826,7 @@ var YYY = ((global, $)=>{
             average += t
         }
 
-        $('#drawtime').html( Math.round(Math.min(60, 1000/(average/drawTimes.length))))
+        $('#drawtime').html( Math.round(Math.min(drawAnimationFrame? 60 : (1000/timeBetweenDraws*0.96), 1000/(average/drawTimes.length))))
 
         if(drawAnimationFrame){
             window.requestAnimationFrame(doDraw)
