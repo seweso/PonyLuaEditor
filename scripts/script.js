@@ -23,6 +23,7 @@ var YYY = ((global, $)=>{
 
     let isCustomMinifiedCode = false
 
+    let lastScrollPos = 0
 
     $(global).on('load', init)
 
@@ -374,10 +375,31 @@ var YYY = ((global, $)=>{
 
         /* mobile menu */
         $('#mobile-menu-open').on('click', ()=>{
+            lastScrollPos = $(window).scrollTop()
             $('#mobile-menu').css('display', 'flex')
+            $('.content').css({
+                'margin-top': -lastScrollPos,
+                'max-height': lastScrollPos + $('#mobile-menu-inner').height(),
+                'overflow': 'hidden'
+            })
+            $('#navigation').css({
+                'position': 'absolute',
+                'top': 0
+            })
+            $(window).scrollTop(0)            
         })
         $('#mobile-menu .menu_group > :not(.menu_group_title), #mobile-menu-close-sidebar').on('click', ()=>{
             $('#mobile-menu').hide()
+            $('.content').css({
+                'margin-top': '',
+                'max-height': '',
+                'overflow': ''
+            })            
+            $('#navigation').css({
+                'position': '',
+                'top': ''
+            })
+            $(window).scrollTop(lastScrollPos)
         })
 
         setTimeout(()=>{

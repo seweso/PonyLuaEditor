@@ -1281,16 +1281,15 @@ a:hover {
 #mobile-menu {
     display: none;
     flex-direction: row;
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     width: 100vw;
-    height: 100vh;
     z-index: 1000000000000;
 }
 
 #mobile-menu-close-sidebar {
-    width: 20%;
+    width: 100%;
     background: #fff7;
 }
 
@@ -1298,9 +1297,11 @@ a:hover {
     display: flex;
     flex-direction: column;
     width: 80%;
+    max-width: 350px;
     height: 100%;
     background: #000;
     color: #ddd;
+    border-bottom: 10px solid #0a0a0a;
 }
 
 #mobile-menu .mobile_menu_logo {
@@ -1320,7 +1321,7 @@ a:hover {
 #mobile-menu .menu_group {
     display: flex;
     flex-direction: column;
-    background: #111;
+    background: #0a0a0a;
 }
 
 #mobile-menu .menu_group > * {
@@ -1333,6 +1334,7 @@ a:hover {
 
 #mobile-menu .menu_group_title {
     background: #000;
+    border-bottom: 2px solid #111;
 }
 
 #mobile-menu-open {
@@ -1772,6 +1774,10 @@ a:hover {
     #fixed-information-badges {
         display: none;
     }   
+
+    #download-offline {
+        display: none;
+    }
 }
 
 @media (max-width: 767) {
