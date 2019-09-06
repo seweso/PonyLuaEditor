@@ -3,10 +3,10 @@ var YYY = ((global, $)=>{
 
 
     let intervalTick
-    let timeBetweenTicks = 200
+    let timeBetweenTicks = 16
 
     let intervalDraw
-    let timeBetweenDraws = 500
+    let timeBetweenDraws = 16
 
     let tickTimes = [0,0,0,0,0]
     let drawTimes = [0,0,0,0,0]
@@ -627,13 +627,13 @@ var YYY = ((global, $)=>{
     function refreshTimeBetweenTicks(){
         let val = $('#timeBetweenTicks').val()
         timeBetweenTicks = val
-        $('#timeBetweenTicksVal').html(val + ' ms')
+        $('#timeBetweenTicksVal').html(Math.round(1000/val*0.96))
     }
 
     function refreshTimeBetweenDraws(){
         let val = $('#timeBetweenDraws').val()
         timeBetweenDraws = val
-        $('#timeBetweenDrawsVal').html(val + ' ms')
+        $('#timeBetweenDrawsVal').html(Math.round(1000/val*0.96))
     }
 
     function start(){
@@ -743,11 +743,13 @@ var YYY = ((global, $)=>{
 
         let end = new Date().getTime()
         let diff = end-begin
-        if(diff > 1000){
-            LUA_EMULATOR.printToConsole('onTick() execution was longer then 1000ms!')
+        if(diff > 1000 || diff > timeBetweenTicks){
             $('#ticktime').addClass('warning')
         } else {
             $('#ticktime').removeClass('warning')
+        }
+        if(diff > 1000){
+            LUA_EMULATOR.printToConsole('onTick() execution was longer then 1000ms!')
         }
         tickTimes.reverse()
         tickTimes.pop()
@@ -758,7 +760,7 @@ var YYY = ((global, $)=>{
             average += t
         }
 
-        $('#ticktime').html(Math.floor(average/tickTimes.length) + ' ms')
+        $('#ticktime').html( Math.round(Math.min(1000/timeBetweenTicks*0.96, 1000/(average/tickTimes.length))))
     }
 
     function doDraw(){
@@ -769,11 +771,13 @@ var YYY = ((global, $)=>{
 
         let end = new Date().getTime()
         let diff = end-begin
-        if(diff > 1000){
-            LUA_EMULATOR.printToConsole('onDraw() execution was longer then 1000ms!')
+        if(diff > 1000 || diff > timeBetweenDraws){
             $('#drawtime').addClass('warning')
         } else {
             $('#drawtime').removeClass('warning')
+        }
+        if(diff > 1000){
+            LUA_EMULATOR.printToConsole('onDraw() execution was longer then 1000ms!')
         }
         drawTimes.reverse()
         drawTimes.pop()
@@ -784,7 +788,7 @@ var YYY = ((global, $)=>{
             average += t
         }
 
-        $('#drawtime').html(Math.floor(average/drawTimes.length) + ' ms')
+        $('#drawtime').html( Math.round(Math.min(1000/timeBetweenDraws*0.96, 1000/(average/drawTimes.length))))
     }
 
     function updateStorage(){

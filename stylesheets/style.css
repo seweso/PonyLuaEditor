@@ -127,6 +127,10 @@ a:hover {
     margin: 0 20px;
 }
 
+#selection .time_between input[type="range"] {
+    direction: rtl;
+}
+
 #beta, #offline, #download-offline {
     display: inline-block;
     color: #fff;
