@@ -169,6 +169,7 @@ a:hover {
 #download-offline {
     background: linear-gradient(15deg, #9A8D00 0%, #4d835f 100%);
     box-shadow: 0px 0px 3px 2px #a99c1077;
+    text-decoration: none;
 }
 
 #top {
@@ -237,22 +238,23 @@ a:hover {
     flex-wrap: wrap;
 }
 
-#editor .controls button {
+.controls_container button {
     margin: 0;
 }
 
-#editor .controls button:not(:last-child) {
+.controls_container button:not(:last-child) {
     margin-right: 10px;
 }
 
-#editor .controls .controls_container {
+.controls_container {
     background: #000a;
     padding: 10px;
     border-radius: 5px;
     margin-bottom: 10px;
+    display: inline-block;
 }
 
-#editor .controls .controls_container:not(:last-child) {
+.controls_container:not(:last-child) {
     margin-right: 10px;
 }
 
@@ -1604,10 +1606,13 @@ a:hover {
 #ui-builder-controls {
     display: flex;
     flex-direction: row;
-    margin-bottom: 20px;
     justify-content: flex-start;
     align-items: center;
     flex-wrap: wrap;
+}
+
+#ui-builder-controls .controls_container {
+    margin-bottom: 0;
 }
 
 #ui-builder-controls > *:not(:last-child) {

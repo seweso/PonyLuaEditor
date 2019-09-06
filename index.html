@@ -84,12 +84,13 @@
                 <div class="menu_group_title">Other Information</div>
                 <a href="https://www.lua.org/manual/5.3/" target="_blank" rel="noopener noreferrer">Official Lua manual</a>
                 <a target="_blank" rel="noopener noreferrer" href="https://gitlab.com/stormworks-lua-editor/editor">View source code</a>
+                <a href="https://gitlab.com/stormworks-lua-editor/editor/-/archive/master/editor-master.zip" download="" rel="nofollow">Download for offline use</a>
             </div>
         </div>
         <div id="mobile-menu-close-sidebar"></div>
       </div>
     <div id="navigation">
-        <div id="mobile-menu-open" style="display: none;"></div>
+        <div id="mobile-menu-open"></div>
         <div id="logo"></div>
         <div id="giveaway-hint">Giveaway claimed by Script Sauce</div>
         <div style="display: none" id="beta">Beta</div>
@@ -212,8 +213,6 @@ end
         <div id="minified-controls" class="controls">
             <div class="controls_container">
                 <button id="save-minified">Save Minified</button>
-            </div>
-            <div class="controls_container">
                 <button id="start-minified">Start Minified</button>
             </div>
         </div>        
@@ -241,14 +240,12 @@ end
         <h2>UI Builder (Beta)</h2>
         <div id="ui-builder-container"></div>
         <div id="ui-builder-controls">
-            <div class="ui_builder_zoom">
+            <div class="ui_builder_zoom controls_container">
                 <label for="ui-builder-zoom">UI Builder Zoom: <span>1x</span></label>
                 <input type="range" min="1" max="4" value="1" name="ui-builder-zoom" id="ui-builder-zoom">
             </div>
             <div class="controls_container">
                 <button id="generate-ui-builder-lua-code">Generate Lua Code</button>
-            </div>
-            <div class="controls_container">
                 <button id="start-generated">Start Generated Code</button>
             </div>
         </div>
