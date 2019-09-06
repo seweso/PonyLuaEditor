@@ -8,6 +8,8 @@ var YYY = ((global, $)=>{
     let intervalDraw
     let timeBetweenDraws = 16
 
+    let drawAnimationFrame = false
+
     let tickTimes = [0,0,0,0,0]
     let drawTimes = [0,0,0,0,0]
 
@@ -271,8 +273,18 @@ var YYY = ((global, $)=>{
             updateStorage()
         })
 
+        $('#timeBetweenTicks').on('change', ()=>{
+            refreshTimeBetweenTicks(true)
+            updateStorage()
+        })
+
         $('#timeBetweenDraws').on('input', ()=>{
             refreshTimeBetweenDraws()
+            updateStorage()
+        })
+
+        $('#timeBetweenDraws').on('change', ()=>{
+            refreshTimeBetweenDraws(true)
             updateStorage()
         })
 
@@ -624,16 +636,24 @@ var YYY = ((global, $)=>{
         refreshTimeBetweenDraws()   
     }
 
-    function refreshTimeBetweenTicks(){
+    function refreshTimeBetweenTicks(is_change){
         let val = $('#timeBetweenTicks').val()
         timeBetweenTicks = val
         $('#timeBetweenTicksVal').html(Math.round(1000/val*0.96))
+        if(running && is_change){
+            clearDrawAndTickInterval()
+            setDrawAndTickInterval()
+        }
     }
 
-    function refreshTimeBetweenDraws(){
+    function refreshTimeBetweenDraws(is_change){
         let val = $('#timeBetweenDraws').val()
         timeBetweenDraws = val
         $('#timeBetweenDrawsVal').html(Math.round(1000/val*0.96))
+        if(running && is_change){
+            clearDrawAndTickInterval()
+            setDrawAndTickInterval()
+        }
     }
 
     function start(){
@@ -688,7 +708,7 @@ var YYY = ((global, $)=>{
 
     function startCode(code){
         running = true
-        $('#start, #start-minified, #timeBetweenTicks, #timeBetweenDraws').prop('disabled', true)
+        $('#start, #start-minified').prop('disabled', true)
         $('#console').val('')
         CANVAS.reset()
         CANVAS.resetTouchpoints()
@@ -705,20 +725,16 @@ var YYY = ((global, $)=>{
         }
         OUTPUT.reset()
 
-        intervalTick = setInterval(doTick, timeBetweenTicks)
-        setTimeout(()=>{
-            intervalDraw = setInterval(doDraw, timeBetweenDraws)            
-        }, timeBetweenTicks * 1.1)
+        setDrawAndTickInterval()
         $('#stop').prop('disabled', false)
     }
 
     function stop(){
         $('#stop').prop('disabled', true)
-        clearInterval(intervalTick)
-        clearInterval(intervalDraw)
+        clearDrawAndTickInterval()
 
         LUA_EMULATOR.reset().then(()=>{
-            $('#start, #start-minified, #start-generated, #timeBetweenTicks, #timeBetweenDraws').prop('disabled', false)
+            $('#start, #start-minified, #start-generated').prop('disabled', false)
             $('#code-container, #minified-code-container').removeClass('locked')
         })
 
@@ -727,11 +743,33 @@ var YYY = ((global, $)=>{
 
     function errorStop(){
         console.log('\nerror stop!!!\n')
-        clearInterval(intervalTick)
-        clearInterval(intervalDraw)
+        clearDrawAndTickInterval()
         setTimeout(()=>{
             stop()
         }, 500)
+    }
+
+    function setDrawAndTickInterval(){
+        console.log('setDrawAndTickInterval')
+        if(timeBetweenDraws < 20){
+            drawAnimationFrame=true
+            setTimeout(()=>{
+                window.requestAnimationFrame(doDraw)
+                //intervalDraw = setInterval(doDraw, timeBetweenDraws)            
+            }, timeBetweenTicks * 1.1)     
+        } else {
+            setTimeout(()=>{
+                intervalDraw = setInterval(doDraw, timeBetweenDraws)            
+            }, timeBetweenTicks * 1.1)            
+        }
+        intervalTick = setInterval(doTick, timeBetweenTicks)
+    }
+
+    function clearDrawAndTickInterval(){    
+        console.log('clearDrawAndTickInterval')    
+        drawAnimationFrame=false
+        clearInterval(intervalTick)
+        clearInterval(intervalDraw)
     }
 
     function doTick(){
@@ -760,7 +798,7 @@ var YYY = ((global, $)=>{
             average += t
         }
 
-        $('#ticktime').html( Math.round(Math.min(1000/timeBetweenTicks*0.96, 1000/(average/tickTimes.length))))
+        $('#ticktime').html( Math.round(Math.min(60, 1000/(average/tickTimes.length))))
     }
 
     function doDraw(){
@@ -788,7 +826,11 @@ var YYY = ((global, $)=>{
             average += t
         }
 
-        $('#drawtime').html( Math.round(Math.min(1000/timeBetweenDraws*0.96, 1000/(average/drawTimes.length))))
+        $('#drawtime').html( Math.round(Math.min(60, 1000/(average/drawTimes.length))))
+
+        if(drawAnimationFrame){
+            window.requestAnimationFrame(doDraw)
+        }
     }
 
     function updateStorage(){
