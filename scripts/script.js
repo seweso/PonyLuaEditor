@@ -379,7 +379,7 @@ var YYY = ((global, $)=>{
             $('#mobile-menu').css('display', 'flex')
             $('.content').css({
                 'margin-top': -lastScrollPos,
-                'max-height': lastScrollPos + $('#mobile-menu-inner').height(),
+                'max-height': Math.max($(window).height(), lastScrollPos + $('#mobile-menu-inner').height()),
                 'overflow': 'hidden'
             })
             $('#navigation').css({

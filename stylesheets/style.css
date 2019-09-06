@@ -1285,6 +1285,7 @@ a:hover {
     top: 0;
     left: 0;
     width: 100vw;
+    min-height: 100vh;
     z-index: 1000000000000;
 }
 
@@ -1299,9 +1300,10 @@ a:hover {
     width: 80%;
     max-width: 350px;
     height: 100%;
-    background: #000;
+    min-height: 100vh;
+    background: #0a0a0a;
     color: #ddd;
-    border-bottom: 10px solid #0a0a0a;
+    padding-bottom: 10px;
 }
 
 #mobile-menu .mobile_menu_logo {
