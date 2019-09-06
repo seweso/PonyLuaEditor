@@ -378,13 +378,14 @@ var YYY = ((global, $)=>{
             lastScrollPos = $(window).scrollTop()
             $('#mobile-menu').css('display', 'flex')
             $('.content').css({
-                'margin-top': -lastScrollPos,
+                'margin-top': -lastScrollPos + $('#navigation').height(),
                 'max-height': Math.max($(window).height(), lastScrollPos + $('#mobile-menu-inner').height()),
                 'overflow': 'hidden'
             })
             $('#navigation').css({
                 'position': 'absolute',
-                'top': 0
+                'top': 0,
+                'width': '100%'
             })
             $(window).scrollTop(0)            
         })
