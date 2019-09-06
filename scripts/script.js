@@ -750,12 +750,10 @@ var YYY = ((global, $)=>{
     }
 
     function setDrawAndTickInterval(){
-        console.log('setDrawAndTickInterval')
         if(timeBetweenDraws < 20){
             drawAnimationFrame=true
             setTimeout(()=>{
-                window.requestAnimationFrame(doDraw)
-                //intervalDraw = setInterval(doDraw, timeBetweenDraws)            
+                window.requestAnimationFrame(doDraw)            
             }, timeBetweenTicks * 1.1)     
         } else {
             setTimeout(()=>{
@@ -765,8 +763,7 @@ var YYY = ((global, $)=>{
         intervalTick = setInterval(doTick, timeBetweenTicks)
     }
 
-    function clearDrawAndTickInterval(){    
-        console.log('clearDrawAndTickInterval')    
+    function clearDrawAndTickInterval(){ 
         drawAnimationFrame=false
         clearInterval(intervalTick)
         clearInterval(intervalDraw)
