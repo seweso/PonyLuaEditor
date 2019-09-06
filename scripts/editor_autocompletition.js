@@ -852,7 +852,12 @@ function AutocompletitionElement(completitions, part){
             e.stopImmediatePropagation()
 
             this.arrowUp()
-        } else if(e.keyCode === 13) {
+        } else if (e.keyCode === 27){//esc
+            e.preventDefault()
+            e.stopImmediatePropagation()
+
+            AUTOCOMPLETE.closeAutocomplete()
+        } else if(e.keyCode === 13) {//enter
             e.preventDefault()
             e.stopImmediatePropagation()
 
