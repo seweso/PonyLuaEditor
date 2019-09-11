@@ -252,6 +252,7 @@ a:hover {
     border-radius: 5px;
     margin-bottom: 10px;
     display: inline-block;
+    color: #fff;
 }
 
 .controls_container:not(:last-child) {
