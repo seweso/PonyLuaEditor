@@ -10,7 +10,7 @@ var INPUT = ((global, $)=>{
     let dom_numbers
     let dom_numbers_add
 
-    const SUPPORTED_INPUT_KEYS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+    const SUPPORTED_INPUT_KEYS = ['e', 'q', 1, 2, 3, 4, 5, 6, 7, 8, 9, 'a', 'b', 'c', 'd', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
 
     function init(container){
 
@@ -186,7 +186,9 @@ var INPUT = ((global, $)=>{
             config = {
                 val: typeof val === 'boolean' ? val : false,
                 type: 'push',
-                key: label
+                key: typeof label != 'number' ? SUPPORTED_INPUT_KEYS[Object.keys(bools).length] : (
+                    label > 2 ? SUPPORTED_INPUT_KEYS[label+1] : SUPPORTED_INPUT_KEYS[label-1]
+                    )
             }
         }
 
@@ -256,7 +258,7 @@ var INPUT = ((global, $)=>{
             $(bool).prop('checked', val)  
             bools[label.toString()].val = val
         } else {
-            addNewBool(label, val)
+            addNewBool(SUPPORTED_INPUT_KEYS[Object.keys(bools).length-1], val)
         }
     }
 
