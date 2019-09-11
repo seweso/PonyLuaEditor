@@ -17,6 +17,8 @@ var PAINT = ((c)=>{
 
     function drawClear(){
         log()
+        c.ctx().closePath()
+        c.ctx().beginPath()
         c.ctx().clearRect(0, 0, c.realWidth(), c.realHeight())
         c.ctx().fillRect(0, 0, c.realWidth(), c.realHeight())
     }
