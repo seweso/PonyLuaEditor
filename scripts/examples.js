@@ -274,6 +274,7 @@ var EXAMPLES = ((global, $)=>{
 
         $('#learn-badge, #learn-menu-entry').on('click', ()=>{
             $('#editor-bottom-container').addClass('show_examples')
+            editor.resize()
 
             $('html, body').animate({
                 scrollTop: ($('#editor-bottom-container').offset().top - $(window).height()/5)
