@@ -688,8 +688,7 @@ var YYY = ((global, $)=>{
         startCode(code)
 
         setTimeout(()=>{
-            $('#start').blur()
-            $('#start-minified').blur()
+            $('#start, #start-minified, #start-generated').blur()
         }, 100)
     }
 
@@ -702,8 +701,7 @@ var YYY = ((global, $)=>{
         startCode(code)
 
         setTimeout(()=>{
-            $('#start').blur()
-            $('#start-minified').blur()
+            $('#start, #start-minified, #start-generated').blur()
         }, 100)
 
         $('html, body').animate({
@@ -719,9 +717,7 @@ var YYY = ((global, $)=>{
         startCode(code)
 
         setTimeout(()=>{
-            $('#start').blur()
-            $('#start-minified').blur()
-            $('#start-generated').blur()
+            $('#start, #start-minified, #start-generated').blur()
         }, 100)
 
         $('html, body').animate({
@@ -731,7 +727,7 @@ var YYY = ((global, $)=>{
 
     function startCode(code){
         running = true
-        $('#start, #start-minified').prop('disabled', true)
+        $('#start, #start-minified, #start-generated').prop('disabled', true)
         $('#console').val('')
         CANVAS.reset()
         CANVAS.resetTouchpoints()
