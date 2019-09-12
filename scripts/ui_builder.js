@@ -542,6 +542,49 @@ var UI_BUILDER = ((global, $)=>{
         }
     }
 
+    class Circle extends Element {
+
+        beforeBuild(){
+        }
+
+        buildContent(){
+            return '<svg viewBox="0 0 ' + uiZoom(this.width) + ' ' + uiZoom(this.height) + '">'
+                    +'<circle cx="' + uiZoom(this.x+this.width/2) + '" cy="' + uiZoom(this.y+this.height/2) + '" r="' + uiZoom(Math.min(this.width, this.height)/2 - this.settings.borderWidth.value/4) +'" stroke-width="' + this.settings.borderWidth.value + '" stroke="'+ makeValidHexOrEmpty(this.settings.border.value) +'" fill="' + makeValidHexOrEmpty(this.settings.background.value) + '"></circle>'
+                +'</svg>'
+        }
+
+        refreshContent(){
+            this.content.html(this.buildContent())
+            this.dom.css({
+                background: '',
+                border: ''
+            })
+        }
+
+        refreshPosition(){
+            super.refreshPosition()
+            this.refreshContent()
+        }
+
+        buildLuaCode(){
+            let superRet = super.buildLuaCode()
+
+            return {
+                init: superRet.init,
+                onDraw: 'cx='+(this.x + this.width/2) + '\n'
+                    + 'cy='+(this.y + this.height/2) + '\n'
+                    + 'ri=' + (Math.min(this.width, this.height)/2 - this.settings.borderWidth.value) + '\n'
+                    + 'ro=' + (Math.min(this.width, this.height)/2) + '\n'
+                    + luaBuildSetColor(this.settings.border.value) + '\n'
+                    + 'screen.drawCircleF(cx,cy,ro)\n'
+                    + luaBuildSetColor(this.settings.background.value) + '\n'
+                    + 'screen.drawCircleF(cx,cy,ri)',
+                onTick: superRet.onTick,
+                libs: superRet.libs
+            }
+        }
+    }
+
     class Line extends Element {
 
         beforeBuild(){
@@ -831,6 +874,9 @@ var UI_BUILDER = ((global, $)=>{
     },{
         name: 'Triangle',
         object: Triangle
+    },{
+        name: 'Circle',
+        object: Circle
     },{
         name: 'Line',
         object: Line
