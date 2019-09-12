@@ -28,7 +28,8 @@ var UI_BUILDER = ((global, $)=>{
     const LIBS = {
         IS_IN_RECT: 'is_in_rect',
         IS_IN_RECT_O: 'is_in_rect_o',
-        SET_COLOR: 'set_color'
+        SET_COLOR: 'set_color',
+        ROTATE_POINT: 'rotate_point'
     }
 
     const DEFAULT_LIBS = {
@@ -38,7 +39,8 @@ var UI_BUILDER = ((global, $)=>{
     const LIBS_CODE = {
         is_in_rect: 'function isInRect(x,y,w,h,px,py)\nreturn px>=x and px<=x+w and py>=y and py<=y+h\nend',
         is_in_rect_o: 'function isInRectO(o,px,py)\nreturn px>=o.x and px<=o.x+o.w and py>=o.y and py<=o.y+o.h\nend',
-        set_color: 'function setC(r,g,b,a)\nscreen.setColor(r,g,b,a)\nend'
+        set_color: 'function setC(r,g,b,a)\nscreen.setColor(r,g,b,a)\nend',
+        rotate_point: 'function rotatePoint(cx,cy,angle,px,py)\ns=math.sin(angle)\nc=math.cos(angle)\npx=px-cx\npy=py-cy\nxnew=px*c-py*s\nynew=px*s+py*c\npx=xnew+cx\npy=ynew+cy\nreturn {x=px,y=py}\nend'
     }
 
     $(global).on('load', ()=>{
@@ -487,6 +489,59 @@ var UI_BUILDER = ((global, $)=>{
 
     }
 
+    class Triangle extends Element {
+
+        beforeBuild(){
+            this.settings = {
+                background: {
+                    type: 'color',
+                    value: createRandomColor()
+                },
+                direction: {
+                    type: 'number',
+                    value: 0
+                }
+            }
+        }
+
+        buildContent(){
+            return '<svg viewBox="0 0 ' + uiZoom(this.width) + ' ' + uiZoom(this.height) + '">'
+                    +'<polygon points="0,' + uiZoom(this.height) + ' ' + uiZoom(this.width/2) + ',0 ' + uiZoom(this.width) +',' + uiZoom(this.height) + '" stroke-width="0" fill="' + makeValidHexOrEmpty(this.settings.background.value) + '"></polygon>'
+                +'</svg>'
+        }
+
+        refreshContent(){
+            this.content.html(this.buildContent())
+            this.content.css({
+                transform: 'rotate(' + this.settings.direction.value + 'deg)'
+            })
+        }
+
+        refreshPosition(){
+            super.refreshPosition()
+            this.refreshContent()
+        }
+
+        buildLuaCode(){
+            let superRet = super.buildLuaCode()
+
+            return {
+                init: superRet.init,
+                onDraw: superRet.onDraw + '\n'
+                    + luaBuildSetColor(this.settings.background.value) + '\n'
+                    + 'cx='+(this.x + this.width/2) + '\n'
+                    + 'cy='+(this.y + this.height/2) + '\n'
+                    + 'angle=' + (Math.floor((this.settings.direction.value/360)*2*Math.PI*100)/100) + '\n'
+                    + 'p1=rotatePoint(cx,cy,angle,' +this.x+','+(this.y + this.height)+')\n'
+                    + 'p2=rotatePoint(cx,cy,angle,' +(this.x+this.width/2)+','+this.y+')\n'
+                    + 'p3=rotatePoint(cx,cy,angle,' +(this.x+this.width)+','+(this.y + this.height)+')\n'
+                    + 'screen.drawTriangleF(p1.x,p1.y,p2.x,p2.y,p3.x,p3.y)',
+                onTick: superRet.onTick,
+                libs: Object.assign(superRet.libs, {[LIBS.ROTATE_POINT]:true})
+            }
+        }
+    }
+
     class Line extends Element {
 
         beforeBuild(){
@@ -773,6 +828,9 @@ var UI_BUILDER = ((global, $)=>{
     const ELEMENTS = [{
         name: 'Rectangle',
         object: Rectangle
+    },{
+        name: 'Triangle',
+        object: Triangle
     },{
         name: 'Line',
         object: Line

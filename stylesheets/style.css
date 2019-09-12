@@ -1423,15 +1423,15 @@ a:hover {
     font: 12px "Screen Mono", "Lucida Console", Monaco, monospace;
 }
 
-#ui-builder-container .canvas_container .element.highlight {
+#ui-builder-container .canvas_container .element.highlight .content {
     box-shadow: 1px 1px 4px #aaa;
 }
 
-#ui-builder-container .canvas_container[mode="delete"] .element.delete_overlay {
+#ui-builder-container .canvas_container[mode="delete"] .element.delete_overlay .content {
     box-shadow: 1px 1px 4px #a00;
 }
 
-#ui-builder-container .canvas_container[mode="delete"] .element.delete_overlay:after {
+#ui-builder-container .canvas_container[mode="delete"] .element.delete_overlay .content:after {
     content: ' ';
     position: absolute;
     top: 0;
