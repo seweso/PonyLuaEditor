@@ -70,6 +70,7 @@ var PAINT = ((c)=>{
         c.ctx().moveTo(c.left() + zoom(x1), c.top() + zoom(y1))
         c.ctx().lineTo(c.left() + zoom(x2), c.top() + zoom(y2))
         c.ctx().lineTo(c.left() + zoom(x3), c.top() + zoom(y3))
+        c.ctx().lineTo(c.left() + zoom(x1), c.top() + zoom(y1))
         c.ctx().stroke()
         c.ctx().closePath()
 
@@ -82,6 +83,7 @@ var PAINT = ((c)=>{
         c.ctx().moveTo(c.left() + zoom(x1), c.top() + zoom(y1))
         c.ctx().lineTo(c.left() + zoom(x2), c.top() + zoom(y2))
         c.ctx().lineTo(c.left() + zoom(x3), c.top() + zoom(y3))
+        c.ctx().lineTo(c.left() + zoom(x1), c.top() + zoom(y1))
         c.ctx().fill()
         c.ctx().closePath()
     }
