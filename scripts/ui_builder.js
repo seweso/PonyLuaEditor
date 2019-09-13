@@ -821,6 +821,7 @@ var UI_BUILDER = ((global, $)=>{
         }
 
         refreshContent(){
+            this.content.html(this.buildContent())
             this.content.css({
                 transform: 'rotate(' + this.settings.direction.value + 'deg)'
             })
@@ -1036,6 +1037,102 @@ var UI_BUILDER = ((global, $)=>{
         }
     }
 
+    class FlipSwitch extends Element {
+
+        beforeBuild(){
+            this.height=12
+            this.width=12
+            this.settings = {
+                background: {
+                    type: 'color',
+                    value: '#bbb'
+                },
+                backgroundOn: {
+                    type: 'color',
+                    value: '#0d0'
+                },
+                defaultValue: {
+                    type: 'number',
+                    value: 0
+                },
+                flipSwitchBodyColor: {
+                    type: 'color',
+                    value: '#000'
+                },
+                flipSwitchHeadColor: {
+                    type: 'color',
+                    value: '#b00'
+                },
+                defaultValue: {
+                    type: 'checkbox',
+                    value: false
+                },
+                channel: {
+                    type: 'number',
+                    value: 1
+                }
+            }
+        }
+
+        buildContent(){
+            if(this.settings.defaultValue.value){
+                return '<svg viewBox="0 0 ' + uiZoom(this.width) + ' ' + uiZoom(this.height) + '">'
+                        +'<g transform="scale(' + uiZoom(this.width/12) + ' ' + uiZoom(this.height/12) + ')">'
+                            +'<polygon points="0,0 12,0 12,12, 0,12" stroke-width="0" fill="' + makeValidHexOrEmpty(this.settings.backgroundOn.value) + '"></polygon>'
+                            +'<polygon points="1,4 11,4 11,1 1,1" stroke-width="0" fill="' + makeValidHexOrEmpty(this.settings.flipSwitchHeadColor.value) + '"></polygon>'
+                            +'<polygon points="3,4 9,4 9,7 3,7" stroke-width="0" fill="' + makeValidHexOrEmpty(this.settings.flipSwitchBodyColor.value) + '"></polygon>'
+                        + '</g>'
+                    +'</svg>'
+            } else {
+                return '<svg viewBox="0 0 ' + uiZoom(this.width) + ' ' + uiZoom(this.height) + '">'
+                        +'<g transform="scale(' + uiZoom(this.width/12) + ' ' + uiZoom(this.height/12) + ')">'
+                            +'<polygon points="0,0 12,0 12,12, 0,12" stroke-width="0" fill="' + makeValidHexOrEmpty(this.settings.background.value) + '"></polygon>'
+                            +'<polygon points="1,8 11,8 11,11 1,11" stroke-width="0" fill="' + makeValidHexOrEmpty(this.settings.flipSwitchHeadColor.value) + '"></polygon>'
+                            +'<polygon points="3,8 9,8 9,5 3,5" stroke-width="0" fill="' + makeValidHexOrEmpty(this.settings.flipSwitchBodyColor.value) + '"></polygon>'
+                        + '</g>'
+                    +'</svg>'
+            }
+        }
+
+        refreshContent(){
+            this.content.html(this.buildContent())
+        }
+
+        buildLuaCode(){
+            let superRet = super.buildLuaCode()
+            return {
+                init: superRet.init + '\n' + this.id + 'flip={x=' + this.x + ',y=' + this.y + ',w=' + this.width + ',h=' + this.height + ',a=' + this.settings.defaultValue.value + ',p=false}\n',
+                onDraw: superRet.onDraw
+                    + 'if ' + this.id + 'flip.a then\n'
+                    + luaBuildSetColor(this.settings.backgroundOn.value) + '\n'
+                    + 'screen.drawRectF('+this.x+','+this.y+','+this.width+','+this.height+')\n'
+                    + luaBuildSetColor(this.settings.flipSwitchBodyColor.value) + '\n'
+                    + 'screen.drawRectF('+(this.x+this.width/12*3)+','+(this.y+this.height/12*4)+','+(this.width/12*6)+','+(this.height/12*3)+')\n'
+                    + luaBuildSetColor(this.settings.flipSwitchHeadColor.value) + '\n'
+                    + 'screen.drawRectF('+(this.x+this.width/12)+','+(this.y+this.height/12*1)+','+(this.width/12*10)+','+(this.height/12*3)+')\n'
+                    + 'else\n'
+                    + luaBuildSetColor(this.settings.background.value) + '\n'
+                    + 'screen.drawRectF('+this.x+','+this.y+','+this.width+','+this.height+')\n'
+                    + luaBuildSetColor(this.settings.flipSwitchBodyColor.value) + '\n'
+                    + 'screen.drawRectF('+(this.x+this.width/12*3)+','+(this.y+this.height/12*5)+','+(this.width/12*6)+','+(this.height/12*3)+')\n'
+                    + luaBuildSetColor(this.settings.flipSwitchHeadColor.value) + '\n'
+                    + 'screen.drawRectF('+(this.x+this.width/12)+','+(this.y+this.height/12*8)+','+(this.width/12*10)+','+(this.height/12*3)+')\n'
+                    + 'end\n',
+                onTick: superRet.onTick + '\n'
+                    + 'if isP1 and isInRectO('+this.id+'flip,in1X,in1Y) or isP2 and isInRectO('+this.id+'sliderh,in2X,in2Y) then\n'
+                    + 'if not '+this.id+'flip.p then\n'
+                    + this.id+'flip.a=not ' + this.id+'flip.a\n'
+                    + this.id+'flip.p=true\n'
+                    + 'end\n'
+                    + 'else\n'
+                    + this.id+'flip.p=false\n'
+                    + 'end\n'
+                    + 'output.setBool(' + this.settings.channel.value + ','+this.id+'flip.a)\n',
+                libs: Object.assign(superRet.libs, {[LIBS.IS_IN_RECT_O]:true})
+            }
+        }
+    }
+
     const ELEMENTS = [{
         name: 'Rectangle',
         object: Rectangle
@@ -1063,6 +1160,9 @@ var UI_BUILDER = ((global, $)=>{
     },{
         name: 'Slider Horizontal',
         object: SliderHorizontal
+    },{
+        name: 'Flip Switch',
+        object: FlipSwitch
     }]
 
 
