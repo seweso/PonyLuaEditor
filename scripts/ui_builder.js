@@ -685,7 +685,7 @@ var UI_BUILDER = ((global, $)=>{
         }
     }
 
-    class Button extends Element {
+    class ButtonRectangle extends Element {
 
         beforeBuild(){
             let additionalSettings = {
@@ -876,7 +876,7 @@ var UI_BUILDER = ((global, $)=>{
         }
     }
 
-    class VerticalSlider extends Element {
+    class SliderVertical extends Element {
 
         beforeBuild(){
             this.width = 8
@@ -938,7 +938,7 @@ var UI_BUILDER = ((global, $)=>{
             return {
                 init: superRet.init + '\n' + this.id + 'sliderv={x=' + this.x + ',y=' + this.y + ',w=' + this.width + ',h=' + this.height + ',v=' + this.settings.defaultValue.value + '}\n',
                 onDraw: superRet.onDraw + luaBuildSetColor(this.settings.background.value) + '\nscreen.drawRectF(' + this.id + 'sliderv.x,' + this.id + 'sliderv.y,' + this.id + 'sliderv.w,' + this.id + 'sliderv.h)\n'
-                 + luaBuildSetColor(this.settings.sliderColor.value) + '\nscreen.drawRectF(' + this.id + 'sliderv.x,(1-' + this.id + 'sliderv.v)*' + this.id + 'sliderv.h+' + this.id + 'sliderv.y,' + this.id + 'sliderv.w,(' + this.id + 'sliderv.v)*' + this.id + 'sliderv.h)\n'
+                    + luaBuildSetColor(this.settings.sliderColor.value) + '\nscreen.drawRectF(' + this.id + 'sliderv.x,(1-' + this.id + 'sliderv.v)*' + this.id + 'sliderv.h+' + this.id + 'sliderv.y,' + this.id + 'sliderv.w,(' + this.id + 'sliderv.v)*' + this.id + 'sliderv.h)\n'
                     + luaBuildSetColor(this.settings.border.value) + '\nscreen.drawRect(' + this.id + 'sliderv.x,' + this.id + 'sliderv.y,' + this.id + 'sliderv.w,' + this.id + 'sliderv.h)\n',
                 onTick: superRet.onTick + '\n'
                     + 'if isP1 and isInRectO('+this.id+'sliderv,in1X,in1Y) then\n'
@@ -952,6 +952,85 @@ var UI_BUILDER = ((global, $)=>{
                     + this.id+'sliderv.v=1\n'
                     + 'end\n'
                     + 'output.setNumber(' + this.settings.channel.value + ','+this.id+'sliderv.v)\n',
+                libs: Object.assign(superRet.libs, {[LIBS.IS_IN_RECT_O]:true})
+            }
+        }
+    }
+
+    class SliderHorizontal extends Element {
+
+        beforeBuild(){
+            let additionalSettings = {
+                background: {
+                    type: 'color',
+                    value: '#000'
+                },
+                border: {
+                    type: 'color',
+                    value: '#666'
+                },
+                defaultValue: {
+                    type: 'number',
+                    value: 0
+                },
+                sliderColor: {
+                    type: 'color',
+                    value: '#fff'
+                },
+                sliderThresholdZero: {
+                    type: 'number',
+                    value: 0.1,
+                    description: 'Values below this value will be outputed as 0'
+                },
+                sliderThresholdFull: {
+                    type: 'number',
+                    value: 0.9,
+                    description: 'Values above this value will be outputed as 1'
+                },
+                channel: {
+                    type: 'number',
+                    value: 1
+                }
+            }
+            this.settings = additionalSettings
+        }
+
+        buildContent(){
+            return $('<div class="slider_value"></div>')
+        }
+
+        refreshContent(){
+            this.content.find('.slider_value')
+                .css({
+                    left: uiZoom((1-this.settings.defaultValue.value)*this.width),
+                    width: this.settings.defaultValue.value*100 + '%',
+                    background: makeValidHexOrEmpty(this.settings.sliderColor.value)
+                })
+            this.content.css({
+                background: makeValidHexOrEmpty(this.settings.background.value),
+                border: uiZoom(1)+'px solid ' + makeValidHexOrEmpty(this.settings.border.value)
+            })
+        }
+
+        buildLuaCode(){
+            let superRet = super.buildLuaCode()
+            return {
+                init: superRet.init + '\n' + this.id + 'sliderh={x=' + this.x + ',y=' + this.y + ',w=' + this.width + ',h=' + this.height + ',v=' + this.settings.defaultValue.value + '}\n',
+                onDraw: superRet.onDraw + luaBuildSetColor(this.settings.background.value) + '\nscreen.drawRectF(' + this.id + 'sliderh.x,' + this.id + 'sliderh.y,' + this.id + 'sliderh.w,' + this.id + 'sliderh.h)\n'
+                    + luaBuildSetColor(this.settings.sliderColor.value) + '\nscreen.drawRectF(' + this.id + 'sliderh.x,' + this.id + 'sliderh.y,(' + this.id + 'sliderh.v)*' + this.id + 'sliderh.w,' + this.id + 'sliderh.h)\n'
+                    + luaBuildSetColor(this.settings.border.value) + '\nscreen.drawRect(' + this.id + 'sliderh.x,' + this.id + 'sliderh.y,' + this.id + 'sliderh.w,' + this.id + 'sliderh.h)\n',
+                onTick: superRet.onTick + '\n'
+                    + 'if isP1 and isInRectO('+this.id+'sliderh,in1X,in1Y) then\n'
+                    + this.id+'sliderh.v=(in1X-'+this.id+'sliderh.x)/'+this.id+'sliderh.w\n'
+                    + 'elseif isP2 and isInRectO('+this.id+'sliderh,in2X,in2Y) then\n'
+                    + this.id+'sliderh.v=(in2X-'+this.id+'sliderh.x)/'+this.id+'sliderh.w\n'
+                    + 'end\n'
+                    + 'if '+this.id+'sliderh.v<'+this.settings.sliderThresholdZero.value+' then\n'
+                    + this.id+'sliderh.v=0\n'
+                    + 'elseif '+this.id+'sliderh.v>'+this.settings.sliderThresholdFull.value+' then\n'
+                    + this.id+'sliderh.v=1\n'
+                    + 'end\n'
+                    + 'output.setNumber(' + this.settings.channel.value + ','+this.id+'sliderh.v)\n',
                 libs: Object.assign(superRet.libs, {[LIBS.IS_IN_RECT_O]:true})
             }
         }
@@ -973,14 +1052,17 @@ var UI_BUILDER = ((global, $)=>{
         name: 'Label',
         object: Label
     },{
-        name: 'Button',
-        object: Button
+        name: 'Button Rectangle',
+        object: ButtonRectangle
     },{
         name: 'Button Triangle',
         object: ButtonTriangle
     },{
-        name: 'Vertical Slider',
-        object: VerticalSlider
+        name: 'Slider Vertical',
+        object: SliderVertical
+    },{
+        name: 'Slider Horizontal',
+        object: SliderHorizontal
     }]
 
 
