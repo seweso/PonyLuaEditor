@@ -8,8 +8,6 @@ var UI_BUILDER = ((global, $)=>{
 
     
 
-    const currentElements = []
-
 
     let MODE_MOVE = 'move'
     let MODE_RESIZE = 'resize'
@@ -108,14 +106,45 @@ var UI_BUILDER = ((global, $)=>{
         for(let e of ELEMENTS){
             let entry = $('<div class="element ' + e.name.toLowerCase() + '">' + e.name + '</div>')
             entry.on('click', ()=>{
-                currentElements.push(new e.object(false, canvas_container))
+                new e.object(false, canvas_container)
             })
             container.find('.element_list').append(entry)
         }
 
+        $('#save-ui-builder').on('click', ()=>{
+            $('#save-ui-builder').addClass('saved')
+            setTimeout(()=>{
+                $('#save-ui-builder').removeClass('saved')
+            }, 1000)
+            save()
+        })
+
         $('#generate-ui-builder-lua-code').on('click', ()=>{
             generateLuaCode()
         })
+
+        try{
+            let parsed = JSON.parse(localStorage.getItem('ui'))
+
+            if(parsed.elements instanceof Array){
+                for(let e of parsed.elements){
+                    if(e.type && e.settings){
+                        let found = false
+                        for(let elem of ELEMENTS){
+                            console.log(elem.object.prototype.constructor)
+                            if(elem.object.prototype.constructor.name === e.type){
+                                found = true
+                                new elem.object({settings: e.settings}, canvas_container)
+                                break
+                            }
+                        }
+                        if(!found){
+                            console.warn('cannot create element from storage (type not found)', e)
+                        }                    
+                    }
+                }
+            }
+        } catch (thrown){}
     }
 
     function deactivateAllElements(){
@@ -205,10 +234,46 @@ var UI_BUILDER = ((global, $)=>{
 
             this.beforeBuild()
 
+            if(params && params.settings){
+                this.applySettings(params.settings)
+            }
+
             this.dom = this.buildDom()
             $(container).append(this.dom)
 
             this.refresh()
+        }
+
+        applySettings(settings){
+            if(typeof settings.x === 'number'){
+                this.x = settings.x
+            }
+            if(typeof settings.y === 'number'){
+                this.y = settings.y
+            }
+            if(typeof settings.width === 'number'){
+                this.width = settings.width
+            }
+            if(typeof settings.height === 'number'){
+                this.height = settings.height
+            }
+            for(let s in settings){
+                if(typeof this.settings[s] !== 'undefined' && this.settings[s] != null){
+                    this.settings[s].value = settings[s]
+                }
+            }
+        }
+
+        generateSettings(){
+            let ret = {}
+            for(let s in this.settings){
+                ret[s] = this.settings[s].value
+            }
+            ret.x=this.x
+            ret.y=this.y
+            ret.width=this.width
+            ret.height=this.height
+            return ret
         }
 
         beforeBuild(){
@@ -1320,6 +1385,18 @@ var UI_BUILDER = ((global, $)=>{
         element.zindex = allElements[originalZindex - 1 + 1].zindex
         allElements[originalZindex - 1 + 1].zindex = originalZindex
         resortAllElements()
+    }
+
+
+    function save(){
+        let data = {elements: []}
+        for(let e of allElements){
+            data.elements.push({
+                type: e.constructor.name,
+                settings: e.generateSettings()
+            })
+        }
+        localStorage.setItem('ui', JSON.stringify(data));
     }
 
     /* build lua code helpers */

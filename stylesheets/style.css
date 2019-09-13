@@ -1029,7 +1029,7 @@ a:hover {
     transition: all 0.5s ease 0s;
 }
 
-#save.saved, #save-minified.saved {
+#save.saved, #save-minified.saved, #save-ui-builder.saved {
     background: #4d835f!important;
     border-color: #9A8D00!important;
     color: #fff!important;
