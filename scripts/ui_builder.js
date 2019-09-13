@@ -787,6 +787,95 @@ var UI_BUILDER = ((global, $)=>{
         }
     }
 
+    class ButtonTriangle extends Element {
+
+        beforeBuild(){
+            this.settings = {
+                background: {
+                    type: 'color',
+                    value: createRandomColor()
+                },
+                backgroundOn: {
+                    type: 'color',
+                    value: createRandomColor()
+                },
+                isToggle: {
+                    type: 'checkbox',
+                    value: false
+                },
+                direction: {
+                    type: 'number',
+                    value: 0
+                },
+                channel: {
+                    type: 'number',
+                    value: 1
+                }
+            }
+        }
+
+        buildContent(){
+            return '<svg viewBox="0 0 ' + uiZoom(this.width) + ' ' + uiZoom(this.height) + '">'
+                    +'<polygon points="0,' + uiZoom(this.height) + ' ' + uiZoom(this.width/2) + ',0 ' + uiZoom(this.width) +',' + uiZoom(this.height) + '" stroke-width="0" fill="' + makeValidHexOrEmpty(this.settings.background.value) + '"></polygon>'
+                +'</svg>'
+        }
+
+        refreshContent(){
+            this.content.css({
+                transform: 'rotate(' + this.settings.direction.value + 'deg)'
+            })
+        }
+
+        buildLuaCode(){
+            let superRet = super.buildLuaCode()
+            if(this.settings.isToggle.value){
+                return {
+                    init: superRet.init + '\n' + this.id + 'Toggled = false\n' + this.id + 'ToggledP = false\n',
+                    onDraw: superRet.onDraw
+                        + 'if ' + this.id + 'Toggled then\n' + luaBuildSetColor(this.settings.backgroundOn.value) + '\nelse\n' + luaBuildSetColor(this.settings.background.value) + '\nend\n'
+                        + 'cx='+(this.x + this.width/2) + '\n'
+                        + 'cy='+(this.y + this.height/2) + '\n'
+                        + 'angle=' + (Math.floor((this.settings.direction.value/360)*2*Math.PI*100)/100) + '\n'
+                        + 'p1=rotatePoint(cx,cy,angle,' +this.x+','+(this.y + this.height)+')\n'
+                        + 'p2=rotatePoint(cx,cy,angle,' +(this.x+this.width/2)+','+this.y+')\n'
+                        + 'p3=rotatePoint(cx,cy,angle,' +(this.x+this.width)+','+(this.y + this.height)+')\n'
+                        + 'screen.drawTriangleF(p1.x,p1.y,p2.x,p2.y,p3.x,p3.y)',
+                    onTick: superRet.onTick + '\n'
+                        + 'if (isP1 and isInRect(' + this.x + ',' + this.y + ',' + this.width + ',' + this.height + ',in1X,in1Y)) or (isP2 and isInRect(' + this.x + ',' + this.y + ',' + this.width + ',' + this.height + ',in2X,in2Y)) then\n'
+                        + this.id + 'ToggledP=true\n'
+                        + 'end\n'
+                        + 'if not (isP1 or isP2) and ' + this.id + 'ToggledP then\n'
+                        + this.id + 'ToggledP = false\n'
+                        + this.id + 'Toggled = not ' + this.id + 'Toggled\n'
+                        + 'end\n'
+                        + 'output.setBool(' + this.settings.channel.value + ', ' + this.id + 'Toggled)',
+                    libs: Object.assign(superRet.libs, {[LIBS.IS_IN_RECT]:true, [LIBS.ROTATE_POINT]:true})
+                }
+            } else {
+                return {
+                    init: superRet.init + '\n' + this.id + 'Toggled = false\n',
+                    onDraw: superRet.onDraw
+                        + 'if ' + this.id + 'Toggled then\n' + luaBuildSetColor(this.settings.backgroundOn.value) + '\nelse\n' + luaBuildSetColor(this.settings.background.value) + '\nend\n'
+                        + 'cx='+(this.x + this.width/2) + '\n'
+                        + 'cy='+(this.y + this.height/2) + '\n'
+                        + 'angle=' + (Math.floor((this.settings.direction.value/360)*2*Math.PI*100)/100) + '\n'
+                        + 'p1=rotatePoint(cx,cy,angle,' +this.x+','+(this.y + this.height)+')\n'
+                        + 'p2=rotatePoint(cx,cy,angle,' +(this.x+this.width/2)+','+this.y+')\n'
+                        + 'p3=rotatePoint(cx,cy,angle,' +(this.x+this.width)+','+(this.y + this.height)+')\n'
+                        + 'screen.drawTriangleF(p1.x,p1.y,p2.x,p2.y,p3.x,p3.y)',
+                    onTick: superRet.onTick + '\n'
+                        + 'if (isP1 and isInRect(' + this.x + ',' + this.y + ',' + this.width + ',' + this.height + ',in1X,in1Y)) or (isP2 and isInRect(' + this.x + ',' + this.y + ',' + this.width + ',' + this.height + ',in2X,in2Y)) then\n'
+                        + this.id + 'Toggled=true\n'
+                        + 'else\n'
+                        + this.id + 'Toggled=false\n'
+                        + 'end\n'
+                        + 'output.setBool(' + this.settings.channel.value + ', ' + this.id + 'Toggled)',
+                    libs: Object.assign(superRet.libs, {[LIBS.IS_IN_RECT]:true, [LIBS.ROTATE_POINT]:true})
+                }
+            }
+        }
+    }
+
     class VerticalSlider extends Element {
 
         beforeBuild(){
@@ -886,6 +975,9 @@ var UI_BUILDER = ((global, $)=>{
     },{
         name: 'Button',
         object: Button
+    },{
+        name: 'Button Triangle',
+        object: ButtonTriangle
     },{
         name: 'Vertical Slider',
         object: VerticalSlider
