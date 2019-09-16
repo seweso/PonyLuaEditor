@@ -93,6 +93,11 @@ var SHARE = ((global, $)=>{
             data.minified_code = minifiedCode
         }
 
+        let uiBuilder = UI_BUILDER.buildStorage()
+        if(uiBuilder.elements instanceof Array && uiBuilder.elements.length > 0){
+            data.ui_builder = JSON.stringify(uiBuilder)
+        }
+
         $.post(BASE_URL + '/api/create', data).done((data)=>{
             try {
                 let json = JSON.parse(data)
@@ -142,6 +147,16 @@ var SHARE = ((global, $)=>{
                         YYY.refreshAll()
                     } catch (e){
                         console.error('error parsing settings from ponybin', e)
+                    }
+                }
+
+                if(typeof json.luabin === 'object' && typeof json.luabin.ui_builder === 'string'){
+                    try {
+                        let parsed = JSON.parse(json.luabin.ui_builder)
+                        UI_BUILDER.setStorage(parsed)
+                        UI_BUILDER.loadFromStorage()
+                    } catch (e){
+                        console.error('error parsing ui_builder from ponybin', e)
                     }
                 }
             } catch (e){

@@ -123,28 +123,7 @@ var UI_BUILDER = ((global, $)=>{
             generateLuaCode()
         })
 
-        try{
-            let parsed = JSON.parse(localStorage.getItem('ui'))
-
-            if(parsed.elements instanceof Array){
-                for(let e of parsed.elements){
-                    if(e.type && e.settings){
-                        let found = false
-                        for(let elem of ELEMENTS){
-                            console.log(elem.object.prototype.constructor)
-                            if(elem.object.prototype.constructor.name === e.type){
-                                found = true
-                                new elem.object({settings: e.settings}, canvas_container)
-                                break
-                            }
-                        }
-                        if(!found){
-                            console.warn('cannot create element from storage (type not found)', e)
-                        }                    
-                    }
-                }
-            }
-        } catch (thrown){}
+        loadFromStorage()
     }
 
     function deactivateAllElements(){
@@ -1389,6 +1368,23 @@ var UI_BUILDER = ((global, $)=>{
 
 
     function save(){
+        setStorage(buildStorage())
+    }
+
+    function setStorage(elems){
+        localStorage.setItem('ui', JSON.stringify(elems))
+    }
+
+    function getStorage(){
+        try{
+            let parsed = JSON.parse(localStorage.getItem('ui'))
+            return parsed
+        } catch(thrown){
+            return null
+        }
+    }
+
+    function buildStorage(){
         let data = {elements: []}
         for(let e of allElements){
             data.elements.push({
@@ -1396,7 +1392,31 @@ var UI_BUILDER = ((global, $)=>{
                 settings: e.generateSettings()
             })
         }
-        localStorage.setItem('ui', JSON.stringify(data));
+        return data
+    }
+
+    function loadFromStorage(){        
+        let parsed = getStorage()
+        if(!parsed){
+            return
+        }
+
+        for(let e of parsed.elements){
+            if(e.type && e.settings){
+                let found = false
+                for(let elem of ELEMENTS){
+                    console.log(elem.object.prototype.constructor)
+                    if(elem.object.prototype.constructor.name === e.type){
+                        found = true
+                        new elem.object({settings: e.settings}, canvas_container)
+                        break
+                    }
+                }
+                if(!found){
+                    console.warn('cannot create element from storage (type not found)', e)
+                }                    
+            }
+        }
     }
 
     /* build lua code helpers */
@@ -1407,6 +1427,9 @@ var UI_BUILDER = ((global, $)=>{
     return {
         Element: Element,
         Label: Label,
+        buildStorage: buildStorage,
+        setStorage: setStorage,
+        loadFromStorage: loadFromStorage,
         allElements: ()=>{
             return allElements
         }
