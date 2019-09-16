@@ -593,7 +593,7 @@ var UI_BUILDER = ((global, $)=>{
 
         buildContent(){
             return '<svg viewBox="0 0 ' + uiZoom(this.width) + ' ' + uiZoom(this.height) + '">'
-                    +'<circle cx="' + uiZoom(this.x+this.width/2) + '" cy="' + uiZoom(this.y+this.height/2) + '" r="' + uiZoom(Math.min(this.width, this.height)/2 - this.settings.borderWidth.value/4) +'" stroke-width="' + this.settings.borderWidth.value + '" stroke="'+ makeValidHexOrEmpty(this.settings.border.value) +'" fill="' + makeValidHexOrEmpty(this.settings.background.value) + '"></circle>'
+                    +'<circle cx="' + uiZoom(this.width/2) + '" cy="' + uiZoom(this.height/2) + '" r="' + uiZoom(Math.min(this.width, this.height)/2 - this.settings.borderWidth.value/4) +'" stroke-width="' + this.settings.borderWidth.value + '" stroke="'+ makeValidHexOrEmpty(this.settings.border.value) +'" fill="' + makeValidHexOrEmpty(this.settings.background.value) + '"></circle>'
                 +'</svg>'
         }
 
