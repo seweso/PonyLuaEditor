@@ -246,7 +246,7 @@ var YYY = ((global, $)=>{
             isCustomMinifiedCode = true
         }
 
-        $('#monitor-size, #show-overflow').on('change', (e)=>{
+        $('#monitor-size, #show-overflow, #enable-touchscreen').on('change', (e)=>{
             updateStorage()
         })
 
@@ -650,6 +650,12 @@ var YYY = ((global, $)=>{
         if(store && typeof store.showOverflow === 'boolean'){
             $('#show-overflow').prop('checked', store.showOverflow)
         }
+        if(store && typeof store.touchScreenEnabled === 'boolean'){
+            $('#enable-touchscreen').prop('checked', store.touchScreenEnabled)
+            $('#enable-touchscreen').trigger('change')
+        }
+
+
 	    setStorage(store)
         CANVAS.refresh()
 
@@ -855,7 +861,8 @@ var YYY = ((global, $)=>{
             timeBetweenDraws: parseInt($('#timeBetweenDraws').val()),
             zoomfactor: parseInt($('#zoomfactor').val()),
             monitorSize: $('#monitor-size').val(),
-            showOverflow: $('#show-overflow').prop('checked')
+            showOverflow: $('#show-overflow').prop('checked'),
+            touchScreenEnabled: $('#enable-touchscreen').prop('checked')
         }
         setStorage(toStore)
     }
