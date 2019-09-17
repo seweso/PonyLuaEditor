@@ -7,7 +7,7 @@
 }
 
 
-#ui-builder-container .canvas_container .element.button .content {
+#ui-builder-container .canvas_container .element.buttonrectangle .content {
     display: flex;
     flex-direction: column;
     justify-content: center;
