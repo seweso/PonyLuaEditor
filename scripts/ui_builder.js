@@ -593,7 +593,7 @@ var UI_BUILDER = ((global, $)=>{
 
         buildContent(){
             return '<svg viewBox="0 0 ' + uiZoom(this.width) + ' ' + uiZoom(this.height) + '">'
-                    +'<circle cx="' + uiZoom(this.width/2) + '" cy="' + uiZoom(this.height/2) + '" r="' + uiZoom(Math.min(this.width, this.height)/2 - this.settings.borderWidth.value/4) +'" stroke-width="' + this.settings.borderWidth.value + '" stroke="'+ makeValidHexOrEmpty(this.settings.border.value) +'" fill="' + makeValidHexOrEmpty(this.settings.background.value) + '"></circle>'
+                    +'<circle cx="' + uiZoom(this.width/2) + '" cy="' + uiZoom(this.height/2) + '" r="' + uiZoom(Math.min(this.width, this.height)/2 - this.settings.borderWidth.value/4) +'" stroke-width="' + uiZoom(this.settings.borderWidth.value) + '" stroke="'+ makeValidHexOrEmpty(this.settings.border.value) +'" fill="' + makeValidHexOrEmpty(this.settings.background.value) + '"></circle>'
                 +'</svg>'
         }
 
@@ -1177,6 +1177,75 @@ var UI_BUILDER = ((global, $)=>{
         }
     }
 
+    class IndicatorLight extends Element {
+
+        beforeBuild(){
+            this.width = 8
+            this.height = 8
+
+            let additionalSettings = {
+                border: {
+                    type: 'color',
+                    value: '#333'
+                },
+                background: {
+                    type: 'color',
+                    value: '#2b2b2b'
+                },
+                backgroundOn: {
+                    type: 'color',
+                    value: '#50ff00'
+                },
+                channel: {
+                    type: 'number',
+                    value: 1
+                }
+            }
+            Object.assign(this.settings, additionalSettings)
+        }
+
+        buildContent(){
+            return '<svg viewBox="0 0 ' + uiZoom(this.width) + ' ' + uiZoom(this.height) + '">'
+                    +'<circle cx="' + uiZoom(this.width/2) + '" cy="' + uiZoom(this.height/2) + '" r="' + uiZoom(Math.min(this.width, this.height)/2 - this.settings.borderWidth.value/4) +'" stroke-width="' + uiZoom(this.settings.borderWidth.value) + '" stroke="'+ makeValidHexOrEmpty(this.settings.border.value) +'" fill="' + makeValidHexOrEmpty(this.settings.background.value) + '"></circle>'
+                +'</svg>'
+        }
+
+        refreshContent(){
+            this.content.html(this.buildContent())
+            this.dom.css({
+                background: '',
+                border: ''
+            })
+        }
+
+        refreshPosition(){
+            super.refreshPosition()
+            this.refreshContent()
+        }
+
+        buildLuaCode(){
+            let superRet = super.buildLuaCode()
+
+            return {
+                init: superRet.init,
+                onDraw: 'cx='+(this.x + this.width/2) + '\n'
+                    + 'cy='+(this.y + this.height/2) + '\n'
+                    + 'ri=' + (Math.min(this.width, this.height)/2 - this.settings.borderWidth.value) + '\n'
+                    + 'ro=' + (Math.min(this.width, this.height)/2) + '\n'
+                    + luaBuildSetColor(this.settings.border.value) + '\n'
+                    + 'screen.drawCircleF(cx,cy,ro)\n'
+                    + 'if ' + this.id + 'Indc then\n'
+                    + luaBuildSetColor(this.settings.backgroundOn.value) + '\n'
+                    + 'else\n'
+                    + luaBuildSetColor(this.settings.background.value) + '\n'
+                    + 'end\n'
+                    + 'screen.drawCircleF(cx,cy,ri)',
+                onTick: superRet.onTick + '\n' + this.id + 'Indc=input.getBool(' + this.settings.channel.value + ')',
+                libs: superRet.libs
+            }
+        }
+    }
+
     const ELEMENTS = [{
         name: 'Rectangle',
         object: Rectangle
@@ -1207,6 +1276,9 @@ var UI_BUILDER = ((global, $)=>{
     },{
         name: 'Flip Switch',
         object: FlipSwitch
+    },{
+        name: 'IndicatorLight',
+        object: IndicatorLight
     }]
 
 
@@ -1267,7 +1339,7 @@ var UI_BUILDER = ((global, $)=>{
 
         let hex = match[1]
         if(hex.length === 3){
-            return '#' + hex + hex
+            return '#' + hex.split('')[0] + hex.split('')[0] + hex.split('')[1] + hex.split('')[1] + hex.split('')[2] + hex.split('')[2]
         } else {
             return '#' + hex
         }
