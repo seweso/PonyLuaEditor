@@ -1246,25 +1246,37 @@ var UI_BUILDER = ((global, $)=>{
         }
     }
 
-/*
+
     class IndicatorSpeed extends Element {
 
         beforeBuild(){
-            this.width = 8
-            this.height = 8
+            this.width = 14
+            this.height = 14
 
             this.settings = {
                 background: {
                     type: 'color',
                     value: '#222'
                 },
-                line: {
+                numberBackground: {
                     type: 'color',
-                    value: '#fff')
+                    value: '#444'
+                },
+                lineColor: {
+                    type: 'color',
+                    value: '#fff'
                 },
                 color: {
                     type: 'color',
                     value: createRandomColor()
+                },
+                max: {
+                    type: 'number',
+                    value: 999
+                },
+                minDigitWidth: {
+                    type: 'number',
+                    value: 3
                 },
                 channel: {
                     type: 'number',
@@ -1274,9 +1286,9 @@ var UI_BUILDER = ((global, $)=>{
         }
 
         buildContent(){
-            return '<svg viewBox="0 0 ' + uiZoom(this.width) + ' ' + uiZoom(this.height) + '">'
+            return ''/*'<svg viewBox="0 0 ' + uiZoom(this.width) + ' ' + uiZoom(this.height) + '">'
                     +'<circle cx="' + uiZoom(this.width/2) + '" cy="' + uiZoom(this.height/2) + '" r="' + uiZoom(Math.min(this.width, this.height)/2 - this.settings.borderWidth.value/4) +'" stroke-width="' + uiZoom(this.settings.borderWidth.value) + '" stroke="'+ makeValidHexOrEmpty(this.settings.border.value) +'" fill="' + makeValidHexOrEmpty(this.settings.background.value) + '"></circle>'
-                +'</svg>'
+                +'</svg>'*/
         }
 
         refreshContent(){
@@ -1296,67 +1308,26 @@ var UI_BUILDER = ((global, $)=>{
             let superRet = super.buildLuaCode()
 
             return {
-                init: superRet.init,
-                onDraw: 'cx='+(this.x + this.width/2) + '\n'
-                    + 'cy='+(this.y + this.height/2) + '\n'
-                    + 'ri=' + (Math.min(this.width, this.height)/2 - this.settings.borderWidth.value) + '\n'
-                    + 'ro=' + (Math.min(this.width, this.height)/2) + '\n'
-                    + luaBuildSetColor(this.settings.border.value) + '\n'
-                    + 'screen.drawCircleF(cx,cy,ro)\n'
-                    + 'if ' + this.id + 'Indc then\n'
-                    + luaBuildSetColor(this.settings.backgroundOn.value) + '\n'
-                    + 'else\n'
+                init: superRet.init + '\n'
+                    + this.id + 'Max=' + this.settings.max.value,
+                onDraw: ''
                     + luaBuildSetColor(this.settings.background.value) + '\n'
-                    + 'end\n'
-                    + 'screen.drawCircleF(cx,cy,ri)',
-                onTick: superRet.onTick + '\n' + this.id + 'Indc=input.getBool(' + this.settings.channel.value + ')',
-                libs: superRet.libs
+                    + 'screen.drawCircleF(' + (this.x+this.width/2) + ',' + (this.y+this.height/2) + ',' + Math.min(this.width, this.height)/2 + ')\n'
+                    + luaBuildSetColor(this.settings.numberBackground.value) + '\n'
+                    + 'screen.drawRectF(' + (this.x+this.width/2) + ',' + (this.y+this.height/2 - Math.min(this.width, this.height)/2) + ',math.max(' + this.settings.minDigitWidth.value + '*5+1,string.len(math.floor(' + this.id + 'Val))*5+1),' + Math.min(this.width, this.height)/2 + ')\n'
+                    + luaBuildSetColor(this.settings.color.value) + '\n'
+                    + 'screen.drawText(' + (this.x+this.width/2) + '+math.max(0,' + this.settings.minDigitWidth.value + '-string.len(math.floor(' + this.id + 'Val)))*5+1,' + (this.y+this.height/2 - Math.min(this.width, this.height)/4) + '-3, math.floor(' + this.id + 'Val))'
+                    + luaBuildSetColor(this.settings.lineColor.value) + '\n'
+                    + 'p=rotatePoint(' + (this.x+this.width/2) + ',' + (this.y+this.height/2) + ',math.pi*1.5*(' + this.id + 'Val/' + this.id + 'Max),' + (this.x+this.width/2 + Math.min(this.width, this.height)/2) + ',' + (this.y+this.height/2) + ')'
+                    + 'screen.drawLine(' + (this.x+this.width/2) + ',' + (this.y+this.height/2) + ',p.x,p.y)',            
+                onTick: superRet.onTick + '\n' + this.id + 'Val=input.getNumber(' + this.settings.channel.value + ')',
+                libs: Object.assign(superRet.libs, {[LIBS.ROTATE_POINT]:true})
             }
         }
     }
+    
 
-    TODO: Lua Code
 
-    function onTick()
-    end
-
-    function onTick()
-        val=input.getNumber(1)  
-    end
-
-    x=30
-    y=30
-    r=10
-    max=900
-
-    function onDraw()
-        setC(30,30,30)
-        screen.drawCircleF(x, y, r)
-        screen.drawRectF(x,y-r,math.max(r*1.5,string.len(math.floor(val))*5+3),r)
-        setC(255,0,0)
-        screen.drawText(x+3,y-r+1, math.floor(val))
-        setC(150,150,150)
-        p=rotatePoint(x,y,math.pi*1.5*(val/max),x+r,y)
-        screen.drawLine(x,y,p.x,p.y)
-    end
-
-    function setC(r,g,b,a)
-    screen.setColor(r,g,b,a)
-    end
-
-    function rotatePoint(cx,cy,angle,px,py)
-    s=math.sin(angle)
-    c=math.cos(angle)
-    px=px-cx
-    py=py-cy
-    xnew=px*c-py*s
-    ynew=px*s+py*c
-    px=xnew+cx
-    py=ynew+cy
-    return {x=px,y=py}
-    end
-
-*/
 
     const ELEMENTS = [{
         name: 'Rectangle',
@@ -1391,10 +1362,10 @@ var UI_BUILDER = ((global, $)=>{
     },{
         name: 'Indicator Light',
         object: IndicatorLight
-    }/*,{
+    },{
         name: 'Indicator Speed',
         object: IndicatorSpeed
-    }*/]
+    }]
 
 
     function generateLuaCode(){
