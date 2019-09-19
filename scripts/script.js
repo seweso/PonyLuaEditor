@@ -628,9 +628,6 @@ var YYY = ((global, $)=>{
     }
 
     function refreshAll(){
-        INPUT.init($('#input'))
-        OUTPUT.init($('#output'))
-        PROPERTY.init($('#property'))
 
         let store = getStorage()
         if(store && isNaN(parseInt(store.timeBetweenTicks)) === false){
@@ -652,9 +649,11 @@ var YYY = ((global, $)=>{
         }
         if(store && typeof store.touchScreenEnabled === 'boolean'){
             $('#enable-touchscreen').prop('checked', store.touchScreenEnabled)
-            $('#enable-touchscreen').trigger('change')
         }
 
+        INPUT.init($('#input'))
+        OUTPUT.init($('#output'))
+        PROPERTY.init($('#property'))
 
 	    setStorage(store)
         CANVAS.refresh()
