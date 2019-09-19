@@ -494,7 +494,9 @@ var UI_BUILDER = ((global, $)=>{
                         'border-width': makeValidPixelOrZero(this.settings.borderWidth.value)
                     })
                 }
-                this.layerListEntry.find('.background').css('background', makeValidHexOrEmpty(this.settings.background.value))
+                if(this.settings.background){
+                    this.layerListEntry.find('.background').css('background', makeValidHexOrEmpty(this.settings.background.value))
+                }
             } catch (ex){
                 console.warn('catched error while Element.refresh():', this, ex)
             }
@@ -1328,6 +1330,79 @@ var UI_BUILDER = ((global, $)=>{
             }
         }
     }
+
+    class Graph extends Element {
+
+        beforeBuild(){
+            this.width = 32
+            this.height = 32
+
+            this.settings = {
+                color: {
+                    type: 'color',
+                    value: createRandomColor()
+                },
+                min: {
+                    type: 'number',
+                    value: 0
+                },
+                max: {
+                    type: 'number',
+                    value: 1
+                },
+                channel: {
+                    type: 'number',
+                    value: 1
+                }
+            }
+        }
+
+        buildContent(){
+            return '<svg viewBox="0 0 ' + uiZoom(this.width) + ' ' + uiZoom(this.height) + '">'
+                    + '<path d="M 0,' + uiZoom(this.height) + ' L ' + uiZoom(this.width/4) + ',' + uiZoom(this.height) + ' L ' + uiZoom(this.width*3/4) + ',' + uiZoom(this.height/2) + ' L ' + uiZoom(this.width) + ',' + uiZoom(this.height*5/6) + '" stroke-width="' + uiZoom(1) + '" stroke="' + makeValidHexOrEmpty(this.settings.color.value) + '" fill="none"/>'
+                +'</svg>'
+        }
+
+        refreshContent(){
+            this.content.html(this.buildContent())
+            this.dom.css({
+                background: '',
+                border: ''
+            })
+        }
+
+        refreshPosition(){
+            super.refreshPosition()
+            this.refreshContent()
+        }
+
+        buildLuaCode(){
+            let superRet = super.buildLuaCode()
+
+            return {
+                init: superRet.init + '\n'
+                    + this.id + 'Res={}\n'
+                    + this.id + 'FC=0\n'
+                    + this.id + 'Min=' + this.settings.min.value + '\n'
+                    + this.id + 'Max=' + this.settings.max.value + '\n',
+                onDraw: ''
+                    + luaBuildSetColor(this.settings.color.value) + '\n'
+                    + 'for i='+ this.id + 'FC-' + this.width + ', '+ this.id + 'FC-1 do\n'
+                      + 'if i >= 0 and i - ' + this.id + 'FC + ' + this.width + ' >= 0 then\n'
+                        + 'value = ('+ this.id + 'Res[i]-'+ this.id + 'Min)/'+ this.id + 'Max\n'
+                        + 'if not ('+ this.id + 'Res[i+1] == nil) then\n'
+                            + 'valueAfter = ('+ this.id + 'Res[i+1]-'+ this.id + 'Min)/'+ this.id + 'Max\n'
+                            + 'screen.drawLine(i - '+ this.id + 'FC + ' + this.width + ', ' + this.height + ' * (1 - value), i + 1 - '+ this.id + 'FC + ' + this.width + ', ' + this.height + ' * (1 - valueAfter))\n'
+                        + 'end\n'
+                    +   'end\n'
+                    + 'end\n',
+                onTick: superRet.onTick + '\n'
+                    + this.id + 'Res[' + this.id + 'FC]=math.max('+ this.id + 'Min,math.min('+ this.id + 'Max,input.getNumber(' + this.settings.channel.value + ')))\n'
+                    + this.id + 'FC=' + this.id + 'FC+1',
+                libs: superRet.libs
+            }
+        }
+    }
     
 
 
@@ -1368,6 +1443,9 @@ var UI_BUILDER = ((global, $)=>{
     },{
         name: 'Indicator Speed',
         object: IndicatorSpeed
+    },{
+        name: 'Graph',
+        object: Graph
     }]
 
 
