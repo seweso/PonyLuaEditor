@@ -270,9 +270,6 @@ var INPUT = ((global, $)=>{
         if(number){
             val = parseFloat(val)
             if(isNaN(val)){
-                val = parseInt(val)
-            }
-            if(isNaN(val)){
                 return
             }
 
@@ -317,9 +314,7 @@ var INPUT = ((global, $)=>{
         numbers[label] = config
         let number = addNew('number', 'number', label, (e)=>{
             let n = parseFloat($(e.target).val())
-            if(isNaN(n)){
-                n = parseInt($(e.target).val())
-            }
+
             if(isNaN(n)){
                 return
             }
@@ -409,17 +404,11 @@ var INPUT = ((global, $)=>{
                 let val = number.find('.change input[type="number"]').val()
                 val = parseFloat(val)
                 if(isNaN(val)){
-                    val = parseInt(val)
-                }
-                if(isNaN(val)){
                     return
                 }
 
                 let step = sliderstep.val()
                 step = parseFloat(step)
-                if(isNaN(step)){
-                    step = parseInt(step)
-                }
                 if(isNaN(step)){
                     return
                 }
@@ -429,10 +418,10 @@ var INPUT = ((global, $)=>{
 
                 if(val >= slidermax.val()){
                     myOscilateDirection = false
-                    val = slidermax.val()
+                    val = parseFloat(slidermax.val())
                 } else if (val <= slidermin.val()){
                     myOscilateDirection = true
-                    val = slidermin.val()
+                    val = parseFloat(slidermin.val())
                 }
                 if(numbers[label]){
                     numbers[label].val = val
