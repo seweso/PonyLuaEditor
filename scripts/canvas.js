@@ -106,8 +106,6 @@ var CANVAS = ((global, $)=>{
             INPUT.setNumber(1, width)
             INPUT.setNumber(2, height)
 
-
-
             if(touchpoints[0]){
                 INPUT.setNumber(3, Math.floor(touchpoints[0].x))
                 INPUT.setNumber(4, Math.floor(touchpoints[0].y))

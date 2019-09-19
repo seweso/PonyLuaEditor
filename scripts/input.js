@@ -172,10 +172,10 @@ var INPUT = ((global, $)=>{
 
 
     function addNewBool(label, val, config){
-        if(typeof label !== 'number' || label.length === 0){
+        if( ! (typeof label === 'number' || typeof label === 'string' && label.length > 0)){
             return
         }
-        if(bools[label] !== undefined){
+        if(bools[new String(label)] !== undefined){
             return
         }
 
@@ -186,12 +186,15 @@ var INPUT = ((global, $)=>{
             config = {
                 val: typeof val === 'boolean' ? val : false,
                 type: 'push',
-                key: typeof label != 'number' ? SUPPORTED_INPUT_KEYS[Object.keys(bools).length] : (
+                key: typeof label !== 'number' ? SUPPORTED_INPUT_KEYS[Object.keys(bools).length] : (
                     label > 2 ? SUPPORTED_INPUT_KEYS[label+1] : SUPPORTED_INPUT_KEYS[label-1]
                     )
             }
         }
 
+        if(typeof label === 'number'){
+            label = new String(label)
+        }
         bools[label] = config
 
         let bool = addNew('bool', 'checkbox', label, (e)=>{
@@ -258,7 +261,7 @@ var INPUT = ((global, $)=>{
             $(bool).prop('checked', val)  
             bools[label.toString()].val = val
         } else {
-            addNewBool(SUPPORTED_INPUT_KEYS[Object.keys(bools).length-1], val)
+            addNewBool(label, val)
         }
     }
 
