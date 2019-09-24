@@ -59,7 +59,7 @@
                 return
             }
             if(typeof a !== 'number'){
-                a = 255
+                a = 0
             }
             PAINT.setColor(r, g, b, a)
         }

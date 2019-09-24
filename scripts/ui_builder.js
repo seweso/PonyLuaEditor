@@ -37,7 +37,7 @@ var UI_BUILDER = ((global, $)=>{
     const LIBS_CODE = {
         is_in_rect: 'function isInRect(x,y,w,h,px,py)\nreturn px>=x and px<=x+w and py>=y and py<=y+h\nend',
         is_in_rect_o: 'function isInRectO(o,px,py)\nreturn px>=o.x and px<=o.x+o.w and py>=o.y and py<=o.y+o.h\nend',
-        set_color: 'function setC(r,g,b,a)\nscreen.setColor(r,g,b,a)\nend',
+        set_color: 'function setC(r,g,b,a)\nif a==nil then a=255 end\nscreen.setColor(r,g,b,a)\nend',
         rotate_point: 'function rotatePoint(cx,cy,angle,px,py)\ns=math.sin(angle)\nc=math.cos(angle)\npx=px-cx\npy=py-cy\nxnew=px*c-py*s\nynew=px*s+py*c\npx=xnew+cx\npy=ynew+cy\nreturn {x=px,y=py}\nend'
     }
 
