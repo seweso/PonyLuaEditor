@@ -1165,7 +1165,7 @@ var UI_BUILDER = ((global, $)=>{
                     + 'screen.drawRectF('+(this.x+this.width/12)+','+(this.y+this.height/12*8)+','+(this.width/12*10)+','+(this.height/12*3)+')\n'
                     + 'end\n',
                 onTick: superRet.onTick + '\n'
-                    + 'if isP1 and isInRectO('+this.id+'flip,in1X,in1Y) or isP2 and isInRectO('+this.id+'sliderh,in2X,in2Y) then\n'
+                    + 'if isP1 and isInRectO('+this.id+'flip,in1X,in1Y) or isP2 and isInRectO('+this.id+'flip,in2X,in2Y) then\n'
                     + 'if not '+this.id+'flip.p then\n'
                     + this.id+'flip.a=not ' + this.id+'flip.a\n'
                     + this.id+'flip.p=true\n'
