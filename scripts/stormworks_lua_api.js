@@ -58,8 +58,10 @@
                 fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 4, 'expected number or nil or undefined')
                 return
             }
-            if(typeof a !== 'number'){
+            if(a === null){
                 a = 0
+            } else if (typeof a !== 'number'){
+                a=255
             }
             PAINT.setColor(r, g, b, a)
         }
