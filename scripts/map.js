@@ -15,8 +15,8 @@ var MAP = ((global, c, $)=>{
 
     const COLOR_MULTIPLIER = 0.75
 
-    const MAP_ZERO_X = 3274
-    const MAP_ZERO_Y = 920
+    const MAP_ZERO_X = 870
+    const MAP_ZERO_Y = 350
 
     const DEFAULT_COLORS = {
         ocean: {
