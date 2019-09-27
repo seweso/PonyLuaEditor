@@ -191,8 +191,8 @@ var UI_BUILDER = ((global, $)=>{
             this.width = 24
             this.height = 8
 
-            this.minWidth = 6
-            this.minHeight = 4
+            this.minWidth = 3
+            this.minHeight = 3
 
             let color = createRandomColor()
 
@@ -595,7 +595,7 @@ var UI_BUILDER = ((global, $)=>{
 
         buildContent(){
             return '<svg viewBox="0 0 ' + uiZoom(this.width) + ' ' + uiZoom(this.height) + '">'
-                    +'<circle cx="' + uiZoom(this.width/2) + '" cy="' + uiZoom(this.height/2) + '" r="' + uiZoom(Math.min(this.width, this.height)/2 - this.settings.borderWidth.value/4) +'" stroke-width="' + uiZoom(this.settings.borderWidth.value) + '" stroke="'+ makeValidHexOrEmpty(this.settings.border.value) +'" fill="' + makeValidHexOrEmpty(this.settings.background.value) + '"></circle>'
+                    +'<circle cx="' + uiZoom(this.width/2) + '" cy="' + uiZoom(this.height/2) + '" r="' + uiZoom(Math.min(this.width, this.height)/2 - this.settings.borderWidth.value/2) +'" stroke-width="' + uiZoom(this.settings.borderWidth.value) + '" stroke="'+ makeValidHexOrEmpty(this.settings.border.value) +'" fill="' + makeValidHexOrEmpty(this.settings.background.value) + '"></circle>'
                 +'</svg>'
         }
 
@@ -787,6 +787,11 @@ var UI_BUILDER = ((global, $)=>{
                 .html(this.settings.text.value)
         }
 
+        refreshPosition(){
+            super.refreshPosition()
+            this.refreshContent()
+        }
+
         buildLuaCode(){
             let superRet = super.buildLuaCode()
             if(this.settings.isToggle.value){
@@ -873,6 +878,11 @@ var UI_BUILDER = ((global, $)=>{
             })
         }
 
+        refreshPosition(){
+            super.refreshPosition()
+            this.refreshContent()
+        }
+
         buildLuaCode(){
             let superRet = super.buildLuaCode()
             if(this.settings.isToggle.value){
@@ -928,6 +938,7 @@ var UI_BUILDER = ((global, $)=>{
         beforeBuild(){
             this.width = 8
             this.height = 24
+
             let additionalSettings = {
                 background: {
                     type: 'color',
@@ -1086,8 +1097,12 @@ var UI_BUILDER = ((global, $)=>{
     class FlipSwitch extends Element {
 
         beforeBuild(){
-            this.height=12
-            this.width=12
+            this.height = 12
+            this.width = 12
+            this.minHidth = 12
+            this.minHeight = 12
+
+
             this.settings = {
                 background: {
                     type: 'color',
@@ -1184,6 +1199,8 @@ var UI_BUILDER = ((global, $)=>{
         beforeBuild(){
             this.width = 8
             this.height = 8
+            this.minHidth = 8
+            this.minHeight = 8
 
             let additionalSettings = {
                 border: {
@@ -1254,6 +1271,8 @@ var UI_BUILDER = ((global, $)=>{
         beforeBuild(){
             this.width = 14
             this.height = 14
+            this.minWidth = 14
+            this.minHeight = 14
 
             this.settings = {
                 background: {
@@ -1290,9 +1309,9 @@ var UI_BUILDER = ((global, $)=>{
         buildContent(){
             return '<svg viewBox="0 0 ' + uiZoom(this.width/2+(Math.max(new String(this.settings.max.value).length, this.settings.minDigitWidth.value)*5)) + ' ' + uiZoom(this.height) + '">'
                     +'<circle cx="' + uiZoom(this.width/2) + '" cy="' + uiZoom(this.height/2) + '" r="' + uiZoom(Math.min(this.width, this.height)/2) +'" stroke-width="0" fill="' + makeValidHexOrEmpty(this.settings.background.value) + '"></circle>'
-                    + '<rect x="' + uiZoom(this.x+this.width/2) + '" y="' + uiZoom(this.y+this.height/2 - Math.min(this.width, this.height)/2) + '" width="' + uiZoom(this.settings.minDigitWidth.value*5) + '" height="' + uiZoom(Math.min(this.width, this.height)/2) + '" fill="' + makeValidHexOrEmpty(this.settings.numberBackground.value) + '"/>'
-                    + '<line x1="' + uiZoom(this.x+this.width/2) + '" y1="' + uiZoom(this.y+this.height/2) + '" x2="' + uiZoom(this.x+this.width/2+Math.min(this.width, this.height)/2) + '" y2="' + uiZoom(this.y+this.height/2) + '" stroke="' + makeValidHexOrEmpty(this.settings.lineColor.value) + '" stroke-width="' + uiZoom(1) + '"/>'
-                    + '<text x="' + uiZoom(this.x+this.width/2 + (this.settings.minDigitWidth.value-1)*5+1) + '" y="' + uiZoom(this.y+this.height/2 - Math.min(this.width, this.height)/4 + 3) + '" fill="' + makeValidHexOrEmpty(this.settings.color.value) + '">0</text>'
+                    + '<rect x="' + uiZoom(this.width/2) + '" y="' + uiZoom(this.height/2 - Math.min(this.width, this.height)/2) + '" width="' + uiZoom(this.settings.minDigitWidth.value*5) + '" height="' + uiZoom(Math.min(this.width, this.height)/2) + '" fill="' + makeValidHexOrEmpty(this.settings.numberBackground.value) + '"/>'
+                    + '<line x1="' + uiZoom(this.width/2) + '" y1="' + uiZoom(this.height/2) + '" x2="' + uiZoom(this.width/2+Math.min(this.width, this.height)/2) + '" y2="' + uiZoom(this.height/2) + '" stroke="' + makeValidHexOrEmpty(this.settings.lineColor.value) + '" stroke-width="' + uiZoom(1) + '"/>'
+                    + '<text x="' + uiZoom(this.width/2 + (this.settings.minDigitWidth.value-1)*5+1) + '" y="' + uiZoom(this.height/2 - Math.min(this.width, this.height)/4 + 3) + '" fill="' + makeValidHexOrEmpty(this.settings.color.value) + '">0</text>'
                 +'</svg>'
         }
 

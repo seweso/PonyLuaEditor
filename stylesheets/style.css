@@ -1457,6 +1457,12 @@ a:hover {
     overflow: hidden;
 }
 
+#ui-builder-container .canvas_container .element .content svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
 #ui-builder-container .canvas_container .element .settings {
     position: absolute;
     top: calc(100% + 5px);
