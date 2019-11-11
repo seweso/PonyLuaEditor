@@ -74,7 +74,7 @@ var LUA_EMULATOR = ((global, $)=>{
 	                return retlen
 	            }
            } catch (ex){
-                  bluescreenError(l, 'Bug in the Website, please contact the developer. Message: @' + callback.name, ex.toString())
+                  bluescreenError(l, 'Bug in the Website, please contact the developer. Message: ', ex.toString())
                   return 0
            }
         }
