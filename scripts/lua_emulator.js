@@ -64,19 +64,14 @@ var LUA_EMULATOR = ((global, $)=>{
         const callback = func
         let middleware = function(ll){
             let args = extractArgumentsFromStack(ll.stack, 'middleware')
-            try {
-	            let ret =  callback.apply(null, convertArguments(args))
-	            if(ret === undefined){
-	                let retlen = pushToStack(ll, null)
-	                return retlen
-	            } else {
-	                let retlen = pushToStack(ll, ret)
-	                return retlen
-	            }
-           } catch (ex){
-                  bluescreenError(l, 'Bug in the Website, please contact the developer. Message: ', ex.toString())
-                  return 0
-           }
+            let ret =  callback.apply(null, convertArguments(args))
+            if(ret === undefined){
+                let retlen = pushToStack(ll, null)
+                return retlen
+            } else {
+                let retlen = pushToStack(ll, ret)
+                return retlen
+            }
         }
         middleware.toString = ()=>{
             return 'emulated function()'//callback.toString()
