@@ -60,7 +60,7 @@ var MAP = ((global, c, $)=>{
     let matches = {}
 
     function drawMap(x, y, zom){//zom from 0.1 to 50
-        matches = {}
+        //matches = {}
         let currentFillStyle = c.ctx().fillStyle
         try {
             let centerx = MAP_ZERO_X + x
@@ -81,7 +81,7 @@ var MAP = ((global, c, $)=>{
             let imageData = fakectx.getImageData(0, 0, fakecanvas.width, fakecanvas.height)
             let data = imageData.data
             for(let i = 0; i < data.length; i+=4 ){
-                let color = bestMatchColor(data[i], data[i+1], data[i+2])
+                let color = colors[ bestMatchColor(data[i], data[i+1], data[i+2]) ]
                 data[i] = color.r * COLOR_MULTIPLIER
                 data[i+1] = color.g * COLOR_MULTIPLIER
                 data[i+2] = color.b * COLOR_MULTIPLIER
@@ -200,10 +200,10 @@ var MAP = ((global, c, $)=>{
             }
             return 0
         })
-        let bestMatch = colors[distances[0].key]
-        matches[r+','+g+','+b] = bestMatch
+        let bestMatch = distances[0].key
+        matches[r+','+g+','+b] = ""+bestMatch
         if(DO_LOG){
-            console.log('bestMatch for ', r, g, b, 'is', distances[0].key, bestMatch)
+            console.log('bestMatch for ', r, g, b, 'is', bestMatch)
         }
         return bestMatch
     }
