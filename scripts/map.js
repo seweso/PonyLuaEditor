@@ -74,7 +74,7 @@ var MAP = ((global, c, $)=>{
 
             fakecanvas.width = sWidth
             fakecanvas.height = sHeight
-            fakectx.fillStyle = '#0094FF'
+            fakectx.fillStyle = '#0000FF'
             fakectx.fillRect(0, 0, sWidth, sHeight)
             fakectx.drawImage($('#map').get(0), sx, sy, sWidth, sHeight, 0, 0, sWidth, sHeight)
 
