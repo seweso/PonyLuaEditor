@@ -17,6 +17,8 @@ var YYY = ((global, $)=>{
 
     const IDENTIFIERS_NOT_ALLOWED_TO_SHORTIFY = ['onTick', 'onDraw']
 
+    const LUA_MINIFY_IDE_TMP = "LIDEMINTMP"
+
     let shortenedIdentifiers = []
 
     let running = false
@@ -36,8 +38,16 @@ var YYY = ((global, $)=>{
             }, 300)            
         }        
 
-        for(let k of Object.keys(AUTOCOMPLETE.getAllAutocompletitions().children)){
-            IDENTIFIERS_NOT_ALLOWED_TO_MINIFY.push(k)
+
+        addChildrenToMinifyNotAllowed(AUTOCOMPLETE.getAllAutocompletitions())
+
+        function addChildrenToMinifyNotAllowed(node){
+            if(node.children){
+                for(let k of Object.keys(node.children)){
+                    IDENTIFIERS_NOT_ALLOWED_TO_MINIFY.push(k)
+                    addChildrenToMinifyNotAllowed(node.children[k])
+                }
+            }
         }
 
         if(document.location.pathname.indexOf('beta') >= 0 || document.location.host === 'localhost'){
@@ -125,6 +135,14 @@ var YYY = ((global, $)=>{
                 for(let k in identifierMap){
                     console.log(k, '=>', identifierMap[k])
                 }
+
+
+                let pre = ""
+                for(let si of shortenedIdentifiers){
+                    pre += identifierMap[si] + "=" + si + "\n"
+                }
+                minified = pre + "\n" + minified
+
 
                 let offset = 0
                 while(offset < minified.length) {
@@ -596,6 +614,7 @@ var YYY = ((global, $)=>{
         if(shortenedIdentifiers.indexOf(identifier) >= 0){
             return
         }
+        console.log('shortifyIdentifier', identifier)
         shortenedIdentifiers.push(identifier)
         //TODO
         /*
@@ -605,9 +624,9 @@ var YYY = ((global, $)=>{
             screen.getWidth() => sc.getWidth()
         */
 
-        replaceIdentifierName(identifier, ast, identifier+'tmp')
-        makeIdentifierLocal(identifier+'tmp', ast)
-        removeFromAstGlobals(identifier+'tmp', ast)
+        replaceIdentifierName(identifier, ast, identifier+ LUA_MINIFY_IDE_TMP)
+        makeIdentifierLocal(identifier+ LUA_MINIFY_IDE_TMP, ast)
+        removeFromAstGlobals(identifier+ LUA_MINIFY_IDE_TMP, ast)
 
         ast.body.reverse()
         ast.body.push({
@@ -619,11 +638,13 @@ var YYY = ((global, $)=>{
             }],
             variables: [{
                 isLocal: true,
-                name: identifier+'tmp',
+                name: identifier+ LUA_MINIFY_IDE_TMP,
                 type: 'Identifier'
             }]
         })
         ast.body.reverse()
+
+        console.log(ast.body)
 
     }
 
