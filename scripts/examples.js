@@ -55,13 +55,34 @@ var EXAMPLES = ((global, $)=>{
                 content: 'This can be replaced with a function (in this case we do not save characters, but our code is easier to maintain which i will explain below)'
             },{
                 type: 'code',
-                content: 'varA = makeBatteryString(5)\nvarB = makeBatteryString(10)\n\nfunction makeBatteryString(percent)\n	return value .."% battery"\nend'
+                content: 'varA = makeBatteryString(5)\nvarB = makeBatteryString(10)\n\nfunction makeBatteryString(percent)\n	return percent .."% battery"\nend'
             },{
                 type: 'text',
                 content: 'When you now want to change the string "battery" to "Bat." there is only one place where you have to change the code.\n\nIn this example our code got quite big, but in most cases, using functions will make your code shorter (see example bellow).'
             },{
                 type: 'code',
                 content: '-- long and ugly:\nscreen.setColor(1,1,1)\nscreen.drawRect(1,2,3,4)\nscreen.setColor(2,2,2)\nscreen.drawRect(5,6,7,8)\nscreen.setColor(3,3,3)\nscreen.drawRect(9,10,11,12)\nscreen.setColor(4,4,4)\nscreen.drawRect(13,14,15,16)\n\n\n-- shorter and beautifull:\nsC(1,1,1)\nsR(1,2,3,4)\nsC(2,2,2)\nsR(5,6,7,8)\nsC(3,3,3)\nsR(9,10,11,12)sC(4,4,4)\nsR(13,14,15,16)\nfunction sC(r,g,b)\n	screen.setColor(r,g,b)\nend\n\nfunction sR(x,y,w,h)\n	screen.drawRect(x,y,w,h)\nend'
+            }]
+        },{
+            title: 'Formatting',
+            contents: [{
+                type: 'text',
+                content: 'string.format() can be used to construct strings'
+            },{
+                type: 'code',
+                content: 'string.format("%s %q", "Hello", "Lua user!")   -- string and quoted string   Hello "Lua user!"'
+            },{
+                type: 'text',
+                content: 'it can also be used to convert numbers to numbers with a defined amount of decimals (e.g. 1.2345678 => 1.23)'
+            },{
+                type: 'code',
+                content: 'string.format("%.2f", 1.23456789)  -- only print 2 decimals   1.23'
+            },{
+                type: 'text',
+                content: 'It can also be used to construct strings'
+            },{
+                type: 'code',
+                content: 'string.format("%o", -100)  -- octal   37777777634\nstring.format("%x", -100)  -- hexadecimal   ffffff9c\nstring.format("%X", -100)  -- hexadecimal   FFFFFF9C'
             }]
         }]
     },{
@@ -172,7 +193,7 @@ var EXAMPLES = ((global, $)=>{
                 content: 'The problem when using scripts in multiplayer games: the scripts do run on every client.\nThat means players can have different behaviour.'
             },{
                 type: 'text',
-                content: 'Since the in and outputs of logic components are still synchronized and calculated on the server, some parts of your vehicle may be totally in sync (e.g. the length of a winch) but your screens may look different.\nThis is also the case for camera signals shown on monitors.'
+                content: 'Since the inputs and outputs of logic components are still synchronized and calculated on the server, some parts of your vehicle may be totally in sync (e.g. the length of a winch) but your screens may look different.\nThis is also the case for camera signals shown on monitors.'
             }]
         }]
     },{
@@ -270,6 +291,8 @@ var EXAMPLES = ((global, $)=>{
 
     $(global).on('load', init)
 
+    $(global).on('resize', resizeCodeBlocks)
+
     function init(){
 
         $('#learn-badge, #learn-menu-entry').on('click', ()=>{
@@ -278,7 +301,9 @@ var EXAMPLES = ((global, $)=>{
 
             $('html, body').animate({
                 scrollTop: ($('#editor-bottom-container').offset().top - $(window).height()/5)
-            }, 200);            
+            }, 200);
+
+            resizeCodeBlocks()
         })
 
         $('#examples-heading .close').on('click', ()=>{
@@ -305,6 +330,8 @@ var EXAMPLES = ((global, $)=>{
                             editor.session.setMode("ace/mode/lua");
                             editor.session.setUseSoftTabs(false); 
                             editor.setReadOnly(true)
+                            c.prop('editor', editor)
+                            c.get(0).editor = editor
                         }; break;
                         default: {
                             c = $('<div style="background: red; color: white">Unknown content type "' + co.type + '"</div>')
@@ -347,8 +374,18 @@ var EXAMPLES = ((global, $)=>{
 
             $('#examples').append(chapter)
         }
+
+        resizeCodeBlocks()
     }
     
+    function resizeCodeBlocks(){
+        $('#examples .example_code').each((i, elem)=>{
+            if(elem.editor){
+                elem.editor.resize()
+            }
+        })
+    }
+
     return {
     }
 
