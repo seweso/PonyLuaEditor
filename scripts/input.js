@@ -213,8 +213,8 @@ var INPUT = ((global, $)=>{
             refreshBoolsAddSelect()
         }, val)
 
-        let openSettings = $('<button>&equiv;</button>')
-        let settings = $('<div class="settings"></div>')
+        let openSettings = $('<button>?</button>')
+        let settings = $('<div class="settings" style="display: none"></div>')
         openSettings.on('click', ()=>{
             settings.toggle()
         })
@@ -336,14 +336,14 @@ var INPUT = ((global, $)=>{
             refreshNumbersAddSelect()
         }, val)
 
-        let openSettings = $('<button>&equiv;</button>')
-        let settings = $('<div class="settings" style="display: block"></div>')
+        let openSettings = $('<button>?</button>')
+        let settings = $('<div class="settings" style="display: none"></div>')
         openSettings.on('click', ()=>{
             settings.toggle()
         })
         openSettings.insertBefore(number.find('button'))
 
-        let slider = $('<div class="group"><div><input type="checkbox" class="slider_check"/><label>Use slider</label></div><div><input type="number" class="slider_min" value="-1" step="0.000001"/><label>Min</label></div><div><input type="number" class="slider_max" value="1" step="0.000001"/><label>Max</label></div><div><input type="number" class="slider_step" value="0.01" min="0" max="10000" step="0.000001"/><label>Step</label></div></div>')
+        let slider = $('<div class="group"><div><input type="checkbox" class="slider_check"/><label>Use slider</label></div><div><input type="number" class="slider_min" value="-1" step="0.000001"/><label>Min</label></div><div><input type="number" class="slider_max" value="1" step="0.000001"/><label>Max</label></div><div><input type="text" class="slider_step" value="0.01"/><label>Step</label></div></div>')
         settings.append(slider)
         slidercheck = slider.find('.slider_check')
         slidercheck.on('input', ()=>{
@@ -359,23 +359,34 @@ var INPUT = ((global, $)=>{
 
         slidermin = slider.find('.slider_min')
         slidermin.on('input', ()=>{
-            number.find('input[type="range"]').prop('min', slidermin.val()).trigger('change')
-            numbers[label].slidermin = slidermin.val()
-            saveToStorage()
+            let min = parseFloat(slidermin.val().replace(',', '.'))
+            if(!isNaN(min)){
+                number.find('input[type="range"]').prop('min', min).trigger('change')
+                numbers[label].slidermin = min
+                saveToStorage()
+            }
         })
 
         slidermax = slider.find('.slider_max')
         slidermax.on('input', ()=>{
-            number.find('input[type="range"]').prop('max', slidermax.val()).trigger('change')
-            numbers[label].slidermax = slidermax.val()
-            saveToStorage()
+            let max = parseFloat(slidermax.val().replace(',', '.'))
+            if(!isNaN(max)){
+                number.find('input[type="range"]').prop('max', max).trigger('change')
+                numbers[label].slidermax = max
+                saveToStorage()
+            }
         })
 
         sliderstep = slider.find('.slider_step')
-        sliderstep.on('input', ()=>{
-            number.find('input[type="range"]').prop('step', sliderstep.val()).trigger('change')
-            numbers[label].sliderstep = sliderstep.val()
-            saveToStorage()
+        sliderstep.on('change', ()=>{
+            let step = parseFloat(sliderstep.val().replace(',', '.'))
+            if(!isNaN(step)){
+                number.find('input[type="range"]').prop('step', step).trigger('change')
+                slidermin.prop('step', step)
+                slidermax.prop('step', step)
+                numbers[label].sliderstep = step
+                saveToStorage()
+            }
         })
 
         let oscilate = $('<div class="group"><div><input type="checkbox" class="oscilate_check"/><label>Use oscilate</label></div></div>')

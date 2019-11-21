@@ -815,7 +815,7 @@ a:hover {
     margin: 0 5px 0 5px;
 }
 
-.value_list .number input[type="number"], .value_list .text input[type="text"] {
+.value_list .number input[type="number"], .value_list .number input[type="text"], .value_list .text input[type="text"] {
     width: calc(100% - 70px);
 }
 
