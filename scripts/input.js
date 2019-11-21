@@ -545,8 +545,19 @@ var INPUT = ((global, $)=>{
         }
     }
 
+    function reset(){
+        dom_bools.find('.bool').remove()
+        bools = {}
+        refreshBoolsAddSelect()
+
+        dom_numbers.find('number').remove()
+        numbers = {}
+        refreshNumbersAddSelect()
+    }
+
     return {
         init: init,
+        reset: reset,
         getBool: getBool,
         getNumber: getNumber,
         getStorage: getFromStorage,

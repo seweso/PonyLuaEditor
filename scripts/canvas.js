@@ -44,6 +44,7 @@ var CANVAS = ((global, $)=>{
         $('#enable-touchscreen').on('change', ()=>{
             if($('#enable-touchscreen').prop('checked') === false){
             }
+            INPUT.reset()
 
             calculateTouchscreenInput()
         })
@@ -86,7 +87,7 @@ var CANVAS = ((global, $)=>{
             if(evt.originalEvent.key === 'q' || evt.originalEvent.key === 'e'){
                 evt.preventDefault()
                 evt.stopImmediatePropagation()
-                    
+
                 if(touchpoints[0] && touchpoints[0].key === evt.originalEvent.key){
                     let tmp = touchpoints[1]
                     touchpoints = tmp ? [tmp] : []
@@ -102,7 +103,7 @@ var CANVAS = ((global, $)=>{
     }
 
     function calculateTouchscreenInput(){
-        if(YYY.isRunning() && $('#enable-touchscreen').prop('checked')){
+        if($('#enable-touchscreen').prop('checked')){
             INPUT.setNumber(1, width)
             INPUT.setNumber(2, height)
 
@@ -176,7 +177,7 @@ var CANVAS = ((global, $)=>{
 
         $('#overflow').css('display', showOverflow ? '' : 'none')
     }
- 
+
     function reset(){
         if(DO_LOG){
             console.log('resetting canvas')
