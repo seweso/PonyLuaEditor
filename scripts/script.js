@@ -19,6 +19,8 @@ var YYY = ((global, $)=>{
 
     const LUA_MINIFY_IDE_TMP = "LIDEMINTMP"
 
+    const MINIFY_MAPPING_SEPERATOR = '--yyy--'
+
     let shortenedIdentifiers = []
 
     let running = false
@@ -124,7 +126,6 @@ var YYY = ((global, $)=>{
                     }
                 }
 
-                pre += "\n--\n"
 
                 let libIdMap = luamin.getLastLibIdentifierMap()
                 for(let k of Object.keys(libIdMap)){
@@ -133,7 +134,7 @@ var YYY = ((global, $)=>{
                     }
                 }
 
-                minified = pre + minified
+                minified = pre + '\n' + MINIFY_MAPPING_SEPERATOR + '\n' + minified
 
 
 
@@ -231,6 +232,77 @@ var YYY = ((global, $)=>{
                 refreshMinifiedEditorCharacterCount()
             }
         })
+
+    
+        $('#unminify').on('click', ()=>{
+            let minified = minifiedEditor.getValue()
+
+            if(typeof minified !== 'string' || minified.length == 0){
+                fail('empty')
+                return
+            }
+
+            let split = minified.split(MINIFY_MAPPING_SEPERATOR)
+            let mapping = split[0]
+            let code = split[1]
+
+            let unminified = ''
+
+
+            if(split.length < 2){
+                mapping = ''
+                code = split[0]
+            }
+            if(split.length > 2){
+                fail('multiple "'+MINIFY_MAPPING_SEPERATOR+'" found')
+                return
+            }
+            if(code == ''){
+                fail('code not found')
+                return
+            }
+
+            if(!mapping || mapping == ''){
+                unminified += '-- warning: mapping not found --\n'
+            }
+
+            let mapAST = luaparse.parse(mapping)
+
+            let idMap = {}
+            let libIdMap = {}
+            console.log(mapAST)
+
+            for(let o of mapAST.body){
+                let originalName
+                if(o.init[0].type == "Identifier"){
+                    originalName = o.init[0].name
+                } else if(o.init[0].type == "MemberExpression"){
+                    originalName = o.init[0].identifier.name
+                }
+
+                if(o.variables[0].type == "Identifier"){
+                    idMap[o.variables[0].name] = originalName
+                } else if(o.variables[0].type == "MemberExpression"){
+                    if(!libIdMap[o.variables[0].base.name]){
+                        libIdMap[o.variables[0].base.name] = {}
+                    }
+                    libIdMap[o.variables[0].base.name][o.variables[0].identifier.name] = originalName
+                }
+            }
+
+            unminified += luamax.maxify(code, idMap, libIdMap)
+
+            $('#unminified-editor').show()
+            unminifiedEditor.setValue(unminified)
+
+
+            function fail(msg){
+                $('#unminified-editor').show()
+                unminifiedEditor.setValue('Unminification failed:\n' + msg)
+            }
+
+        })
+
         $('#console').val('')
 	  	let codeFromStorage = getCodeFromStorage()
 	  	if(typeof codeFromStorage === 'string' && codeFromStorage.length > 0){
@@ -259,6 +331,10 @@ var YYY = ((global, $)=>{
             isCustomMinifiedCode = true
         })
 
+        unminifiedEditor.on('change', ()=>{
+            refreshUnminifiedEditorCharacterCount()
+        })
+
         editor.selection.on('changeCursor', ()=>{
             refreshPositionHint()
         })
@@ -266,6 +342,10 @@ var YYY = ((global, $)=>{
 
         minifiedEditor.selection.on('changeCursor', ()=>{
             refreshMinifiedPositionHint()
+        })
+
+        unminifiedEditor.selection.on('changeCursor', ()=>{
+            refreshUnminifiedPositionHint()
         })
 
         $('#timeBetweenTicks').on('input', ()=>{
@@ -320,6 +400,10 @@ var YYY = ((global, $)=>{
 
         $('#minified-code').resizable().on('resize', ()=>{
             minifiedEditor.resize()
+        })
+
+        $('#unminified-code').resizable().on('resize', ()=>{
+            unminifiedEditor.resize()
         })
 
         $('#ui-builder-code').resizable().on('resize', ()=>{
@@ -934,6 +1018,16 @@ var YYY = ((global, $)=>{
         }
     }
 
+    function refreshUnminifiedEditorCharacterCount(){
+        let chars = countCharacters(unminifiedEditor.getValue())
+        $('#unminified-charactercount').html(chars + '/4096')
+        if(chars >= 4096){
+            $('#unminified-charactercount').addClass('limit')
+        } else {
+            $('#unminified-charactercount').removeClass('limit')
+        }
+    }
+
     function refreshPositionHint(){
         let pos = editor.getCursorPosition()
         let chars = editor.session.doc.positionToIndex(pos)
@@ -944,6 +1038,12 @@ var YYY = ((global, $)=>{
         let pos = minifiedEditor.getCursorPosition()
         let chars = minifiedEditor.session.doc.positionToIndex(pos)
         $('#minified-selection-information').html('Line ' + (pos.row + 1) + ', Column ' + (pos.column + 1) + ', Char ' + chars)
+    }
+
+    function refreshUnminifiedPositionHint(){
+        let pos = unminifiedEditor.getCursorPosition()
+        let chars = unminifiedEditor.session.doc.positionToIndex(pos)
+        $('#unminified-selection-information').html('Line ' + (pos.row + 1) + ', Column ' + (pos.column + 1) + ', Char ' + chars)
     }
 
     function countCharacters(str){

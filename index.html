@@ -46,6 +46,7 @@
     <script type="text/javascript" src="scripts/editor_autocompletition.js"></script>
     <script type="text/javascript" src="scripts/luaparse.js"></script>
     <script type="text/javascript" src="scripts/luamin.js"></script>
+    <script type="text/javascript" src="scripts/luamax.js"></script>
     <script type="text/javascript" src="scripts/examples.js"></script>
     <!--<script type="text/javascript" src="scripts/giveaway.js"></script>-->
 </head>
@@ -214,8 +215,9 @@ end
             <div class="controls_container">
                 <button id="save-minified">Save Minified</button>
                 <button id="start-minified">Start Minified</button>
+                <button id="unminify">Unminify</button>
             </div>
-        </div>        
+        </div>
         <div id="minified-code-container">
             <div class="custom_hint" style="display: none;">
                 You are using custom minified code! It will be overwritten when minifying the next time!<br>When sharing the original code as well as the custom minified code will be shared.
@@ -227,6 +229,18 @@ end
                 <span id="minified-charactercount">0/4096</span>
             </div>
             <div class="code_lock"></div>
+        </div>
+    </div>
+
+    <div id="unminified-editor" style="display: none;">
+        <h3>Unminified Code:</h3>
+        <div id="unminified-code-container">
+            <div id="unminified-code">
+            </div>
+            <div id="code-unminified-editor-information">
+                <span id="unminified-selection-information">Line 0, Column 0, Char 0</span>
+                <span id="unminified-charactercount">0/4096</span>
+            </div>
         </div>
     </div>
 
@@ -306,7 +320,12 @@ end
         var minifiedEditor = ace.edit("minified-code");
         minifiedEditor.setTheme("ace/theme/monokai");
         minifiedEditor.session.setMode("ace/mode/lua");
-        minifiedEditor.session.setUseSoftTabs(false); 
+        minifiedEditor.session.setUseSoftTabs(false);
+
+        var unminifiedEditor = ace.edit("unminified-code");
+        unminifiedEditor.setTheme("ace/theme/monokai");
+        unminifiedEditor.session.setMode("ace/mode/lua");
+        unminifiedEditor.session.setUseSoftTabs(false); 
 
         var uiBuilderEditor = ace.edit("ui-builder-code");
         uiBuilderEditor.setTheme("ace/theme/monokai");

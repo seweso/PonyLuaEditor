@@ -84,7 +84,7 @@ a:hover {
     padding-bottom: 150px;
 }
 
-#selection, #top, #editor, #minified-editor, #out, #documentation {
+#selection, #top, #editor, #minified-editor, #unminified-editor, #out, #documentation {
     padding: 20px;
 }
 
@@ -315,7 +315,12 @@ a:hover {
     margin-bottom: 10px;
 }
 
-#code, #minified-code {
+#unminified-code-container {
+    color: #fff;
+    position: relative;
+}
+
+#code, #minified-code, #unminified-code {
     width: 100%;
     border-radius: 3px;
     line-height: 130%;
@@ -329,7 +334,12 @@ a:hover {
     height: 100px;
 }
 
-#code-editor-information, #code-minified-editor-information {
+
+#unminified-code {
+    height: 300px;
+}
+
+#code-editor-information, #code-minified-editor-information, #code-unminified-editor-information {
     color: #fff;
     padding: 10px;
     display: flex;
@@ -341,11 +351,11 @@ a:hover {
     margin: 0 10px;
 }
 
-#charactercount, #minified-charactercount {
+#charactercount, #minified-charactercount, #unminified-charactercount {
     font-weight: bold;
 }
 
-#charactercount.limit, #minified-charactercount.limit {
+#charactercount.limit, #minified-charactercount.limit, #unminified-charactercount.limit {
     color: red;
 }
 
