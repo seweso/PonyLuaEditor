@@ -64,6 +64,27 @@ var EXAMPLES = ((global, $)=>{
                 content: '-- long and ugly:\nscreen.setColor(1,1,1)\nscreen.drawRect(1,2,3,4)\nscreen.setColor(2,2,2)\nscreen.drawRect(5,6,7,8)\nscreen.setColor(3,3,3)\nscreen.drawRect(9,10,11,12)\nscreen.setColor(4,4,4)\nscreen.drawRect(13,14,15,16)\n\n\n-- shorter and beautifull:\nsC(1,1,1)\nsR(1,2,3,4)\nsC(2,2,2)\nsR(5,6,7,8)\nsC(3,3,3)\nsR(9,10,11,12)sC(4,4,4)\nsR(13,14,15,16)\nfunction sC(r,g,b)\n	screen.setColor(r,g,b)\nend\n\nfunction sR(x,y,w,h)\n	screen.drawRect(x,y,w,h)\nend'
             }]
         },{
+            title: 'Scope',
+            contents: [{
+                type: 'text',
+                content: 'In lua, every variable, function, ... can be <i>local</i> or <i>global</i>.\n<i>local</i> variables can only be used inside the same scope, global variables can be used everywhere. In Stormworks, locals are not important, because every lua script is standalone (sandboxed).'
+            },{
+                type: 'code',
+                content: 'local a=1\nfunction test()  -- this function can access a\n	print(a)\nend\n\nlocal function test2()  -- this function can access a too\n	print(a)\nend\n\n'
+            },{
+                type: 'code',
+                content: 'function test()  -- this function can access a\n	local a=1\n	print(a)\nend\n\nlocal function test2()  -- this function can NOT access a \n	print(a)  -- error\nend\n\n'
+            },{
+                type: 'text',
+                content: 'Important: the onDraw() and onTick() function must be global!\n<i>local</i> variables and functions must be declared before they can be used:'
+            },{
+                type: 'code',
+                content: 'local function a()\n	print("test")\nend\n\nfunction onDraw()\n	a()  -- works\nend'
+            },{
+                type: 'code',
+                content: 'function onDraw()\n	a()  -- error: a not found\nend\n\nlocal function a()\n	...\nend'
+            }]
+        },{
             title: 'Formatting',
             contents: [{
                 type: 'text',
