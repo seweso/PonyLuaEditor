@@ -119,24 +119,32 @@
         return false;
     }
 
-    let shortenedMembers = []
-    let shortenedMembersFullNames = []
+    function isMinifyProhibited(id){
+        return id == 'onTick' || id == 'onDraw'
+    }
 
     var currentIdentifier;
     var identifierMap;
+    var libIdentifierMap;
     var identifiersInUse;
-    var generateIdentifier = function(originalName) {
-        //console.log('identifierMap', identifierMap)
+    var generateIdentifier = function(originalName, library) {
+        console.log('generateIdentifier', originalName, library)
         // Preserve `self` in methods
-        if (originalName == 'self') {
-            //console.log('generateIdentifier(', originalName, ')', originalName)
+        if (originalName == 'self' || ! YYY.isMinificationAllowed(originalName, library)) {
+            console.log(originalName)
             return originalName;
         }
 
-        if (hasOwnProperty.call(identifierMap, originalName)) {
-            let ret = identifierMap[originalName];
-            //console.log('generateIdentifier(', originalName, ')', ret)
-            return ret
+        if(library){
+            if (libIdentifierMap[library] && hasOwnProperty.call(libIdentifierMap[library], originalName)) {
+                console.log(libIdentifierMap[library][originalName])
+                return libIdentifierMap[library][originalName];
+            }
+        } else {
+            if (hasOwnProperty.call(identifierMap, originalName)) {
+                console.log(identifierMap[originalName])
+                return identifierMap[originalName];
+            }
         }
         var length = currentIdentifier.length;
         var position = length - 1;
@@ -152,27 +160,41 @@
                     isKeyword(currentIdentifier) ||
                     indexOf(identifiersInUse, currentIdentifier) > -1
                 ) {
-                    let ret = generateIdentifier(originalName);
-                    //console.log('generateIdentifier(', originalName, ')', ret)
-                    return ret
+                    return generateIdentifier(originalName);
                 }
-                identifierMap[originalName] = currentIdentifier;
-                let ret = currentIdentifier;                
-                //console.log('generateIdentifier(', originalName, ')', ret)
-                return ret
+
+                if(library){
+                    if(!libIdentifierMap[library]){
+                        libIdentifierMap[library]={}
+                    }
+                    libIdentifierMap[library][originalName]=currentIdentifier
+                } else {
+                    identifierMap[originalName] = currentIdentifier;                    
+                }
+
+                console.log(currentIdentifier)
+                return currentIdentifier;
             }
             --position;
         }
         currentIdentifier = 'a' + generateZeroes(length);
         if (indexOf(identifiersInUse, currentIdentifier) > -1) {
             let ret = generateIdentifier(originalName);
-            //console.log('generateIdentifier(', originalName, ')', ret)
+            console.log(ret)
             return ret
         }
-        identifierMap[originalName] = currentIdentifier;
-        let ret = currentIdentifier;
-        //console.log('generateIdentifier(', originalName, ')', ret)
-        return ret
+
+        if(library){
+            if(!libIdentifierMap[library]){
+                libIdentifierMap[library]={}
+            }
+            libIdentifierMap[library][originalName]=currentIdentifier
+        } else {
+            identifierMap[originalName] = currentIdentifier;            
+        }
+
+        console.log(currentIdentifier)
+        return currentIdentifier;
     };
 
     /*--------------------------------------------------------------------------*/
@@ -224,10 +246,11 @@
         return a + b;
     };
 
-    var formatBase = function(base, toplevel) {
+    var formatBase = function(base) {
         var result = '';
         var type = base.type;
         var needsParens = base.inParens && (
+            type == 'CallExpression' ||
             type == 'BinaryExpression' ||
             type == 'FunctionDeclaration' ||
             type == 'TableConstructorExpression' ||
@@ -237,7 +260,7 @@
         if (needsParens) {
             result += '(';
         }
-        result += formatExpression(base, {}, toplevel);
+        result += formatExpression(base);
         if (needsParens) {
             result += ')';
         }
@@ -245,7 +268,7 @@
     };
 
     var formatExpression = function(expression, options) {
-        let toplevel = false //TODO: REMOVE
+
         options = extend({
             'precedence': 0,
             'preserveIdentifiers': false
@@ -260,8 +283,11 @@
 
         if (expressionType == 'Identifier') {
 
-            result = !toplevel && !options.preserveIdentifiers
-                ? generateIdentifier(expression.name)
+            let r1 = indexOf(identifiersInUse, expression.name) 
+            let r2 = !options.preserveIdentifiers
+
+            result = (typeof r1 !== 'number' || r1 <= 0) && r2
+                ? generateIdentifier(expression.name, options ? options.library : undefined)
                 : expression.name;
 
         } else if (
@@ -290,13 +316,13 @@
                 'precedence': currentPrecedence,
                 'direction': 'left',
                 'parent': operator
-            }, toplevel);
+            });
             result = joinStatements(result, operator);
             result = joinStatements(result, formatExpression(expression.right, {
                 'precedence': currentPrecedence,
                 'direction': 'right',
                 'parent': operator
-            }, toplevel));
+            }));
 
             if (operator == '^' || operator == '..') {
                 associativity = "right";
@@ -334,7 +360,7 @@
                 operator,
                 formatExpression(expression.argument, {
                     'precedence': currentPrecedence
-                }, toplevel)
+                })
             );
 
             if (
@@ -355,10 +381,10 @@
 
         } else if (expressionType == 'CallExpression') {
 
-            result = formatBase(expression.base, toplevel) + '(';
+            result = formatBase(expression.base) + '(';
 
             each(expression.arguments, function(argument, needsComma) {
-                result += formatExpression(argument, {}, toplevel);
+                result += formatExpression(argument);
                 if (needsComma) {
                     result += ',';
                 }
@@ -367,29 +393,33 @@
 
         } else if (expressionType == 'TableCallExpression') {
 
-            result = formatExpression(expression.base, {}, toplevel) +
-                formatExpression(expression.arguments, {}, toplevel);
+            result = formatExpression(expression.base) +
+                formatExpression(expression.arguments);
 
         } else if (expressionType == 'StringCallExpression') {
 
-            result = formatExpression(expression.base, {}, toplevel) +
-                formatExpression(expression.argument, {}, toplevel);
+            result = formatExpression(expression.base) +
+                formatExpression(expression.argument);
 
         } else if (expressionType == 'IndexExpression') {
 
-            result = formatBase(expression.base, toplevel) + '[' +
-                formatExpression(expression.index, {}, toplevel) + ']';
+            result = formatBase(expression.base) + '[' +
+                formatExpression(expression.index) + ']';
 
         } else if (expressionType == 'MemberExpression') {
-            let base = formatBase(expression.base, toplevel)
-            let express = formatExpression(expression.identifier, {
-                    'preserveIdentifiers': false
-                }, toplevel);
-            result = base + expression.indexer + express
-                
-            if(! shortenedMembersFullNames[base + '.' + expression + '.' + expression.identifier.name]){
-                shortenedMembersFullNames[base + '.' + expression + '.' + expression.identifier.name] = true
-                shortenedMembers.push({base: base, expression: express, original: expression.identifier.name})
+
+            if(YYY.isMinificationAllowed(expression.identifier.name, expression.base.name)){//allow math.sin to be minified
+                console.log('MemberExpression && isMinificationAllowed', expression)
+                result = formatBase(expression.base) + expression.indexer +
+                    formatExpression(expression.identifier, {
+                        'library': expression.base.name
+                    });
+            } else {//default behaviour
+                console.log('MemberExpression && default', expression)
+                result = formatBase(expression.base) + expression.indexer +
+                    formatExpression(expression.identifier, {
+                        'preserveIdentifiers': true
+                    });
             }
 
         } else if (expressionType == 'FunctionDeclaration') {
@@ -416,15 +446,15 @@
 
             each(expression.fields, function(field, needsComma) {
                 if (field.type == 'TableKey') {
-                    result += '[' + formatExpression(field.key, {}, toplevel) + ']=' +
-                        formatExpression(field.value, {}, toplevel);
+                    result += '[' + formatExpression(field.key) + ']=' +
+                        formatExpression(field.value);
                 } else if (field.type == 'TableValue') {
-                    result += formatExpression(field.value, {}, toplevel);
+                    result += formatExpression(field.value);
                 } else { // at this point, `field.type == 'TableKeyString'`
                     result += formatExpression(field.key, {
                         // TODO: keep track of nested scopes (#18)
                         'preserveIdentifiers': true
-                    }, toplevel) + '=' + formatExpression(field.value, {}, toplevel);
+                    }) + '=' + formatExpression(field.value);
                 }
                 if (needsComma) {
                     result += ',';
@@ -442,15 +472,15 @@
         return result;
     };
 
-    var formatStatementList = function(body, toplevel) {
+    var formatStatementList = function(body) {
         var result = '';
         each(body, function(statement) {
-            result = joinStatements(result, formatStatement(statement, toplevel), ';');
+            result = joinStatements(result, formatStatement(statement), ';');
         });
         return result;
     };
 
-    var formatStatement = function(statement, toplevel) {
+    var formatStatement = function(statement) {
         var result = '';
         var statementType = statement.type;
 
@@ -458,7 +488,7 @@
 
             // left-hand side
             each(statement.variables, function(variable, needsComma) {
-                result += formatExpression(variable, {}, toplevel);
+                result += formatExpression(variable);
                 if (needsComma) {
                     result += ',';
                 }
@@ -467,7 +497,7 @@
             // right-hand side
             result += '=';
             each(statement.init, function(init, needsComma) {
-                result += formatExpression(init, {}, toplevel);
+                result += formatExpression(init);
                 if (needsComma) {
                     result += ',';
                 }
@@ -475,7 +505,7 @@
 
         } else if (statementType == 'LocalStatement') {
 
-            result = toplevel?' ':'local ';
+            result = 'local ';
 
             // left-hand side
             each(statement.variables, function(variable, needsComma) {
@@ -490,7 +520,7 @@
             if (statement.init.length) {
                 result += '=';
                 each(statement.init, function(init, needsComma) {
-                    result += formatExpression(init, {}, toplevel);
+                    result += formatExpression(init);
                     if (needsComma) {
                         result += ',';
                     }
@@ -499,13 +529,13 @@
 
         } else if (statementType == 'CallStatement') {
 
-            result = formatExpression(statement.expression, {}, toplevel);
+            result = formatExpression(statement.expression);
 
         } else if (statementType == 'IfStatement') {
 
             result = joinStatements(
                 'if',
-                formatExpression(statement.clauses[0].condition, {}, toplevel)
+                formatExpression(statement.clauses[0].condition)
             );
             result = joinStatements(result, 'then');
             result = joinStatements(
@@ -515,7 +545,7 @@
             each(statement.clauses.slice(1), function(clause) {
                 if (clause.condition) {
                     result = joinStatements(result, 'elseif');
-                    result = joinStatements(result, formatExpression(clause.condition, {}, toplevel));
+                    result = joinStatements(result, formatExpression(clause.condition));
                     result = joinStatements(result, 'then');
                 } else {
                     result = joinStatements(result, 'else');
@@ -526,7 +556,7 @@
 
         } else if (statementType == 'WhileStatement') {
 
-            result = joinStatements('while', formatExpression(statement.condition, {}, toplevel));
+            result = joinStatements('while', formatExpression(statement.condition));
             result = joinStatements(result, 'do');
             result = joinStatements(result, formatStatementList(statement.body));
             result = joinStatements(result, 'end');
@@ -541,7 +571,7 @@
             result = 'return';
 
             each(statement.arguments, function(argument, needsComma) {
-                result = joinStatements(result, formatExpression(argument, {}, toplevel));
+                result = joinStatements(result, formatExpression(argument));
                 if (needsComma) {
                     result += ',';
                 }
@@ -555,12 +585,12 @@
 
             result = joinStatements('repeat', formatStatementList(statement.body));
             result = joinStatements(result, 'until');
-            result = joinStatements(result, formatExpression(statement.condition, {}, toplevel))
+            result = joinStatements(result, formatExpression(statement.condition))
 
         } else if (statementType == 'FunctionDeclaration') {
 
-            result = (statement.isLocal && !toplevel ? 'local ' : '') + 'function ';
-            result += formatExpression(statement.identifier, {}, toplevel);
+            result = (statement.isLocal ? 'local ' : '') + 'function ';
+            result += formatExpression(statement.identifier);
             result += '(';
 
             if (statement.parameters.length) {
@@ -595,7 +625,7 @@
             result += ' in';
 
             each(statement.iterators, function(iterator, needsComma) {
-                result = joinStatements(result, formatExpression(iterator, {}, toplevel));
+                result = joinStatements(result, formatExpression(iterator));
                 if (needsComma) {
                     result += ',';
                 }
@@ -609,11 +639,11 @@
 
             // The variables in a `ForNumericStatement` are always local
             result = 'for ' + generateIdentifier(statement.variable.name) + '=';
-            result += formatExpression(statement.start, {}, toplevel) + ',' +
-                formatExpression(statement.end, {}, toplevel);
+            result += formatExpression(statement.start) + ',' +
+                formatExpression(statement.end);
 
             if (statement.step) {
-                result += ',' + formatExpression(statement.step, {}, toplevel);
+                result += ',' + formatExpression(statement.step);
             }
 
             result = joinStatements(result, 'do');
@@ -647,17 +677,14 @@
             : argument;
 
         // (Re)set temporary identifier values
-        shortenedMembers = []
-        shortenedMembersFullNames = []
-
         identifierMap = {};
+        libIdentifierMap = {};
         identifiersInUse = [];
         // This is a shortcut to help generate the first identifier (`a`) faster
         currentIdentifier = '9';
-        
 
         // Make sure global variable names aren't renamed
-        if (ast.globals) {
+        /*if (ast.globals) {
             each(ast.globals, function(object) {
                 var name = object.name;
                 identifierMap[name] = name;
@@ -665,10 +692,9 @@
             });
         } else {
             throw Error('Missing required AST property: `globals`');
-        }
+        }*/
 
-        let ret = formatStatementList(ast.body, true);
-        return ret
+        return formatStatementList(ast.body);
     };
 
     /*--------------------------------------------------------------------------*/
@@ -676,11 +702,11 @@
     var luamin = {
         'version': '1.0.4',
         'minify': minify,
-        getShortenedMembers: function(){
-            return shortenedMembers
-        },
-        getIdentifierMap: function(){
+        getLastIdentifierMap: ()=>{
             return identifierMap
+        },
+        getLastLibIdentifierMap: ()=>{
+            return libIdentifierMap
         }
     };
 

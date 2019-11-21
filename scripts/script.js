@@ -15,7 +15,7 @@ var YYY = ((global, $)=>{
 
     const IDENTIFIERS_NOT_ALLOWED_TO_MINIFY = ['onTick', 'onDraw']
 
-    const IDENTIFIERS_NOT_ALLOWED_TO_SHORTIFY = ['onTick', 'onDraw']
+    const LIBRARY_IDENTIFIERS = []
 
     const LUA_MINIFY_IDE_TMP = "LIDEMINTMP"
 
@@ -39,13 +39,13 @@ var YYY = ((global, $)=>{
         }        
 
 
-        addChildrenToMinifyNotAllowed(AUTOCOMPLETE.getAllAutocompletitions())
+        addChildrenToLibraryIdentifiers(AUTOCOMPLETE.getAllAutocompletitions())
 
-        function addChildrenToMinifyNotAllowed(node){
+        function addChildrenToLibraryIdentifiers(node){
             if(node.children){
                 for(let k of Object.keys(node.children)){
-                    IDENTIFIERS_NOT_ALLOWED_TO_MINIFY.push(k)
-                    addChildrenToMinifyNotAllowed(node.children[k])
+                    LIBRARY_IDENTIFIERS.push(k)
+                    addChildrenToLibraryIdentifiers(node.children[k])
                 }
             }
         }
@@ -113,35 +113,28 @@ var YYY = ((global, $)=>{
             try {
                 let ast = luaparse.parse(editor.getValue())
 
-                shortenedIdentifiers = []
-
-
-                for(let g of ast.globals){
-                    if(IDENTIFIERS_NOT_ALLOWED_TO_MINIFY.indexOf(g.name) === -1){
-                        makeIdentifierLocal(g.name, ast)
-                        removeFromAstGlobals(g.name, ast)
-                    } else {
-                        if (IDENTIFIERS_NOT_ALLOWED_TO_SHORTIFY.indexOf(g.name) === -1){
-                            shortifyIdentifier(g.name, ast)
-                        }
-                    }
-                }
-
                 let minified = luamin.minify(ast).trim()
 
 
-                let identifierMap = luamin.getIdentifierMap()
-                console.log('Mappings:')
-                for(let k in identifierMap){
-                    console.log(k, '=>', identifierMap[k])
+                let pre = ''
+                let idMap = luamin.getLastIdentifierMap()
+                for(let k of Object.keys(idMap)){
+                    if(LIBRARY_IDENTIFIERS.indexOf(k) >= 0){
+                        pre += idMap[k] + '=' + k + ';'
+                    }
                 }
 
+                pre += "\n--\n"
 
-                let pre = ""
-                for(let si of shortenedIdentifiers){
-                    pre += identifierMap[si] + "=" + si + "\n"
+                let libIdMap = luamin.getLastLibIdentifierMap()
+                for(let k of Object.keys(libIdMap)){
+                    for(let kk of Object.keys(libIdMap[k])){
+                        pre += idMap[k] + '.' + libIdMap[k][kk] + '=' + idMap[k] + '.' + kk + ';'                    
+                    }
                 }
-                minified = pre + "\n" + minified
+
+                minified = pre + minified
+
 
 
                 let offset = 0
@@ -165,18 +158,6 @@ var YYY = ((global, $)=>{
 
                     offset += localStatement.length
                 }
-
-                let suffix = ''
-
-                let shortenedMembers = luamin.getShortenedMembers()
-                for(let sm of shortenedMembers){
-                    if(sm.expression === sm.original){
-                        continue
-                    }
-                    suffix += sm.base + '.' + sm.expression + '=' + sm.base + '.' + sm.original + ';'
-                }
-
-                minified = minified + ';' + suffix
 
                 if($('#minify-identation').prop('checked')){
                     let split = minified.split('"')
@@ -244,7 +225,7 @@ var YYY = ((global, $)=>{
 
                 removeMinifiedCodeFromStorage()
             } catch (ex){
-                console.log(ex)
+                console.trace(ex)
                 $('#minified-editor').show()
                 minifiedEditor.setValue('Error: ' + ex.message)
                 refreshMinifiedEditorCharacterCount()
@@ -969,8 +950,13 @@ var YYY = ((global, $)=>{
         return typeof str === 'string' ? str.length : 0
     }
 
-    function isMinificationAllowed(keyword){
-        return IDENTIFIERS_NOT_ALLOWED_TO_MINIFY.indexOf(keyword) === -1
+    function isMinificationAllowed(keyword, /* optional */ library){
+        if(library){
+            let acs = AUTOCOMPLETE.getAllAutocompletitions()
+            return acs && acs.children[library] && acs.children[library].children && acs.children[library].children[keyword]
+        } else {
+            return IDENTIFIERS_NOT_ALLOWED_TO_MINIFY.indexOf(keyword) === -1
+        }
     }
 
     return {
