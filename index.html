@@ -152,24 +152,17 @@
         </div>
         <div id="output" class="value_list"></div>
     </div>
-    <div id="editor">
+    <div id="editor" class="content_part">
+        <h3>Code Editor:</h3>
         <div class="controls">
             <div class="controls_container">
-                <button id="save">Save</button>          
-            </div>
-            <div class="controls_container">
+                <button id="save">Save</button> 
                 <button id="start">Start</button>
-                <button id="stop">Stop</button>            
-            </div>
-            <div class="controls_container">
+                <button id="stop">Stop</button>   
                 <button id="reset">New Lua Script</button>
-            </div>
-            <div class="controls_container">
                 <button id="minify" style="margin-left: auto;">Minify</button>
                 <input type="checkbox" name="minify-identation" id="minify-identation" checked>
                 <label>Line breaks</label>
-            </div>
-            <div class="controls_container">
                 <div id="share" class="share">
                     <div class="docreate">
                         Share
@@ -209,7 +202,13 @@ end
         </div>
     </div>
 
-    <div id="minified-editor" style="display: none;">
+
+    <div id="out" class="content_part">
+        <h3>Console Output:</h3>
+        <textarea readonly id="console"></textarea>
+    </div>
+
+    <div id="minified-editor" class="content_part" style="display: none;">
         <h3>Minified Code:</h3>
         <div id="minified-controls" class="controls">
             <div class="controls_container">
@@ -232,7 +231,7 @@ end
         </div>
     </div>
 
-    <div id="unminified-editor" style="display: none;">
+    <div id="unminified-editor" class="content_part" style="display: none;">
         <h3>Unminified Code:</h3>
         <div id="unminified-code-container">
             <div id="unminified-code">
@@ -244,13 +243,7 @@ end
         </div>
     </div>
 
-    <div id="out">
-        <h3>Console Output:</h3>
-        <textarea readonly id="console"></textarea>
-    </div>
-    <br>
-
-    <div id="ui-builder">
+    <div id="ui-builder" class="content_part">
         <h2>UI Builder (Beta)</h2>
         <div id="ui-builder-container"></div>
         <div id="ui-builder-controls">
@@ -267,18 +260,18 @@ end
         <div id="ui-builder-code" style="display: none;"></div>
     </div>
     
-    <div class="information_container">
+    <div class="content_part">
         View the public source code of this page <a target="_blank" rel="noopener noreferrer" href="https://gitlab.com/stormworks-lua-editor/editor">here</a>
     </div>
 
-    <div class="information_container">
+    <div class="content_part">
         <h2>Lua manual:</h2>
         <p>
             <a href="https://www.lua.org/manual/5.3/" target="_blank" rel="noopener noreferrer">https://www.lua.org/manual/5.3/</a>
         </p>
     </div>
 
-    <div id="documentation" class="information_container">
+    <div id="documentation" class="content_part">
         <h2>Available functions:</h2>
     </div>
 

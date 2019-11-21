@@ -84,10 +84,6 @@ a:hover {
     padding-bottom: 150px;
 }
 
-#selection, #top, #editor, #minified-editor, #unminified-editor, #out, #documentation {
-    padding: 20px;
-}
-
 #navigation {
     position: sticky;
     top: 0;
@@ -100,7 +96,7 @@ a:hover {
 }
 
 #selection {
-    background: #000b;
+    background: #000d;
     color: #fff;
     display: flex;
     flex-direction: row;
@@ -247,12 +243,17 @@ a:hover {
 }
 
 .controls_container {
-    background: #000a;
     padding: 10px;
     border-radius: 5px;
     margin-bottom: 10px;
     display: inline-block;
     color: #fff;
+    background: url('../images/background.jpg');
+    background-clip: border-box;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-position: 5px -65px;
+    background-size: cover;
 }
 
 .controls_container:not(:last-child) {
@@ -353,10 +354,13 @@ a:hover {
 
 #charactercount, #minified-charactercount, #unminified-charactercount {
     font-weight: bold;
+    padding: 13px 8px 11px;
+    line-height: 0;
+    border-radius: 10000px;
 }
 
 #charactercount.limit, #minified-charactercount.limit, #unminified-charactercount.limit {
-    color: red;
+    background: #ae0000;
 }
 
 #autocompletition-container {
@@ -473,20 +477,25 @@ a:hover {
 }
 
 
-/* informaton containers */
-.information_container {
-    background: #000000dd;
+/* content part */
+.content_part {
+    background: #000d;
     border-radius: 3px;
     color: #fff;
     padding: 10px;
     margin: 20px;
 }
 
-.information_container h2 {
+.content_part h2 {
     color: #bf5421;
     margin: 0 0 20px 0;
     padding-bottom: 10px;
     border-bottom: 1px solid #444444;
+}
+
+.content_part h3 {
+    color: #fff;
+    margin: 0 0 10px 0;
 }
 
 /* information badges */
@@ -670,7 +679,7 @@ a:hover {
 /* value_list */
 .value_list {
     min-width: 200px;
-    background: black;
+    background: #000d;
     padding: 5px 5px 0 5px;
     margin-bottom: 10px;
     border-radius: 6px;
@@ -969,11 +978,12 @@ a:hover {
 /* share */
 
 .share {
-    display: flex;
+    display: inline-flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
     position: relative;
+    margin-left: 20px;
 }
 
 .share .docreate {
