@@ -25,52 +25,52 @@ var PAINT = ((c)=>{
 
     function drawLine(x1, y1, x2, y2){ 
         log()
-        c.ctx().lineWidth = zoom(LINE_WIDTH)
+        c.ctx().lineWidth = zoom(LINE_WIDTH)/2
         c.ctx().beginPath()
-        c.ctx().moveTo(c.left() + zoom(x1), c.top() + zoom(y1))
-        c.ctx().lineTo(c.left() + zoom(x2), c.top() + zoom(y2))
+        c.ctx().moveTo(c.left() + zoom(x1) - 0.5, c.top() + zoom(y1) - 0.5)
+        c.ctx().lineTo(c.left() + zoom(x2) - 0.5, c.top() + zoom(y2) - 0.5)
         c.ctx().stroke()
         c.ctx().closePath()
     }
 
     function drawCircle(x, y, r){
         log()
-        c.ctx().lineWidth = zoom(LINE_WIDTH)
+        c.ctx().lineWidth = zoom(LINE_WIDTH)/2
         c.ctx().beginPath()
-        c.ctx().arc(c.left() + zoom(x), c.top()+zoom(y), zoom(r), 0, 2 * Math.PI, true)
+        c.ctx().arc(c.left() + zoom(x) - 0.5, c.top() + zoom(y) - 0.5, zoom(r) - 0.5, 0, 2 * Math.PI, true)
         c.ctx().stroke()
         c.ctx().closePath()
     }
 
     function drawCircleF(x, y, r){
         log()
-        c.ctx().lineWidth = zoom(LINE_WIDTH)
+        c.ctx().lineWidth = zoom(LINE_WIDTH)/2
         c.ctx().beginPath()
-        c.ctx().arc(c.left() + zoom(x), c.top()+zoom(y), zoom(r), 0, 2 * Math.PI, true)
+        c.ctx().arc(c.left() + zoom(x), c.top() + zoom(y), zoom(r), 0, 2 * Math.PI, true)
         c.ctx().fill()
         c.ctx().closePath()
     }
 
     function drawRect(x, y, w, h){
         log()
-        c.ctx().lineWidth = zoom(LINE_WIDTH)
-        c.ctx().strokeRect(c.left() + zoom(x), c.top() + zoom(y), zoom(w), zoom(h))
+        c.ctx().lineWidth = zoom(LINE_WIDTH)/2
+        c.ctx().strokeRect(c.left() + zoom(x) - 0.5, c.top() + zoom(y) - 0.5, zoom(w), zoom(h))
     }
 
     function drawRectF(x, y, w, h){
         log()
-        c.ctx().lineWidth = zoom(LINE_WIDTH)
-        c.ctx().fillRect(c.left() + zoom(x), c.top() + zoom(y), zoom(w), zoom(h))
+        c.ctx().lineWidth = zoom(LINE_WIDTH)/2
+        c.ctx().fillRect(c.left() + zoom(x) - 0.5, c.top() + zoom(y) - 0.5, zoom(w), zoom(h))
     }
 
     function drawTriangle(x1, y1, x2, y2, x3, y3){
         log()
-        c.ctx().lineWidth = zoom(LINE_WIDTH)
+        c.ctx().lineWidth = zoom(LINE_WIDTH)/3
         c.ctx().beginPath()
-        c.ctx().moveTo(c.left() + zoom(x1), c.top() + zoom(y1))
-        c.ctx().lineTo(c.left() + zoom(x2), c.top() + zoom(y2))
-        c.ctx().lineTo(c.left() + zoom(x3), c.top() + zoom(y3))
-        c.ctx().lineTo(c.left() + zoom(x1), c.top() + zoom(y1))
+        c.ctx().moveTo(c.left() + zoom(x1) - 0.5, c.top() + zoom(y1) - 0.5)
+        c.ctx().lineTo(c.left() + zoom(x2) - 0.5, c.top() + zoom(y2) - 0.5)
+        c.ctx().lineTo(c.left() + zoom(x3) - 0.5, c.top() + zoom(y3) - 0.5)
+        c.ctx().lineTo(c.left() + zoom(x1) - 0.5, c.top() + zoom(y1) - 0.5)
         c.ctx().stroke()
         c.ctx().closePath()
 
@@ -78,12 +78,12 @@ var PAINT = ((c)=>{
 
     function drawTriangleF(x1, y1, x2, y2, x3, y3){
         log()
-        c.ctx().lineWidth = zoom(LINE_WIDTH)
+        c.ctx().lineWidth = zoom(LINE_WIDTH)/3
         c.ctx().beginPath()
-        c.ctx().moveTo(c.left() + zoom(x1), c.top() + zoom(y1))
-        c.ctx().lineTo(c.left() + zoom(x2), c.top() + zoom(y2))
-        c.ctx().lineTo(c.left() + zoom(x3), c.top() + zoom(y3))
-        c.ctx().lineTo(c.left() + zoom(x1), c.top() + zoom(y1))
+        c.ctx().moveTo(c.left() + zoom(x1) - 0.5, c.top() + zoom(y1) - 0.5)
+        c.ctx().lineTo(c.left() + zoom(x2) - 0.5, c.top() + zoom(y2) - 0.5)
+        c.ctx().lineTo(c.left() + zoom(x3) - 0.5, c.top() + zoom(y3) - 0.5)
+        c.ctx().lineTo(c.left() + zoom(x1) - 0.5, c.top() + zoom(y1) - 0.5)
         c.ctx().fill()
         c.ctx().closePath()
     }
@@ -154,7 +154,7 @@ var PAINT = ((c)=>{
     /* helper functions */
 
     function zoom(val){
-        return val * zoomFactor
+        return Math.round(val) * zoomFactor
     }
 
     function log(){
