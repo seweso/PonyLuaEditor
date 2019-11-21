@@ -315,6 +315,7 @@ var YYY = ((global, $)=>{
             $('#minified-editor').show()
             $('#minified-code-container .custom_hint').show()
             isCustomMinifiedCode = true
+            refreshMinifiedEditorCharacterCount()
         }
 
         $('#monitor-size, #show-overflow, #enable-touchscreen').on('change', (e)=>{
