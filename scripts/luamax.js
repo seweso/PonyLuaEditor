@@ -46,6 +46,17 @@
         'U', 'V', 'W', 'X', 'Y', 'Z', '_'];
     var IDENTIFIER_PARTS_MAX = IDENTIFIER_PARTS.length - 1;
 
+    const NL = '\n'
+
+    var tabs = function(level){
+        var ret = ''
+        while(level > 0){
+            ret += '\t'
+            level--
+        }
+        return ret
+    }
+
     var each = function(array, fn) {
         var index = -1;
         var length = array.length;
@@ -141,52 +152,6 @@
 
     /*--------------------------------------------------------------------------*/
 
-    var joinStatements = function(a, b, separator) {
-        separator || (separator = ' ');
-
-        var lastCharA = a.slice(-1);
-        var firstCharB = b.charAt(0);
-
-        if (lastCharA == '' || firstCharB == '') {
-            return a + b;
-        }
-        if (regexAlphaUnderscore.test(lastCharA)) {
-            if (regexAlphaNumUnderscore.test(firstCharB)) {
-                // e.g. `while` + `1`
-                // e.g. `local a` + `local b`
-                return a + separator + b;
-            } else {
-                // e.g. `not` + `(2>3 or 3<2)`
-                // e.g. `x` + `^`
-                return a + b;
-            }
-        }
-        if (regexDigits.test(lastCharA)) {
-            if (
-                firstCharB == '(' ||
-                !(firstCharB == '.' ||
-                regexAlphaUnderscore.test(firstCharB))
-            ) {
-                // e.g. `1` + `+`
-                // e.g. `1` + `==`
-                return a + b;
-            } else {
-                // e.g. `1` + `..`
-                // e.g. `1` + `and`
-                return a + separator + b;
-            }
-        }
-        if (lastCharA == firstCharB && lastCharA == '-') {
-            // e.g. `1-` + `-2`
-            return a + separator + b;
-        }
-        var secondLastCharA = a.slice(-2, -1);
-        if (lastCharA == '.' && secondLastCharA != '.' && regexAlphaNumUnderscore.test(firstCharB)) {
-            // e.g. `1.` + `print`
-            return a + separator + b;
-        }
-        return a + b;
-    };
 
     var formatBase = function(base) {
         var result = '';
@@ -256,12 +221,12 @@
                 'direction': 'left',
                 'parent': operator
             });
-            result = joinStatements(result, operator);
-            result = joinStatements(result, formatExpression(expression.right, {
+            result += operator;
+            result += formatExpression(expression.right, {
                 'precedence': currentPrecedence,
                 'direction': 'right',
                 'parent': operator
-            }));
+            });
 
             if (operator == '^' || operator == '..') {
                 associativity = "right";
@@ -295,12 +260,9 @@
             operator = expression.operator;
             currentPrecedence = PRECEDENCE['unary' + operator];
 
-            result = joinStatements(
-                operator,
-                formatExpression(expression.argument, {
+            result += formatExpression(expression.argument, {
                     'precedence': currentPrecedence
                 })
-            );
 
             if (
                 currentPrecedence < options.precedence &&
@@ -368,8 +330,8 @@
                 });
             }
             result += ')';
-            result = joinStatements(result, formatStatementList(expression.body));
-            result = joinStatements(result, 'end');
+            result += formatStatementList(expression.body);
+            result += 'end';
 
         } else if (expressionType == 'TableConstructorExpression') {
 
@@ -403,15 +365,15 @@
         return result;
     };
 
-    var formatStatementList = function(body) {
+    var formatStatementList = function(body, level) {
         var result = '';
         each(body, function(statement) {
-            result = joinStatements(result, formatStatement(statement), ';');
+            result += NL + formatStatement(statement, level);
         });
         return result;
     };
 
-    var formatStatement = function(statement) {
+    var formatStatement = function(statement, level) {
         var result = '';
         var statementType = statement.type;
 
@@ -419,108 +381,104 @@
 
             // left-hand side
             each(statement.variables, function(variable, needsComma) {
-                result += formatExpression(variable);
+                result += tabs(level) + formatExpression(variable);
                 if (needsComma) {
-                    result += ',';
+                    result += ', ';
                 }
             });
 
             // right-hand side
-            result += '=';
+            result += ' = ';
             each(statement.init, function(init, needsComma) {
                 result += formatExpression(init);
                 if (needsComma) {
-                    result += ',';
+                    result += ', ';
                 }
             });
 
         } else if (statementType == 'LocalStatement') {
 
-            result = 'local ';
+            result = tabs(level) + 'local ';
 
             // left-hand side
             each(statement.variables, function(variable, needsComma) {
                 // Variables in a `LocalStatement` are always local, duh
                 result += generateIdentifier(variable.name);
                 if (needsComma) {
-                    result += ',';
+                    result += ', ';
                 }
             });
 
             // right-hand side
             if (statement.init.length) {
-                result += '=';
+                result += ' = ';
                 each(statement.init, function(init, needsComma) {
                     result += formatExpression(init);
                     if (needsComma) {
-                        result += ',';
+                        result += ', ';
                     }
                 });
             }
 
         } else if (statementType == 'CallStatement') {
 
-            result = formatExpression(statement.expression);
+            result = tabs(level) + formatExpression(statement.expression);
 
         } else if (statementType == 'IfStatement') {
 
-            result = joinStatements(
-                'if',
-                formatExpression(statement.clauses[0].condition)
-            );
-            result = joinStatements(result, 'then');
-            result = joinStatements(
-                result,
-                formatStatementList(statement.clauses[0].body)
-            );
+            result = tabs(level) + 'if ' + formatExpression(statement.clauses[0].condition)
+            result += ' then'
+            result += formatStatementList(statement.clauses[0].body, level+1)
+
             each(statement.clauses.slice(1), function(clause) {
                 if (clause.condition) {
-                    result = joinStatements(result, 'elseif');
-                    result = joinStatements(result, formatExpression(clause.condition));
-                    result = joinStatements(result, 'then');
+                    result += NL + tabs(level) + 'elseif'
+                    result += NL + formatExpression(clause.condition, level+1)
+                    result += NL + tabs(level) + 'then'
                 } else {
-                    result = joinStatements(result, 'else');
+                    result += tabs(level) + 'else'
                 }
-                result = joinStatements(result, formatStatementList(clause.body));
+                result += formatStatementList(clause.body)
             });
-            result = joinStatements(result, 'end');
+            result += NL + tabs(level) + 'end'
 
         } else if (statementType == 'WhileStatement') {
 
-            result = joinStatements('while', formatExpression(statement.condition));
-            result = joinStatements(result, 'do');
-            result = joinStatements(result, formatStatementList(statement.body));
-            result = joinStatements(result, 'end');
+            result += tabs(level) + 'while ' + formatExpression(statement.condition)
+            result += ' do'
+            result += formatStatementList(statement.body, level+1)
+            result += tabs(level) + 'end'
 
         } else if (statementType == 'DoStatement') {
 
-            result = joinStatements('do', formatStatementList(statement.body));
-            result = joinStatements(result, 'end');
+            result += ' do'
+            result += formatStatementList(statement.body, level+1)
+            result += tabs(level) + 'end'
 
         } else if (statementType == 'ReturnStatement') {
 
-            result = 'return';
+            result = tabs(level) + 'return';
 
             each(statement.arguments, function(argument, needsComma) {
-                result = joinStatements(result, formatExpression(argument));
+                result += formatExpression(argument)
                 if (needsComma) {
-                    result += ',';
+                    result += ', ';
                 }
             });
 
         } else if (statementType == 'BreakStatement') {
 
-            result = 'break';
+            result = tabs(level) + 'break';
 
         } else if (statementType == 'RepeatStatement') {
 
-            result = joinStatements('repeat', formatStatementList(statement.body));
-            result = joinStatements(result, 'until');
-            result = joinStatements(result, formatExpression(statement.condition))
+            result = tabs(level) + 'repeat ' + formatStatementList(statement.body)
+            result += ' until'
+            result += formatExpression(statement.condition)
 
         } else if (statementType == 'FunctionDeclaration') {
 
-            result = (statement.isLocal ? 'local ' : '') + 'function ';
+            result = tabs(level) + (statement.isLocal ? 'local ' : '') + 'function ';
             result += formatExpression(statement.identifier);
             result += '(';
 
@@ -537,59 +495,59 @@
             }
 
             result += ')';
-            result = joinStatements(result, formatStatementList(statement.body));
-            result = joinStatements(result, 'end');
+            result += formatStatementList(statement.body, level+1)
+            result += NL + tabs(level) + 'end'
 
         } else if (statementType == 'ForGenericStatement') {
             // see also `ForNumericStatement`
 
-            result = 'for ';
+            result = tabs(level) + 'for ';
 
             each(statement.variables, function(variable, needsComma) {
                 // The variables in a `ForGenericStatement` are always local
                 result += generateIdentifier(variable.name);
                 if (needsComma) {
-                    result += ',';
+                    result += ', ';
                 }
             });
 
-            result += ' in';
+            result += ' in ';
 
             each(statement.iterators, function(iterator, needsComma) {
-                result = joinStatements(result, formatExpression(iterator));
+                result += formatExpression(iterator)
                 if (needsComma) {
-                    result += ',';
+                    result += ', ';
                 }
             });
 
-            result = joinStatements(result, 'do');
-            result = joinStatements(result, formatStatementList(statement.body));
-            result = joinStatements(result, 'end');
+            result += ' do'
+            result += formatStatementList(statement.body, level+1)
+            result += NL + tabs(level) + 'end'
 
         } else if (statementType == 'ForNumericStatement') {
 
             // The variables in a `ForNumericStatement` are always local
-            result = 'for ' + generateIdentifier(statement.variable.name) + '=';
-            result += formatExpression(statement.start) + ',' +
+            result = tabs(level) + 'for ' + generateIdentifier(statement.variable.name) + '=';
+            result += formatExpression(statement.start) + ', ' +
                 formatExpression(statement.end);
 
             if (statement.step) {
-                result += ',' + formatExpression(statement.step);
+                result += ', ' + formatExpression(statement.step);
             }
 
-            result = joinStatements(result, 'do');
-            result = joinStatements(result, formatStatementList(statement.body));
-            result = joinStatements(result, 'end');
+            result += ' do'
+            result += formatStatementList(statement.body, level+1)
+            result += NL + tabs(level) + 'end'
 
         } else if (statementType == 'LabelStatement') {
 
             // The identifier names in a `LabelStatement` can safely be renamed
-            result = '::' + generateIdentifier(statement.label.name) + '::';
+            result = tabs(level) + '::' + generateIdentifier(statement.label.name) + '::';
 
         } else if (statementType == 'GotoStatement') {
 
             // The identifier names in a `GotoStatement` can safely be renamed
-            result = 'goto ' + generateIdentifier(statement.label.name);
+            result = tabs(level) + 'goto ' + generateIdentifier(statement.label.name);
 
         } else {
 
@@ -612,7 +570,7 @@
 
         console.log('luamax.maxify(', idMap, libIdMap)
 
-        return formatStatementList(ast.body);
+        return formatStatementList(ast.body, 0);
     };
 
     /*--------------------------------------------------------------------------*/
