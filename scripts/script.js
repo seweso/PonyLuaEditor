@@ -392,6 +392,7 @@ var YYY = ((global, $)=>{
 
         $('#save-minified').on('click', ()=>{
             saveMinifiedCodeInStorage()
+            $('#minified-code-container .custom_hint').show()
         })
 
         /* resizable ace code editors */
