@@ -1,29 +1,26 @@
-:root {
-    --background-orange-gradient: linear-gradient(10deg, #666 0%, #888 100%);
-}
-
+/* line 3, ../compass/src/incognito.scss */
 body.incognito #navigation {
-    display: none;
+  display: none;
 }
-
+/* line 7, ../compass/src/incognito.scss */
 body.incognito #fixed-information-badges {
-    display: none;
+  display: none;
 }
-
+/* line 11, ../compass/src/incognito.scss */
 body.incognito #background {
-    background-image: none;
+  background-image: none;
 }
-
+/* line 15, ../compass/src/incognito.scss */
 body.incognito button {
-    background: #444;
-    border: 1px solid #444;
+  background: #444;
+  border: 1px solid #444;
 }
-
+/* line 19, ../compass/src/incognito.scss */
 body.incognito button:hover {
-    background: #888;
+  background: #888;
 }
-
+/* line 23, ../compass/src/incognito.scss */
 body.incognito button[disabled] {
-    background: #222;
-    color: #666;
+  background: #222;
+  color: #666;
 }

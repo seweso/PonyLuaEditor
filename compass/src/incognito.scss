@@ -1,0 +1,28 @@
+body.incognito {
+    
+    #navigation {
+        display: none;
+    }
+
+    #fixed-information-badges {
+        display: none;
+    }
+
+    #background {
+        background-image: none;
+    }
+
+    button {
+        background: #444;
+        border: 1px solid #444;
+        
+        &:hover {
+            background: #888;
+        }
+
+        &[disabled] {
+            background: #222;
+            color: #666;
+        }
+    }
+}

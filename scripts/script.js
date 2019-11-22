@@ -593,7 +593,7 @@ var YYY = ((global, $)=>{
     }
 
     function start(){
-        $('#code-container, #minified-code-container').addClass('locked')
+        lockUI()
         saveCode()
 
         let code = editor.getValue()
@@ -606,7 +606,7 @@ var YYY = ((global, $)=>{
     }
 
     function startMinified(){
-        $('#code-container, #minified-code-container').addClass('locked')
+        lockUI()
         saveCode()
 
         let code = minifiedEditor.getValue()
@@ -623,7 +623,7 @@ var YYY = ((global, $)=>{
     }
 
     function startGenerated(){
-        $('#code-container, #minified-code-container').addClass('locked')
+        lockUI()
 
         let code = uiBuilderEditor.getValue()
 
@@ -636,6 +636,14 @@ var YYY = ((global, $)=>{
         $('html, body').animate({
             scrollTop: $("#monitor").offset().top
         }, 200);
+    }
+
+    function lockUI(){        
+        $('#code-container, #minified-code-container, #ui-builder').addClass('locked')
+    }
+
+    function unlockUI(){
+        $('#code-container, #minified-code-container, #ui-builder').removeClass('locked')
     }
 
     function startCode(code){
@@ -666,8 +674,8 @@ var YYY = ((global, $)=>{
         clearDrawAndTickInterval()
 
         LUA_EMULATOR.reset().then(()=>{
+            unlockUI()
             $('#start, #start-minified, #start-generated').prop('disabled', false)
-            $('#code-container, #minified-code-container').removeClass('locked')
         })
 
         running = false
