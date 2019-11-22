@@ -10,7 +10,8 @@ var SHARE = ((global, $)=>{
 
     function init(){
 
-        let moreWidth = $('#share .more').width()
+
+        let moreWidth = $('#share .more .currentshare_container').outerWidth()
 
         $('#share .more').css({
             width: 0
