@@ -28,8 +28,8 @@ var UI_BUILDER = ((global, $)=>{
         IS_IN_RECT_O: 'is_in_rect_o',
         SET_COLOR: 'set_color',
         ROTATE_POINT: 'rotate_point'
-    }
-
+    
+}
     const DEFAULT_LIBS = {
         [LIBS.SET_COLOR]: true
     }
@@ -160,7 +160,7 @@ var UI_BUILDER = ((global, $)=>{
 
             this.layerListEntry = $('<div class="layer_list_entry" type="' + this.constructor.name.toLowerCase() + '">'
                 + '<div class="left"><span class="name">' + this.constructor.name.toLowerCase() + '</span><div class="background"></div></div>'
-                + '<div class="lcontrols"><span class="up icon-circle-up"></span><span class="down icon-circle-down"></span></div>'
+                + '<div class="lcontrols"><span class="up icon-circle-up"></span><span class="dup icon-copy"></span><span class="down icon-circle-down"></span></div>'
                 + '</div>')
 
             this.layerListEntry.find('.up').on('click', ()=>{
@@ -176,7 +176,14 @@ var UI_BUILDER = ((global, $)=>{
                 setTimeout(()=>{
                     this.layerListEntry.removeClass('light_up')
                 }, 500)
-            })            
+            })  
+            this.layerListEntry.find('.dup').on('click', ()=>{
+                this.layerListEntry.addClass('light_up')
+                duplicateElement(this)
+                setTimeout(()=>{
+                    this.layerListEntry.removeClass('light_up')
+                }, 500)
+            })          
             this.layerListEntry.on('mouseenter', ()=>{
                 this.dom.addClass('highlight')
             })
@@ -1467,6 +1474,12 @@ var UI_BUILDER = ((global, $)=>{
         object: Graph
     }]
 
+    function duplicateElement(el){
+        let dup = new el.constructor(false, canvas_container)
+        dup.applySettings(el.settings)
+        moveElementZindexUp(dup)
+    }
+
 
     function generateLuaCode(){
         try {
@@ -1516,6 +1529,9 @@ var UI_BUILDER = ((global, $)=>{
     /* helpers */
 
     function makeValidHexOrEmpty(hexstring){
+        if(!hexstring){
+            return ''
+        }
         hexstring = hexstring.trim()
         let match = hexstring.match(/^#?([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/)
 

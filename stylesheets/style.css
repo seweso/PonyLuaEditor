@@ -1656,7 +1656,7 @@ a:hover {
 /* line 1582, ../compass/src/style.scss */
 #ui-builder-container .element_layer_list .layer_list_entry .lcontrols {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: space-between;
   align-items: center;
   margin-left: 10px;
@@ -1669,23 +1669,27 @@ a:hover {
 #ui-builder-container .element_layer_list .layer_list_entry .lcontrols .up {
   margin-bottom: 3px;
 }
-/* line 1599, ../compass/src/style.scss */
+/* line 1597, ../compass/src/style.scss */
+#ui-builder-container .element_layer_list .layer_list_entry .lcontrols > *:not(:last-of-type) {
+  margin-right: 6px;
+}
+/* line 1603, ../compass/src/style.scss */
 #ui-builder-container .element_layer_list .layer_list_entry:last-of-type .up, #ui-builder-container .element_layer_list .layer_list_entry:first-of-type .down {
   color: transparent;
   cursor: initial;
 }
-/* line 1604, ../compass/src/style.scss */
+/* line 1608, ../compass/src/style.scss */
 #ui-builder-container .element_layer_list .layer_list_entry .background {
   height: 1em;
   margin-top: 3px;
 }
 
-/* line 1612, ../compass/src/style.scss */
+/* line 1616, ../compass/src/style.scss */
 #ui-builder-code {
   height: 300px;
 }
 
-/* line 1616, ../compass/src/style.scss */
+/* line 1620, ../compass/src/style.scss */
 #ui-builder-controls {
   display: flex;
   flex-direction: row;
@@ -1693,27 +1697,27 @@ a:hover {
   align-items: center;
   flex-wrap: wrap;
 }
-/* line 1623, ../compass/src/style.scss */
+/* line 1627, ../compass/src/style.scss */
 #ui-builder-controls .controls_container {
   margin-bottom: 0;
 }
-/* line 1626, ../compass/src/style.scss */
+/* line 1630, ../compass/src/style.scss */
 #ui-builder-controls .controls_container button {
   margin-bottom: 0;
 }
-/* line 1631, ../compass/src/style.scss */
+/* line 1635, ../compass/src/style.scss */
 #ui-builder-controls > *:not(:last-child) {
   margin-right: 10px;
 }
 
-/* line 1636, ../compass/src/style.scss */
+/* line 1640, ../compass/src/style.scss */
 .ui_builder_zoom {
   display: flex;
   flex-direction: column;
 }
 
 /* dialogs */
-/* line 1643, ../compass/src/style.scss */
+/* line 1647, ../compass/src/style.scss */
 .dialog {
   position: fixed;
   top: 0;
@@ -1727,7 +1731,7 @@ a:hover {
   justify-content: center;
   align-items: center;
 }
-/* line 1656, ../compass/src/style.scss */
+/* line 1660, ../compass/src/style.scss */
 .dialog .inner {
   display: flex;
   flex-direction: column;
@@ -1736,42 +1740,42 @@ a:hover {
   border-radius: 3px;
   box-shadow: 2px 2px 3px #555;
 }
-/* line 1665, ../compass/src/style.scss */
+/* line 1669, ../compass/src/style.scss */
 .dialog .title {
   margin: 0;
   color: #bf5421;
   font-weight: bold;
   text-align: center;
 }
-/* line 1672, ../compass/src/style.scss */
+/* line 1676, ../compass/src/style.scss */
 .dialog .message {
   margin: 20px 0;
 }
-/* line 1676, ../compass/src/style.scss */
+/* line 1680, ../compass/src/style.scss */
 .dialog .buttons {
   display: flex;
   flex-direction: row;
   justify-content: center;
 }
-/* line 1681, ../compass/src/style.scss */
+/* line 1685, ../compass/src/style.scss */
 .dialog .buttons button {
   margin: 0 10px;
 }
 
 /* giveaway */
-/* line 1689, ../compass/src/style.scss */
+/* line 1693, ../compass/src/style.scss */
 #giveaway-container {
   background: url("../images/giveaway_background.jpg");
   background-size: cover;
   background-position: center;
 }
-/* line 1694, ../compass/src/style.scss */
+/* line 1698, ../compass/src/style.scss */
 #giveaway-container .claimed_by_container {
   display: flex;
   flex-direction: column;
   margin-bottom: 20px;
 }
-/* line 1699, ../compass/src/style.scss */
+/* line 1703, ../compass/src/style.scss */
 #giveaway-container .claimed_by_container input {
   margin: 10px 0;
   padding: 3px 6px;
@@ -1780,21 +1784,21 @@ a:hover {
   border-radius: 3px;
   border: 1px solid #535353;
 }
-/* line 1710, ../compass/src/style.scss */
+/* line 1714, ../compass/src/style.scss */
 #giveaway-container .inner .error, #giveaway-container .inner .progress, #giveaway-container .inner .success {
   margin-bottom: 20px;
   padding: 10px;
   color: #fff;
 }
-/* line 1716, ../compass/src/style.scss */
+/* line 1720, ../compass/src/style.scss */
 #giveaway-container .inner .error {
   background: #94342a;
 }
-/* line 1720, ../compass/src/style.scss */
+/* line 1724, ../compass/src/style.scss */
 #giveaway-container .inner .progress {
   background: #21648d;
 }
-/* line 1724, ../compass/src/style.scss */
+/* line 1728, ../compass/src/style.scss */
 #giveaway-container .inner .success {
   background: #3a7830;
 }
@@ -1869,31 +1873,31 @@ a:hover {
 }
 /* media queries */
 @media (max-width: 1023px) {
-  /* line 1768, ../compass/src/style.scss */
+  /* line 1772, ../compass/src/style.scss */
   #editor-bottom-container {
     flex-direction: column;
   }
-  /* line 1770, ../compass/src/style.scss */
+  /* line 1774, ../compass/src/style.scss */
   #editor-bottom-container.show_examples > * {
     width: 100%;
   }
 
-  /* line 1775, ../compass/src/style.scss */
+  /* line 1779, ../compass/src/style.scss */
   #example-container {
     margin-left: 0;
   }
 
-  /* line 1779, ../compass/src/style.scss */
+  /* line 1783, ../compass/src/style.scss */
   #mobile-menu-open {
     display: block !important;
   }
 
-  /* line 1783, ../compass/src/style.scss */
+  /* line 1787, ../compass/src/style.scss */
   #fixed-information-badges {
     display: none;
   }
 
-  /* line 1787, ../compass/src/style.scss */
+  /* line 1791, ../compass/src/style.scss */
   #download-offline {
     display: none;
   }
