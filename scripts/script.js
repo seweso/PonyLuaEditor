@@ -710,6 +710,9 @@ var YYY = ((global, $)=>{
     }
 
     function doTick(){
+        if(!running){
+            return
+        }
         let begin = new Date().getTime()
 
         LUA_EMULATOR.tick()
@@ -739,6 +742,9 @@ var YYY = ((global, $)=>{
     }
 
     function doDraw(){
+        if(!running){
+            return
+        }
         let begin = new Date().getTime()
 
         CANVAS.reset()
