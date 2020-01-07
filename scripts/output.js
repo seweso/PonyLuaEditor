@@ -4,6 +4,8 @@ var OUTPUT = ((global, $)=>{
     let bools = {}
     let numbers = {}
 
+    let inputBools = {}
+    let inputNumbers = {}
 
     let dom
     let dom_bools
@@ -27,19 +29,21 @@ var OUTPUT = ((global, $)=>{
         bools = {}
         numbers = {}
 
-        dom_bools.find('.bool').remove()
-        dom_numbers.find('.number').remove()
+        inputBools = {}
+        inputNumbers = {}
     }
 
     function refresh(){
-        console.log(numbers)
+        bools = inputBools
+        numbers = inputNumbers
+        inputBools = {}
+        inputNumbers = {}
+
+        dom_bools.find('.bool').remove()
+        dom_numbers.find('.number').remove()
 
         for(let k of Object.keys(bools)){
-            if(dom_bools.find('#output_bool_'+k).length == 0){
-                addNewBool(k, bools[k])
-            } else {
-                dom_bools.find('#output_bool_'+k).find('.result').html(bools[k])
-            }
+            addNewBool(k, bools[k])
         }
 
         for(let k of Object.keys(numbers)){
@@ -50,11 +54,7 @@ var OUTPUT = ((global, $)=>{
             if(isNaN(n)){
                 return
             }
-            if(dom_numbers.find('#output_number_'+k).length == 0){
-                addNewNumber(k, n)
-            } else {
-                dom_numbers.find('#output_number_'+k).find('.result').html(numbers[k])
-            }
+            addNewNumber(k, n)
         }
     }
 
@@ -80,7 +80,7 @@ var OUTPUT = ((global, $)=>{
         if(typeof val !== 'boolean'){
             throw new Error('second argument must be a boolean!')
         }
-        bools[index] = val
+        inputBools[index] = val
     }
 
     function setNumber(index, val){
@@ -90,7 +90,7 @@ var OUTPUT = ((global, $)=>{
         if(typeof val !== 'number'){
             throw new Error('second argument must be a number!')
         }
-        numbers[index] = val
+        inputNumbers[index] = val
     }
     
     return {
