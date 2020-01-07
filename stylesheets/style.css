@@ -1700,7 +1700,7 @@ a:hover {
   margin-left: 10px;
 }
 /* line 1626, ../compass/src/style.scss */
-#ui-builder-container .element_layer_list .layer_list_entry .lcontrols .up, #ui-builder-container .element_layer_list .layer_list_entry .lcontrols .down {
+#ui-builder-container .element_layer_list .layer_list_entry .lcontrols > * {
   cursor: pointer;
 }
 /* line 1630, ../compass/src/style.scss */
