@@ -282,6 +282,18 @@ var EXAMPLES = ((global, $)=>{
                 type: 'text',
                 content: 'The white area is the speed you can fly with flaps down.\nThe green area is the speed you can fly with flaps up.\nThe yellow area is emergency speed, exceeding this speed will result in structural damage of the plane.\n\nAll the speeds for these areas can be set in the code.'
             }]
+        },{
+            title: 'General Instruments (made by Tajin)',
+            contents: [{
+                type: 'text',
+                content: 'Configurable Instruments with automatic resizing to fit monitor.'
+            },{
+                type: 'code',
+                content: '-- Shorthands\nM=math\nsi=M.sin\nco=M.cos\npi=M.pi\npi2=pi*2\nS=screen\nI=input\nO=output\nC=S.setColor\nF=string.format\n\n-- Functions\nfunction clamp(a,b,c)\n    return M.min(M.max(a,b),c)\nend\n\nfunction drawDial(x,y,r,inp,low,high,subs,title)\n    C(99,99,99) -- Set color\n    S.drawCircleF(x,y,r) -- draw filled circle as background\n    C(22,22,22)\n    S.drawCircle(x,y,r) -- draw outline\n    S.drawCircle(x,y,r*0.95) -- draw second outline, slightly smaller\n\n    span = 0.75 -- use 3/4 of the circle for the dial\n    range = high - low -- get difference between max and min\n    \n    -- loop to draw subdivisions:\n    for i=0,1,1/subs do -- 10 is the number of lines on the dial\n        a = i*span-span/2 -- angle for the current subdivision\n        a = pi2*a -- to radians\n        r1 = r*0.8\n        r2 = r*0.95\n        S.drawLine(x+si(a)*r1,y-co(a)*r1,x+si(a)*r2,y-co(a)*r2)\n    end\n    \n    val = clamp(inp,low,high)\n    val = (val-low)/range -- convert into a 0-1 value\n    a = pi2*(val*span-span/2) -- angle of the needle\n    a1 = a+pi/2 -- +90° so i can draw the needle as a triangle\n    r1 = r*0.9 -- length of the needle\n    r2 = r*0.08 -- half width of the needle\n    C(66,0,0) -- Needle & Text color\n    S.drawTriangleF(x+si(a)*r1,y-co(a)*r1, x+si(a1)*r2,y-co(a1)*r2, x+si(a1)*-r2,y-co(a1)*-r2)\n    S.drawTextBox(x-r,y+r*0.3,r+r,20,F("%.1f",inp),0,0)\n    S.drawTextBox(x-r,y+r,r+r,20,title,0,0)\n    \n    C(22,22,22) S.drawCircleF(x,y,r*0.1) -- draw dot in the middle\nend\n\n-- Main\nfunction onTick()\n    val1 = input.getNumber(1)\n    val2 = input.getNumber(2)\n    val3 = input.getNumber(3)\nend\n\nfunction onDraw()\n    w,h=S.getWidth(),S.getHeight()\n    C(0,0,0) S.drawClear() -- fill screen black\n    \n    -- drawDial( xpos, ypos, radius, input, minimum, maximum, subdivisions, title )\n    drawDial(w/6*1, h/2 ,w/7, val1, 0, 100, 10, "Weight") -- left dial\n    drawDial(w/6*3, h/2 ,w/7, val2, 50, 100, 6, "Pressure") -- middle dial\n    drawDial(w/6*5, h/2 ,w/7, val3, -100, 100, 8, "Temp") -- right dial\nend'
+            },{
+                type: 'text',
+                content: 'In the last few lines of this code, you can configure sizes, min and max (and more) for each dial.'
+            }]
         }]
     },{
         title: 'Frameworks (Collections of helpfull functions)',
