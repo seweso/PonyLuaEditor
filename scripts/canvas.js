@@ -176,6 +176,7 @@ var CANVAS = ((global, $)=>{
         $('#monitor-sizes, .zoomfactor').css({width: canvasWidth})
 
         $('#overflow').css('display', showOverflow ? '' : 'none')
+        PAINT._restoreLastColorUsed()
     }
 
     function reset(){

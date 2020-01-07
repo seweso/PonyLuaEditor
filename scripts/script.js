@@ -653,6 +653,7 @@ var YYY = ((global, $)=>{
         CANVAS.reset()
         CANVAS.resetTouchpoints()
         MAP.reset()
+        PAINT._reset()
         console.log('running code...')
         try {
             let feng = fengari.load(code, null, LUA_EMULATOR.l())

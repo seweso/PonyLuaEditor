@@ -9,10 +9,33 @@ var PAINT = ((c)=>{
 
     let zoomFactor = 1
 
+    let lastColorUsed = false
+
     function setColor(r, g, b, a){
         log()
         c.ctx().fillStyle = "rgb(" + r + ', ' + g + ', ' + b + ', ' + a/255 + ')'
         c.ctx().strokeStyle = "rgb(" + r + ', ' + g + ', ' + b + ', ' + a/255 + ')'
+
+        lastColorUsed = [r, g, b, a]
+    }
+
+    /* This function is not part of the game.
+       It must be called after the canvas changed in size to set the color again.
+       (Web Canvas has the color white, but we need the last color that was set by "screen.setColor()")
+    */
+    function _restoreLastColorUsed(){
+        if(lastColorUsed === false){
+            setColor(255,255,255,255)
+        } else {
+            setColor(lastColorUsed[0], lastColorUsed[1], lastColorUsed[2], lastColorUsed[3])
+        }
+    }
+
+    /* This function is not part of the game.
+       reset canvas to a state before the script starts to run
+    */
+    function _reset(){
+        setColor(255,255,255,255)
     }
 
     function drawClear(){
@@ -192,7 +215,9 @@ var PAINT = ((c)=>{
         drawTriangleF: drawTriangleF,
         drawText: drawText,
         drawTextBox: drawTextBox,
-        setZoomFactor: setZoomFactor
+        setZoomFactor: setZoomFactor,
+        _reset: _reset,
+        _restoreLastColorUsed: _restoreLastColorUsed
     }
 
 })(CANVAS)
