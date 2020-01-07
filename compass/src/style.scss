@@ -214,6 +214,43 @@
     color: red;
 }
 
+#enable-touchscreen-container {
+    position: relative;
+
+    &.show_hint {
+        border-color: red;
+    }
+
+    &:not(.show_hint){
+        .enable_touchscreen_hint {
+            display: none;
+        }
+    }
+
+    .enable_touchscreen_hint {
+        position: absolute;
+        top: 115%;
+        left: 0;
+        width: 100%;
+        padding: 5px 7px;
+        background: red;
+        border-radius: 3px;
+        box-shadow: 1px 1px 2px 2px #900a;
+
+        &:after {
+            content: '';
+            border-bottom: 10px solid red;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            position: absolute;
+            top: -10px;
+            right: 6px;
+            width: 0;
+            height: 0;
+        }
+    }
+}
+
 #editor {
     
 }

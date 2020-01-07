@@ -5,6 +5,8 @@ var CANVAS = ((global, $)=>{
 
     let zoomFactor = 1
 
+    let enableTouchscreenHintShown = false
+
     let $canvas
     let ctx
 
@@ -75,6 +77,13 @@ var CANVAS = ((global, $)=>{
                 }
             }
             calculateTouchscreenInput()
+        } else if (YYY.isRunning() && !enableTouchscreenHintShown){
+            enableTouchscreenHintShown = true
+
+            $('#enable-touchscreen-container').addClass('show_hint')
+            setTimeout(()=>{
+                $('#enable-touchscreen-container').removeClass('show_hint')
+            }, 2000)
         }
     }
 
