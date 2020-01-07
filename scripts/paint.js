@@ -128,7 +128,7 @@ var PAINT = ((c)=>{
 
     function drawTextBox(x, y, w, h, text, h_align, v_align){
         text = text.toUpperCase()
-
+        
         log()
 
         let maxCharsPerLine = Math.floor(w / 5)
@@ -147,7 +147,7 @@ var PAINT = ((c)=>{
                 continue
             } else if(indexOfNewLine > 0){//new line somewhere in the middle of the text
                 lines.push(line.substring(0, indexOfNewLine))
-                i += indexOfNewLine
+                i += indexOfNewLine + 1
                 continue
             }
             lines.push(line)
