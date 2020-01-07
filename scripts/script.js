@@ -59,7 +59,7 @@ var YYY = ((global, $)=>{
         if(!document.location.host || !document.location.href || document.location.href.indexOf('file') === 0){
             $('#offline').show()
             $('#download-offline').hide()
-            $('#share').parent().hide()
+            $('#share').hide()
         }
 
 
