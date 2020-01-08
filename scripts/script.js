@@ -303,7 +303,7 @@ var YYY = ((global, $)=>{
 
         })
 
-        $('#console').val('')
+        $('#console-inner').html('')
 	  	let codeFromStorage = getCodeFromStorage()
 	  	if(typeof codeFromStorage === 'string' && codeFromStorage.length > 0){
 	  		editor.setValue(codeFromStorage)
@@ -399,6 +399,8 @@ var YYY = ((global, $)=>{
         $('#code').resizable().on('resize', ()=>{
             editor.resize()
         })
+
+        $('#console').resizable()
 
         $('#minified-code').resizable().on('resize', ()=>{
             minifiedEditor.resize()
@@ -649,7 +651,7 @@ var YYY = ((global, $)=>{
     function startCode(code){
         running = true
         $('#start, #start-minified, #start-generated').prop('disabled', true)
-        $('#console').val('')
+        $('#console-inner').html('')
         CANVAS.reset()
         CANVAS.resetTouchpoints()
         MAP.reset()

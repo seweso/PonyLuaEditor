@@ -14,6 +14,9 @@ var LUA_EMULATOR = ((global, $)=>{
 
     let timer
 
+    const CONSOLE_COLOR_SPECIAL = '#4db4ea'
+    const CONSOLE_COLOR_ERROR = '#fb3636'
+
     function init(){
         makeFunctionAvailableInLua(print)
         makeFunctionAvailableInLuaViaName(timeStart, 'start', 'timer')
@@ -37,7 +40,7 @@ var LUA_EMULATOR = ((global, $)=>{
 
     let timeStart = function(){
         timer = performance.now()
-        printToConsole('timer started', COLOR_SPECIAL)
+        printToConsole('timer started', CONSOLE_COLOR_SPECIAL)
     }   
 
     let timeStop = function(label){
@@ -49,14 +52,20 @@ var LUA_EMULATOR = ((global, $)=>{
         let s = (time-ms)/1000 % 60
         let m = (time-ms-s*1000)/1000/60
         timer = false
-        printToConsole('timer stopped (min:sec:milsec) = ' + m + ':' + (s < 10 ? '0'+s : s) + ':' + ms)
+        printToConsole('timer stopped (min:sec:milsec) = ' + m + ':' + (s < 10 ? '0'+s : s) + ':' + ms, CONSOLE_COLOR_SPECIAL)
     }   
 
     function printToConsole(text, hexcolor){
-        $('#console').val($('#console').val() + text + '\n')
+        if(hexcolor){
+            text = '<span style="color: ' + hexcolor + '">' + text + '</span>'
+        }
+        const oldHeight = $('#console').height()
+        $('#console-inner').append(text + '<br>')
+
+        //$('#console').height(oldHeight)
 
         //scroll down console
-        $("#console").each( function(){
+        $("#console-inner").each( function(){
            let scrollHeight = Math.max(this.scrollHeight, this.clientHeight);
            this.scrollTop = scrollHeight - this.clientHeight;
         });
@@ -307,7 +316,7 @@ var LUA_EMULATOR = ((global, $)=>{
     function bluescreenError(l, message, luaObject){
         YYY.errorStop()
         console.error('LUA_EMULATOR.bluescreenError()', message, luaToString(luaObject), convertLuaValue(l.stack[l.top-1]))
-        printToConsole(message + ' ' + luaToString(luaObject))
+        printToConsole(message + ' ' + luaToString(luaObject), CONSOLE_COLOR_ERROR)
         setTimeout(()=>{
             console.log('paint bluescreen error')
             PAINT.setColor(0,0,255, 255)
