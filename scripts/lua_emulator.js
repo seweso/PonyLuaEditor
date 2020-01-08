@@ -56,6 +56,7 @@ var LUA_EMULATOR = ((global, $)=>{
     }   
 
     function printToConsole(text, hexcolor){
+        text = $('<div>'+text+'</div>').text()
         if(hexcolor){
             text = '<span style="color: ' + hexcolor + '">' + text + '</span>'
         }
