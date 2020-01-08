@@ -215,6 +215,23 @@ var AUTOCOMPLETE = ((global, $)=>{
                     }
                 }
             },
+            timer: {
+                type: TO,
+                lib: 'dev',
+                description: 'Measue how long your code needs to execute.',
+                children: {
+                    start: {
+                        type: TF,
+                        args: '()',
+                        description: 'Starts the timer.'                        
+                    },
+                    stop: {
+                        type: TF,
+                        args: '()',
+                        description: 'Stops the timer and prints the time to the console.'                        
+                    }
+                }
+            },
             print: {
                 type: TF,
                 lib: 'dev',

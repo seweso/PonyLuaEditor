@@ -12,8 +12,12 @@ var LUA_EMULATOR = ((global, $)=>{
     let isInTick = false
     let isInDraw = false
 
+    let timer
+
     function init(){
         makeFunctionAvailableInLua(print)
+        makeFunctionAvailableInLuaViaName(timeStart, 'start', 'timer')
+        makeFunctionAvailableInLuaViaName(timeStop, 'stop', 'timer')
     }
 
     let print = function(){
@@ -31,7 +35,24 @@ var LUA_EMULATOR = ((global, $)=>{
         printToConsole(text)
     }   
 
-    function printToConsole(text){
+    let timeStart = function(){
+        timer = performance.now()
+        printToConsole('timer started', COLOR_SPECIAL)
+    }   
+
+    let timeStop = function(label){
+        let time = typeof timer !== 'number' ? 0 : (performance.now() - timer)
+        let ms = '' + time % 1000
+        while(ms.length < 4){
+            ms = '0' + ms
+        }
+        let s = (time-ms)/1000 % 60
+        let m = (time-ms-s*1000)/1000/60
+        timer = false
+        printToConsole('timer stopped (min:sec:milsec) = ' + m + ':' + (s < 10 ? '0'+s : s) + ':' + ms)
+    }   
+
+    function printToConsole(text, hexcolor){
         $('#console').val($('#console').val() + text + '\n')
 
         //scroll down console
