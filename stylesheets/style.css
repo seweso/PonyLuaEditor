@@ -1469,7 +1469,6 @@ a:hover {
   cursor: pointer;
 }
 
-/* ui builder */
 /* line 2, ../compass/src/_ui_builder.scss */
 #ui-builder {
   background: #000d;
@@ -1761,7 +1760,6 @@ a:hover {
   flex-direction: column;
 }
 
-/* dialogs */
 /* line 1, ../compass/src/_dialog.scss */
 .dialog {
   position: fixed;
@@ -1769,7 +1767,7 @@ a:hover {
   left: 0;
   width: 100vw;
   height: 100vh;
-  z-index: 1000000;
+  z-index: 100000000000000;
   background: #000c;
   display: flex;
   flex-direction: row;
@@ -1807,7 +1805,6 @@ a:hover {
   margin: 0 10px;
 }
 
-/* giveaway */
 /* line 2, ../compass/src/_giveaway.scss */
 #giveaway-container {
   background: url("../images/giveaway_background.jpg");
@@ -1906,6 +1903,33 @@ a:hover {
   color: #000;
 }
 
+/* editor fullscreen */
+/* line 1404, ../compass/src/style.scss */
+.ace_editor.fullscreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  z-index: 10000000000000;
+}
+/* line 1413, ../compass/src/style.scss */
+.ace_editor .fullscreen_toggle {
+  position: absolute;
+  top: 0;
+  right: 17px;
+  z-index: 1;
+  padding: 5px;
+  font-size: 20px;
+  background: #0004;
+  border-radius: 2px;
+  cursor: pointer;
+}
+/* line 1424, ../compass/src/style.scss */
+.ace_editor .fullscreen_toggle:hover {
+  background: #000a;
+}
+
 @keyframes circle {
   0% {
     background-color: #F2DF17;
@@ -1976,31 +2000,31 @@ a:hover {
 }
 /* media queries */
 @media (max-width: 1023px) {
-  /* line 1448, ../compass/src/style.scss */
+  /* line 1469, ../compass/src/style.scss */
   #editor-bottom-container {
     flex-direction: column;
   }
-  /* line 1450, ../compass/src/style.scss */
+  /* line 1471, ../compass/src/style.scss */
   #editor-bottom-container.show_examples > * {
     width: 100%;
   }
 
-  /* line 1455, ../compass/src/style.scss */
+  /* line 1476, ../compass/src/style.scss */
   #example-container {
     margin-left: 0;
   }
 
-  /* line 1459, ../compass/src/style.scss */
+  /* line 1480, ../compass/src/style.scss */
   #mobile-menu-open {
     display: block !important;
   }
 
-  /* line 1463, ../compass/src/style.scss */
+  /* line 1484, ../compass/src/style.scss */
   #fixed-information-badges {
     display: none;
   }
 
-  /* line 1467, ../compass/src/style.scss */
+  /* line 1488, ../compass/src/style.scss */
   #download-offline {
     display: none;
   }

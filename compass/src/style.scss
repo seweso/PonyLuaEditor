@@ -1394,17 +1394,38 @@
 
 
 
-/* ui builder */
-
 @import "_ui_builder.scss";
-
-/* dialogs */
 @import "_dialog.scss";
-
-/* giveaway */
 @import "giveaway.scss";
-
 @import "_hint.scss";
+
+/* editor fullscreen */
+.ace_editor {
+    &.fullscreen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 100vw;
+        z-index: 10000000000000;
+    }
+
+    .fullscreen_toggle {
+        position: absolute;
+        top: 0;
+        right: 17px;
+        z-index: 1;
+        padding: 5px;
+        font-size: 20px;
+        background: #0004;
+        border-radius: 2px;
+        cursor: pointer;
+
+        &:hover {
+            background: #000a;
+        }
+    }
+}
 
 
 @keyframes circle {
