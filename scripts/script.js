@@ -967,6 +967,4 @@ $(window).on('load',()=>{
             showPerformanceHint()            
         }, 1000 * 60 * 5)
     }, 1000 * 60 * 20)
-
-    showPerformanceHint()
 })
