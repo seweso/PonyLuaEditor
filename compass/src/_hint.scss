@@ -1,0 +1,56 @@
+#hints-container{
+    position: fixed;
+    top: 0;
+    left: calc(50% - 150px);
+    width: 300px;
+    overflow-y: auto;
+    z-index: 1000000000;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 5px;
+
+    .hint {
+        position: relative;
+        background: linear-gradient(15deg, #be3b3c 0%, #c36724 100%);
+        color: #fff;
+        border-radius: 3px;
+        padding: 5px;
+        width: 100%;
+
+        &:not(:last-of-type) {
+            margin-bottom: 5px;
+        }
+
+        h4 {
+            margin: 0 0 10px 0;
+            color: #fff;
+
+            .extend {
+                margin-left: 10px;
+                cursor: pointer;
+                border-radius: 1000px;
+
+                &:hover {
+                    background: #0004;
+                }
+            }
+        }
+
+        .close {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            cursor: pointer;
+            border-radius: 1000px;
+
+            &:hover {
+                background: #0004;
+            }
+        }
+
+        > div {
+            color: #000;
+        }
+    }
+}

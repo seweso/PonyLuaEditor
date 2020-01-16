@@ -537,6 +537,27 @@ var YYY = ((global, $)=>{
         })
     }
 
+    function hint(title, text, options){
+        let h = $('<div class="hint"><span class="close icon-cancel-circle"></span><h4>'+title+'<span class="extend icon-circle-down"></span></h4><div style="' + ((options && options.extended) ? '' : 'display: none') + '">'+(text+'').replace('\n', '<br>')+'</div></div>')
+        if(options && options.extended){
+            h.find('.extend').remove()
+        } else {
+            h.find('h4').on('click', ()=>{
+                h.find('div').css('display', 'inline-block')
+            })
+        }
+        h.find('.close').on('click', ()=>{
+            h.remove()
+        })
+        $('#hints-container').append(h)
+        if(!options || !options.nofadeout){
+            setTimeout(()=>{
+                //disappear after 10 seconds
+                h.remove()
+            }, 10000)
+        }
+    }
+
     function refreshAll(){
 
         let store = getStorage()
@@ -912,7 +933,8 @@ var YYY = ((global, $)=>{
         },
         message: message,
         confirm: confirm,
-        alert: alert
+        alert: alert,
+        hint: hint
     }
 
 })(window, jQuery)
@@ -934,3 +956,17 @@ window.onbeforeunload = function (e) {
     // For Safari
     return 'Really want to leave?';
 };
+
+$(window).on('load',()=>{
+    function showPerformanceHint(){
+        YYY.hint("Performance hint", "After 20 minutes you should reload the page to reset the emulator.\nPlease save ALL of your code (editor, minified and ui builder).\nThen reload the page.", {extended: true})
+    }
+    setTimeout(()=>{
+        showPerformanceHint()
+        setInterval(()=>{
+            showPerformanceHint()            
+        }, 1000 * 60 * 5)
+    }, 1000 * 60 * 20)
+
+    showPerformanceHint()
+})
