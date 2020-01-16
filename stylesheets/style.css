@@ -1470,7 +1470,7 @@ a:hover {
 }
 
 /* ui builder */
-/* line 1400, ../compass/src/style.scss */
+/* line 2, ../compass/src/_ui_builder.scss */
 #ui-builder {
   background: #000d;
   border-radius: 3px;
@@ -1479,7 +1479,7 @@ a:hover {
   margin: 20px;
   position: relative;
 }
-/* line 1408, ../compass/src/style.scss */
+/* line 10, ../compass/src/_ui_builder.scss */
 #ui-builder.locked:after {
   position: absolute;
   top: 0;
@@ -1491,7 +1491,7 @@ a:hover {
   z-index: 10;
   cursor: not-allowed;
 }
-/* line 1420, ../compass/src/style.scss */
+/* line 22, ../compass/src/_ui_builder.scss */
 #ui-builder h2 {
   color: #bf5421;
   margin: 0 0 20px 0;
@@ -1499,70 +1499,70 @@ a:hover {
   border-bottom: 1px solid #444444;
 }
 
-/* line 1428, ../compass/src/style.scss */
+/* line 30, ../compass/src/_ui_builder.scss */
 #ui-builder-container {
   display: flex;
   flex-direction: row;
   margin-bottom: 20px;
 }
-/* line 1433, ../compass/src/style.scss */
+/* line 35, ../compass/src/_ui_builder.scss */
 #ui-builder-container > * {
   margin-right: 10px;
   user-select: none;
 }
-/* line 1438, ../compass/src/style.scss */
+/* line 40, ../compass/src/_ui_builder.scss */
 #ui-builder-container .element_list, #ui-builder-container .element_layer_list {
   max-height: 300px;
   overflow-y: scroll;
   background: #000a;
 }
-/* line 1444, ../compass/src/style.scss */
+/* line 46, ../compass/src/_ui_builder.scss */
 #ui-builder-container .element_list .element {
   cursor: pointer;
   margin-bottom: 3px;
   padding: 3px;
 }
-/* line 1450, ../compass/src/style.scss */
+/* line 52, ../compass/src/_ui_builder.scss */
 #ui-builder-container .element_list .element:hover {
   color: #bf5421;
 }
-/* line 1454, ../compass/src/style.scss */
+/* line 56, ../compass/src/_ui_builder.scss */
 #ui-builder-container .canvas_container {
   position: relative;
   background: #000;
 }
-/* line 1458, ../compass/src/style.scss */
+/* line 60, ../compass/src/_ui_builder.scss */
 #ui-builder-container .canvas_container .element {
   position: absolute;
   cursor: pointer;
   font: 12px "Screen Mono", "Lucida Console", Monaco, monospace;
 }
-/* line 1463, ../compass/src/style.scss */
+/* line 65, ../compass/src/_ui_builder.scss */
 #ui-builder-container .canvas_container .element.highlight .content {
   box-shadow: 1px 1px 4px #aaa;
 }
-/* line 1467, ../compass/src/style.scss */
+/* line 69, ../compass/src/_ui_builder.scss */
 #ui-builder-container .canvas_container .element.settings_open {
   z-index: 10000000000000 !important;
 }
-/* line 1471, ../compass/src/style.scss */
+/* line 73, ../compass/src/_ui_builder.scss */
 #ui-builder-container .canvas_container .element:not(.settings_open) .settings {
   display: none;
 }
-/* line 1475, ../compass/src/style.scss */
+/* line 77, ../compass/src/_ui_builder.scss */
 #ui-builder-container .canvas_container .element .content {
   position: relative;
   width: 100%;
   height: 100%;
   overflow: hidden;
 }
-/* line 1482, ../compass/src/style.scss */
+/* line 84, ../compass/src/_ui_builder.scss */
 #ui-builder-container .canvas_container .element .content svg {
   position: absolute;
   top: 0;
   left: 0;
 }
-/* line 1489, ../compass/src/style.scss */
+/* line 91, ../compass/src/_ui_builder.scss */
 #ui-builder-container .canvas_container .element .settings {
   position: absolute;
   top: calc(100% + 5px);
@@ -1574,7 +1574,7 @@ a:hover {
   border-radius: 3px;
   padding-top: 10px;
 }
-/* line 1500, ../compass/src/style.scss */
+/* line 102, ../compass/src/_ui_builder.scss */
 #ui-builder-container .canvas_container .element .settings .close {
   position: absolute;
   top: 0;
@@ -1585,22 +1585,22 @@ a:hover {
   color: #fff;
   border-bottom-left-radius: 5px;
 }
-/* line 1511, ../compass/src/style.scss */
+/* line 113, ../compass/src/_ui_builder.scss */
 #ui-builder-container .canvas_container .element .settings .setting {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   padding: 5px;
 }
-/* line 1517, ../compass/src/style.scss */
+/* line 119, ../compass/src/_ui_builder.scss */
 #ui-builder-container .canvas_container .element .settings .setting .name {
   margin-right: 5px;
 }
-/* line 1522, ../compass/src/style.scss */
+/* line 124, ../compass/src/_ui_builder.scss */
 #ui-builder-container .canvas_container .element .settings .element_description {
   position: relative;
 }
-/* line 1526, ../compass/src/style.scss */
+/* line 128, ../compass/src/_ui_builder.scss */
 #ui-builder-container .canvas_container .element .settings .element_description_content {
   position: absolute;
   background: #b0b0b0;
@@ -1610,15 +1610,15 @@ a:hover {
   border-radius: 3px;
   width: 150px;
 }
-/* line 1536, ../compass/src/style.scss */
+/* line 138, ../compass/src/_ui_builder.scss */
 #ui-builder-container .canvas_container .element .settings .element_description:not(:hover) .element_description_content {
   display: none;
 }
-/* line 1542, ../compass/src/style.scss */
+/* line 144, ../compass/src/_ui_builder.scss */
 #ui-builder-container .canvas_container[mode="delete"] .element.delete_overlay .content {
   box-shadow: 1px 1px 4px #a00;
 }
-/* line 1545, ../compass/src/style.scss */
+/* line 147, ../compass/src/_ui_builder.scss */
 #ui-builder-container .canvas_container[mode="delete"] .element.delete_overlay .content:after {
   content: ' ';
   position: absolute;
@@ -1629,13 +1629,13 @@ a:hover {
   background: url("../../images/delete_overlay.png");
   background-size: 100% 100%;
 }
-/* line 1558, ../compass/src/style.scss */
+/* line 160, ../compass/src/_ui_builder.scss */
 #ui-builder-container .controls {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
 }
-/* line 1563, ../compass/src/style.scss */
+/* line 165, ../compass/src/_ui_builder.scss */
 #ui-builder-container .controls .control {
   cursor: pointer;
   display: flex;
@@ -1645,41 +1645,41 @@ a:hover {
   margin-bottom: 10px;
   transition: color 0.2s ease 0s;
 }
-/* line 1572, ../compass/src/style.scss */
+/* line 174, ../compass/src/_ui_builder.scss */
 #ui-builder-container .controls .control:hover {
   color: #bf5421;
 }
-/* line 1576, ../compass/src/style.scss */
+/* line 178, ../compass/src/_ui_builder.scss */
 #ui-builder-container .controls .control > span {
   margin-right: 5px;
 }
-/* line 1581, ../compass/src/style.scss */
+/* line 183, ../compass/src/_ui_builder.scss */
 #ui-builder-container .controls[mode="move"] .control.move {
   color: #bf5421;
 }
-/* line 1585, ../compass/src/style.scss */
+/* line 187, ../compass/src/_ui_builder.scss */
 #ui-builder-container .controls[mode="resize"] .control.resize {
   color: #bf5421;
 }
-/* line 1589, ../compass/src/style.scss */
+/* line 191, ../compass/src/_ui_builder.scss */
 #ui-builder-container .controls[mode="settings"] .control.settings {
   color: #bf5421;
 }
-/* line 1593, ../compass/src/style.scss */
+/* line 195, ../compass/src/_ui_builder.scss */
 #ui-builder-container .controls[mode="delete"] .control.delete {
   color: #bf5421;
 }
-/* line 1597, ../compass/src/style.scss */
+/* line 199, ../compass/src/_ui_builder.scss */
 #ui-builder-container .controls[mode="zindex"] .control.zindex {
   color: #bf5421;
 }
-/* line 1602, ../compass/src/style.scss */
+/* line 204, ../compass/src/_ui_builder.scss */
 #ui-builder-container .element_layer_list {
   display: flex;
   flex-direction: column-reverse;
   justify-content: flex-end;
 }
-/* line 1607, ../compass/src/style.scss */
+/* line 209, ../compass/src/_ui_builder.scss */
 #ui-builder-container .element_layer_list .layer_list_entry {
   display: flex;
   flex-direction: row;
@@ -1690,15 +1690,15 @@ a:hover {
   border-radius: 3px;
   transition: background 0.5s ease 0s;
 }
-/* line 1617, ../compass/src/style.scss */
+/* line 219, ../compass/src/_ui_builder.scss */
 #ui-builder-container .element_layer_list .layer_list_entry:hover {
   box-shadow: 1px 1px 4px #aaa;
 }
-/* line 1622, ../compass/src/style.scss */
+/* line 224, ../compass/src/_ui_builder.scss */
 #ui-builder-container .element_layer_list .layer_list_entry.light_up {
   background: #888;
 }
-/* line 1626, ../compass/src/style.scss */
+/* line 228, ../compass/src/_ui_builder.scss */
 #ui-builder-container .element_layer_list .layer_list_entry .lcontrols {
   display: flex;
   flex-direction: row;
@@ -1706,35 +1706,35 @@ a:hover {
   align-items: center;
   margin-left: 10px;
 }
-/* line 1633, ../compass/src/style.scss */
+/* line 235, ../compass/src/_ui_builder.scss */
 #ui-builder-container .element_layer_list .layer_list_entry .lcontrols > * {
   cursor: pointer;
 }
-/* line 1637, ../compass/src/style.scss */
+/* line 239, ../compass/src/_ui_builder.scss */
 #ui-builder-container .element_layer_list .layer_list_entry .lcontrols .up {
   margin-bottom: 3px;
 }
-/* line 1641, ../compass/src/style.scss */
+/* line 243, ../compass/src/_ui_builder.scss */
 #ui-builder-container .element_layer_list .layer_list_entry .lcontrols > *:not(:last-of-type) {
   margin-right: 6px;
 }
-/* line 1647, ../compass/src/style.scss */
+/* line 249, ../compass/src/_ui_builder.scss */
 #ui-builder-container .element_layer_list .layer_list_entry:last-of-type .up, #ui-builder-container .element_layer_list .layer_list_entry:first-of-type .down {
   color: transparent;
   cursor: initial;
 }
-/* line 1652, ../compass/src/style.scss */
+/* line 254, ../compass/src/_ui_builder.scss */
 #ui-builder-container .element_layer_list .layer_list_entry .background {
   height: 1em;
   margin-top: 3px;
 }
 
-/* line 1660, ../compass/src/style.scss */
+/* line 262, ../compass/src/_ui_builder.scss */
 #ui-builder-code {
   height: 300px;
 }
 
-/* line 1664, ../compass/src/style.scss */
+/* line 266, ../compass/src/_ui_builder.scss */
 #ui-builder-controls {
   display: flex;
   flex-direction: row;
@@ -1742,27 +1742,27 @@ a:hover {
   align-items: center;
   flex-wrap: wrap;
 }
-/* line 1671, ../compass/src/style.scss */
+/* line 273, ../compass/src/_ui_builder.scss */
 #ui-builder-controls .controls_container {
   margin-bottom: 0;
 }
-/* line 1674, ../compass/src/style.scss */
+/* line 276, ../compass/src/_ui_builder.scss */
 #ui-builder-controls .controls_container button {
   margin-bottom: 0;
 }
-/* line 1679, ../compass/src/style.scss */
+/* line 281, ../compass/src/_ui_builder.scss */
 #ui-builder-controls > *:not(:last-child) {
   margin-right: 10px;
 }
 
-/* line 1684, ../compass/src/style.scss */
+/* line 286, ../compass/src/_ui_builder.scss */
 .ui_builder_zoom {
   display: flex;
   flex-direction: column;
 }
 
 /* dialogs */
-/* line 1691, ../compass/src/style.scss */
+/* line 1, ../compass/src/_dialog.scss */
 .dialog {
   position: fixed;
   top: 0;
@@ -1776,7 +1776,7 @@ a:hover {
   justify-content: center;
   align-items: center;
 }
-/* line 1704, ../compass/src/style.scss */
+/* line 14, ../compass/src/_dialog.scss */
 .dialog .inner {
   display: flex;
   flex-direction: column;
@@ -1785,42 +1785,42 @@ a:hover {
   border-radius: 3px;
   box-shadow: 2px 2px 3px #555;
 }
-/* line 1713, ../compass/src/style.scss */
+/* line 23, ../compass/src/_dialog.scss */
 .dialog .title {
   margin: 0;
   color: #bf5421;
   font-weight: bold;
   text-align: center;
 }
-/* line 1720, ../compass/src/style.scss */
+/* line 30, ../compass/src/_dialog.scss */
 .dialog .message {
   margin: 20px 0;
 }
-/* line 1724, ../compass/src/style.scss */
+/* line 34, ../compass/src/_dialog.scss */
 .dialog .buttons {
   display: flex;
   flex-direction: row;
   justify-content: center;
 }
-/* line 1729, ../compass/src/style.scss */
+/* line 39, ../compass/src/_dialog.scss */
 .dialog .buttons button {
   margin: 0 10px;
 }
 
 /* giveaway */
-/* line 1737, ../compass/src/style.scss */
+/* line 2, ../compass/src/_giveaway.scss */
 #giveaway-container {
   background: url("../images/giveaway_background.jpg");
   background-size: cover;
   background-position: center;
 }
-/* line 1742, ../compass/src/style.scss */
+/* line 7, ../compass/src/_giveaway.scss */
 #giveaway-container .claimed_by_container {
   display: flex;
   flex-direction: column;
   margin-bottom: 20px;
 }
-/* line 1747, ../compass/src/style.scss */
+/* line 12, ../compass/src/_giveaway.scss */
 #giveaway-container .claimed_by_container input {
   margin: 10px 0;
   padding: 3px 6px;
@@ -1829,21 +1829,21 @@ a:hover {
   border-radius: 3px;
   border: 1px solid #535353;
 }
-/* line 1758, ../compass/src/style.scss */
+/* line 23, ../compass/src/_giveaway.scss */
 #giveaway-container .inner .error, #giveaway-container .inner .progress, #giveaway-container .inner .success {
   margin-bottom: 20px;
   padding: 10px;
   color: #fff;
 }
-/* line 1764, ../compass/src/style.scss */
+/* line 29, ../compass/src/_giveaway.scss */
 #giveaway-container .inner .error {
   background: #94342a;
 }
-/* line 1768, ../compass/src/style.scss */
+/* line 33, ../compass/src/_giveaway.scss */
 #giveaway-container .inner .progress {
   background: #21648d;
 }
-/* line 1772, ../compass/src/style.scss */
+/* line 37, ../compass/src/_giveaway.scss */
 #giveaway-container .inner .success {
   background: #3a7830;
 }
@@ -1918,31 +1918,31 @@ a:hover {
 }
 /* media queries */
 @media (max-width: 1023px) {
-  /* line 1816, ../compass/src/style.scss */
+  /* line 1447, ../compass/src/style.scss */
   #editor-bottom-container {
     flex-direction: column;
   }
-  /* line 1818, ../compass/src/style.scss */
+  /* line 1449, ../compass/src/style.scss */
   #editor-bottom-container.show_examples > * {
     width: 100%;
   }
 
-  /* line 1823, ../compass/src/style.scss */
+  /* line 1454, ../compass/src/style.scss */
   #example-container {
     margin-left: 0;
   }
 
-  /* line 1827, ../compass/src/style.scss */
+  /* line 1458, ../compass/src/style.scss */
   #mobile-menu-open {
     display: block !important;
   }
 
-  /* line 1831, ../compass/src/style.scss */
+  /* line 1462, ../compass/src/style.scss */
   #fixed-information-badges {
     display: none;
   }
 
-  /* line 1835, ../compass/src/style.scss */
+  /* line 1466, ../compass/src/style.scss */
   #download-offline {
     display: none;
   }

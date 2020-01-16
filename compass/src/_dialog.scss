@@ -1,0 +1,43 @@
+.dialog {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1000000;
+    background: #000c;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    .inner {
+        display: flex;
+        flex-direction: column;
+        background: #e3e3e3;
+        padding: 20px;
+        border-radius: 3px;
+        box-shadow: 2px 2px 3px #555;
+    }
+
+    .title {
+        margin: 0;
+        color: #bf5421;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .message {
+        margin: 20px 0;
+    }
+
+    .buttons {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        
+        button {
+            margin: 0 10px;
+        }
+    }
+}

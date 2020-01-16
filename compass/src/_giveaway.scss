@@ -1,0 +1,41 @@
+
+#giveaway-container {
+    background: url('../images/giveaway_background.jpg');
+    background-size: cover;
+    background-position: center;
+
+    .claimed_by_container {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 20px;
+    
+        input {
+            margin: 10px 0;
+            padding: 3px 6px;
+            font-size: 16px;
+            font-family: 'Helvetica', 'Arial', 'sans-serif';
+            border-radius: 3px;
+            border: 1px solid #535353;
+        }
+    }
+
+    .inner {
+        .error, .progress, .success {
+            margin-bottom: 20px;
+            padding: 10px;
+            color: #fff;
+        }
+
+        .error {
+            background: #94342a;
+        }
+
+        .progress {
+            background: #21648d;
+        }
+
+        .success {
+            background: #3a7830;
+        }
+    }
+}
