@@ -48,7 +48,7 @@ var INPUT = ((global, $)=>{
             if(isNaN(n)){
                 return
             }
-            addNewNumber(n, "0")
+            addNewNumber(n, 0)
         })
         dom_numbers.find('.head').append(dom_numbers_add)
         dom.append(dom_numbers)
@@ -73,9 +73,6 @@ var INPUT = ((global, $)=>{
             for(let k of Object.keys(store.numbers)){
                 let n = store.numbers[k]
                 let val = parseFloat(n.val)
-                if(isNaN(val)){
-                    val = parseInt(n.val)
-                }
                 if(isNaN(val)){
                     return
                 }
@@ -200,8 +197,8 @@ var INPUT = ((global, $)=>{
         let bool = addNew('bool', 'checkbox', label, (e)=>{
             bools[label] = {
                 val: $(e.target).prop('checked'),
-                type: typeSelect.val(),
-                key: keySelect.val()
+                type: config.type,
+                key: config.key
             }
             bool.find('.change input').prop('checked', $(e.target).prop('checked'))
 
@@ -211,7 +208,7 @@ var INPUT = ((global, $)=>{
             delete bools[label]
             $(e.target).parent().parent().remove()
             refreshBoolsAddSelect()
-        }, val)
+        }, val, config)
 
         let openSettings = $('<button>?</button>')
         let settings = $('<div class="settings" style="display: none"></div>')
@@ -309,6 +306,19 @@ var INPUT = ((global, $)=>{
                 sliderstep: lastNumber ? lastNumber.find('.slider_step').val() : 0.01,
                 oscilatecheck: lastNumber ? lastNumber.find('.oscilate_check').prop('checked') : (typeof val === 'number' ? false : true)
             }
+        } else {
+            /* backwards compatibility */
+            for(let x of ['slidermin', 'slidermax', 'sliderstep']){
+                if(typeof config[x] !== 'number'){
+                    config[x] = $(config[x]).val()
+                }
+            }
+
+            for(let x of ['slidercheck', 'oscilatecheck']){
+                if(typeof config[x] !== 'boolean'){
+                    config[x] = $(config[x]).prop('checked')
+                }
+            }
         }
 
         numbers[label] = config
@@ -320,11 +330,11 @@ var INPUT = ((global, $)=>{
             }
             numbers[label] = {
                 val: n,
-                slidercheck: slidercheck.prop('checked'),
-                slidermin: slidermin.val(),
-                slidermax: slidermax.val(),
-                sliderstep: sliderstep.val(),
-                oscilatecheck: oscilatecheck.prop('checked')
+                slidercheck: config.slidercheck,
+                slidermin: config.slidermin,
+                slidermax: config.slidermax,
+                sliderstep: config.sliderstep,
+                oscilatecheck: config.oscilatecheck
             }
             number.find('.change input').val(n)
             number.find('.slidervalue').html(n)
@@ -334,7 +344,7 @@ var INPUT = ((global, $)=>{
             delete numbers[label]
             $(e.target).parent().parent().remove()
             refreshNumbersAddSelect()
-        }, val)
+        }, val, config)
 
         let openSettings = $('<button>?</button>')
         let settings = $('<div class="settings" style="display: none"></div>')
@@ -343,7 +353,7 @@ var INPUT = ((global, $)=>{
         })
         openSettings.insertBefore(number.find('button'))
 
-        let slider = $('<div class="group"><div><input type="checkbox" class="slider_check"/><label>Use slider</label></div><div><input type="number" class="slider_min" value="-1" step="0.000001"/><label>Min</label></div><div><input type="number" class="slider_max" value="1" step="0.000001"/><label>Max</label></div><div><input type="text" class="slider_step" value="0.01"/><label>Step</label></div></div>')
+        let slider = $('<div class="group"><div><input type="checkbox" class="slider_check"/><label>Use slider</label></div><div><input type="number" class="slider_min" value="' + config.slidermin + '" step="0.000001"/><label>Min</label></div><div><input type="number" class="slider_max" value="' + config.slidermax + '" step="0.000001"/><label>Max</label></div><div><input type="text" class="slider_step" value="' + config.sliderstep + '"/><label>Step</label></div></div>')
         settings.append(slider)
         slidercheck = slider.find('.slider_check')
         slidercheck.on('input', ()=>{
@@ -403,9 +413,9 @@ var INPUT = ((global, $)=>{
         })
 
 
-        slidermin.val(config.slidermin).trigger('input')
+        /*slidermin.val(config.slidermin).trigger('input')
         slidermax.val(config.slidermax).trigger('input')
-        sliderstep.val(config.sliderstep).trigger('input')
+        sliderstep.val(config.sliderstep).trigger('input')*/
         oscilatecheck.prop('checked', config.oscilatecheck).trigger('input')
 
         let myOscilateDirection = true
@@ -456,14 +466,14 @@ var INPUT = ((global, $)=>{
         return ret
     }
 
-    function addNew(type, inputType, label, changeCallback, removeCallback, val){
+    function addNew(type, inputType, label, changeCallback, removeCallback, val, config){
         let valtext = ''
         if(inputType === 'checkbox' && val === true){
             valtext = 'checked'
         } else if (val !== undefined && val !== null ){
             valtext = 'value="'+val+'"'
         }
-        let neww = $('<div class="' + type + '"><div class="change"><label class="channel" for="input_' + type + '_' + label + '">'+label+'</label><input type="' + inputType + '" ' + (inputType === 'number' ? 'step="0.1"': '') + ' id="input_' + type + '_' + label + '" ' + valtext + '/>' + (inputType === 'number' ? '<input type="range" min="-10" max="10" value="0" step="0.1"/><label class="slidervalue">0</label>': '') + '<button>x</button></div></div>')
+        let neww = $('<div class="' + type + '"><div class="change"><label class="channel" for="input_' + type + '_' + label + '">'+label+'</label><input type="' + inputType + '" ' + (inputType === 'number' ? 'step="' + config.sliderstep + '"': '') + ' id="input_' + type + '_' + label + '" ' + valtext + '/>' + (inputType === 'number' ? '<input type="range" min="-10" max="10" ' + valtext + ' step="' + config.sliderstep + '"/><label class="slidervalue">0</label>': '') + '<button>x</button></div></div>')
         if(inputType === 'number'){//force value set
             neww.find('input[type="number"]').val(val)
         }
