@@ -238,7 +238,7 @@ var LUA_EMULATOR = ((global, $)=>{
         } else if (ob instanceof Array){
             fengari.lua.lua_createtable(l)
             for(let i in ob){
-                pushToStack(l, parseInt(i+1))
+                pushToStack(l, parseInt(i)+1)
                 pushToStack(l, ob[i])
                 fengari.lua.lua_settable(l, -3)
             }
