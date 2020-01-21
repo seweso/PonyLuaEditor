@@ -301,9 +301,9 @@ var INPUT = ((global, $)=>{
             config = {
                 val: typeof val === 'number' ? val : 0,
                 slidercheck:  lastNumber ? lastNumber.find('.slider_check').prop('checked') : true,
-                slidermin: lastNumber ? lastNumber.find('.slider_min').val() : -1,
-                slidermax: lastNumber ? lastNumber.find('.slider_max').val() : 1,
-                sliderstep: lastNumber ? lastNumber.find('.slider_step').val() : 0.01,
+                slidermin: lastNumber ? parseFloat(lastNumber.find('.slider_min').val().replace(',','.')) : -1,
+                slidermax: lastNumber ? parseFloat(lastNumber.find('.slider_max').val().replace(',','.')) : 1,
+                sliderstep: lastNumber ? parseFloat(lastNumber.find('.slider_step').val().replace(',','.')) : 0.01,
                 oscilatecheck: lastNumber ? lastNumber.find('.oscilate_check').prop('checked') : (typeof val === 'number' ? false : true)
             }
         } else {
@@ -331,9 +331,9 @@ var INPUT = ((global, $)=>{
             numbers[label] = {
                 val: n,
                 slidercheck: slidercheck.prop('checked'),
-                slidermin: slidermin.val(),
-                slidermax: slidermax.val(),
-                sliderstep: sliderstep.val(),
+                slidermin: parseFloat(slidermin.val().replace(',','.')),
+                slidermax: parseFloat(slidermax.val().replace(',','.')),
+                sliderstep: parseFloat(sliderstep.val().replace(',','.')),
                 oscilatecheck: oscilatecheck.prop('checked')
             }
             number.find('.change input').val(n)
