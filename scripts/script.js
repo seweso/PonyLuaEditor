@@ -29,6 +29,8 @@ var YYY = ((global, $)=>{
 
     let lastScrollPos = 0
 
+    let totalStartsInTheSession = 0
+
     $(global).on('load', init)
 
     function init(){
@@ -670,6 +672,12 @@ var YYY = ((global, $)=>{
     }
 
     function startCode(code){
+        totalStartsInTheSession++
+
+        if(totalStartsInTheSession % 50 == 0){
+            hint('Performace hint', 'After 50 starts you should reload the page to reset the emulator.\nPlease save ALL of your code (editor, minified and ui builder).\nThen reload the page.', {extended: true})
+        }
+
         running = true
         $('#start, #start-minified, #start-generated').prop('disabled', true)
         $('#console-inner').html('')
@@ -959,12 +967,12 @@ window.onbeforeunload = function (e) {
 
 $(window).on('load',()=>{
     function showPerformanceHint(){
-        YYY.hint("Performance hint", "After 20 minutes you should reload the page to reset the emulator.\nPlease save ALL of your code (editor, minified and ui builder).\nThen reload the page.", {extended: true})
+        YYY.hint('Performance hint', 'After 30 minutes you should reload the page to reset the emulator.\nPlease save ALL of your code (editor, minified and ui builder).\nThen reload the page.', {extended: true})
     }
     setTimeout(()=>{
         showPerformanceHint()
         setInterval(()=>{
             showPerformanceHint()            
-        }, 1000 * 60 * 5)
-    }, 1000 * 60 * 20)
+        }, 1000 * 60 * 10)
+    }, 1000 * 60 * 30)
 })
