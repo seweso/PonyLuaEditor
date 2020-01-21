@@ -407,20 +407,12 @@
                 formatExpression(expression.index) + ']';
 
         } else if (expressionType == 'MemberExpression') {
+			console.log('MemberExpression && default', expression)
+			result = formatBase(expression.base) + expression.indexer +
+				formatExpression(expression.identifier, {
+					'preserveIdentifiers': true
+				});
 
-            if(YYY.isMinificationAllowed(expression.identifier.name, expression.base.name)){//allow math.sin to be minified
-                console.log('MemberExpression && isMinificationAllowed', expression)
-                result = formatBase(expression.base) + expression.indexer +
-                    formatExpression(expression.identifier, {
-                        'library': expression.base.name
-                    });
-            } else {//default behaviour
-                console.log('MemberExpression && default', expression)
-                result = formatBase(expression.base) + expression.indexer +
-                    formatExpression(expression.identifier, {
-                        'preserveIdentifiers': true
-                    });
-            }
 
         } else if (expressionType == 'FunctionDeclaration') {
 
