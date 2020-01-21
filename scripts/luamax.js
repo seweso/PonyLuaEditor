@@ -221,7 +221,7 @@
                 'direction': 'left',
                 'parent': operator
             });
-            result += operator;
+            result += ' ' + operator + ' ';
             result += formatExpression(expression.right, {
                 'precedence': currentPrecedence,
                 'direction': 'right',
