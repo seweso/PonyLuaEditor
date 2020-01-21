@@ -237,6 +237,12 @@ var AUTOCOMPLETE = ((global, $)=>{
                 lib: 'dev',
                 args: '(text)',
                 description: 'Prints text to the console.'
+            },            
+            printColor: {
+                type: TF,
+                lib: 'dev',
+                args: '(r, g, b)',
+                description: 'Colorizes the console output of print().'
             },
             pairs: {
                 type: TF,

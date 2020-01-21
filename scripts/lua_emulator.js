@@ -17,8 +17,13 @@ var LUA_EMULATOR = ((global, $)=>{
     const CONSOLE_COLOR_SPECIAL = '#4db4ea'
     const CONSOLE_COLOR_ERROR = '#fb3636'
 
+    const DEFAULT_PRINT_COLOR = '#fff'
+
+    let currentPrintColor = DEFAULT_PRINT_COLOR
+
     function init(){
         makeFunctionAvailableInLua(print)
+        makeFunctionAvailableInLua(printColor)
         makeFunctionAvailableInLuaViaName(timeStart, 'start', 'timer')
         makeFunctionAvailableInLuaViaName(timeStop, 'stop', 'timer')
     }
@@ -35,8 +40,16 @@ var LUA_EMULATOR = ((global, $)=>{
         for(let arg of args){
             text += luaToString(arg) + ' '
         }
-        printToConsole(text)
-    }   
+        printToConsole(text, currentPrintColor)
+    }
+
+    let printColor = function(r,g,b){
+        if( typeof r === 'number' && typeof g === 'number' && typeof b === 'number' && !isNaN(r) && !isNaN(g) && !isNaN(b)){
+            currentPrintColor = 'rgb(' + Math.min(255, Math.max(0, r)) + ','
+                + Math.min(255, Math.max(0, g)) + ','
+                + Math.min(255, Math.max(0, b)) + ')'
+        }
+    }
 
     let timeStart = function(){
         timer = performance.now()
@@ -333,6 +346,8 @@ var LUA_EMULATOR = ((global, $)=>{
             supportedFunctions = {}
             namespaces = {}
             fresh = false
+
+            currentPrintColor=DEFAULT_PRINT_COLOR
 
             
             try {       
