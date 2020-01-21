@@ -14,7 +14,7 @@ var LuaHighlightRules = function() {
     var builtinConstants = ("true|false|nil|_G|_VERSION");
 
     var functions = (
-        "timer|start|stop|print|tostring|unpack|next|tonumber|type|pairs|ipairs|"+
+        "timer|start|stop|print|printColor|tostring|unpack|next|tonumber|type|pairs|ipairs|"+
 
         "foreachi|maxn|foreach|"+
         "math|"+
