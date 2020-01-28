@@ -17,8 +17,6 @@ var YYY = ((global, $)=>{
 
     const LIBRARY_IDENTIFIERS = []
 
-    const LUA_MINIFY_IDE_TMP = "LIDEMINTMP"
-
     const MINIFY_MAPPING_SEPERATOR = '--yyy--'
 
     let shortenedIdentifiers = []
