@@ -167,18 +167,20 @@ You can also minify code, find tutorials and examples or use the ui builder to c
                 <button id="start">Start</button>
                 <button id="stop">Stop</button>   
                 <button id="reset">New Lua Script</button>
+            </div>
+            <div class="controls_container">
                 <button id="minify" style="margin-left: auto;">Minify</button>
                 <input type="checkbox" name="minify-identation" id="minify-identation" checked>
                 <label>Line breaks</label>
-                <div id="share" class="share">
-                    <div class="docreate">
-                        Share
-                    </div>
-                    <div class="more">
-                        <div class="currentshare_container">
-                            <input type="text" class="currentshare" name="currentshare"/>
-                            <span class="copy_share_to_clipboard">Copy</span>
-                        </div>
+            </div>
+            <div class="controls_container share" id="share">
+                <div class="docreate">
+                    Share
+                </div>
+                <div class="more">
+                    <div class="currentshare_container">
+                        <input type="text" class="currentshare" name="currentshare"/>
+                        <span class="copy_share_to_clipboard">Copy</span>
                     </div>
                 </div>
             </div>
@@ -223,6 +225,8 @@ end
             <div class="controls_container">
                 <button id="save-minified">Save Minified</button>
                 <button id="start-minified">Start Minified</button>
+            </div>
+            <div class="controls_container">
                 <button id="unminify">Unminify</button>
             </div>
         </div>
