@@ -76,7 +76,6 @@ var INPUT = ((global, $)=>{
                 if(isNaN(val)){
                     return
                 }
-                //TODO  
                 addNewNumber(parseInt(k), val, n)
             }
         }
@@ -317,8 +316,6 @@ var INPUT = ((global, $)=>{
                 }
             }
         }
-
-        console.log('addNewNumber', label, val, config)
 
         numbers[label] = config
         let number = addNew('number', 'number', label, (e)=>{
