@@ -823,12 +823,45 @@
         margin: 0 5px 0 5px;
     }
 
-    .number input[type="number"], .number input[type="text"], .text input[type="text"] {
+    .number .change input[type="number"], .number .change input[type="text"]{
+        width: calc(50% - 70px);
+    }
+
+    .number .settings input[type="number"], .number .settings input[type="text"], .text input[type="text"] {
         width: calc(100% - 70px);
     }
 
     .bool .result, .number .result, .text .result {
         margin: 0 0 0 auto;
+    }
+
+    .user_label_container {
+        display: inline-block;
+        position: relative;
+
+        .user_label {
+            background: transparent;
+            border: 1px solid #888;
+            padding: 2px 4px;
+            cursor: text;
+            transition: all 0.2s ease 0s;
+            width: calc(100% - 5px)!important;
+
+            &:hover {
+                background: #fff;
+            }
+        }
+
+        &:after {
+            content: '\e905';
+            font-family: iconfont;
+            position: absolute;
+            right: 3px;
+        }
+
+        &:hover:after {
+            color: #c36724;
+        }
     }
 }
 

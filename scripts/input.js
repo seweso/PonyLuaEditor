@@ -10,6 +10,8 @@ var INPUT = ((global, $)=>{
     let dom_numbers
     let dom_numbers_add
 
+    let initiating = true
+
     const SUPPORTED_INPUT_KEYS = ['e', 'q', 1, 2, 3, 4, 5, 6, 7, 8, 9, 'a', 'b', 'c', 'd', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
 
     function init(container){
@@ -79,6 +81,8 @@ var INPUT = ((global, $)=>{
                 addNewNumber(parseInt(k), val, n)
             }
         }
+
+        initiating = false
     }
 
     function handleKeyDown(evt){
@@ -138,10 +142,12 @@ var INPUT = ((global, $)=>{
 
 
     function saveToStorage(){
-        setStorage({
-            bools: bools,
-            numbers: numbers
-        })
+        if(!initiating){
+            setStorage({
+                bools: bools,
+                numbers: numbers
+            })
+        }
     }
 
     function getFromStorage(){
@@ -172,16 +178,23 @@ var INPUT = ((global, $)=>{
             return
         }
 
+        let userLabel
+
         let typeSelect
         let keySelect
 
         if(!config){
             config = {
                 val: typeof val === 'boolean' ? val : false,
+                userLabel: '',
                 type: 'push',
                 key: typeof label !== 'number' ? SUPPORTED_INPUT_KEYS[Object.keys(bools).length] : (
                     label > 2 ? SUPPORTED_INPUT_KEYS[label+1] : SUPPORTED_INPUT_KEYS[label-1]
                     )
+            }
+        } else {
+            if(typeof config.userLabel !== 'string'){
+                config.userLabel = ''
             }
         }
 
@@ -193,6 +206,7 @@ var INPUT = ((global, $)=>{
         let bool = addNew('bool', 'checkbox', label, (e)=>{
             bools[label] = {
                 val: $(e.target).prop('checked'),
+                userLabel: userLabel.val(),
                 type: config.type,
                 key: config.key
             }
@@ -205,6 +219,8 @@ var INPUT = ((global, $)=>{
             $(e.target).parent().parent().remove()
             refreshBoolsAddSelect()
         }, val, config)
+
+        userLabel = bool.find('.user_label')
 
         let openSettings = $('<button>?</button>')
         let settings = $('<div class="settings" style="display: none"></div>')
@@ -282,6 +298,8 @@ var INPUT = ((global, $)=>{
             return
         }
 
+        let userLabel
+
         let slidercheck
         let slidermin
         let slidermax
@@ -296,6 +314,7 @@ var INPUT = ((global, $)=>{
             }
             config = {
                 val: typeof val === 'number' ? val : 0,
+                userLabel: '',
                 slidercheck:  lastNumber ? lastNumber.find('.slider_check').prop('checked') : true,
                 slidermin: lastNumber ? parseFloat(lastNumber.find('.slider_min').val().replace(',','.')) : -1,
                 slidermax: lastNumber ? parseFloat(lastNumber.find('.slider_max').val().replace(',','.')) : 1,
@@ -315,6 +334,9 @@ var INPUT = ((global, $)=>{
                     config[x] = $(config[x]).prop('checked')
                 }
             }
+            if(typeof config.userLabel !== 'string'){
+                config.userLabel = ''
+            }
         }
 
         numbers[label] = config
@@ -326,13 +348,14 @@ var INPUT = ((global, $)=>{
             }
             numbers[label] = {
                 val: n,
+                userLabel: userLabel.val(),
                 slidercheck: slidercheck.prop('checked'),
                 slidermin: parseFloat(slidermin.val().replace(',','.')),
                 slidermax: parseFloat(slidermax.val().replace(',','.')),
                 sliderstep: parseFloat(sliderstep.val().replace(',','.')),
                 oscilatecheck: oscilatecheck.prop('checked')
             }
-            number.find('.change input').val(n)
+            number.find('.change input[type="range"], .change input[type="number"]').val(n).attr('step', numbers[label].sliderstep)
             number.find('.slidervalue').html(n)
             refreshNumbersAddSelect()
         }, (e)=>{
@@ -341,6 +364,8 @@ var INPUT = ((global, $)=>{
             $(e.target).parent().parent().remove()
             refreshNumbersAddSelect()
         }, val, config)
+
+        userLabel = number.find('.user_label')
 
         let openSettings = $('<button>?</button>')
         let settings = $('<div class="settings" style="display: none"></div>')
@@ -474,13 +499,13 @@ var INPUT = ((global, $)=>{
         } else if (val !== undefined && val !== null ){
             valtext = 'value="'+val+'"'
         }
-        let neww = $('<div class="' + type + '"><div class="change"><label class="channel" for="input_' + type + '_' + label + '">'+label+'</label><input type="' + inputType + '" ' + (inputType === 'number' ? 'lang="en" step="' + config.sliderstep + '"': '') + ' id="input_' + type + '_' + label + '" ' + valtext + '/>' + (inputType === 'number' ? '<input type="range" min="-10" max="10" ' + valtext + ' step="' + config.sliderstep + '"/><label class="slidervalue">0</label>': '') + '<button>x</button></div></div>')
+        let neww = $('<div class="' + type + '"><div class="change"><label class="channel" for="input_' + type + '_' + label + '">'+label+'</label><div class="user_label_container"><input type="text" class="user_label" value="' + config.userLabel + '"/></div><input type="' + inputType + '" ' + (inputType === 'number' ? 'lang="en" step="' + config.sliderstep + '"': '') + ' id="input_' + type + '_' + label + '" ' + valtext + '/>' + (inputType === 'number' ? '<input type="range" min="-10" max="10" ' + valtext + ' step="' + config.sliderstep + '"/><label class="slidervalue">0</label>': '') + '<button>x</button></div></div>')
         if(inputType === 'number'){//force value set
             setTimeout(()=>{
                 neww.find('input[type="number"]').val(val)
             },1)
         }
-        neww.find('input[type="number"], input[type="checkbox"]').on('change paste mouseleave', (e)=>{
+        neww.find('input[type="number"], input[type="text"], input[type="checkbox"], .user_label').on('change paste mouseleave', (e)=>{
             changeCallback(e)
             saveToStorage()
         })
