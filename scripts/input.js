@@ -340,8 +340,9 @@ var INPUT = ((global, $)=>{
         }
 
         numbers[label] = config
-        let number = addNew('number', 'number', label, (e)=>{
-            let n = parseFloat($(e.target).val())
+        let number
+        number = addNew('number', 'number', label, (e)=>{
+            let n = parseFloat(number.find('.change input[type="number"]').val())
 
             if(isNaN(n)){
                 return
