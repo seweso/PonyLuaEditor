@@ -113,74 +113,84 @@ var YYY = ((global, $)=>{
         })
         $('#minify').on('click', ()=>{
             try {
-                let ast = luaparse.parse(editor.getValue())
 
-                let minified = luamin.minify(ast).trim()
+                let minified
 
+                if($('#minify-type').val() === 'conservative-with-line-breaks' || $('#minify-type').val() === 'conservative-no-line-breaks'){
+                    let ast = luaparse.parse(editor.getValue())
 
-                let pre = ''
-                let idMap = luamin.getLastIdentifierMap()
-                for(let k of Object.keys(idMap)){
-                    if(LIBRARY_IDENTIFIERS.indexOf(k) >= 0){
-                        pre += idMap[k] + '=' + k + ';'
-                    }
-                }
+                    minified = luamin.minify(ast).trim()
+                } else {
 
+                    let ast = luaparse.parse(editor.getValue())
 
-                let libIdMap = luamin.getLastLibIdentifierMap()
-                for(let k of Object.keys(libIdMap)){
-                    for(let kk of Object.keys(libIdMap[k])){
-                        pre += idMap[k] + '.' + libIdMap[k][kk] + '=' + idMap[k] + '.' + kk + ';'                    
-                    }
-                }
-
-                minified = pre + '\n' + MINIFY_MAPPING_SEPERATOR + '\n' + minified
+                    minified = luaminy.minify(ast).trim()
 
 
-
-                let offset = 0
-                while(offset < minified.length) {
-                    let localStatement = minified.substring(offset, Math.min(minified.indexOf(' ', offset), minified.indexOf(';', offset)) + 1)
-                    let match = localStatement.match(/(local\s)?([\w]+)=([\w]+)(;|\s)/)
-                    if(match){
-                        let short = match[2]
-                        let shortenedGlobal = match[3]
-
-                        for(let s of shortenedIdentifiers){
-                            if(identifierMap[s] === shortenedGlobal){
-                                minified = minified.replace(localStatement, localStatement.replace(shortenedGlobal, s))
-                                break
-                            }
+                    let pre = ''
+                    let idMap = luaminy.getLastIdentifierMap()
+                    for(let k of Object.keys(idMap)){
+                        if(LIBRARY_IDENTIFIERS.indexOf(k) >= 0){
+                            pre += idMap[k] + '=' + k + ';'
                         }
                     }
-                    if(localStatement.length === 0){
-                        break
+
+
+                    let libIdMap = luaminy.getLastLibIdentifierMap()
+                    for(let k of Object.keys(libIdMap)){
+                        for(let kk of Object.keys(libIdMap[k])){
+                            pre += idMap[k] + '.' + libIdMap[k][kk] + '=' + idMap[k] + '.' + kk + ';'                    
+                        }
                     }
 
-                    offset += localStatement.length
+                    minified = pre + '\n' + MINIFY_MAPPING_SEPERATOR + '\n' + minified
+
+
+
+                    let offset = 0
+                    while(offset < minified.length) {
+                        let localStatement = minified.substring(offset, Math.min(minified.indexOf(' ', offset), minified.indexOf(';', offset)) + 1)
+                        let match = localStatement.match(/(local\s)?([\w]+)=([\w]+)(;|\s)/)
+                        if(match){
+                            let short = match[2]
+                            let shortenedGlobal = match[3]
+
+                            for(let s of shortenedIdentifiers){
+                                if(identifierMap[s] === shortenedGlobal){
+                                    minified = minified.replace(localStatement, localStatement.replace(shortenedGlobal, s))
+                                    break
+                                }
+                            }
+                        }
+                        if(localStatement.length === 0){
+                            break
+                        }
+
+                        offset += localStatement.length
+                    }
                 }
 
-                if($('#minify-identation').prop('checked')){
+                if($('#minify-type').val() === 'conservative-with-line-breaks' || $('#minify-type').val() === 'agressive-with-line-breaks'){
                     let split = minified.split('"')
-                    let identedMinified = ''
+                    let lineBreakMinified = ''
                     let i = 0
                     let inText= false
                     while (i < minified.length){
                         let indexOf = minified.indexOf('"', i)
                         if(indexOf < 0){                            
-                            identedMinified += '\n' + ident(minified.substring(i))
+                            lineBreakMinified += '\n' + ident(minified.substring(i))
                             break
                         } else {//found a ""
                             if(inText){
                                 let tmp = '"' + minified.substring(i, indexOf)
-                                identedMinified += tmp
+                                lineBreakMinified += tmp
                             } else {
-                                identedMinified += '\n' + ident(minified.substring(i, indexOf))
+                                lineBreakMinified += '\n' + ident(minified.substring(i, indexOf))
                             }
                             let char = minified.charAt(indexOf-1)
                             if(char !== '\\'){// check for \"
                                 if(inText){
-                                    identedMinified += '"'
+                                    lineBreakMinified += '"'
                                 }
                                 inText = !inText
                             }
@@ -188,7 +198,7 @@ var YYY = ((global, $)=>{
                             i = indexOf + 1
                         }
                     }
-                    minified = identedMinified
+                    minified = lineBreakMinified
 
                     function ident(text){
                         const replacements = [
@@ -231,6 +241,13 @@ var YYY = ((global, $)=>{
                 minifiedEditor.setValue('Error: ' + ex.message)
                 refreshMinifiedEditorCharacterCount()
             }
+        })
+
+        $('#minify-help').on('click', ()=>{
+            message('Minify Help', 'You can use two different modes:<br><ul>'
+                + '<li><strong>Conservative</strong><br>will only replace names of <i>local</i> declared variables and functions</li><br>'
+                + '<li><strong>Agressive</strong><br>will replace almost every varable and function name.<br><span style="color: red;font-weight: bold">In rare cases, this produces errors, which you have to fix manually.</span></li>'
+                + '</ul><br>Each of those modes supports output with or without line breaks.<br>Without line breaks you save a small amount of characters, but the code is very hard to read and debug')
         })
 
     

@@ -1,4 +1,6 @@
-/*! https://mths.be/luamin v1.0.4 by @mathias */
+/*! https://mths.be/luamin v1.0.4 by @mathias
+    modified by CrazyFluffyPony
+*/
 ;(function(root) {
 
     // Detect free variables `exports`
@@ -119,17 +121,32 @@
         return false;
     }
 
+    function isMinifyProhibited(id){
+        return id == 'onTick' || id == 'onDraw'
+    }
+
     var currentIdentifier;
     var identifierMap;
+    var libIdentifierMap;
     var identifiersInUse;
-    var generateIdentifier = function(originalName) {
+    var generateIdentifier = function(originalName, library) {
+        console.log('generateIdentifier', originalName, library)
         // Preserve `self` in methods
-        if (originalName == 'self') {
+        if (originalName == 'self' || ! YYY.isMinificationAllowed(originalName, library)) {
+            console.log(originalName)
             return originalName;
         }
 
-        if (hasOwnProperty.call(identifierMap, originalName)) {
-            return identifierMap[originalName];
+        if(library){
+            if (libIdentifierMap[library] && hasOwnProperty.call(libIdentifierMap[library], originalName)) {
+                console.log(libIdentifierMap[library][originalName])
+                return libIdentifierMap[library][originalName];
+            }
+        } else {
+            if (hasOwnProperty.call(identifierMap, originalName)) {
+                console.log(identifierMap[originalName])
+                return identifierMap[originalName];
+            }
         }
         var length = currentIdentifier.length;
         var position = length - 1;
@@ -147,16 +164,38 @@
                 ) {
                     return generateIdentifier(originalName);
                 }
-                identifierMap[originalName] = currentIdentifier;
+
+                if(library){
+                    if(!libIdentifierMap[library]){
+                        libIdentifierMap[library]={}
+                    }
+                    libIdentifierMap[library][originalName]=currentIdentifier
+                } else {
+                    identifierMap[originalName] = currentIdentifier;                    
+                }
+
+                console.log(currentIdentifier)
                 return currentIdentifier;
             }
             --position;
         }
         currentIdentifier = 'a' + generateZeroes(length);
         if (indexOf(identifiersInUse, currentIdentifier) > -1) {
-            return generateIdentifier(originalName);
+            let ret = generateIdentifier(originalName);
+            console.log(ret)
+            return ret
         }
-        identifierMap[originalName] = currentIdentifier;
+
+        if(library){
+            if(!libIdentifierMap[library]){
+                libIdentifierMap[library]={}
+            }
+            libIdentifierMap[library][originalName]=currentIdentifier
+        } else {
+            identifierMap[originalName] = currentIdentifier;            
+        }
+
+        console.log(currentIdentifier)
         return currentIdentifier;
     };
 
@@ -246,8 +285,11 @@
 
         if (expressionType == 'Identifier') {
 
-            result = expression.isLocal && !options.preserveIdentifiers
-                ? generateIdentifier(expression.name)
+            let r1 = indexOf(identifiersInUse, expression.name) 
+            let r2 = !options.preserveIdentifiers
+
+            result = (typeof r1 !== 'number' || r1 <= 0) && r2
+                ? generateIdentifier(expression.name, options ? options.library : undefined)
                 : expression.name;
 
         } else if (
@@ -367,11 +409,12 @@
                 formatExpression(expression.index) + ']';
 
         } else if (expressionType == 'MemberExpression') {
+			console.log('MemberExpression && default', expression)
+			result = formatBase(expression.base) + expression.indexer +
+				formatExpression(expression.identifier, {
+					'preserveIdentifiers': true
+				});
 
-            result = formatBase(expression.base) + expression.indexer +
-                formatExpression(expression.identifier, {
-                    'preserveIdentifiers': true
-                });
 
         } else if (expressionType == 'FunctionDeclaration') {
 
@@ -629,12 +672,13 @@
 
         // (Re)set temporary identifier values
         identifierMap = {};
+        libIdentifierMap = {};
         identifiersInUse = [];
         // This is a shortcut to help generate the first identifier (`a`) faster
         currentIdentifier = '9';
 
         // Make sure global variable names aren't renamed
-        if (ast.globals) {
+        /*if (ast.globals) {
             each(ast.globals, function(object) {
                 var name = object.name;
                 identifierMap[name] = name;
@@ -642,16 +686,22 @@
             });
         } else {
             throw Error('Missing required AST property: `globals`');
-        }
+        }*/
 
         return formatStatementList(ast.body);
     };
 
     /*--------------------------------------------------------------------------*/
 
-    var luamin = {
+    var luaminy = {
         'version': '1.0.4',
-        'minify': minify
+        'minify': minify,
+        getLastIdentifierMap: ()=>{
+            return identifierMap
+        },
+        getLastLibIdentifierMap: ()=>{
+            return libIdentifierMap
+        }
     };
 
     // Some AMD build optimizers, like r.js, check for specific condition patterns
@@ -662,16 +712,16 @@
         define.amd
     ) {
         define(function() {
-            return luamin;
+            return luaminy;
         });
     }   else if (freeExports && !freeExports.nodeType) {
         if (freeModule) { // in Node.js or RingoJS v0.8.0+
-            freeModule.exports = luamin;
+            freeModule.exports = luaminy;
         } else { // in Narwhal or RingoJS v0.7.0-
-            extend(freeExports, luamin);
+            extend(freeExports, luaminy);
         }
     } else { // in Rhino or a web browser
-        root.luamin = luamin;
+        root.luaminy = luaminy;
     }
 
 }(this));

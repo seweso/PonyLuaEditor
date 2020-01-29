@@ -51,6 +51,7 @@ You can also minify code, find tutorials and examples or use the ui builder to c
     <script type="text/javascript" src="scripts/editor_autocompletition.js"></script>
     <script type="text/javascript" src="scripts/luaparse.js"></script>
     <script type="text/javascript" src="scripts/luamin.js"></script>
+    <script type="text/javascript" src="scripts/luaminy.js"></script>
     <script type="text/javascript" src="scripts/luamax.js"></script>
     <script type="text/javascript" src="scripts/examples.js"></script>
     <!--<script type="text/javascript" src="scripts/giveaway.js"></script>-->
@@ -169,9 +170,18 @@ You can also minify code, find tutorials and examples or use the ui builder to c
                 <button id="reset">New Lua Script</button>
             </div>
             <div class="controls_container">
-                <button id="minify" style="margin-left: auto;">Minify</button>
-                <input type="checkbox" name="minify-identation" id="minify-identation" checked>
-                <label>Line breaks</label>
+                <button id="minify">Minify</button>                
+                <select id="minify-type">
+                    <optgroup label="Conservative">
+                        <option value="conservative-with-line-breaks">Cons, with line breaks</option>
+                        <option value="conservative-no-line-breaks">Cons, no line breaks</option>
+                    </optgroup>
+                    <optgroup label="Agressive">
+                        <option value="agressive-with-line-breaks">Agr, with line breaks</option>
+                        <option value="agressive-no-line-breaks">Agr, no line breaks</option>
+                    </optgroup>
+                </select>
+                <span id="minify-help" class="icon-question"></span>
             </div>
             <div class="controls_container share" id="share">
                 <div class="docreate">
