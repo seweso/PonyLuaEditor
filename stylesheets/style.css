@@ -1067,12 +1067,10 @@ a:hover {
   justify-content: center;
   align-items: center;
   position: relative;
-  margin-left: 20px;
 }
-/* line 992, ../compass/src/style.scss */
+/* line 991, ../compass/src/style.scss */
 .share .docreate, .share .currentshare_container {
   background: linear-gradient(15deg, rgba(1, 148, 226, 0.666) 0%, rgba(121, 38, 146, 0.666) 100%);
-  box-shadow: 1px 0px 3px 1px #0194E277;
   color: #fff;
   border-radius: 3px;
   cursor: pointer;
@@ -1082,25 +1080,25 @@ a:hover {
   justify-content: center;
   align-items: center;
 }
-/* line 1005, ../compass/src/style.scss */
+/* line 1003, ../compass/src/style.scss */
 .share .docreate {
   padding: 10px 25px;
 }
-/* line 1008, ../compass/src/style.scss */
+/* line 1006, ../compass/src/style.scss */
 .share .docreate:hover {
   background: linear-gradient(15deg, rgba(77, 180, 234, 0.666) 0%, rgba(161, 102, 178, 0.666) 100%);
 }
-/* line 1013, ../compass/src/style.scss */
+/* line 1011, ../compass/src/style.scss */
 .share .currentshare_container {
   padding: 8px;
 }
-/* line 1017, ../compass/src/style.scss */
+/* line 1015, ../compass/src/style.scss */
 .share .more {
   display: flex;
   flex-direction: row;
   overflow: hidden;
 }
-/* line 1023, ../compass/src/style.scss */
+/* line 1021, ../compass/src/style.scss */
 .share .copy_share_to_clipboard {
   background: #0004;
   color: #fff;
@@ -1109,12 +1107,12 @@ a:hover {
   transition: all 0.2s ease 0s;
   font-size: 16px;
 }
-/* line 1031, ../compass/src/style.scss */
+/* line 1029, ../compass/src/style.scss */
 .share .copy_share_to_clipboard:hover {
   background: #fff4;
   color: #000;
 }
-/* line 1037, ../compass/src/style.scss */
+/* line 1035, ../compass/src/style.scss */
 .share .currentshare {
   background: #000a;
   border-radius: 3px;
@@ -1127,12 +1125,12 @@ a:hover {
 }
 
 /* save */
-/* line 1052, ../compass/src/style.scss */
+/* line 1050, ../compass/src/style.scss */
 #save, #save-minified {
   transition: all 0.5s ease 0s;
 }
 
-/* line 1056, ../compass/src/style.scss */
+/* line 1054, ../compass/src/style.scss */
 #save.saved, #save-minified.saved, #save-ui-builder.saved {
   background: #4d835f !important;
   border-color: #9A8D00 !important;
@@ -1140,30 +1138,30 @@ a:hover {
 }
 
 /* examples */
-/* line 1065, ../compass/src/style.scss */
+/* line 1063, ../compass/src/style.scss */
 #editor-bottom-container {
   display: flex;
   flex-direction: row;
 }
-/* line 1069, ../compass/src/style.scss */
+/* line 1067, ../compass/src/style.scss */
 #editor-bottom-container > * {
   width: 100%;
 }
-/* line 1073, ../compass/src/style.scss */
+/* line 1071, ../compass/src/style.scss */
 #editor-bottom-container.show_examples > * {
   width: 48%;
 }
-/* line 1077, ../compass/src/style.scss */
+/* line 1075, ../compass/src/style.scss */
 #editor-bottom-container:not(.show_examples) #example-container {
   display: none;
 }
-/* line 1081, ../compass/src/style.scss */
+/* line 1079, ../compass/src/style.scss */
 #editor-bottom-container #example-container {
   margin-left: 4%;
   background: #0007;
   border-radius: 3px;
 }
-/* line 1086, ../compass/src/style.scss */
+/* line 1084, ../compass/src/style.scss */
 #editor-bottom-container #example-container #examples-heading {
   background: linear-gradient(15deg, #0194E2 0%, #792692 100%);
   color: #fff;
@@ -1176,21 +1174,21 @@ a:hover {
   margin-bottom: 10px;
   padding: 10px;
 }
-/* line 1098, ../compass/src/style.scss */
+/* line 1096, ../compass/src/style.scss */
 #editor-bottom-container #example-container #examples-heading h3 {
   display: inline-block;
   margin: 0;
 }
-/* line 1104, ../compass/src/style.scss */
+/* line 1102, ../compass/src/style.scss */
 #editor-bottom-container #example-container .close {
   cursor: pointer;
   transition: all 0.2s ease 0s;
 }
-/* line 1108, ../compass/src/style.scss */
+/* line 1106, ../compass/src/style.scss */
 #editor-bottom-container #example-container .close:hover {
   color: #002C43;
 }
-/* line 1114, ../compass/src/style.scss */
+/* line 1112, ../compass/src/style.scss */
 #editor-bottom-container #examples {
   position: relative;
   display: flex;
@@ -1199,16 +1197,16 @@ a:hover {
   max-height: 50vh;
   overflow-y: auto;
 }
-/* line 1122, ../compass/src/style.scss */
+/* line 1120, ../compass/src/style.scss */
 #editor-bottom-container #examples .chapter {
   display: flex;
   flex-direction: column;
 }
-/* line 1126, ../compass/src/style.scss */
+/* line 1124, ../compass/src/style.scss */
 #editor-bottom-container #examples .chapter:not(:last-child) {
   margin-bottom: 5px;
 }
-/* line 1130, ../compass/src/style.scss */
+/* line 1128, ../compass/src/style.scss */
 #editor-bottom-container #examples .chapter .chapter_head {
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
@@ -1218,7 +1216,7 @@ a:hover {
   padding: 5px;
   position: relative;
 }
-/* line 1139, ../compass/src/style.scss */
+/* line 1137, ../compass/src/style.scss */
 #editor-bottom-container #examples .chapter .chapter_head:after {
   position: absolute;
   top: 50%;
@@ -1229,31 +1227,31 @@ a:hover {
   transform: translateY(-50%);
   line-height: 0;
 }
-/* line 1151, ../compass/src/style.scss */
+/* line 1149, ../compass/src/style.scss */
 #editor-bottom-container #examples .chapter.open .chapter_head:after {
   transform: translateY(-50%) rotate(180deg);
 }
-/* line 1155, ../compass/src/style.scss */
+/* line 1153, ../compass/src/style.scss */
 #editor-bottom-container #examples .chapter .chapter_body {
   display: flex;
   flex-direction: column;
   padding: 5px;
 }
-/* line 1161, ../compass/src/style.scss */
+/* line 1159, ../compass/src/style.scss */
 #editor-bottom-container #examples .chapter:not(.open) .chapter_body {
   display: none;
   background: #7f95a1;
 }
-/* line 1166, ../compass/src/style.scss */
+/* line 1164, ../compass/src/style.scss */
 #editor-bottom-container #examples .chapter .example {
   display: flex;
   flex-direction: column;
 }
-/* line 1170, ../compass/src/style.scss */
+/* line 1168, ../compass/src/style.scss */
 #editor-bottom-container #examples .chapter .example:not(:last-child) {
   margin-bottom: 5px;
 }
-/* line 1174, ../compass/src/style.scss */
+/* line 1172, ../compass/src/style.scss */
 #editor-bottom-container #examples .chapter .example .example_head {
   position: relative;
   border-top-left-radius: 3px;
@@ -1262,7 +1260,7 @@ a:hover {
   cursor: pointer;
   padding: 5px;
 }
-/* line 1182, ../compass/src/style.scss */
+/* line 1180, ../compass/src/style.scss */
 #editor-bottom-container #examples .chapter .example .example_head:after {
   position: absolute;
   top: 50%;
@@ -1273,49 +1271,49 @@ a:hover {
   transform: translateY(-50%);
   line-height: 0;
 }
-/* line 1194, ../compass/src/style.scss */
+/* line 1192, ../compass/src/style.scss */
 #editor-bottom-container #examples .chapter .example.open .example_head:after {
   transform: translateY(-50%) rotate(180deg);
 }
-/* line 1198, ../compass/src/style.scss */
+/* line 1196, ../compass/src/style.scss */
 #editor-bottom-container #examples .chapter .example .example_body {
   display: flex;
   flex-direction: column;
   padding: 5px;
   background: #fbd9c0;
 }
-/* line 1204, ../compass/src/style.scss */
+/* line 1202, ../compass/src/style.scss */
 #editor-bottom-container #examples .chapter .example .example_body > * {
   margin-bottom: 10px;
 }
-/* line 1209, ../compass/src/style.scss */
+/* line 1207, ../compass/src/style.scss */
 #editor-bottom-container #examples .chapter .example:not(.open) .example_body {
   display: none;
 }
-/* line 1215, ../compass/src/style.scss */
+/* line 1213, ../compass/src/style.scss */
 #editor-bottom-container #examples .example_text {
   color: #222;
 }
-/* line 1219, ../compass/src/style.scss */
+/* line 1217, ../compass/src/style.scss */
 #editor-bottom-container #examples .example_code {
   border: 3px solid #202020;
   box-sizing: content-box;
   border-radius: 3px;
   margin: 5px 0;
 }
-/* line 1226, ../compass/src/style.scss */
+/* line 1224, ../compass/src/style.scss */
 #editor-bottom-container #examples keyword {
   color: #F92672;
   font-family: "Monaco", "Menlo", "Ubuntu Mono", "Consolas", "source-code-pro", monospace;
 }
-/* line 1231, ../compass/src/style.scss */
+/* line 1229, ../compass/src/style.scss */
 #editor-bottom-container #examples obj {
   color: #4FA8B9;
   font-family: "Monaco", "Menlo", "Ubuntu Mono", "Consolas", "source-code-pro", monospace;
 }
 
 /* ponybin overlay */
-/* line 1240, ../compass/src/style.scss */
+/* line 1238, ../compass/src/style.scss */
 .ponybin_overlay {
   position: fixed;
   top: 0;
@@ -1329,12 +1327,12 @@ a:hover {
   justify-content: center;
   align-items: center;
 }
-/* line 1253, ../compass/src/style.scss */
+/* line 1251, ../compass/src/style.scss */
 .ponybin_overlay .inner {
   display: flex;
   flex-direction: column;
 }
-/* line 1258, ../compass/src/style.scss */
+/* line 1256, ../compass/src/style.scss */
 .ponybin_overlay .circle {
   background: linear-gradient(15deg, rgba(242, 223, 23, 0.666) 0%, rgba(110, 188, 136, 0.666) 100%);
   box-shadow: 0px 0px 5px 3px #F2DF1777;
@@ -1352,7 +1350,7 @@ a:hover {
   animation-name: circle;
   animation-iteration-count: infinite;
 }
-/* line 1275, ../compass/src/style.scss */
+/* line 1273, ../compass/src/style.scss */
 .ponybin_overlay .circle p {
   text-align: center;
   line-height: 150%;
@@ -1361,26 +1359,26 @@ a:hover {
   animation-name: anticircle;
   animation-iteration-count: infinite;
 }
-/* line 1284, ../compass/src/style.scss */
+/* line 1282, ../compass/src/style.scss */
 .ponybin_overlay .circle [dot] {
   animation-iteration-count: infinite;
   animation-duration: 2s;
 }
-/* line 1289, ../compass/src/style.scss */
+/* line 1287, ../compass/src/style.scss */
 .ponybin_overlay .circle [dot="1"] {
   animation-name: dot1;
 }
-/* line 1293, ../compass/src/style.scss */
+/* line 1291, ../compass/src/style.scss */
 .ponybin_overlay .circle [dot="2"] {
   animation-name: dot2;
 }
-/* line 1297, ../compass/src/style.scss */
+/* line 1295, ../compass/src/style.scss */
 .ponybin_overlay .circle [dot="3"] {
   animation-name: dot3;
 }
 
 /* mobile menu */
-/* line 1307, ../compass/src/style.scss */
+/* line 1305, ../compass/src/style.scss */
 #mobile-menu {
   display: none;
   flex-direction: row;
@@ -1391,12 +1389,12 @@ a:hover {
   min-height: 100vh;
   z-index: 1000000000000;
 }
-/* line 1317, ../compass/src/style.scss */
+/* line 1315, ../compass/src/style.scss */
 #mobile-menu #mobile-menu-close-sidebar {
   width: 100%;
   background: #fff7;
 }
-/* line 1322, ../compass/src/style.scss */
+/* line 1320, ../compass/src/style.scss */
 #mobile-menu #mobile-menu-inner {
   display: flex;
   flex-direction: column;
@@ -1408,7 +1406,7 @@ a:hover {
   color: #ddd;
   padding-bottom: 10px;
 }
-/* line 1334, ../compass/src/style.scss */
+/* line 1332, ../compass/src/style.scss */
 #mobile-menu .mobile_menu_logo {
   height: 5em;
   display: flex;
@@ -1417,49 +1415,49 @@ a:hover {
   align-items: center;
   background: #000;
 }
-/* line 1342, ../compass/src/style.scss */
+/* line 1340, ../compass/src/style.scss */
 #mobile-menu .mobile_menu_logo img {
   height: 70%;
   width: auto;
 }
-/* line 1348, ../compass/src/style.scss */
+/* line 1346, ../compass/src/style.scss */
 #mobile-menu .menu_group {
   display: flex;
   flex-direction: column;
   background: #0a0a0a;
 }
-/* line 1353, ../compass/src/style.scss */
+/* line 1351, ../compass/src/style.scss */
 #mobile-menu .menu_group > * {
   padding: 10px;
 }
-/* line 1357, ../compass/src/style.scss */
+/* line 1355, ../compass/src/style.scss */
 #mobile-menu .menu_group > :not(.menu_group_title) {
   padding-left: 25px;
 }
-/* line 1362, ../compass/src/style.scss */
+/* line 1360, ../compass/src/style.scss */
 #mobile-menu .menu_group_title {
   background: #000;
   border-bottom: 2px solid #111;
 }
-/* line 1367, ../compass/src/style.scss */
+/* line 1365, ../compass/src/style.scss */
 #mobile-menu #learn-menu-entry span, #mobile-menu #help-menu-entry span {
   cursor: pointer;
   padding: 4px 10px;
   border-radius: 10000px;
   font-weight: bold;
 }
-/* line 1374, ../compass/src/style.scss */
+/* line 1372, ../compass/src/style.scss */
 #mobile-menu #learn-menu-entry span {
   background: linear-gradient(15deg, #0194E2 0%, #792692 100%);
   box-shadow: 1px 0px 3px 1px #0194E277;
 }
-/* line 1379, ../compass/src/style.scss */
+/* line 1377, ../compass/src/style.scss */
 #mobile-menu #help-menu-entry span {
   background: linear-gradient(15deg, #9A8D00 0%, #4d835f 100%);
   box-shadow: 0px 0px 3px 2px #a99c1077;
 }
 
-/* line 1386, ../compass/src/style.scss */
+/* line 1384, ../compass/src/style.scss */
 #mobile-menu-open {
   background: url("../images/menu_icon.png");
   background-size: cover;
@@ -1904,7 +1902,7 @@ a:hover {
 }
 
 /* editor fullscreen */
-/* line 1404, ../compass/src/style.scss */
+/* line 1402, ../compass/src/style.scss */
 .ace_editor.fullscreen {
   position: fixed;
   top: 0;
@@ -1913,7 +1911,7 @@ a:hover {
   width: 100vw;
   z-index: 10000000000000;
 }
-/* line 1413, ../compass/src/style.scss */
+/* line 1411, ../compass/src/style.scss */
 .ace_editor .fullscreen_toggle {
   position: absolute;
   top: 0;
@@ -1925,7 +1923,7 @@ a:hover {
   border-radius: 2px;
   cursor: pointer;
 }
-/* line 1424, ../compass/src/style.scss */
+/* line 1422, ../compass/src/style.scss */
 .ace_editor .fullscreen_toggle:hover {
   background: #000a;
 }
@@ -2000,31 +1998,31 @@ a:hover {
 }
 /* media queries */
 @media (max-width: 1023px) {
-  /* line 1469, ../compass/src/style.scss */
+  /* line 1467, ../compass/src/style.scss */
   #editor-bottom-container {
     flex-direction: column;
   }
-  /* line 1471, ../compass/src/style.scss */
+  /* line 1469, ../compass/src/style.scss */
   #editor-bottom-container.show_examples > * {
     width: 100%;
   }
 
-  /* line 1476, ../compass/src/style.scss */
+  /* line 1474, ../compass/src/style.scss */
   #example-container {
     margin-left: 0;
   }
 
-  /* line 1480, ../compass/src/style.scss */
+  /* line 1478, ../compass/src/style.scss */
   #mobile-menu-open {
     display: block !important;
   }
 
-  /* line 1484, ../compass/src/style.scss */
+  /* line 1482, ../compass/src/style.scss */
   #fixed-information-badges {
     display: none;
   }
 
-  /* line 1488, ../compass/src/style.scss */
+  /* line 1486, ../compass/src/style.scss */
   #download-offline {
     display: none;
   }
