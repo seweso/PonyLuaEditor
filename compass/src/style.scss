@@ -841,26 +841,29 @@
 
         .user_label {
             background: transparent;
-            border: 1px solid #888;
-            padding: 2px 4px;
+            border: none;
+            padding: 3px 4px 3px 23px;
             cursor: text;
             transition: all 0.2s ease 0s;
             width: calc(100% - 5px)!important;
-
-            &:hover {
-                background: #fff;
-            }
         }
 
         &:after {
             content: '\e905';
             font-family: iconfont;
             position: absolute;
-            right: 3px;
+            left: 8px;
+            cursor: text;
         }
 
-        &:hover:after {
-            color: #c36724;
+        &:hover {
+            &:after {
+                color: #c36724;
+            }
+
+            .user_label {
+                background: #fff;
+            }
         }
     }
 }
