@@ -459,6 +459,10 @@
 
             result = tabs(level) + 'return';
 
+            if(statement.arguments instanceof Array && statement.arguments.length > 0){
+                result += ' '
+            }
+
             each(statement.arguments, function(argument, needsComma) {
                 result += formatExpression(argument)
                 if (needsComma) {
