@@ -54,10 +54,7 @@ var PROPERTY = ((global, $)=>{
 
         if(typeof store.numbers === 'object' && store.numbers !== null){
             for(let k of Object.keys(store.numbers)){
-                let n = parseInt(store.numbers[k])
-                if(isNaN(n)){
-                    n = parseFloat(store.numbers[k])
-                }
+                let n = parseFloat(store.numbers[k])
                 if(isNaN(n)){
                     return
                 }
@@ -135,10 +132,7 @@ var PROPERTY = ((global, $)=>{
         }
         numbers[label] = typeof val === 'number' ? val : 0
         let number = addNew('number', 'number', label, (e)=>{
-            let n = parseInt($(e.target).val())
-            if(isNaN(n)){
-                n = parseFloat($(e.target).val())
-            }
+            let n = parseFloat($(e.target).val())
             if(isNaN(n)){
                 return
             }
