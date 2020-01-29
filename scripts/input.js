@@ -76,10 +76,7 @@ var INPUT = ((global, $)=>{
                 if(isNaN(val)){
                     return
                 }
-
-                if(isNaN(parseInt(k))){
-                    return
-                }                
+                //TODO  
                 addNewNumber(parseInt(k), val, n)
             }
         }
@@ -321,6 +318,8 @@ var INPUT = ((global, $)=>{
             }
         }
 
+        console.log('addNewNumber', label, val, config)
+
         numbers[label] = config
         let number = addNew('number', 'number', label, (e)=>{
             let n = parseFloat($(e.target).val())
@@ -418,9 +417,9 @@ var INPUT = ((global, $)=>{
         })
 
 
-        /*slidermin.val(config.slidermin).trigger('input')
+        slidermin.val(config.slidermin).trigger('input')
         slidermax.val(config.slidermax).trigger('input')
-        sliderstep.val(config.sliderstep).trigger('input')*/
+        sliderstep.val(config.sliderstep).trigger('input')
         oscilatecheck.prop('checked', config.oscilatecheck).trigger('input')
 
         let myOscilateDirection = true
@@ -478,9 +477,11 @@ var INPUT = ((global, $)=>{
         } else if (val !== undefined && val !== null ){
             valtext = 'value="'+val+'"'
         }
-        let neww = $('<div class="' + type + '"><div class="change"><label class="channel" for="input_' + type + '_' + label + '">'+label+'</label><input type="' + inputType + '" ' + (inputType === 'number' ? 'step="' + config.sliderstep + '"': '') + ' id="input_' + type + '_' + label + '" ' + valtext + '/>' + (inputType === 'number' ? '<input type="range" min="-10" max="10" ' + valtext + ' step="' + config.sliderstep + '"/><label class="slidervalue">0</label>': '') + '<button>x</button></div></div>')
+        let neww = $('<div class="' + type + '"><div class="change"><label class="channel" for="input_' + type + '_' + label + '">'+label+'</label><input type="' + inputType + '" ' + (inputType === 'number' ? 'lang="en" step="' + config.sliderstep + '"': '') + ' id="input_' + type + '_' + label + '" ' + valtext + '/>' + (inputType === 'number' ? '<input type="range" min="-10" max="10" ' + valtext + ' step="' + config.sliderstep + '"/><label class="slidervalue">0</label>': '') + '<button>x</button></div></div>')
         if(inputType === 'number'){//force value set
-            neww.find('input[type="number"]').val(val)
+            setTimeout(()=>{
+                neww.find('input[type="number"]').val(val)
+            },1)
         }
         neww.find('input[type="number"], input[type="checkbox"]').on('change paste mouseleave', (e)=>{
             changeCallback(e)
