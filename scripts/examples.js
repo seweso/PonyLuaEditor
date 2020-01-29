@@ -283,6 +283,18 @@ var EXAMPLES = ((global, $)=>{
                 content: 'The white area is the speed you can fly with flaps down.\nThe green area is the speed you can fly with flaps up.\nThe yellow area is emergency speed, exceeding this speed will result in structural damage of the plane.\n\nAll the speeds for these areas can be set in the code.'
             }]
         },{
+            title: 'Flight Instruments - Heading Overlay',
+            contents: [{
+                type: 'text',
+                content: 'Overlays directions, similar to a compass. You can show a special direction marker (e.g. the direction to a waypoint).'
+            },{
+                type: 'text',
+                content: '<span style="color: red">deg90InPixels</span>(line 30) defines how many degrees the whole monitor covers horizontally. By default it\'s 180°. This value depends on the zoom/fov of the camera.'
+            },{
+                type: 'code',
+                content: 'y = 10\nty = 30\nw = 3\nh = 10\n\nhw = 1\nhh = 5\n\n\nscrWi = 0\nscrHe = 0\n\npixelOffset = 0\ndeg90InPixels = 0\n\ndir = 0\nmarkerdir = 0\nhasMarker = false\n\nfunction onTick()\n	dir = input.getNumber(1)-- -0.5 to 0.5\n	markerdir = input.getNumber(2)-- -0.5 to 0.5\n	hasMarker = input.getBool(2)\nend\n\nfunction onDraw()\n	scrWi = screen.getWidth()\n	scrHe = screen.getHeight()\n	pixelOffset = scrWi/2\n	deg90InPixels = scrWi/2-2-- means 90° equals half of the monitors width\n	printHeadingOverlay()\nend\n\nfunction printHeadingOverlay()\n	N = -4 * dir\n	NE = N + 0.5\n	E = N + 1\n	SE = N + 1.5\n	S = N + 2\n	SW = N + 2.5\n	W = N + 3\n	NW = N + 3.5\n\n	M = -4 * markerdir\n\n	N = normalize(N)\n	NE = normalize(NE)\n	E = normalize(E)\n	SE = normalize(SE)\n	S = normalize(S)\n	SW = normalize(SW)\n	W = normalize(W)\n	NW = normalize(NW)\n\n	M = normalize(M)\n	\n	Nx = math.floor(deg90InPixels * N) + pixelOffset\n	NEx = math.floor(deg90InPixels * NE) + pixelOffset\n	Ex = math.floor(deg90InPixels * E) + pixelOffset\n	SEx = math.floor(deg90InPixels * SE) + pixelOffset\n	Sx = math.floor(deg90InPixels * S) + pixelOffset\n	SWx = math.floor(deg90InPixels * SW) + pixelOffset\n	Wx = math.floor(deg90InPixels * W) + pixelOffset\n	NWx = math.floor(deg90InPixels * NW) + pixelOffset\n\n	Mx = math.floor(deg90InPixels * M) + pixelOffset\n	\n	setColor(255,0,0)\n	drawRect(Nx, y, w, h)\n	drawText("N", Nx-2, ty)\n	setColor(37,255,0)\n	drawRect(Ex, y, w, h)\n	drawText("E", Ex-2, ty)\n	drawRect(Sx, y, w, h)\n	drawText("S", Sx-2, ty)\n	drawRect(Wx, y, w, h)\n	drawText("W", Wx-2, ty)\n\n	setColor(37,255,0)\n	drawRect(NEx, y, hw, hh)\n	drawRect(SEx, y, hw, hh)\n	drawRect(SWx, y, hw, hh)\n	drawRect(NWx, y, hw, hh)\n\n	if hasMarker then\n		setColor(251,1,253)\n		drawRect(Mx, y, w, h)\n		drawText("M", Mx-2, ty)\n	end\nend\n\nfunction normalize(xIndex)\n	if xIndex > 2 or xIndex < -2 then\n		 return xIndex % 3  - math.floor(xIndex/3)\n	else\n		return xIndex\n	end\nend\n\nfunction setColor(r,g,b)\n	screen.setColor(r, g, b)\nend\n\nfunction drawRect(x, y, w, h)\n	screen.drawRectF(x, y, w, h)   \nend\n\nfunction drawText(txt, x, y)\n	if y > scrHe or y+h < 0 or x > scrWi or x < 0 then\n		return\n	end\n	screen.drawText(x, y, txt)\nend   '
+            }]
+        },{
             title: 'General Instruments (made by Tajin)',
             contents: [{
                 type: 'text',
