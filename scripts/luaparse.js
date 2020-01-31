@@ -43,7 +43,7 @@
     // in Node.js or RingoJS v0.8.0+
     /* istanbul ignore else */
     if (moduleExports) factory(freeModule.exports);
-    // in Narwhal or RingoJS v0.7.0-
+    // in RingoJS v0.7.0-
     else factory(freeExports);
   }
   // in a browser or Rhino
@@ -85,9 +85,7 @@
     , onLocalDeclaration: null
     // The version of Lua targeted by the parser (string; allowed values are
     // '5.1', '5.2', '5.3').
-    , luaVersion: '5.1'
-    // Whether to allow code points outside the Basic Latin block in identifiers
-    , extendedIdentifiers: false
+    , luaVersion: '5.3'
   };
 
   // The available tokens expressed as enum flags so they can be checked with
@@ -108,11 +106,11 @@
 
   var errors = exports.errors = {
       unexpected: 'unexpected %1 \'%2\' near \'%3\''
+    , unexpectedEOF: 'unexpected symbol near \'<eof>\''
     , expected: '\'%1\' expected near \'%2\''
     , expectedToken: '%1 expected near \'%2\''
     , unfinishedString: 'unfinished string near \'%1\''
     , malformedNumber: 'malformed number near \'%1\''
-    , invalidVar: 'invalid left-hand side of assignment near \'%1\''
     , decimalEscapeTooLarge: 'decimal escape too large near \'%1\''
     , invalidEscape: 'invalid escape sequence near \'%1\''
     , hexadecimalDigitExpected: 'hexadecimal digit expected near \'%1\''
@@ -121,6 +119,11 @@
     , unfinishedLongString: 'unfinished long string (starting at line %1) near \'%2\''
     , unfinishedLongComment: 'unfinished long comment (starting at line %1) near \'%2\''
     , ambiguousSyntax: 'ambiguous syntax (function call x new statement) near \'%1\''
+    , noLoopToBreak: 'no loop to break near \'%1\''
+    , labelAlreadyDefined: 'label \'%1\' already defined on line %2'
+    , labelNotVisible: 'no visible label \'%1\' for <goto>'
+    , gotoJumpInLocalScope: '<goto %1> jumps into the scope of local \'%2\''
+    , cannotUseVararg: 'cannot use \'...\' outside a vararg function near \'%1\''
   };
 
   // ### Abstract Syntax Tree
@@ -403,11 +406,19 @@
 
   var slice = Array.prototype.slice
     , toString = Object.prototype.toString
-    , indexOf = function indexOf(array, element) {
-      for (var i = 0, length = array.length; i < length; ++i) {
-        if (array[i] === element) return i;
-      }
-      return -1;
+    ;
+
+  var indexOf = /* istanbul ignore next */ function (array, element) {
+    for (var i = 0, length = array.length; i < length; ++i) {
+      if (array[i] === element) return i;
+    }
+    return -1;
+  };
+
+  /* istanbul ignore else */
+  if (Array.prototype.indexOf)
+    indexOf = function (array, element) {
+      return array.indexOf(element);
     };
 
   // Iterate through an array of objects and return the index of an object
@@ -436,28 +447,27 @@
     return format;
   }
 
-  // Returns a new object with the properties from all objectes passed as
-  // arguments. Last argument takes precedence.
-  //
-  // Example:
-  //
-  //     this.options = extend(options, { output: false });
+  // Polyfill for `Object.assign`.
 
-  function extend() {
-    var args = slice.call(arguments)
-      , dest = {}
+  var assign = /* istanbul ignore next */ function (dest) {
+    var args = slice.call(arguments, 1)
       , src, prop;
 
     for (var i = 0, length = args.length; i < length; ++i) {
       src = args[i];
       for (prop in src)
         /* istanbul ignore else */
-        if (src.hasOwnProperty(prop)) {
+        if (Object.prototype.hasOwnProperty.call(src, prop)) {
           dest[prop] = src[prop];
         }
     }
+
     return dest;
-  }
+  };
+
+  /* istanbul ignore else */
+  if (Object.assign)
+    assign = Object.assign;
 
   // ### Error functions
 
@@ -494,17 +504,17 @@
     var message = sprintf.apply(null, slice.call(arguments, 1))
       , error, col;
 
-    if ('undefined' !== typeof token.line) {
-      col = token.range[0] - token.lineStart;
-      error = fixupError(new SyntaxError(sprintf('[%1:%2] %3', token.line, col, message)));
-      error.line = token.line;
-      error.index = token.range[0];
-      error.column = col;
-    } else {
+    if (token === null || typeof token.line === 'undefined') {
       col = index - lineStart + 1;
       error = fixupError(new SyntaxError(sprintf('[%1:%2] %3', line, col, message)));
       error.index = index;
       error.line = line;
+      error.column = col;
+    } else {
+      col = token.range[0] - token.lineStart;
+      error = fixupError(new SyntaxError(sprintf('[%1:%2] %3', token.line, col, message)));
+      error.line = token.line;
+      error.index = token.range[0];
       error.column = col;
     }
     throw error;
@@ -547,6 +557,8 @@
         case BooleanLiteral:  type = 'boolean';     break;
         case NilLiteral:
           return raise(found, errors.unexpected, 'symbol', 'nil', near);
+        case EOF:
+          return raise(found, errors.unexpectedEOF);
       }
       return raise(found, errors.unexpected, type, found.value, near);
     }
@@ -819,18 +831,18 @@
       , string = ''
       , charCode;
 
-    while (index < length) {
+    for (;;) {
       charCode = input.charCodeAt(index++);
       if (delimiter === charCode) break;
+      // EOF or `\n` terminates a string literal. If we haven't found the
+      // ending delimiter by now, raise an exception.
+      if (index > length || isLineTerminator(charCode)) {
+        string += input.slice(stringStart, index - 1);
+        raise(null, errors.unfinishedString, String.fromCharCode(delimiter) + string);
+      }
       if (92 === charCode) { // backslash
         string += fixupHighCharacters(input.slice(stringStart, index - 1)) + readEscapeSequence();
         stringStart = index;
-      }
-      // EOF or `\n` terminates a string literal. If we haven't found the
-      // ending delimiter by now, raise an exception.
-      else if (index >= length || isLineTerminator(charCode)) {
-        string += input.slice(stringStart, index - 1);
-        raise({}, errors.unfinishedString, string + String.fromCharCode(charCode));
       }
     }
     string += fixupHighCharacters(input.slice(stringStart, index - 1));
@@ -910,7 +922,7 @@
 
     // A minimum of one hex digit is required.
     if (!isHexDigit(input.charCodeAt(index)))
-      raise({}, errors.malformedNumber, input.slice(tokenStart, index));
+      raise(null, errors.malformedNumber, input.slice(tokenStart, index));
 
     while (isHexDigit(input.charCodeAt(index))) ++index;
     // Convert the hexadecimal digit to base 10.
@@ -941,7 +953,7 @@
 
       // The binary exponent sign requires a decimal digit.
       if (!isDecDigit(input.charCodeAt(index)))
-        raise({}, errors.malformedNumber, input.slice(tokenStart, index));
+        raise(null, errors.malformedNumber, input.slice(tokenStart, index));
 
       while (isDecDigit(input.charCodeAt(index))) ++index;
       binaryExponent = input.slice(exponentStart, index);
@@ -972,7 +984,7 @@
       if ('+-'.indexOf(input.charAt(index) || null) >= 0) ++index;
       // An exponent is required to contain at least one decimal digit.
       if (!isDecDigit(input.charCodeAt(index)))
-        raise({}, errors.malformedNumber, input.slice(tokenStart, index));
+        raise(null, errors.malformedNumber, input.slice(tokenStart, index));
 
       while (isDecDigit(input.charCodeAt(index))) ++index;
     }
@@ -984,9 +996,9 @@
     var sequenceStart = index++;
 
     if (input.charAt(index++) !== '{')
-      raise({}, errors.braceExpected, '{', '\\' + input.slice(sequenceStart, index));
+      raise(null, errors.braceExpected, '{', '\\' + input.slice(sequenceStart, index));
     if (!isHexDigit(input.charCodeAt(index)))
-      raise({}, errors.hexadecimalDigitExpected, '\\' + input.slice(sequenceStart, index));
+      raise(null, errors.hexadecimalDigitExpected, '\\' + input.slice(sequenceStart, index));
 
     while (input.charCodeAt(index) === 0x30) ++index;
     var escStart = index;
@@ -994,22 +1006,22 @@
     while (isHexDigit(input.charCodeAt(index))) {
       ++index;
       if (index - escStart > 6)
-        raise({}, errors.tooLargeCodepoint, '\\' + input.slice(sequenceStart, index));
+        raise(null, errors.tooLargeCodepoint, '\\' + input.slice(sequenceStart, index));
     }
 
     var b = input.charAt(index++);
     if (b !== '}') {
       if ((b === '"') || (b === "'"))
-        raise({}, errors.braceExpected, '}', '\\' + input.slice(sequenceStart, index--));
+        raise(null, errors.braceExpected, '}', '\\' + input.slice(sequenceStart, index--));
       else
-        raise({}, errors.hexadecimalDigitExpected, '\\' + input.slice(sequenceStart, index));
+        raise(null, errors.hexadecimalDigitExpected, '\\' + input.slice(sequenceStart, index));
     }
 
     var codepoint = parseInt(input.slice(escStart, index - 1), 16);
 
     codepoint = encodeUTF8(codepoint);
     if (codepoint === null) {
-      raise({}, errors.tooLargeCodepoint, '\\' + input.slice(sequenceStart, index));
+      raise(null, errors.tooLargeCodepoint, '\\' + input.slice(sequenceStart, index));
     }
     return codepoint;
   }
@@ -1042,7 +1054,7 @@
 
         var ddd = parseInt(input.slice(sequenceStart, index), 10);
         if (ddd > 255) {
-          raise({}, errors.decimalEscapeTooLarge, '\\' + ddd);
+          raise(null, errors.decimalEscapeTooLarge, '\\' + ddd);
         }
         return String.fromCharCode(ddd);
 
@@ -1052,8 +1064,8 @@
           skipWhiteSpace();
           return '';
         }
+        break;
 
-        /* fall through */
       case 'x':
         if (features.hexEscapes) {
           // \xXX, where XX is a sequence of exactly two hexadecimal digits
@@ -1062,24 +1074,22 @@
             index += 3;
             return String.fromCharCode(parseInt(input.slice(sequenceStart + 1, index), 16));
           }
-          raise({}, errors.hexadecimalDigitExpected, '\\' + input.slice(sequenceStart, index + 2));
+          raise(null, errors.hexadecimalDigitExpected, '\\' + input.slice(sequenceStart, index + 2));
         }
+        break;
 
-        /* fall through */
       case 'u':
-        if (features.unicodeEscapes) {
+        if (features.unicodeEscapes)
           return readUnicodeEscapeSequence();
-        }
+        break;
 
-        /* fall through */
-      default:
-        if (features.strictEscapes)
-          raise({}, errors.invalidEscape, '\\' + input.slice(sequenceStart, index + 1));
-
-        /* fall through */
       case '\\': case '"': case "'":
         return input.charAt(index++);
     }
+
+    if (features.strictEscapes)
+      raise(null, errors.invalidEscape, '\\' + input.slice(sequenceStart, index + 1));
+    return input.charAt(index++);
   }
 
   // Comments begin with -- after which it will be decided if they are
@@ -1180,9 +1190,9 @@
       }
     }
 
-    raise({}, isComment ?
-              errors.unfinishedLongComment :
-              errors.unfinishedLongString,
+    raise(null, isComment ?
+                errors.unfinishedLongComment :
+                errors.unfinishedLongString,
           firstLine, '<eof>');
   }
 
@@ -1242,7 +1252,7 @@
   function isIdentifierStart(charCode) {
     if ((charCode >= 65 && charCode <= 90) || (charCode >= 97 && charCode <= 122) || 95 === charCode)
       return true;
-    if (options.extendedIdentifiers && charCode >= 128)
+    if (features.extendedIdentifiers && charCode >= 128)
       return true;
     return false;
   }
@@ -1250,7 +1260,7 @@
   function isIdentifierPart(charCode) {
     if ((charCode >= 65 && charCode <= 90) || (charCode >= 97 && charCode <= 122) || 95 === charCode || (charCode >= 48 && charCode <= 57))
       return true;
-    if (options.extendedIdentifiers && charCode >= 128)
+    if (features.extendedIdentifiers && charCode >= 128)
       return true;
     return false;
   }
@@ -1284,17 +1294,6 @@
   function isUnary(token) {
     if (Punctuator === token.type) return '#-~'.indexOf(token.value) >= 0;
     if (Keyword === token.type) return 'not' === token.value;
-    return false;
-  }
-
-  // @TODO this needs to be rethought.
-  function isCallExpression(expression) {
-    switch (expression.type) {
-      case 'CallExpression':
-      case 'TableCallExpression':
-      case 'StringCallExpression':
-        return true;
-    }
     return false;
   }
 
@@ -1333,7 +1332,7 @@
   // Exit and remove the current scope.
   function destroyScope() {
     var scope = scopes.pop();
-    scopeDepth--;
+    --scopeDepth;
     if (options.onDestroyScope) options.onDestroyScope();
   }
 
@@ -1438,6 +1437,156 @@
     if (trackLocations) locations.push(marker);
   }
 
+  // Control flow tracking
+  // ---------------------
+  // A context object that validates loop breaks and `goto`-based control flow.
+
+  function FullFlowContext() {
+    this.scopes = [];
+    this.pendingGotos = [];
+  }
+
+  FullFlowContext.prototype.isInLoop = function () {
+    var i = this.scopes.length;
+    while (i --> 0) {
+      if (this.scopes[i].isLoop)
+        return true;
+    }
+    return false;
+  };
+
+  FullFlowContext.prototype.pushScope = function (isLoop) {
+    var scope = {
+      labels: {},
+      locals: [],
+      deferredGotos: [],
+      isLoop: !!isLoop
+    };
+    this.scopes.push(scope);
+  };
+
+  FullFlowContext.prototype.popScope = function () {
+    for (var i = 0; i < this.pendingGotos.length; ++i) {
+      var theGoto = this.pendingGotos[i];
+      if (theGoto.maxDepth >= this.scopes.length)
+        if (--theGoto.maxDepth <= 0)
+          raise(theGoto.token, errors.labelNotVisible, theGoto.target);
+    }
+
+    this.scopes.pop();
+  };
+
+  FullFlowContext.prototype.addGoto = function (target, token) {
+    var localCounts = [];
+
+    for (var i = 0; i < this.scopes.length; ++i) {
+      var scope = this.scopes[i];
+      localCounts.push(scope.locals.length);
+      if (Object.prototype.hasOwnProperty.call(scope.labels, target))
+        return;
+    }
+
+    this.pendingGotos.push({
+      maxDepth: this.scopes.length,
+      target: target,
+      token: token,
+      localCounts: localCounts
+    });
+  };
+
+  FullFlowContext.prototype.addLabel = function (name, token) {
+    var scope = this.currentScope();
+
+    if (Object.prototype.hasOwnProperty.call(scope.labels, name)) {
+      raise(token, errors.labelAlreadyDefined, name, scope.labels[name].line);
+    } else {
+      var newGotos = [];
+
+      for (var i = 0; i < this.pendingGotos.length; ++i) {
+        var theGoto = this.pendingGotos[i];
+
+        if (theGoto.maxDepth >= this.scopes.length && theGoto.target === name) {
+          if (theGoto.localCounts[this.scopes.length - 1] < scope.locals.length) {
+            scope.deferredGotos.push(theGoto);
+          }
+          continue;
+        }
+
+        newGotos.push(theGoto);
+      }
+
+      this.pendingGotos = newGotos;
+    }
+
+    scope.labels[name] = {
+      localCount: scope.locals.length,
+      line: token.line
+    };
+  };
+
+  FullFlowContext.prototype.addLocal = function (name, token) {
+    this.currentScope().locals.push({
+      name: name,
+      token: token
+    });
+  };
+
+  FullFlowContext.prototype.currentScope = function () {
+    return this.scopes[this.scopes.length - 1];
+  };
+
+  FullFlowContext.prototype.raiseDeferredErrors = function () {
+    var scope = this.currentScope();
+    var bads = scope.deferredGotos;
+    for (var i = 0; i < bads.length; ++i) {
+      var theGoto = bads[i];
+      raise(theGoto.token, errors.gotoJumpInLocalScope, theGoto.target, scope.locals[theGoto.localCounts[this.scopes.length - 1]].name);
+    }
+    // Would be dead code currently, but may be useful later
+    // if (bads.length)
+    //   scope.deferredGotos = [];
+  };
+
+  // Simplified context that only checks the validity of loop breaks.
+
+  function LoopFlowContext() {
+    this.level = 0;
+    this.loopLevels = [];
+  }
+
+  LoopFlowContext.prototype.isInLoop = function () {
+    return !!this.loopLevels.length;
+  };
+
+  LoopFlowContext.prototype.pushScope = function (isLoop) {
+    ++this.level;
+    if (isLoop)
+      this.loopLevels.push(this.level);
+  };
+
+  LoopFlowContext.prototype.popScope = function () {
+    var levels = this.loopLevels;
+    var levlen = levels.length;
+    if (levlen) {
+      if (levels[levlen - 1] === this.level)
+        levels.pop();
+    }
+    --this.level;
+  };
+
+  LoopFlowContext.prototype.addGoto =
+  LoopFlowContext.prototype.addLabel =
+  /* istanbul ignore next */
+  function () { throw new Error('This should never happen'); };
+
+  LoopFlowContext.prototype.addLocal =
+  LoopFlowContext.prototype.raiseDeferredErrors =
+  function () {};
+
+  function makeFlowContext() {
+    return features.labels ? new FullFlowContext() : new LoopFlowContext();
+  }
+
   // Parse functions
   // ---------------
 
@@ -1449,7 +1598,11 @@
     next();
     markLocation();
     if (options.scope) createScope();
-    var body = parseBlock();
+    var flowContext = makeFlowContext();
+    flowContext.allowVararg = true;
+    flowContext.pushScope();
+    var body = parseBlock(flowContext);
+    flowContext.popScope();
     if (options.scope) destroyScope();
     if (EOF !== token.type) unexpected(token);
     // If the body is empty no previousToken exists when finishNode runs.
@@ -1462,17 +1615,18 @@
   //
   //     block ::= {stat} [retstat]
 
-  function parseBlock(terminator) {
+  function parseBlock(flowContext) {
     var block = []
       , statement;
 
     while (!isBlockFollow(token)) {
       // Return has to be the last statement in a block.
-      if ('return' === token.value) {
-        block.push(parseStatement());
+      // Likewise 'break' in Lua older than 5.2
+      if ('return' === token.value || (!features.relaxedBreak && 'break' === token.value)) {
+        block.push(parseStatement(flowContext));
         break;
       }
-      statement = parseStatement();
+      statement = parseStatement(flowContext);
       consume(';');
       // Statements are only added if they are returned, this allows us to
       // ignore some statements, such as EmptyStatement.
@@ -1489,60 +1643,71 @@
   //          | if | for | function | local | label | assignment
   //          | functioncall | ';'
 
-  function parseStatement() {
+  function parseStatement(flowContext) {
     markLocation();
+
+    if (Punctuator === token.type) {
+      if (consume('::')) return parseLabelStatement(flowContext);
+    }
+
+    // When a `;` is encounted, simply eat it without storing it.
+    if (features.emptyStatement) {
+      if (consume(';')) {
+        if (trackLocations) locations.pop();
+        return;
+      }
+    }
+
+    flowContext.raiseDeferredErrors();
+
     if (Keyword === token.type) {
       switch (token.value) {
-        case 'local':    next(); return parseLocalStatement();
-        case 'if':       next(); return parseIfStatement();
-        case 'return':   next(); return parseReturnStatement();
+        case 'local':    next(); return parseLocalStatement(flowContext);
+        case 'if':       next(); return parseIfStatement(flowContext);
+        case 'return':   next(); return parseReturnStatement(flowContext);
         case 'function': next();
           var name = parseFunctionName();
           return parseFunctionDeclaration(name);
-        case 'while':    next(); return parseWhileStatement();
-        case 'for':      next(); return parseForStatement();
-        case 'repeat':   next(); return parseRepeatStatement();
-        case 'break':    next(); return parseBreakStatement();
-        case 'do':       next(); return parseDoStatement();
-        case 'goto':     next(); return parseGotoStatement();
+        case 'while':    next(); return parseWhileStatement(flowContext);
+        case 'for':      next(); return parseForStatement(flowContext);
+        case 'repeat':   next(); return parseRepeatStatement(flowContext);
+        case 'break':    next();
+          if (!flowContext.isInLoop())
+            raise(token, errors.noLoopToBreak, token.value);
+          return parseBreakStatement();
+        case 'do':       next(); return parseDoStatement(flowContext);
+        case 'goto':     next(); return parseGotoStatement(flowContext);
       }
     }
 
     if (features.contextualGoto &&
         token.type === Identifier && token.value === 'goto' &&
         lookahead.type === Identifier && lookahead.value !== 'goto') {
-      next(); return parseGotoStatement();
+      next(); return parseGotoStatement(flowContext);
     }
 
-    if (Punctuator === token.type) {
-      if (consume('::')) return parseLabelStatement();
-    }
-    // Assignments memorizes the location and pushes it manually for wrapper
-    // nodes. Additionally empty `;` statements should not mark a location.
+    // Assignments memorizes the location and pushes it manually for wrapper nodes.
     if (trackLocations) locations.pop();
 
-    // When a `;` is encounted, simply eat it without storing it.
-    if (features.emptyStatement) {
-      if (consume(';')) return;
-    }
-
-    return parseAssignmentOrCallStatement();
+    return parseAssignmentOrCallStatement(flowContext);
   }
 
   // ## Statements
 
   //     label ::= '::' Name '::'
 
-  function parseLabelStatement() {
-    var name = token.value
+  function parseLabelStatement(flowContext) {
+    var nameToken = token
       , label = parseIdentifier();
 
     if (options.scope) {
-      scopeIdentifierName('::' + name + '::');
+      scopeIdentifierName('::' + nameToken.value + '::');
       attachScope(label, true);
     }
 
     expect('::');
+
+    flowContext.addLabel(nameToken.value, nameToken);
     return finishNode(ast.labelStatement(label));
   }
 
@@ -1554,18 +1719,22 @@
 
   //     goto ::= 'goto' Name
 
-  function parseGotoStatement() {
+  function parseGotoStatement(flowContext) {
     var name = token.value
+      , gotoToken = previousToken
       , label = parseIdentifier();
 
+    flowContext.addGoto(name, gotoToken);
     return finishNode(ast.gotoStatement(label));
   }
 
   //     do ::= 'do' block 'end'
 
-  function parseDoStatement() {
+  function parseDoStatement(flowContext) {
     if (options.scope) createScope();
-    var body = parseBlock();
+    flowContext.pushScope();
+    var body = parseBlock(flowContext);
+    flowContext.popScope();
     if (options.scope) destroyScope();
     expect('end');
     return finishNode(ast.doStatement(body));
@@ -1573,11 +1742,13 @@
 
   //     while ::= 'while' exp 'do' block 'end'
 
-  function parseWhileStatement() {
-    var condition = parseExpectedExpression();
+  function parseWhileStatement(flowContext) {
+    var condition = parseExpectedExpression(flowContext);
     expect('do');
     if (options.scope) createScope();
-    var body = parseBlock();
+    flowContext.pushScope(true);
+    var body = parseBlock(flowContext);
+    flowContext.popScope();
     if (options.scope) destroyScope();
     expect('end');
     return finishNode(ast.whileStatement(condition, body));
@@ -1585,25 +1756,28 @@
 
   //     repeat ::= 'repeat' block 'until' exp
 
-  function parseRepeatStatement() {
+  function parseRepeatStatement(flowContext) {
     if (options.scope) createScope();
-    var body = parseBlock();
+    flowContext.pushScope(true);
+    var body = parseBlock(flowContext);
     expect('until');
-    var condition = parseExpectedExpression();
+    flowContext.raiseDeferredErrors();
+    var condition = parseExpectedExpression(flowContext);
+    flowContext.popScope();
     if (options.scope) destroyScope();
     return finishNode(ast.repeatStatement(condition, body));
   }
 
   //     retstat ::= 'return' [exp {',' exp}] [';']
 
-  function parseReturnStatement() {
+  function parseReturnStatement(flowContext) {
     var expressions = [];
 
     if ('end' !== token.value) {
-      var expression = parseExpression();
+      var expression = parseExpression(flowContext);
       if (null != expression) expressions.push(expression);
       while (consume(',')) {
-        expression = parseExpectedExpression();
+        expression = parseExpectedExpression(flowContext);
         expressions.push(expression);
       }
       consume(';'); // grammar tells us ; is optional here.
@@ -1614,7 +1788,7 @@
   //     if ::= 'if' exp 'then' block {elif} ['else' block] 'end'
   //     elif ::= 'elseif' exp 'then' block
 
-  function parseIfStatement() {
+  function parseIfStatement(flowContext) {
     var clauses = []
       , condition
       , body
@@ -1626,20 +1800,24 @@
       marker = locations[locations.length - 1];
       locations.push(marker);
     }
-    condition = parseExpectedExpression();
+    condition = parseExpectedExpression(flowContext);
     expect('then');
     if (options.scope) createScope();
-    body = parseBlock();
+    flowContext.pushScope();
+    body = parseBlock(flowContext);
+    flowContext.popScope();
     if (options.scope) destroyScope();
     clauses.push(finishNode(ast.ifClause(condition, body)));
 
     if (trackLocations) marker = createLocationMarker();
     while (consume('elseif')) {
       pushLocation(marker);
-      condition = parseExpectedExpression();
+      condition = parseExpectedExpression(flowContext);
       expect('then');
       if (options.scope) createScope();
-      body = parseBlock();
+      flowContext.pushScope();
+      body = parseBlock(flowContext);
+      flowContext.popScope();
       if (options.scope) destroyScope();
       clauses.push(finishNode(ast.elseifClause(condition, body)));
       if (trackLocations) marker = createLocationMarker();
@@ -1652,7 +1830,9 @@
         locations.push(marker);
       }
       if (options.scope) createScope();
-      body = parseBlock();
+      flowContext.pushScope();
+      body = parseBlock(flowContext);
+      flowContext.popScope();
       if (options.scope) destroyScope();
       clauses.push(finishNode(ast.elseClause(body)));
     }
@@ -1668,7 +1848,7 @@
   //     namelist ::= Name {',' Name}
   //     explist ::= exp {',' exp}
 
-  function parseForStatement() {
+  function parseForStatement(flowContext) {
     var variable = parseIdentifier()
       , body;
 
@@ -1683,15 +1863,17 @@
     // Numeric For Statement.
     if (consume('=')) {
       // Start expression
-      var start = parseExpectedExpression();
+      var start = parseExpectedExpression(flowContext);
       expect(',');
       // End expression
-      var end = parseExpectedExpression();
+      var end = parseExpectedExpression(flowContext);
       // Optional step expression
-      var step = consume(',') ? parseExpectedExpression() : null;
+      var step = consume(',') ? parseExpectedExpression(flowContext) : null;
 
       expect('do');
-      body = parseBlock();
+      flowContext.pushScope(true);
+      body = parseBlock(flowContext);
+      flowContext.popScope();
       expect('end');
       if (options.scope) destroyScope();
 
@@ -1712,12 +1894,14 @@
 
       // One or more expressions in the explist.
       do {
-        var expression = parseExpectedExpression();
+        var expression = parseExpectedExpression(flowContext);
         iterators.push(expression);
       } while (consume(','));
 
       expect('do');
-      body = parseBlock();
+      flowContext.pushScope(true);
+      body = parseBlock(flowContext);
+      flowContext.popScope();
       expect('end');
       if (options.scope) destroyScope();
 
@@ -1735,8 +1919,9 @@
   //     local ::= 'local' 'function' Name funcdecl
   //        | 'local' Name {',' Name} ['=' exp {',' exp}]
 
-  function parseLocalStatement() {
-    var name;
+  function parseLocalStatement(flowContext) {
+    var name
+      , declToken = previousToken;
 
     if (Identifier === token.type) {
       var variables = []
@@ -1746,11 +1931,12 @@
         name = parseIdentifier();
 
         variables.push(name);
+        flowContext.addLocal(name.name, declToken);
       } while (consume(','));
 
       if (consume('=')) {
         do {
-          var expression = parseExpectedExpression();
+          var expression = parseExpectedExpression(flowContext);
           init.push(expression);
         } while (consume(','));
       }
@@ -1768,6 +1954,7 @@
     }
     if (consume('function')) {
       name = parseIdentifier();
+      flowContext.addLocal(name.name, declToken);
 
       if (options.scope) {
         scopeIdentifier(name);
@@ -1781,13 +1968,6 @@
     }
   }
 
-  function validateVar(node) {
-    // @TODO we need something not dependent on the exact AST used. see also isCallExpression()
-    if (node.inParens || (['Identifier', 'MemberExpression', 'IndexExpression'].indexOf(node.type) === -1)) {
-      raise(token, errors.invalidVar, token.value);
-    }
-  }
-
   //     assignment ::= varlist '=' explist
   //     var ::= Name | prefixexp '[' exp ']' | prefixexp '.' Name
   //     varlist ::= var {',' var}
@@ -1796,48 +1976,86 @@
   //     call ::= callexp
   //     callexp ::= prefixexp args | prefixexp ':' Name args
 
-  function parseAssignmentOrCallStatement() {
+  function parseAssignmentOrCallStatement(flowContext) {
     // Keep a reference to the previous token for better error messages in case
     // of invalid statement
     var previous = token
-      , expression, marker;
+      , marker, startMarker;
+    var lvalue, base, name;
 
-    if (trackLocations) marker = createLocationMarker();
-    expression = parsePrefixExpression();
+    var targets = [];
 
-    if (null == expression) return unexpected(token);
-    if (',='.indexOf(token.value) >= 0) {
-      var variables = [expression]
-        , init = []
-        , exp;
+    if (trackLocations) startMarker = createLocationMarker();
 
-      validateVar(expression);
-      while (consume(',')) {
-        exp = parsePrefixExpression();
-        if (null == exp) raiseUnexpectedToken('<expression>', token);
-        validateVar(exp);
-        variables.push(exp);
+    do {
+      if (trackLocations) marker = createLocationMarker();
+
+      if (Identifier === token.type) {
+        name = token.value;
+        base = parseIdentifier();
+        // Set the parent scope.
+        if (options.scope) attachScope(base, scopeHasName(name));
+        lvalue = true;
+      } else if ('(' === token.value) {
+        next();
+        base = parseExpectedExpression(flowContext);
+        expect(')');
+        lvalue = false;
+      } else {
+        return unexpected(token);
       }
-      expect('=');
-      do {
-        exp = parseExpectedExpression();
-        init.push(exp);
-      } while (consume(','));
 
+      both: for (;;) {
+        var newBase;
+
+        switch (StringLiteral === token.type ? '"' : token.value) {
+        case '.':
+        case '[':
+          lvalue = true;
+          break;
+        case ':':
+        case '(':
+        case '{':
+        case '"':
+          lvalue = null;
+          break;
+        default:
+          break both;
+        }
+
+        base = parsePrefixExpressionPart(base, marker, flowContext);
+      }
+
+      targets.push(base);
+
+      if (',' !== token.value)
+        break;
+
+      if (!lvalue) {
+        return unexpected(token);
+      }
+
+      next();
+    } while (true);
+
+    if (targets.length === 1 && lvalue === null) {
       pushLocation(marker);
-      return finishNode(ast.assignmentStatement(variables, init));
+      return finishNode(ast.callStatement(targets[0]));
+    } else if (!lvalue) {
+      return unexpected(token);
     }
-    if (isCallExpression(expression)) {
-      pushLocation(marker);
-      return finishNode(ast.callStatement(expression));
-    }
-    // The prefix expression was neither part of an assignment or a
-    // callstatement, however as it was valid it's been consumed, so raise
-    // the exception on the previous token to provide a helpful message.
-    return unexpected(previous);
+
+    expect('=');
+
+    var values = [];
+
+    do {
+      values.push(parseExpectedExpression(flowContext));
+    } while (consume(','));
+
+    pushLocation(startMarker);
+    return finishNode(ast.assignmentStatement(targets, values));
   }
-
-
 
   // ### Non-statements
 
@@ -1862,6 +2080,9 @@
   //     parlist ::= Name {',' Name} | [',' '...'] | '...'
 
   function parseFunctionDeclaration(name, isLocal) {
+    var flowContext = makeFlowContext();
+    flowContext.pushScope();
+
     var parameters = [];
     expect('(');
 
@@ -1878,20 +2099,21 @@
           parameters.push(parameter);
 
           if (consume(',')) continue;
-          else if (consume(')')) break;
         }
         // No arguments are allowed after a vararg.
         else if (VarargLiteral === token.type) {
-          parameters.push(parsePrimaryExpression());
-          expect(')');
-          break;
+          flowContext.allowVararg = true;
+          parameters.push(parsePrimaryExpression(flowContext));
         } else {
           raiseUnexpectedToken('<name> or \'...\'', token);
         }
+        expect(')');
+        break;
       }
     }
 
-    var body = parseBlock();
+    var body = parseBlock(flowContext);
+    flowContext.popScope();
     expect('end');
     if (options.scope) destroyScope();
 
@@ -1936,30 +2158,30 @@
   //
   //     fieldsep ::= ',' | ';'
 
-  function parseTableConstructor() {
+  function parseTableConstructor(flowContext) {
     var fields = []
       , key, value;
 
     while (true) {
       markLocation();
       if (Punctuator === token.type && consume('[')) {
-        key = parseExpectedExpression();
+        key = parseExpectedExpression(flowContext);
         expect(']');
         expect('=');
-        value = parseExpectedExpression();
+        value = parseExpectedExpression(flowContext);
         fields.push(finishNode(ast.tableKey(key, value)));
       } else if (Identifier === token.type) {
         if ('=' === lookahead.value) {
           key = parseIdentifier();
           next();
-          value = parseExpectedExpression();
+          value = parseExpectedExpression(flowContext);
           fields.push(finishNode(ast.tableKeyString(key, value)));
         } else {
-          value = parseExpectedExpression();
+          value = parseExpectedExpression(flowContext);
           fields.push(finishNode(ast.tableValue(value)));
         }
       } else {
-        if (null == (value = parseExpression())) {
+        if (null == (value = parseExpression(flowContext))) {
           locations.pop();
           break;
         }
@@ -1990,15 +2212,15 @@
   //          | '.' Name | ':' Name args | args }
   //
 
-  function parseExpression() {
-    var expression = parseSubExpression(0);
+  function parseExpression(flowContext) {
+    var expression = parseSubExpression(0, flowContext);
     return expression;
   }
 
   // Parse an expression expecting it to be valid.
 
-  function parseExpectedExpression() {
-    var expression = parseExpression();
+  function parseExpectedExpression(flowContext) {
+    var expression = parseExpression(flowContext);
     if (null == expression) raiseUnexpectedToken('<expression>', token);
     else return expression;
   }
@@ -2049,7 +2271,7 @@
   //
   //     exp ::= (unop exp | primary | prefixexp ) { binop exp }
 
-  function parseSubExpression(minPrecedence) {
+  function parseSubExpression(minPrecedence, flowContext) {
     var operator = token.value
     // The left-hand side in binary operations.
       , expression, marker;
@@ -2060,17 +2282,17 @@
     if (isUnary(token)) {
       markLocation();
       next();
-      var argument = parseSubExpression(10);
+      var argument = parseSubExpression(10, flowContext);
       if (argument == null) raiseUnexpectedToken('<expression>', token);
       expression = finishNode(ast.unaryExpression(operator, argument));
     }
     if (null == expression) {
       // PrimaryExpression
-      expression = parsePrimaryExpression();
+      expression = parsePrimaryExpression(flowContext);
 
       // PrefixExpression
       if (null == expression) {
-        expression = parsePrefixExpression();
+        expression = parsePrefixExpression(flowContext);
       }
     }
     // This is not a valid left hand expression.
@@ -2085,9 +2307,9 @@
 
       if (precedence === 0 || precedence <= minPrecedence) break;
       // Right-hand precedence operators
-      if ('^' === operator || '..' === operator) precedence--;
+      if ('^' === operator || '..' === operator) --precedence;
       next();
-      var right = parseSubExpression(precedence);
+      var right = parseSubExpression(precedence, flowContext);
       if (null == right) raiseUnexpectedToken('<expression>', token);
       // Push in the marker created before the loop to wrap its entirety.
       if (trackLocations) locations.push(marker);
@@ -2103,7 +2325,44 @@
   //
   //     args ::= '(' [explist] ')' | tableconstructor | String
 
-  function parsePrefixExpression() {
+  function parsePrefixExpressionPart(base, marker, flowContext) {
+    var expression, identifier;
+
+    if (Punctuator === token.type) {
+      switch (token.value) {
+        case '[':
+          pushLocation(marker);
+          next();
+          expression = parseExpectedExpression(flowContext);
+          expect(']');
+          return finishNode(ast.indexExpression(base, expression));
+        case '.':
+          pushLocation(marker);
+          next();
+          identifier = parseIdentifier();
+          return finishNode(ast.memberExpression(base, '.', identifier));
+        case ':':
+          pushLocation(marker);
+          next();
+          identifier = parseIdentifier();
+          base = finishNode(ast.memberExpression(base, ':', identifier));
+          // Once a : is found, this has to be a CallExpression, otherwise
+          // throw an error.
+          pushLocation(marker);
+          return parseCallExpression(base, flowContext);
+        case '(': case '{': // args
+          pushLocation(marker);
+          return parseCallExpression(base, flowContext);
+      }
+    } else if (StringLiteral === token.type) {
+      pushLocation(marker);
+      return parseCallExpression(base, flowContext);
+    }
+
+    return null;
+  }
+
+  function parsePrefixExpression(flowContext) {
     var base, name, marker;
 
     if (trackLocations) marker = createLocationMarker();
@@ -2115,54 +2374,18 @@
       // Set the parent scope.
       if (options.scope) attachScope(base, scopeHasName(name));
     } else if (consume('(')) {
-      base = parseExpectedExpression();
+      base = parseExpectedExpression(flowContext);
       expect(')');
-      base.inParens = true; // XXX: quick and dirty. needed for validateVar
     } else {
       return null;
     }
 
     // The suffix
-    var expression, identifier;
-    while (true) {
-      if (Punctuator === token.type) {
-        switch (token.value) {
-          case '[':
-            pushLocation(marker);
-            next();
-            expression = parseExpectedExpression();
-            expect(']');
-            base = finishNode(ast.indexExpression(base, expression));
-            break;
-          case '.':
-            pushLocation(marker);
-            next();
-            identifier = parseIdentifier();
-            base = finishNode(ast.memberExpression(base, '.', identifier));
-            break;
-          case ':':
-            pushLocation(marker);
-            next();
-            identifier = parseIdentifier();
-            base = finishNode(ast.memberExpression(base, ':', identifier));
-            // Once a : is found, this has to be a CallExpression, otherwise
-            // throw an error.
-            pushLocation(marker);
-            base = parseCallExpression(base);
-            break;
-          case '(': case '{': // args
-            pushLocation(marker);
-            base = parseCallExpression(base);
-            break;
-          default:
-            return base;
-        }
-      } else if (StringLiteral === token.type) {
-        pushLocation(marker);
-        base = parseCallExpression(base);
-      } else {
+    for (;;) {
+      var newBase = parsePrefixExpressionPart(base, marker, flowContext);
+      if (newBase === null)
         break;
-      }
+      base = newBase;
     }
 
     return base;
@@ -2170,22 +2393,22 @@
 
   //     args ::= '(' [explist] ')' | tableconstructor | String
 
-  function parseCallExpression(base) {
+  function parseCallExpression(base, flowContext) {
     if (Punctuator === token.type) {
       switch (token.value) {
         case '(':
           if (!features.emptyStatement) {
             if (token.line !== previousToken.line)
-              raise({}, errors.ambiguousSyntax, token.value);
+              raise(null, errors.ambiguousSyntax, token.value);
           }
           next();
 
           // List of expressions
           var expressions = [];
-          var expression = parseExpression();
+          var expression = parseExpression(flowContext);
           if (null != expression) expressions.push(expression);
           while (consume(',')) {
-            expression = parseExpectedExpression();
+            expression = parseExpectedExpression(flowContext);
             expressions.push(expression);
           }
 
@@ -2195,11 +2418,11 @@
         case '{':
           markLocation();
           next();
-          var table = parseTableConstructor();
+          var table = parseTableConstructor(flowContext);
           return finishNode(ast.tableCallExpression(base, table));
       }
     } else if (StringLiteral === token.type) {
-      return finishNode(ast.stringCallExpression(base, parsePrimaryExpression()));
+      return finishNode(ast.stringCallExpression(base, parsePrimaryExpression(flowContext)));
     }
 
     raiseUnexpectedToken('function arguments', token);
@@ -2208,13 +2431,17 @@
   //     primary ::= String | Numeric | nil | true | false
   //          | functiondef | tableconstructor | '...'
 
-  function parsePrimaryExpression() {
+  function parsePrimaryExpression(flowContext) {
     var literals = StringLiteral | NumericLiteral | BooleanLiteral | NilLiteral | VarargLiteral
       , value = token.value
       , type = token.type
       , marker;
 
     if (trackLocations) marker = createLocationMarker();
+
+    if (type === VarargLiteral && !flowContext.allowVararg) {
+      raise(token, errors.cannotUseVararg, token.value);
+    }
 
     if (type & literals) {
       pushLocation(marker);
@@ -2228,7 +2455,7 @@
       return parseFunctionDeclaration(null);
     } else if (consume('{')) {
       pushLocation(marker);
-      return parseTableConstructor();
+      return parseTableConstructor(flowContext);
     }
   }
 
@@ -2265,7 +2492,8 @@
       emptyStatement: true,
       hexEscapes: true,
       skipWhitespaceEscape: true,
-      strictEscapes: true
+      strictEscapes: true,
+      relaxedBreak: true
     },
     '5.3': {
       labels: true,
@@ -2275,7 +2503,8 @@
       strictEscapes: true,
       unicodeEscapes: true,
       bitwiseOperators: true,
-      integerDivision: true
+      integerDivision: true,
+      relaxedBreak: true
     },
     'LuaJIT': {
       // XXX: LuaJIT language features may depend on compilation options; may need to
@@ -2298,7 +2527,7 @@
     if (!_options) _options = {};
 
     input = _input || '';
-    options = extend(defaultOptions, _options);
+    options = assign({}, defaultOptions, _options);
 
     // Rewind the lexer
     index = 0;
@@ -2311,9 +2540,13 @@
     globals = [];
     locations = [];
 
-    if (!(features = versionFeatures[options.luaVersion])) {
+    if (!Object.prototype.hasOwnProperty.call(versionFeatures, options.luaVersion)) {
       throw new Error(sprintf("Lua version '%1' not supported", options.luaVersion));
     }
+
+    features = assign({}, versionFeatures[options.luaVersion]);
+    if (options.extendedIdentifiers !== void 0)
+      features.extendedIdentifiers = !!options.extendedIdentifiers;
 
     if (options.comments) comments = [];
     if (!options.wait) return end();
