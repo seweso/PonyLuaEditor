@@ -5,7 +5,7 @@ var PAINT = ((c)=>{
     const FONT_SIZE = 5
     const FONT = 'px "Screen Mono", "Lucida Console", Monaco, monospace'
 
-    const LINE_WIDTH = 1
+    const LINE_WIDTH = 1.4
 
     let zoomFactor = 1
 
