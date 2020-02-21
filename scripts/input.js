@@ -264,17 +264,17 @@ var INPUT = ((global, $)=>{
         refreshBoolsAddSelect()
     }
 
-    function doSetBool(label, val){
+    function doSetBool(label, val, config){
         let bool = dom_bools.find('#input_bool_'+label).get(0)
         if(bool){
             $(bool).prop('checked', val)  
             bools[label.toString()].val = val
         } else {
-            addNewBool(label, val)
+            addNewBool(label, val, config)
         }
     }
 
-    function doSetNumber(label, val){
+    function doSetNumber(label, val, config){
         let number = dom_numbers.find('#input_number_'+label).get(0)
         if(number){
             val = parseFloat(val)
@@ -283,10 +283,10 @@ var INPUT = ((global, $)=>{
             }
 
             numbers[label.toString()].val = val
-        $(number).parent().find('input').val(val)
-            $(number).parent().find('.slidervalue').html(val)
+            $(number).parent().parent().find('.change input[type="number"], .change input[type="range"]').val(val)
+            $(number).parent().parent().find('.slidervalue').html(val)
         } else {
-            addNewNumber(label, val)
+            addNewNumber(label, val, config)
         }
     }
 
@@ -342,12 +342,12 @@ var INPUT = ((global, $)=>{
         numbers[label] = config
         let number
         number = addNew('number', 'number', label, (e)=>{
-	    let n
-	    if(slidercheck.prop('checked')){
-		n = parseFloat(number.find('.change input[type="range"]').val())
-	    } else {
-		n = parseFloat(number.find('.change input[type="number"]').val())
-	    }
+    	    let n
+    	    if(slidercheck.prop('checked')){
+    		    n = parseFloat(number.find('.change input[type="range"]').val())
+    	    } else {
+    		    n = parseFloat(number.find('.change input[type="number"]').val())
+    	    }
 
             if(isNaN(n)){
                 return
@@ -505,7 +505,7 @@ var INPUT = ((global, $)=>{
         } else if (val !== undefined && val !== null ){
             valtext = 'value="'+val+'"'
         }
-        let neww = $('<div class="' + type + '"><div class="change"><label class="channel" for="input_' + type + '_' + label + '">'+label+'</label><div class="user_label_container"><input type="text" class="user_label" value="' + config.userLabel + '"/></div><input type="' + inputType + '" ' + (inputType === 'number' ? 'lang="en" step="' + config.sliderstep + '"': '') + ' id="input_' + type + '_' + label + '" ' + valtext + '/>' + (inputType === 'number' ? '<input type="range" min="-10" max="10" ' + valtext + ' step="' + config.sliderstep + '"/><label class="slidervalue">0</label>': '') + '<button>x</button></div></div>')
+        let neww = $('<div class="' + type + '"><div class="change"><label class="channel" for="input_' + type + '_' + label + '">'+label+'</label><div class="user_label_container"><input type="text" class="user_label" value="' + config.userLabel + '"/></div><input type="' + inputType + '" ' + (inputType === 'number' ? 'lang="en" step="' + config.sliderstep + '"': '') + ' id="input_' + type + '_' + label + '" ' + valtext + '/>' + (inputType === 'number' ? '<input type="range" min="-10" max="10" ' + valtext + ' step="' + config.sliderstep + '"/><label class="slidervalue">' + val + '</label>': '') + '<button>x</button></div></div>')
         if(inputType === 'number'){//force value set
             setTimeout(()=>{
                 neww.find('input[type="number"]').val(val)
@@ -552,24 +552,24 @@ var INPUT = ((global, $)=>{
         }
     }
 
-    function setBool(index, val){
+    function setBool(index, val, config){
         if(typeof index !== 'number'){
             throw new Error('first argument must be a number!')
         }
         if(typeof val !== 'boolean'){
             throw new Error('second argument must be a boolean!')
         }
-        doSetBool(index, val)
+        doSetBool(index, val, config)
     }
 
-    function setNumber(index, val){
+    function setNumber(index, val, config){
         if(typeof index !== 'number'){
             throw new Error('first argument must be a number!')
         }
         if(typeof val !== 'number'){
             throw new Error('second argument must be a number!')
         }
-        doSetNumber(index, val)
+        doSetNumber(index, val, config)
     }
     
     function removeNumber(index){

@@ -113,31 +113,139 @@ var CANVAS = ((global, $)=>{
 
     function calculateTouchscreenInput(){
         if($('#enable-touchscreen').prop('checked')){
-            INPUT.setNumber(1, width)
-            INPUT.setNumber(2, height)
+            INPUT.setNumber(1, width, {
+                val:  width,
+                userLabel: 'screenWidth',
+                slidercheck: true,
+                slidermin: 0,
+                slidermax: width,
+                sliderstep: 1,
+                oscilatecheck: false
+            })
+            INPUT.setNumber(2, height, {
+                val:  height,
+                userLabel: 'screenHeight',
+                slidercheck: true,
+                slidermin: 0,
+                slidermax: height,
+                sliderstep: 1,
+                oscilatecheck: false
+            })
 
             if(touchpoints[0]){
-                INPUT.setNumber(3, Math.floor(touchpoints[0].x))
-                INPUT.setNumber(4, Math.floor(touchpoints[0].y))
+                let touchpoints0X = Math.floor(touchpoints[0].x)
+                INPUT.setNumber(3, touchpoints0X, {
+                    val:  touchpoints0X,
+                    userLabel: 'touch1 x',
+                    slidercheck: true,
+                    slidermin: 0,
+                    slidermax: width,
+                    sliderstep: 1,
+                    oscilatecheck: false
+                })
 
-                INPUT.setBool(1, true)
+                let touchpoints0Y = Math.floor(touchpoints[0].y)
+                INPUT.setNumber(4, touchpoints0Y, {
+                    val:  touchpoints0Y,
+                    userLabel: 'touch1 y',
+                    slidercheck: true,
+                    slidermin: 0,
+                    slidermax: height,
+                    sliderstep: 1,
+                    oscilatecheck: false
+                })
+
+                INPUT.setBool(1, true, {
+                    val:  true,
+                    userLabel: 'touch1 pressed',
+                    type: 'push',
+                    key: 'e'
+                })
             } else {
-                INPUT.setNumber(3, 0)
-                INPUT.setNumber(4, 0)
+                INPUT.setNumber(3, 0, {
+                    val:  0,
+                    userLabel: 'touch1 x',
+                    slidercheck: true,
+                    slidermin: 0,
+                    slidermax: width,
+                    sliderstep: 1,
+                    oscilatecheck: false
+                })
 
-                INPUT.setBool(1, false)
+                INPUT.setNumber(4, 0, {
+                    val:  0,
+                    userLabel: 'touch1 y',
+                    slidercheck: true,
+                    slidermin: 0,
+                    slidermax: height,
+                    sliderstep: 1,
+                    oscilatecheck: false
+                })
+
+                INPUT.setBool(1, false, {
+                    val:  false,
+                    userLabel: 'touch1 pressed',
+                    type: 'push',
+                    key: 'e'
+                })
             }
 
             if(touchpoints[1]){
-                INPUT.setNumber(5, Math.floor(touchpoints[1].x))
-                INPUT.setNumber(6, Math.floor(touchpoints[1].y))
+                let touchpoints1X = Math.floor(touchpoints[1].x)
+                INPUT.setNumber(5, touchpoints1X, {
+                    val:  touchpoints1X,
+                    userLabel: 'touch2 x',
+                    slidercheck: true,
+                    slidermin: 0,
+                    slidermax: width,
+                    sliderstep: 1,
+                    oscilatecheck: false
+                })
 
-                INPUT.setBool(2, true)
+                let touchpoints1Y = Math.floor(touchpoints[1].y)
+                INPUT.setNumber(6, touchpoints1Y, {
+                    val:  touchpoints1Y,
+                    userLabel: 'touch2 y',
+                    slidercheck: true,
+                    slidermin: 0,
+                    slidermax: height,
+                    sliderstep: 1,
+                    oscilatecheck: false
+                })
+
+                INPUT.setBool(2, true, {
+                    val:  true,
+                    userLabel: 'touch2 pressed',
+                    type: 'push',
+                    key: 'q'
+                })
             } else {
-                INPUT.setNumber(5, 0)
-                INPUT.setNumber(6, 0)
+                INPUT.setNumber(5, 0, {
+                    val:  0,
+                    userLabel: 'touch2 x',
+                    slidercheck: true,
+                    slidermin: 0,
+                    slidermax: width,
+                    sliderstep: 1,
+                    oscilatecheck: false
+                })
 
-                INPUT.setBool(2, false)
+                INPUT.setNumber(6, 0, {
+                    val:  0,
+                    userLabel: 'touch2 y',
+                    slidercheck: true,
+                    slidermin: 0,
+                    slidermax: height,
+                    sliderstep: 1,
+                    oscilatecheck: false
+                })
+
+                INPUT.setBool(2, false, {
+                    val:  false,
+                    userLabel: 'touch1 pressed',
+                    type: 'push',
+                    key: 'q'
+                })
             }
 
 
