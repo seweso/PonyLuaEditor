@@ -50,8 +50,8 @@ var CANVAS = ((global, $)=>{
 
             calculateTouchscreenInput()
         })
-        $('#monitor').on('keydown mousedown', handleKeyDown)
-        $('#monitor').on('keyup mouseup', handleKeyUp)
+        $(window).on('keydown mousedown', handleKeyDown)
+        $(window).on('keyup mouseup', handleKeyUp)
         refresh()
     }
 
@@ -112,6 +112,7 @@ var CANVAS = ((global, $)=>{
     }
 
     function calculateTouchscreenInput(){
+        console.log('touchpoints', touchpoints)
         if($('#enable-touchscreen').prop('checked')){
             INPUT.setNumber(1, width, {
                 val:  width,
