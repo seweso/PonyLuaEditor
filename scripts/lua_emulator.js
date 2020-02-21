@@ -73,10 +73,14 @@ var LUA_EMULATOR = ((global, $)=>{
         if(hexcolor){
             text = '<span style="color: ' + hexcolor + '">' + text + '</span>'
         }
-        const oldHeight = $('#console').height()
+
         $('#console-inner').append(text + '<br>')
 
-        //$('#console').height(oldHeight)
+        if($('#console-inner').children().length > 300){
+            while($('#console-inner').children().length > 100){
+                $('#console-inner').children().get(0).remove()
+            }
+        }
 
         //scroll down console
         $("#console-inner").each( function(){
