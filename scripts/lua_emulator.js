@@ -80,6 +80,7 @@ var LUA_EMULATOR = ((global, $)=>{
             while($('#console-inner').children().length > 100){
                 $('#console-inner').children().get(0).remove()
             }
+            $('#console-inner').prepend('<div><span style="color: #f00">Some messages of the log output are removed for performance reasons! Don\' use print() that often for better performance!</span></div><br>')
         }
 
         //scroll down console
