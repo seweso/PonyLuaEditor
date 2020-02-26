@@ -68,6 +68,8 @@ var SHARE = ((global, $)=>{
     }
 
     function doCreate(){
+        YYY.report(YYY.REPORT_TYPE_IDS.shareCode)
+
         log('creating new share')
 
 
@@ -121,6 +123,8 @@ var SHARE = ((global, $)=>{
             YYY.alert('Cannot get data from ponybin. Please contact me.')
             return
         }
+        YYY.report(YYY.REPORT_TYPE_IDS.receiveShareCode)
+        
         log('receiving share', currentShare)
         $('#ponybin-receive-overlay').show()
         $.post(BASE_URL + '/api/get', {

@@ -755,6 +755,8 @@ var AUTOCOMPLETE = ((global, $)=>{
     }
 
     function showAutocompletitions(container, completitions, part){
+        YYY.report(YYY.REPORT_TYPE_IDS.openAutocomplete)
+        
         if(autocompletitionIsShown){
             closeAutocomplete()
         }

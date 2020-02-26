@@ -341,6 +341,8 @@ var EXAMPLES = ((global, $)=>{
     function init(){
 
         $('#learn-badge, #learn-menu-entry').on('click', ()=>{
+            YYY.report(YYY.REPORT_TYPE_IDS.openLearnAndExamples)
+
             $('#editor-bottom-container').addClass('show_examples')
             editor.resize()
 

@@ -120,6 +120,8 @@ var UI_BUILDER = ((global, $)=>{
         })
 
         $('#generate-ui-builder-lua-code').on('click', ()=>{
+            YYY.report(YYY.REPORT_TYPE_IDS.generateUIBuilderCode)
+
             generateLuaCode()
         })
 

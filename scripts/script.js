@@ -31,6 +31,19 @@ var YYY = ((global, $)=>{
 
     $(global).on('load', init)
 
+    const REPORT_TYPE_IDS = {
+        'startEmulator': 3,
+        'downloadOffline': 4,
+        'openHelp': 5,
+        'minify': 6,
+        'unminify': 7,
+        'openAutocomplete': 8,
+        'openLearnAndExamples': 9,
+        'shareCode': 10,
+        'receiveShareCode': 11,
+        'generateUIBuilderCode': 12
+    }
+
     function init(){
 
         let scrollTop = parseInt(localStorage.getItem('scroll'))
@@ -64,6 +77,7 @@ var YYY = ((global, $)=>{
 
 
         $('#download-offline').on('click', ()=>{
+            report(REPORT_TYPE_IDS.downloadOffline)
             message('How to use the offline version:', '<ul><li>extract the zip folder</li><li>doubleclick "index.html"</li><li>This opens the offline version with your default browser</li><ul>')
         })
 
@@ -112,6 +126,8 @@ var YYY = ((global, $)=>{
             })
         })
         $('#minify').on('click', ()=>{
+            report(REPORT_TYPE_IDS.minify)
+
             try {
 
                 let minified
@@ -252,6 +268,8 @@ var YYY = ((global, $)=>{
 
     
         $('#unminify').on('click', ()=>{
+            report(REPORT_TYPE_IDS.unminify)
+
             let minified = minifiedEditor.getValue()
 
             if(typeof minified !== 'string' || minified.length == 0){
@@ -435,6 +453,8 @@ var YYY = ((global, $)=>{
         let firstHelpOpen = true
         let scrollPosition = 0
         $('#help-badge, #help-menu-entry').on('click', ()=>{
+            report(REPORT_TYPE_IDS.openHelp)
+
             if(firstHelpOpen){
                 firstHelpOpen = false
                 $('#help-youtube-video').html('<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/Z8cLxmVd07c" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>')
@@ -687,6 +707,8 @@ var YYY = ((global, $)=>{
     }
 
     function startCode(code){
+        report(REPORT_TYPE_IDS.startEmulator)
+
         totalStartsInTheSession++
 
         if(totalStartsInTheSession % 50 == 0){
@@ -942,7 +964,16 @@ var YYY = ((global, $)=>{
         }
     }
 
+    function report(typeID, data){
+        if(PonyTracking){
+            PonyTracking.report(typeID, data)
+        }
+    }
+
     return {
+        REPORT_TYPE_IDS: REPORT_TYPE_IDS,
+        report: report,
+
         errorStop: errorStop,
         setStorage: setStorage,
         getStorage: getStorage,
