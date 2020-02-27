@@ -965,8 +965,8 @@ var YYY = ((global, $)=>{
     }
 
     function report(typeID, data){
-        if(PonyTracking){
-            PonyTracking.report(typeID, data)
+        if(window.PonyTracking){
+            window.PonyTracking.report(typeID, data)
         }
     }
 
