@@ -163,14 +163,14 @@ var MAP = ((global, c, $)=>{
         let screenCenterY = screenH/2
         let deltaPixelX = (pixelX - screenCenterX) / zoom
         let deltaPixelY = (pixelY - screenCenterY) / zoom
-        return [meterPerMapPixel * deltaPixelX + mapX, meterPerMapPixel * deltaPixelY + mapY]
+        return {emulatorUnpack: true, 0: meterPerMapPixel * deltaPixelX + mapX, 1: meterPerMapPixel * deltaPixelY + mapY}
     }
 
     function mapToScreen(mapX, mapY, zoom, screenW, screenH, worldX, worldY){
         let pixelX = (worldX - mapX) * zoom / meterPerMapPixel + screenW/2
         let pixelY = (worldY - mapY) * zoom / meterPerMapPixel + screenH/2
 
-        return [pixelX, pixelY]
+        return {emulatorUnpack: true, 0: pixelX, 1: pixelY}
     }
 
     function reset(){

@@ -117,6 +117,15 @@ var LUA_EMULATOR = ((global, $)=>{
             if(ret === undefined){
                 let retlen = pushToStack(ll, null)
                 return retlen
+            } else if(ret.emulatorUnpack){
+                let retlen = 0
+                for(let k of Object.keys(ret)){
+                    if(k !== 'emulatorUnpack'){
+                        pushToStack(ll, ret[k])
+                        retlen++
+                    }
+                }
+                return retlen
             } else {
                 let retlen = pushToStack(ll, ret)
                 return retlen
