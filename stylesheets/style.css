@@ -1981,6 +1981,30 @@ a:hover {
 .ace_editor .fullscreen_toggle:hover {
   background: #000a;
 }
+/* line 1481, ../compass/src/style.scss */
+.ace_editor .font_plus, .ace_editor .font_minus {
+  position: absolute;
+  top: 0;
+  right: 17px;
+  z-index: 1;
+  padding: 5px;
+  font-size: 20px;
+  background: #0004;
+  border-radius: 2px;
+  cursor: pointer;
+}
+/* line 1492, ../compass/src/style.scss */
+.ace_editor .font_plus:hover, .ace_editor .font_minus:hover {
+  background: #000a;
+}
+/* line 1497, ../compass/src/style.scss */
+.ace_editor .font_plus {
+  right: 50px;
+}
+/* line 1501, ../compass/src/style.scss */
+.ace_editor .font_minus {
+  right: 83px;
+}
 
 @keyframes circle {
   0% {
@@ -2052,31 +2076,31 @@ a:hover {
 }
 /* media queries */
 @media (max-width: 1023px) {
-  /* line 1521, ../compass/src/style.scss */
+  /* line 1545, ../compass/src/style.scss */
   #editor-bottom-container {
     flex-direction: column;
   }
-  /* line 1523, ../compass/src/style.scss */
+  /* line 1547, ../compass/src/style.scss */
   #editor-bottom-container.show_examples > * {
     width: 100%;
   }
 
-  /* line 1528, ../compass/src/style.scss */
+  /* line 1552, ../compass/src/style.scss */
   #example-container {
     margin-left: 0;
   }
 
-  /* line 1532, ../compass/src/style.scss */
+  /* line 1556, ../compass/src/style.scss */
   #mobile-menu-open {
     display: block !important;
   }
 
-  /* line 1536, ../compass/src/style.scss */
+  /* line 1560, ../compass/src/style.scss */
   #fixed-information-badges {
     display: none;
   }
 
-  /* line 1540, ../compass/src/style.scss */
+  /* line 1564, ../compass/src/style.scss */
   #download-offline {
     display: none;
   }

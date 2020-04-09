@@ -44,6 +44,8 @@ var YYY = ((global, $)=>{
         'generateUIBuilderCode': 12
     }
 
+    const DEFAULT_EDITOR_FONTSIZE = 12
+
     function init(){
 
         let scrollTop = parseInt(localStorage.getItem('scroll'))
@@ -529,6 +531,8 @@ var YYY = ((global, $)=>{
 
         setTimeout(()=>{
             refreshAll()
+
+            refreshEditorFontSize()
         }, 200)
     }
 
@@ -903,6 +907,56 @@ var YYY = ((global, $)=>{
         }
     }
 
+    function loadEditorFontSize(){
+        return localStorage.getItem('editor-font-size')
+    }
+
+    function saveEditorFontSize(fontsize){
+        localStorage.setItem('editor-font-size', fontsize)
+    }
+
+    function increaseEditorFontSize(){
+        let fontsize = parseInt(loadEditorFontSize())
+        if(typeof fontsize !== 'number' || isNaN(fontsize) || fontsize === 0){
+            fontsize = DEFAULT_EDITOR_FONTSIZE
+        }
+        fontsize = fontsize + Math.max(1, Math.floor(fontsize/10))
+        setEditorFontSize(fontsize)
+        saveEditorFontSize(fontsize)
+    }
+
+    function decreaseEditorFontSize(){
+        let fontsize = parseInt(loadEditorFontSize())
+        if(typeof fontsize !== 'number' || isNaN(fontsize) || fontsize === 0){
+            fontsize = DEFAULT_EDITOR_FONTSIZE
+        }
+        fontsize = fontsize - Math.max(1,Math.floor(fontsize/10))
+        setEditorFontSize(fontsize)
+        saveEditorFontSize(fontsize)
+    }
+
+    function refreshEditorFontSize(){        
+        let fontsize = parseInt(loadEditorFontSize())
+        if(typeof fontsize !== 'number' || isNaN(fontsize) || fontsize === 0){
+            fontsize = DEFAULT_EDITOR_FONTSIZE
+        }
+        setEditorFontSize(fontsize)
+    }
+
+    function setEditorFontSize(fontsize){
+        if(fontsize < 3){
+            fontsize = 3
+            saveEditorFontSize(fontsize)
+        }
+        if(fontsize > 100){
+            fontsize = 100
+            saveEditorFontSize(fontsize)
+        }
+        for(let e of [editor, minifiedEditor, unminifiedEditor, uiBuilderEditor]){
+            e.setFontSize(fontsize)
+        }
+    }
+
     function refreshEditorCharacterCount(){
         let chars = countCharacters(editor.getValue())
         $('#charactercount').html(chars + '/4096')
@@ -978,6 +1032,8 @@ var YYY = ((global, $)=>{
         setStorage: setStorage,
         getStorage: getStorage,
         refreshAll: refreshAll,
+        increaseEditorFontSize: increaseEditorFontSize,
+        decreaseEditorFontSize: decreaseEditorFontSize,
         isMinificationAllowed: isMinificationAllowed,
         isRunning: ()=>{
             return running

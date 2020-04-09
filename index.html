@@ -330,8 +330,24 @@ end
     <script src="ace-builds/ace.js" type="text/javascript" charset="utf-8"></script>
     <script src="ace-builds/ext-language_tools.js" type="text/javascript" charset="utf-8"></script>
     <script>
-        function addEditorEnlarge(editor, container){
+        function addEditorControls(editor, container){
             let $container = $(container)
+
+
+
+            let fontMinus = $('<span class="font_minus icon-minus"></span>')
+            fontMinus.on('click', ()=>{
+                YYY.decreaseEditorFontSize()
+            })            
+            $container.append(fontMinus)
+
+
+            let fontPlus = $('<span class="font_plus icon-plus"></span>')
+            fontPlus.on('click', ()=>{
+                YYY.increaseEditorFontSize()
+            })
+            $container.append(fontPlus)
+
 
             let fullscreen = $('<span class="fullscreen_toggle icon-enlarge"></span>')
             fullscreen.on('click', ()=>{
@@ -372,25 +388,25 @@ end
         editor.setTheme("ace/theme/monokai");
         editor.session.setMode("ace/mode/lua");
         editor.session.setUseSoftTabs(false);
-        addEditorEnlarge(editor, '#code')
+        addEditorControls(editor, '#code')
 
         var minifiedEditor = ace.edit("minified-code");
         minifiedEditor.setTheme("ace/theme/monokai");
         minifiedEditor.session.setMode("ace/mode/lua");
         minifiedEditor.session.setUseSoftTabs(false);
-        addEditorEnlarge(minifiedEditor, '#minified-code')
+        addEditorControls(minifiedEditor, '#minified-code')
 
         var unminifiedEditor = ace.edit("unminified-code");
         unminifiedEditor.setTheme("ace/theme/monokai");
         unminifiedEditor.session.setMode("ace/mode/lua");
         unminifiedEditor.session.setUseSoftTabs(false);
-        addEditorEnlarge(unminifiedEditor, '#unminified-code')
+        addEditorControls(unminifiedEditor, '#unminified-code')
 
         var uiBuilderEditor = ace.edit("ui-builder-code");
         uiBuilderEditor.setTheme("ace/theme/monokai");
         uiBuilderEditor.session.setMode("ace/mode/lua");
         uiBuilderEditor.session.setUseSoftTabs(false); 
-        addEditorEnlarge(uiBuilderEditor, '#ui-builder-code')
+        addEditorControls(uiBuilderEditor, '#ui-builder-code')
     </script>
 
     <div id="help" style="display: none;">

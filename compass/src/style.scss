@@ -1477,6 +1477,30 @@
             background: #000a;
         }
     }
+
+    .font_plus, .font_minus {
+        position: absolute;
+        top: 0;
+        right: 17px;
+        z-index: 1;
+        padding: 5px;
+        font-size: 20px;
+        background: #0004;
+        border-radius: 2px;
+        cursor: pointer;
+
+        &:hover {
+            background: #000a;
+        }
+    }
+
+    .font_plus {
+        right: 50px;
+    }
+
+    .font_minus {
+        right: 83px;
+    }
 }
 
 
