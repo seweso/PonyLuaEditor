@@ -15,8 +15,8 @@ var MAP = ((global, c, $)=>{
 
     const COLOR_MULTIPLIER = 0.75
 
-    const MAP_ZERO_X = 870
-    const MAP_ZERO_Y = 350
+    const MAP_ZERO_X = 800
+    const MAP_ZERO_Y = 400
 
     const DEFAULT_COLORS = {
         ocean: {
@@ -66,8 +66,8 @@ var MAP = ((global, c, $)=>{
             let centerx = MAP_ZERO_X + x
             let centery = MAP_ZERO_Y + y
 
-            let sWidth = Math.max(c.width() / zom, 1)
-            let sHeight = Math.max(c.height() / zom, 1)
+            let sWidth = Math.max(c.width() * zom, 1)
+            let sHeight = Math.max(c.height() * zom, 1)
             let sx = centerx - sWidth/2
             let sy = centery - sHeight/2
 
