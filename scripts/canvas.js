@@ -60,7 +60,7 @@ var CANVAS = ((global, $)=>{
 
     function handleKeyDown(evt){
         if(YYY.isRunning() && $('#enable-touchscreen').prop('checked')){
-            if(evt.originalEvent.button === 0){
+            if(evt.originalEvent.button === 0 && mouseIsOverMonitor){
                 evt.originalEvent.key = 'e'
             }
             if(evt.originalEvent.key === 'q' || evt.originalEvent.key === 'e'){
@@ -92,7 +92,7 @@ var CANVAS = ((global, $)=>{
 
     function handleKeyUp(evt){
         if(YYY.isRunning() && $('#enable-touchscreen').prop('checked')){
-            if(evt.originalEvent.button === 0){
+            if(evt.originalEvent.button === 0 && mouseIsOverMonitor){
                 evt.originalEvent.key = 'e'
                 console.log('mouseup')
             }
