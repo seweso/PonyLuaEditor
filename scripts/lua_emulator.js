@@ -26,6 +26,13 @@ var LUA_EMULATOR = ((global, $)=>{
         makeFunctionAvailableInLua(printColor)
         makeFunctionAvailableInLuaViaName(timeStart, 'start', 'timer')
         makeFunctionAvailableInLuaViaName(timeStop, 'stop', 'timer')
+
+
+        /* remove unsupported libraries */
+        for(let n of ["assert","collectcarbarge","dofile","error","_G","getmetatable","load","loadfile","pcall","rawequal","rawget","rawlen","rawset","select","setmetatable","type","_VERSION","xpcall",
+            "coroutine","require","package","utf8","io","os","debug"]){
+            deleteGlobalVariable(n)
+        }
     }
 
     let print = function(){
@@ -159,6 +166,13 @@ var LUA_EMULATOR = ((global, $)=>{
         let res = l.stack[l.top-1]
         fengari.lua.lua_settop(l, 1)
         return convertLuaValue(res)
+    }
+
+    function deleteGlobalVariable(name){        
+        fengari.lua.lua_settop(l, 0)
+        fengari.lua.lua_pushnil(l)
+        fengari.lua.lua_setglobal(l, name)
+        fengari.lua.lua_settop(l, 0)
     }
 
     function callLuaFunction(name){
