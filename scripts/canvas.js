@@ -37,6 +37,9 @@ var CANVAS = ((global, $)=>{
         $('#monitor').on('mouseleave', ()=>{
             mouseIsOverMonitor = false
         })
+        $('#monitor').on('focusout', ()=>{
+            mouseIsOverMonitor = false
+        })
         $('#monitor').on('mousemove', (evt)=>{
             if(mouseIsOverMonitor){
                 mouseX = evt.originalEvent.clientX
