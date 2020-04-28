@@ -121,7 +121,7 @@ var LUA_EMULATOR = ((global, $)=>{
         let middleware = function(ll){
             let args = extractArgumentsFromStack(ll.stack, 'middleware')
             let ret =  callback.apply(null, convertArguments(args))
-            if(ret === undefined){
+            if(ret === undefined || ret === null){
                 let retlen = pushToStack(ll, null)
                 return retlen
             } else if(ret.emulatorUnpack){
