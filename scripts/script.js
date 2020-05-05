@@ -416,7 +416,7 @@ var YYY = ((global, $)=>{
                     if(hasResizeable){
                         setTimeout(()=>{
                             $('#input').resizable('destroy')
-                        }, 100)
+                        }, 10)
                         hasResizeable = false
                     }
                 }; break;
@@ -425,7 +425,7 @@ var YYY = ((global, $)=>{
                     if(hasResizeable){                        
                         setTimeout(()=>{
                             $('#input').resizable('destroy')
-                        }, 100)
+                        }, 10)
                         hasResizeable = false
                     }
                 }; break;
@@ -435,7 +435,7 @@ var YYY = ((global, $)=>{
                     if(! hasResizeable){                        
                         setTimeout(()=>{
                             $('#input').resizable()
-                        }, 100)
+                        }, 10)
                         hasResizeable = true
                     }
                 };
