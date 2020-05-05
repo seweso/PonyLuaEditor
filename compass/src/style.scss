@@ -154,6 +154,7 @@
 
 #editor-bottom-container #input {
     margin-right: 10px;
+    overflow: hidden;
 
     @include background-image;
 }
@@ -1557,6 +1558,10 @@
     100% { opacity: 1 }
 }
 
+/* remove jquery ui resize vertical and horizontal bars */
+.ui-resizable-handle.ui-resizable-s, .ui-resizable-handle.ui-resizable-e, .ui-resizable-handle.ui-resizable-n, .ui-resizable-handle.ui-resizable-w {
+    display: none !important;
+}
 
 
 
