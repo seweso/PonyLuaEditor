@@ -11,16 +11,27 @@ body.incognito #background {
   background-image: none;
 }
 /* line 15, ../compass/src/incognito.scss */
-body.incognito button {
+body.incognito #editor
+button {
   background: #444;
   border: 1px solid #444;
 }
-/* line 19, ../compass/src/incognito.scss */
-body.incognito button:hover {
+/* line 21, ../compass/src/incognito.scss */
+body.incognito #editor
+button:hover {
   background: #888;
 }
-/* line 23, ../compass/src/incognito.scss */
-body.incognito button[disabled] {
+/* line 25, ../compass/src/incognito.scss */
+body.incognito #editor
+button[disabled] {
   background: #222;
   color: #666;
+}
+/* line 31, ../compass/src/incognito.scss */
+body.incognito #editor-bottom-container #input {
+  background-image: none;
+}
+/* line 35, ../compass/src/incognito.scss */
+body.incognito .value_list .head {
+  background: var(--background-grey-gradient);
 }

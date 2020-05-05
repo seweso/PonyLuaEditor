@@ -12,6 +12,8 @@ body.incognito {
         background-image: none;
     }
 
+    #editor
+
     button {
         background: #444;
         border: 1px solid #444;
@@ -24,5 +26,13 @@ body.incognito {
             background: #222;
             color: #666;
         }
+    }
+
+    #editor-bottom-container #input {
+        background-image: none;        
+    }
+
+    .value_list .head {
+        background: var(--background-grey-gradient);
     }
 }

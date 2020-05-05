@@ -406,6 +406,44 @@ var YYY = ((global, $)=>{
             updateStorage()
         })
 
+        let hasResizeable = false
+
+        $('#editor-layout').on('change', ()=>{
+            let val = $('#editor-layout').val()
+            switch(val){
+                case 'properties_inputs_monitor_outputs': {
+                    $('#input').insertBefore('#monitor-container')
+                    if(hasResizeable){
+                        setTimeout(()=>{
+                            $('#input').resizable('destroy')
+                        }, 100)
+                        hasResizeable = false
+                    }
+                }; break;
+                case 'properties_inputs_outputs_monitor': {
+                    $('#input').insertBefore('#monitor-container')
+                    if(hasResizeable){                        
+                        setTimeout(()=>{
+                            $('#input').resizable('destroy')
+                        }, 100)
+                        hasResizeable = false
+                    }
+                }; break;
+                case 'inputs_next_to_editor':
+                default: {
+                    $('#input').prependTo('#editor-bottom-container')
+                    if(! hasResizeable){                        
+                        setTimeout(()=>{
+                            $('#input').resizable()
+                        }, 100)
+                        hasResizeable = true
+                    }
+                };
+            }
+            $('#top').attr('editor-layout', val)
+            updateStorage()
+        })
+
         $('#save').on('click', ()=>{
             saveCodeInStorage()
         })
@@ -602,26 +640,35 @@ var YYY = ((global, $)=>{
     function refreshAll(){
 
         let store = getStorage()
-        if(store && isNaN(parseInt(store.timeBetweenTicks)) === false){
-            $('#timeBetweenTicks').val(parseInt(store.timeBetweenTicks))
+        if(store){
+            if(isNaN(parseInt(store.timeBetweenTicks)) === false){
+                $('#timeBetweenTicks').val(parseInt(store.timeBetweenTicks))
+            }
+            if(isNaN(parseInt(store.timeBetweenDraws)) === false){
+                $('#timeBetweenDraws').val(parseInt(store.timeBetweenDraws))
+            }
+            if(isNaN(parseInt(store.zoomfactor)) === false){
+                $('#zoomfactor').val(parseInt(store.zoomfactor))
+            }
+            $('#zoomfactor').trigger('change')
+            if(typeof store.monitorSize === 'string'){
+                $('#monitor-size').find('option[selected]').prop('selected', false)
+                $('#monitor-size').find('option[value="'+store.monitorSize+'"]').prop('selected', true)
+            }
+            if(typeof store.showOverflow === 'boolean'){
+                $('#show-overflow').prop('checked', store.showOverflow)
+            }
+            if(typeof store.touchScreenEnabled === 'boolean'){
+                $('#enable-touchscreen').prop('checked', store.touchScreenEnabled)
+            }
+            if(typeof store.editorLayout === 'string'){
+                $('#editor-layout').find('option[selected]').prop('selected', false)
+                $('#editor-layout').find('option[value="'+store.editorLayout+'"]').prop('selected', true)
+                $('#editor-layout').trigger('change')                
+            }
         }
-        if(store && isNaN(parseInt(store.timeBetweenDraws)) === false){
-            $('#timeBetweenDraws').val(parseInt(store.timeBetweenDraws))
-        }
-        if(store && isNaN(parseInt(store.zoomfactor)) === false){
-            $('#zoomfactor').val(parseInt(store.zoomfactor))
-        }
-        $('#zoomfactor').trigger('change')
-        if(store && typeof store.monitorSize === 'string'){
-            $('#monitor-size').find('option[selected]').prop('selected', false)
-            $('#monitor-size').find('option[value="'+store.monitorSize+'"]').prop('selected', true)
-        }
-        if(store && typeof store.showOverflow === 'boolean'){
-            $('#show-overflow').prop('checked', store.showOverflow)
-        }
-        if(store && typeof store.touchScreenEnabled === 'boolean'){
-            $('#enable-touchscreen').prop('checked', store.touchScreenEnabled)
-        }
+
+
 
         INPUT.init($('#input'))
         OUTPUT.init($('#output'))
@@ -856,7 +903,8 @@ var YYY = ((global, $)=>{
             zoomfactor: parseInt($('#zoomfactor').val()),
             monitorSize: $('#monitor-size').val(),
             showOverflow: $('#show-overflow').prop('checked'),
-            touchScreenEnabled: $('#enable-touchscreen').prop('checked')
+            touchScreenEnabled: $('#enable-touchscreen').prop('checked'),
+            editorLayout: $('#editor-layout').val()
         }
         setStorage(toStore)
     }

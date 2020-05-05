@@ -117,7 +117,7 @@ You can also minify code, find tutorials and examples or use the ui builder to c
                 <option value="3x3">3x3</option>
                 <option value="5x3">5x3</option>
                 <option value="9x5">9x5</option>
-            </select>            
+            </select>
         </div>
         <div class="selection_group">
             <label for="show-overflow">Show overflow</label>
@@ -142,8 +142,18 @@ You can also minify code, find tutorials and examples or use the ui builder to c
                 <span>Average FPS: <span id="drawtime">0</span></span>
             </div>
         </div>
+        <div class="selection_group"> 
+            <div class="editor_layout">
+                <label>Editor Layout:</label>                    
+                <select id="editor-layout" name="editor-layout">
+                    <option value="properties_inputs_monitor_outputs">Properties, Inputs, Monitor, Outputs</option>
+                    <option value="properties_inputs_outputs_monitor">Properties, Inputs, Outputs, Monitor</option>
+                    <option value="inputs_next_to_editor">Inputs next to Editor</option>
+                </select>
+            </div>
+        </div>
     </div>
-    <div id="top">
+    <div id="top" editor-layout="properties_inputs_monitor_outputs">
         <div id="property" class="value_list"></div>
         <div id="input" class="value_list"></div>
         <div id="monitor-container">
