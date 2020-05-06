@@ -417,6 +417,41 @@ end
         uiBuilderEditor.session.setMode("ace/mode/lua");
         uiBuilderEditor.session.setUseSoftTabs(false); 
         addEditorControls(uiBuilderEditor, '#ui-builder-code')
+
+
+        /* resizable properties, inputs, outputs */
+        $(window).on('load', ()=>{
+            setTimeout(()=>{
+                $('#property, #input, #output').each((i, e)=>{
+                    const it = e
+                    $(it).resizable()
+
+                    $(it).on('resize', ()=>{
+                        recalc(it)
+                    })
+
+                    $(window).on('resize scroll', ()=>{
+                        recalc(it)
+                    })
+
+                    recalc(it)
+
+                    function recalc(elem){
+                        console.log('recalc')
+                        let y = $(elem).offset().top + $(elem).height() - window.scrollY
+                        let x = $(elem).offset().left + $(elem).width() - window.scrollX
+
+                        $(elem).find('.ui-resizable-handle').css({
+                            'position': 'fixed',
+                            'bottom': '',
+                            'top': y - 10 + 'px',
+                            'left': x - 7 + 'px'
+                        })
+                    }
+                })
+            }, 500)
+        })
+
     </script>
 
     <div id="help" style="display: none;">

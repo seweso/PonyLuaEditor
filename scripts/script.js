@@ -406,38 +406,18 @@ var YYY = ((global, $)=>{
             updateStorage()
         })
 
-        let hasResizeable = false
-
         $('#editor-layout').on('change', ()=>{
             let val = $('#editor-layout').val()
             switch(val){
                 case 'properties_inputs_monitor_outputs': {
                     $('#input').insertBefore('#monitor-container')
-                    if(hasResizeable){
-                        setTimeout(()=>{
-                            $('#input').resizable('destroy')
-                        }, 10)
-                        hasResizeable = false
-                    }
                 }; break;
                 case 'properties_inputs_outputs_monitor': {
                     $('#input').insertBefore('#monitor-container')
-                    if(hasResizeable){                        
-                        setTimeout(()=>{
-                            $('#input').resizable('destroy')
-                        }, 10)
-                        hasResizeable = false
-                    }
                 }; break;
                 case 'inputs_next_to_editor':
                 default: {
                     $('#input').prependTo('#editor-bottom-container')
-                    if(! hasResizeable){                        
-                        setTimeout(()=>{
-                            $('#input').resizable()
-                        }, 10)
-                        hasResizeable = true
-                    }
                 };
             }
             $('#top').attr('editor-layout', val)

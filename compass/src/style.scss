@@ -154,9 +154,12 @@
 
 #editor-bottom-container #input {
     margin-right: 10px;
-    overflow: hidden;
 
     @include background-image;
+}
+
+.ui-resizable {
+    overflow: auto;
 }
 
 #monitor {
