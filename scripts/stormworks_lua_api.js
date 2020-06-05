@@ -609,8 +609,7 @@
                 return
             }
             if(typeof val !== 'boolean'){
-                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 2, 'expected boolean')
-                return
+                val = false
             }
             INPUT.setBool(i, val)
         }
@@ -626,8 +625,7 @@
                 return
             }
             if(typeof val !== 'number'){
-                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 2, 'expected number')
-                return
+                val = 0
             }
             INPUT.setNumber(i, val)
         }
@@ -646,8 +644,7 @@
                 return
             }
             if(typeof val !== 'boolean'){
-                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 2, 'expected boolean')
-                return
+                val =  false
             }
             OUTPUT.setBool(i, val)
         }
@@ -663,8 +660,7 @@
                 return
             }
             if(typeof val !== 'number'){
-                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 2, 'expected number')
-                return
+                val = 0
             }
             OUTPUT.setNumber(i, val)
         }
