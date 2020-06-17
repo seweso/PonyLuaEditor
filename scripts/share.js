@@ -53,7 +53,7 @@ var SHARE = ((global, $)=>{
         let paramid = params.get('id')
         if(paramid){
             setCurrentShare(paramid)
-            setTimeout(doReceive, 500)
+            setTimeout(doReceive, 1000)
         }
     }
 
