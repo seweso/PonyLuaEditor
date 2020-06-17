@@ -54,6 +54,8 @@ var SHARE = ((global, $)=>{
         if(paramid){
             setCurrentShare(paramid)
             setTimeout(doReceive, 1000)
+        } else {
+            $(window).trigger('yyy_prepared')
         }
     }
 
@@ -173,6 +175,7 @@ var SHARE = ((global, $)=>{
             YYY.alert('Cannot get data from ponybin. Is the share key correct?')
         }).always(()=>{
             $('#ponybin-receive-overlay').hide()
+            $(window).trigger('yyy_prepared')
         })
     }
 
