@@ -434,6 +434,12 @@ end
                         recalc(it)
                     })
 
+                    $('#editor-layout').on('change', ()=>{
+                        setTimeout(()=>{
+                            recalc(it)
+                        }, 100)
+                    })
+
                     recalc(it)
 
                     function recalc(elem){
