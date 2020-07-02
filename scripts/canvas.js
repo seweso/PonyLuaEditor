@@ -55,6 +55,17 @@ var CANVAS = ((global, $)=>{
         })
         $(window).on('keydown mousedown', handleKeyDown)
         $(window).on('keyup mouseup', handleKeyUp)
+
+
+        let params = new URLSearchParams( document.location.search)
+        let paramBigmonitor = params.get('bigmonitor')
+        if(paramBigmonitor === 'true'){
+            setTimeout(()=>{
+                $('#zoomfactor').attr('max', '20')
+                $('.content').before($('#monitor'))
+            }, 1000)
+        }
+
         refresh()
     }
 
