@@ -247,7 +247,11 @@ var UI_BUILDER = ((global, $)=>{
             }
             for(let s in settings){
                 if(typeof this.settings[s] !== 'undefined' && this.settings[s] != null){
-                    this.settings[s].value = settings[s]
+                    if(settings[s] instanceof Object){
+                        this.settings[s].value = settings[s].value
+                    } else {
+                        this.settings[s].value = settings[s]
+                    }
                 }
             }
         }
