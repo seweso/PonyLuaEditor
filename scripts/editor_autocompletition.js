@@ -323,7 +323,7 @@ var AUTOCOMPLETE = ((global, $)=>{
                     exp: {
                         type: TF,
                         args: '(x)',
-                        description: 'Returns the value ex (where e is the base of natural logarithms).'
+                        description: 'Returns the value e raised to the power x (where e is the base of natural logarithms).'
                     },
                     floor: {
                         type: TF,
@@ -339,6 +339,11 @@ var AUTOCOMPLETE = ((global, $)=>{
                         type: TF,
                         args: '()',
                         description: 'The float value HUGE_VAL, a value larger than any other numeric value.'
+                    },
+                    log: {
+                        type: TF,
+                        args: '(x)',
+                        description: 'Inverse function of math.exp(x).'
                     },
                     max: {
                         type: TF,
