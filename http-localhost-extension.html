@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+
+    <title>Stormworks Lua</title>
+    <meta name="title" content="Stormworks Lua">
+
+
+    <!-- favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
+    <link rel="manifest" href="favicon/site.webmanifest">
+    <link rel="mask-icon" href="favicon/safari-pinned-tab.svg" color="#000000">
+    <link rel="shortcut icon" href="favicon/favicon.ico">
+    <meta name="msapplication-TileColor" content="#000000">
+    <meta name="msapplication-config" content="favicon/browserconfig.xml">
+    <meta name="theme-color" content="#000000">
+
+    <!-- OG SECTION -->
+    <meta property="og:title" content="Lua IDE" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://lua.flaffipony.rocks/" />
+    <meta property="og:image" content="https://lua.flaffipony.rocks/images/og.jpg" />
+    <meta property="og:description" content="Create, Run and Share your lua scripts for Stormworks: Build and Rescue! 
+You can also minify code, find tutorials and examples or use the ui builder to create lua scripts without any programming skills." />
+
+    
+    <script type="text/javascript" src="scripts/jquery.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="stylesheets/http_localhost_extension.css">
+</head>
+<body>
+
+  <div id="background"></div>
+  <div class="content">
+      <div id="mobile-menu">
+        <div id="mobile-menu-inner">
+            <div class="mobile_menu_logo">
+                <img src="images/pony.png">
+            </div>
+            <div class="menu_group">
+                <div class="menu_group_title">Page Navigation</div>
+                <a href="/">Lua IDE</a>
+                <a href="/http-localhost-extension">How to use Stormworks HTTP API</a>
+            </div>
+            <div class="menu_group">
+                <div class="menu_group_title">Contact me</div>
+                <span>Discord: CrazyFluffyPony#0587</span>
+                <a href="mailto://crazyfluffypony@gmail.com">crazyfluffypony@gmail.com</a>
+            </div>
+            <div class="menu_group">
+                <div class="menu_group_title">Other Information</div>
+                <a href="https://stormworks.flaffipony.rocks/" target="_blank">All Stormworks Tools</a>
+                <a href="https://www.lua.org/manual/5.3/" target="_blank" rel="noopener noreferrer">Official Lua manual</a>
+                <a target="_blank" rel="noopener noreferrer" href="https://gitlab.com/stormworks-tools/editor">View source code</a>
+                <a href="https://gitlab.com/stormworks-tools/editor/-/archive/master/editor-master.zip" download="" rel="nofollow">Download for offline use</a>
+            </div>
+        </div>
+        <div id="mobile-menu-close-sidebar"></div>
+      </div>
+    <div id="navigation">
+        <div id="mobile-menu-open"></div>
+        <div id="logo"></div>
+        <!--<div id="giveaway-hint">Giveaway claimed by Script Sauce</div>-->
+        <div style="display: none" id="beta">Beta</div>
+        <div style="display: none" id="offline">Offline</div>
+        <a id="download-offline" href="https://gitlab.com/stormworks-tools/editor/-/archive/master/editor-master.zip" download="" rel="nofollow">Download for offline use</a>
+        
+    </div>
+    <div class="http_extension_manual">
+        <div class="bordered_container">
+            <h1>Localhost Browser Extension</h1>
+            <p>If you want to use the <i>Stormworks HTTP API</i> <textarea class="code" mode="lua" inline="true">http.request(...)</textarea> in this Lua IDE you have two choices:</p>
+            <ul>
+                <li><b>Option A:</b> Install browser extension</li>
+                <li><b>Option B:</b> Manually add CORS Headers (See examples below)</li>
+            </ul>
+            <br>
+            <p><b><i>NOTE:</i></b> Both options end up in the same result, it is your choice: either be lazy and use option A or have full control over CORS Headers and go with option B. In case you are paranoid, you will probably prefer option B.</p>
+        </div>
+        <div class="bordered_container">
+            <h2>Option A: Install browser extension</h2>
+            <p>I created a special browser extension that adds those CORS Headers to the HTTP requests automatically, even if your webserver does not provide any CORS Headers.</p>
+            <p>This happens only for <i>https://lua.flaffipony.rocks</i> and does not effect other websites!</p>
+        </div>
+        <div class="bordered_container">
+            <h2>Option B: Manually add CORS Headers</h2>
+            <p>Depending on the webserver you are using, the approach is different. I offer you example implementations for the the systems i have sufficient experience.</p>
+            <br>
+
+            <h3>Example NGINX Configuration</h2>
+            <textarea class="code" mode="nginx">
+        location / {
+
+            # allow CORS (allow scripts running on https://lua.flaffypony.rocks to make HTTP requests to your local webserver)
+
+            if ($request_method = 'OPTIONS') {
+                add_header 'Access-Control-Allow-Origin' 'https://lua.flaffipony.rocks';
+                add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
+                #
+                # Custom headers and headers various browsers *should* be OK with but aren't
+                #
+                add_header 'Access-Control-Allow-Headers' 'DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range';
+                #
+                # Tell client that this pre-flight info is valid for 20 days
+                #
+                add_header 'Access-Control-Max-Age' 1728000;
+                add_header 'Content-Type' 'text/plain; charset=utf-8';
+                add_header 'Content-Length' 0;
+                return 204;
+            }
+            if ($request_method = 'POST') {
+                add_header 'Access-Control-Allow-Origin' 'https://lua.flaffipony.rocks';
+                add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
+                add_header 'Access-Control-Allow-Headers' 'DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range';
+                add_header 'Access-Control-Expose-Headers' 'Content-Length,Content-Range';
+            }
+            if ($request_method = 'GET') {
+                add_header 'Access-Control-Allow-Origin' 'https://lua.flaffipony.rocks';
+                add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
+                add_header 'Access-Control-Allow-Headers' 'DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range';
+                add_header 'Access-Control-Expose-Headers' 'Content-Length,Content-Range';
+            }
+
+
+            # example proxy setup (you will probably have a different configuration!)
+
+            proxy_set_header  X-Real-IP $remote_addr;
+            proxy_pass http://localhost:3000;
+
+            proxy_read_timeout  90;
+        }
+            </textarea>
+
+            <br>
+            
+            <h3>Example NodeJS with Expressjs</h2>
+            <p>Use the simple cors package from npm <a href="https://www.npmjs.com/package/cors">https://www.npmjs.com/package/cors</a></p>
+            <textarea class="code" mode="prompt">$ npm install cors</textarea>
+            <p>In your app.js or index.js you can configure cors to only allow <i>https://lua.flaffipony.rocks</i></p>
+            <textarea class="code" mode="javascript">
+            let express = require('express')
+            let cors = require('cors')
+            let app = express()
+
+            app.use(
+                cors({
+                    origin: 'https://lua.flaffipony.rocks',
+                    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+                })
+            )
+
+            /* below is your code */
+
+            app.get('*', ()=>{
+                /* ... */
+            })
+            </textarea>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        /* taken from scripts/script.js */
+
+        /* mobile menu */
+        $('#mobile-menu-open').on('click', ()=>{
+            lastScrollPos = $(window).scrollTop()
+            $('#mobile-menu').css('display', 'flex')
+            $('.content').css({
+                'margin-top': -lastScrollPos + $('#navigation').height(),
+                'max-height': Math.max($(window).height(), lastScrollPos + $('#mobile-menu-inner').height()),
+                'overflow': 'hidden'
+            })
+            $('#navigation').css({
+                'position': 'absolute',
+                'top': 0,
+                'width': '100%'
+            })
+            $(window).scrollTop(0)            
+        })
+        $('#mobile-menu .menu_group > :not(.menu_group_title), #mobile-menu-close-sidebar').on('click', ()=>{
+            $('#mobile-menu').hide()
+            $('.content').css({
+                'margin-top': '',
+                'max-height': '',
+                'overflow': ''
+            })            
+            $('#navigation').css({
+                'position': '',
+                'top': ''
+            })
+            $(window).scrollTop(lastScrollPos)
+        })
+
+    </script>
+
+
+
+    <script src="ace-builds/ace.js" type="text/javascript" charset="utf-8"></script>
+    <script src="ace-builds/ext-language_tools.js" type="text/javascript" charset="utf-8"></script>
+
+    <script>
+
+        /* init code snippets */
+
+        function initCodeSnippet(elem){
+            const val = $(elem).html().replace(/\&gt;/g, '>').replace(/\&lt;/g, '<')
+
+            const width = Math.min(700, Math.max(200, 30 + val.length*8))
+            const height = Math.min(600, Math.max(15, val.split('\n').length*15))
+
+            const container = $('<div>').attr('class', $(elem).attr('class'))
+
+            if($(elem).attr('inline') === 'true'){
+                container.addClass('inline_code')
+            }
+
+            $(elem).replaceWith(container)
+
+            const editor = ace.edit(container.get(0));
+            editor.setTheme("ace/theme/monokai");
+            editor.session.setMode("ace/mode/" + $(elem).attr('mode'));
+            editor.session.setUseSoftTabs(false);
+            editor.setReadOnly(true)
+            editor.setValue(val)
+
+            setTimeout(()=>{
+                container.width(width).height(height)
+                editor.resize()
+            }, 100)
+        }
+
+        $('.code').each((i, el)=>{
+            initCodeSnippet(el)
+        })
+    </script>
+</body>
+</html>
