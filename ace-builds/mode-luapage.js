@@ -2518,7 +2518,7 @@ var LuaHighlightRules = function() {
 
         "foreachi|maxn|foreach|"+
         "math|"+
-        "abs|acos|asin|abs|atan|ceil|cos|deg|exp|floor|fmod|huge|max|maxinteger|min|mininteger|modf|pi|rad|random|randomseed|sin|sqrt|tan|tointeger|type|ult|"+
+        "abs|acos|asin|abs|atan|ceil|cos|deg|exp|floor|fmod|huge|log|max|maxinteger|min|mininteger|modf|pi|rad|random|randomseed|sin|sqrt|tan|tointeger|type|ult|"+
         "table|"+
         "concat|insert|move|pack|remove|sort|unpack|"+
         "string|"+

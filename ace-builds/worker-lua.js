@@ -1468,7 +1468,7 @@ define.amd = true;
     , onCreateScope: null
     , onDestroyScope: null
     , onLocalDeclaration: null
-    , luaVersion: '5.1'
+    , luaVersion: '5.3'
   };
 
   var EOF = 1, StringLiteral = 2, Keyword = 4, Identifier = 8
