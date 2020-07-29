@@ -2529,7 +2529,8 @@ var LuaHighlightRules = function() {
         "map|setMapColorOcean|setMapColorShallows|setMapColorLand|setMapColorGrass|setMapColorSand|setMapColorSnow|screenToMap|mapToScreen|"+
         "input|getBool|getNumber|"+
         "output|setBool|setNumber|"+
-        "property|getBool|getNumber|getText"
+        "property|getBool|getNumber|getText|"+
+        "async|httpGet"
     );
 
     var stdLibaries = ("");
