@@ -83,7 +83,7 @@ You can also minify code, find tutorials and examples or use the ui builder to c
                 <a href="#documentation">Available Functions</a>
                 <div id="learn-menu-entry"><span>Learn & Examples</span></div>
                 <div id="help-menu-entry"><span>Help / Manual</span></div>
-                <a href="http-localhost-extension">How to use Stormworks HTTP API</a>
+                <a href="http-allow-localhost">How to use Stormworks HTTP API</a>
                 <a href="?incognito">@work mode (no fancy colors)</a>
             </div>
             <div class="menu_group">
@@ -213,6 +213,14 @@ end
 
 function onDraw()
 	-- your code
+end
+
+function httpReply(port, request_body, response_body)
+    -- your code
+    --
+    -- IMPORTANT: You must follow these steps to enable http support in this Lua IDE:
+    -- the first time you run asyn.httpGet() a popup will explain you what to do
+    --
 end
 </div>
                 <div id="code-editor-information">
