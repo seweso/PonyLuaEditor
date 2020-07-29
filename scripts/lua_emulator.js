@@ -175,14 +175,24 @@ var LUA_EMULATOR = ((global, $)=>{
         fengari.lua.lua_settop(l, 0)
     }
 
-    function callLuaFunction(name){
+    function callLuaFunction(name, args){
         if(typeof name !== 'string'){
             throw new Error('passed variable is not a string!')
         }
         fengari.lua.lua_settop(l, 0)
         fengari.lua.lua_getglobal(l, name)
-        if (fengari.lua.lua_pcall(l, 0, 0, 0) != 0){
-            bluescreenError(l, 'error running function `' + name + '`:', fengari.lua.lua_tostring(l, -1))
+
+        if(args instanceof Array === false){
+            if (fengari.lua.lua_pcall(l, 0, 0, 0) != 0){
+                bluescreenError(l, 'error running function `' + name + '`:', fengari.lua.lua_tostring(l, -1))
+            }
+        } else {
+            for(let a of args){
+                pushToStack(l, a)
+            }
+            if (fengari.lua.lua_pcall(l, args.length, 0, 0) != 0){
+                bluescreenError(l, 'error running function `' + name + '`:', fengari.lua.lua_tostring(l, -1))
+            }
         }
         fengari.lua.lua_settop(l, 0)
     }
