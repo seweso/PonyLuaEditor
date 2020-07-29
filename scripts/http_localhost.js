@@ -12,7 +12,7 @@ var HttpLocalhost = ((global, $)=>{
         if(!hasShownHttpHint){
             hasShownHttpHint = true
 
-            YYY.hint('You must follow these steps to enable http support', 'Your browser prohibits sending and receiving data to and from localhost. To fix that, follow the <a href="http-allow-localhost">manual here</a>.', {extended: true})
+            YYY.message('You must follow these steps to enable http support', 'Your browser prohibits sending and receiving data to and from localhost. To fix that, follow the <a href="http-allow-localhost" target="_blank">manual here</a>.')
         }
 
 	    queue.push({
