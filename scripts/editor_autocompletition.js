@@ -215,6 +215,18 @@ var AUTOCOMPLETE = ((global, $)=>{
                     }
                 }
             },
+            async: {
+                type: TO,
+                lib: 'stormworks',
+                description: 'Execute HTTP requests.',
+                children: {
+                    httpGet: {
+                        type: TF,
+                        args: '(port, url)',
+                        description: 'Creates a HTTP request to "http://localhost:[PORT][url]". If you call it more then once per tick, the request will be put into a queue, every tick one reqeust will be taken from that queue and executed.\n\nIMPORTANT:\nYou must follow these steps to enable http support in this Lua IDE:\nYour browser prohibits sending and receiving data to and from localhost. To fix that, follow the <a href="http-allow-localhost" target="_blank">manual here</a>'
+                    }
+                }
+            },
             timer: {
                 type: TO,
                 lib: 'dev',
