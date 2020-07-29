@@ -1,7 +1,6 @@
 ((global, $)=>{
   "use strict";
 
-
     $(global).on('lua_emulator_loaded', init)
 
     function init(){
@@ -11,6 +10,7 @@
         setDevInputFunctions()
         setOutputFunctions()
         setPropertyFunctions()
+        setHTTPFunctions()
         setTimeout(()=>{
             $(global).trigger('stormworks_lua_api_loaded')
         }, 10)
@@ -695,6 +695,23 @@
             return PROPERTY.getText(label)
         }
         LUA_EMULATOR.makeFunctionAvailableInLua(getText, 'property')
+    }
+
+    function setHTTPFunctions(){
+
+        function httpGet(port, url){
+            if(typeof port !== 'number'){
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 1, 'expected number')
+                return
+            }
+            if(typeof url !== 'string'){
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 2, 'expected string')
+                return
+            }
+            HttpLocalhost.get(port, url)
+        }
+        LUA_EMULATOR.makeFunctionAvailableInLua(httpGet, 'async')
+
     }
     
 })(window, jQuery)
