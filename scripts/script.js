@@ -715,11 +715,15 @@ var YYY = ((global, $)=>{
     }
 
     function unpauseScript(){
-        paused = false
         LUA_EMULATOR.notifyUnPaused()
         
         $('#step').prop('disabled', true)
         $('#pause').html('Pause')
+        
+        /* make sure the button is updated before the next tick can happen */
+        setTimeout(()=>{
+            paused = false
+        }, 10)
     }
 
     function doStep(){
@@ -900,6 +904,9 @@ var YYY = ((global, $)=>{
 
     function doDraw(){
         if(!running || paused){
+            if(drawAnimationFrame){
+                window.requestAnimationFrame(doDraw)
+            }
             return
         }
         let begin = new Date().getTime()

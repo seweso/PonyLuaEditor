@@ -14,6 +14,8 @@ var LUA_EMULATOR = ((global, $)=>{
 
     let timer
 
+    let stepCount = 0
+
     const CONSOLE_COLOR_SPECIAL = '#4db4ea'
     const CONSOLE_COLOR_DEBUG = '#b80a66'
     const CONSOLE_COLOR_ERROR = '#fb3636'
@@ -392,6 +394,7 @@ var LUA_EMULATOR = ((global, $)=>{
 
             currentPrintColor=DEFAULT_PRINT_COLOR
 
+            stepCount = 0
             
             try {       
                 l = fengari.lauxlib.luaL_newstate()
@@ -456,10 +459,11 @@ var LUA_EMULATOR = ((global, $)=>{
             printToConsole('-- paused script', CONSOLE_COLOR_DEBUG)
         },
         notifyUnPaused: ()=>{
-            printToConsole('-- paused script', CONSOLE_COLOR_DEBUG)
+            printToConsole('-- resumed script', CONSOLE_COLOR_DEBUG)
         },
         notifyStep: ()=>{
-            printToConsole('-- step forward', CONSOLE_COLOR_DEBUG)
+            stepCount++
+            printToConsole('-- step forward #' + stepCount, CONSOLE_COLOR_DEBUG)
         }
     }
 })(window, jQuery)

@@ -26,17 +26,30 @@ button {
     margin-bottom: 40px;
     font-size: 20px;
     transition: all 0.2s ease 0s;
+
+    &.special_button {
+        background: linear-gradient(13deg, #930851 0%, #c63a84 100%);
+        border: 1px solid #b80a66;
+    }
 }
 
 button:hover {
     background: linear-gradient(15deg, #be3b3c 0%, #c36724 100%);
+
+    &.special_button {
+        background: linear-gradient(13deg, #490428 0%, #930851 100%);
+    }
 }
 
 button[disabled] {
-   border-color: #dbdbdb;
+    border-color: #dbdbdb;
     color: #898989;
     cursor: not-allowed;
     background: #e5baa6;
+
+    &.special_button {
+        background: #db84b2;
+    }
 }
 
 a {

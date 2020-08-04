@@ -35,27 +35,40 @@ button {
   font-size: 20px;
   transition: all 0.2s ease 0s;
 }
+/* line 30, ../compass/src/_base.scss */
+button.special_button {
+  background: linear-gradient(13deg, #930851 0%, #c63a84 100%);
+  border: 1px solid #b80a66;
+}
 
-/* line 31, ../compass/src/_base.scss */
+/* line 36, ../compass/src/_base.scss */
 button:hover {
   background: linear-gradient(15deg, #be3b3c 0%, #c36724 100%);
 }
+/* line 39, ../compass/src/_base.scss */
+button:hover.special_button {
+  background: linear-gradient(13deg, #490428 0%, #930851 100%);
+}
 
-/* line 35, ../compass/src/_base.scss */
+/* line 44, ../compass/src/_base.scss */
 button[disabled] {
   border-color: #dbdbdb;
   color: #898989;
   cursor: not-allowed;
   background: #e5baa6;
 }
+/* line 50, ../compass/src/_base.scss */
+button[disabled].special_button {
+  background: #db84b2;
+}
 
-/* line 42, ../compass/src/_base.scss */
+/* line 55, ../compass/src/_base.scss */
 a {
   color: #EE4A4B;
   text-decoration: underline;
 }
 
-/* line 47, ../compass/src/_base.scss */
+/* line 60, ../compass/src/_base.scss */
 a:hover {
   color: #F4812E;
 }
