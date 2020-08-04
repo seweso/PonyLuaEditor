@@ -25,7 +25,7 @@ var INPUT = ((global, $)=>{
         dom.html('')
         dom.append('<div class="head">Inputs:</div>')
 
-        dom_bools = $('<div class="bools"><div class="head"><span>Booleans:</span></div></div>')
+        dom_bools = $('<div class="bools"><div class="head" sort="0"><span>Booleans:</span></div></div>')
         dom_bools_add = $('<div class="add"><select></select><button>+</button></div>')
         for(let i = 1; i < 33; i++){
             dom_bools_add.find('select').append('<option value="'+i+'">'+i+'</option>')
@@ -40,7 +40,7 @@ var INPUT = ((global, $)=>{
         dom_bools.find('.head').append(dom_bools_add)
         dom.append(dom_bools)
         
-        dom_numbers = $('<div class="numbers"><div class="head"><span>Numbers:</span></div></div>')
+        dom_numbers = $('<div class="numbers"><div class="head" sort="0"><span>Numbers:</span></div></div>')
         dom_numbers_add = $('<div class="add"><select></select><button>+</button></div>')
         for(let i = 1; i < 33; i++){
             dom_numbers_add.find('select').append('<option value="'+i+'">'+i+'</option>')
@@ -262,6 +262,7 @@ var INPUT = ((global, $)=>{
 
         dom_bools.append(bool)
         refreshBoolsAddSelect()
+        sortBools()
     }
 
     function doSetBool(label, val, config){
@@ -490,6 +491,7 @@ var INPUT = ((global, $)=>{
 
         dom_numbers.append(number)
         refreshNumbersAddSelect()
+        sortNumbers()
     }
 
     function precise(float, precision){
@@ -505,7 +507,7 @@ var INPUT = ((global, $)=>{
         } else if (val !== undefined && val !== null ){
             valtext = 'value="'+val+'"'
         }
-        let neww = $('<div class="' + type + '"><div class="change"><label class="channel" for="input_' + type + '_' + label + '">'+label+'</label><div class="user_label_container"><input type="text" class="user_label" value="' + config.userLabel + '"/></div><input type="' + inputType + '" ' + (inputType === 'number' ? 'lang="en" step="' + config.sliderstep + '"': '') + ' id="input_' + type + '_' + label + '" ' + valtext + '/>' + (inputType === 'number' ? '<input type="range" min="-10" max="10" ' + valtext + ' step="' + config.sliderstep + '"/><label class="slidervalue">' + val + '</label>': '') + '<button>x</button></div></div>')
+        let neww = $('<div class="' + type + '" sort="' + label + '"><div class="change"><label class="channel" for="input_' + type + '_' + label + '">'+label+'</label><div class="user_label_container"><input type="text" class="user_label" value="' + config.userLabel + '"/></div><input type="' + inputType + '" ' + (inputType === 'number' ? 'lang="en" step="' + config.sliderstep + '"': '') + ' id="input_' + type + '_' + label + '" ' + valtext + '/>' + (inputType === 'number' ? '<input type="range" min="-10" max="10" ' + valtext + ' step="' + config.sliderstep + '"/><label class="slidervalue">' + val + '</label>': '') + '<button>x</button></div></div>')
         if(inputType === 'number'){//force value set
             setTimeout(()=>{
                 neww.find('input[type="number"]').val(val)
@@ -528,6 +530,20 @@ var INPUT = ((global, $)=>{
         })
         saveToStorage()
         return neww
+    }
+
+    function sortBools(){
+        sortValueList('#input .bools')
+    }
+
+    function sortNumbers(){
+        sortValueList('#input .numbers')
+    }
+
+    function sortValueList(list_of_sortables){
+        $(list_of_sortables).children().detach().sort(function(a,b) {
+            return parseInt($(a).attr('sort')) > parseInt($(b).attr('sort'))
+        }).appendTo($(list_of_sortables))
     }
 
     function getBool(index){
@@ -605,6 +621,7 @@ var INPUT = ((global, $)=>{
             numbers[index.toString()] = null
             delete numbers[index.toString()]
             refreshNumbersAddSelect()
+            sortNumbers()
         }
     }
 
@@ -619,6 +636,7 @@ var INPUT = ((global, $)=>{
             bools[index.toString()] = null
             delete bools[index.toString()]
             refreshBoolsAddSelect()
+            sortBools()
         }
     }
 
