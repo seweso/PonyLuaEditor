@@ -430,7 +430,7 @@ end
         var uiBuilderEditor = ace.edit("ui-builder-code");
         uiBuilderEditor.setTheme("ace/theme/monokai");
         uiBuilderEditor.session.setMode("ace/mode/lua");
-        uiBuilderEditor.session.setUseSoftTabs(false); 
+        uiBuilderEditor.session.setUseSoftTabs(false);
         addEditorControls(uiBuilderEditor, '#ui-builder-code')
 
 
@@ -469,6 +469,8 @@ end
                     })
                 }
             })
+
+            editor.moveCursorTo(0,0)
         })
 
     </script>

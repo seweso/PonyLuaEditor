@@ -4,7 +4,7 @@ var SHARE = ((global, $)=>{
 
     let BASE_URL = document.location.protocol + '//' + document.location.host
 
-    $(global).on('load', init)
+    $(global).on('load', ()=>{init()}, 10000)
 
     let isShareOpen = false
 
