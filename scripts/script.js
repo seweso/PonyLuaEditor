@@ -43,7 +43,8 @@ var YYY = ((global, $)=>{
         'openLearnAndExamples': 9,
         'shareCode': 10,
         'receiveShareCode': 11,
-        'generateUIBuilderCode': 12
+        'generateUIBuilderCode': 12,
+        'pauseScript': 15
     }
 
     const DEFAULT_EDITOR_FONTSIZE = 12
@@ -706,7 +707,9 @@ var YYY = ((global, $)=>{
         }
     }
 
-    function pauseScript(){
+    function pauseScript(){        
+        report(REPORT_TYPE_IDS.pauseScript)
+
         paused = true
         LUA_EMULATOR.notifyPaused()
 
