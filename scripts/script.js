@@ -570,6 +570,8 @@ var YYY = ((global, $)=>{
             refreshAll()
 
             refreshEditorFontSize()
+
+            $(window).trigger('yyy_refresh_all')
         }, 200)
     }
 
