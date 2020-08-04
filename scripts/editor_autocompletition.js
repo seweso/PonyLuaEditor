@@ -227,6 +227,12 @@ var AUTOCOMPLETE = ((global, $)=>{
                     }
                 }
             },
+            pause: {
+                type: TF,
+                lib: 'dev',
+                args: '()',
+                description: 'Pauses the script. Note: the currently running onTick() and onDraw() functions are executed.'
+            },
             timer: {
                 type: TO,
                 lib: 'dev',
