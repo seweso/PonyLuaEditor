@@ -36,9 +36,8 @@ var HttpLocalhost = ((global, $)=>{
 			processResult(req, res)
 		}).fail((xhr, res)=>{
 			if(xhr.status === 0){
-				res = "CONNECT(): CONNECTION REFUSED"
-			}
-			//TODO what are the texts for different http status codes???
+				res = "connect(): Connection refused"
+			}			
 			
 			processResult(req, res)
 		})
