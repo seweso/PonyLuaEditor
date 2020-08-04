@@ -226,8 +226,7 @@ You can also minify code, find tutorials and examples or use the ui builder to c
             editor.session.setMode("ace/mode/" + $(elem).attr('mode'));
             editor.session.setUseSoftTabs(false);
             editor.setReadOnly(true)
-            editor.setValue(val)
-            editor.moveCursorTo(0,0)
+            editor.setValue(val, -1)
 
 
             setTimeout(()=>{

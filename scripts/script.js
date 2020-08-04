@@ -265,7 +265,7 @@ var YYY = ((global, $)=>{
                 }
 
                 $('#minified-editor').show()
-                minifiedEditor.setValue(minified)
+                minifiedEditor.setValue(minified, -1)
                 refreshMinifiedEditorCharacterCount()
                 $('#minified-code-container .custom_hint').hide()
                 isCustomMinifiedCode = false
@@ -274,7 +274,7 @@ var YYY = ((global, $)=>{
             } catch (ex){
                 console.trace(ex)
                 $('#minified-editor').show()
-                minifiedEditor.setValue('Error: ' + ex.message)
+                minifiedEditor.setValue('Error: ' + ex.message, -1)
                 refreshMinifiedEditorCharacterCount()
             }
         })
@@ -348,12 +348,12 @@ var YYY = ((global, $)=>{
             unminified += luamax.maxify(code, idMap, libIdMap)
 
             $('#unminified-editor').show()
-            unminifiedEditor.setValue(unminified)
+            unminifiedEditor.setValue(unminified, -1)
 
 
             function fail(msg){
                 $('#unminified-editor').show()
-                unminifiedEditor.setValue('Unminification failed:\n' + msg)
+                unminifiedEditor.setValue('Unminification failed:\n' + msg, -1)
             }
 
         })
@@ -361,12 +361,12 @@ var YYY = ((global, $)=>{
         $('#console-inner').html('')
 	  	let codeFromStorage = getCodeFromStorage()
 	  	if(typeof codeFromStorage === 'string' && codeFromStorage.length > 0){
-	  		editor.setValue(codeFromStorage)
+	  		editor.setValue(codeFromStorage, -1)
 	  	}
 
         let minifiedCodeFromStorage = getMinifiedCodeFromStorage()
         if(typeof minifiedCodeFromStorage === 'string' && minifiedCodeFromStorage.length > 0){
-            minifiedEditor.setValue(minifiedCodeFromStorage)
+            minifiedEditor.setValue(minifiedCodeFromStorage, -1)
             $('#minified-editor').show()
             $('#minified-code-container .custom_hint').show()
             isCustomMinifiedCode = true
