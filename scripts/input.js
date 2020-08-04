@@ -541,12 +541,34 @@ var INPUT = ((global, $)=>{
         }
     }
 
+    function getBoolLabel(index){
+        if(typeof index !== 'number'){
+            throw new Error('first argument must be a number!')
+        }
+        if(bools[index] && typeof bools[index].userLabel === 'string'){
+            return bools[index].userLabel
+        } else {
+            return false
+        }
+    }
+
     function getNumber(index){
         if(typeof index !== 'number'){
             throw new Error('first argument must be a number!')
         }
         if(typeof numbers[index] === 'object' && typeof numbers[index].val === 'number'){
             return numbers[index].val
+        } else {
+            return 0
+        }
+    }
+
+    function getNumberLabel(index){
+        if(typeof index !== 'number'){
+            throw new Error('first argument must be a number!')
+        }
+        if(typeof numbers[index] === 'object' && typeof numbers[index].userLabel === 'string'){
+            return numbers[index].userLabel
         } else {
             return 0
         }
@@ -614,7 +636,9 @@ var INPUT = ((global, $)=>{
         init: init,
         reset: reset,
         getBool: getBool,
+        getBoolLabel: getBoolLabel,
         getNumber: getNumber,
+        getNumberLabel: getNumberLabel,
         getStorage: getFromStorage,
         setStorage: setStorage,
         setBool: setBool,

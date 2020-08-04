@@ -355,7 +355,7 @@ var YYY = ((global, $)=>{
             refreshMinifiedEditorCharacterCount()
         }
 
-        $('#monitor-size, #show-overflow, #enable-touchscreen').on('change', (e)=>{
+        $('#monitor-size, #show-overflow, #enable-touchscreen, #enable-touchscreen-secondary').on('change', (e)=>{
             updateStorage()
         })
 
@@ -641,6 +641,11 @@ var YYY = ((global, $)=>{
             if(typeof store.touchScreenEnabled === 'boolean'){
                 $('#enable-touchscreen').prop('checked', store.touchScreenEnabled)
             }
+            if(typeof store.touchScreenEnabledSecondary === 'boolean'){
+                $('#enable-touchscreen-secondary').prop('checked', store.touchScreenEnabledSecondary)
+            } else {
+                $('#enable-touchscreen-secondary').prop('checked', true)
+            }
             if(typeof store.editorLayout === 'string'){
                 $('#editor-layout').find('option[selected]').prop('selected', false)
                 $('#editor-layout').find('option[value="'+store.editorLayout+'"]').prop('selected', true)
@@ -884,6 +889,7 @@ var YYY = ((global, $)=>{
             monitorSize: $('#monitor-size').val(),
             showOverflow: $('#show-overflow').prop('checked'),
             touchScreenEnabled: $('#enable-touchscreen').prop('checked'),
+            touchScreenEnabledSecondary: $('#enable-touchscreen-secondary').prop('checked'),
             editorLayout: $('#editor-layout').val()
         }
         setStorage(toStore)
