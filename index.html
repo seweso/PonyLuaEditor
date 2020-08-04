@@ -131,7 +131,7 @@ You can also minify code, find tutorials and examples or use the ui builder to c
                 <input type="checkbox" id="enable-touchscreen-secondary" name="enable-touchscreen-secondary" checked="true">
             </div>
         </div>
-        <div class="selection_group">            
+        <div class="selection_group">
             <div class="time_between">
                 <label>Ticks per second: <span id="timeBetweenTicksVal">59</span></label>
                 <input type="range" min="16" max="250" value="16" id="timeBetweenTicks">
@@ -180,9 +180,13 @@ You can also minify code, find tutorials and examples or use the ui builder to c
         <div class="controls">
             <div class="controls_container">
                 <button id="save">Save</button> 
-                <button id="start">Start</button>
-                <button id="stop">Stop</button>   
                 <button id="reset">New Lua Script</button>
+            </div>
+            <div class="controls_container">
+                <button id="start">Start</button>
+                <button id="pause">Pause</button>
+                <button id="step">Step forward</button>
+                <button id="stop">Stop</button>   
             </div>
             <div class="controls_container">
                 <button id="minify">Minify</button>                

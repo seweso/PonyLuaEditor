@@ -22,6 +22,8 @@ var YYY = ((global, $)=>{
     let shortenedIdentifiers = []
 
     let running = false
+    let paused = false
+    let isDoingStep = false
 
     let isCustomMinifiedCode = false
 
@@ -115,6 +117,22 @@ var YYY = ((global, $)=>{
 	  	$('#start').on('click', start)
         $('#start-minified').on('click', startMinified)
         $('#start-generated').on('click', startGenerated)
+
+        $('#pause').prop('disabled', true)
+        $('#step').prop('disabled', true)
+
+        $('#pause').on('click', ()=>{
+            if(running){
+                if(paused){
+                    unpauseScript()
+                } else {
+                    pauseScript()
+                }                
+            }
+        })
+
+        $('#step').on('click', doStep)
+
         $('#stop').prop('disabled', true).on('click', stop)
         $('#reset').on('click', ()=>{
             confirm('Are you sure? This will also remove the code in the editor!').then((result)=>{
@@ -688,6 +706,34 @@ var YYY = ((global, $)=>{
         }
     }
 
+    function pauseScript(){
+        paused = true
+        LUA_EMULATOR.notifyPaused()
+
+        $('#step').prop('disabled', false)
+        $('#pause').html('Resume')
+    }
+
+    function unpauseScript(){
+        paused = false
+        LUA_EMULATOR.notifyUnPaused()
+        
+        $('#step').prop('disabled', true)
+        $('#pause').html('Pause')
+    }
+
+    function doStep(){
+        if(paused && !isDoingStep){
+            LUA_EMULATOR.notifyStep()
+            paused = false
+            isDoingStep = true
+            doTick()
+            doDraw()
+            isDoingStep = false
+            paused = true
+        }
+    }
+
     function start(){
         lockUI()
         saveCode()
@@ -752,7 +798,9 @@ var YYY = ((global, $)=>{
         }
 
         running = true
+
         $('#start, #start-minified, #start-generated').prop('disabled', true)
+
         $('#console-inner').html('')
         CANVAS.reset()
         CANVAS.resetTouchpoints()
@@ -772,9 +820,12 @@ var YYY = ((global, $)=>{
 
         setDrawAndTickInterval()
         $('#stop').prop('disabled', false)
+        $('#pause').prop('disabled', false)
     }
 
     function stop(){
+        $('#pause').prop('disabled', true).html('Pause')
+        $('#step').prop('disabled', true)
         $('#stop').prop('disabled', true)
         clearDrawAndTickInterval()
 
@@ -784,6 +835,7 @@ var YYY = ((global, $)=>{
         })
 
         running = false
+        paused = false
     }
 
     function errorStop(){
@@ -815,7 +867,7 @@ var YYY = ((global, $)=>{
     }
 
     function doTick(){
-        if(!running){
+        if(!running || paused){
             return
         }
         let begin = new Date().getTime()
@@ -847,7 +899,7 @@ var YYY = ((global, $)=>{
     }
 
     function doDraw(){
-        if(!running){
+        if(!running || paused){
             return
         }
         let begin = new Date().getTime()
@@ -1072,6 +1124,7 @@ var YYY = ((global, $)=>{
         isRunning: ()=>{
             return running
         },
+        pauseScript: pauseScript,
         isCustomMinifiedCode: ()=>{
             return isCustomMinifiedCode
         },

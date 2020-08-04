@@ -15,6 +15,7 @@ var LUA_EMULATOR = ((global, $)=>{
     let timer
 
     const CONSOLE_COLOR_SPECIAL = '#4db4ea'
+    const CONSOLE_COLOR_DEBUG = '#b80a66'
     const CONSOLE_COLOR_ERROR = '#fb3636'
 
     const DEFAULT_PRINT_COLOR = '#fff'
@@ -26,6 +27,10 @@ var LUA_EMULATOR = ((global, $)=>{
         makeFunctionAvailableInLua(printColor)
         makeFunctionAvailableInLuaViaName(timeStart, 'start', 'timer')
         makeFunctionAvailableInLuaViaName(timeStop, 'stop', 'timer')
+
+        makeFunctionAvailableInLua(function pause(){
+            YYY.pauseScript()
+        })
 
 
         /* remove unsupported libraries */
@@ -446,7 +451,16 @@ var LUA_EMULATOR = ((global, $)=>{
         draw: draw,
         isInTick: ()=>{return isInTick},
         isInDraw: ()=>{return isInDraw},
-        printToConsole: printToConsole
+        printToConsole: printToConsole,
+        notifyPaused: ()=>{
+            printToConsole('-- paused script', CONSOLE_COLOR_DEBUG)
+        },
+        notifyUnPaused: ()=>{
+            printToConsole('-- paused script', CONSOLE_COLOR_DEBUG)
+        },
+        notifyStep: ()=>{
+            printToConsole('-- step forward', CONSOLE_COLOR_DEBUG)
+        }
     }
 })(window, jQuery)
 
