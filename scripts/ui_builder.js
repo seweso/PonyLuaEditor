@@ -1525,7 +1525,7 @@ var UI_BUILDER = ((global, $)=>{
             allCode = allCode.replace(/[\n]{3,}/g, '\n\n')
 
             $('#ui-builder-code').show()
-            uiBuilderEditor.setValue(allCode)
+            uiBuilderEditor.setValue(allCode, -1)
         } catch (ex){
             console.error('Error building lua code', ex)
             YYY.alert('Error building lua code.\nPlease contact the developer.')

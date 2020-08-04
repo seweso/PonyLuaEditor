@@ -136,11 +136,11 @@ var SHARE = ((global, $)=>{
                 let json = JSON.parse(data)
 
                 if(typeof json.luabin === 'object' && typeof json.luabin.code === 'string'){
-                    editor.setValue(json.luabin.code)
+                    editor.setValue(json.luabin.code, -1)
                 }
 
                 if(typeof json.luabin === 'object' && typeof json.luabin.minified_code === 'string'){
-                    minifiedEditor.setValue(json.luabin.minified_code)
+                    minifiedEditor.setValue(json.luabin.minified_code, -1)
                     $('#minified-code-container').show()
                     $('#minified-code-container .custom_hint').show()
                 }
