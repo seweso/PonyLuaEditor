@@ -321,8 +321,25 @@
     z-index: 10;
 }
 
-#out h3 {
-    color: #fff;
+#out {
+    position: relative;
+
+    h3 {
+        color: #fff;
+    }
+
+    .console_clear {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        font-size: 20px;
+        cursor: pointer;
+        transition: all 0.2s ease 0s;
+
+        &:hover {
+            color: #be3b3c;
+        }
+    }
 }
 
 #console {
@@ -331,6 +348,7 @@
     height: 100px;
     overflow: hidden;
     border-radius: 3px;
+
 
     #console-inner {
         color: #fff;

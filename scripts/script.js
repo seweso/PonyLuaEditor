@@ -107,6 +107,10 @@ var YYY = ((global, $)=>{
 
         global.noExitConfirm = false
 
+        $('#out .console_clear').on('click', ()=>{
+            $('#console-inner').html('')
+        })
+
     	$('#zoomfactor').on('change', ()=>{
     		let val = $('#zoomfactor').val()
     		CANVAS.setZoomFactor(val)
