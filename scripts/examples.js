@@ -31,10 +31,10 @@ var EXAMPLES = ((global, $)=>{
                 content: 'variable = ""\nvariable = "Hello World!"\nvariable = "this is a quote: \\" "'
             },{
                 type: 'text',
-                content: 'functions are like a small programm you can execute. They can return a value but dont have to.'
+                content: 'functions are variables too. Read more about functions later!'
             },{
                 type: 'code',
-                content: 'function textLength(text)\n	return text.length\nend\n\n\nvariable = textLength("abc")\n-- variable is now 3'
+                content: 'function func()\n	return "hello"\nend'
             },{
                 type: 'text',
                 content: 'tables are arrays or key -> value maps.'
@@ -43,10 +43,76 @@ var EXAMPLES = ((global, $)=>{
                 content: 'variable = {"a", "b"}\n-- variable[1] is "a"\n\nvariable = {a="hello", b="goodbye"}\n-- variable["a"] is "hello"\n-- variable.a is "hello"'
             }]
         },{
+            title: 'Conditions if/else and expressions',
+            contents: [{
+                type: 'text',
+                content: 'This is used to execute different code depending on a condition. Any variable or expression can be used as a condition:'
+            },{
+                type: 'code',
+                content: 'if condition then\n    -- execute if condition is true\nelse\n    -- execute if condition is false\nend'
+            },{
+                type: 'text',
+                content: 'Conditions / Expressions:'
+            },{
+                type: 'code',
+                content: 'true --> true'
+            },{
+                type: 'code',
+                content: '1 > 2 --> false'
+            },{
+                type: 'code',
+                content: '1 < 2 => true -- less than'
+            },{
+                type: 'code',
+                content: '2 == 2 => true -- equal'
+            },{
+                type: 'code',
+                content: '3 >= 2 => true -- greater or equal'
+            },{
+                type: 'code',
+                content: '3 <= 2 => false -- less or equal'
+            },{
+                type: 'code',
+                content: 'nil => false -- nil equals to false, anything else (tables, numbers, string) ALWAYS equal true'
+            },{
+                type: 'code',
+                content: '{} => true'
+            },{
+                type: 'code',
+                content: '-1 => true'
+            },{
+                type: 'code',
+                content: '"" => true'
+            },{
+                type: 'text',
+                content: 'you can combine expressions with the keywords "not", "and", "or"'
+            },{
+                type: 'code',
+                content: 'false or true => true'
+            },{
+                type: 'code',
+                content: 'false and true => false'
+            },{
+                type: 'code',
+                content: 'not true = false'
+            },{
+                type: 'code',
+                content: '(false or true) and true => false'
+            },{
+                type: 'code',
+                content: '(false and true) or (true and true) => true'
+            },{
+                type: 'text',
+                content: 'Example:'
+            },{
+                type: 'code',
+                content: 'a = 4\nif a <= 3 then\n    print("number less then or equal 3")\nelse\n    print("number greater then 3")\nend'
+            }]
+        },{
             title: 'Functions',
             contents: [{
                 type: 'text',
-                content: 'Functions are small programs inside your main program. They are usefull when you do similar things multiple times. Functions can return a value but they do not have to.'
+                content: 'Functions are small programs inside your main program. They are usefull when you do similar things multiple times. Functions can return a value but they do not have to. They can also accept arguments.'
             },{
                 type: 'code',
                 content: 'varA = 5 .. "% battery"\nvarB = 10 .. "% battery"'
@@ -62,6 +128,39 @@ var EXAMPLES = ((global, $)=>{
             },{
                 type: 'code',
                 content: '-- long and ugly:\nscreen.setColor(1,1,1)\nscreen.drawRect(1,2,3,4)\nscreen.setColor(2,2,2)\nscreen.drawRect(5,6,7,8)\nscreen.setColor(3,3,3)\nscreen.drawRect(9,10,11,12)\nscreen.setColor(4,4,4)\nscreen.drawRect(13,14,15,16)\n\n\n-- shorter and beautifull:\nsC(1,1,1)\nsR(1,2,3,4)\nsC(2,2,2)\nsR(5,6,7,8)\nsC(3,3,3)\nsR(9,10,11,12)sC(4,4,4)\nsR(13,14,15,16)\nfunction sC(r,g,b)\n	screen.setColor(r,g,b)\nend\n\nfunction sR(x,y,w,h)\n	screen.drawRect(x,y,w,h)\nend'
+            }]
+        },{
+            title: 'Loops',
+            contents: [{
+                type: 'text',
+                content: 'The "while" loop:'
+            },{
+                type: 'code',
+                content: 'myTable = {true, true, true, false}\n\ni=1\nwhile i < 2 do -- as long as the i < 2 the loop will run, if that is not the case, the loop will exit.\n    -- this line is called twice\n\n    i = i + 1\nend\n-- i is now 2\n\n'
+            },{
+                type: 'text',
+                content: 'Similar to the while loop is the "for" loop. It can do exactly the same (increment a number):'
+            },{
+                type: 'code',
+                content: 'for i=1,2 do\n    -- this line is called twice\nend'
+            },{
+                type: 'text',
+                content: 'You can manually set a step for the loop:'
+            },{
+                type: 'code',
+                content: 'for i=1,2,0.5 do\n    -- this line is called 4 times\nend'
+            },{
+                type: 'text',
+                content: 'And you can choose a different max, even negative (but dont forget to choose a negative step too).'
+            },{
+                type: 'code',
+                content: 'for i=1,-5,-1 do\n    -- this line is called 7 times\nend'
+            },{
+                type: 'text',
+                content: 'You can also loop over the entries of a table:'
+            },{
+                type: 'code',
+                content: 'myTable = {"a","b","c"}\nfor k,v in ipairs(myTable) do\n    -- this line will be called 3 times:\n    -- 1. k=1, v="a"\n    -- 2. k=2, v="b"\n    -- 3. k=3, v="c"\nend'
             }]
         },{
             title: 'Scope',
