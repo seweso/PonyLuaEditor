@@ -5,6 +5,10 @@ var HttpLocalhost = ((global, $)=>{
     let queue = [] /* allow maximum of 1 sent http request per tick */
 
 
+    const REPORT_TYPE_IDS = {
+        'httpUse': 16,
+    }
+
 	$(global).on('lua_tick', checkQueue)
 
 	function get(port, url){
@@ -13,6 +17,7 @@ var HttpLocalhost = ((global, $)=>{
             hasShownHttpHint = true
 
             YYY.message('You must follow these steps to enable http support', 'Your browser prohibits sending and receiving data to and from localhost. To fix that, follow the <a href="http-allow-localhost" target="_blank">manual here</a>.')
+        	report(REPORT_TYPE_IDS.httpUse)
         }
 
 	    queue.push({
@@ -52,6 +57,12 @@ var HttpLocalhost = ((global, $)=>{
 			LUA_EMULATOR.callLuaFunction('httpReply', [req.port, req.url, res])	
         }
 	}
+
+	function report(typeID, data){
+        if(window.PonyTracking){
+            window.PonyTracking.report(typeID, data)
+        }
+    }
 
 	return {
 		get: get
