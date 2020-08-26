@@ -64,7 +64,7 @@ var MAP = ((global, c, $)=>{
         let currentFillStyle = c.ctx().fillStyle
         try {
             let centerx = MAP_ZERO_X + x
-            let centery = MAP_ZERO_Y + y
+            let centery = MAP_ZERO_Y - y
 
             let sWidth = Math.max(c.width() * zom, 1)
             let sHeight = Math.max(c.height() * zom, 1)
