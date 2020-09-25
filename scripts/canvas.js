@@ -14,6 +14,12 @@ var CANVAS = ((global, $)=>{
 
     let $canvas
     let ctx
+    let contextScaled = false
+
+    let $renderCanvas
+    let renderCtx
+
+    const RENDER_SCALING_FACTOR = 4
 
     let top = 0
     let left = 0
@@ -78,6 +84,9 @@ var CANVAS = ((global, $)=>{
                 $('.content').before($('#monitor'))
             }, 1000)
         }
+
+
+        $('body').append($('<canvas id="render-canvas">').css({position: 'absolute', left: '10px', top: '600px'}))
 
         refresh()
     }
@@ -299,6 +308,10 @@ var CANVAS = ((global, $)=>{
     function refresh(){
         $canvas = $('#canvas')
         ctx  = $canvas.get(0).getContext('2d')
+
+        $renderCanvas = $('#render-canvas')
+        renderCtx  = $renderCanvas.get(0).getContext('2d')
+
         recalculateCanvas()        
     }
 
@@ -319,10 +332,17 @@ var CANVAS = ((global, $)=>{
 
         let canvasWidth = dim.width + (showOverflow ? 64 : 0)
         let canvasHeight = dim.height + (showOverflow ? 64 : 0)
+
         ctx.save()
         $canvas.get(0).width = canvasWidth
         $canvas.get(0).height = canvasHeight
         ctx.restore()
+
+        renderCtx.save()
+        $renderCanvas.get(0).width = canvasWidth * RENDER_SCALING_FACTOR
+        $renderCanvas.get(0).height = canvasHeight * RENDER_SCALING_FACTOR
+        renderCtx.restore()
+
         $('#monitor').css({width: canvasWidth, height: canvasHeight})
         $('#monitor-sizes, .zoomfactor').css({width: canvasWidth})
 
@@ -335,6 +355,7 @@ var CANVAS = ((global, $)=>{
             console.log('resetting canvas')
         }
         ctx.clearRect(0, 0, $canvas.get(0).width, $canvas.get(0).height)
+        renderCtx.clearRect(0, 0, $renderCanvas.get(0).width, $renderCanvas.get(0).height)
     }
 
     function resetTouchpoints(){        
@@ -380,10 +401,19 @@ var CANVAS = ((global, $)=>{
         recalculateCanvas()
     }
 
+    function finalizeFrame(){        
+        if(!contextScaled){
+            contextScaled = true  
+
+            ctx.scale(1/RENDER_SCALING_FACTOR,1/RENDER_SCALING_FACTOR)          
+        }
+        ctx.drawImage($renderCanvas.get(0),0,0)
+    }
+
     return {
-        ctx: ()=>{return ctx},
-        top: ()=>{return top},
-        left: ()=>{return left},
+        ctx: ()=>{return renderCtx},
+        top: ()=>{return top * RENDER_SCALING_FACTOR},
+        left: ()=>{return left * RENDER_SCALING_FACTOR},
         width: ()=>{return width},
         height: ()=>{return height},
         realWidth: ()=>{
@@ -392,10 +422,12 @@ var CANVAS = ((global, $)=>{
         realHeight: ()=>{
             return $canvas.get(0).height
         },
+        RENDER_SCALING_FACTOR: RENDER_SCALING_FACTOR,
         reset: reset,
         refresh: refresh,
         resetTouchpoints: resetTouchpoints,
-        setZoomFactor: setZoomFactor
+        setZoomFactor: setZoomFactor,
+        finalizeFrame: finalizeFrame
     }
 
 })(window, jQuery)

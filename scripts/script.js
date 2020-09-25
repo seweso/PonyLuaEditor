@@ -922,6 +922,7 @@ var YYY = ((global, $)=>{
 
         CANVAS.reset()
         LUA_EMULATOR.draw()
+        CANVAS.finalizeFrame()
 
         let end = new Date().getTime()
         let diff = end-begin
