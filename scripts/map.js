@@ -209,11 +209,7 @@ var MAP = ((global, c, $)=>{
     }
 
     function zoom(val){
-        return val * zoomFactor
-    }
-
-    function unzoom(val){
-        return val / zoomFactor
+        return val * zoomFactor// * c.RENDER_SCALING_FACTOR
     }
 
     function log(){

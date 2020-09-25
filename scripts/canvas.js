@@ -13,10 +13,11 @@ var CANVAS = ((global, $)=>{
     let enableTouchscreenHintShown = false
 
     let $canvas
+    let canvas
     let ctx
     let contextScaled = false
 
-    let $renderCanvas
+    let renderCanvas
     let renderCtx
 
     const RENDER_SCALING_FACTOR = 4
@@ -85,8 +86,9 @@ var CANVAS = ((global, $)=>{
             }, 1000)
         }
 
-
-        $('body').append($('<canvas id="render-canvas">').css({position: 'absolute', left: '10px', top: '600px'}))
+        let $renderCanvas = $('<canvas id="render-canvas">').css({position: 'absolute', left: '-9999px', top: '0px'})
+        $('body').append($renderCanvas)
+        renderCanvas = $renderCanvas.get(0)
 
         refresh()
     }
@@ -307,10 +309,10 @@ var CANVAS = ((global, $)=>{
 
     function refresh(){
         $canvas = $('#canvas')
-        ctx  = $canvas.get(0).getContext('2d')
+        canvas = $canvas.get(0)
+        ctx  = canvas.getContext('2d')
 
-        $renderCanvas = $('#render-canvas')
-        renderCtx  = $renderCanvas.get(0).getContext('2d')
+        renderCtx  = renderCanvas.getContext('2d')
 
         recalculateCanvas()        
     }
@@ -339,8 +341,8 @@ var CANVAS = ((global, $)=>{
         ctx.restore()
 
         renderCtx.save()
-        $renderCanvas.get(0).width = canvasWidth * RENDER_SCALING_FACTOR
-        $renderCanvas.get(0).height = canvasHeight * RENDER_SCALING_FACTOR
+        renderCanvas.width = canvasWidth * RENDER_SCALING_FACTOR
+        renderCanvas.height = canvasHeight * RENDER_SCALING_FACTOR
         renderCtx.restore()
 
         $('#monitor').css({width: canvasWidth, height: canvasHeight})
@@ -354,8 +356,8 @@ var CANVAS = ((global, $)=>{
         if(DO_LOG){
             console.log('resetting canvas')
         }
-        ctx.clearRect(0, 0, $canvas.get(0).width, $canvas.get(0).height)
-        renderCtx.clearRect(0, 0, $renderCanvas.get(0).width, $renderCanvas.get(0).height)
+        ctx.clearRect(0, 0, canvas.width * 2, canvas.height * 2) /* multiply with 2 to make sure its enough */
+        renderCtx.clearRect(0, 0, renderCanvas.width * 2, renderCanvas.height * 2)
     }
 
     function resetTouchpoints(){        
@@ -407,7 +409,7 @@ var CANVAS = ((global, $)=>{
 
             ctx.scale(1/RENDER_SCALING_FACTOR,1/RENDER_SCALING_FACTOR)          
         }
-        ctx.drawImage($renderCanvas.get(0),0,0)
+        ctx.drawImage(renderCanvas,0,0)
     }
 
     return {
