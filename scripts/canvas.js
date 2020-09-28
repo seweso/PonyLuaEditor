@@ -17,6 +17,7 @@ var CANVAS = ((global, $)=>{
     let ctx
     let contextScaled = false
 
+    let $renderCanvas
     let renderCanvas
     let renderCtx
 
@@ -86,9 +87,8 @@ var CANVAS = ((global, $)=>{
             }, 1000)
         }
 
-        let $renderCanvas = $('<canvas id="render-canvas">').css({position: 'absolute', left: '-9999px', top: '0px'})
+        $renderCanvas = $('<canvas id="render-canvas">').css({position: 'absolute', left: '-9999px', top: '0px'})
         $('body').append($renderCanvas)
-        renderCanvas = $renderCanvas.get(0)
 
         refresh()
     }
@@ -312,6 +312,9 @@ var CANVAS = ((global, $)=>{
         canvas = $canvas.get(0)
         ctx  = canvas.getContext('2d')
 
+
+        $renderCanvas = $('#render-canvas')
+        renderCanvas = $renderCanvas.get(0)
         renderCtx  = renderCanvas.getContext('2d')
 
         recalculateCanvas()        
@@ -343,6 +346,7 @@ var CANVAS = ((global, $)=>{
         renderCtx.save()
         renderCanvas.width = canvasWidth * RENDER_SCALING_FACTOR
         renderCanvas.height = canvasHeight * RENDER_SCALING_FACTOR
+        contextScaled = false
         renderCtx.restore()
 
         $('#monitor').css({width: canvasWidth, height: canvasHeight})
