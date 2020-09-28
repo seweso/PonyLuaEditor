@@ -87,7 +87,7 @@ var CANVAS = ((global, $)=>{
             }, 1000)
         }
 
-        $renderCanvas = $('<canvas id="render-canvas">').css({position: 'absolute', left: '-9999px', top: '0px'})
+        $renderCanvas = $('<canvas id="render-canvas">').css({display: 'none'})
         $('body').append($renderCanvas)
 
         refresh()
