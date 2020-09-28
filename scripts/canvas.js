@@ -20,7 +20,7 @@ var CANVAS = ((global, $)=>{
     let renderCanvas
     let renderCtx
 
-    const RENDER_SCALING_FACTOR = 4
+    const RENDER_SCALING_FACTOR = 16
 
     let top = 0
     let left = 0
