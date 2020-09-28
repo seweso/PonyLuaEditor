@@ -429,24 +429,6 @@ var YYY = ((global, $)=>{
             updateStorage()
         })
 
-        $('#editor-layout').on('change', ()=>{
-            let val = $('#editor-layout').val()
-            switch(val){
-                case 'properties_inputs_monitor_outputs': {
-                    $('#input').insertBefore('#monitor-container')
-                }; break;
-                case 'properties_inputs_outputs_monitor': {
-                    $('#input').insertBefore('#monitor-container')
-                }; break;
-                case 'inputs_next_to_editor':
-                default: {
-                    $('#input').prependTo('#editor-bottom-container')
-                };
-            }
-            $('#top').attr('editor-layout', val)
-            updateStorage()
-        })
-
         $('#save').on('click', ()=>{
             saveCodeInStorage()
         })
@@ -471,25 +453,6 @@ var YYY = ((global, $)=>{
         $('#save-minified').on('click', ()=>{
             saveMinifiedCodeInStorage()
             $('#minified-code-container .custom_hint').show()
-        })
-
-        /* resizable ace code editors */
-        $('#code').resizable().on('resize', ()=>{
-            editor.resize()
-        })
-
-        $('#console').resizable()
-
-        $('#minified-code').resizable().on('resize', ()=>{
-            minifiedEditor.resize()
-        })
-
-        $('#unminified-code').resizable().on('resize', ()=>{
-            unminifiedEditor.resize()
-        })
-
-        $('#ui-builder-code').resizable().on('resize', ()=>{
-            uiBuilderEditor.resize()
         })
 
         /* help badge */

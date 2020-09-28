@@ -28,7 +28,7 @@ You can also minify code, find tutorials and examples or use the ui builder to c
 
 
 
-    <link rel="stylesheet" type="text/css" href="stylesheets/style.css">
+    <link rel="stylesheet" type="text/css" href="stylesheets/newstyle.css">
     <link rel="stylesheet" type="text/css" href="stylesheets/iconfont.css">
     <link rel="stylesheet" type="text/css" href="stylesheets/jquery_ui.css">
     <link rel="stylesheet" type="text/css" href="stylesheets/incognito.css">
@@ -39,6 +39,7 @@ You can also minify code, find tutorials and examples or use the ui builder to c
     <script type="text/javascript" id="fengari-script" src="scripts/fengari_web.js"></script>
     <script type="text/javascript" src="scripts/share.js"></script>
     <script type="text/javascript" src="scripts/script.js"></script>
+    <script type="text/javascript" src="scripts/newui.js"></script>
     <script type="text/javascript" src="scripts/canvas.js"></script>
     <script type="text/javascript" src="scripts/ui_builder.js"></script>
     <script type="text/javascript" src="scripts/paint.js"></script>
@@ -70,7 +71,6 @@ You can also minify code, find tutorials and examples or use the ui builder to c
             document.body.className += " incognito "
         }
     </script>
-  <div id="background"></div>
   <div class="content">
       <div id="mobile-menu">
         <div id="mobile-menu-inner">
@@ -105,124 +105,67 @@ You can also minify code, find tutorials and examples or use the ui builder to c
         <div id="mobile-menu-open"></div>
         <div id="logo"></div>        
     </div>
-    <div id="selection">
-        <div class="selection_group">
-            <label for="monitor-size">Monitor</label>
-            <select id="monitor-size" name="monitor-size">
-                <option value="1x1">1x1</option>
-                <option value="2x2">2x2</option>
-                <option value="3x3">3x3</option>
-                <option value="5x3">5x3</option>
-                <option value="9x5">9x5</option>
-            </select>
-        </div>
-        <div class="selection_group">
-            <label for="show-overflow">Show overflow</label>
-            <input type="checkbox" id="show-overflow" name="show-overflow" checked>
-        </div>
-        <div class="selection_group" id="enable-touchscreen-container">
-            <div>
-                <label for="enable-touchscreen">Enable Touchscreen</label>
-                <input type="checkbox" id="enable-touchscreen" name="enable-touchscreen">
-                <div class="enable_touchscreen_hint">Enable the touchscreen to enable interaction.</div>
-            </div>
-            <div>
-                <label for="enable-touchscreen-secondary">Enable Secondary Input</label>
-                <input type="checkbox" id="enable-touchscreen-secondary" name="enable-touchscreen-secondary" checked="true">
-            </div>
-        </div>
-        <div class="selection_group">
-            <div class="time_between">
-                <label>Ticks per second: <span id="timeBetweenTicksVal">59</span></label>
-                <input type="range" min="16" max="250" value="16" id="timeBetweenTicks">
-                <span>Average TPS: <span id="ticktime">0</span></span>
-            </div>
-        </div>        
-        <div class="selection_group"> 
-            <div class="time_between">
-                <label>Frames per Second: <span id="timeBetweenDrawsVal">59</span></label>
-                <input type="range" min="16" max="250" value="16" id="timeBetweenDraws">
-                <span>Average FPS: <span id="drawtime">0</span></span>
-            </div>
-        </div>
-        <div class="selection_group"> 
-            <div class="editor_layout">
-                <label>Editor Layout:</label>                    
-                <select id="editor-layout" name="editor-layout">
-                    <option value="properties_inputs_monitor_outputs">Properties, Inputs, Monitor, Outputs</option>
-                    <option value="properties_inputs_outputs_monitor">Properties, Inputs, Outputs, Monitor</option>
-                    <option value="inputs_next_to_editor">Inputs next to Editor</option>
-                </select>
-            </div>
-        </div>
-    </div>
-    <div id="top" editor-layout="properties_inputs_monitor_outputs">
-        <div id="property" class="value_list"></div>
-        <div id="input" class="value_list"></div>
-        <div id="monitor-container">
-            <div id="monitor">
-                <canvas id="canvas"></canvas>
-                <div id="overflow"></div>
-            </div>
-            <div id="monitor-sizes">
-                <div>Width <span class="width">0</span>px</div>
-                <div>Height <span class="height">0</span>px</div>
-            </div>
-            <div class="zoomfactor">
-                <label for="zoomfactor">Monitor Zoom: <span>3x</span></label>
-                <input type="range" min="1" max="4" id="zoomfactor" name="zoomfactor" value="1">
-            </div>
-        </div>
-        <div id="output" class="value_list"></div>
-    </div>
-    <div id="editor" class="content_part">
-        <h3>Code Editor:</h3>
-        <div class="controls">
-            <div class="controls_container">
-                <button id="save">Save</button> 
-                <button id="reset">New Lua Script</button>
-            </div>
-            <div class="controls_container">
-                <button id="start">Start</button>
-                <button id="pause" class="special_button">Pause</button>
-                <button id="step" class="special_button">Step forward</button>
-                <button id="stop">Stop</button>   
-            </div>
-            <div class="controls_container">
-                <button id="minify">Minify</button>                
-                <select id="minify-type">
-                    <optgroup label="Conservative">
-                        <option value="conservative-with-line-breaks">Consv. with line breaks</option>
-                        <option value="conservative-no-line-breaks">Consv. no line breaks</option>
-                    </optgroup>
-                    <optgroup label="Agressive">
-                        <option value="agressive-with-line-breaks">Agrs. with line breaks</option>
-                        <option value="agressive-no-line-breaks">Agrs. no line breaks</option>
-                    </optgroup>
-                </select>
-                <span id="minify-help" class="icon-question"></span>
-            </div>
-            <div class="controls_container share" id="share">
-                <div class="docreate">
-                    Share
+
+    <div class="ide">
+        <div class="ide_bar">
+            <div class="ide_controls">
+                <div class="controls_group">
+                    <button id="save">Save</button> 
+                    <button id="reset">New Lua Script</button>
                 </div>
-                <div class="more">
-                    <div class="currentshare_container">
-                        <input type="text" class="currentshare" name="currentshare"/>
-                        <span class="copy_share_to_clipboard">Copy</span>
+                <div class="controls_group">
+                    <button id="start">Start</button>
+                    <button id="pause" class="special_button">Pause</button>
+                    <button id="step" class="special_button">Step forward</button>
+                    <button id="stop">Stop</button>   
+                </div>
+                <div class="controls_group">
+                    <button id="minify">Minify</button>                
+                    <select id="minify-type">
+                        <optgroup label="Conservative">
+                            <option value="conservative-with-line-breaks">Consv. with line breaks</option>
+                            <option value="conservative-no-line-breaks">Consv. no line breaks</option>
+                        </optgroup>
+                        <optgroup label="Agressive">
+                            <option value="agressive-with-line-breaks">Agrs. with line breaks</option>
+                            <option value="agressive-no-line-breaks">Agrs. no line breaks</option>
+                        </optgroup>
+                    </select>
+                    <span id="minify-help" class="icon-question"></span>
+                </div>
+                <div class="controls_group share" id="share">
+                    <div class="docreate">
+                        Share
+                    </div>
+                    <div class="more">
+                        <div class="currentshare_container">
+                            <input type="text" class="currentshare" name="currentshare"/>
+                            <span class="copy_share_to_clipboard">Copy</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div id="editor-bottom-container">
-            <div id="code-container">
-                <div id="code">
+        <div class="ide_top">
+            <div class="top_left">
+                <div class="select_tab">
+                    <select>
+                        <option value="0">Normal Code</option>
+                        <option value="1">Minified Code</option>
+                        <option value="2">Unminified Code</option>
+                        <option value="3">UI Builder Code</option>
+                    </select>
+                </div>
+                <div class="contents">
+                    <div id="editor">
+                        <div id="code-container">
+                            <div id="code" class="code_field">
 function onTick()
-	-- your code
+    -- your code
 end
 
 function onDraw()
-	-- your code
+    -- your code
 end
 
 function httpReply(port, request_body, response_body)
@@ -233,83 +176,197 @@ function httpReply(port, request_body, response_body)
     --
 end
 </div>
-                <div id="code-editor-information">
-                    <span id="selection-information">Line 0, Column 0, Char 0</span>
-                    <span id="autocompletition-hint">Autocomplete: right click, Ctrl+Space or Command+Space</span>
-                    <span id="charactercount">0/4096</span>
+                            <div id="code-editor-information">
+                                <span id="selection-information">Line 0, Column 0, Char 0</span>
+                                <span id="autocompletition-hint">Autocomplete: right click, Ctrl+Space or Command+Space</span>
+                                <span id="charactercount">0/4096</span>
+                            </div>
+                            <div class="code_lock"></div>
+                            <div id="autocompletition-container"></div>
+                        </div>
+                        <div id="example-container">
+                            <div id="examples-heading"><h3>Learn & Examples:</h3><span class="close icon-cross"></span></div>
+                            <div id="examples"></div>
+                        </div>
+                    </div>
+
+                    <div id="minified-editor">
+                        <h3>Minified Code:</h3>
+                        <div id="minified-controls" class="controls">
+                            <div class="controls_container">
+                                <button id="save-minified">Save Minified</button>
+                                <button id="start-minified">Start Minified</button>
+                            </div>
+                            <div class="controls_container">
+                                <button id="unminify">Unminify (beta)</button>
+                            </div>
+                        </div>
+                        <div id="minified-code-container">
+                            <div class="custom_hint" style="display: none;">
+                                You are using custom minified code! It will be overwritten when minifying the next time!<br>When sharing the original code as well as the custom minified code will be shared.
+                            </div>
+                            <div id="minified-code" class="code_field">
+                            </div>
+                            <div id="code-minified-editor-information">
+                                <span id="minified-selection-information">Line 0, Column 0, Char 0</span>
+                                <span id="minified-charactercount">0/4096</span>
+                            </div>
+                            <div class="code_lock"></div>
+                        </div>
+                    </div>
+
+                    <div id="unminified-editor">
+                        <h3>Unminified Code:</h3>
+                        <div id="unminified-code-container">
+                            <div id="unminified-code" class="code_field">
+                            </div>
+                            <div id="code-unminified-editor-information">
+                                <span id="unminified-selection-information">Line 0, Column 0, Char 0</span>
+                                <span id="unminified-charactercount">0/4096</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="ui-builder">
+                        <h2>UI Builder (Beta)</h2>
+                        <div id="ui-builder-container"></div>
+                        <div id="ui-builder-controls">
+                            <div class="ui_builder_zoom controls_container">
+                                <label for="ui-builder-zoom">UI Builder Zoom: <span>1x</span></label>
+                                <input type="range" min="1" max="4" value="1" name="ui-builder-zoom" id="ui-builder-zoom">
+                            </div>
+                            <div class="controls_container">
+                                <button id="save-ui-builder">Save</button>
+                                <button id="generate-ui-builder-lua-code">Generate Lua Code</button>
+                                <button id="start-generated">Start Generated Code</button>
+                            </div>
+                        </div>
+                        <div id="ui-builder-code" class="code_field" style="display: none;"></div>
+                    </div>
                 </div>
-                <div class="code_lock"></div>
-                <div id="autocompletition-container"></div>
             </div>
-            <div id="example-container">
-                <div id="examples-heading"><h3>Learn & Examples:</h3><span class="close icon-cross"></span></div>
-                <div id="examples"></div>
+            <div class="top_right">
+                <div class="select_tab">
+                    <select>
+                        <option value="0">Property Texts</option>
+                        <option value="1">Inputs</option>
+                        <option value="2">Outputs</option>
+                        <option value="3">Documentation</option>
+                    </select>
+                </div>
+                <div class="contents">
+                    <div id="property" class="value_list"></div>
+                    <div id="input" class="value_list"></div>
+                    <div id="output" class="value_list"></div>
+                    <div id="documentation" class="content_part">
+                        <h2>Available functions:</h2>
+                    </div>
+                </div>
+            </div>            
+        </div>
+        <div class="ide_bottom">
+            <div class="bottom_left">
+                <div class="select_tab">
+                    <select>
+                        <option value="0">Console Output</option>
+                    </select>
+                </div>
+                <div class="contents">
+                    <div id="out" class="content_part">
+                        <h3>Console Output:</h3>
+                        <div id="console">
+                            <div id="console-inner"></div>
+                        </div>
+                        <span class="console_clear icon-bin"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="bottom_right">                
+                <div class="select_tab">
+                    <select>
+                        <option value="0">Monitor</option>
+                        <option value="1">Settings</option>
+                    </select>
+                </div>
+                <div class="contents">
+                    <div id="monitor-container">
+                        <div id="monitor">
+                            <canvas id="canvas"></canvas>
+                            <div id="overflow"></div>
+                        </div>
+                        <div id="monitor-sizes">
+                            <div>Width <span class="width">0</span>px</div>
+                            <div>Height <span class="height">0</span>px</div>
+                        </div>
+                        <div class="zoomfactor">
+                            <label for="zoomfactor">Monitor Zoom: <span>3x</span></label>
+                            <input type="range" min="1" max="4" id="zoomfactor" name="zoomfactor" value="1">
+                        </div>
+                    </div>
+
+                    <div class="settings_list">
+                        <div class="setting">
+                            <label for="monitor-size">Monitor</label>
+                            <select id="monitor-size" name="monitor-size">
+                                <option value="1x1">1x1</option>
+                                <option value="2x2">2x2</option>
+                                <option value="3x3">3x3</option>
+                                <option value="5x3">5x3</option>
+                                <option value="9x5">9x5</option>
+                            </select>
+                        </div>
+                        <div class="setting">
+                            <label for="show-overflow">Show overflow</label>
+                            <input type="checkbox" id="show-overflow" name="show-overflow" checked>
+                        </div>
+                        <div class="setting" id="enable-touchscreen-container">
+                            <div>
+                                <label for="enable-touchscreen">Enable Touchscreen</label>
+                                <input type="checkbox" id="enable-touchscreen" name="enable-touchscreen">
+                                <div class="enable_touchscreen_hint">Enable the touchscreen to enable interaction.</div>
+                            </div>
+                            <div>
+                                <label for="enable-touchscreen-secondary">Enable Secondary Input</label>
+                                <input type="checkbox" id="enable-touchscreen-secondary" name="enable-touchscreen-secondary" checked="true">
+                            </div>
+                        </div>
+                        <div class="setting">
+                            <div class="time_between">
+                                <label>Ticks per second: <span id="timeBetweenTicksVal">59</span></label>
+                                <input type="range" min="16" max="250" value="16" id="timeBetweenTicks">
+                                <span>Average TPS: <span id="ticktime">0</span></span>
+                            </div>
+                        </div>        
+                        <div class="setting"> 
+                            <div class="time_between">
+                                <label>Frames per Second: <span id="timeBetweenDrawsVal">59</span></label>
+                                <input type="range" min="16" max="250" value="16" id="timeBetweenDraws">
+                                <span>Average FPS: <span id="drawtime">0</span></span>
+                            </div>
+                        </div>
+                        <div class="setting"> 
+                            <div class="editor_layout">
+                                <label>Editor Layout:</label>                    
+                                <select id="editor-layout" name="editor-layout">
+                                    <option value="properties_inputs_monitor_outputs">Properties, Inputs, Monitor, Outputs</option>
+                                    <option value="properties_inputs_outputs_monitor">Properties, Inputs, Outputs, Monitor</option>
+                                    <option value="inputs_next_to_editor">Inputs next to Editor</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
+    
+    
 
-    <div id="out" class="content_part">
-        <h3>Console Output:</h3>
-        <div id="console">
-            <div id="console-inner"></div>
-        </div>
-        <span class="console_clear icon-bin"></span>
-    </div>
 
-    <div id="minified-editor" class="content_part" style="display: none;">
-        <h3>Minified Code:</h3>
-        <div id="minified-controls" class="controls">
-            <div class="controls_container">
-                <button id="save-minified">Save Minified</button>
-                <button id="start-minified">Start Minified</button>
-            </div>
-            <div class="controls_container">
-                <button id="unminify">Unminify (beta)</button>
-            </div>
-        </div>
-        <div id="minified-code-container">
-            <div class="custom_hint" style="display: none;">
-                You are using custom minified code! It will be overwritten when minifying the next time!<br>When sharing the original code as well as the custom minified code will be shared.
-            </div>
-            <div id="minified-code">
-            </div>
-            <div id="code-minified-editor-information">
-                <span id="minified-selection-information">Line 0, Column 0, Char 0</span>
-                <span id="minified-charactercount">0/4096</span>
-            </div>
-            <div class="code_lock"></div>
-        </div>
-    </div>
+    
 
-    <div id="unminified-editor" class="content_part" style="display: none;">
-        <h3>Unminified Code:</h3>
-        <div id="unminified-code-container">
-            <div id="unminified-code">
-            </div>
-            <div id="code-unminified-editor-information">
-                <span id="unminified-selection-information">Line 0, Column 0, Char 0</span>
-                <span id="unminified-charactercount">0/4096</span>
-            </div>
-        </div>
-    </div>
-
-    <div id="ui-builder" class="content_part">
-        <h2>UI Builder (Beta)</h2>
-        <div id="ui-builder-container"></div>
-        <div id="ui-builder-controls">
-            <div class="ui_builder_zoom controls_container">
-                <label for="ui-builder-zoom">UI Builder Zoom: <span>1x</span></label>
-                <input type="range" min="1" max="4" value="1" name="ui-builder-zoom" id="ui-builder-zoom">
-            </div>
-            <div class="controls_container">
-                <button id="save-ui-builder">Save</button>
-                <button id="generate-ui-builder-lua-code">Generate Lua Code</button>
-                <button id="start-generated">Start Generated Code</button>
-            </div>
-        </div>
-        <div id="ui-builder-code" style="display: none;"></div>
-    </div>
+    
     
     <div class="content_part">
         View the public source code of this page <a target="_blank" rel="noopener noreferrer" href="https://gitlab.com/stormworks-tools/editor">here</a>
@@ -322,9 +379,7 @@ end
         </p>
     </div>
 
-    <div id="documentation" class="content_part">
-        <h2>Available functions:</h2>
-    </div>
+    
 
     <div id="fixed-information-badges">
         <div id="learn-badge" class="hoverable">
