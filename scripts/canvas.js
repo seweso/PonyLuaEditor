@@ -424,6 +424,12 @@ var CANVAS = ((global, $)=>{
         realHeight: ()=>{
             return $canvas.get(0).height
         },
+        renderWidth: ()=>{
+            return renderCanvas.width
+        },
+        renderHeight: ()=>{
+            return renderCanvas.height
+        },
         RENDER_SCALING_FACTOR: RENDER_SCALING_FACTOR,
         reset: reset,
         refresh: refresh,

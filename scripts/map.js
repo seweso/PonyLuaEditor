@@ -96,7 +96,7 @@ var MAP = ((global, c, $)=>{
 
             fakectx2.drawImage(fakecanvas, 0, 0, fakecanvas.width, fakecanvas.height, 0, 0, fakecanvas2.width, fakecanvas2.height)
 
-            c.ctx().drawImage(fakecanvas2, 0, 0, fakecanvas2.width, fakecanvas2.height, c.left(), c.top(), zoom(c.width()), zoom(c.height()))
+            c.ctx().drawImage(fakecanvas2, 0, 0, fakecanvas2.width, fakecanvas2.height, c.left(), c.top(), c.renderWidth() - c.left()*2, c.renderHeight() - c.top()*2)
         } catch (err){
             console.error(err)
         }  
