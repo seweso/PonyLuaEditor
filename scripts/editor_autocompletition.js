@@ -580,42 +580,105 @@ var AUTOCOMPLETE = ((global, $)=>{
     let PARSED_AUTOCOMPLETITIONS
     parseAUTOCOMPLETITIONS()
 
-    let autocompletitionIsShown = false
-    let currentAutocomplete
 
-    $(global).on('load', init)
 
-    function init(){
-        editor.commands.addCommand({
+
+    function parseAUTOCOMPLETITIONS(){
+        PARSED_AUTOCOMPLETITIONS = JSON.parse(JSON.stringify(AUTOCOMPLETITIONS))
+
+        function _do(node, parent){
+            if(typeof node.description === 'string'){
+                node.description = parseDescription(node.description)
+            }
+            if(typeof node.url === 'string'){
+                node.url = parseUrl(node.url)
+            } else if(parent && typeof parent.url === 'string'){
+                node.url = parent.url
+            }
+            if(parent && parent.lib){
+                node.lib = parent.lib
+            }
+            if(node.children){
+                for(let k of Object.keys(node.children)){
+                    _do(node.children[k], node)
+                }
+            }
+        }
+
+        _do(PARSED_AUTOCOMPLETITIONS)
+    }
+
+    function parseDescription(description){
+        return description.replace(/§([\d\.]*)/g, (match, p1)=>{
+            return parseUrl(MANUAL_BASE_URL + p1)
+        }).replace(/\n/g, '<br>')
+    }
+
+    function parseUrl(url){
+        let label = url
+        if(url.indexOf(MANUAL_BASE_URL) >= 0){
+            label = 'Lua Manual §' + url.split('#')[1]
+        }
+        return '<a href="' + url + '" target="_blank" rel="noopener noreferrer">' + label + '</a>'
+    }
+
+    function getAllAUTOCOMPLETITIONSParsed(){
+        return PARSED_AUTOCOMPLETITIONS
+    }
+
+    return {
+        TO: TO,
+        TF: TF,
+        TV: TV,
+        TA: TA,
+        LIB_TITLES: LIB_TITLES,
+        getAllAutocompletitions: ()=>{ return AUTOCOMPLETITIONS; },
+        getAllAUTOCOMPLETITIONSParsed: getAllAUTOCOMPLETITIONSParsed
+    }
+
+})(window, jQuery)
+
+
+
+
+class Autocomplete {
+    constructor(editor, codeField){
+        this.editor = editor
+        this.codeField = $(codeField)
+
+        this.autocompletitionIsShown = false
+        this.currentAutocomplete = undefined
+
+        this.editor.commands.addCommand({
             name: 'autocompletition',
             bindKey: {win: 'Ctrl-Space',  mac: 'Command-Space'},
             exec: (editor)=>{
-                suggestAutocomplete()
+                this.suggestAutocomplete()
             },
             readOnly: false
         })
 
-        $('#code').contextmenu((e)=>{
+        this.codeField.contextmenu((e)=>{
             e.preventDefault()
             e.stopImmediatePropagation()
            
-            suggestAutocomplete()
+            this.suggestAutocomplete()
         })
     }
 
-    function suggestAutocomplete(){
-        let pos = editor.getCursorPosition()
+    suggestAutocomplete(){
+        let pos = this.editor.getCursorPosition()
         if(!pos){
             return
         }
-        let word = getWordInFrontOfPosition(pos.row, pos.column)
-        let [autocompletitions, part] = getAutocompletitions(word)
+        let word = this.getWordInFrontOfPosition(pos.row, pos.column)
+        let [autocompletitions, part] = AUTOCOMPLETE.getAutocompletitions(word)
         console.log('suggestAutocomplete(' + word + ')', autocompletitions)
-        showAutocompletitions($('#autocompletition-container'), autocompletitions, part)
+        this.showAutocompletitions($('#autocompletition-container'), autocompletitions, part)
     }
 
-    function getWordInFrontOfPosition(row, column){
-        let line = editor.session.getLine(row)
+    getWordInFrontOfPosition(row, column){
+        let line = this.editor.session.getLine(row)
         let lineUntilPosition = line.substring(0, column)
         let matches = lineUntilPosition.match(/(.*[\s;\),\(\+\-\*\/\%\=])?([^\s\(]*)/)
         if(matches instanceof Array === false || matches.length !== 3){
@@ -624,11 +687,11 @@ var AUTOCOMPLETE = ((global, $)=>{
         return matches[2]
     }
 
-    function getAutocompletitions(text){
+    getAutocompletitions(text){
         let parts = text.split('.').reverse()
-        let tmp = JSON.parse(JSON.stringify(PARSED_AUTOCOMPLETITIONS))
+        let tmp = JSON.parse(JSON.stringify(AUTOCOMPLETE.PARSED_AUTOCOMPLETITIONS))
 
-        let keywords = getKeywordsFromCode()
+        let keywords = this.getKeywordsFromCode()
         for(let k of Object.keys(keywords)){
             tmp.children[k] = keywords[k]
         }
@@ -658,10 +721,10 @@ var AUTOCOMPLETE = ((global, $)=>{
         return [ret, partLeft]
     }
 
-    function getKeywordsFromCode(){
+    getKeywordsFromCode(){
         let ret = {}
 
-        let code = editor.getValue()
+        let code = this.editor.getValue()
         if(typeof code === 'string'){
             let vars = [...code.matchAll(/[\s;]?([a-zA-Z0-9\.]+)[\s]*?=/g)]
             let functionHeads = [...code.matchAll(/function [\w]+[\s]*\([\s]*([^\)]+)[\s]*\)/g)]
@@ -680,6 +743,8 @@ var AUTOCOMPLETE = ((global, $)=>{
             }
             let functions = [...code.matchAll(/function[\s]+([a-zA-Z0-9\.]+)\(/g)]
 
+            let that = this
+
             addToRet(vars, TV)
             addToRet(functions, TF)
             addToRet(functionArguments, TA)
@@ -689,7 +754,7 @@ var AUTOCOMPLETE = ((global, $)=>{
                 for(let m of matches){
                     let parts = m[1].split('.').reverse()
 
-                    let documentPosition = editor.session.getDocument().indexToPosition(m.index+1, 0)
+                    let documentPosition = that.editor.session.getDocument().indexToPosition(m.index+1, 0)
 
                     let node = ret
 
@@ -732,63 +797,20 @@ var AUTOCOMPLETE = ((global, $)=>{
             }
         }
         return ret
-    }
+    }    
 
-    function parseDescription(description){
-        return description.replace(/§([\d\.]*)/g, (match, p1)=>{
-            return parseUrl(MANUAL_BASE_URL + p1)
-        }).replace(/\n/g, '<br>')
-    }
-
-    function parseUrl(url){
-        let label = url
-        if(url.indexOf(MANUAL_BASE_URL) >= 0){
-            label = 'Lua Manual §' + url.split('#')[1]
-        }
-        return '<a href="' + url + '" target="_blank" rel="noopener noreferrer">' + label + '</a>'
-    }
-
-    function parseAUTOCOMPLETITIONS(){
-        PARSED_AUTOCOMPLETITIONS = JSON.parse(JSON.stringify(AUTOCOMPLETITIONS))
-
-        function _do(node, parent){
-            if(typeof node.description === 'string'){
-                node.description = parseDescription(node.description)
-            }
-            if(typeof node.url === 'string'){
-                node.url = parseUrl(node.url)
-            } else if(parent && typeof parent.url === 'string'){
-                node.url = parent.url
-            }
-            if(parent && parent.lib){
-                node.lib = parent.lib
-            }
-            if(node.children){
-                for(let k of Object.keys(node.children)){
-                    _do(node.children[k], node)
-                }
-            }
-        }
-
-        _do(PARSED_AUTOCOMPLETITIONS)
-    }
-
-    function getAllAUTOCOMPLETITIONSParsed(){
-        return PARSED_AUTOCOMPLETITIONS
-    }
-
-    function showAutocompletitions(container, completitions, part){
+    showAutocompletitions(container, completitions, part){
         YYY.report(YYY.REPORT_TYPE_IDS.openAutocomplete)
         
         if(autocompletitionIsShown){
-            closeAutocomplete()
+            this.closeAutocomplete()
         }
-        autocompletitionIsShown = true
+        this.autocompletitionIsShown = true
 
         let $c = $(container)
         $c.html('')
 
-        currentAutocomplete = new AutocompletitionElement(completitions, part)
+        this.currentAutocomplete = new AutocompletitionElement(completitions, part)
 
         $c.append(currentAutocomplete.getDom())
 
@@ -808,33 +830,14 @@ var AUTOCOMPLETE = ((global, $)=>{
         })
     }
 
-    function closeAutocomplete(){
+    closeAutocomplete(){
         console.log('closing currentAutocomplete')
-        autocompletitionIsShown = false
+        this.autocompletitionIsShown = false
         $('#autocompletition-container').html('')
-        currentAutocomplete = null
-        editor.focus()
+        this.currentAutocomplete = null
+        this.editor.focus()
     }
-
-    return {
-        suggestAutocomplete: suggestAutocomplete,
-        getWordInFrontOfPosition: getWordInFrontOfPosition,
-        getAutocompletitions: getAutocompletitions,
-        showAutocompletitions: showAutocompletitions,
-        closeAutocomplete: closeAutocomplete,
-        TO: TO,
-        TF: TF,
-        TV: TV,
-        TA: TA,
-        LIB_TITLES: LIB_TITLES,
-        getAllAutocompletitions: ()=>{ return AUTOCOMPLETITIONS; },
-        getAllAUTOCOMPLETITIONSParsed: getAllAUTOCOMPLETITIONSParsed
-    }
-
-})(window, jQuery)
-
-
-
+}
 
 
 

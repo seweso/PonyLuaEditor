@@ -29,7 +29,7 @@ var YYY = ((global, $)=>{
 
     let totalStartsInTheSession = 0
 
-    $(global).on('load', init)
+    $(global).on('newui_loaded', init)
 
     const REPORT_TYPE_IDS = {
         'startEmulator': 3,
@@ -45,7 +45,6 @@ var YYY = ((global, $)=>{
         'pauseScript': 15
     }
 
-    const DEFAULT_EDITOR_FONTSIZE = 12
 
     function init(){
 
@@ -110,8 +109,6 @@ var YYY = ((global, $)=>{
 		    updateStorage()
     	})
 	  	$('#start').on('click', start)
-        $('#start-minified').on('click', startMinified)
-        $('#start-generated').on('click', startGenerated)
 
         $('#pause').prop('disabled', true)
         $('#step').prop('disabled', true)
@@ -148,12 +145,12 @@ var YYY = ((global, $)=>{
                 let minified
 
                 if($('#minify-type').val() === 'conservative-with-line-breaks' || $('#minify-type').val() === 'conservative-no-line-breaks'){
-                    let ast = luaparse.parse(editor.getValue())
+                    let ast = luaparse.parse(editors.get('normal').getValue())
 
                     minified = luamin.minify(ast).trim()
                 } else {
 
-                    let ast = luaparse.parse(editor.getValue())
+                    let ast = luaparse.parse(editors.get('normal').getValue())
 
                     minified = luaminy.minify(ast).trim()
 
@@ -260,8 +257,7 @@ var YYY = ((global, $)=>{
                 }
 
                 $('#minified-editor').show()
-                minifiedEditor.setValue(minified, -1)
-                refreshMinifiedEditorCharacterCount()
+                editors.get('minified').setValue(minified, -1)
                 $('#minified-code-container .custom_hint').hide()
                 isCustomMinifiedCode = false
 
@@ -269,8 +265,7 @@ var YYY = ((global, $)=>{
             } catch (ex){
                 console.trace(ex)
                 $('#minified-editor').show()
-                minifiedEditor.setValue('Error: ' + ex.message, -1)
-                refreshMinifiedEditorCharacterCount()
+                editors.get('minified').setValue('Error: ' + ex.message, -1)
             }
         })
 
@@ -285,7 +280,7 @@ var YYY = ((global, $)=>{
         $('#unminify').on('click', ()=>{
             report(REPORT_TYPE_IDS.unminify)
 
-            let minified = minifiedEditor.getValue()
+            let minified = editors.get('minified').getValue()
 
             if(typeof minified !== 'string' || minified.length == 0){
                 fail('empty')
@@ -343,12 +338,12 @@ var YYY = ((global, $)=>{
             unminified += luamax.maxify(code, idMap, libIdMap)
 
             $('#unminified-editor').show()
-            unminifiedEditor.setValue(unminified, -1)
+            editors.get('unminified').setValue(unminified, -1)
 
 
             function fail(msg){
                 $('#unminified-editor').show()
-                unminifiedEditor.setValue('Unminification failed:\n' + msg, -1)
+                editors.get('unminified').setValue('Unminification failed:\n' + msg, -1)
             }
 
         })
@@ -356,47 +351,19 @@ var YYY = ((global, $)=>{
         $('#console-inner').html('')
 	  	let codeFromStorage = getCodeFromStorage()
 	  	if(typeof codeFromStorage === 'string' && codeFromStorage.length > 0){
-	  		editor.setValue(codeFromStorage, -1)
+	  		editors.get('normal').setValue(codeFromStorage, -1)
 	  	}
 
         let minifiedCodeFromStorage = getMinifiedCodeFromStorage()
         if(typeof minifiedCodeFromStorage === 'string' && minifiedCodeFromStorage.length > 0){
-            minifiedEditor.setValue(minifiedCodeFromStorage, -1)
+            editors.get('minified').setValue(minifiedCodeFromStorage, -1)
             $('#minified-editor').show()
             $('#minified-code-container .custom_hint').show()
             isCustomMinifiedCode = true
-            refreshMinifiedEditorCharacterCount()
         }
 
         $('#monitor-size, #show-overflow, #enable-touchscreen, #enable-touchscreen-secondary').on('change', (e)=>{
             updateStorage()
-        })
-
-        editor.on('change', ()=>{
-            refreshEditorCharacterCount()
-        })
-
-        minifiedEditor.on('change', ()=>{
-            refreshMinifiedEditorCharacterCount()
-            $('#minified-code-container .custom_hint').show()
-            isCustomMinifiedCode = true
-        })
-
-        unminifiedEditor.on('change', ()=>{
-            refreshUnminifiedEditorCharacterCount()
-        })
-
-        editor.selection.on('changeCursor', ()=>{
-            refreshPositionHint()
-        })
-
-
-        minifiedEditor.selection.on('changeCursor', ()=>{
-            refreshMinifiedPositionHint()
-        })
-
-        unminifiedEditor.selection.on('changeCursor', ()=>{
-            refreshUnminifiedPositionHint()
         })
 
         $('#timeBetweenTicks').on('input', ()=>{
@@ -494,8 +461,6 @@ var YYY = ((global, $)=>{
         setTimeout(()=>{
             refreshAll()
 
-            refreshEditorFontSize()
-
             $(window).trigger('yyy_refresh_all')
         }, 200)
     }
@@ -544,8 +509,6 @@ var YYY = ((global, $)=>{
 
 	    setStorage(store)
         CANVAS.refresh()
-
-        refreshEditorCharacterCount()
 
         refreshTimeBetweenTicks()
         refreshTimeBetweenDraws()   
@@ -609,7 +572,7 @@ var YYY = ((global, $)=>{
         lockUI()
         saveCode()
 
-        let code = editor.getValue()
+        let code = editors.get('normal').getValue()
 
         startCode(code)
 
@@ -622,7 +585,7 @@ var YYY = ((global, $)=>{
         lockUI()
         saveCode()
 
-        let code = minifiedEditor.getValue()
+        let code = editors.get('minified').getValue()
 
         startCode(code)
 
@@ -634,7 +597,7 @@ var YYY = ((global, $)=>{
     function startGenerated(){
         lockUI()
 
-        let code = uiBuilderEditor.getValue()
+        let code = editors.get('uibuilder').getValue()
 
         startCode(code)
 
@@ -824,7 +787,7 @@ var YYY = ((global, $)=>{
         setTimeout(()=>{
             $('#save').removeClass('saved')
         }, 1000)
-  		localStorage.setItem('code', editor.getValue());
+  		localStorage.setItem('code', editors.get('normal').getValue());
     }
 
     function saveMinifiedCodeInStorage(){
@@ -832,7 +795,7 @@ var YYY = ((global, $)=>{
         setTimeout(()=>{
             $('#save-minified').removeClass('saved')
         }, 1000)
-        localStorage.setItem('minified-code', minifiedEditor.getValue());
+        localStorage.setItem('minified-code', editors.get('unminified').getValue());
     }
 
     function removeMinifiedCodeFromStorage(){
@@ -860,108 +823,6 @@ var YYY = ((global, $)=>{
         }
     }
 
-    function loadEditorFontSize(){
-        return localStorage.getItem('editor-font-size')
-    }
-
-    function saveEditorFontSize(fontsize){
-        localStorage.setItem('editor-font-size', fontsize)
-    }
-
-    function increaseEditorFontSize(){
-        let fontsize = parseInt(loadEditorFontSize())
-        if(typeof fontsize !== 'number' || isNaN(fontsize) || fontsize === 0){
-            fontsize = DEFAULT_EDITOR_FONTSIZE
-        }
-        fontsize = fontsize + Math.max(1, Math.floor(fontsize/10))
-        setEditorFontSize(fontsize)
-        saveEditorFontSize(fontsize)
-    }
-
-    function decreaseEditorFontSize(){
-        let fontsize = parseInt(loadEditorFontSize())
-        if(typeof fontsize !== 'number' || isNaN(fontsize) || fontsize === 0){
-            fontsize = DEFAULT_EDITOR_FONTSIZE
-        }
-        fontsize = fontsize - Math.max(1,Math.floor(fontsize/10))
-        setEditorFontSize(fontsize)
-        saveEditorFontSize(fontsize)
-    }
-
-    function refreshEditorFontSize(){        
-        let fontsize = parseInt(loadEditorFontSize())
-        if(typeof fontsize !== 'number' || isNaN(fontsize) || fontsize === 0){
-            fontsize = DEFAULT_EDITOR_FONTSIZE
-        }
-        setEditorFontSize(fontsize)
-    }
-
-    function setEditorFontSize(fontsize){
-        if(fontsize < 3){
-            fontsize = 3
-            saveEditorFontSize(fontsize)
-        }
-        if(fontsize > 100){
-            fontsize = 100
-            saveEditorFontSize(fontsize)
-        }
-        for(let e of [editor, minifiedEditor, unminifiedEditor, uiBuilderEditor]){
-            e.setFontSize(fontsize)
-        }
-    }
-
-    function refreshEditorCharacterCount(){
-        let chars = countCharacters(editor.getValue())
-        $('#charactercount').html(chars + '/4096')
-        if(chars >= 4096){
-            $('#charactercount').addClass('limit')
-        } else {
-            $('#charactercount').removeClass('limit')
-        }
-    }
-    
-    function refreshMinifiedEditorCharacterCount(){
-        let chars = countCharacters(minifiedEditor.getValue())
-        $('#minified-charactercount').html(chars + '/4096')
-        if(chars >= 4096){
-            $('#minified-charactercount').addClass('limit')
-        } else {
-            $('#minified-charactercount').removeClass('limit')
-        }
-    }
-
-    function refreshUnminifiedEditorCharacterCount(){
-        let chars = countCharacters(unminifiedEditor.getValue())
-        $('#unminified-charactercount').html(chars + '/4096')
-        if(chars >= 4096){
-            $('#unminified-charactercount').addClass('limit')
-        } else {
-            $('#unminified-charactercount').removeClass('limit')
-        }
-    }
-
-    function refreshPositionHint(){
-        let pos = editor.getCursorPosition()
-        let chars = editor.session.doc.positionToIndex(pos)
-        $('#selection-information').html('Line ' + (pos.row + 1) + ', Column ' + (pos.column + 1) + ', Char ' + chars)
-    }
-
-    function refreshMinifiedPositionHint(){
-        let pos = minifiedEditor.getCursorPosition()
-        let chars = minifiedEditor.session.doc.positionToIndex(pos)
-        $('#minified-selection-information').html('Line ' + (pos.row + 1) + ', Column ' + (pos.column + 1) + ', Char ' + chars)
-    }
-
-    function refreshUnminifiedPositionHint(){
-        let pos = unminifiedEditor.getCursorPosition()
-        let chars = unminifiedEditor.session.doc.positionToIndex(pos)
-        $('#unminified-selection-information').html('Line ' + (pos.row + 1) + ', Column ' + (pos.column + 1) + ', Char ' + chars)
-    }
-
-    function countCharacters(str){
-        return typeof str === 'string' ? str.length : 0
-    }
-
     function isMinificationAllowed(keyword, /* optional */ library){
         if(library){
             let acs = AUTOCOMPLETE.getAllAutocompletitions()
@@ -985,8 +846,6 @@ var YYY = ((global, $)=>{
         setStorage: setStorage,
         getStorage: getStorage,
         refreshAll: refreshAll,
-        increaseEditorFontSize: increaseEditorFontSize,
-        decreaseEditorFontSize: decreaseEditorFontSize,
         isMinificationAllowed: isMinificationAllowed,
         isRunning: ()=>{
             return running

@@ -5,6 +5,7 @@ newui = (($)=>{
 
     let viewables = {}
     let views = {}
+    let editors = {}
 
     let splitterVertical
     let splitterHorizontalLeft
@@ -35,7 +36,14 @@ newui = (($)=>{
             let view = new View( el )
             views[ $(el).attr('view') ] = view
 
-            // TODO:
+            view.addListener('resize', ()=>{
+                view.dom.find('code_field').each()
+            })
+        })
+
+        $('[code-field]').each((i, el)=>{
+            let editor = new Editor(el, viewables[$(el).closest('[viewable]').attr('viewable')] )
+            editors[$(el).attr('code-field')] = editor
         })
 
         if(DO_LOG){
@@ -56,6 +64,8 @@ newui = (($)=>{
         loadLayout(DEFAULT_LAYOUT)
 
         //$(window).trigger('yyy_ui_loaded')
+
+        $(window).trigger('newui_loaded')
     }
 
     function onSplitterUpdate(){
@@ -92,6 +102,9 @@ newui = (($)=>{
         views: ()=>{
             return views
         },
+        viewables: ()=>{
+            return viewables
+        },
         DO_LOG: DO_LOG,
         VIEW_VIEW_MIN_SIZE: VIEW_VIEW_MIN_SIZE,
         SPLITTER_WIDTH: SPLITTER_WIDTH,
@@ -100,6 +113,9 @@ newui = (($)=>{
         },
         flexview: ()=>{
             return $('.ide_flex_view')
+        },
+        editor: (name)=>{
+            return editors[name]
         }
     }
 
@@ -162,7 +178,7 @@ class Viewable extends SimpleEventor {
             curView.refreshFocus()
         }
 
-        this.dispatchEvent('viewable-change')
+        this.dispatchEvent('view-change')
     }
 
     myCurrentView(){
@@ -180,8 +196,12 @@ class Viewable extends SimpleEventor {
 
     /* EVENT STUFF */
 
-    onViewableChange(listener){
-        this.addListener('viewable-change', listener)
+    onViewChange(listener){
+        this.addListener('view-change', listener)
+    }
+
+    onViewableResize(listener){
+        this.addListener('viewable-resize', listener)
     }
 }
 
@@ -216,15 +236,10 @@ class View extends SimpleEventor {
     /* called after viewable is removed */
     refreshFocus(){
         /* remove old selects where the viewable has been removed */
-        let myViewables = {}
-
-        this.dom.find('[viewable]').each((i, el)=>{
-            myViewables[ $(el).attr('viewable') ] = $(el)
-        })
+        let myViewables = this.getViewables()
 
         this.dom.find('[select-viewable]').each((i, el)=>{
-            let theViewable = myViewables[ $(el).attr('select-viewable') ]
-            if(!theViewable){
+            if(! myViewables[ $(el).attr('select-viewable') ] ){
                 $(el).remove()
             }
         })
@@ -236,6 +251,17 @@ class View extends SimpleEventor {
         }
 
         this.focusSelect(this.dom.find('[viewable][visible="true"]').attr('viewable'))
+    }
+
+    getViewables(){
+        let myViewables = {}
+
+        this.dom.find('[viewable]').each((i, el)=>{
+            let name = $(el).attr('viewable')
+            myViewables[ name ] = newui.viewables()[name]
+        })
+
+        return myViewables
     }
 
     focus(viewable){
@@ -281,6 +307,13 @@ class View extends SimpleEventor {
             width: width + 'px',
             height: height + 'px'
         })
+
+        this.dispatchEvent('view-resize')
+
+        let myViewables = this.getViewables()
+        for(let v of Object.keys(myViewables)){
+            myViewables[v].dispatchEvent('viewable-resize')
+        }
     }
 }
 
@@ -442,3 +475,4 @@ class Splitter extends SimpleEventor {
 }
 
 let Splitters = []
+

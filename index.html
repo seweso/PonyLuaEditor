@@ -52,6 +52,7 @@ You can also minify code, find tutorials and examples or use the ui builder to c
     <script type="text/javascript" src="scripts/stormworks_lua_api.js"></script>
     <script type="text/javascript" src="scripts/lua_emulator.js"></script>
     <script type="text/javascript" src="scripts/editor_autocompletition.js"></script>
+    <script type="text/javascript" src="scripts/editor.js"></script>
     <script type="text/javascript" src="scripts/luaparse.js"></script>
     <script type="text/javascript" src="scripts/luamin.js"></script>
     <script type="text/javascript" src="scripts/luaminy.js"></script>
@@ -252,7 +253,7 @@ You can also minify code, find tutorials and examples or use the ui builder to c
 
         <div id="editor" viewable="viewable_editor_normal">
             <div id="code-container">
-                <div id="code" class="code_field">
+                <div id="code" code-field="normal">
 function onTick()
     -- your code
 end
@@ -312,7 +313,7 @@ end
                 <div class="custom_hint" style="display: none;">
                     You are using custom minified code! It will be overwritten when minifying the next time!<br>When sharing the original code as well as the custom minified code will be shared.
                 </div>
-                <div id="minified-code" class="code_field">
+                <div id="minified-code" code-field="minified">
                 </div>
                 <div id="code-minified-editor-information">
                     <span id="minified-selection-information">Line 0, Column 0, Char 0</span>
@@ -325,7 +326,7 @@ end
         <div id="unminified-editor" viewable="viewable_editor_unminified">
             <h3>Unminified Code:</h3>
             <div id="unminified-code-container">
-                <div id="unminified-code" class="code_field">
+                <div id="unminified-code" code-field="unminified">
                 </div>
                 <div id="code-unminified-editor-information">
                     <span id="unminified-selection-information">Line 0, Column 0, Char 0</span>
@@ -348,7 +349,7 @@ end
                     <button id="start-generated">Start Generated Code</button>
                 </div>
             </div>
-            <div id="ui-builder-code" class="code_field" style="display: none;"></div>
+            <div id="ui-builder-code" code-field="uibuilder" style="display: none;"></div>
         </div>
     </div>
 
@@ -383,118 +384,7 @@ end
 
     <script src="ace-builds/ace.js" type="text/javascript" charset="utf-8"></script>
     <script src="ace-builds/ext-language_tools.js" type="text/javascript" charset="utf-8"></script>
-    <script>
-        function addEditorControls(editor, container){
-            let $container = $(container)
-
-
-
-            let fontMinus = $('<span class="font_minus icon-minus"></span>')
-            fontMinus.on('click', ()=>{
-                YYY.decreaseEditorFontSize()
-            })            
-            $container.append(fontMinus)
-
-
-            let fontPlus = $('<span class="font_plus icon-plus"></span>')
-            fontPlus.on('click', ()=>{
-                YYY.increaseEditorFontSize()
-            })
-            $container.append(fontPlus)
-
-
-            let fullscreen = $('<span class="fullscreen_toggle icon-enlarge"></span>')
-            fullscreen.on('click', ()=>{
-                if($container.hasClass('fullscreen')){
-                    $container.removeClass('fullscreen')
-                    $('.content').css({'max-height': '', 'overflow': ''})
-                    $container.height($container.prop('oldHeight'))
-                    editor.resize()
-                } else {
-                    $container.prop('oldHeight', $container.height())
-                    $container.addClass('fullscreen')
-                    $('.content').css({'max-height': '100vh', 'overflow': 'hidden'})
-                    $container.height($(window).height())
-                    editor.resize()
-                }
-            })
-            $container.on('keydown', (e)=>{
-                if (e.keyCode === 27){//esc
-                    $container.removeClass('fullscreen')
-                    $('.content').css({'max-height': '', 'overflow': ''})
-                    $container.height($container.prop('oldHeight'))                    
-                    editor.resize()
-                }
-            })
-            $container.append(fullscreen)
-            editor.setShowPrintMargin(false)
-        }
-
-
-        var editor = ace.edit("code");
-        editor.setTheme("ace/theme/monokai");
-        editor.session.setMode("ace/mode/lua");
-        editor.session.setUseSoftTabs(false);
-        addEditorControls(editor, '#code')
-
-        var minifiedEditor = ace.edit("minified-code");
-        minifiedEditor.setTheme("ace/theme/monokai");
-        minifiedEditor.session.setMode("ace/mode/lua");
-        minifiedEditor.session.setUseSoftTabs(false);
-        addEditorControls(minifiedEditor, '#minified-code')
-
-        var unminifiedEditor = ace.edit("unminified-code");
-        unminifiedEditor.setTheme("ace/theme/monokai");
-        unminifiedEditor.session.setMode("ace/mode/lua");
-        unminifiedEditor.session.setUseSoftTabs(false);
-        addEditorControls(unminifiedEditor, '#unminified-code')
-
-        var uiBuilderEditor = ace.edit("ui-builder-code");
-        uiBuilderEditor.setTheme("ace/theme/monokai");
-        uiBuilderEditor.session.setMode("ace/mode/lua");
-        uiBuilderEditor.session.setUseSoftTabs(false); 
-        addEditorControls(uiBuilderEditor, '#ui-builder-code')
-
-
-        /* resizable properties, inputs, outputs */
-        $(window).on('yyy_refresh_all', ()=>{
-            $('#property, #input, #output').each((i, e)=>{
-                const it = e
-                $(it).resizable()
-
-                $(it).on('resize', ()=>{
-                    recalc(it)
-                })
-
-                $(window).on('resize', ()=>{
-                    recalc(it)
-                })
-
-                $('#editor-layout').on('change', ()=>{
-                    setTimeout(()=>{
-                        recalc(it)
-                    }, 100)
-                })
-
-                recalc(it)
-
-                function recalc(elem){
-                    console.log('recalc')
-                    let y = $(elem).offset().top + $(elem).height() - window.scrollY
-                    let x = $(elem).offset().left + $(elem).width() - window.scrollX
-
-                    $(elem).find('.ui-resizable-handle').css({
-                        'position': 'fixed',
-                        'bottom': '',
-                        'top': y - 10 + 'px',
-                        'left': x - 7 + 'px'
-                    })
-                }
-            })
-        })
-
-    </script>
-
+    
     <div id="help" style="display: none;">
         <div id="help-content">
             <span id="help-close" class="icon-cross"></span>
