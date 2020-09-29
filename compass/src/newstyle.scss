@@ -1,12 +1,8 @@
 @import "_variables.scss";
 @import "_base.scss";
+@import "_share.scss";
 @import "_dialog.scss";
 @import "_navigation.scss";
-
-$navigation_height: 100px;
-$ide_bar_height: 60px;
-
-$splitter_width: 6px;
 
 .ide {
     width: 100%;
@@ -31,12 +27,17 @@ $splitter_width: 6px;
 
             .controls_group {
                 padding: 5px;
-                border-radius: 3px;
                 display: inline-block;
                 color: $light;
 
+                &:not(:last-child) {
+                    border-right: 1px solid $light;
+                    padding-right: 25px;
+                }
+
                 button {
                     margin: 0;
+                    padding: 6px 10px;
                 }
 
                 button:not(:last-child) {
@@ -44,7 +45,7 @@ $splitter_width: 6px;
                 }
 
                 &:not(:last-child) {
-                    margin-right: 10px;
+                    margin-right: 25px;
                 }
             }
         }

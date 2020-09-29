@@ -1,4 +1,7 @@
-/* line 1, ../compass/src/_variables.scss */
+/* element sizes */
+/* colors */
+/* css variables */
+/* line 24, ../compass/src/_variables.scss */
 :root {
   --background-accent-gradient: linear-gradient(10deg, #2b4a6a 0%, #446483 100%);
   --background-strong-accent-gradient: linear-gradient(10deg, #2b5a88 0%, #5e8dbb 100%);
@@ -30,10 +33,10 @@ button {
   border: 1px solid #305376;
   border-radius: 3px;
   color: #fff;
-  padding: 8px 24px;
+  padding: 6px 18px;
   cursor: pointer;
-  margin-bottom: 40px;
-  font-size: 20px;
+  margin-bottom: 30px;
+  font-size: 16px;
   transition: all 0.2s ease 0s;
 }
 /* line 30, ../compass/src/_base.scss */
@@ -87,15 +90,17 @@ a:hover {
 #navigation {
   position: sticky;
   top: 0;
+  height: 75px;
   z-index: 100000000;
   background: #000;
   padding: 5px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
 }
 
-/* line 21, ../compass/src/_navigation.scss */
+/* line 23, ../compass/src/_navigation.scss */
 #beta, #offline, #download-offline {
   display: inline-block;
   color: #fff;
@@ -106,7 +111,7 @@ a:hover {
   border-radius: 10000px;
 }
 
-/* line 31, ../compass/src/_navigation.scss */
+/* line 33, ../compass/src/_navigation.scss */
 #giveaway-hint {
   background: url("../images/giveaway_background_small.jpg");
   background-size: cover;
@@ -122,19 +127,19 @@ a:hover {
   font-weight: bold;
 }
 
-/* line 46, ../compass/src/_navigation.scss */
+/* line 48, ../compass/src/_navigation.scss */
 #beta {
   background: linear-gradient(15deg, #EE4A4B 0%, #F4812E 100%);
   box-shadow: 0px 0px 3px 2px #EE4A4B77;
 }
 
-/* line 51, ../compass/src/_navigation.scss */
+/* line 53, ../compass/src/_navigation.scss */
 #offline {
   background: linear-gradient(15deg, #0194E2 0%, #792692 100%);
   box-shadow: 1px 0px 3px 1px #0194E277;
 }
 
-/* line 56, ../compass/src/_navigation.scss */
+/* line 58, ../compass/src/_navigation.scss */
 #download-offline {
   background: linear-gradient(15deg, #9A8D00 0%, #4d835f 100%);
   box-shadow: 0px 0px 3px 2px #a99c1077;
@@ -142,7 +147,7 @@ a:hover {
 }
 
 /* mobile menu */
-/* line 66, ../compass/src/_navigation.scss */
+/* line 68, ../compass/src/_navigation.scss */
 #mobile-menu {
   display: none;
   flex-direction: row;
@@ -153,12 +158,12 @@ a:hover {
   min-height: 100vh;
   z-index: 1000000000000;
 }
-/* line 76, ../compass/src/_navigation.scss */
+/* line 78, ../compass/src/_navigation.scss */
 #mobile-menu #mobile-menu-close-sidebar {
   width: 100%;
   background: #fff7;
 }
-/* line 81, ../compass/src/_navigation.scss */
+/* line 83, ../compass/src/_navigation.scss */
 #mobile-menu #mobile-menu-inner {
   display: flex;
   flex-direction: column;
@@ -170,7 +175,7 @@ a:hover {
   color: #ddd;
   padding-bottom: 10px;
 }
-/* line 93, ../compass/src/_navigation.scss */
+/* line 95, ../compass/src/_navigation.scss */
 #mobile-menu .mobile_menu_logo {
   height: 5em;
   display: flex;
@@ -179,49 +184,49 @@ a:hover {
   align-items: center;
   background: #000;
 }
-/* line 101, ../compass/src/_navigation.scss */
+/* line 103, ../compass/src/_navigation.scss */
 #mobile-menu .mobile_menu_logo img {
   height: 70%;
   width: auto;
 }
-/* line 107, ../compass/src/_navigation.scss */
+/* line 109, ../compass/src/_navigation.scss */
 #mobile-menu .menu_group {
   display: flex;
   flex-direction: column;
   background: #0a0a0a;
 }
-/* line 112, ../compass/src/_navigation.scss */
+/* line 114, ../compass/src/_navigation.scss */
 #mobile-menu .menu_group > * {
   padding: 10px;
 }
-/* line 116, ../compass/src/_navigation.scss */
+/* line 118, ../compass/src/_navigation.scss */
 #mobile-menu .menu_group > :not(.menu_group_title) {
   padding-left: 25px;
 }
-/* line 121, ../compass/src/_navigation.scss */
+/* line 123, ../compass/src/_navigation.scss */
 #mobile-menu .menu_group_title {
   background: #000;
   border-bottom: 2px solid #111;
 }
-/* line 126, ../compass/src/_navigation.scss */
+/* line 128, ../compass/src/_navigation.scss */
 #mobile-menu #learn-menu-entry span, #mobile-menu #help-menu-entry span {
   cursor: pointer;
   padding: 4px 10px;
   border-radius: 10000px;
   font-weight: bold;
 }
-/* line 133, ../compass/src/_navigation.scss */
+/* line 135, ../compass/src/_navigation.scss */
 #mobile-menu #learn-menu-entry span {
   background: linear-gradient(15deg, #0194E2 0%, #792692 100%);
   box-shadow: 1px 0px 3px 1px #0194E277;
 }
-/* line 138, ../compass/src/_navigation.scss */
+/* line 140, ../compass/src/_navigation.scss */
 #mobile-menu #help-menu-entry span {
   background: linear-gradient(15deg, #9A8D00 0%, #4d835f 100%);
   box-shadow: 0px 0px 3px 2px #a99c1077;
 }
 
-/* line 145, ../compass/src/_navigation.scss */
+/* line 147, ../compass/src/_navigation.scss */
 #mobile-menu-open {
   background: url("../images/menu_icon.png");
   background-size: cover;
@@ -1237,82 +1242,13 @@ a:hover {
   left: -99999999px;
 }
 
-/* share */
-/* line 999, ../compass/src/style.scss */
-.share {
-  display: inline-flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-}
-/* line 1006, ../compass/src/style.scss */
-.share .docreate, .share .currentshare_container {
-  background: linear-gradient(15deg, rgba(1, 148, 226, 0.666) 0%, rgba(121, 38, 146, 0.666) 100%);
-  color: #fff;
-  border-radius: 3px;
-  cursor: pointer;
-  font-size: 20px;
-  display: flex;
-  flex-direction: revert;
-  justify-content: center;
-  align-items: center;
-}
-/* line 1018, ../compass/src/style.scss */
-.share .docreate {
-  padding: 10px 25px;
-}
-/* line 1021, ../compass/src/style.scss */
-.share .docreate:hover {
-  background: linear-gradient(15deg, rgba(77, 180, 234, 0.666) 0%, rgba(161, 102, 178, 0.666) 100%);
-}
-/* line 1026, ../compass/src/style.scss */
-.share .currentshare_container {
-  padding: 8px;
-}
-/* line 1030, ../compass/src/style.scss */
-.share .currentshare {
-  font-family: "Monaco", "Menlo", "Ubuntu Mono", "Consolas", "souce-code-pro", monospace;
-}
-/* line 1034, ../compass/src/style.scss */
-.share .more {
-  display: flex;
-  flex-direction: row;
-  overflow: hidden;
-}
-/* line 1040, ../compass/src/style.scss */
-.share .copy_share_to_clipboard {
-  background: #0004;
-  color: #fff;
-  padding: 5px 10px;
-  border-radius: 3px;
-  transition: all 0.2s ease 0s;
-  font-size: 16px;
-}
-/* line 1048, ../compass/src/style.scss */
-.share .copy_share_to_clipboard:hover {
-  background: #fff4;
-  color: #000;
-}
-/* line 1054, ../compass/src/style.scss */
-.share .currentshare {
-  background: #000a;
-  border-radius: 3px;
-  border: none;
-  color: #fff;
-  font-size: 12px;
-  line-height: 16px;
-  padding: 6px 6px;
-  margin-right: 10px;
-}
-
 /* save */
-/* line 1069, ../compass/src/style.scss */
+/* line 1002, ../compass/src/style.scss */
 #save, #save-minified {
   transition: all 0.5s ease 0s;
 }
 
-/* line 1073, ../compass/src/style.scss */
+/* line 1006, ../compass/src/style.scss */
 #save.saved, #save-minified.saved, #save-ui-builder.saved {
   background: #4d835f !important;
   border-color: #9A8D00 !important;
@@ -1320,30 +1256,30 @@ a:hover {
 }
 
 /* examples */
-/* line 1082, ../compass/src/style.scss */
+/* line 1015, ../compass/src/style.scss */
 #editor-bottom-container {
   display: flex;
   flex-direction: row;
 }
-/* line 1086, ../compass/src/style.scss */
+/* line 1019, ../compass/src/style.scss */
 #editor-bottom-container > * {
   width: 100%;
 }
-/* line 1090, ../compass/src/style.scss */
+/* line 1023, ../compass/src/style.scss */
 #editor-bottom-container.show_examples > * {
   width: 48%;
 }
-/* line 1094, ../compass/src/style.scss */
+/* line 1027, ../compass/src/style.scss */
 #editor-bottom-container:not(.show_examples) #example-container {
   display: none;
 }
-/* line 1098, ../compass/src/style.scss */
+/* line 1031, ../compass/src/style.scss */
 #editor-bottom-container #example-container {
   margin-left: 4%;
   background: #0007;
   border-radius: 3px;
 }
-/* line 1103, ../compass/src/style.scss */
+/* line 1036, ../compass/src/style.scss */
 #editor-bottom-container #example-container #examples-heading {
   background: linear-gradient(15deg, #0194E2 0%, #792692 100%);
   color: #fff;
@@ -1356,21 +1292,21 @@ a:hover {
   margin-bottom: 10px;
   padding: 10px;
 }
-/* line 1115, ../compass/src/style.scss */
+/* line 1048, ../compass/src/style.scss */
 #editor-bottom-container #example-container #examples-heading h3 {
   display: inline-block;
   margin: 0;
 }
-/* line 1121, ../compass/src/style.scss */
+/* line 1054, ../compass/src/style.scss */
 #editor-bottom-container #example-container .close {
   cursor: pointer;
   transition: all 0.2s ease 0s;
 }
-/* line 1125, ../compass/src/style.scss */
+/* line 1058, ../compass/src/style.scss */
 #editor-bottom-container #example-container .close:hover {
   color: #002C43;
 }
-/* line 1131, ../compass/src/style.scss */
+/* line 1064, ../compass/src/style.scss */
 #editor-bottom-container #examples {
   position: relative;
   display: flex;
@@ -1379,16 +1315,16 @@ a:hover {
   max-height: 50vh;
   overflow-y: auto;
 }
-/* line 1139, ../compass/src/style.scss */
+/* line 1072, ../compass/src/style.scss */
 #editor-bottom-container #examples .chapter {
   display: flex;
   flex-direction: column;
 }
-/* line 1143, ../compass/src/style.scss */
+/* line 1076, ../compass/src/style.scss */
 #editor-bottom-container #examples .chapter:not(:last-child) {
   margin-bottom: 5px;
 }
-/* line 1147, ../compass/src/style.scss */
+/* line 1080, ../compass/src/style.scss */
 #editor-bottom-container #examples .chapter .chapter_head {
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
@@ -1398,7 +1334,7 @@ a:hover {
   padding: 5px;
   position: relative;
 }
-/* line 1156, ../compass/src/style.scss */
+/* line 1089, ../compass/src/style.scss */
 #editor-bottom-container #examples .chapter .chapter_head:after {
   position: absolute;
   top: 50%;
@@ -1409,31 +1345,31 @@ a:hover {
   transform: translateY(-50%);
   line-height: 0;
 }
-/* line 1168, ../compass/src/style.scss */
+/* line 1101, ../compass/src/style.scss */
 #editor-bottom-container #examples .chapter.open .chapter_head:after {
   transform: translateY(-50%) rotate(180deg);
 }
-/* line 1172, ../compass/src/style.scss */
+/* line 1105, ../compass/src/style.scss */
 #editor-bottom-container #examples .chapter .chapter_body {
   display: flex;
   flex-direction: column;
   padding: 5px;
 }
-/* line 1178, ../compass/src/style.scss */
+/* line 1111, ../compass/src/style.scss */
 #editor-bottom-container #examples .chapter:not(.open) .chapter_body {
   display: none;
   background: #7f95a1;
 }
-/* line 1183, ../compass/src/style.scss */
+/* line 1116, ../compass/src/style.scss */
 #editor-bottom-container #examples .chapter .example {
   display: flex;
   flex-direction: column;
 }
-/* line 1187, ../compass/src/style.scss */
+/* line 1120, ../compass/src/style.scss */
 #editor-bottom-container #examples .chapter .example:not(:last-child) {
   margin-bottom: 5px;
 }
-/* line 1191, ../compass/src/style.scss */
+/* line 1124, ../compass/src/style.scss */
 #editor-bottom-container #examples .chapter .example .example_head {
   position: relative;
   border-top-left-radius: 3px;
@@ -1442,7 +1378,7 @@ a:hover {
   cursor: pointer;
   padding: 5px;
 }
-/* line 1199, ../compass/src/style.scss */
+/* line 1132, ../compass/src/style.scss */
 #editor-bottom-container #examples .chapter .example .example_head:after {
   position: absolute;
   top: 50%;
@@ -1453,49 +1389,49 @@ a:hover {
   transform: translateY(-50%);
   line-height: 0;
 }
-/* line 1211, ../compass/src/style.scss */
+/* line 1144, ../compass/src/style.scss */
 #editor-bottom-container #examples .chapter .example.open .example_head:after {
   transform: translateY(-50%) rotate(180deg);
 }
-/* line 1215, ../compass/src/style.scss */
+/* line 1148, ../compass/src/style.scss */
 #editor-bottom-container #examples .chapter .example .example_body {
   display: flex;
   flex-direction: column;
   padding: 5px;
   background: #fbd9c0;
 }
-/* line 1221, ../compass/src/style.scss */
+/* line 1154, ../compass/src/style.scss */
 #editor-bottom-container #examples .chapter .example .example_body > * {
   margin-bottom: 10px;
 }
-/* line 1226, ../compass/src/style.scss */
+/* line 1159, ../compass/src/style.scss */
 #editor-bottom-container #examples .chapter .example:not(.open) .example_body {
   display: none;
 }
-/* line 1232, ../compass/src/style.scss */
+/* line 1165, ../compass/src/style.scss */
 #editor-bottom-container #examples .example_text {
   color: #222;
 }
-/* line 1236, ../compass/src/style.scss */
+/* line 1169, ../compass/src/style.scss */
 #editor-bottom-container #examples .example_code {
   border: 3px solid #202020;
   box-sizing: content-box;
   border-radius: 3px;
   margin: 5px 0;
 }
-/* line 1243, ../compass/src/style.scss */
+/* line 1176, ../compass/src/style.scss */
 #editor-bottom-container #examples keyword {
   color: #F92672;
   font-family: "Monaco", "Menlo", "Ubuntu Mono", "Consolas", "source-code-pro", monospace;
 }
-/* line 1248, ../compass/src/style.scss */
+/* line 1181, ../compass/src/style.scss */
 #editor-bottom-container #examples obj {
   color: #4FA8B9;
   font-family: "Monaco", "Menlo", "Ubuntu Mono", "Consolas", "source-code-pro", monospace;
 }
 
 /* ponybin overlay */
-/* line 1257, ../compass/src/style.scss */
+/* line 1190, ../compass/src/style.scss */
 .ponybin_overlay {
   position: fixed;
   top: 0;
@@ -1509,12 +1445,12 @@ a:hover {
   justify-content: center;
   align-items: center;
 }
-/* line 1270, ../compass/src/style.scss */
+/* line 1203, ../compass/src/style.scss */
 .ponybin_overlay .inner {
   display: flex;
   flex-direction: column;
 }
-/* line 1275, ../compass/src/style.scss */
+/* line 1208, ../compass/src/style.scss */
 .ponybin_overlay .circle {
   background: linear-gradient(15deg, rgba(242, 223, 23, 0.666) 0%, rgba(110, 188, 136, 0.666) 100%);
   box-shadow: 0px 0px 5px 3px #F2DF1777;
@@ -1532,7 +1468,7 @@ a:hover {
   animation-name: circle;
   animation-iteration-count: infinite;
 }
-/* line 1292, ../compass/src/style.scss */
+/* line 1225, ../compass/src/style.scss */
 .ponybin_overlay .circle p {
   text-align: center;
   line-height: 150%;
@@ -1541,20 +1477,20 @@ a:hover {
   animation-name: anticircle;
   animation-iteration-count: infinite;
 }
-/* line 1301, ../compass/src/style.scss */
+/* line 1234, ../compass/src/style.scss */
 .ponybin_overlay .circle [dot] {
   animation-iteration-count: infinite;
   animation-duration: 2s;
 }
-/* line 1306, ../compass/src/style.scss */
+/* line 1239, ../compass/src/style.scss */
 .ponybin_overlay .circle [dot="1"] {
   animation-name: dot1;
 }
-/* line 1310, ../compass/src/style.scss */
+/* line 1243, ../compass/src/style.scss */
 .ponybin_overlay .circle [dot="2"] {
   animation-name: dot2;
 }
-/* line 1314, ../compass/src/style.scss */
+/* line 1247, ../compass/src/style.scss */
 .ponybin_overlay .circle [dot="3"] {
   animation-name: dot3;
 }
@@ -1994,7 +1930,7 @@ a:hover {
 }
 
 /* editor fullscreen */
-/* line 1331, ../compass/src/style.scss */
+/* line 1264, ../compass/src/style.scss */
 .ace_editor.fullscreen {
   position: fixed;
   top: 0;
@@ -2003,7 +1939,7 @@ a:hover {
   width: 100vw;
   z-index: 10000000000000;
 }
-/* line 1340, ../compass/src/style.scss */
+/* line 1273, ../compass/src/style.scss */
 .ace_editor .fullscreen_toggle {
   position: absolute;
   top: 0;
@@ -2015,11 +1951,11 @@ a:hover {
   border-radius: 2px;
   cursor: pointer;
 }
-/* line 1351, ../compass/src/style.scss */
+/* line 1284, ../compass/src/style.scss */
 .ace_editor .fullscreen_toggle:hover {
   background: #000a;
 }
-/* line 1356, ../compass/src/style.scss */
+/* line 1289, ../compass/src/style.scss */
 .ace_editor .font_plus, .ace_editor .font_minus {
   position: absolute;
   top: 0;
@@ -2031,15 +1967,15 @@ a:hover {
   border-radius: 2px;
   cursor: pointer;
 }
-/* line 1367, ../compass/src/style.scss */
+/* line 1300, ../compass/src/style.scss */
 .ace_editor .font_plus:hover, .ace_editor .font_minus:hover {
   background: #000a;
 }
-/* line 1372, ../compass/src/style.scss */
+/* line 1305, ../compass/src/style.scss */
 .ace_editor .font_plus {
   right: 50px;
 }
-/* line 1376, ../compass/src/style.scss */
+/* line 1309, ../compass/src/style.scss */
 .ace_editor .font_minus {
   right: 83px;
 }
@@ -2113,7 +2049,7 @@ a:hover {
   }
 }
 /* remove jquery ui resize vertical and horizontal bars */
-/* line 1415, ../compass/src/style.scss */
+/* line 1348, ../compass/src/style.scss */
 .ui-resizable-handle.ui-resizable-s, .ui-resizable-handle.ui-resizable-e, .ui-resizable-handle.ui-resizable-n, .ui-resizable-handle.ui-resizable-w {
   display: none !important;
 }

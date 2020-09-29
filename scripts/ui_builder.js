@@ -1528,7 +1528,7 @@ var UI_BUILDER = ((global, $)=>{
             uiBuilderEditor.setValue(allCode, -1)
         } catch (ex){
             console.error('Error building lua code', ex)
-            YYY.alert('Error building lua code.\nPlease contact the developer.')
+            util.alert('Error building lua code.\nPlease contact the developer.')
         }
     }
 

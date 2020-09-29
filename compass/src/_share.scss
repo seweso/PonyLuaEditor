@@ -1,0 +1,57 @@
+.share {
+    display: inline-flex!important;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+
+    .docreate, .currentshare_container {
+        color: #fff;
+        border-radius: 3px;
+        cursor: pointer;
+        font-size: 20px;
+        display: flex;
+        flex-direction: revert;
+        justify-content: center;
+        align-items: center;
+    }    
+
+    .currentshare_container {
+        padding: 8px;    
+    }
+
+    .currentshare {
+        font-family: "Monaco", "Menlo", "Ubuntu Mono", "Consolas", "souce-code-pro", monospace;
+    }
+
+    .more {
+        display: flex;
+        flex-direction: row;
+        overflow: hidden;
+    }
+
+    .copy_share_to_clipboard {
+        background: #0004;
+        color: #fff;
+        padding: 5px 10px;
+        border-radius: 3px;
+        transition: all 0.2s ease 0s;
+        font-size: 16px;
+    
+        &:hover {
+            background: #fff4;
+            color: #000;
+        }
+    }
+
+    .currentshare {
+        background: #000a;
+        border-radius: 3px;
+        border: none;
+        color: #fff;
+        font-size: 12px;
+        line-height: 16px;
+        padding: 6px 6px;
+        margin-right: 10px;
+    }
+}

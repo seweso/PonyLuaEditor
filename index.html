@@ -60,7 +60,7 @@ You can also minify code, find tutorials and examples or use the ui builder to c
     <script type="text/javascript" src="scripts/http_localhost.js"></script>
     <!--<script type="text/javascript" src="scripts/giveaway.js"></script>-->
 
-    <script type="text/javascript" src="https://statistics.flaffipony.rocks/tracking.js"></script>
+    <!--<script type="text/javascript" src="https://statistics.flaffipony.rocks/tracking.js"></script>-->
 </head>
 <body>
     <script type="text/javascript">
@@ -111,33 +111,19 @@ You can also minify code, find tutorials and examples or use the ui builder to c
         <div class="ide_bar">
             <div class="ide_controls">
                 <div class="controls_group">
-                    <button id="save">Save</button> 
-                    <button id="reset">New Lua Script</button>
+                    <button id="save" title="Save"><span class="icon-floppy-disk"></span></button> 
+                    <button id="reset" title="Reset">Reset</button>
                 </div>
                 <div class="controls_group">
-                    <button id="start">Start</button>
-                    <button id="pause" class="special_button">Pause</button>
-                    <button id="step" class="special_button">Step forward</button>
-                    <button id="stop">Stop</button>   
-                </div>
-                <div class="controls_group">
-                    <button id="minify">Minify</button>                
-                    <select id="minify-type">
-                        <optgroup label="Conservative">
-                            <option value="conservative-with-line-breaks">Consv. with line breaks</option>
-                            <option value="conservative-no-line-breaks">Consv. no line breaks</option>
-                        </optgroup>
-                        <optgroup label="Agressive">
-                            <option value="agressive-with-line-breaks">Agrs. with line breaks</option>
-                            <option value="agressive-no-line-breaks">Agrs. no line breaks</option>
-                        </optgroup>
-                    </select>
-                    <span id="minify-help" class="icon-question"></span>
+                    <button id="start" title="Start"><span class="icon-play3"></span></button>
+                    <button id="pause" class="special_button" title="Pause"><span class="icon-pause2"></span></button>
+                    <button id="step" class="special_button" title="Step forward"><span class="icon-next2"></span></button>
+                    <button id="stop" title="Stop"><span class="icon-stop2"></span></button>   
                 </div>
                 <div class="controls_group share" id="share">
-                    <div class="docreate">
+                    <button class="docreate special_button">
                         Share
-                    </div>
+                    </button>
                     <div class="more">
                         <div class="currentshare_container">
                             <input type="text" class="currentshare" name="currentshare"/>
@@ -249,9 +235,20 @@ You can also minify code, find tutorials and examples or use the ui builder to c
 
         <div id="output" class="value_list" viewable="viewable_outputs"></div>
 
-        <div id="documentation" class="content_part" viewable="viewable_documentation">
+        <div id="documentation" viewable="viewable_documentation">
             <h2>Available functions:</h2>
         </div>
+
+        <div viewable="viewable_official_manuals">
+            <p><b>Official Lua Language Manual:</b><br>
+                <a href="https://www.lua.org/manual/5.3/" target="_blank" rel="noopener noreferrer">https://www.lua.org/manual/5.3/</a>
+            </p>
+            <p><b>Stormworks Lua Manual</b><br>
+                TODO
+            </p>
+        </div>
+
+        
 
         <div id="editor" viewable="viewable_editor_normal">
             <div id="code-container">
@@ -295,6 +292,20 @@ end
                 </div>
                 <div class="controls_container">
                     <button id="unminify">Unminify (beta)</button>
+                </div>
+                <div class="controls_container">
+                    <button id="minify">Minify</button>                
+                    <select id="minify-type">
+                        <optgroup label="Conservative">
+                            <option value="conservative-with-line-breaks">Consv. with line breaks</option>
+                            <option value="conservative-no-line-breaks">Consv. no line breaks</option>
+                        </optgroup>
+                        <optgroup label="Agressive">
+                            <option value="agressive-with-line-breaks">Agrs. with line breaks</option>
+                            <option value="agressive-no-line-breaks">Agrs. no line breaks</option>
+                        </optgroup>
+                    </select>
+                    <span id="minify-help" class="icon-question"></span>
                 </div>
             </div>
             <div id="minified-code-container">
@@ -341,20 +352,7 @@ end
         </div>
     </div>
 
-    
-    
-    <div class="content_part">
-        View the public source code of this page <a target="_blank" rel="noopener noreferrer" href="https://gitlab.com/stormworks-tools/editor">here</a>
-    </div>
-
-    <div class="content_part">
-        <h2>Lua manual:</h2>
-        <p>
-            <a href="https://www.lua.org/manual/5.3/" target="_blank" rel="noopener noreferrer">https://www.lua.org/manual/5.3/</a>
-        </p>
-    </div>
-
-    
+        
 
     <div id="fixed-information-badges">
         <div id="learn-badge" class="hoverable">
@@ -412,11 +410,6 @@ end
                     $('.content').css({'max-height': '', 'overflow': ''})
                     $container.height($container.prop('oldHeight'))
                     editor.resize()
-                    setTimeout(()=>{
-                        $([document.documentElement, document.body]).animate({
-                            scrollTop: $container.offset().top - $container.height()
-                        }, 100);
-                    }, 100)
                 } else {
                     $container.prop('oldHeight', $container.height())
                     $container.addClass('fullscreen')
@@ -431,9 +424,6 @@ end
                     $('.content').css({'max-height': '', 'overflow': ''})
                     $container.height($container.prop('oldHeight'))                    
                     editor.resize()
-                        $([document.documentElement, document.body]).animate({
-                            scrollTop: $container.offset().top - $container.height()
-                        }, 100);
                 }
             })
             $container.append(fullscreen)
@@ -476,7 +466,7 @@ end
                     recalc(it)
                 })
 
-                $(window).on('resize scroll', ()=>{
+                $(window).on('resize', ()=>{
                     recalc(it)
                 })
 
@@ -690,8 +680,9 @@ end
     <div id="hints-container"></div>
 
 
+<!--
     <script type="text/javascript" src="https://stormworks.flaffipony.rocks/embed_overview.js"></script>
    <script type="text/javascript" src="https://stormworks.flaffipony.rocks/embed_public_server.js"></script>
-
+-->
 </body>
 </html>

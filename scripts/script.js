@@ -27,8 +27,6 @@ var YYY = ((global, $)=>{
 
     let isCustomMinifiedCode = false
 
-    let lastScrollPos = 0
-
     let totalStartsInTheSession = 0
 
     $(global).on('load', init)
@@ -50,14 +48,6 @@ var YYY = ((global, $)=>{
     const DEFAULT_EDITOR_FONTSIZE = 12
 
     function init(){
-
-        let scrollTop = parseInt(localStorage.getItem('scroll'))
-        if(!isNaN(scrollTop)){
-            setTimeout(()=>{
-                $('html, body').scrollTop(scrollTop)
-            }, 300)            
-        }        
-
 
         addChildrenToLibraryIdentifiers(AUTOCOMPLETE.getAllAutocompletitions())
 
@@ -457,7 +447,7 @@ var YYY = ((global, $)=>{
 
         /* help badge */
         let firstHelpOpen = true
-        let scrollPosition = 0
+
         $('#help-badge, #help-menu-entry').on('click', ()=>{
             report(REPORT_TYPE_IDS.openHelp)
 
@@ -465,11 +455,6 @@ var YYY = ((global, $)=>{
                 firstHelpOpen = false
                 $('#help-youtube-video').html('<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/Z8cLxmVd07c" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>')
             }
-            scrollPosition = $(window).scrollTop()
-            $('body').css({
-                'max-height': '100vh',
-                'overflow-y': 'hidden'
-            })
             $('#help').fadeIn()
             resizeYoutubeIframe()
         })
@@ -494,43 +479,16 @@ var YYY = ((global, $)=>{
         })
 
         function closeHelp(){
-            $('body').css({
-                'max-height': '',
-                'overflow-y': ''
-            })
-            $(window).scrollTop(scrollPosition)
             $('#help').fadeOut()            
         }
 
 
         /* mobile menu */
         $('#mobile-menu-open').on('click', ()=>{
-            lastScrollPos = $(window).scrollTop()
             $('#mobile-menu').css('display', 'flex')
-            $('.content').css({
-                'margin-top': -lastScrollPos + $('#navigation').height(),
-                'max-height': Math.max($(window).height(), lastScrollPos + $('#mobile-menu-inner').height()),
-                'overflow': 'hidden'
-            })
-            $('#navigation').css({
-                'position': 'absolute',
-                'top': 0,
-                'width': '100%'
-            })
-            $(window).scrollTop(0)            
         })
         $('#mobile-menu .menu_group > :not(.menu_group_title), #mobile-menu-close-sidebar').on('click', ()=>{
             $('#mobile-menu').hide()
-            $('.content').css({
-                'margin-top': '',
-                'max-height': '',
-                'overflow': ''
-            })            
-            $('#navigation').css({
-                'position': '',
-                'top': ''
-            })
-            $(window).scrollTop(lastScrollPos)
         })
 
         setTimeout(()=>{
@@ -671,10 +629,6 @@ var YYY = ((global, $)=>{
         setTimeout(()=>{
             $('#start, #start-minified, #start-generated').blur()
         }, 100)
-
-        $('html, body').animate({
-            scrollTop: $("#monitor").offset().top
-        }, 200);
     }
 
     function startGenerated(){
@@ -687,10 +641,6 @@ var YYY = ((global, $)=>{
         setTimeout(()=>{
             $('#start, #start-minified, #start-generated').blur()
         }, 100)
-
-        $('html, body').animate({
-            scrollTop: $("#monitor").offset().top
-        }, 200);
     }
 
     function lockUI(){        
@@ -1050,9 +1000,6 @@ var YYY = ((global, $)=>{
 })(window, jQuery)
 
 window.onbeforeunload = function (e) {
-    const scrollTop = $(window).scrollTop()
-    console.log('saved scrollTop', scrollTop)
-    localStorage.setItem('scroll', scrollTop)
     if(window.noExitConfirm){
         return
     }

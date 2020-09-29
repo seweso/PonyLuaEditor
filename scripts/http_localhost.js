@@ -16,7 +16,7 @@ var HttpLocalhost = ((global, $)=>{
         if(!hasShownHttpHint){
             hasShownHttpHint = true
 
-            YYY.message('You must follow these steps to enable http support', 'Your browser prohibits sending and receiving data to and from localhost. To fix that, follow the <a href="http-allow-localhost" target="_blank">manual here</a>.')
+            util.message('You must follow these steps to enable http support', 'Your browser prohibits sending and receiving data to and from localhost. To fix that, follow the <a href="http-allow-localhost" target="_blank">manual here</a>.')
         	report(REPORT_TYPE_IDS.httpUse)
         }
 

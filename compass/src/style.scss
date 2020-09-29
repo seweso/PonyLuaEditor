@@ -994,74 +994,7 @@
     }
 }
 
-/* share */
 
-.share {
-    display: inline-flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-
-    .docreate, .currentshare_container {
-        background: linear-gradient(15deg, rgba(1,148,226,0.666) 0%, rgba(121,38,146,0.666) 100%);
-        color: #fff;
-        border-radius: 3px;
-        cursor: pointer;
-        font-size: 20px;
-        display: flex;
-        flex-direction: revert;
-        justify-content: center;
-        align-items: center;
-    }    
-
-    .docreate {
-        padding: 10px 25px;
-
-        &:hover {
-            background: linear-gradient(15deg, rgba(77,180,234,0.666) 0%, rgba(161,102,178,0.666) 100%);
-        }
-    }
-
-    .currentshare_container {
-        padding: 8px;    
-    }
-
-    .currentshare {
-        font-family: "Monaco", "Menlo", "Ubuntu Mono", "Consolas", "souce-code-pro", monospace;
-    }
-
-    .more {
-        display: flex;
-        flex-direction: row;
-        overflow: hidden;
-    }
-
-    .copy_share_to_clipboard {
-        background: #0004;
-        color: #fff;
-        padding: 5px 10px;
-        border-radius: 3px;
-        transition: all 0.2s ease 0s;
-        font-size: 16px;
-    
-        &:hover {
-            background: #fff4;
-            color: #000;
-        }
-    }
-
-    .currentshare {
-        background: #000a;
-        border-radius: 3px;
-        border: none;
-        color: #fff;
-        font-size: 12px;
-        line-height: 16px;
-        padding: 6px 6px;
-        margin-right: 10px;
-    }
-}
 
 
 /* save */

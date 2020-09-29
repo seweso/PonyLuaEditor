@@ -445,10 +445,6 @@ var EXAMPLES = ((global, $)=>{
             $('#editor-bottom-container').addClass('show_examples')
             editor.resize()
 
-            $('html, body').animate({
-                scrollTop: ($('#editor-bottom-container').offset().top - $(window).height()/5)
-            }, 200);
-
             resizeCodeBlocks()
         })
 
@@ -494,10 +490,6 @@ var EXAMPLES = ((global, $)=>{
                     if(!wasopen){
                         example.addClass('open')
                     }
-
-                    $('#examples').animate({
-                        scrollTop: (example.offset().top - 30 - $('#examples').offset().top)
-                    }, 200);
                 })
 
                 chapter.find('.chapter_body').append(example)
@@ -512,10 +504,6 @@ var EXAMPLES = ((global, $)=>{
                     if(!wasopen){
                         chapter.addClass('open')
                     }
-
-                    $('#examples').animate({
-                        scrollTop: (chapter.offset().top - 30 - $('#examples').offset().top)
-                    }, 200);
             })
 
             $('#examples').append(chapter)

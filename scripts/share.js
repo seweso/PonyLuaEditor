@@ -77,7 +77,7 @@ var SHARE = ((global, $)=>{
 
         let code = editor.getValue()
         if(typeof code !== 'string' || code.length === 0){
-            YYY.alert('Cannot share empty code!')
+            util.alert('Cannot share empty code!')
             return
         }
        
@@ -110,11 +110,11 @@ var SHARE = ((global, $)=>{
                 setCurrentShare(id)
             } catch (e){
                 console.error(e)
-                YYY.alert('Cannot share via ponybin. Please contact me.')
+                util.alert('Cannot share via ponybin. Please contact me.')
             }
         }).fail((e)=>{
             console.error(e)
-            YYY.alert('Cannot share via ponybin. Please contact me!')
+            util.alert('Cannot share via ponybin. Please contact me!')
         }).always(()=>{
             $('#ponybin-create-overlay').hide()
         })
@@ -122,7 +122,7 @@ var SHARE = ((global, $)=>{
 
     function doReceive(){
         if(!currentShare){
-            YYY.alert('Cannot get data from ponybin. Please contact me.')
+            util.alert('Cannot get data from ponybin. Please contact me.')
             return
         }
         YYY.report(YYY.REPORT_TYPE_IDS.receiveShareCode)
@@ -168,11 +168,11 @@ var SHARE = ((global, $)=>{
                 }
             } catch (e){
                 console.error(e)
-                YYY.alert('Cannot get data from ponybin. Please contact me!')
+                util.alert('Cannot get data from ponybin. Please contact me!')
             }
         }).fail((e)=>{
             console.error(e)
-            YYY.alert('Cannot get data from ponybin. Is the share key correct?')
+            util.alert('Cannot get data from ponybin. Is the share key correct?')
         }).always(()=>{
             $('#ponybin-receive-overlay').hide()
             $(window).trigger('yyy_prepared')

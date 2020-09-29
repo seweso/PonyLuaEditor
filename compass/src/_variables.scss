@@ -1,8 +1,14 @@
-:root {
-    --background-accent-gradient: linear-gradient(10deg, #2b4a6a 0%, #446483 100%);
-    --background-strong-accent-gradient: linear-gradient(10deg, #2b5a88 0%, #5e8dbb 100%);
-    --background-grey-gradient: linear-gradient(10deg, #666 0%, #888 100%);
-}
+/* element sizes */
+
+$navigation_height: 75px;
+$ide_bar_height: 60px;
+
+$splitter_width: 6px;
+
+
+
+
+/* colors */
 
 $light: #eaedf1;
 
@@ -10,3 +16,13 @@ $light: #eaedf1;
 $medium-dark: #363b40;
 $medium-darker: #1c3146;
 $dark: #151719;
+
+
+
+/* css variables */
+
+:root {
+    --background-accent-gradient: linear-gradient(10deg, #2b4a6a 0%, #446483 100%);
+    --background-strong-accent-gradient: linear-gradient(10deg, #2b5a88 0%, #5e8dbb 100%);
+    --background-grey-gradient: linear-gradient(10deg, #666 0%, #888 100%);
+}

@@ -1,5 +1,10 @@
 util = (($)=>{
 
+    window.onerror = (errorMsg, url, lineNumber)=>{
+        alert("Unexpected error occured:<br>Please contact me!<br><br>" + url + '<br><br>' + lineNumber + '<br><br>' + errorMsg)
+        return false;
+    }
+
     function message(title, text){
         return new Promise((fulfill, reject)=>{
             $('#message .title').html(title)
