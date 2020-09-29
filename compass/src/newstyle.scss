@@ -8,7 +8,6 @@ $ide_bar_height: 60px;
 $splitter_width: 8px;
 
 .ide {
-    position: relative;
     width: 100%;
     height: calc(100vh - #{$navigation_height});
     overflow: hidden;
@@ -51,11 +50,13 @@ $splitter_width: 8px;
     }
 
     .ide_flex_view {
+        position: relative;
         width: 100%;
         height: calc(100vh - #{$navigation_height} - #{$ide_bar_height});
     }
 
     [view] {
+        position: absolute;
         display: flex;
         flex-direction: column;
         width: 50vw;
@@ -68,11 +69,13 @@ $splitter_width: 8px;
             height: 1.5em;
 
             background: black;
+            color: #fff;
         }
 
         .viewable_container {
             width: 100%;
             height: 100%;
+            overflow: auto;
             background: grey;
         }
     }
@@ -86,18 +89,34 @@ $splitter_width: 8px;
     [splitter] {
         position: absolute;
         background: #fff;
-        border: 3px solid blue;
+        border: 3px solid blue;        
+
+        /* hack so the mouse is not leaving the splitter directly */
+        &:after {
+            display: none;
+            content: ' ';
+            position: absolute;
+            top: -1000px;
+            left: -1000px;
+            width: calc(100% + 2000px);
+            height: calc(100% + 2000px);
+            background: #f00a;
+        }
+    }
+
+    [splitter][draging="true"]:after {
+        display: initial;
     }
 
     [splitter="vertical"] {
         left: calc(50vw - (#{$splitter_width} / 2));
-        top: $ide_bar_height;
+        top: 0;
         height: calc(100vh - #{$navigation_height} - #{$ide_bar_height});
         width: 8px;
     }
 
     [splitter="horizontal_left"], [splitter="horizontal_right"] {
-        top: calc( ( 100vh - #{$navigation_height} - #{$ide_bar_height} ) / 2 - (#{$splitter_width} / 2) - #{$navigation_height});
+        top: calc( ( 100vh - #{$navigation_height} - #{$ide_bar_height} ) / 2 - (#{$splitter_width} / 2));
         height: $splitter_width;
         width: calc(50vw - (#{$splitter_width} / 2));
     }

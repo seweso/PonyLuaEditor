@@ -6,7 +6,14 @@ newui = (($)=>{
     let viewables = {}
     let views = {}
 
+    let splitterVertical
+    let splitterHorizontalLeft
+    let splitterHorizontalRight
+
     const DO_LOG = true
+
+    const VIEW_VIEW_MIN_SIZE = 100
+    const SPLITTER_WIDTH = 8 /* this needs to be changed together with the css */
 
     const DEFAULT_LAYOUT = {
         top_left: ['editor_normal', 'editor_minified', 'editor_unminified', 'editor_uibuilder'],
@@ -35,9 +42,29 @@ newui = (($)=>{
             console.log('Views', views)
         }
 
+        splitterVertical = new Splitter($('[splitter="vertical"]').get(0), 'vertical')
+        splitterHorizontalLeft = new Splitter($('[splitter="horizontal_left"]').get(0), 'horizontal', true)
+        splitterHorizontalRight = new Splitter($('[splitter="horizontal_right"]').get(0), 'horizontal')
+
+
+        splitterVertical.addListener('updated', onSplitterUpdate)
+        splitterHorizontalLeft.addListener('updated', onSplitterUpdate)
+        splitterHorizontalRight.addListener('updated', onSplitterUpdate)
+
+        onSplitterUpdate()
+
         loadLayout(DEFAULT_LAYOUT)
 
         //$(window).trigger('yyy_ui_loaded')
+    }
+
+    function onSplitterUpdate(){
+        console.log('onSplitterUpdate')
+        views.top_left.resize(0, 0, splitterVertical.x, splitterHorizontalLeft.y)
+        views.top_right.resize(splitterVertical.x, 0, newui.flexview().width() - splitterVertical.x, splitterHorizontalRight.y)
+
+        views.bottom_left.resize(0, splitterHorizontalLeft.y, splitterVertical.x, newui.flexview().height() - splitterHorizontalLeft.y)
+        views.bottom_right.resize(splitterVertical.x, splitterHorizontalRight.y, newui.flexview().width() - splitterVertical.x, newui.flexview().height() - splitterHorizontalRight.y)
     }
 
 
@@ -65,7 +92,15 @@ newui = (($)=>{
         views: ()=>{
             return views
         },
-        DO_LOG: DO_LOG
+        DO_LOG: DO_LOG,
+        VIEW_VIEW_MIN_SIZE: VIEW_VIEW_MIN_SIZE,
+        SPLITTER_WIDTH: SPLITTER_WIDTH,
+        verticalSplitterPosition: ()=>{
+            return splitterVertical.x
+        },
+        flexview: ()=>{
+            return $('.ide_flex_view')
+        }
     }
 
 })(jQuery)
@@ -109,6 +144,7 @@ class SimpleEventor {
 }
 
 class Viewable extends SimpleEventor {
+
     constructor(domElement){
         super()
 
@@ -150,6 +186,7 @@ class Viewable extends SimpleEventor {
 }
 
 class View extends SimpleEventor {
+
     constructor(domElement){
         super()
 
@@ -225,4 +262,152 @@ class View extends SimpleEventor {
     name(){
         return this.dom.attr('view')
     }
+
+    resize(x, y, width, height){
+        this.dom.css({
+            top: y + 'px',
+            left: x + 'px',
+            width: width + 'px',
+            height: height + 'px'
+        })
+    }
 }
+
+class Splitter extends SimpleEventor {
+
+    constructor(domElement, type, isHorizontalLeft){
+        super()
+
+        if(domElement instanceof HTMLElement === false){
+            throw 'invalid HTMLElement for Splitter'
+        }
+
+        this.dom = $(domElement)
+        this.type = type
+        this.isHorizontalLeft = isHorizontalLeft
+
+        this.isDragging = false
+        this.isHover = false
+
+        this.dragStartX = 0
+        this.dragStartY = 0
+
+        if(type === 'vertical'){
+            this.x = newui.flexview().width() * 0.66
+            this.y = 0
+        } else if (type === 'horizontal'){
+            if(this.isHorizontalLeft){
+                this.x = 0
+                this.y = newui.flexview().height() * 0.66                
+            } else {                
+                this.x = newui.flexview().width() * 0.66
+                this.y = newui.flexview().height() * 0.5
+            }
+        } else {
+            throw 'unssupported Splitter type "' + type + '"'
+        }
+        
+        this.dom.on('mouseenter', (evt)=>{
+            this.isHover = true
+
+            this.update(true)
+        })
+
+        this.dom.on('mousedown', (evt)=>{
+            this.isDragging = true
+            this.dragStartX = evt.originalEvent.screenX
+            this.dragStartY = evt.originalEvent.screenY
+            console.log('dragstart', this.dragStartX, this.dragStartY)
+            this.update(true)
+        })
+
+        this.dom.on('mousemove', (evt)=>{
+            if(this.isDragging){
+                console.log('this', this)
+                console.log('dragging from', this.x, this.y)
+                this.x = this.x - (this.dragStartX - evt.originalEvent.screenX)
+                this.y = this.y - (this.dragStartY - evt.originalEvent.screenY)
+
+                this.dragStartX = evt.originalEvent.screenX
+                this.dragStartY = evt.originalEvent.screenY
+
+                console.log('    to', this.x, this.y)
+
+                /* apply limits */
+
+                if(this.x < newui.VIEW_MIN_SIZE){
+                    this.x = newui.VIEW_MIN_SIZE
+                }
+                if(this.x > newui.flexview().width() - newui.VIEW_MIN_SIZE){
+                    this.x = newui.flexview().width() - newui.VIEW_MIN_SIZE
+                }
+                if(this.y > newui.flexview().height() - newui.VIEW_MIN_SIZE){
+                    this.y = newui.flexview().height() - newui.VIEW_MIN_SIZE
+                }
+
+                /* only use one axis for each type */
+                if(this.type === 'vertical'){
+                    this.y = 0
+                } else if(this.type === 'horizontal'){
+                    this.x = 0
+                }
+            }
+
+            this.update()
+        })
+
+        this.dom.on('mouseup mouseleave ', (evt)=>{
+            this.isDragging = false
+            this.isHover = false
+            console.log('dragend')
+            //TODO save to localStorage
+
+            this.update(true)
+        })
+
+        Splitters.push(this)
+
+        this.update()
+    }
+
+    update(preventPropagation){
+        this.dom.attr('draging', this.isDragging ? 'true' : 'false')
+        this.dom.attr('hover', this.isHover ? 'true' : 'false')
+
+        this.dom.css({
+            top: this.y,
+            left: (this.type === 'horizontal' && ! this.isHorizontalLeft) ? newui.verticalSplitterPosition() : this.x,
+            width: this.getWidth() + 'px',
+            height: this.getHeight() + 'px'
+        })
+
+        if(!preventPropagation){
+            for(let s of Splitters){
+                s.update(true)
+            }
+            this.dispatchEvent('updated')
+        }
+    }
+
+    getWidth(){
+        if(this.type === 'vertical'){
+            return newui.SPLITTER_WIDTH
+        } else if(this.type === 'horizontal'){
+            if(this.isHorizontalLeft){
+                return newui.verticalSplitterPosition()
+            } else {
+                return newui.flexview().width() - newui.verticalSplitterPosition()
+            }
+        }
+    }
+
+    getHeight(){
+        if(this.type === 'vertical'){
+            return newui.flexview().height()
+        } else if(this.type === 'horizontal'){
+            return newui.SPLITTER_WIDTH
+        }
+    }
+}
+
+let Splitters = []
