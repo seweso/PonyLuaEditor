@@ -19,15 +19,25 @@ class Editor {
         })
 
         this.viewable.onViewableResize(()=>{
-            this.dom.width( this.viewable.myCurrentView().dom.find('.viewable_container').innerWidth() - 20 )
-            this.dom.height( this.viewable.myCurrentView().dom.find('.viewable_container').innerHeight() - 20 )
-            this.editor.resize()
+            this.refreshSize()
         })
 
+        setTimeout(()=>{
+            this.refreshSize()
+        }, 100)
 
         this.addEditorControls()
 
         editors.registerEditor(this, this.dom.attr('code-field'))
+    }
+
+    refreshSize(){
+        let myCurrentView = this.viewable.myCurrentView()
+        if(myCurrentView){
+            this.dom.width( myCurrentView.dom.find('.viewable_container').innerWidth() - 20 )
+            this.dom.height( myCurrentView.dom.find('.viewable_container').innerHeight() - 20 )
+        }
+        this.editor.resize()
     }
 
     addEditorControls(){
