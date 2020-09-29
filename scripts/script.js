@@ -83,7 +83,7 @@ var YYY = ((global, $)=>{
 
         $('#download-offline').on('click', ()=>{
             report(REPORT_TYPE_IDS.downloadOffline)
-            message('How to use the offline version:', '<ul><li>extract the zip folder</li><li>doubleclick "index.html"</li><li>This opens the offline version with your default browser</li><ul>')
+            util.message('How to use the offline version:', '<ul><li>extract the zip folder</li><li>doubleclick "index.html"</li><li>This opens the offline version with your default browser</li><ul>')
         })
 
         let autocompletitions = AUTOCOMPLETE.getAllAUTOCOMPLETITIONSParsed()
@@ -140,7 +140,7 @@ var YYY = ((global, $)=>{
 
         $('#stop').prop('disabled', true).on('click', stop)
         $('#reset').on('click', ()=>{
-            confirm('Are you sure? This will also remove the code in the editor!').then((result)=>{
+            util.confirm('Are you sure? This will also remove the code in the editor!').then((result)=>{
                 if(result === true){
                     localStorage.clear()
                     global.noExitConfirm = true
@@ -285,7 +285,7 @@ var YYY = ((global, $)=>{
         })
 
         $('#minify-help').on('click', ()=>{
-            message('Minify Help', 'You can use two different modes:<br><ul>'
+            util.message('Minify Help', 'You can use two different modes:<br><ul>'
                 + '<li><strong>Conservative</strong><br>will only replace names of <i>local</i> declared variables and functions</li><br>'
                 + '<li><strong>Agressive</strong><br>will replace almost every varable and function name.<br><span style="color: red;font-weight: bold">In rare cases, this produces errors, which you have to fix manually.</span></li>'
                 + '</ul><br>Each of those modes supports output with or without line breaks.<br>Without line breaks you save a small amount of characters, but the code is very hard to read and debug')
@@ -542,69 +542,6 @@ var YYY = ((global, $)=>{
         }, 200)
     }
 
-    function message(title, text){
-        return new Promise((fulfill, reject)=>{
-            $('#message .title').html(title)
-            $('#message .message').html(text)
-            $('#message').show()
-            $('#message .ok').on('click', ()=>{
-                $('#message .ok').off('click')
-                $('#message').hide()
-                fulfill(true)
-            })
-        })
-    }
-
-     function confirm(text){
-        return new Promise((fulfill, reject)=>{
-            $('#confirm .message').html(text)
-            $('#confirm').show()
-            $('#confirm .yes').on('click', ()=>{
-                $('#confirm .yes, #confirm .no').off('click')
-                $('#confirm').hide()
-                fulfill(true)
-            })
-            $('#confirm .no').on('click', ()=>{
-                $('#confirm .yes, #confirm .no').off('click')
-                $('#confirm').hide()
-                fulfill(false)
-            })
-        })
-    }    
-
-    function alert(text){
-        return new Promise((fulfill, reject)=>{
-            $('#alert .message').html(text)
-            $('#alert').show()
-            $('#alert .ok').on('click', ()=>{
-                $('#alert .ok').off('click')
-                $('#alert').hide()
-                fulfill(true)
-            })
-        })
-    }
-
-    function hint(title, text, options){
-        let h = $('<div class="hint"><span class="close icon-cancel-circle"></span><h4>'+title+'<span class="extend icon-circle-down"></span></h4><div style="' + ((options && options.extended) ? '' : 'display: none') + '">'+(text+'').replace('\n', '<br>')+'</div></div>')
-        if(options && options.extended){
-            h.find('.extend').remove()
-        } else {
-            h.find('h4').on('click', ()=>{
-                h.find('div').css('display', 'inline-block')
-            })
-        }
-        h.find('.close').on('click', ()=>{
-            h.remove()
-        })
-        $('#hints-container').append(h)
-        if(!options || !options.nofadeout){
-            setTimeout(()=>{
-                //disappear after 10 seconds
-                h.remove()
-            }, 10000)
-        }
-    }
-
     function refreshAll(){
 
         let store = getStorage()
@@ -770,7 +707,7 @@ var YYY = ((global, $)=>{
         totalStartsInTheSession++
 
         if(totalStartsInTheSession % 50 == 0){
-            hint('Performace hint', 'After 50 starts you should reload the page to reset the emulator.\nPlease save ALL of your code (editor, minified and ui builder).\nThen reload the page.', {extended: true})
+            util.hint('Performace hint', 'After 50 starts you should reload the page to reset the emulator.\nPlease save ALL of your code (editor, minified and ui builder).\nThen reload the page.', {extended: true})
         }
 
         running = true
@@ -1107,11 +1044,7 @@ var YYY = ((global, $)=>{
         pauseScript: pauseScript,
         isCustomMinifiedCode: ()=>{
             return isCustomMinifiedCode
-        },
-        message: message,
-        confirm: confirm,
-        alert: alert,
-        hint: hint
+        }
     }
 
 })(window, jQuery)
@@ -1136,7 +1069,7 @@ window.onbeforeunload = function (e) {
 
 $(window).on('load',()=>{
     function showPerformanceHint(){
-        YYY.hint('Performance hint', 'After 30 minutes you should reload the page to reset the emulator.\nPlease save ALL of your code (editor, minified and ui builder).\nThen reload the page.', {extended: true})
+        util.hint('Performance hint', 'After 30 minutes you should reload the page to reset the emulator.\nPlease save ALL of your code (editor, minified and ui builder).\nThen reload the page.', {extended: true})
     }
     setTimeout(()=>{
         showPerformanceHint()

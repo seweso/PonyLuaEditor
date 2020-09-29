@@ -37,6 +37,8 @@ You can also minify code, find tutorials and examples or use the ui builder to c
     <script type="text/javascript" src="scripts/jquery.js"></script>
     <script type="text/javascript" src="scripts/jquery_ui.js"></script>
     <script type="text/javascript" id="fengari-script" src="scripts/fengari_web.js"></script>
+    <script type="text/javascript" src="scripts/util.js"></script>
+    <script type="text/javascript" src="scripts/translate.js"></script>
     <script type="text/javascript" src="scripts/share.js"></script>
     <script type="text/javascript" src="scripts/script.js"></script>
     <script type="text/javascript" src="scripts/newui.js"></script>
@@ -165,7 +167,7 @@ You can also minify code, find tutorials and examples or use the ui builder to c
     -->
 
     <div style="display: none;">
-        <div id="monitor-container" viewable="monitor">
+        <div id="monitor-container" viewable="viewable_monitor">
             <div id="monitor">
                 <canvas id="canvas"></canvas>
                 <div id="overflow"></div>
@@ -181,7 +183,7 @@ You can also minify code, find tutorials and examples or use the ui builder to c
             <canvas id="render-canvas"></canvas>
         </div>
 
-        <div class="settings_list" viewable="settings">
+        <div class="settings_list" viewable="viewable_settings">
             <div class="setting">
                 <label for="monitor-size">Monitor</label>
                 <select id="monitor-size" name="monitor-size">
@@ -233,7 +235,7 @@ You can also minify code, find tutorials and examples or use the ui builder to c
             </div>
         </div>
 
-        <div id="out" viewable="console">
+        <div id="out" viewable="viewable_console">
             <h3>Console Output:</h3>
             <div id="console">
                 <div id="console-inner"></div>
@@ -241,17 +243,17 @@ You can also minify code, find tutorials and examples or use the ui builder to c
             <span class="console_clear icon-bin"></span>
         </div>
 
-        <div id="property" class="value_list" viewable="properties"></div>
+        <div id="property" class="value_list" viewable="viewable_properties"></div>
 
-        <div id="input" class="value_list" viewable="inputs"></div>
+        <div id="input" class="value_list" viewable="viewable_inputs"></div>
 
-        <div id="output" class="value_list" viewable="outputs"></div>
+        <div id="output" class="value_list" viewable="viewable_outputs"></div>
 
-        <div id="documentation" class="content_part" viewable="documentation">
+        <div id="documentation" class="content_part" viewable="viewable_documentation">
             <h2>Available functions:</h2>
         </div>
 
-        <div id="editor" viewable="editor_normal">
+        <div id="editor" viewable="viewable_editor_normal">
             <div id="code-container">
                 <div id="code" class="code_field">
 function onTick()
@@ -284,7 +286,7 @@ end
             </div>
         </div>
 
-        <div id="minified-editor" viewable="editor_minified">
+        <div id="minified-editor" viewable="viewable_editor_minified">
             <h3>Minified Code:</h3>
             <div id="minified-controls" class="controls">
                 <div class="controls_container">
@@ -309,7 +311,7 @@ end
             </div>
         </div>
 
-        <div id="unminified-editor" viewable="editor_unminified">
+        <div id="unminified-editor" viewable="viewable_editor_unminified">
             <h3>Unminified Code:</h3>
             <div id="unminified-code-container">
                 <div id="unminified-code" class="code_field">
@@ -321,7 +323,7 @@ end
             </div>
         </div>
 
-        <div id="ui-builder" viewable="editor_uibuilder">
+        <div id="ui-builder" viewable="viewable_editor_uibuilder">
             <h2>UI Builder (Beta)</h2>
             <div id="ui-builder-container"></div>
             <div id="ui-builder-controls">

@@ -16,10 +16,10 @@ newui = (($)=>{
     const SPLITTER_WIDTH = 6 /* this needs to be changed together with the css */
 
     const DEFAULT_LAYOUT = {
-        top_left: ['editor_normal', 'editor_minified', 'editor_unminified', 'editor_uibuilder'],
-        top_right: ['properties', 'inputs', 'outputs', 'documentation'],
-        bottom_left: ['console'],
-        bottom_right: ['monitor', 'settings']
+        top_left: ['viewable_editor_normal', 'viewable_editor_minified', 'viewable_editor_unminified', 'viewable_editor_uibuilder'],
+        top_right: ['viewable_properties', 'viewable_inputs', 'viewable_outputs', 'viewable_documentation'],
+        bottom_left: ['viewable_console'],
+        bottom_right: ['viewable_monitor', 'viewable_settings']
     }
 
     function init(){
@@ -200,7 +200,7 @@ class View extends SimpleEventor {
 
     addViewable(viewable, focus){
         this.dom.find('.viewable_container').append( viewable.dom )
-        let select = $('<div select-viewable="' + viewable.name() + '" select="false">' + viewable.name() + '</div>')
+        let select = $('<div select-viewable="' + viewable.name() + '" select="false">' + translate.key(viewable.name()) + '</div>')
         select.on('click', ()=>{
             this.focus(viewable)
         })
