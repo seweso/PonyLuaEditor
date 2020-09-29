@@ -11,7 +11,7 @@ class Editor {
         this.oldHeight = 0
 
         this.dom.on('change', ()=>{
-            this.refreshEditorCharacterCount()
+            this.refreshCharacterCount()
         })
 
         this.editor.selection.on('changeCursor', ()=>{

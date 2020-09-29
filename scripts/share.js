@@ -70,12 +70,12 @@ var SHARE = ((global, $)=>{
     }
 
     function doCreate(){
-        YYY.report(YYY.REPORT_TYPE_IDS.shareCode)
+        reporter.report(reporter.REPORT_TYPE_IDS.shareCode)
 
         log('creating new share')
 
 
-        let code = editor.getValue()
+        let code = editors.get('normal').editor.getValue()
         if(typeof code !== 'string' || code.length === 0){
             util.alert('Cannot share empty code!')
             return
@@ -86,15 +86,15 @@ var SHARE = ((global, $)=>{
         let settings = {}
         settings.input = INPUT.getStorage()
         settings.property = PROPERTY.getStorage()
-        settings.general = YYY.getStorage()
+        settings.general = storage.getStorage()
 
         let data = {
             code: code,
             settings: JSON.stringify(settings)
         }
 
-        let minifiedCode = minifiedEditor.getValue()
-        if(typeof minifiedCode === 'string' && minifiedCode.length > 0 && YYY.isCustomMinifiedCode()){
+        let minifiedCode = editors.get('minified').editor.getValue()
+        if(typeof minifiedCode === 'string' && minifiedCode.length > 0 && yyy.isCustomMinifiedCode()){
             data.minified_code = minifiedCode
         }
 
@@ -125,7 +125,7 @@ var SHARE = ((global, $)=>{
             util.alert('Cannot get data from ponybin. Please contact me.')
             return
         }
-        YYY.report(YYY.REPORT_TYPE_IDS.receiveShareCode)
+        reporter.report(reporter.REPORT_TYPE_IDS.receiveShareCode)
         
         log('receiving share', currentShare)
         $('#ponybin-receive-overlay').show()
@@ -150,8 +150,8 @@ var SHARE = ((global, $)=>{
                         let parsed = JSON.parse(json.luabin.settings)
                         INPUT.setStorage(parsed.input)
                         PROPERTY.setStorage(parsed.property)
-                        YYY.setStorage(parsed.general)
-                        YYY.refreshAll()
+                        storage.setStorage(parsed.general)
+                        //YYY.refreshAll() TODO enable this again
                     } catch (e){
                         console.error('error parsing settings from ponybin', e)
                     }

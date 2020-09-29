@@ -94,7 +94,7 @@ var CANVAS = ((global, $)=>{
     }
 
     function handleKeyDown(evt){
-        if(YYY.isRunning() && $('#enable-touchscreen').prop('checked')){
+        if(engine.isRunning() && $('#enable-touchscreen').prop('checked')){
             if(evt.originalEvent.button === 0 && mouseIsOverMonitor){
                 evt.originalEvent.key = 'e'
             }
@@ -115,7 +115,7 @@ var CANVAS = ((global, $)=>{
                 }
             }
             calculateTouchscreenInput()
-        } else if (YYY.isRunning() && !enableTouchscreenHintShown){
+        } else if (engine.isRunning() && !enableTouchscreenHintShown){
             enableTouchscreenHintShown = true
 
             $('#enable-touchscreen-container').addClass('show_hint')
@@ -126,7 +126,7 @@ var CANVAS = ((global, $)=>{
     }
 
     function handleKeyUp(evt){
-        if(YYY.isRunning() && $('#enable-touchscreen').prop('checked')){
+        if(engine.isRunning() && $('#enable-touchscreen').prop('checked')){
             if(evt.originalEvent.button === 0 && mouseIsOverMonitor){
                 evt.originalEvent.key = 'e'
                 console.log('mouseup')

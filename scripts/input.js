@@ -86,7 +86,7 @@ var INPUT = ((global, $)=>{
     }
 
     function handleKeyDown(evt){
-        if(YYY.isRunning()){
+        if(engine.isRunning()){
             for(let k of Object.keys(bools)){
                 let b = bools[k]
                 if(evt.originalEvent.key === b.key){
@@ -102,7 +102,7 @@ var INPUT = ((global, $)=>{
     }
 
     function handleKeyUp(evt){
-        if(YYY.isRunning()){
+        if(engine.isRunning()){
             for(let k of Object.keys(bools)){
                 let b = bools[k]
                 if(evt.originalEvent.key === b.key){

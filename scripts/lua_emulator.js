@@ -16,14 +16,6 @@ var LUA_EMULATOR = ((global, $)=>{
 
     let stepCount = 0
 
-    const CONSOLE_COLOR_SPECIAL = '#4db4ea'
-    const CONSOLE_COLOR_DEBUG = '#b80a66'
-    const CONSOLE_COLOR_ERROR = '#fb3636'
-
-    const DEFAULT_PRINT_COLOR = '#fff'
-
-    let currentPrintColor = DEFAULT_PRINT_COLOR
-
     function init(){
         makeFunctionAvailableInLua(print)
         makeFunctionAvailableInLua(printColor)
@@ -31,7 +23,7 @@ var LUA_EMULATOR = ((global, $)=>{
         makeFunctionAvailableInLuaViaName(timeStop, 'stop', 'timer')
 
         makeFunctionAvailableInLua(function pause(){
-            YYY.pauseScript()
+            engine.pauseScript()
         })
 
 
@@ -54,20 +46,16 @@ var LUA_EMULATOR = ((global, $)=>{
         for(let arg of args){
             text += luaToString(arg) + ' '
         }
-        printToConsole(text, currentPrintColor)
+        lua_console.print(text)
     }
 
     let printColor = function(r,g,b){
-        if( typeof r === 'number' && typeof g === 'number' && typeof b === 'number' && !isNaN(r) && !isNaN(g) && !isNaN(b)){
-            currentPrintColor = 'rgb(' + Math.min(255, Math.max(0, r)) + ','
-                + Math.min(255, Math.max(0, g)) + ','
-                + Math.min(255, Math.max(0, b)) + ')'
-        }
+        lua_console.setPrintColor(r,g,b)
     }
 
     let timeStart = function(){
         timer = performance.now()
-        printToConsole('timer started', CONSOLE_COLOR_SPECIAL)
+        lua_console.print('timer started', lua_console.COLOR.SPECIAL)
     }   
 
     let timeStop = function(label){
@@ -79,24 +67,8 @@ var LUA_EMULATOR = ((global, $)=>{
         let s = (time-ms)/1000 % 60
         let m = (time-ms-s*1000)/1000/60
         timer = false
-        printToConsole('timer stopped (min:sec:milsec) = ' + m + ':' + (s < 10 ? '0'+s : s) + ':' + ms, CONSOLE_COLOR_SPECIAL)
+        lua_console.print('timer stopped (min:sec:milsec) = ' + m + ':' + (s < 10 ? '0'+s : s) + ':' + ms, lua_console.COLOR.SPECIAL)
     }   
-
-    function printToConsole(text, hexcolor){
-        text = $('<div>'+text+'</div>').text()
-        if(hexcolor){
-            text = '<span style="color: ' + hexcolor + '">' + text + '</span>'
-        }
-
-        $('#console-inner').append(text + '<br>')
-
-        if($('#console-inner').children().length > 600){
-            while($('#console-inner').children().length > 400){
-                $('#console-inner').children().get(0).remove()
-            }
-            $('#console-inner').prepend('<div><span style="color: #f00">Some messages of the log output are removed for performance reasons! Don\' use print() that often for better performance!</span></div><br>')
-        }
-    }
 
     function createNamespace(name){    
         fengari.lua.lua_newtable(l)
@@ -367,9 +339,9 @@ var LUA_EMULATOR = ((global, $)=>{
     }
 
     function bluescreenError(l, message, luaObject){
-        YYY.errorStop()
+        engine.errorStop()
         console.error('LUA_EMULATOR.bluescreenError()', message, luaToString(luaObject), convertLuaValue(l.stack[l.top-1]))
-        printToConsole(message + ' ' + luaToString(luaObject), CONSOLE_COLOR_ERROR)
+        lua_console.print(message + ' ' + luaToString(luaObject), lua_console.COLOR.ERROR)
         setTimeout(()=>{
             console.log('paint bluescreen error')
             PAINT.setColor(0,0,255, 255)
@@ -386,7 +358,7 @@ var LUA_EMULATOR = ((global, $)=>{
             namespaces = {}
             fresh = false
 
-            currentPrintColor=DEFAULT_PRINT_COLOR
+            lua_console.reset()
 
             stepCount = 0
             
@@ -448,16 +420,15 @@ var LUA_EMULATOR = ((global, $)=>{
         draw: draw,
         isInTick: ()=>{return isInTick},
         isInDraw: ()=>{return isInDraw},
-        printToConsole: printToConsole,
         notifyPaused: ()=>{
-            printToConsole('-- paused script', CONSOLE_COLOR_DEBUG)
+            lua_console.print('-- paused script', lua_console.COLOR.DEBUG)
         },
         notifyUnPaused: ()=>{
-            printToConsole('-- resumed script', CONSOLE_COLOR_DEBUG)
+            lua_console.print('-- resumed script', lua_console.COLOR.DEBUG)
         },
         notifyStep: ()=>{
             stepCount++
-            printToConsole('-- step forward #' + stepCount, CONSOLE_COLOR_DEBUG)
+            lua_console.print('-- step forward #' + stepCount, lua_console.COLOR.DEBUG)
         }
     }
 })(window, jQuery)
