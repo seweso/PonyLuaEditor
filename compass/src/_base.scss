@@ -17,8 +17,8 @@ body,  * {
 }
 
 button {
-    background: linear-gradient(15deg, #EE4A4B 0%, #F4812E 100%);
-    border: 1px solid #bf5421;
+    background: linear-gradient(15deg, #2b4a6a 0%, #446483 100%);
+    border: 1px solid #305376;
     border-radius: 3px;
     color: #fff;
     padding: 8px 24px;
@@ -34,7 +34,7 @@ button {
 }
 
 button:hover {
-    background: linear-gradient(15deg, #be3b3c 0%, #c36724 100%);
+    background: linear-gradient(15deg, #446483 0%, #6e869f 100%);
 
     &.special_button {
         background: linear-gradient(13deg, #490428 0%, #930851 100%);
@@ -45,7 +45,7 @@ button[disabled] {
     border-color: #dbdbdb;
     color: #898989;
     cursor: not-allowed;
-    background: #e5baa6;
+    background: #8297ac;
 
     &.special_button {
         background: #db84b2;

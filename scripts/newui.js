@@ -13,7 +13,7 @@ newui = (($)=>{
     const DO_LOG = true
 
     const VIEW_VIEW_MIN_SIZE = 100
-    const SPLITTER_WIDTH = 8 /* this needs to be changed together with the css */
+    const SPLITTER_WIDTH = 6 /* this needs to be changed together with the css */
 
     const DEFAULT_LAYOUT = {
         top_left: ['editor_normal', 'editor_minified', 'editor_unminified', 'editor_uibuilder'],
@@ -83,7 +83,7 @@ newui = (($)=>{
                     throw 'viewable does not exist: "' + viewable + '"'
                 }
 
-                viewables[viewable].moveToView(views[view])
+                viewables[viewable].moveToView(views[view], true)
             }
         }
     }
@@ -154,8 +154,8 @@ class Viewable extends SimpleEventor {
     }
 
 
-    moveToView(view){
-        view.addViewable(this, true)
+    moveToView(view, dontFocus){
+        view.addViewable(this, dontFocus !== true)
 
         let curView = this.myCurrentView()
         if(curView){
@@ -200,7 +200,7 @@ class View extends SimpleEventor {
 
     addViewable(viewable, focus){
         this.dom.find('.viewable_container').append( viewable.dom )
-        let select = $('<div select-viewable="' + viewable.name() + '">' + viewable.name() + '</div>')
+        let select = $('<div select-viewable="' + viewable.name() + '" select="false">' + viewable.name() + '</div>')
         select.on('click', ()=>{
             this.focus(viewable)
         })
@@ -216,14 +216,15 @@ class View extends SimpleEventor {
     /* called after viewable is removed */
     refreshFocus(){
         /* remove old selects where the viewable has been removed */
-        let myViewables = []
+        let myViewables = {}
 
         this.dom.find('[viewable]').each((i, el)=>{
-            myViewables.push( $(el).attr('viewable') )
+            myViewables[ $(el).attr('viewable') ] = $(el)
         })
 
         this.dom.find('[select-viewable]').each((i, el)=>{
-            if( myViewables.indexOf( $(el).attr('select-viewable') ) === -1 ){
+            let theViewable = myViewables[ $(el).attr('select-viewable') ]
+            if(!theViewable){
                 $(el).remove()
             }
         })
@@ -231,19 +232,29 @@ class View extends SimpleEventor {
         /* select the first viewable if no other one is already visible */
         if(this.dom.find('[viewable][visible="true"]').length === 0){
             this.dom.find('[viewable]').first().attr('visible', 'true')
-            this.dom.find('[select-viewable]').attr('visible', 'true')
+            this.dom.find('[select-viewable="' + this.dom.find('[viewable]').first().attr('viewable') + '"]').attr('visible', 'true')
         }
+
+        this.focusSelect(this.dom.find('[viewable][visible="true"]').attr('viewable'))
     }
 
     focus(viewable){
         if(this.isViewablePartOfThisView(viewable)){
             this.dom.find('[viewable]').attr('visible', 'false')
             viewable.dom.attr('visible', 'true')
+
+            this.focusSelect(viewable.dom.attr('viewable'))
         } else {
             if(newui.DO_LOG){
                 console.warn('cannot focus viewable that is not part of this view', viewable, this)
             }
         }
+    }
+
+    /* same as focus, but for the selection tab */
+    focusSelect(viewable_name){
+        this.dom.find('[select-viewable]').attr('select', 'false')
+        this.dom.find('[select-viewable="' + viewable_name + '"]').attr('select', 'true')
     }
 
     isViewablePartOfThisView(viewable){
@@ -375,8 +386,8 @@ class Splitter extends SimpleEventor {
         this.dom.attr('hover', this.isHover ? 'true' : 'false')
 
         this.dom.css({
-            top: this.y,
-            left: (this.type === 'horizontal' && ! this.isHorizontalLeft) ? newui.verticalSplitterPosition() : this.x,
+            left: this.getX(),
+            top: this.getY(),
             width: this.getWidth() + 'px',
             height: this.getHeight() + 'px'
         })
@@ -389,12 +400,32 @@ class Splitter extends SimpleEventor {
         }
     }
 
+    getX(){
+        if(this.type === 'horizontal'){
+            if(! this.isHorizontalLeft){
+                return newui.verticalSplitterPosition() + 3 /* tiny offset, so they dont overlay each other */
+            } else {
+                this.x
+            }
+        } else {
+            return this.x - newui.SPLITTER_WIDTH / 2
+        }
+    }
+
+    getY(){
+        if(this.type === 'vertical'){
+            return this.y
+        } else {
+            return this.y - newui.SPLITTER_WIDTH / 2
+        }
+    }
+
     getWidth(){
         if(this.type === 'vertical'){
             return newui.SPLITTER_WIDTH
         } else if(this.type === 'horizontal'){
             if(this.isHorizontalLeft){
-                return newui.verticalSplitterPosition()
+                return newui.verticalSplitterPosition() - 3 /* tiny offset, so they dont overlay each other */
             } else {
                 return newui.flexview().width() - newui.verticalSplitterPosition()
             }

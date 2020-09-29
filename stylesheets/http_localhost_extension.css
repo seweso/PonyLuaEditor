@@ -1,6 +1,7 @@
 /* line 1, ../compass/src/_variables.scss */
 :root {
-  --background-accent-gradient: linear-gradient(10deg, #be3b3c 0%, #c36724 100%);
+  --background-accent-gradient: linear-gradient(10deg, #2b4a6a 0%, #446483 100%);
+  --background-strong-accent-gradient: linear-gradient(10deg, #2b5a88 0%, #5e8dbb 100%);
   --background-grey-gradient: linear-gradient(10deg, #666 0%, #888 100%);
 }
 
@@ -25,8 +26,8 @@ body, * {
 
 /* line 19, ../compass/src/_base.scss */
 button {
-  background: linear-gradient(15deg, #EE4A4B 0%, #F4812E 100%);
-  border: 1px solid #bf5421;
+  background: linear-gradient(15deg, #2b4a6a 0%, #446483 100%);
+  border: 1px solid #305376;
   border-radius: 3px;
   color: #fff;
   padding: 8px 24px;
@@ -43,7 +44,7 @@ button.special_button {
 
 /* line 36, ../compass/src/_base.scss */
 button:hover {
-  background: linear-gradient(15deg, #be3b3c 0%, #c36724 100%);
+  background: linear-gradient(15deg, #446483 0%, #6e869f 100%);
 }
 /* line 39, ../compass/src/_base.scss */
 button:hover.special_button {
@@ -55,7 +56,7 @@ button[disabled] {
   border-color: #dbdbdb;
   color: #898989;
   cursor: not-allowed;
-  background: #e5baa6;
+  background: #8297ac;
 }
 /* line 50, ../compass/src/_base.scss */
 button[disabled].special_button {

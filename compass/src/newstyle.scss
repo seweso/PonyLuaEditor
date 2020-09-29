@@ -5,7 +5,7 @@
 $navigation_height: 100px;
 $ide_bar_height: 60px;
 
-$splitter_width: 8px;
+$splitter_width: 6px;
 
 .ide {
     width: 100%;
@@ -32,7 +32,7 @@ $splitter_width: 8px;
                 padding: 5px;
                 border-radius: 3px;
                 display: inline-block;
-                color: #fff;
+                color: $light;
 
                 button {
                     margin: 0;
@@ -62,21 +62,41 @@ $splitter_width: 8px;
         width: 50vw;
         height: calc( ( 100vh - #{$navigation_height} - #{$ide_bar_height} ) / 2);
 
+        background: $dark;
+        padding: 6px;
+
         .select {
             display: flex;
             flex-direction: row;
             width: 100%;
-            height: 1.5em;
+            height: 2em;
+            background: $dark;
+            border-bottom: 1px solid $light;
+            margin-bottom: 6px;
 
-            background: black;
-            color: #fff;
+            [select-viewable] {
+                background: $medium-darker;
+                color: $light;
+                cursor: pointer;
+                padding: 0.25em 0.5em;
+            }
+
+            [select-viewable]:not(:last-child) {
+                border-right: 1px solid $light;
+            }
+
+            [select-viewable][select="true"] {
+                background: $light;
+                color: $dark;
+            }
         }
 
         .viewable_container {
             width: 100%;
             height: 100%;
             overflow: auto;
-            background: grey;
+            background: $medium_dark;
+            border-radius: 3px;
         }
     }
 
@@ -88,8 +108,8 @@ $splitter_width: 8px;
 
     [splitter] {
         position: absolute;
-        background: #fff;
-        border: 3px solid blue;        
+        background: var(--background-strong-accent-gradient);
+        border: 2px solid $dark;
 
         /* hack so the mouse is not leaving the splitter directly */
         &:after {
@@ -100,7 +120,6 @@ $splitter_width: 8px;
             left: -1000px;
             width: calc(100% + 2000px);
             height: calc(100% + 2000px);
-            background: #f00a;
         }
     }
 
@@ -113,12 +132,14 @@ $splitter_width: 8px;
         top: 0;
         height: calc(100vh - #{$navigation_height} - #{$ide_bar_height});
         width: 8px;
+        cursor: e-resize;
     }
 
     [splitter="horizontal_left"], [splitter="horizontal_right"] {
         top: calc( ( 100vh - #{$navigation_height} - #{$ide_bar_height} ) / 2 - (#{$splitter_width} / 2));
         height: $splitter_width;
         width: calc(50vw - (#{$splitter_width} / 2));
+        cursor: n-resize;
     }
 
     [splitter="horizontal_left"] {
