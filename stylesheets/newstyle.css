@@ -230,21 +230,17 @@ a:hover {
   cursor: pointer;
 }
 
-/* line 8, ../compass/src/newstyle.scss */
+/* line 10, ../compass/src/newstyle.scss */
 .ide {
+  position: relative;
   width: 100%;
-  max-height: calc(100vh - 100px);
+  height: calc(100vh - 100px);
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  /* sass bug prevents use to use sass style! cant chain multiple attribute rules over different layers */
 }
-/* line 15, ../compass/src/newstyle.scss */
-.ide > * {
-  width: 100%;
-  max-height: 100%;
-  overflow-y: auto;
-}
-/* line 21, ../compass/src/newstyle.scss */
+/* line 18, ../compass/src/newstyle.scss */
 .ide .ide_bar {
   background: grey;
   display: flex;
@@ -252,7 +248,7 @@ a:hover {
   align-items: center;
   height: 60px;
 }
-/* line 28, ../compass/src/newstyle.scss */
+/* line 25, ../compass/src/newstyle.scss */
 .ide .ide_bar .ide_controls {
   display: flex;
   flex-direction: row;
@@ -260,58 +256,85 @@ a:hover {
   align-items: center;
   flex-wrap: wrap;
 }
-/* line 35, ../compass/src/newstyle.scss */
+/* line 32, ../compass/src/newstyle.scss */
 .ide .ide_bar .ide_controls .controls_group {
   padding: 5px;
   border-radius: 3px;
   display: inline-block;
   color: #fff;
 }
-/* line 41, ../compass/src/newstyle.scss */
+/* line 38, ../compass/src/newstyle.scss */
 .ide .ide_bar .ide_controls .controls_group button {
   margin: 0;
 }
-/* line 45, ../compass/src/newstyle.scss */
+/* line 42, ../compass/src/newstyle.scss */
 .ide .ide_bar .ide_controls .controls_group button:not(:last-child) {
   margin-right: 10px;
 }
-/* line 49, ../compass/src/newstyle.scss */
+/* line 46, ../compass/src/newstyle.scss */
 .ide .ide_bar .ide_controls .controls_group:not(:last-child) {
   margin-right: 10px;
 }
-/* line 56, ../compass/src/newstyle.scss */
-.ide .ide_top, .ide .ide_bottom {
-  display: flex;
-  flex-direction: row;
-  height: calc( ( 100vh - 60px ) / 2);
+/* line 53, ../compass/src/newstyle.scss */
+.ide .ide_flex_view {
+  width: 100%;
+  height: calc(100vh - 100px - 60px);
 }
-/* line 61, ../compass/src/newstyle.scss */
-.ide .ide_top > *, .ide .ide_bottom > * {
-  width: 50%;
-  max-height: 100%;
-  overflow-y: auto;
-}
-/* line 90, ../compass/src/newstyle.scss */
-.ide .top_left, .ide .top_right, .ide .bottom_left, .ide .bottom_right {
+/* line 58, ../compass/src/newstyle.scss */
+.ide [view] {
   display: flex;
   flex-direction: column;
+  width: 50vw;
+  height: calc( ( 100vh - 100px - 60px ) / 2);
 }
-/* line 94, ../compass/src/newstyle.scss */
-.ide .top_left .select_tab, .ide .top_right .select_tab, .ide .bottom_left .select_tab, .ide .bottom_right .select_tab {
+/* line 64, ../compass/src/newstyle.scss */
+.ide [view] .select {
   display: flex;
   flex-direction: row;
   width: 100%;
   height: 1.5em;
   background: black;
 }
-/* line 102, ../compass/src/newstyle.scss */
-.ide .top_left .contents, .ide .top_right .contents, .ide .bottom_left .contents, .ide .bottom_right .contents {
+/* line 73, ../compass/src/newstyle.scss */
+.ide [view] .viewable_container {
   width: 100%;
-  height: auto;
+  height: 100%;
+  background: grey;
+}
+/* line 81, ../compass/src/newstyle.scss */
+.ide [viewable][visible="false"] {
+  display: none;
+}
+/* line 86, ../compass/src/newstyle.scss */
+.ide [splitter] {
+  position: absolute;
+  background: #fff;
+  border: 3px solid blue;
+}
+/* line 92, ../compass/src/newstyle.scss */
+.ide [splitter="vertical"] {
+  left: calc(50vw - (8px / 2));
+  top: 60px;
+  height: calc(100vh - 100px - 60px);
+  width: 8px;
+}
+/* line 99, ../compass/src/newstyle.scss */
+.ide [splitter="horizontal_left"], .ide [splitter="horizontal_right"] {
+  top: calc( ( 100vh - 100px - 60px ) / 2 - (8px / 2) - 100px);
+  height: 8px;
+  width: calc(50vw - (8px / 2));
+}
+/* line 105, ../compass/src/newstyle.scss */
+.ide [splitter="horizontal_left"] {
+  left: 0;
+}
+/* line 109, ../compass/src/newstyle.scss */
+.ide [splitter="horizontal_right"] {
+  left: calc(50vw + (8px / 2));
 }
 
 /* only temporary: */
-/* line 110, ../compass/src/newstyle.scss */
+/* line 115, ../compass/src/newstyle.scss */
 #mobile-menu, #fixed-information-badges, #example-container {
   display: none;
 }
