@@ -16,6 +16,8 @@ var LUA_EMULATOR = ((global, $)=>{
 
     let stepCount = 0
 
+    loader.on(loader.EVENT.PAGE_READY, init)
+
     function init(){
         makeFunctionAvailableInLua(print)
         makeFunctionAvailableInLua(printColor)
@@ -32,6 +34,8 @@ var LUA_EMULATOR = ((global, $)=>{
             "coroutine","require","package","utf8","io","os","debug"]){
             deleteGlobalVariable(n)
         }
+
+        loader.done(loader.EVENT.LUA_EMULATOR_READY)
     }
 
     let print = function(){
@@ -403,8 +407,6 @@ var LUA_EMULATOR = ((global, $)=>{
         }
         isInDraw = false
     }
-
-    init()
 
     return {
         supportedFunctions: ()=>{return supportedFunctions},

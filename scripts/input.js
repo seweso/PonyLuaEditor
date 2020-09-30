@@ -14,14 +14,16 @@ var INPUT = ((global, $)=>{
 
     const SUPPORTED_INPUT_KEYS = ['e', 'q', 1, 2, 3, 4, 5, 6, 7, 8, 9, 'a', 'b', 'c', 'd', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
 
-    function init(container){
+    loader.on(loader.EVENT.ENGINE_READY, init)
+
+    function init(){
 
         $(global).on('keydown', handleKeyDown)
         $(global).on('keyup', handleKeyUp)
 
         bools = {}
         numbers = {}
-        dom = $(container)
+        dom = $('#input')
         dom.html('')
         dom.append('<div class="head">Inputs:</div>')
 
@@ -55,8 +57,6 @@ var INPUT = ((global, $)=>{
         dom_numbers.find('.head').append(dom_numbers_add)
         dom.append(dom_numbers)
 
-        $(container).append(dom)
-
         let store = getFromStorage()
         if(typeof store.bools === 'object' && store.bools !== null){
             for(let k of Object.keys(store.bools)){
@@ -83,6 +83,8 @@ var INPUT = ((global, $)=>{
         }
 
         initiating = false
+
+        loader.done(loader.EVENT.INPUTS_READY)
     }
 
     function handleKeyDown(evt){
@@ -651,7 +653,6 @@ var INPUT = ((global, $)=>{
     }
 
     return {
-        init: init,
         reset: reset,
         getBool: getBool,
         getBoolLabel: getBoolLabel,

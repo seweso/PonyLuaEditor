@@ -20,7 +20,7 @@ engine = (($)=>{
 
     let totalStartsInTheSession = 0
 
-    $(window).on('newui_loaded', init)
+    loader.on(loader.EVENT.UI_READY, init)
 
     function init(){
 
@@ -112,15 +112,13 @@ engine = (($)=>{
             saveMinifiedCodeInStorage()
             $('#minified-code-container .custom_hint').show()
         })
+
+        loader.done(loader.EVENT.ENGINE_READY)
     }
 
 
     function refresh(){
         //TODO add load config from localStorage (currently in script.js)
-
-        INPUT.init($('#input'))
-        OUTPUT.init($('#output'))
-        PROPERTY.init($('#property'))
 
         CANVAS.refresh()        
 

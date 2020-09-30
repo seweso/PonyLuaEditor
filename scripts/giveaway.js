@@ -3,6 +3,8 @@ var GIVEAWAY = (($)=>{
 
     let currentGiveaway
 
+    loader.on(loader.EVENT.PAGE_READY, init)
+
     function init(){
         $('#giveaway-container').find('.send').on('click', giveawaySend)
         $('#giveaway-container').find('.cancel, .close').on('click', ()=>{
@@ -20,6 +22,8 @@ var GIVEAWAY = (($)=>{
                 $('#giveaway-container').fadeIn()
             }
         })
+
+        loader.done(loader.EVENT.GIVEAWAY_READY)
     }
 
     function giveawaySend(){
@@ -54,12 +58,4 @@ var GIVEAWAY = (($)=>{
             $('#giveaway-container').find('.error').html('could not claim giveaway, please reload the page.').show()            
         }
     }
-
-    return {
-        init: init
-    }
 })(jQuery)
-
-$(window).on('load', ()=>{
-    GIVEAWAY.init()
-})

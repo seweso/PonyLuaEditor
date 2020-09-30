@@ -6,7 +6,7 @@ storage = (()=>{
     /* configuration might be an empty object, contain parts of a full configuration, or a complete configuration */
     let configuration = {}
 
-    init()
+    loader.on(loader.EVENT.PAGE_READY, init)
 
     function init(){
         let yyy = localStorage.getItem('yyy')
@@ -57,7 +57,7 @@ storage = (()=>{
                 bools: localStorage.getItem('property_bools'),
                 numbers: localStorage.getItem('property_numbers'),
                 texts: localStorage.getItem('property_texts'),
-            }
+            },
             settings: {
                 timeBetweenTicks: general.timeBetweenTicks,
                 timeBetweenDraws: general.timeBetweenDraws,
@@ -80,11 +80,12 @@ storage = (()=>{
     }
 
     function processStorage(storage){
-        // TODO notify other modules of the store
         configuration = storage
         if(!configuration || configuration instanceof Object === false){
             configuration = {}
         }
+
+        loader.done(loader.EVENT.STORAGE_READY)
     }
 
     function saveConfiguration(){

@@ -41,7 +41,7 @@ var UI_BUILDER = ((global, $)=>{
         rotate_point: 'function rotatePoint(cx,cy,angle,px,py)\ns=math.sin(angle)\nc=math.cos(angle)\npx=px-cx\npy=py-cy\nxnew=px*c-py*s\nynew=px*s+py*c\npx=xnew+cx\npy=ynew+cy\nreturn {x=px,y=py}\nend'
     }
 
-    $(global).on('load', ()=>{
+    loader.on(loader.EVENT.UI_READY, ()=>{
         init($('#ui-builder-container'))
     })
 
@@ -126,6 +126,8 @@ var UI_BUILDER = ((global, $)=>{
         })
 
         loadFromStorage()
+
+        loader.done(loader.EVENT.UI_BUILDER_READY)
     }
 
     function deactivateAllElements(){

@@ -5,10 +5,9 @@ yyy = (($)=>{
 
     let isCustomMinifiedCode = false
 
-    $(window).on('newui_loaded', init)
+    loader.on(loader.EVENT.UI_READY, init)
 
     function init(){
-
 
         function showPerformanceHint(){
             util.hint('Performance hint', 'After 30 minutes you should reload the page to reset the emulator.\nPlease save ALL of your code (editor, minified and ui builder).\nThen reload the page.', {extended: true})
@@ -168,14 +167,10 @@ yyy = (($)=>{
                 setStorage(toStore)
             }
 
+            //refreshAll()
         */
 
-        setTimeout(()=>{
-            //refreshAll()
-
-            $(window).trigger('yyy_refresh_all') // TODO: we still need this?
-        }, 200)
-
+        loader.done(loader.EVENT.OTHERS_READY)
     }
 
     return {

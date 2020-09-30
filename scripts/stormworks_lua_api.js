@@ -1,7 +1,7 @@
 ((global, $)=>{
   "use strict";
 
-    $(global).on('lua_emulator_loaded', init)
+    loader.on(loader.EVENT.LUA_EMULATOR_READY, init)
 
     function init(){
         setScreenFunctions()
@@ -11,9 +11,8 @@
         setOutputFunctions()
         setPropertyFunctions()
         setHTTPFunctions()
-        setTimeout(()=>{
-            $(global).trigger('stormworks_lua_api_loaded')
-        }, 10)
+        
+        loader.done(loader.EVENT.STORMWORKS_LUA_API_READY)
     }
 
 

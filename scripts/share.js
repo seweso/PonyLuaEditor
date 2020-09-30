@@ -4,12 +4,11 @@ var SHARE = ((global, $)=>{
 
     let BASE_URL = document.location.protocol + '//' + document.location.host
 
-    $(global).on('load', init)
+    loader.on(loader.EVENT.STORAGE_READY, init)
 
     let isShareOpen = false
 
     function init(){
-
 
         let moreWidth = $('#share .more .currentshare_container').outerWidth()
 
@@ -55,7 +54,7 @@ var SHARE = ((global, $)=>{
             setCurrentShare(paramid)
             setTimeout(doReceive, 1000)
         } else {
-            $(window).trigger('yyy_prepared')
+            loader.done(loader.EVENT.SHARE_READY)
         }
     }
 
@@ -175,7 +174,7 @@ var SHARE = ((global, $)=>{
             util.alert('Cannot get data from ponybin. Is the share key correct?')
         }).always(()=>{
             $('#ponybin-receive-overlay').hide()
-            $(window).trigger('yyy_prepared')
+            loader.done(loader.EVENT.SHARE_READY)
         })
     }
 

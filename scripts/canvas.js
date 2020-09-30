@@ -38,7 +38,7 @@ var CANVAS = ((global, $)=>{
 
     let secondaryTouchEnabled = true
 
-    $(global).on('load', init)
+    loader.on(loader.EVENT.ENGINE_READY, init)
 
     function init(){
         $('#monitor-size, #show-overflow').on('change', (e)=>{
@@ -91,6 +91,8 @@ var CANVAS = ((global, $)=>{
         $('body').append($renderCanvas)
 
         refresh()
+        
+        loader.done(loader.EVENT.CANVAS_READY)
     }
 
     function handleKeyDown(evt){

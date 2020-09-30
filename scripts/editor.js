@@ -117,9 +117,13 @@ editors = (()=>{
 
     const DEFAULT_EDITOR_FONTSIZE = 12
 
-    $(window).on('newui_loaded', ()=>{
+    loader.on(loader.EVENT.UI_READY, init)
+
+    function init(){
         refreshEditorFontSize()
-    })
+
+        loader.done(loader.EVENT.EDITORS_READY)
+    }
 
     function registerEditor(editor, name){
         editors[name] = editor

@@ -433,7 +433,7 @@ var EXAMPLES = ((global, $)=>{
     }]
 
 
-    $(global).on('load', init)
+    loader.on(loader.EVENT.UI_READY, init)
 
     $(global).on('resize', resizeCodeBlocks)
 
@@ -510,6 +510,8 @@ var EXAMPLES = ((global, $)=>{
         }
 
         resizeCodeBlocks()
+
+        loader.done(loader.EVENT.EXAMPLES_READY)
     }
     
     function resizeCodeBlocks(){

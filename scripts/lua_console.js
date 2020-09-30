@@ -13,7 +13,7 @@ lua_console = (($)=>{
     let currentPrintColor = DEFAULT_PRINT_COLOR
 
 
-    $(window).on('newui_loaded', init)
+    loader.on(loader.EVENT.UI_READY, init)
 
     function init(){
 
@@ -23,6 +23,8 @@ lua_console = (($)=>{
 
         
         $('#console-inner').html('')
+
+        loader.done(loader.EVENT.LUA_CONSOLE_READY)
     }
 
 

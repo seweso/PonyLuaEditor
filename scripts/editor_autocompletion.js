@@ -16,7 +16,7 @@ var AUTOCOMPLETE = ((global, $)=>{
         'user': 'User defined (that\'s you!)'
     }
 
-    const AUTOCOMPLETITIONS = {
+    const AUTOCOMPLETIONS = {
         children: {
             screen: {
                 type: TO,
@@ -577,14 +577,23 @@ var AUTOCOMPLETE = ((global, $)=>{
             }
         }
     }
-    let PARSED_AUTOCOMPLETITIONS
-    parseAUTOCOMPLETITIONS()
+
+    
+    let PARSED_AUTOCOMPLETIONS
+
+
+    loader.on(loader.EVENT.ENGINE_READY, init)
 
 
 
+    function init(){
+        parseAUTOCOMPLETIONS()
 
-    function parseAUTOCOMPLETITIONS(){
-        PARSED_AUTOCOMPLETITIONS = JSON.parse(JSON.stringify(AUTOCOMPLETITIONS))
+        loader.done(loader.EVENT.EDITOR_AUTOCOMPLETION_READY)
+    }
+
+    function parseAUTOCOMPLETIONS(){
+        PARSED_AUTOCOMPLETIONS = JSON.parse(JSON.stringify(AUTOCOMPLETIONS))
 
         function _do(node, parent){
             if(typeof node.description === 'string'){
@@ -605,7 +614,7 @@ var AUTOCOMPLETE = ((global, $)=>{
             }
         }
 
-        _do(PARSED_AUTOCOMPLETITIONS)
+        _do(PARSED_AUTOCOMPLETIONS)
     }
 
     function parseDescription(description){
@@ -622,8 +631,8 @@ var AUTOCOMPLETE = ((global, $)=>{
         return '<a href="' + url + '" target="_blank" rel="noopener noreferrer">' + label + '</a>'
     }
 
-    function getAllAUTOCOMPLETITIONSParsed(){
-        return PARSED_AUTOCOMPLETITIONS
+    function getAllAUTOCOMPLETIONSParsed(){
+        return PARSED_AUTOCOMPLETIONS
     }
 
     return {
@@ -632,8 +641,8 @@ var AUTOCOMPLETE = ((global, $)=>{
         TV: TV,
         TA: TA,
         LIB_TITLES: LIB_TITLES,
-        getAllAutocompletitions: ()=>{ return AUTOCOMPLETITIONS; },
-        getAllAUTOCOMPLETITIONSParsed: getAllAUTOCOMPLETITIONSParsed
+        getAllAutocompletions: ()=>{ return AUTOCOMPLETIONS; },
+        getAllAUTOCOMPLETIONSParsed: getAllAUTOCOMPLETIONSParsed
     }
 
 })(window, jQuery)
@@ -672,9 +681,9 @@ class Autocomplete {
             return
         }
         let word = this.getWordInFrontOfPosition(pos.row, pos.column)
-        let [autocompletitions, part] = AUTOCOMPLETE.getAutocompletitions(word)
-        console.log('suggestAutocomplete(' + word + ')', autocompletitions)
-        this.showAutocompletitions($('#autocompletition-container'), autocompletitions, part)
+        let [autocompletions, part] = AUTOCOMPLETE.getAutocompletions(word)
+        console.log('suggestAutocomplete(' + word + ')', autocompletions)
+        this.showAutocompletions($('#autocompletition-container'), autocompletions, part)
     }
 
     getWordInFrontOfPosition(row, column){
@@ -687,9 +696,9 @@ class Autocomplete {
         return matches[2]
     }
 
-    getAutocompletitions(text){
+    getAutocompletions(text){
         let parts = text.split('.').reverse()
-        let tmp = JSON.parse(JSON.stringify(AUTOCOMPLETE.PARSED_AUTOCOMPLETITIONS))
+        let tmp = JSON.parse(JSON.stringify(AUTOCOMPLETE.PARSED_AUTOCOMPLETIONS))
 
         let keywords = this.getKeywordsFromCode()
         for(let k of Object.keys(keywords)){
@@ -799,7 +808,7 @@ class Autocomplete {
         return ret
     }    
 
-    showAutocompletitions(container, completitions, part){
+    showAutocompletions(container, completitions, part){
         YYY.report(YYY.REPORT_TYPE_IDS.openAutocomplete)
         
         if(autocompletitionIsShown){

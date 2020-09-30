@@ -11,8 +11,10 @@ var OUTPUT = ((global, $)=>{
     let dom_bools
     let dom_numbers
 
-    function init(container){
-        dom = $(container)
+    loader.on(loader.EVENT.ENGINE_READY, init)
+
+    function init(){
+        dom = $('#output')
 	    dom.html('')
         dom.append('<div class="head">Outputs:</div>')
 
@@ -22,7 +24,7 @@ var OUTPUT = ((global, $)=>{
         dom_numbers = $('<div class="numbers"><div class="head"><span>Numbers:</span></div></div>')
         dom.append(dom_numbers)
 
-        $(container).append(dom)
+        loader.done(loader.EVENT.OUTPUTS_READY)
     }
 
     function reset(){
@@ -94,7 +96,6 @@ var OUTPUT = ((global, $)=>{
     }
     
     return {
-        init: init,
         setBool: setBool,
         setNumber: setNumber,
         refresh: refresh,

@@ -10,11 +10,13 @@ var PROPERTY = ((global, $)=>{
     let dom_numbers
     let dom_texts
 
-    function init(container){
-	bools = {}
-	numbers = {}
-	texts = {}
-        dom = $(container)
+    loader.on(loader.EVENT.ENGINE_READY, init)
+
+    function init(){
+    	bools = {}
+    	numbers = {}
+    	texts = {}
+        dom = $('#property')
         dom.html('')
         dom.append('<div class="head">Properties:</div>')
 
@@ -43,7 +45,6 @@ var PROPERTY = ((global, $)=>{
         dom.append(dom_texts)
 
 
-        $(container).append(dom)
 
         let store = getFromStorage()
         if(typeof store.bools === 'object' && store.bools !== null){
@@ -67,6 +68,8 @@ var PROPERTY = ((global, $)=>{
                 addNewText(k, store.texts[k])
             }
         }
+
+        loader.done(loader.EVENT.PROPERTIES_READY)
     }
 
     function setStorage(data){
@@ -249,7 +252,6 @@ var PROPERTY = ((global, $)=>{
 
 
     return {
-        init: init,
         getBool: getBool,
         getNumber: getNumber,
         getText: getText,

@@ -1,8 +1,5 @@
 newui = (($)=>{
 
-    $(window).on('load', init)
-
-
     let viewables = {}
     let views = {}
     let editors = {}
@@ -22,6 +19,8 @@ newui = (($)=>{
         bottom_left: ['viewable_console'],
         bottom_right: ['viewable_monitor', 'viewable_settings']
     }
+
+    loader.on(loader.EVENT.SHARE_READY, init)
 
     function init(){
         $('[viewable]').each((i, el)=>{
@@ -63,9 +62,7 @@ newui = (($)=>{
 
         loadLayout(DEFAULT_LAYOUT)
 
-        //$(window).trigger('yyy_ui_loaded')
-
-        $(window).trigger('newui_loaded')
+        loader.done(loader.EVENT.UI_READY)
     }
 
     function onSplitterUpdate(){
