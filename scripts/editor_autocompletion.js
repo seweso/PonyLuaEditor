@@ -504,7 +504,7 @@ var AUTOCOMPLETE = ((global, $)=>{
                         description: ' Returns a string containing a binary representation (a binary chunk) of the given function, so that a later load on this string returns a copy of the function (but with new upvalues). If strip is a true value, the binary representation may not include all debug information about the function, to save space.\nFunctions with upvalues have only their number of upvalues saved. When (re)loaded, those upvalues receive fresh instances containing nil. (You can use the debug library to serialize and reload the upvalues of a function in a way adequate to your needs.)'
                     },
                     find: {
-                        type: TF,                        
+                        type: TF,
                         args: [{name: 's'}, {name: 'patter'}, {name: 'init', optional: true}, {name: 'plain', optional: true}],
                         description: ' Looks for the first match of pattern (see §6.4.1) in the string s. If it finds a match, then find returns the indices of s where this occurrence starts and ends; otherwise, it returns nil. A third, optional numeric argument init specifies where to start the search; its default value is 1 and can be negative. A value of true as a fourth, optional argument plain turns off the pattern matching facilities, so the function does a plain "find substring" operation, with no characters in pattern being considered magic. Note that if plain is given, then init must be given as well.\nIf the pattern has captures, then in a successful match the captured values are also returned, after the two indices.'
                     },
@@ -519,7 +519,7 @@ var AUTOCOMPLETE = ((global, $)=>{
                         description: 'Returns an iterator function that, each time it is called, returns the next captures from pattern (see §6.4.1) over the string s. If pattern specifies no captures, then the whole match is produced in each call.\nAs an example, the following loop will iterate over all the words from string s, printing one per line:\n     s = "hello world from Lua"\n     for w in string.gmatch(s, "%a+") do\n       print(w)\n     end\nThe next example collects all pairs key=value from the given string into a table:\n     t = {}\n     s = "from=world, to=Lua"\n     for k, v in string.gmatch(s, "(%w+)=(%w+)") do\n       t[k] = v\n     end\nFor this function, a caret "^" at the start of a pattern does not work as an anchor, as this would prevent the iteration.'
                     },
                     gsub: {
-                        type: TF,                        
+                        type: TF,
                         args: [{name: 's'}, {name: 'pattern'}, {name: 'repl'}, {name: 'n', optional: true}],
                         description: '\nReturns a copy of s in which all (or the first n, if given) occurrences of the pattern (see §6.4.1) have been replaced by a replacement string specified by repl, which can be a string, a table, or a function. gsub also returns, as its second value, the total number of matches that occurred. The name gsub comes from Global SUBstitution.\nIf repl is a string, then its value is used for replacement. The character % works as an escape character: any sequence in repl of the form %d, with d between 1 and 9, stands for the value of the d-th captured substring. The sequence %0 stands for the whole match. The sequence %% stands for a single %.\nIf repl is a table, then the table is queried for every match, using the first capture as the key.\nIf repl is a function, then this function is called every time a match occurs, with all captured substrings passed as arguments, in order.\nIn any case, if the pattern specifies no captures, then it behaves as if the whole pattern was inside a capture.\nIf the value returned by the table query or by the function call is a string or a number, then it is used as the replacement string; otherwise, if it is false or nil, then there is no replacement (that is, the original match is kept in the string).'
                     },
@@ -539,7 +539,7 @@ var AUTOCOMPLETE = ((global, $)=>{
                         description: 'Looks for the first match of pattern (see §6.4.1) in the string s. If it finds one, then match returns the captures from the pattern; otherwise it returns nil. If pattern specifies no captures, then the whole match is returned. A third, optional numeric argument init specifies where to start the search; its default value is 1 and can be negative.'
                     },
                     pack: {
-                        type: TF,                        
+                        type: TF,
                         args: [{name: 'fmt'}, {name: 'v1'}, {name: 'v2'}, {name: '···'}],
                         description: 'Returns a binary string containing the values v1, v2, etc. packed (that is, serialized in binary form) according to the format string fmt (see §6.4.2).'
                     },
