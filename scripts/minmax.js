@@ -23,25 +23,7 @@ minmax = (()=>{
             }
         }
 
-        let autocompletitions = AUTOCOMPLETE.getAllAUTOCOMPLETITIONSParsed()
-        for(let name of Object.keys(autocompletitions.children)){
-            let child = autocompletitions.children[name]
-            printNode($('#documentation'), child, name)
-        }
-
-        function printNode(container, node, name){
-            let me = $('<div class="node" ntype="' + node.type + '" ' + (node.lib ? 'lib="' + node.lib + '"' : '') + '><div class="information"><div class="name">' + name + '</div><div class="args">' + (node.args || '') + '</div>' + (node.lib ? '<div class="lib_title">' + AUTOCOMPLETE.LIB_TITLES[node.lib] + '</div>' : '') + (node.url ? '<div class="url">' + node.url + '</div>' : '') + '<div class="text">' + node.description + '</div></div></div>')
-            container.append(me)
-            if(node.children){
-                let childcontainer = $('<div class="children"></div>')
-                me.append(childcontainer)
-                for(let name of Object.keys(node.children)){
-                    let child = node.children[name]
-                    printNode(childcontainer, child, '.' + name)
-                }
-            }
-        }
-
+        
 
         $('#minify').on('click', ()=>{
             report(REPORT_TYPE_IDS.minify)

@@ -1,0 +1,119 @@
+.ide [viewable="viewable_documentation"] {
+
+    padding: 5px;
+    
+    .node {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        border-radius: 3px;
+        background: $dark;
+        color: $light;
+
+        &:not(:last-child) {
+            margin-bottom: 5px;
+        }
+
+        &.contracted {
+
+            .bottom, .children {
+                display: none;
+            }
+        }
+
+        .top {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            padding: 3px 6px;
+            cursor: pointer;
+            
+            .definition {
+                display: flex;
+                flex-direction: row;
+                font-size: 18px;
+
+                .name {
+                    
+                }
+
+                .args {
+                    display: flex;
+                    flex-direction: row;
+                    margin-left: 5px;
+                    color: #e87704;
+                }
+
+            }
+
+            .lib {
+                border: 1px solid;
+                border-radius: 10000px;
+                padding: 2px 8px;
+                white-space: nowrap;
+                height: calc(1em + 2px * 4);
+            }
+        }
+
+        .bottom {
+            display: flex;
+            flex-direction: column;
+            padding: 5px 10px 10px 10px;
+
+            .url {
+                margin-bottom: 8px;
+            }
+
+            .text {
+
+            }
+        }
+
+        .children {
+            background: $light-dark;
+            padding: 6px;
+            border-left: 4px solid #222;
+            border-right: 4px solid #222;
+            border-bottom: 4px solid #222;
+            border-bottom-left-radius: 6px;
+            border-bottom-right-radius: 6px;
+        }
+
+        &[lib="stormworks"] {
+
+            .lib {
+                color: #bf5421!important;
+                border-color: #bf5421;
+            }
+        }
+
+        &[lib="dev"] {
+
+            .lib {
+                color: #ae6767!important;
+                border-color: #ae6767;
+            }
+        }
+
+        &[lib="lua"] {
+
+            .lib {
+                color: #0194E2!important;
+                border-color: #0194E2;
+            }
+        }
+
+        &[ntype="object"] {
+            .name {
+                color: #A6CE28;
+            }
+        }
+
+        &[ntype="function"] {
+            .name {
+                color: #66D9EF;
+            }
+        }
+    }
+}
+

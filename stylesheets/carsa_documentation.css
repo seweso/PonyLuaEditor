@@ -1,0 +1,161 @@
+/* line 1, ../compass/src/carsa_documentation.scss */
+* {
+  font-family: arial;
+}
+
+/* line 5, ../compass/src/carsa_documentation.scss */
+body {
+  background: grey;
+}
+
+/* line 9, ../compass/src/carsa_documentation.scss */
+#heading h2 {
+  display: inline-block;
+}
+
+/* contains each of the dropdowns */
+/* line 13, ../compass/src/carsa_documentation.scss */
+.dropdown {
+  width: 100%;
+}
+
+/* line 16, ../compass/src/carsa_documentation.scss */
+.dropdown_content a {
+  color: #00c0ff;
+  text-decoration: none;
+}
+
+/* description of object */
+/* line 21, ../compass/src/carsa_documentation.scss */
+.dropdown_content > .description {
+  font-size: 1.2em;
+}
+
+/* contains the object name, dropdown icon, and source(SW,Lua...) */
+/* line 25, ../compass/src/carsa_documentation.scss */
+.dropdown_header {
+  position: relative;
+  background: linear-gradient(180deg, #222427, #151719);
+  padding: 7px 5px;
+}
+
+/* name of object */
+/* line 31, ../compass/src/carsa_documentation.scss */
+.dropdown_header .name {
+  color: #00e8ff;
+  margin-left: 30px;
+  font-size: 1.5em;
+}
+
+/* styling for Stormworks API objects */
+/* line 37, ../compass/src/carsa_documentation.scss */
+.lib_title {
+  padding: 1px 3px;
+  border-radius: 8px;
+  font-weight: bold;
+  float: right;
+  border: #0081cc 2px solid;
+}
+
+/* line 44, ../compass/src/carsa_documentation.scss */
+[lib=stormworks] .lib_title {
+  color: #0081cc;
+}
+
+/* line 48, ../compass/src/carsa_documentation.scss */
+[lib=dev] .lib_title {
+  color: #ff4e00;
+  border: #ff4e00 2px solid;
+}
+
+/* line 53, ../compass/src/carsa_documentation.scss */
+[lib=lua] .lib_title {
+  color: #00ff37;
+  border: #00ff37 2px solid;
+}
+
+/* V symbol for dropdown */
+/* line 59, ../compass/src/carsa_documentation.scss */
+.dropdown_symbol {
+  border-bottom: white 4px solid;
+  border-right: white 4px solid;
+  width: 11px;
+  height: 11px;
+  position: absolute;
+  left: 10px;
+  top: 16px;
+}
+
+/* content that is hidden/revealed */
+/* line 70, ../compass/src/carsa_documentation.scss */
+.dropdown_content {
+  background: #151719;
+  color: white;
+  padding: 0px 20px;
+}
+
+/* dropdown content when expanded */
+/* line 77, ../compass/src/carsa_documentation.scss */
+.expand {
+  height: auto;
+  padding: 0px 20px 10px 20px;
+}
+
+/* dropdown content when collapsed*/
+/* line 82, ../compass/src/carsa_documentation.scss */
+.collapsed {
+  height: 0px;
+  overflow: hidden;
+  margin-top: 0px;
+}
+
+/* line 87, ../compass/src/carsa_documentation.scss */
+.object {
+  padding: 10px 0;
+}
+
+/* line 90, ../compass/src/carsa_documentation.scss */
+.object > .function {
+  padding-left: 20px;
+  margin-left: 5px;
+  border-left: #3f3f3f 2px solid;
+}
+
+/* contains the functions/objects */
+/* line 96, ../compass/src/carsa_documentation.scss */
+.functions .name {
+  color: #00e8ff;
+}
+
+/* line 100, ../compass/src/carsa_documentation.scss */
+.functions .description {
+  font-size: 0.8em;
+}
+
+/* contains the function name, desc, args */
+/* line 104, ../compass/src/carsa_documentation.scss */
+.function {
+  padding: 5px 8px;
+  border: #333333 3px outset;
+  background: #2b2b2b;
+  margin-top: 10px;
+}
+
+/* line 111, ../compass/src/carsa_documentation.scss */
+.function .args {
+  margin-left: -2px;
+}
+
+/* colours function arguments */
+/* line 115, ../compass/src/carsa_documentation.scss */
+arg {
+  color: #ff8100;
+}
+
+/* line 119, ../compass/src/carsa_documentation.scss */
+lua {
+  display: block;
+  background: black;
+  width: fit-content;
+  padding: 5px;
+}
