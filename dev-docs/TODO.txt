@@ -7,3 +7,8 @@
 
 
 - server lua scripts: create dedicated html page which includes an editor and the autocomplete but special for server functions (this means we need to split apart the autocomplete )
+
+
+- documentation: lib title only for top entries
+- make colors like carsa's prototype
+- sort documentation: 1. stormworks, 2. lua, 3. dev
