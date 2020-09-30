@@ -88,7 +88,7 @@ engine = (($)=>{
         })
 
         $('#save').on('click', ()=>{
-            saveCodeInStorage()
+            saveCodesInStorage()
         })
 
         let controlKeyDown = false
@@ -108,10 +108,12 @@ engine = (($)=>{
             }
         })
 
-        $('#save-minified').on('click', ()=>{
-            saveMinifiedCodeInStorage()
+        /* TODO: when saving minfied code, then show custom hint
+
+        
             $('#minified-code-container .custom_hint').show()
-        })
+
+        */
 
         loader.done(loader.EVENT.ENGINE_READY)
     }
@@ -378,24 +380,16 @@ engine = (($)=>{
 
 
     function saveCode(){
-        saveCodeInStorage()
+        saveCodesInStorage()
         saveMinifiedCodeInStorage()
     }
 
-    function saveCodeInStorage(){
+    function saveCodesInStorage(){
         $('#save').addClass('saved')
         setTimeout(()=>{
             $('#save').removeClass('saved')
         }, 1000)
         localStorage.setItem('code', editors.get('normal').editor.getValue());
-    }
-
-    function saveMinifiedCodeInStorage(){
-        $('#save-minified').addClass('saved')
-        setTimeout(()=>{
-            $('#save-minified').removeClass('saved')
-        }, 1000)
-        localStorage.setItem('minified-code', editors.get('unminified').editor.getValue());
     }
 
     return {        

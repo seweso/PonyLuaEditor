@@ -18,7 +18,6 @@ var PROPERTY = ((global, $)=>{
     	texts = {}
         dom = $('#property')
         dom.html('')
-        dom.append('<div class="head">Properties:</div>')
 
         dom_bools = $('<div class="bools"><div class="head"><span>Booleans:</span></div></div>')
         let dom_bools_add = $('<div class="add"><input type="text"/><button>+</button></div>')

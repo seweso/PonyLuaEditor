@@ -226,16 +226,6 @@ You can also minify code, find tutorials and examples or use the ui builder to c
                     <span>Average FPS: <span id="drawtime">0</span></span>
                 </div>
             </div>
-            <div class="setting"> 
-                <div class="editor_layout">
-                    <label>Editor Layout:</label>                    
-                    <select id="editor-layout" name="editor-layout">
-                        <option value="properties_inputs_monitor_outputs">Properties, Inputs, Monitor, Outputs</option>
-                        <option value="properties_inputs_outputs_monitor">Properties, Inputs, Outputs, Monitor</option>
-                        <option value="inputs_next_to_editor">Inputs next to Editor</option>
-                    </select>
-                </div>
-            </div>
         </div>
 
         <div id="out" viewable="viewable_console">
@@ -301,12 +291,7 @@ end
         </div>
 
         <div id="minified-editor" viewable="viewable_editor_minified">
-            <h3>Minified Code:</h3>
             <div id="minified-controls" class="controls">
-                <div class="controls_container">
-                    <button id="save-minified">Save Minified</button>
-                    <button id="start-minified">Start Minified</button>
-                </div>
                 <div class="controls_container">
                     <button id="unminify">Unminify (beta)</button>
                 </div>
@@ -340,7 +325,6 @@ end
         </div>
 
         <div id="unminified-editor" viewable="viewable_editor_unminified">
-            <h3>Unminified Code:</h3>
             <div id="unminified-code-container">
                 <div id="unminified-code" code-field="unminified">
                 </div>
@@ -352,7 +336,6 @@ end
         </div>
 
         <div id="ui-builder" viewable="viewable_editor_uibuilder">
-            <h2>UI Builder (Beta)</h2>
             <div id="ui-builder-container"></div>
             <div id="ui-builder-controls">
                 <div class="ui_builder_zoom controls_container">
@@ -360,9 +343,7 @@ end
                     <input type="range" min="1" max="4" value="1" name="ui-builder-zoom" id="ui-builder-zoom">
                 </div>
                 <div class="controls_container">
-                    <button id="save-ui-builder">Save</button>
                     <button id="generate-ui-builder-lua-code">Generate Lua Code</button>
-                    <button id="start-generated">Start Generated Code</button>
                 </div>
             </div>
             <div id="ui-builder-code" code-field="uibuilder" style="display: none;"></div>

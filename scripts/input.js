@@ -25,7 +25,6 @@ var INPUT = ((global, $)=>{
         numbers = {}
         dom = $('#input')
         dom.html('')
-        dom.append('<div class="head">Inputs:</div>')
 
         dom_bools = $('<div class="bools"><div class="head" sort="0"><span>Booleans:</span></div></div>')
         dom_bools_add = $('<div class="add"><select></select><button>+</button></div>')

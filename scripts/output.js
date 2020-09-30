@@ -16,7 +16,6 @@ var OUTPUT = ((global, $)=>{
     function init(){
         dom = $('#output')
 	    dom.html('')
-        dom.append('<div class="head">Outputs:</div>')
 
         dom_bools = $('<div class="bools"><div class="head"><span>Booleans:</span></div></div>')
         dom.append(dom_bools)
