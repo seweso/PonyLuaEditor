@@ -4,3 +4,6 @@
 -   funny loading screen or loading messages (saddling ponies, feeding ponies, buying carrots, cleaning rainbow)
 
 -   when engine is running, add a symbol to the select tab of the editor whose code is running
+
+
+- server lua scripts: create dedicated html page which includes an editor and the autocomplete but special for server functions (this means we need to split apart the autocomplete )
