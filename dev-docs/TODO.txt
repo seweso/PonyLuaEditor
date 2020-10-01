@@ -14,5 +14,3 @@
 - interactive help
 
 - report function inside the page (to report issues without any login)
-
-- console: scroll down to latest log message

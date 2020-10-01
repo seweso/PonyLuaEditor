@@ -45,6 +45,12 @@ lua_console = (($)=>{
             }
             $('#console-inner').prepend('<div><span style="color: #f00">Some messages of the log output are removed for performance reasons! Don\' use print() that often for better performance!</span></div><br>')
         }
+
+        /* scroll down console */
+        $("#console-inner").each( function(){
+           let scrollHeight = Math.max(this.scrollHeight, this.clientHeight);
+           this.scrollTop = scrollHeight - this.clientHeight;
+        });
     }
 
     function setPrintColor(r,g,b){
