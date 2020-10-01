@@ -1,7 +1,8 @@
-((global, $)=>{
+stormworks_lua_api = ((global, $)=>{
   "use strict";
 
-    loader.on(loader.EVENT.LUA_EMULATOR_READY, init)
+
+    let loaderNotified = false
 
     function init(){
         setScreenFunctions()
@@ -11,8 +12,12 @@
         setOutputFunctions()
         setPropertyFunctions()
         setHTTPFunctions()
-        
-        loader.done(loader.EVENT.STORMWORKS_LUA_API_READY)
+
+
+        if(! loaderNotified){
+            loaderNotified = true
+            loader.done(loader.EVENT.STORMWORKS_LUA_API_READY)
+        }        
     }
 
 
@@ -711,6 +716,10 @@
         }
         LUA_EMULATOR.makeFunctionAvailableInLua(httpGet, 'async')
 
+    }
+
+    return {
+        init: init
     }
     
 })(window, jQuery)

@@ -5,8 +5,6 @@
 
 -   when engine is running, add a symbol to the select tab of the editor whose code is running
 
-- fix dynamic editor sizing: when there is stuff after the editor, that needs to be subtracted from the available height (or we simply put the elements inside the editor)
-
 - save which viewable is focused to storage
 
 - integrate carsons lua tutorials
@@ -16,3 +14,5 @@
 - interactive help
 
 - report function inside the page (to report issues without any login)
+
+- console: scroll down to latest log message

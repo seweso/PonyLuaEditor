@@ -53,6 +53,16 @@
                     margin-right: 25px;
                 }
             }
+
+            #save {
+                transition: all 0.5s ease 0s;
+
+                &.saved {
+                    background: #4d835f;
+                    border-color: #fff;
+                    color: #fff;
+                }
+            }
         }
     }
 

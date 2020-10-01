@@ -27,6 +27,7 @@ storage = (()=>{
             }
         } else if (localStorage.getItem('general')) {
             console.info('Storage: found outdated configuration, converting ...')
+            localStorage.clear()
             let converted = convertOldConfiguration()
             processStorage(converted)
         } else {            

@@ -74,14 +74,21 @@ class Editor extends DynamicSizedViewableContent {
 
         this.addEditorControls()
 
-        editor.registerEditor(this, this.dom.attr('code-field'))
+        editor.registerEditor(this, this.name())
 
-        let tempFunc = this.refreshSize
-        let that = this
+        viewable.onGainFocus(()=>{
+            editor.setActiveEditor(this.name())
+        })
+
+        let tempFunc = this.refreshSize        
         this.refreshSize = ()=>{
             tempFunc.call(this)
             this.editor.resize()
         }
+    }
+
+    name(){
+        return this.dom.attr('code-field')
     }
 
     addEditorControls(){

@@ -18,6 +18,8 @@ var LUA_EMULATOR = ((global, $)=>{
 
     loader.on(loader.EVENT.PAGE_READY, init)
 
+    let loaderNotified = false
+
     function init(){
         makeFunctionAvailableInLua(print)
         makeFunctionAvailableInLua(printColor)
@@ -35,7 +37,12 @@ var LUA_EMULATOR = ((global, $)=>{
             deleteGlobalVariable(n)
         }
 
-        loader.done(loader.EVENT.LUA_EMULATOR_READY)
+        stormworks_lua_api.init()
+
+        if(! loaderNotified){
+            loaderNotified = true
+            loader.done(loader.EVENT.LUA_EMULATOR_READY)
+        }
     }
 
     let print = function(){
@@ -376,13 +383,10 @@ var LUA_EMULATOR = ((global, $)=>{
                 fengari.lua.lua_pop(l, 1); /* remove lib */
 
                 init()
-                $(global).trigger('lua_emulator_loaded')
-                $(global).on('stormworks_lua_api_loaded', ()=>{
-                    $(global).off('stormworks_lua_api_loaded')
-                    fresh = true
-                    fulfill() 
-                    console.log('reseted lua vm', LUA_EMULATOR.getGlobalVariable('screen'))                        
-                })
+
+                fresh = true
+                fulfill() 
+                console.log('reseted lua vm', LUA_EMULATOR.getGlobalVariable('screen'))
             } catch (err){
                 console.error('error reseting lua vm', err)
                 util.alert('Cannot reset the Lua VM, please reload the page and tell me about this bug!')

@@ -99,7 +99,7 @@ engine = (($)=>{
                 evt.preventDefault()
                 evt.stopPropagation()
 
-                saveCode()
+                saveCodesInStorage()
             }
         })        
         $(window).on('keyup', (evt)=>{
@@ -114,6 +114,8 @@ engine = (($)=>{
             $('#minified-code-container .custom_hint').show()
 
         */
+
+        loadCodesFromStorage()
 
         loader.done(loader.EVENT.ENGINE_READY)
     }
@@ -185,9 +187,9 @@ engine = (($)=>{
 
     function start(){
         lockUI()
-        saveCode()
+        saveCodesInStorage()
 
-        let code = editor.get('normal').editor.getValue()
+        let code = editor.getActiveEditor().editor.getValue()
 
         startCode(code)
 
@@ -198,7 +200,7 @@ engine = (($)=>{
 
     function startMinified(){
         lockUI()
-        saveCode()
+        saveCodesInStorage()
 
         let code = editor.get('minified').editor.getValue()
 
@@ -272,7 +274,7 @@ engine = (($)=>{
 
         LUA_EMULATOR.reset().then(()=>{
             unlockUI()
-            $('#start, #start-minified, #start-generated').prop('disabled', false)
+            $('#start').prop('disabled', false)
         })
 
         running = false
@@ -378,18 +380,35 @@ engine = (($)=>{
         }
     }
 
-
-    function saveCode(){
-        saveCodesInStorage()
-        saveMinifiedCodeInStorage()
-    }
-
     function saveCodesInStorage(){
         $('#save').addClass('saved')
         setTimeout(()=>{
             $('#save').removeClass('saved')
         }, 1000)
-        localStorage.setItem('code', editor.get('normal').editor.getValue());
+
+        let codes = {
+            normal: editor.get('normal').editor.getValue(),
+            minified: editor.get('minified').editor.getValue(),
+            unminified: editor.get('unminified').editor.getValue()
+        }
+
+        if(!codes.minified || codes.minified.trim() === ''){
+            delete codes.minified
+        }
+
+        storage.setConfiguration('editors', codes)
+    }
+
+    function loadCodesFromStorage(){
+        let codes = storage.getConfiguration('editors')
+
+        if(codes){
+            for(let e of ['normal', 'minified', 'unminified']){            
+                if(typeof codes[e] === 'string'){
+                    editor.get(e).editor.setValue(codes[e])
+                }
+            }
+        }
     }
 
     return {        
