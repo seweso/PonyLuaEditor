@@ -30,7 +30,8 @@ engine = (($)=>{
             PAINT.setZoomFactor(val)
             MAP.setZoomFactor(val)
             $('.zoomfactor span').html(val+'x')
-            updateStorage()
+            
+            //TODO save to storage
         })
 
         $('#start').on('click', start)
@@ -64,27 +65,27 @@ engine = (($)=>{
         })
 
         $('#monitor-size, #show-overflow, #enable-touchscreen, #enable-touchscreen-secondary').on('change', (e)=>{
-            updateStorage()
+            //TODO save to storage
         })
 
         $('#timeBetweenTicks').on('input', ()=>{
             refreshTimeBetweenTicks()
-            updateStorage()
+            //TODO save to storage
         })
 
         $('#timeBetweenTicks').on('change', ()=>{
             refreshTimeBetweenTicks(true)
-            updateStorage()
+            //TODO save to storage
         })
 
         $('#timeBetweenDraws').on('input', ()=>{
             refreshTimeBetweenDraws()
-            updateStorage()
+            //TODO save to storage
         })
 
         $('#timeBetweenDraws').on('change', ()=>{
             refreshTimeBetweenDraws(true)
-            updateStorage()
+            //TODO save to storage
         })
 
         $('#save').on('click', ()=>{
