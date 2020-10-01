@@ -148,23 +148,6 @@ DOCUMENTATION_DEFINITION = (()=>{
                     }
                 }
             },
-            devinput: {
-                type: TO,
-                lib: 'dev',
-                description: 'Manipulate input values.',
-                children: {
-                    setBool: {
-                        type: TF,
-                        args: [{name: 'index'}],
-                        description: 'Sets the boolean value of the output composite on index to value. Index ranges from 1 - 32.'                        
-                    },
-                    setNumber: {
-                        type: TF,
-                        args: [{name: 'index'}],
-                        description: 'Sets the number value of the output composite on index to value. Index ranges from 1 - 32.'                        
-                    }
-                }
-            },
             output: {
                 type: TO,
                 lib: 'stormworks',
@@ -215,41 +198,6 @@ DOCUMENTATION_DEFINITION = (()=>{
                         description: 'Creates a HTTP request to "http://localhost:[PORT][url]". If you call it more then once per tick, the request will be put into a queue, every tick one reqeust will be taken from that queue and executed.\n\nIMPORTANT:\nYou must follow these steps to enable http support in this Lua IDE:\nYour browser prohibits sending and receiving data to and from localhost. To fix that, follow the <a href="http-allow-localhost" target="_blank">manual here</a>'
                     }
                 }
-            },
-            pause: {
-                type: TF,
-                lib: 'dev',
-                args: [],
-                description: 'Pauses the script. Note: the currently running onTick() and onDraw() functions are executed.'
-            },
-            timer: {
-                type: TO,
-                lib: 'dev',
-                description: 'Measure how long your code needs to execute.',
-                children: {
-                    start: {
-                        type: TF,
-                        args: [],
-                        description: 'Starts the timer.'                        
-                    },
-                    stop: {
-                        type: TF,
-                        args: [],
-                        description: 'Stops the timer and prints the time to the console.'                        
-                    }
-                }
-            },
-            print: {
-                type: TF,
-                lib: 'dev',
-                args: [{name: 'text'}],
-                description: 'Prints text to the console.'
-            },            
-            printColor: {
-                type: TF,
-                lib: 'dev',
-                args: [{name: 'r'}, {name: 'g'}, {name: 'b'}],
-                description: 'Colorizes the console output of print().'
             },
             pairs: {
                 type: TF,
@@ -563,6 +511,58 @@ DOCUMENTATION_DEFINITION = (()=>{
                         description: 'Receives a string and returns a copy of this string with all lowercase letters changed to uppercase. All other characters are left unchanged. The definition of what a lowercase letter is depends on the current locale.'
                     }  
                 }
+            },
+            devinput: {
+                type: TO,
+                lib: 'dev',
+                description: 'Manipulate input values.',
+                children: {
+                    setBool: {
+                        type: TF,
+                        args: [{name: 'index'}],
+                        description: 'Sets the boolean value of the output composite on index to value. Index ranges from 1 - 32.'                        
+                    },
+                    setNumber: {
+                        type: TF,
+                        args: [{name: 'index'}],
+                        description: 'Sets the number value of the output composite on index to value. Index ranges from 1 - 32.'                        
+                    }
+                }
+            },
+            pause: {
+                type: TF,
+                lib: 'dev',
+                args: [],
+                description: 'Pauses the script. Note: the currently running onTick() and onDraw() functions are executed.'
+            },
+            timer: {
+                type: TO,
+                lib: 'dev',
+                description: 'Measure how long your code needs to execute.',
+                children: {
+                    start: {
+                        type: TF,
+                        args: [],
+                        description: 'Starts the timer.'                        
+                    },
+                    stop: {
+                        type: TF,
+                        args: [],
+                        description: 'Stops the timer and prints the time to the console.'                        
+                    }
+                }
+            },
+            print: {
+                type: TF,
+                lib: 'dev',
+                args: [{name: 'text'}],
+                description: 'Prints text to the console.'
+            },            
+            printColor: {
+                type: TF,
+                lib: 'dev',
+                args: [{name: 'r'}, {name: 'g'}, {name: 'b'}],
+                description: 'Colorizes the console output of print().'
             }
         }
     }

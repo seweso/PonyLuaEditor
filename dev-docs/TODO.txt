@@ -6,9 +6,6 @@
 -   when engine is running, add a symbol to the select tab of the editor whose code is running
 
 
-- server lua scripts: create dedicated html page which includes an editor and the autocomplete but special for server functions (this means we need to split apart the autocomplete )
+- save which viewable is focused to storage
 
-
-- documentation: lib title only for top entries
-- make colors like carsa's prototype
-- sort documentation: 1. stormworks, 2. lua, 3. dev
+- integrate carsons lua tutorials

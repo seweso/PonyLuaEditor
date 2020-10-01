@@ -11,8 +11,8 @@ var DOCUMENTATION = ((global, $)=>{
 
     const LIB_TITLES = {
         'stormworks': 'Stormworks API',
-        'dev': 'Dev API (Editor Only)',
         'lua': 'Lua API',
+        'dev': 'Pony API (This Website)',
         'user': 'User defined (that\'s you!)'
     }
 
@@ -152,7 +152,7 @@ var DOCUMENTATION = ((global, $)=>{
             definition.append(args)
         }
 
-        if(node.lib){
+        if(node.lib && topNode){
             top.append(
                 $('<div class="lib">' + LIB_TITLES[node.lib] + '</div>')
             )

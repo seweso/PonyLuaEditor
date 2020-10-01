@@ -1,7 +1,7 @@
 /* element sizes */
 /* colors */
 /* css variables */
-/* line 25, ../compass/src/_variables.scss */
+/* line 27, ../compass/src/_variables.scss */
 :root {
   --background-accent-gradient: linear-gradient(10deg, #2b4a6a 0%, #446483 100%);
   --background-strong-accent-gradient: linear-gradient(10deg, #2b5a88 0%, #5e8dbb 100%);
@@ -218,7 +218,7 @@ a:hover {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  padding: 3px 6px;
+  padding: 6px 6px;
   cursor: pointer;
 }
 /* line 31, ../compass/src/_viewable_documentation.scss */
@@ -264,18 +264,18 @@ a:hover {
 }
 /* line 84, ../compass/src/_viewable_documentation.scss */
 .ide [viewable="viewable_documentation"] .node[lib="stormworks"] .lib {
-  color: #bf5421 !important;
-  border-color: #bf5421;
+  color: #0081cc;
+  border-color: #0081cc;
 }
 /* line 92, ../compass/src/_viewable_documentation.scss */
 .ide [viewable="viewable_documentation"] .node[lib="dev"] .lib {
-  color: #ae6767 !important;
-  border-color: #ae6767;
+  color: #b9085b !important;
+  border-color: #b9085b;
 }
 /* line 100, ../compass/src/_viewable_documentation.scss */
 .ide [viewable="viewable_documentation"] .node[lib="lua"] .lib {
-  color: #0194E2 !important;
-  border-color: #0194E2;
+  color: #44b511;
+  border-color: #44b511;
 }
 /* line 107, ../compass/src/_viewable_documentation.scss */
 .ide [viewable="viewable_documentation"] .node[ntype="object"] .name {
