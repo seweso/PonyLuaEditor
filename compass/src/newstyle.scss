@@ -4,6 +4,7 @@
 @import "_dialog.scss";
 @import "_viewable_documentation.scss";
 @import "_navigation.scss";
+@import "_value_list.scss";
 
 .ide {
     width: 100%;
@@ -66,6 +67,7 @@
         height: calc( ( 100vh - #{$navigation_height} - #{$ide_bar_height} ) / 2);
 
         background: $dark;
+        color: $light;
         padding: 6px;
 
         .select {

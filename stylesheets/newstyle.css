@@ -434,7 +434,199 @@ a:hover {
   cursor: pointer;
 }
 
-/* line 8, ../compass/src/newstyle.scss */
+/* value_list */
+/* line 3, ../compass/src/_value_list.scss */
+.ide .value_list {
+  min-width: 200px;
+  color: #151719;
+  padding: 5px 5px 0 5px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+}
+/* line 10, ../compass/src/_value_list.scss */
+.ide .value_list > * {
+  background: #d7d7d7;
+  border-radius: 3px;
+  margin-bottom: 10px;
+}
+/* line 15, ../compass/src/_value_list.scss */
+.ide .value_list > *:last-of-type {
+  margin-bottom: 5px;
+}
+/* line 20, ../compass/src/_value_list.scss */
+.ide .value_list > .head {
+  font-weight: bold;
+  background: #000 !important;
+  color: #bf5421;
+}
+/* line 26, ../compass/src/_value_list.scss */
+.ide .value_list .head {
+  display: flex;
+  flex-direction: row;
+  padding: 5px;
+  background: var(--background-accent-gradient);
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+}
+/* line 34, ../compass/src/_value_list.scss */
+.ide .value_list .head button {
+  background: #000;
+  border: 1px solid #000;
+  color: #bf5421;
+}
+/* line 39, ../compass/src/_value_list.scss */
+.ide .value_list .head button:hover {
+  background: #cb764d;
+  color: #000;
+}
+/* line 45, ../compass/src/_value_list.scss */
+.ide .value_list .head .add {
+  display: flex;
+  flex-direction: row;
+  margin: 0 0 0 auto;
+}
+/* line 50, ../compass/src/_value_list.scss */
+.ide .value_list .head .add input {
+  width: calc(100% - 23px);
+  margin: 0 5px;
+}
+/* line 57, ../compass/src/_value_list.scss */
+.ide .value_list button {
+  margin: 0 0 0 auto;
+  padding: 0 2px 2px 2px;
+  font-size: 12px;
+  font-weight: bold;
+  line-height: 0;
+  height: 20px;
+  width: 20px;
+}
+/* line 66, ../compass/src/_value_list.scss */
+.ide .value_list button:not(:last-of-type) {
+  margin-right: 3px;
+}
+/* line 70, ../compass/src/_value_list.scss */
+.ide .value_list button + button {
+  margin-left: 0;
+}
+/* line 76, ../compass/src/_value_list.scss */
+.ide .value_list .bool .change, .ide .value_list .number .change, .ide .value_list .text .change {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+/* line 83, ../compass/src/_value_list.scss */
+.ide .value_list .number .channel {
+  border: 1px solid #000;
+  border-radius: 10000px;
+  padding: 2px;
+  min-width: 1.5em;
+  text-align: center;
+}
+/* line 91, ../compass/src/_value_list.scss */
+.ide .value_list .settings .group {
+  margin-top: 10px;
+}
+/* line 94, ../compass/src/_value_list.scss */
+.ide .value_list .settings .group select {
+  margin-left: 10px;
+}
+/* line 98, ../compass/src/_value_list.scss */
+.ide .value_list .settings .group > * {
+  margin-top: 5px;
+}
+/* line 102, ../compass/src/_value_list.scss */
+.ide .value_list .settings .group input + label {
+  margin-left: 5px;
+}
+/* line 107, ../compass/src/_value_list.scss */
+.ide .value_list .number:not(.isslider) .settings {
+  display: none;
+}
+/* line 111, ../compass/src/_value_list.scss */
+.ide .value_list .bool .settings {
+  display: none;
+}
+/* line 115, ../compass/src/_value_list.scss */
+.ide .value_list .number .slidervalue {
+  margin: 0 4px;
+  min-width: 6em;
+  text-align: center;
+}
+/* line 121, ../compass/src/_value_list.scss */
+.ide .value_list .number:not(.isslider) .change input[type="range"], .ide .value_list .number:not(.isslider) .slidervalue {
+  display: none;
+}
+/* line 125, ../compass/src/_value_list.scss */
+.ide .value_list .number.isslider .change input[type="number"] {
+  display: none;
+}
+/* line 129, ../compass/src/_value_list.scss */
+.ide .value_list .bool input, .ide .value_list .number input, .ide .value_list .text input {
+  margin: 0 5px 0 5px;
+}
+/* line 133, ../compass/src/_value_list.scss */
+.ide .value_list .number .change input[type="number"], .ide .value_list .number .change input[type="text"] {
+  width: calc(50% - 70px);
+}
+/* line 137, ../compass/src/_value_list.scss */
+.ide .value_list .number .settings input[type="number"], .ide .value_list .number .settings input[type="text"], .ide .value_list .text input[type="text"] {
+  width: calc(100% - 70px);
+}
+/* line 141, ../compass/src/_value_list.scss */
+.ide .value_list .bool .result, .ide .value_list .number .result, .ide .value_list .text .result {
+  margin: 0 0 0 auto;
+}
+/* line 145, ../compass/src/_value_list.scss */
+.ide .value_list .user_label_container {
+  display: inline-block;
+  position: relative;
+}
+/* line 149, ../compass/src/_value_list.scss */
+.ide .value_list .user_label_container .user_label {
+  background: transparent;
+  border: none;
+  padding: 3px 4px 3px 23px;
+  cursor: text;
+  transition: all 0.2s ease 0s;
+  width: calc(100% - 5px) !important;
+}
+/* line 158, ../compass/src/_value_list.scss */
+.ide .value_list .user_label_container:after {
+  content: '\e905';
+  font-family: iconfont;
+  position: absolute;
+  left: 8px;
+  cursor: text;
+}
+/* line 167, ../compass/src/_value_list.scss */
+.ide .value_list .user_label_container:hover:after {
+  color: #c36724;
+}
+/* line 171, ../compass/src/_value_list.scss */
+.ide .value_list .user_label_container:hover .user_label {
+  background: #fff;
+}
+/* line 180, ../compass/src/_value_list.scss */
+.ide #property.value_list .bool, .ide #property.value_list .number, .ide #property.value_list .text {
+  display: flex;
+  flex-direction: row;
+  margin: 3px 0;
+  padding: 5px;
+}
+/* line 187, ../compass/src/_value_list.scss */
+.ide .value_list .bool, .ide .value_list .number, .ide .value_list .text {
+  display: flex;
+  flex-direction: column;
+  margin: 3px 0;
+  padding: 5px;
+}
+/* line 194, ../compass/src/_value_list.scss */
+.ide #output.value_list .bool, .ide #output.value_list .number, .ide #output.value_list .text {
+  flex-direction: row;
+}
+
+/* line 9, ../compass/src/newstyle.scss */
 .ide {
   width: 100%;
   height: calc(100vh - 75px);
@@ -443,7 +635,7 @@ a:hover {
   flex-direction: column;
   /* sass bug prevents use to use sass style! cant chain multiple attribute rules over different layers */
 }
-/* line 15, ../compass/src/newstyle.scss */
+/* line 16, ../compass/src/newstyle.scss */
 .ide .ide_bar {
   background: grey;
   display: flex;
@@ -451,7 +643,7 @@ a:hover {
   align-items: center;
   height: 60px;
 }
-/* line 22, ../compass/src/newstyle.scss */
+/* line 23, ../compass/src/newstyle.scss */
 .ide .ide_bar .ide_controls {
   display: flex;
   flex-direction: row;
@@ -459,37 +651,37 @@ a:hover {
   align-items: center;
   flex-wrap: wrap;
 }
-/* line 29, ../compass/src/newstyle.scss */
+/* line 30, ../compass/src/newstyle.scss */
 .ide .ide_bar .ide_controls .controls_group {
   padding: 5px;
   display: inline-block;
   color: #eaedf1;
 }
-/* line 34, ../compass/src/newstyle.scss */
+/* line 35, ../compass/src/newstyle.scss */
 .ide .ide_bar .ide_controls .controls_group:not(:last-child) {
   border-right: 1px solid #eaedf1;
   padding-right: 25px;
 }
-/* line 39, ../compass/src/newstyle.scss */
+/* line 40, ../compass/src/newstyle.scss */
 .ide .ide_bar .ide_controls .controls_group button {
   margin: 0;
   padding: 6px 10px;
 }
-/* line 44, ../compass/src/newstyle.scss */
+/* line 45, ../compass/src/newstyle.scss */
 .ide .ide_bar .ide_controls .controls_group button:not(:last-child) {
   margin-right: 10px;
 }
-/* line 48, ../compass/src/newstyle.scss */
+/* line 49, ../compass/src/newstyle.scss */
 .ide .ide_bar .ide_controls .controls_group:not(:last-child) {
   margin-right: 25px;
 }
-/* line 55, ../compass/src/newstyle.scss */
+/* line 56, ../compass/src/newstyle.scss */
 .ide .ide_flex_view {
   position: relative;
   width: 100%;
   height: calc(100vh - 75px - 60px);
 }
-/* line 61, ../compass/src/newstyle.scss */
+/* line 62, ../compass/src/newstyle.scss */
 .ide [view] {
   position: absolute;
   display: flex;
@@ -497,9 +689,10 @@ a:hover {
   width: 50vw;
   height: calc( ( 100vh - 75px - 60px ) / 2);
   background: #151719;
+  color: #eaedf1;
   padding: 6px;
 }
-/* line 71, ../compass/src/newstyle.scss */
+/* line 73, ../compass/src/newstyle.scss */
 .ide [view] .select {
   display: flex;
   flex-direction: row;
@@ -509,23 +702,23 @@ a:hover {
   border-bottom: 1px solid #eaedf1;
   margin-bottom: 6px;
 }
-/* line 80, ../compass/src/newstyle.scss */
+/* line 82, ../compass/src/newstyle.scss */
 .ide [view] .select [select-viewable] {
   background: #1c3146;
   color: #eaedf1;
   cursor: pointer;
   padding: 0.25em 0.5em;
 }
-/* line 87, ../compass/src/newstyle.scss */
+/* line 89, ../compass/src/newstyle.scss */
 .ide [view] .select [select-viewable]:not(:last-child) {
   border-right: 1px solid #eaedf1;
 }
-/* line 91, ../compass/src/newstyle.scss */
+/* line 93, ../compass/src/newstyle.scss */
 .ide [view] .select [select-viewable][select="true"] {
   background: #eaedf1;
   color: #151719;
 }
-/* line 97, ../compass/src/newstyle.scss */
+/* line 99, ../compass/src/newstyle.scss */
 .ide [view] .viewable_container {
   width: 100%;
   height: 100%;
@@ -533,18 +726,18 @@ a:hover {
   background: #363b40;
   border-radius: 3px;
 }
-/* line 107, ../compass/src/newstyle.scss */
+/* line 109, ../compass/src/newstyle.scss */
 .ide [viewable][visible="false"] {
   display: none;
 }
-/* line 112, ../compass/src/newstyle.scss */
+/* line 114, ../compass/src/newstyle.scss */
 .ide [splitter] {
   position: absolute;
   background: var(--background-strong-accent-gradient);
   border: 2px solid #151719;
   /* hack so the mouse is not leaving the splitter directly */
 }
-/* line 118, ../compass/src/newstyle.scss */
+/* line 120, ../compass/src/newstyle.scss */
 .ide [splitter]:after {
   display: none;
   content: ' ';
@@ -554,11 +747,11 @@ a:hover {
   width: calc(100% + 2000px);
   height: calc(100% + 2000px);
 }
-/* line 129, ../compass/src/newstyle.scss */
+/* line 131, ../compass/src/newstyle.scss */
 .ide [splitter][draging="true"]:after {
   display: initial;
 }
-/* line 133, ../compass/src/newstyle.scss */
+/* line 135, ../compass/src/newstyle.scss */
 .ide [splitter="vertical"] {
   left: calc(50vw - (6px / 2));
   top: 0;
@@ -566,24 +759,24 @@ a:hover {
   width: 8px;
   cursor: e-resize;
 }
-/* line 141, ../compass/src/newstyle.scss */
+/* line 143, ../compass/src/newstyle.scss */
 .ide [splitter="horizontal_left"], .ide [splitter="horizontal_right"] {
   top: calc( ( 100vh - 75px - 60px ) / 2 - (6px / 2));
   height: 6px;
   width: calc(50vw - (6px / 2));
   cursor: n-resize;
 }
-/* line 148, ../compass/src/newstyle.scss */
+/* line 150, ../compass/src/newstyle.scss */
 .ide [splitter="horizontal_left"] {
   left: 0;
 }
-/* line 152, ../compass/src/newstyle.scss */
+/* line 154, ../compass/src/newstyle.scss */
 .ide [splitter="horizontal_right"] {
   left: calc(50vw + (6px / 2));
 }
 
 /* only temporary: */
-/* line 158, ../compass/src/newstyle.scss */
+/* line 160, ../compass/src/newstyle.scss */
 #mobile-menu, #fixed-information-badges, #example-container {
   display: none;
 }

@@ -1,0 +1,197 @@
+/* value_list */
+.ide { 
+    .value_list {
+        min-width: 200px;
+        color: $dark;
+        padding: 5px 5px 0 5px;
+        margin-bottom: 10px;
+        border-radius: 6px;
+
+        & > * {
+            background: #d7d7d7;
+            border-radius: 3px;
+            margin-bottom: 10px;
+            
+            &:last-of-type {
+                margin-bottom: 5px;
+            }
+        }
+
+        & > .head {
+            font-weight: bold;
+            background: #000!important;
+            color: #bf5421;
+        }
+
+        .head {
+            display: flex;
+            flex-direction: row;
+            padding: 5px;
+            background: var(--background-accent-gradient);
+            border-top-left-radius: 3px;
+            border-top-right-radius: 3px;
+        
+            button {
+                background: #000;
+                border: 1px solid #000;
+                color:  #bf5421;
+            
+                &:hover {
+                    background: #cb764d;
+                    color: #000;
+                }
+            }
+
+            .add {
+                display: flex;
+                flex-direction: row;
+                margin: 0 0 0 auto;
+            
+                input {
+                    width: calc(100% - 23px);
+                    margin: 0 5px;
+                }
+            }
+        }
+
+        button {
+            margin: 0 0 0 auto;
+            padding: 0 2px 2px 2px;
+            font-size: 12px;
+            font-weight: bold;
+            line-height: 0;
+            height: 20px;
+            width: 20px;
+
+            &:not(:last-of-type) {
+                margin-right: 3px;
+            }
+
+            & + button {
+                margin-left: 0;
+            }
+        }
+
+
+        .bool .change, .number .change, .text .change {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+        }
+
+        .number .channel {
+            border: 1px solid #000;
+            border-radius: 10000px;
+            padding: 2px;
+            min-width: 1.5em;
+            text-align: center;
+        }
+
+        .settings .group {
+            margin-top: 10px;
+        
+            select {
+                margin-left: 10px;
+            }
+
+            & > * {
+                margin-top: 5px;
+            }
+
+            input + label {
+                margin-left: 5px;
+            }
+        }
+
+        .number:not(.isslider) .settings {
+            display: none;
+        }
+
+        .bool .settings {
+            display: none;
+        }
+
+        .number .slidervalue {
+            margin: 0 4px;
+            min-width: 6em;
+            text-align: center;
+        }
+
+        .number:not(.isslider) .change input[type="range"], .number:not(.isslider) .slidervalue {
+            display: none;
+        }
+
+        .number.isslider .change input[type="number"]{
+            display: none;
+        }
+
+        .bool input, .number input, .text input {
+            margin: 0 5px 0 5px;
+        }
+
+        .number .change input[type="number"], .number .change input[type="text"]{
+            width: calc(50% - 70px);
+        }
+
+        .number .settings input[type="number"], .number .settings input[type="text"], .text input[type="text"] {
+            width: calc(100% - 70px);
+        }
+
+        .bool .result, .number .result, .text .result {
+            margin: 0 0 0 auto;
+        }
+
+        .user_label_container {
+            display: inline-block;
+            position: relative;
+
+            .user_label {
+                background: transparent;
+                border: none;
+                padding: 3px 4px 3px 23px;
+                cursor: text;
+                transition: all 0.2s ease 0s;
+                width: calc(100% - 5px)!important;
+            }
+
+            &:after {
+                content: '\e905';
+                font-family: iconfont;
+                position: absolute;
+                left: 8px;
+                cursor: text;
+            }
+
+            &:hover {
+                &:after {
+                    color: #c36724;
+                }
+
+                .user_label {
+                    background: #fff;
+                }
+            }
+        }
+    }
+
+
+
+    #property.value_list .bool, #property.value_list .number, #property.value_list .text {
+        display: flex;
+        flex-direction: row;
+        margin: 3px 0;
+        padding: 5px;
+    }
+
+    .value_list .bool, .value_list .number, .value_list .text {
+        display: flex;
+        flex-direction: column;
+        margin: 3px 0;
+        padding: 5px;
+    }
+
+    #output.value_list .bool, #output.value_list .number, #output.value_list .text {
+        flex-direction: row;
+    }
+}

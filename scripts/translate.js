@@ -14,10 +14,10 @@ translate = (()=>{
         "viewable_outputs": {en: "Outputs"},
         "viewable_documentation": {en: "Documentation"},
         "viewable_official_manuals": {en: "Official Manuals"},
-        "viewable_editor_normal": {en: "Editor Normal"},
-        "viewable_editor_minified": {en: "Editor Minified"},
-        "viewable_editor_unminified": {en: "Editor Unminified"},
-        "viewable_editor_uibuilder": {en: "Editor UI Builder"}
+        "viewable_editor_normal": {en: "Editor"},
+        "viewable_editor_minified": {en: "Minifier"},
+        "viewable_editor_unminified": {en: "Unminifier"},
+        "viewable_editor_uibuilder": {en: "UI Builder"}
     }
 
     function translateKey(key){
