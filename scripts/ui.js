@@ -1,4 +1,4 @@
-newui = (($)=>{
+ui = (($)=>{
 
     let viewables = {}
     let views = {}
@@ -13,11 +13,22 @@ newui = (($)=>{
     const VIEW_VIEW_MIN_SIZE = 100
     const SPLITTER_WIDTH = 6 /* this needs to be changed together with the css */
 
+    const MY_CONFIGURATION_NAME = 'ui'
+
     const DEFAULT_LAYOUT = {
         top_left: ['viewable_editor_normal', 'viewable_editor_minified', 'viewable_editor_unminified', 'viewable_editor_uibuilder'],
         top_right: ['viewable_documentation', 'viewable_properties', 'viewable_inputs', 'viewable_outputs', 'viewable_official_manuals'],
         bottom_left: ['viewable_console'],
         bottom_right: ['viewable_monitor', 'viewable_settings']
+    }
+
+    let config = {
+        layout: DEFAULT_LAYOUT,
+        splitters: {
+            vertical: 0.66,
+            horizontal_left: 0.66,
+            horizontal_right: 0.5
+        }
     }
 
     loader.on(loader.EVENT.SHARE_READY, init)
@@ -54,24 +65,75 @@ newui = (($)=>{
         splitterHorizontalRight = new Splitter($('[splitter="horizontal_right"]').get(0), 'horizontal')
 
 
-        splitterVertical.addListener('updated', onSplitterUpdate)
-        splitterHorizontalLeft.addListener('updated', onSplitterUpdate)
-        splitterHorizontalRight.addListener('updated', onSplitterUpdate)
+        splitterVertical.addListener('updated', ()=>{
+            config.splitters.vertical = splitterVertical.getRelative()
+            onSplitterUpdate()
+        })
+        splitterHorizontalLeft.addListener('updated', ()=>{
+            config.splitters.horizontal_left = splitterHorizontalLeft.getRelative()
+            onSplitterUpdate()
+        })
+        splitterHorizontalRight.addListener('updated', ()=>{
+            config.splitters.horizontal_right = splitterHorizontalRight.getRelative()
+            onSplitterUpdate()
+        })
+
+        splitterVertical.addListener('dragend', saveConfiguration)
+        splitterHorizontalLeft.addListener('dragend', saveConfiguration)
+        splitterHorizontalRight.addListener('dragend', saveConfiguration)
 
         onSplitterUpdate()
 
+        let conf = storage.getConfiguration(MY_CONFIGURATION_NAME)
+        if(conf){
+            if(conf.layout && conf.layout instanceof Object){
+                if(countEntries(conf.layout) === countEntries(DEFAULT_LAYOUT)){
+                    config.layout = conf.layout
+                }
+
+                function countEntries(lay){
+                    let total = 0
+                    for(let k in lay){
+                        total += lay[k].length
+                    }
+                    return total
+                }
+            }
+        }
+
+
+
         loadLayout(DEFAULT_LAYOUT)
 
+        if(conf){
+            if(conf.splitters){
+                for(let s of ['vertical', 'horizontal_left', 'horizontal_right']){
+                    if(typeof conf.splitters[s] === 'number'){
+                        config.splitters[s] = conf.splitters[s]
+                    }
+                }
+            }
+        }
+
+        let tmp = {vertical: splitterVertical, horizontal_left: splitterHorizontalLeft, horizontal_right: splitterHorizontalRight}
+        for(let k in tmp){
+            tmp[k].setRelative(config.splitters[k], config.splitters[k])
+        }
+
         loader.done(loader.EVENT.UI_READY)
+    }
+
+    function saveConfiguration(){
+        storage.setConfiguration(MY_CONFIGURATION_NAME, config)
     }
 
     function onSplitterUpdate(){
         console.log('onSplitterUpdate')
         views.top_left.resize(0, 0, splitterVertical.x, splitterHorizontalLeft.y)
-        views.top_right.resize(splitterVertical.x, 0, newui.flexview().width() - splitterVertical.x, splitterHorizontalRight.y)
+        views.top_right.resize(splitterVertical.x, 0, ui.flexview().width() - splitterVertical.x, splitterHorizontalRight.y)
 
-        views.bottom_left.resize(0, splitterHorizontalLeft.y, splitterVertical.x, newui.flexview().height() - splitterHorizontalLeft.y)
-        views.bottom_right.resize(splitterVertical.x, splitterHorizontalRight.y, newui.flexview().width() - splitterVertical.x, newui.flexview().height() - splitterHorizontalRight.y)
+        views.bottom_left.resize(0, splitterHorizontalLeft.y, splitterVertical.x, ui.flexview().height() - splitterHorizontalLeft.y)
+        views.bottom_right.resize(splitterVertical.x, splitterHorizontalRight.y, ui.flexview().width() - splitterVertical.x, ui.flexview().height() - splitterHorizontalRight.y)
     }
 
 
@@ -179,7 +241,7 @@ class Viewable extends SimpleEventor {
     }
 
     myCurrentView(){
-        let views = newui.views()
+        let views = ui.views()
         for(let v of Object.keys(views)){
             if(views[v].isViewablePartOfThisView(this)){
                 return views[v]
@@ -255,7 +317,7 @@ class View extends SimpleEventor {
 
         this.dom.find('[viewable]').each((i, el)=>{
             let name = $(el).attr('viewable')
-            myViewables[ name ] = newui.viewables()[name]
+            myViewables[ name ] = ui.viewables()[name]
         })
 
         return myViewables
@@ -268,7 +330,7 @@ class View extends SimpleEventor {
 
             this.focusSelect(viewable.dom.attr('viewable'))
         } else {
-            if(newui.DO_LOG){
+            if(ui.DO_LOG){
                 console.warn('cannot focus viewable that is not part of this view', viewable, this)
             }
         }
@@ -333,18 +395,10 @@ class Splitter extends SimpleEventor {
         this.dragStartX = 0
         this.dragStartY = 0
 
-        if(type === 'vertical'){
-            this.x = newui.flexview().width() * 0.66
-            this.y = 0
-        } else if (type === 'horizontal'){
-            if(this.isHorizontalLeft){
-                this.x = 0
-                this.y = newui.flexview().height() * 0.66                
-            } else {                
-                this.x = newui.flexview().width() * 0.66
-                this.y = newui.flexview().height() * 0.5
-            }
-        } else {
+        this.x = 0
+        this.y = 0
+
+        if(type !== 'vertical' && type !== 'horizontal'){
             throw 'unssupported Splitter type "' + type + '"'
         }
         
@@ -358,40 +412,21 @@ class Splitter extends SimpleEventor {
             this.isDragging = true
             this.dragStartX = evt.originalEvent.screenX
             this.dragStartY = evt.originalEvent.screenY
-            console.log('dragstart', this.dragStartX, this.dragStartY)
+
             this.update(true)
         })
 
         this.dom.on('mousemove', (evt)=>{
             if(this.isDragging){
-                console.log('this', this)
-                console.log('dragging from', this.x, this.y)
                 this.x = this.x - (this.dragStartX - evt.originalEvent.screenX)
                 this.y = this.y - (this.dragStartY - evt.originalEvent.screenY)
 
                 this.dragStartX = evt.originalEvent.screenX
                 this.dragStartY = evt.originalEvent.screenY
 
-                console.log('    to', this.x, this.y)
 
-                /* apply limits */
+                this.checkLimits()
 
-                if(this.x < newui.VIEW_MIN_SIZE){
-                    this.x = newui.VIEW_MIN_SIZE
-                }
-                if(this.x > newui.flexview().width() - newui.VIEW_MIN_SIZE){
-                    this.x = newui.flexview().width() - newui.VIEW_MIN_SIZE
-                }
-                if(this.y > newui.flexview().height() - newui.VIEW_MIN_SIZE){
-                    this.y = newui.flexview().height() - newui.VIEW_MIN_SIZE
-                }
-
-                /* only use one axis for each type */
-                if(this.type === 'vertical'){
-                    this.y = 0
-                } else if(this.type === 'horizontal'){
-                    this.x = 0
-                }
             }
 
             this.update()
@@ -400,15 +435,53 @@ class Splitter extends SimpleEventor {
         this.dom.on('mouseup mouseleave ', (evt)=>{
             this.isDragging = false
             this.isHover = false
-            console.log('dragend')
-            //TODO save to localStorage
 
             this.update(true)
+
+            this.dispatchEvent('dragend')
         })
 
         Splitters.push(this)
 
         this.update()
+    }
+
+    setRelative(xr,yr){
+        this.set( ui.flexview().width() * xr, ui.flexview().height() * yr )
+    }
+
+    set(x,y){
+        this.x = x
+        this.y = y
+        this.checkLimits()
+        this.update()
+    }
+
+    getRelative(){
+        if(this.type === 'vertical'){
+            return this.x / ui.flexview().width()
+        } else if(this.type === 'horizontal'){
+            return this.y / ui.flexview().height()
+        }
+    }
+
+    checkLimits(){
+        if(this.x < ui.VIEW_MIN_SIZE){
+            this.x = ui.VIEW_MIN_SIZE
+        }
+        if(this.x > ui.flexview().width() - ui.VIEW_MIN_SIZE){
+            this.x = ui.flexview().width() - ui.VIEW_MIN_SIZE
+        }
+        if(this.y > ui.flexview().height() - ui.VIEW_MIN_SIZE){
+            this.y = ui.flexview().height() - ui.VIEW_MIN_SIZE
+        }
+
+        /* only use one axis for each type */
+        if(this.type === 'vertical'){
+            this.y = 0
+        } else if(this.type === 'horizontal'){
+            this.x = 0
+        }
     }
 
     update(preventPropagation){
@@ -433,12 +506,12 @@ class Splitter extends SimpleEventor {
     getX(){
         if(this.type === 'horizontal'){
             if(! this.isHorizontalLeft){
-                return newui.verticalSplitterPosition() + 3 /* tiny offset, so they dont overlay each other */
+                return ui.verticalSplitterPosition() + 3 /* tiny offset, so they dont overlay each other */
             } else {
                 this.x
             }
         } else {
-            return this.x - newui.SPLITTER_WIDTH / 2
+            return this.x - ui.SPLITTER_WIDTH / 2
         }
     }
 
@@ -446,27 +519,27 @@ class Splitter extends SimpleEventor {
         if(this.type === 'vertical'){
             return this.y
         } else {
-            return this.y - newui.SPLITTER_WIDTH / 2
+            return this.y - ui.SPLITTER_WIDTH / 2
         }
     }
 
     getWidth(){
         if(this.type === 'vertical'){
-            return newui.SPLITTER_WIDTH
+            return ui.SPLITTER_WIDTH
         } else if(this.type === 'horizontal'){
             if(this.isHorizontalLeft){
-                return newui.verticalSplitterPosition() - 3 /* tiny offset, so they dont overlay each other */
+                return ui.verticalSplitterPosition() - 3 /* tiny offset, so they dont overlay each other */
             } else {
-                return newui.flexview().width() - newui.verticalSplitterPosition()
+                return ui.flexview().width() - ui.verticalSplitterPosition()
             }
         }
     }
 
     getHeight(){
         if(this.type === 'vertical'){
-            return newui.flexview().height()
+            return ui.flexview().height()
         } else if(this.type === 'horizontal'){
-            return newui.SPLITTER_WIDTH
+            return ui.SPLITTER_WIDTH
         }
     }
 }

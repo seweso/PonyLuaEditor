@@ -82,7 +82,9 @@ storage = (()=>{
     function processStorage(storage){
         configuration = storage
         if(!configuration || configuration instanceof Object === false){
-            configuration = {}
+            configuration = {
+                version: VERSION
+            }
         }
 
         loader.done(loader.EVENT.STORAGE_READY)
@@ -94,6 +96,9 @@ storage = (()=>{
 
     /* value can be a simple type (e.g. number, boolean) or an object */
     function setConfiguration(name, value, dontSave){
+        if(name === 'version'){
+            throw 'field is not writable: "' + name + '"'
+        }
         configuration[name] = value
 
         if( !dontSave ){
