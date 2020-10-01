@@ -1,0 +1,8 @@
+.highlighted {
+    border: 1px solid red !important;
+}
+
+[view].highlighted {
+    border: none !important;
+    background: red !important;
+}

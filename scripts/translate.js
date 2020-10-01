@@ -17,7 +17,12 @@ translate = (()=>{
         "viewable_editor_normal": {en: "Editor"},
         "viewable_editor_minified": {en: "Minifier"},
         "viewable_editor_unminified": {en: "Unminifier"},
-        "viewable_editor_uibuilder": {en: "UI Builder"}
+        "viewable_editor_uibuilder": {en: "UI Builder"},
+        /* views */
+        "top_left": {en: "Top Left"},
+        "top_right": {en: "Top Right"},
+        "bottom_left": {en: "Bottom Left"},
+        "bottom_right": {en: "Bottom Right"}
     }
 
     function translateKey(key){

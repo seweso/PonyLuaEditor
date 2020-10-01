@@ -1,7 +1,7 @@
 /* element sizes */
 /* colors */
 /* css variables */
-/* line 24, ../compass/src/_variables.scss */
+/* line 25, ../compass/src/_variables.scss */
 :root {
   --background-accent-gradient: linear-gradient(10deg, #2b4a6a 0%, #446483 100%);
   --background-strong-accent-gradient: linear-gradient(10deg, #2b5a88 0%, #5e8dbb 100%);
@@ -75,6 +75,17 @@ a {
 /* line 60, ../compass/src/_base.scss */
 a:hover {
   color: #F4812E;
+}
+
+/* line 1, ../compass/src/_util.scss */
+.highlighted {
+  border: 1px solid red !important;
+}
+
+/* line 5, ../compass/src/_util.scss */
+[view].highlighted {
+  border: none !important;
+  background: red !important;
 }
 
 /* line 1, ../compass/src/_share.scss */

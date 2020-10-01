@@ -1,5 +1,6 @@
 @import "_variables.scss";
 @import "_base.scss";
+@import "_util.scss";
 @import "_share.scss";
 @import "_dialog.scss";
 @import "_viewable_documentation.scss";
@@ -84,6 +85,42 @@
                 color: $light;
                 cursor: pointer;
                 padding: 0.25em 0.5em;
+
+                .moveto {
+                    margin-left: 10px;
+                    opacity: 0;
+                    transition: all 0.2s ease 0s;
+                }
+
+                &:hover .moveto {
+                    opacity: 1;
+                }
+
+                .moveto_choose {
+                    box-shadow: $box-shadow;
+                    background: $light;
+                    color: $dark;
+
+                    .header {
+                        padding: 6px 6px;
+                        background: $dark;
+                        color: $light;
+                        font-weight: bold;
+                    }
+
+                    .entry {
+                        padding: 6px 6px;
+                        transition: all 0.2s ease 0s;
+
+                        &:hover {
+                            background: $light-dark;
+                        }
+
+                        &:not(:last-child) {
+                            border-bottom: 1px solid $dark;
+                        }
+                    }
+                }
             }
 
             [select-viewable]:not(:last-child) {

@@ -44,10 +44,16 @@ ui = (($)=>{
 
         $('[view]').each((i, el)=>{
             let view = new View( el )
-            views[ $(el).attr('view') ] = view
+            let name = $(el).attr('view')
+            views[ name ] = view
 
             view.addListener('resize', ()=>{
                 view.dom.find('code_field').each()
+            })
+
+            view.addListener('viewable-change', ()=>{
+                config.layout[name] = Object.keys(view.getViewables())
+                saveConfiguration()
             })
         })
 
@@ -103,7 +109,7 @@ ui = (($)=>{
 
 
 
-        loadLayout(DEFAULT_LAYOUT)
+        loadLayout(config.layout)
 
         if(conf){
             if(conf.splitters){
@@ -230,11 +236,12 @@ class Viewable extends SimpleEventor {
 
 
     moveToView(view, dontFocus){
+        let curView = this.myCurrentView()
+
         view.addViewable(this, dontFocus !== true)
 
-        let curView = this.myCurrentView()
         if(curView){
-            curView.refreshFocus()
+            curView.afterViewablesChanged()
         }
 
         this.dispatchEvent('view-change')
@@ -285,17 +292,68 @@ class View extends SimpleEventor {
         })
         this.dom.find('.select').append(select)
         
+        let moveto = $('<span class="moveto icon-shuffle">')
+        let choose
+        moveto.on('mouseenter', (evt)=>{
+            choose = $('<div class="moveto_choose">')
+            choose.append(
+                $('<div class="header">Move To</div>'))
+
+            choose.css({
+                position: 'fixed',
+                'z-index': '2',
+                top: evt.originalEvent.pageY - 10,
+                right: ( $(window).width() - evt.originalEvent.pageX ) - 10
+            })
+
+            choose.on('mouseleave', ()=>{
+                choose.remove()
+            })
+
+            select.append(choose)
+
+            for(let v in ui.views()){
+                if(v === this.name()){
+                    continue
+                }
+                let view = ui.views()[v]
+                let entry = $('<div class="entry">' + translate.key(v) + '</div>')
+                entry.on('click', (evt)=>{
+                    evt.originalEvent.stopPropagation()
+                    viewable.moveToView( view )
+                    choose.remove()
+                    util.unHighlight(view.dom.get(0))
+                })
+
+                entry.on('mouseenter', ()=>{
+                    util.highlight(view.dom.get(0))
+                })
+
+                entry.on('mouseleave', ()=>{
+                    util.unHighlight(view.dom.get(0))
+                })
+
+                choose.append(entry)
+            }
+        })
+
+        select.append(moveto)
+
         if(focus){
             this.focus(viewable)
         } else {
             viewable.dom.attr('visible', 'false')
         }
+
+        this.afterViewablesChanged()
     }
 
-    /* called after viewable is removed */
-    refreshFocus(){
+    /* called after viewable is removed or added */
+    afterViewablesChanged(){
         /* remove old selects where the viewable has been removed */
         let myViewables = this.getViewables()
+
+        console.log('afterViewablesChanged', this, myViewables)
 
         this.dom.find('[select-viewable]').each((i, el)=>{
             if(! myViewables[ $(el).attr('select-viewable') ] ){
@@ -310,20 +368,23 @@ class View extends SimpleEventor {
         }
 
         this.focusSelect(this.dom.find('[viewable][visible="true"]').attr('viewable'))
+
+        this.dispatchEvent('viewable-change')
     }
 
     getViewables(){
-        let myViewables = {}
+        let viewables = {}
 
         this.dom.find('[viewable]').each((i, el)=>{
             let name = $(el).attr('viewable')
-            myViewables[ name ] = ui.viewables()[name]
+            viewables[ name ] = ui.viewables()[name]
         })
 
-        return myViewables
+        return viewables
     }
 
     focus(viewable){
+        console.log('focus', this)
         if(this.isViewablePartOfThisView(viewable)){
             this.dom.find('[viewable]').attr('visible', 'false')
             viewable.dom.attr('visible', 'true')
@@ -410,19 +471,19 @@ class Splitter extends SimpleEventor {
 
         this.dom.on('mousedown', (evt)=>{
             this.isDragging = true
-            this.dragStartX = evt.originalEvent.screenX
-            this.dragStartY = evt.originalEvent.screenY
+            this.dragStartX = evt.originalEvent.pageX
+            this.dragStartY = evt.originalEvent.pageY
 
             this.update(true)
         })
 
         this.dom.on('mousemove', (evt)=>{
             if(this.isDragging){
-                this.x = this.x - (this.dragStartX - evt.originalEvent.screenX)
-                this.y = this.y - (this.dragStartY - evt.originalEvent.screenY)
+                this.x = this.x - (this.dragStartX - evt.originalEvent.pageX)
+                this.y = this.y - (this.dragStartY - evt.originalEvent.pageY)
 
-                this.dragStartX = evt.originalEvent.screenX
-                this.dragStartY = evt.originalEvent.screenY
+                this.dragStartX = evt.originalEvent.pageX
+                this.dragStartY = evt.originalEvent.pageY
 
 
                 this.checkLimits()

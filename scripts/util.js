@@ -5,6 +5,24 @@ util = (($)=>{
         return false;
     }
 
+    /* time: milliseconds until highlight is removed again (optional) */
+    function highlight(elem, time){
+        if(elem instanceof HTMLElement){
+            $(elem).addClass('highlighted')
+
+            setTimeout(()=>{
+                unHighlight(elem)
+            }, typeof time === 'number' ? time : (10 * 1000) )
+        }
+    }
+
+    function unHighlight(elem){
+        if(elem instanceof HTMLElement){
+            $(elem).removeClass('highlighted')
+        }
+    }
+
+
     function message(title, text){
         return new Promise((fulfill, reject)=>{
             $('#message .title').html(title)
@@ -69,6 +87,8 @@ util = (($)=>{
     }
 
     return {
+        highlight: highlight,
+        unHighlight: unHighlight,
         message: message,
         confirm: confirm,
         alert: alert,
