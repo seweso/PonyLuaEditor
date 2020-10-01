@@ -1,0 +1,276 @@
+/* element sizes */
+/* colors */
+/* css variables */
+/* line 24, ../compass/src/_variables.scss */
+:root {
+  --background-accent-gradient: linear-gradient(10deg, #2b4a6a 0%, #446483 100%);
+  --background-strong-accent-gradient: linear-gradient(10deg, #2b5a88 0%, #5e8dbb 100%);
+  --background-grey-gradient: linear-gradient(10deg, #666 0%, #888 100%);
+}
+
+@font-face {
+  font-family: "Screen Mono";
+  src: url("../fonts/CG_pixel_4x5_mono.ttf");
+}
+/* line 6, ../compass/src/_base.scss */
+body {
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  font-family: 'Helvetica', 'Arial', 'sans-serif';
+}
+
+/* line 15, ../compass/src/_base.scss */
+body, * {
+  box-sizing: border-box;
+}
+
+/* line 19, ../compass/src/_base.scss */
+button {
+  background: linear-gradient(15deg, #2b4a6a 0%, #446483 100%);
+  border: 1px solid #305376;
+  border-radius: 3px;
+  color: #fff;
+  padding: 6px 18px;
+  cursor: pointer;
+  margin-bottom: 30px;
+  font-size: 16px;
+  transition: all 0.2s ease 0s;
+}
+/* line 30, ../compass/src/_base.scss */
+button.special_button {
+  background: linear-gradient(13deg, #930851 0%, #c63a84 100%);
+  border: 1px solid #b80a66;
+}
+
+/* line 36, ../compass/src/_base.scss */
+button:hover {
+  background: linear-gradient(15deg, #446483 0%, #6e869f 100%);
+}
+/* line 39, ../compass/src/_base.scss */
+button:hover.special_button {
+  background: linear-gradient(13deg, #490428 0%, #930851 100%);
+}
+
+/* line 44, ../compass/src/_base.scss */
+button[disabled] {
+  border-color: #dbdbdb;
+  color: #898989;
+  cursor: not-allowed;
+  background: #8297ac;
+}
+/* line 50, ../compass/src/_base.scss */
+button[disabled].special_button {
+  background: #db84b2;
+}
+
+/* line 55, ../compass/src/_base.scss */
+a {
+  color: #EE4A4B;
+  text-decoration: underline;
+}
+
+/* line 60, ../compass/src/_base.scss */
+a:hover {
+  color: #F4812E;
+}
+
+/* line 1, ../compass/src/_share.scss */
+.share {
+  display: inline-flex !important;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+/* line 8, ../compass/src/_share.scss */
+.share .docreate, .share .currentshare_container {
+  color: #fff;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 20px;
+  display: flex;
+  flex-direction: revert;
+  justify-content: center;
+  align-items: center;
+}
+/* line 19, ../compass/src/_share.scss */
+.share .currentshare_container {
+  padding: 8px;
+}
+/* line 23, ../compass/src/_share.scss */
+.share .currentshare {
+  font-family: "Monaco", "Menlo", "Ubuntu Mono", "Consolas", "souce-code-pro", monospace;
+}
+/* line 27, ../compass/src/_share.scss */
+.share .more {
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+}
+/* line 33, ../compass/src/_share.scss */
+.share .copy_share_to_clipboard {
+  background: #0004;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 3px;
+  transition: all 0.2s ease 0s;
+  font-size: 16px;
+}
+/* line 41, ../compass/src/_share.scss */
+.share .copy_share_to_clipboard:hover {
+  background: #fff4;
+  color: #000;
+}
+/* line 47, ../compass/src/_share.scss */
+.share .currentshare {
+  background: #000a;
+  border-radius: 3px;
+  border: none;
+  color: #fff;
+  font-size: 12px;
+  line-height: 16px;
+  padding: 6px 6px;
+  margin-right: 10px;
+}
+
+/* line 1, ../compass/src/_dialog.scss */
+.dialog {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 100000000000000;
+  background: #000c;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+/* line 14, ../compass/src/_dialog.scss */
+.dialog .inner {
+  display: flex;
+  flex-direction: column;
+  background: #e3e3e3;
+  padding: 20px;
+  border-radius: 3px;
+  box-shadow: 2px 2px 3px #555;
+}
+/* line 23, ../compass/src/_dialog.scss */
+.dialog .title {
+  margin: 0;
+  color: #bf5421;
+  font-weight: bold;
+  text-align: center;
+}
+/* line 30, ../compass/src/_dialog.scss */
+.dialog .message {
+  margin: 20px 0;
+}
+/* line 34, ../compass/src/_dialog.scss */
+.dialog .buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+/* line 39, ../compass/src/_dialog.scss */
+.dialog .buttons button {
+  margin: 0 10px;
+}
+
+/* line 1, ../compass/src/_viewable_documentation.scss */
+.ide [viewable="viewable_documentation"] {
+  padding: 5px;
+}
+/* line 5, ../compass/src/_viewable_documentation.scss */
+.ide [viewable="viewable_documentation"] .node {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border-radius: 3px;
+  background: #151719;
+  color: #eaedf1;
+}
+/* line 13, ../compass/src/_viewable_documentation.scss */
+.ide [viewable="viewable_documentation"] .node:not(:last-child) {
+  margin-bottom: 5px;
+}
+/* line 19, ../compass/src/_viewable_documentation.scss */
+.ide [viewable="viewable_documentation"] .node.contracted .bottom, .ide [viewable="viewable_documentation"] .node.contracted .children {
+  display: none;
+}
+/* line 24, ../compass/src/_viewable_documentation.scss */
+.ide [viewable="viewable_documentation"] .node .top {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 3px 6px;
+  cursor: pointer;
+}
+/* line 31, ../compass/src/_viewable_documentation.scss */
+.ide [viewable="viewable_documentation"] .node .top .definition {
+  display: flex;
+  flex-direction: row;
+  font-size: 18px;
+}
+/* line 40, ../compass/src/_viewable_documentation.scss */
+.ide [viewable="viewable_documentation"] .node .top .definition .args {
+  display: flex;
+  flex-direction: row;
+  margin-left: 5px;
+  color: #e87704;
+}
+/* line 49, ../compass/src/_viewable_documentation.scss */
+.ide [viewable="viewable_documentation"] .node .top .lib {
+  border: 1px solid;
+  border-radius: 10000px;
+  padding: 2px 8px;
+  white-space: nowrap;
+  height: calc(1em + 2px * 4);
+}
+/* line 58, ../compass/src/_viewable_documentation.scss */
+.ide [viewable="viewable_documentation"] .node .bottom {
+  display: flex;
+  flex-direction: column;
+  padding: 5px 10px 10px 10px;
+}
+/* line 63, ../compass/src/_viewable_documentation.scss */
+.ide [viewable="viewable_documentation"] .node .bottom .url {
+  margin-bottom: 8px;
+}
+/* line 72, ../compass/src/_viewable_documentation.scss */
+.ide [viewable="viewable_documentation"] .node .children {
+  background: #7e7e7e;
+  padding: 6px;
+  border-left: 4px solid #222;
+  border-right: 4px solid #222;
+  border-bottom: 4px solid #222;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+/* line 84, ../compass/src/_viewable_documentation.scss */
+.ide [viewable="viewable_documentation"] .node[lib="stormworks"] .lib {
+  color: #bf5421 !important;
+  border-color: #bf5421;
+}
+/* line 92, ../compass/src/_viewable_documentation.scss */
+.ide [viewable="viewable_documentation"] .node[lib="dev"] .lib {
+  color: #ae6767 !important;
+  border-color: #ae6767;
+}
+/* line 100, ../compass/src/_viewable_documentation.scss */
+.ide [viewable="viewable_documentation"] .node[lib="lua"] .lib {
+  color: #0194E2 !important;
+  border-color: #0194E2;
+}
+/* line 107, ../compass/src/_viewable_documentation.scss */
+.ide [viewable="viewable_documentation"] .node[ntype="object"] .name {
+  color: #A6CE28;
+}
+/* line 113, ../compass/src/_viewable_documentation.scss */
+.ide [viewable="viewable_documentation"] .node[ntype="function"] .name {
+  color: #66D9EF;
+}
