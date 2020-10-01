@@ -91,12 +91,12 @@ yyy = (($)=>{
 
             let codeFromStorage = getCodeFromStorage()
             if(typeof codeFromStorage === 'string' && codeFromStorage.length > 0){
-                editors.get('normal').setValue(codeFromStorage, -1)
+                editor.get('normal').setValue(codeFromStorage, -1)
             }
 
             let minifiedCodeFromStorage = getMinifiedCodeFromStorage()
             if(typeof minifiedCodeFromStorage === 'string' && minifiedCodeFromStorage.length > 0){
-                editors.get('minified').setValue(minifiedCodeFromStorage, -1)
+                editor.get('minified').setValue(minifiedCodeFromStorage, -1)
                 $('#minified-editor').show()
                 $('#minified-code-container .custom_hint').show()
                 isCustomMinifiedCode = true

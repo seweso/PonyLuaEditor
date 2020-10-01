@@ -187,7 +187,7 @@ engine = (($)=>{
         lockUI()
         saveCode()
 
-        let code = editors.get('normal').editor.getValue()
+        let code = editor.get('normal').editor.getValue()
 
         startCode(code)
 
@@ -200,7 +200,7 @@ engine = (($)=>{
         lockUI()
         saveCode()
 
-        let code = editors.get('minified').editor.getValue()
+        let code = editor.get('minified').editor.getValue()
 
         startCode(code)
 
@@ -212,7 +212,7 @@ engine = (($)=>{
     function startGenerated(){
         lockUI()
 
-        let code = editors.get('uibuilder').editor.getValue()
+        let code = editor.get('uibuilder').editor.getValue()
 
         startCode(code)
 
@@ -389,7 +389,7 @@ engine = (($)=>{
         setTimeout(()=>{
             $('#save').removeClass('saved')
         }, 1000)
-        localStorage.setItem('code', editors.get('normal').editor.getValue());
+        localStorage.setItem('code', editor.get('normal').editor.getValue());
     }
 
     return {        

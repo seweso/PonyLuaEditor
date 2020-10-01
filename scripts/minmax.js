@@ -33,12 +33,12 @@ minmax = (()=>{
                 let minified
 
                 if($('#minify-type').val() === 'conservative-with-line-breaks' || $('#minify-type').val() === 'conservative-no-line-breaks'){
-                    let ast = luaparse.parse(editors.get('normal').getValue())
+                    let ast = luaparse.parse(editor.get('normal').getValue())
 
                     minified = luamin.minify(ast).trim()
                 } else {
 
-                    let ast = luaparse.parse(editors.get('normal').getValue())
+                    let ast = luaparse.parse(editor.get('normal').getValue())
 
                     minified = luaminy.minify(ast).trim()
 
@@ -145,7 +145,7 @@ minmax = (()=>{
                 }
 
                 $('#minified-editor').show()
-                editors.get('minified').setValue(minified, -1)
+                editor.get('minified').setValue(minified, -1)
                 $('#minified-code-container .custom_hint').hide()
                 yyy.setCustomMinifiedCode(false)
 
@@ -153,7 +153,7 @@ minmax = (()=>{
             } catch (ex){
                 console.trace(ex)
                 $('#minified-editor').show()
-                editors.get('minified').setValue('Error: ' + ex.message, -1)
+                editor.get('minified').setValue('Error: ' + ex.message, -1)
             }
         })
 
@@ -168,7 +168,7 @@ minmax = (()=>{
         $('#unminify').on('click', ()=>{
             report(REPORT_TYPE_IDS.unminify)
 
-            let minified = editors.get('minified').getValue()
+            let minified = editor.get('minified').getValue()
 
             if(typeof minified !== 'string' || minified.length == 0){
                 fail('empty')
@@ -226,12 +226,12 @@ minmax = (()=>{
             unminified += luamax.maxify(code, idMap, libIdMap)
 
             $('#unminified-editor').show()
-            editors.get('unminified').setValue(unminified, -1)
+            editor.get('unminified').setValue(unminified, -1)
 
 
             function fail(msg){
                 $('#unminified-editor').show()
-                editors.get('unminified').setValue('Unminification failed:\n' + msg, -1)
+                editor.get('unminified').setValue('Unminification failed:\n' + msg, -1)
             }
 
         })

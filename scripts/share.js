@@ -74,7 +74,7 @@ var SHARE = ((global, $)=>{
         log('creating new share')
 
 
-        let code = editors.get('normal').editor.getValue()
+        let code = editor.get('normal').editor.getValue()
         if(typeof code !== 'string' || code.length === 0){
             util.alert('Cannot share empty code!')
             return
@@ -92,7 +92,7 @@ var SHARE = ((global, $)=>{
             settings: JSON.stringify(settings)
         }
 
-        let minifiedCode = editors.get('minified').editor.getValue()
+        let minifiedCode = editor.get('minified').editor.getValue()
         if(typeof minifiedCode === 'string' && minifiedCode.length > 0 && yyy.isCustomMinifiedCode()){
             data.minified_code = minifiedCode
         }

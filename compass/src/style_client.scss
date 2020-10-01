@@ -142,7 +142,6 @@
         }
     }
 
-    /* sass bug prevents use to use sass style! cant chain multiple attribute rules over different layers */
     [viewable][visible="false"] {
         display: none;
     }

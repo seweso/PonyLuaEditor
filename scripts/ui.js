@@ -48,7 +48,9 @@ ui = (($)=>{
             views[ name ] = view
 
             view.addListener('resize', ()=>{
-                view.dom.find('code_field').each()
+                for(let e of Editors){
+                    e.refreshSize()
+                }
             })
 
             view.addListener('viewable-change', ()=>{
@@ -121,10 +123,16 @@ ui = (($)=>{
             }
         }
 
-        let tmp = {vertical: splitterVertical, horizontal_left: splitterHorizontalLeft, horizontal_right: splitterHorizontalRight}
-        for(let k in tmp){
-            tmp[k].setRelative(config.splitters[k], config.splitters[k])
+        function setSplittersFromConfig(){
+            let tmp = {vertical: splitterVertical, horizontal_left: splitterHorizontalLeft, horizontal_right: splitterHorizontalRight}
+            for(let k in tmp){
+                tmp[k].setRelative(config.splitters[k], config.splitters[k])
+            }
         }
+
+        $(window).on('resize', setSplittersFromConfig)
+
+        setSplittersFromConfig()
 
         loader.done(loader.EVENT.UI_READY)
     }
@@ -269,6 +277,10 @@ class Viewable extends SimpleEventor {
     onViewableResize(listener){
         this.addListener('viewable-resize', listener)
     }
+
+    onGainFocus(listener){
+        this.addListener('viewable-gain-focus', listener)
+    }
 }
 
 class View extends SimpleEventor {
@@ -390,6 +402,8 @@ class View extends SimpleEventor {
             viewable.dom.attr('visible', 'true')
 
             this.focusSelect(viewable.dom.attr('viewable'))
+
+            viewable.dispatchEvent('viewable-gain-focus')
         } else {
             if(ui.DO_LOG){
                 console.warn('cannot focus viewable that is not part of this view', viewable, this)

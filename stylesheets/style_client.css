@@ -644,7 +644,6 @@ a:hover {
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  /* sass bug prevents use to use sass style! cant chain multiple attribute rules over different layers */
 }
 /* line 17, ../compass/src/style_client.scss */
 .ide .ide_bar {
@@ -773,18 +772,18 @@ a:hover {
   background: #363b40;
   border-radius: 3px;
 }
-/* line 146, ../compass/src/style_client.scss */
+/* line 145, ../compass/src/style_client.scss */
 .ide [viewable][visible="false"] {
   display: none;
 }
-/* line 151, ../compass/src/style_client.scss */
+/* line 150, ../compass/src/style_client.scss */
 .ide [splitter] {
   position: absolute;
   background: var(--background-strong-accent-gradient);
   border: 2px solid #151719;
   /* hack so the mouse is not leaving the splitter directly */
 }
-/* line 157, ../compass/src/style_client.scss */
+/* line 156, ../compass/src/style_client.scss */
 .ide [splitter]:after {
   display: none;
   content: ' ';
@@ -794,11 +793,11 @@ a:hover {
   width: calc(100% + 2000px);
   height: calc(100% + 2000px);
 }
-/* line 168, ../compass/src/style_client.scss */
+/* line 167, ../compass/src/style_client.scss */
 .ide [splitter][draging="true"]:after {
   display: initial;
 }
-/* line 172, ../compass/src/style_client.scss */
+/* line 171, ../compass/src/style_client.scss */
 .ide [splitter="vertical"] {
   left: calc(50vw - (6px / 2));
   top: 0;
@@ -806,24 +805,24 @@ a:hover {
   width: 8px;
   cursor: e-resize;
 }
-/* line 180, ../compass/src/style_client.scss */
+/* line 179, ../compass/src/style_client.scss */
 .ide [splitter="horizontal_left"], .ide [splitter="horizontal_right"] {
   top: calc( ( 100vh - 75px - 60px ) / 2 - (6px / 2));
   height: 6px;
   width: calc(50vw - (6px / 2));
   cursor: n-resize;
 }
-/* line 187, ../compass/src/style_client.scss */
+/* line 186, ../compass/src/style_client.scss */
 .ide [splitter="horizontal_left"] {
   left: 0;
 }
-/* line 191, ../compass/src/style_client.scss */
+/* line 190, ../compass/src/style_client.scss */
 .ide [splitter="horizontal_right"] {
   left: calc(50vw + (6px / 2));
 }
 
 /* only temporary: */
-/* line 197, ../compass/src/style_client.scss */
+/* line 196, ../compass/src/style_client.scss */
 #mobile-menu, #fixed-information-badges, #example-container {
   display: none;
 }

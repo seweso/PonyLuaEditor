@@ -9,6 +9,8 @@ class Editor {
         this.editor.session.setUseSoftTabs(false)
 
         this.oldHeight = 0
+        
+        Editors.push(this)
 
         this.dom.on('change', ()=>{
             this.refreshCharacterCount()
@@ -22,22 +24,49 @@ class Editor {
             this.refreshSize()
         })
 
+        this.viewable.onGainFocus(()=>{
+            this.refreshSize()
+        })
+
         setTimeout(()=>{
             this.refreshSize()
         }, 100)
 
         this.addEditorControls()
 
-        editors.registerEditor(this, this.dom.attr('code-field'))
+
+        editor.registerEditor(this, this.dom.attr('code-field'))
     }
 
     refreshSize(){
-        let myCurrentView = this.viewable.myCurrentView()
-        if(myCurrentView){
-            this.dom.width( myCurrentView.dom.find('.viewable_container').innerWidth() - 20 )
-            this.dom.height( myCurrentView.dom.find('.viewable_container').innerHeight() - 20 )
-        }
+        this.dom.width(this.getAvailableWidth())
+        this.dom.height(this.getAvailableHeight())
+
         this.editor.resize()
+    }
+
+    getAvailableHeight(){
+        let myCurrentView = this.viewable.myCurrentView()
+        
+        if(! myCurrentView){
+            return 0
+        }
+
+        let avail = myCurrentView.dom.find('.viewable_container').offset().top + myCurrentView.dom.find('.viewable_container').height() - this.dom.offset().top - 20
+
+        return avail < 0 ? 0 : avail
+    }
+
+    getAvailableWidth(){
+        let myCurrentView = this.viewable.myCurrentView()
+
+        if(! myCurrentView){
+            return 0
+        }
+
+        let avail = myCurrentView.dom.find('.viewable_container').offset().left + myCurrentView.dom.find('.viewable_container').width() - this.dom.offset().left - 20
+
+        return avail < 0 ? 0 : avail
     }
 
     addEditorControls(){
@@ -108,9 +137,9 @@ class Editor {
     }
 }
 
+Editors = []
 
-
-editors = (()=>{
+editor = (()=>{
 
     let editors = {}
     let activeEditor
