@@ -1,4 +1,4 @@
-var PAINT = ((c)=>{
+var PAINT = (()=>{
 
     const DO_LOG = false
 
@@ -13,8 +13,8 @@ var PAINT = ((c)=>{
 
     function setColor(r, g, b, a){
         log()
-        c.ctx().fillStyle = "rgb(" + r + ', ' + g + ', ' + b + ', ' + a/255 + ')'
-        c.ctx().strokeStyle = "rgb(" + r + ', ' + g + ', ' + b + ', ' + a/255 + ')'
+        CANVAS.ctx().fillStyle = "rgb(" + r + ', ' + g + ', ' + b + ', ' + a/255 + ')'
+        CANVAS.ctx().strokeStyle = "rgb(" + r + ', ' + g + ', ' + b + ', ' + a/255 + ')'
 
         lastColorUsed = [r, g, b, a]
     }
@@ -40,88 +40,88 @@ var PAINT = ((c)=>{
 
     function drawClear(){
         log()
-        c.ctx().closePath()
-        c.ctx().beginPath()
-        c.ctx().clearRect(0, 0, c.realWidth(), c.realHeight())
-        c.ctx().fillRect(0, 0, c.realWidth(), c.realHeight())
+        CANVAS.ctx().closePath()
+        CANVAS.ctx().beginPath()
+        CANVAS.ctx().clearRect(0, 0, CANVAS.realWidth(), CANVAS.realHeight())
+        CANVAS.ctx().fillRect(0, 0, CANVAS.realWidth(), CANVAS.realHeight())
     }
 
     function drawLine(x1, y1, x2, y2){ 
         log()
-        c.ctx().lineWidth = zoom(LINE_WIDTH)/2
-        c.ctx().beginPath()
-        c.ctx().moveTo(c.left() + zoom(x1), c.top() + zoom(y1))
-        c.ctx().lineTo(c.left() + zoom(x2), c.top() + zoom(y2))
-        c.ctx().stroke()
-        c.ctx().closePath()
+        CANVAS.ctx().lineWidth = zoom(LINE_WIDTH)/2
+        CANVAS.ctx().beginPath()
+        CANVAS.ctx().moveTo(CANVAS.left() + zoom(x1), CANVAS.top() + zoom(y1))
+        CANVAS.ctx().lineTo(CANVAS.left() + zoom(x2), CANVAS.top() + zoom(y2))
+        CANVAS.ctx().stroke()
+        CANVAS.ctx().closePath()
     }
 
     function drawCircle(x, y, r){
         log()
-        c.ctx().lineWidth = zoom(LINE_WIDTH)/2
-        c.ctx().beginPath()
-        c.ctx().arc(c.left() + zoom(x), c.top() + zoom(y), zoom(r), 0, 2 * Math.PI, true)
-        c.ctx().stroke()
-        c.ctx().closePath()
+        CANVAS.ctx().lineWidth = zoom(LINE_WIDTH)/2
+        CANVAS.ctx().beginPath()
+        CANVAS.ctx().arc(CANVAS.left() + zoom(x), CANVAS.top() + zoom(y), zoom(r), 0, 2 * Math.PI, true)
+        CANVAS.ctx().stroke()
+        CANVAS.ctx().closePath()
     }
 
     function drawCircleF(x, y, r){
         log()
-        c.ctx().lineWidth = zoom(LINE_WIDTH)/2
-        c.ctx().beginPath()
-        c.ctx().arc(c.left() + zoom(x), c.top() + zoom(y), zoom(r), 0, 2 * Math.PI, true)
-        c.ctx().fill()
-        c.ctx().closePath()
+        CANVAS.ctx().lineWidth = zoom(LINE_WIDTH)/2
+        CANVAS.ctx().beginPath()
+        CANVAS.ctx().arc(CANVAS.left() + zoom(x), CANVAS.top() + zoom(y), zoom(r), 0, 2 * Math.PI, true)
+        CANVAS.ctx().fill()
+        CANVAS.ctx().closePath()
     }
 
     function drawRect(x, y, w, h){
         log()
-        c.ctx().lineWidth = zoom(LINE_WIDTH)/2
-        c.ctx().strokeRect(c.left() + zoom(x), c.top() + zoom(y), zoom(w), zoom(h))
+        CANVAS.ctx().lineWidth = zoom(LINE_WIDTH)/2
+        CANVAS.ctx().strokeRect(CANVAS.left() + zoom(x), CANVAS.top() + zoom(y), zoom(w), zoom(h))
     }
 
     function drawRectF(x, y, w, h){
         log()
-        c.ctx().lineWidth = zoom(LINE_WIDTH)/2
-        c.ctx().fillRect(c.left() + zoom(x), c.top() + zoom(y), zoom(w), zoom(h))
+        CANVAS.ctx().lineWidth = zoom(LINE_WIDTH)/2
+        CANVAS.ctx().fillRect(CANVAS.left() + zoom(x), CANVAS.top() + zoom(y), zoom(w), zoom(h))
     }
 
     function drawTriangle(x1, y1, x2, y2, x3, y3){
         log()
-        c.ctx().lineWidth = zoom(LINE_WIDTH)/3
-        c.ctx().beginPath()
-        c.ctx().moveTo(c.left() + zoom(x1), c.top() + zoom(y1))
-        c.ctx().lineTo(c.left() + zoom(x2), c.top() + zoom(y2))
-        c.ctx().lineTo(c.left() + zoom(x3), c.top() + zoom(y3))
-        c.ctx().lineTo(c.left() + zoom(x1), c.top() + zoom(y1))
-        c.ctx().stroke()
-        c.ctx().closePath()
+        CANVAS.ctx().lineWidth = zoom(LINE_WIDTH)/3
+        CANVAS.ctx().beginPath()
+        CANVAS.ctx().moveTo(CANVAS.left() + zoom(x1), CANVAS.top() + zoom(y1))
+        CANVAS.ctx().lineTo(CANVAS.left() + zoom(x2), CANVAS.top() + zoom(y2))
+        CANVAS.ctx().lineTo(CANVAS.left() + zoom(x3), CANVAS.top() + zoom(y3))
+        CANVAS.ctx().lineTo(CANVAS.left() + zoom(x1), CANVAS.top() + zoom(y1))
+        CANVAS.ctx().stroke()
+        CANVAS.ctx().closePath()
 
     }
 
     function drawTriangleF(x1, y1, x2, y2, x3, y3){
         log()
-        c.ctx().lineWidth = zoom(LINE_WIDTH)/3
-        c.ctx().beginPath()
-        c.ctx().moveTo(c.left() + zoom(x1), c.top() + zoom(y1))
-        c.ctx().lineTo(c.left() + zoom(x2), c.top() + zoom(y2))
-        c.ctx().lineTo(c.left() + zoom(x3), c.top() + zoom(y3))
-        c.ctx().lineTo(c.left() + zoom(x1), c.top() + zoom(y1))
-        c.ctx().fill()
-        c.ctx().closePath()
+        CANVAS.ctx().lineWidth = zoom(LINE_WIDTH)/3
+        CANVAS.ctx().beginPath()
+        CANVAS.ctx().moveTo(CANVAS.left() + zoom(x1), CANVAS.top() + zoom(y1))
+        CANVAS.ctx().lineTo(CANVAS.left() + zoom(x2), CANVAS.top() + zoom(y2))
+        CANVAS.ctx().lineTo(CANVAS.left() + zoom(x3), CANVAS.top() + zoom(y3))
+        CANVAS.ctx().lineTo(CANVAS.left() + zoom(x1), CANVAS.top() + zoom(y1))
+        CANVAS.ctx().fill()
+        CANVAS.ctx().closePath()
     }
 
     function drawText(x, y, text){//4px wide 5 px tall
         text = text.toUpperCase()
         log()
 
-        c.ctx().font = Math.floor(zoom(FONT_SIZE)) + FONT
+        CANVAS.ctx().font = Math.floor(zoom(FONT_SIZE)) + FONT
         let lines = text.split('\n')
         let lineCounter = 0
         for(let l of lines){
-            let xx = c.left() + zoom(x)
-            let yy = c.top() + zoom(y + lineCounter*6) + zoom(FONT_SIZE)
-            c.ctx().fillText(l, Math.round(xx), Math.round(yy))
+            let xx = CANVAS.left() + zoom(x)
+            let yy = CANVAS.top() + zoom(y + lineCounter*6) + zoom(FONT_SIZE)
+            CANVAS.ctx().fillText(l, Math.round(xx), Math.round(yy))
             lineCounter++
         }
     }
@@ -154,7 +154,7 @@ var PAINT = ((c)=>{
             i += maxCharsPerLine
         }
 
-        c.ctx().font = Math.floor(zoom(FONT_SIZE)) + FONT
+        CANVAS.ctx().font = Math.floor(zoom(FONT_SIZE)) + FONT
 
         let lineHeight = FONT_SIZE+1
 
@@ -165,10 +165,10 @@ var PAINT = ((c)=>{
         let lineCounter = 0
         for(let l of lines){
             let widthOfCurrentLine = l.length * 5 - 1
-            let xx = c.left() + zoom(horizontalCenter - widthOfCurrentLine/2) - zoom(h_align * widthOfCurrentLine/2)
-            let yy = c.top() + zoom(lineCounter * lineHeight + verticalCenter) - zoom(v_align * lines.length * lineHeight/2) - zoom(lines.length * lineHeight/2) + zoom(lineHeight) - zoom(1-(lineCounter/lines.length))
+            let xx = CANVAS.left() + zoom(horizontalCenter - widthOfCurrentLine/2) - zoom(h_align * widthOfCurrentLine/2)
+            let yy = CANVAS.top() + zoom(lineCounter * lineHeight + verticalCenter) - zoom(v_align * lines.length * lineHeight/2) - zoom(lines.length * lineHeight/2) + zoom(lineHeight) - zoom(1-(lineCounter/lines.length))
 
-            c.ctx().fillText(l, Math.round(xx), Math.round(yy));
+            CANVAS.ctx().fillText(l, Math.round(xx), Math.round(yy));
 
             lineCounter++
         }
@@ -177,7 +177,7 @@ var PAINT = ((c)=>{
     /* helper functions */
 
     function zoom(val){
-        return Math.round(val) * zoomFactor * c.RENDER_SCALING_FACTOR
+        return Math.round(val) * zoomFactor * CANVAS.RENDER_SCALING_FACTOR
     }
 
     function log(){
@@ -220,4 +220,4 @@ var PAINT = ((c)=>{
         _restoreLastColorUsed: _restoreLastColorUsed
     }
 
-})(CANVAS)
+})()

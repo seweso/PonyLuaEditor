@@ -1,4 +1,4 @@
-var MAP = ((global, c, $)=>{
+var MAP = (($)=>{
 
     const DO_LOG = false
 
@@ -61,13 +61,13 @@ var MAP = ((global, c, $)=>{
 
     function drawMap(x, y, zom){//zom from 0.1 to 50
         //matches = {}
-        let currentFillStyle = c.ctx().fillStyle
+        let currentFillStyle = CANVAS.ctx().fillStyle
         try {
             let centerx = MAP_ZERO_X + x
             let centery = MAP_ZERO_Y - y
 
-            let sWidth = Math.max(c.width() * zom, 1)
-            let sHeight = Math.max(c.height() * zom, 1)
+            let sWidth = Math.max(CANVAS.width() * zom, 1)
+            let sHeight = Math.max(CANVAS.height() * zom, 1)
             let sx = centerx - sWidth/2
             let sy = centery - sHeight/2
 
@@ -91,16 +91,16 @@ var MAP = ((global, c, $)=>{
             fakectx.clearRect(0, 0, fakecanvas.width, fakecanvas.height)
             fakectx.putImageData(imageData, 0, 0, 0, 0, fakecanvas.width, fakecanvas.height)
 
-            fakecanvas2.width = zoom(c.width())
-            fakecanvas2.height = zoom(c.height())
+            fakecanvas2.width = zoom(CANVAS.width())
+            fakecanvas2.height = zoom(CANVAS.height())
 
             fakectx2.drawImage(fakecanvas, 0, 0, fakecanvas.width, fakecanvas.height, 0, 0, fakecanvas2.width, fakecanvas2.height)
 
-            c.ctx().drawImage(fakecanvas2, 0, 0, fakecanvas2.width, fakecanvas2.height, c.left(), c.top(), c.renderWidth() - c.left()*2, c.renderHeight() - c.top()*2)
+            CANVAS.ctx().drawImage(fakecanvas2, 0, 0, fakecanvas2.width, fakecanvas2.height, CANVAS.left(), CANVAS.top(), CANVAS.renderWidth() - CANVAS.left()*2, CANVAS.renderHeight() - CANVAS.top()*2)
         } catch (err){
             console.error(err)
         }  
-        c.ctx().fillStyle = currentFillStyle
+        CANVAS.ctx().fillStyle = currentFillStyle
     }
 
     function setMapColorOcean(r, g, b, a){
@@ -186,9 +186,9 @@ var MAP = ((global, c, $)=>{
         let distances = []
         for(let k of Object.keys(DEFAULT_COLORS)){
             let c = DEFAULT_COLORS[k]
-            let dr =  Math.abs(c.r - r)
-            let dg =  Math.abs(c.g - g)
-            let db =  Math.abs(c.b - b)
+            let dr =  Math.abs(CANVAS.r - r)
+            let dg =  Math.abs(CANVAS.g - g)
+            let db =  Math.abs(CANVAS.b - b)
             distances.push({key: k, distance: dr + dg + db})
         }
         distances.sort((a, b)=>{
@@ -209,7 +209,7 @@ var MAP = ((global, c, $)=>{
     }
 
     function zoom(val){
-        return val * zoomFactor// * c.RENDER_SCALING_FACTOR
+        return val * zoomFactor// * CANVAS.RENDER_SCALING_FACTOR
     }
 
     function log(){
@@ -249,4 +249,4 @@ var MAP = ((global, c, $)=>{
         reset: reset
     }
 
-})(window, CANVAS, jQuery)
+})(jQuery)

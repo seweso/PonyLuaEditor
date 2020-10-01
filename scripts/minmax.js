@@ -12,7 +12,7 @@ minmax = (()=>{
 
 
     function init(){
-        addChildrenToLibraryIdentifiers(AUTOCOMPLETE.getAllAutocompletitions())
+        addChildrenToLibraryIdentifiers(DOCUMENTATION.getAllAutocompletitions())
 
         function addChildrenToLibraryIdentifiers(node){
             if(node.children){
@@ -240,7 +240,7 @@ minmax = (()=>{
 
     function isMinificationAllowed(keyword, /* optional */ library){
         if(library){
-            let acs = AUTOCOMPLETE.getAllAutocompletitions()
+            let acs = DOCUMENTATION.getAllAutocompletitions()
             return acs && acs.children[library] && acs.children[library].children && acs.children[library].children[keyword]
         } else {
             return IDENTIFIERS_NOT_ALLOWED_TO_MINIFY.indexOf(keyword) === -1

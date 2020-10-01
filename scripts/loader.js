@@ -26,7 +26,7 @@ loader = (($)=>{
         LUA_CONSOLE_READY: 'Lua Console',
         EXAMPLES_READY: 'Examples',
         EDITORS_READY: 'Editors',
-        EDITOR_AUTOCOMPLETION_READY: 'Editor Autocomplete',
+        DOCUMENTATION_READY: 'Autocomplete & Documentation',
         OTHERS_READY: 'Other',
 
         ENGINE_READY: 'Engine',
