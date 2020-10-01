@@ -4,6 +4,7 @@
 @import "_share.scss";
 @import "_dialog.scss";
 @import "_viewable_documentation.scss";
+@import "_viewable_console.scss";
 @import "_navigation.scss";
 @import "_value_list.scss";
 
@@ -139,6 +140,7 @@
             overflow: auto;
             background: $medium_dark;
             border-radius: 3px;
+            padding: 4px;
         }
     }
 

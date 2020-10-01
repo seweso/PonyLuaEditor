@@ -64,6 +64,10 @@ ui = (($)=>{
             editors[$(el).attr('code-field')] = editor
         })
 
+
+
+        new DynamicSizedViewableContent($('#console').get(0), viewables['viewable_console'])
+
         if(DO_LOG){
             console.log('Views', views)
         }

@@ -1,8 +1,60 @@
-class Editor {
+class DynamicSizedViewableContent {
     constructor(container, viewable){
-
         this.dom = $(container)
         this.viewable = viewable
+
+        this.viewable.onViewableResize(()=>{
+            this.refreshSize()
+        })
+
+        this.viewable.onGainFocus(()=>{
+            this.refreshSize()
+        })
+
+        setTimeout(()=>{
+            this.refreshSize()
+        }, 100)
+    }
+
+    refreshSize(){
+        this.dom.width(this.getAvailableWidth())
+        this.dom.height(this.getAvailableHeight())
+    }
+
+    getAvailableHeight(){
+        let myCurrentView = this.viewable.myCurrentView()
+        
+        if(! myCurrentView){
+            return 0
+        }
+
+        let avail = myCurrentView.dom.find('.viewable_container').offset().top
+            + myCurrentView.dom.find('.viewable_container').height()
+            - this.dom.offset().top
+            - 10
+
+        return avail < 0 ? 0 : avail
+    }
+
+    getAvailableWidth(){
+        let myCurrentView = this.viewable.myCurrentView()
+
+        if(! myCurrentView){
+            return 0
+        }
+
+        let avail = myCurrentView.dom.find('.viewable_container').offset().left
+            + myCurrentView.dom.find('.viewable_container').width()
+            - this.dom.offset().left
+            - 10
+
+        return avail < 0 ? 0 : avail
+    }
+}
+
+class Editor extends DynamicSizedViewableContent {
+    constructor(container, viewable){
+        super(container, viewable)
         this.editor = ace.edit(this.dom.get(0))
         this.editor.setTheme("ace/theme/monokai")
         this.editor.session.setMode("ace/mode/lua")
@@ -20,53 +72,16 @@ class Editor {
             this.refreshPositionHint()
         })
 
-        this.viewable.onViewableResize(()=>{
-            this.refreshSize()
-        })
-
-        this.viewable.onGainFocus(()=>{
-            this.refreshSize()
-        })
-
-        setTimeout(()=>{
-            this.refreshSize()
-        }, 100)
-
         this.addEditorControls()
 
-
         editor.registerEditor(this, this.dom.attr('code-field'))
-    }
 
-    refreshSize(){
-        this.dom.width(this.getAvailableWidth())
-        this.dom.height(this.getAvailableHeight())
-
-        this.editor.resize()
-    }
-
-    getAvailableHeight(){
-        let myCurrentView = this.viewable.myCurrentView()
-        
-        if(! myCurrentView){
-            return 0
+        let tempFunc = this.refreshSize
+        let that = this
+        this.refreshSize = ()=>{
+            tempFunc.call(this)
+            this.editor.resize()
         }
-
-        let avail = myCurrentView.dom.find('.viewable_container').offset().top + myCurrentView.dom.find('.viewable_container').height() - this.dom.offset().top - 20
-
-        return avail < 0 ? 0 : avail
-    }
-
-    getAvailableWidth(){
-        let myCurrentView = this.viewable.myCurrentView()
-
-        if(! myCurrentView){
-            return 0
-        }
-
-        let avail = myCurrentView.dom.find('.viewable_container').offset().left + myCurrentView.dom.find('.viewable_container').width() - this.dom.offset().left - 20
-
-        return avail < 0 ? 0 : avail
     }
 
     addEditorControls(){

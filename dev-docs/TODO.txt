@@ -10,3 +10,9 @@
 - save which viewable is focused to storage
 
 - integrate carsons lua tutorials
+
+- dragable viewables (instead of moveto via menu)
+
+- interactive help
+
+- report function inside the page (to report issues without any login)
