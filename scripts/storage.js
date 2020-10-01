@@ -39,6 +39,9 @@ storage = (()=>{
         let general
         try {
             general = JSON.parse( localStorage.getItem('general') )
+            if(!general){
+                general = {}
+            }
         } catch (ex){
             general = {}
         }
