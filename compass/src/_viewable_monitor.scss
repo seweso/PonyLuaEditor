@@ -1,0 +1,26 @@
+[viewable="viewable_monitor"] {
+	#render-canvas {
+		display: none;
+	}
+
+	#monitor {
+		position: relative;
+	}
+
+	#overflow {
+	    position: absolute;
+	    top: 31px;
+	    left: 31px;
+	    z-index: 2;
+	    width: calc(100% - 62px);
+	    height: calc(100% - 62px);
+	    border: 1px solid #ff0000cc;
+	    margin: 0;
+	}
+
+	#canvas {
+	    z-index: 1;
+	    background: #000;
+	    filter: brightness(258%);
+	}
+}
