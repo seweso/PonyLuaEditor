@@ -31,7 +31,6 @@ class DynamicSizedViewableContent {
         let avail = myCurrentView.dom.find('.viewable_container').offset().top
             + myCurrentView.dom.find('.viewable_container').height()
             - this.dom.offset().top
-            - 10
 
         return avail < 0 ? 0 : avail
     }
@@ -46,7 +45,6 @@ class DynamicSizedViewableContent {
         let avail = myCurrentView.dom.find('.viewable_container').offset().left
             + myCurrentView.dom.find('.viewable_container').width()
             - this.dom.offset().left
-            - 10
 
         return avail < 0 ? 0 : avail
     }
@@ -64,13 +62,15 @@ class Editor extends DynamicSizedViewableContent {
         
         Editors.push(this)
 
-        this.dom.on('change', ()=>{
+        this.editor.on('change', ()=>{
             this.refreshCharacterCount()
         })
+        this.refreshCharacterCount()
 
         this.editor.selection.on('changeCursor', ()=>{
             this.refreshPositionHint()
         })
+        this.refreshPositionHint()
 
         this.addEditorControls()
 
@@ -131,20 +131,20 @@ class Editor extends DynamicSizedViewableContent {
 
     refreshCharacterCount(){
         let chars = this.countCharacters(this.editor.getValue())
-        // TODO replace those static ids with relative class selectors
-        $('#charactercount').html(chars + '/4096')
+        
+        this.viewable.dom.find('.charactercount').html(chars + '/4096')
         if(chars >= 4096){
-            $('#charactercount').addClass('limit')
+             this.viewable.dom.find('.charactercount').addClass('limit')
         } else {
-            $('#charactercount').removeClass('limit')
+             this.dom.find('.charactercount').removeClass('limit')
         }
     }
 
     refreshPositionHint(){
         let pos = this.editor.getCursorPosition()
         let chars = this.editor.session.doc.positionToIndex(pos)
-        // TODO replace those static ids with relative class selectors
-        $('#selection-information').html('Line ' + (pos.row + 1) + ', Column ' + (pos.column + 1) + ', Char ' + chars)
+        
+        this.viewable.dom.find('.selection-information').html('Line ' + (pos.row + 1) + ', Column ' + (pos.column + 1) + ', Char ' + chars)
     }
 
     countCharacters(str){

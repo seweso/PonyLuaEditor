@@ -192,6 +192,26 @@ a:hover {
   margin: 0 10px;
 }
 
+/* line 3, ../compass/src/_editor.scss */
+.code_container .code_information {
+  padding: 3px 8px;
+  margin-bottom: 5px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+/* line 11, ../compass/src/_editor.scss */
+.code_container .charactercount {
+  font-weight: bold;
+  padding: 13px 8px 11px;
+  line-height: 0;
+  border-radius: 10000px;
+}
+/* line 17, ../compass/src/_editor.scss */
+.code_container .charactercount.limit {
+  background: #ae0000;
+}
+
 /* line 1, ../compass/src/_viewable_documentation.scss */
 .ide [viewable="viewable_documentation"] {
   padding: 5px;

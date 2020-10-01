@@ -268,7 +268,28 @@ You can also minify code, find tutorials and examples or use the ui builder to c
         
 
         <div id="editor" viewable="viewable_editor_normal">
-            <div id="code-container">
+            <div class="code_container">
+                <div class="above_code">                        
+                    <div>
+                        <button id="minify">Minify</button>                
+                        <select id="minify-type">
+                            <optgroup label="Conservative">
+                                <option value="conservative-with-line-breaks">Consv. with line breaks</option>
+                                <option value="conservative-no-line-breaks">Consv. no line breaks</option>
+                            </optgroup>
+                            <optgroup label="Agressive">
+                                <option value="agressive-with-line-breaks">Agrs. with line breaks</option>
+                                <option value="agressive-no-line-breaks">Agrs. no line breaks</option>
+                            </optgroup>
+                        </select>
+                        <span id="minify-help" class="icon-question"></span>
+                    </div>
+                </div>
+                <div class="code_information">
+                    <span class="selection-information">Line 0, Column 0, Char 0</span>
+                    <span class="autocompletition-hint">Autocomplete: right click, Ctrl+Space or Command+Space</span>
+                    <span class="charactercount">0/4096</span>
+                </div>
                 <div id="code" code-field="normal">
 function onTick()
     -- your code
@@ -286,62 +307,41 @@ function httpReply(port, request_body, response_body)
     --
 end
 </div>
-                <div id="code-editor-information">
-                    <span id="selection-information">Line 0, Column 0, Char 0</span>
-                    <span id="autocompletition-hint">Autocomplete: right click, Ctrl+Space or Command+Space</span>
-                    <span id="charactercount">0/4096</span>
-                </div>
                 <div class="code_lock"></div>
                 <div id="autocompletition-container"></div>
-            </div>
-            <div id="example-container">
-                <div id="examples-heading"><h3>Learn & Examples:</h3><span class="close icon-cross"></span></div>
-                <div id="examples"></div>
             </div>
         </div>
 
         <div id="minified-editor" viewable="viewable_editor_minified">
-            <div id="minified-controls" class="controls">
-                <div class="controls_container">
+            <div class="code_container">
+                <div class="above_code">
                     <button id="unminify">Unminify (beta)</button>
+
+                    <div class="custom_hint" style="display: none;">
+                        You are using custom minified code! It will be overwritten when minifying the next time!<br>When sharing the original code as well as the custom minified code will be shared.
+                    </div>
                 </div>
-                <div class="controls_container">
-                    <button id="minify">Minify</button>                
-                    <select id="minify-type">
-                        <optgroup label="Conservative">
-                            <option value="conservative-with-line-breaks">Consv. with line breaks</option>
-                            <option value="conservative-no-line-breaks">Consv. no line breaks</option>
-                        </optgroup>
-                        <optgroup label="Agressive">
-                            <option value="agressive-with-line-breaks">Agrs. with line breaks</option>
-                            <option value="agressive-no-line-breaks">Agrs. no line breaks</option>
-                        </optgroup>
-                    </select>
-                    <span id="minify-help" class="icon-question"></span>
+                <div class="code_information">
+                    <span class="selection-information">Line 0, Column 0, Char 0</span>
+                    <span class="autocompletition-hint">Autocomplete: right click, Ctrl+Space or Command+Space</span>
+                    <span class="charactercount">0/4096</span>
                 </div>
-            </div>
-            <div id="minified-code-container">
-                <div class="custom_hint" style="display: none;">
-                    You are using custom minified code! It will be overwritten when minifying the next time!<br>When sharing the original code as well as the custom minified code will be shared.
-                </div>
-                <div id="minified-code" code-field="minified">
-                </div>
-                <div id="code-minified-editor-information">
-                    <span id="minified-selection-information">Line 0, Column 0, Char 0</span>
-                    <span id="minified-charactercount">0/4096</span>
-                </div>
+                <div id="minified-code" code-field="minified"></div>
                 <div class="code_lock"></div>
             </div>
         </div>
 
         <div id="unminified-editor" viewable="viewable_editor_unminified">
-            <div id="unminified-code-container">
-                <div id="unminified-code" code-field="unminified">
+            <div class="code_container">
+                <div class="above_code">
+
                 </div>
-                <div id="code-unminified-editor-information">
-                    <span id="unminified-selection-information">Line 0, Column 0, Char 0</span>
-                    <span id="unminified-charactercount">0/4096</span>
+                <div class="code_information">
+                    <span class="selection-information">Line 0, Column 0, Char 0</span>
+                    <span class="autocompletition-hint">Autocomplete: right click, Ctrl+Space or Command+Space</span>
+                    <span class="charactercount">0/4096</span>
                 </div>
+                <div id="unminified-code" code-field="unminified"></div>
             </div>
         </div>
 
