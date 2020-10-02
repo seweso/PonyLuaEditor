@@ -497,6 +497,7 @@ class Splitter extends SimpleEventor {
 
         this.dom.on('mousemove', (evt)=>{
             if(this.isDragging){
+                evt.originalEvent.stopPropagation()
                 this.x = this.x - (this.dragStartX - evt.originalEvent.pageX)
                 this.y = this.y - (this.dragStartY - evt.originalEvent.pageY)
 
@@ -512,12 +513,14 @@ class Splitter extends SimpleEventor {
         })
 
         this.dom.on('mouseup mouseleave ', (evt)=>{
-            this.isDragging = false
-            this.isHover = false
+            if(this.isDragging){
+                this.isDragging = false
+                this.isHover = false
 
-            this.update(true)
+                this.update(true)
 
-            this.dispatchEvent('dragend')
+                this.dispatchEvent('dragend')
+            }
         })
 
         Splitters.push(this)
