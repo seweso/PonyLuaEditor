@@ -274,34 +274,28 @@ a:hover {
 }
 /* line 72, ../compass/src/_viewable_documentation.scss */
 .ide [viewable="viewable_documentation"] .node .children {
-  background: #7e7e7e;
-  padding: 6px;
-  border-left: 4px solid #222;
-  border-right: 4px solid #222;
-  border-bottom: 4px solid #222;
-  border-bottom-left-radius: 6px;
-  border-bottom-right-radius: 6px;
+  padding-left: 10px;
 }
-/* line 84, ../compass/src/_viewable_documentation.scss */
+/* line 78, ../compass/src/_viewable_documentation.scss */
 .ide [viewable="viewable_documentation"] .node[lib="stormworks"] .lib {
   color: #0081cc;
   border-color: #0081cc;
 }
-/* line 92, ../compass/src/_viewable_documentation.scss */
+/* line 86, ../compass/src/_viewable_documentation.scss */
 .ide [viewable="viewable_documentation"] .node[lib="dev"] .lib {
   color: #b9085b !important;
   border-color: #b9085b;
 }
-/* line 100, ../compass/src/_viewable_documentation.scss */
+/* line 94, ../compass/src/_viewable_documentation.scss */
 .ide [viewable="viewable_documentation"] .node[lib="lua"] .lib {
   color: #44b511;
   border-color: #44b511;
 }
-/* line 107, ../compass/src/_viewable_documentation.scss */
+/* line 101, ../compass/src/_viewable_documentation.scss */
 .ide [viewable="viewable_documentation"] .node[ntype="object"] .name {
   color: #A6CE28;
 }
-/* line 113, ../compass/src/_viewable_documentation.scss */
+/* line 107, ../compass/src/_viewable_documentation.scss */
 .ide [viewable="viewable_documentation"] .node[ntype="function"] .name {
   color: #66D9EF;
 }

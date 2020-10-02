@@ -70,13 +70,7 @@
         }
 
         .children {
-            background: $light-dark;
-            padding: 6px;
-            border-left: 4px solid #222;
-            border-right: 4px solid #222;
-            border-bottom: 4px solid #222;
-            border-bottom-left-radius: 6px;
-            border-bottom-right-radius: 6px;
+            padding-left: 10px;
         }
 
         &[lib="stormworks"] {
