@@ -712,71 +712,7 @@ a:hover {
   flex-direction: row;
 }
 
-/* line 13, ../compass/src/style_client.scss */
-.ide {
-  width: 100%;
-  height: calc(100vh - 75px);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-}
-/* line 20, ../compass/src/style_client.scss */
-.ide .ide_bar {
-  background: grey;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  height: 60px;
-}
-/* line 27, ../compass/src/style_client.scss */
-.ide .ide_bar .ide_controls {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  flex-wrap: wrap;
-}
-/* line 34, ../compass/src/style_client.scss */
-.ide .ide_bar .ide_controls .controls_group {
-  padding: 5px;
-  display: inline-block;
-  color: #eaedf1;
-}
-/* line 39, ../compass/src/style_client.scss */
-.ide .ide_bar .ide_controls .controls_group:not(:last-child) {
-  border-right: 1px solid #eaedf1;
-  padding-right: 25px;
-}
-/* line 44, ../compass/src/style_client.scss */
-.ide .ide_bar .ide_controls .controls_group button {
-  margin: 0;
-  padding: 6px 10px;
-}
-/* line 49, ../compass/src/style_client.scss */
-.ide .ide_bar .ide_controls .controls_group button:not(:last-child) {
-  margin-right: 10px;
-}
-/* line 53, ../compass/src/style_client.scss */
-.ide .ide_bar .ide_controls .controls_group:not(:last-child) {
-  margin-right: 25px;
-}
-/* line 58, ../compass/src/style_client.scss */
-.ide .ide_bar .ide_controls #save {
-  transition: all 0.5s ease 0s;
-}
-/* line 61, ../compass/src/style_client.scss */
-.ide .ide_bar .ide_controls #save.saved {
-  background: #4d835f;
-  border-color: #fff;
-  color: #fff;
-}
-/* line 70, ../compass/src/style_client.scss */
-.ide .ide_flex_view {
-  position: relative;
-  width: 100%;
-  height: calc(100vh - 75px - 60px);
-}
-/* line 76, ../compass/src/style_client.scss */
+/* line 3, ../compass/src/_view.scss */
 .ide [view] {
   position: absolute;
   display: flex;
@@ -787,70 +723,69 @@ a:hover {
   color: #eaedf1;
   padding: 6px;
 }
-/* line 87, ../compass/src/style_client.scss */
+/* line 14, ../compass/src/_view.scss */
 .ide [view] .select {
   display: flex;
   flex-direction: row;
   width: 100%;
   height: 2em;
   background: #151719;
-  border-bottom: 1px solid #eaedf1;
   margin-bottom: 6px;
 }
-/* line 96, ../compass/src/style_client.scss */
+/* line 22, ../compass/src/_view.scss */
 .ide [view] .select [select-viewable] {
   background: #1c3146;
   color: #eaedf1;
   cursor: pointer;
   padding: 0.25em 0.5em;
 }
-/* line 102, ../compass/src/style_client.scss */
+/* line 28, ../compass/src/_view.scss */
 .ide [view] .select [select-viewable] .moveto {
   margin-left: 10px;
   opacity: 0;
   transition: all 0.2s ease 0s;
 }
-/* line 108, ../compass/src/style_client.scss */
+/* line 34, ../compass/src/_view.scss */
 .ide [view] .select [select-viewable]:hover .moveto {
   opacity: 1;
 }
-/* line 112, ../compass/src/style_client.scss */
+/* line 38, ../compass/src/_view.scss */
 .ide [view] .select [select-viewable] .moveto_choose {
   box-shadow: 1px 1px 2px 2px #4b4b4b;
   background: #eaedf1;
   color: #151719;
   z-index: 100;
 }
-/* line 118, ../compass/src/style_client.scss */
+/* line 44, ../compass/src/_view.scss */
 .ide [view] .select [select-viewable] .moveto_choose .header {
   padding: 6px 6px;
   background: #151719;
   color: #eaedf1;
   font-weight: bold;
 }
-/* line 125, ../compass/src/style_client.scss */
+/* line 51, ../compass/src/_view.scss */
 .ide [view] .select [select-viewable] .moveto_choose .entry {
   padding: 6px 6px;
   transition: all 0.2s ease 0s;
 }
-/* line 129, ../compass/src/style_client.scss */
+/* line 55, ../compass/src/_view.scss */
 .ide [view] .select [select-viewable] .moveto_choose .entry:hover {
   background: #7e7e7e;
 }
-/* line 133, ../compass/src/style_client.scss */
+/* line 59, ../compass/src/_view.scss */
 .ide [view] .select [select-viewable] .moveto_choose .entry:not(:last-child) {
   border-bottom: 1px solid #151719;
 }
-/* line 140, ../compass/src/style_client.scss */
+/* line 66, ../compass/src/_view.scss */
 .ide [view] .select [select-viewable]:not(:last-child) {
-  border-right: 1px solid #eaedf1;
+  margin-right: 4px;
 }
-/* line 144, ../compass/src/style_client.scss */
+/* line 70, ../compass/src/_view.scss */
 .ide [view] .select [select-viewable][select="true"] {
   background: #eaedf1;
   color: #151719;
 }
-/* line 150, ../compass/src/style_client.scss */
+/* line 76, ../compass/src/_view.scss */
 .ide [view] .viewable_container {
   width: 100%;
   height: 100%;
@@ -859,11 +794,76 @@ a:hover {
   border-radius: 3px;
   padding: 4px;
 }
-/* line 160, ../compass/src/style_client.scss */
+/* line 86, ../compass/src/_view.scss */
 .ide [viewable][visible="false"] {
   display: none;
 }
-/* line 165, ../compass/src/style_client.scss */
+
+/* line 15, ../compass/src/style_client.scss */
+.ide {
+  width: 100%;
+  height: calc(100vh - 75px);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+/* line 22, ../compass/src/style_client.scss */
+.ide .ide_bar {
+  background: grey;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 60px;
+}
+/* line 29, ../compass/src/style_client.scss */
+.ide .ide_bar .ide_controls {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
+}
+/* line 36, ../compass/src/style_client.scss */
+.ide .ide_bar .ide_controls .controls_group {
+  padding: 5px;
+  display: inline-block;
+  color: #eaedf1;
+}
+/* line 41, ../compass/src/style_client.scss */
+.ide .ide_bar .ide_controls .controls_group:not(:last-child) {
+  border-right: 1px solid #eaedf1;
+  padding-right: 25px;
+}
+/* line 46, ../compass/src/style_client.scss */
+.ide .ide_bar .ide_controls .controls_group button {
+  margin: 0;
+  padding: 6px 10px;
+}
+/* line 51, ../compass/src/style_client.scss */
+.ide .ide_bar .ide_controls .controls_group button:not(:last-child) {
+  margin-right: 10px;
+}
+/* line 55, ../compass/src/style_client.scss */
+.ide .ide_bar .ide_controls .controls_group:not(:last-child) {
+  margin-right: 25px;
+}
+/* line 60, ../compass/src/style_client.scss */
+.ide .ide_bar .ide_controls #save {
+  transition: all 0.5s ease 0s;
+}
+/* line 63, ../compass/src/style_client.scss */
+.ide .ide_bar .ide_controls #save.saved {
+  background: #4d835f;
+  border-color: #fff;
+  color: #fff;
+}
+/* line 72, ../compass/src/style_client.scss */
+.ide .ide_flex_view {
+  position: relative;
+  width: 100%;
+  height: calc(100vh - 75px - 60px);
+}
+/* line 78, ../compass/src/style_client.scss */
 .ide [splitter] {
   position: absolute;
   background: var(--background-strong-accent-gradient);
@@ -871,7 +871,7 @@ a:hover {
   z-index: 1000;
   /* hack so the mouse is not leaving the splitter directly */
 }
-/* line 172, ../compass/src/style_client.scss */
+/* line 85, ../compass/src/style_client.scss */
 .ide [splitter]:after {
   display: none;
   content: ' ';
@@ -881,11 +881,11 @@ a:hover {
   width: calc(100% + 2000px);
   height: calc(100% + 2000px);
 }
-/* line 183, ../compass/src/style_client.scss */
+/* line 96, ../compass/src/style_client.scss */
 .ide [splitter][draging="true"]:after {
   display: initial;
 }
-/* line 187, ../compass/src/style_client.scss */
+/* line 100, ../compass/src/style_client.scss */
 .ide [splitter="vertical"] {
   left: calc(50vw - (6px / 2));
   top: 0;
@@ -893,24 +893,24 @@ a:hover {
   width: 8px;
   cursor: e-resize;
 }
-/* line 195, ../compass/src/style_client.scss */
+/* line 108, ../compass/src/style_client.scss */
 .ide [splitter="horizontal_left"], .ide [splitter="horizontal_right"] {
   top: calc( ( 100vh - 75px - 60px ) / 2 - (6px / 2));
   height: 6px;
   width: calc(50vw - (6px / 2));
   cursor: n-resize;
 }
-/* line 202, ../compass/src/style_client.scss */
+/* line 115, ../compass/src/style_client.scss */
 .ide [splitter="horizontal_left"] {
   left: 0;
 }
-/* line 206, ../compass/src/style_client.scss */
+/* line 119, ../compass/src/style_client.scss */
 .ide [splitter="horizontal_right"] {
   left: calc(50vw + (6px / 2));
 }
 
 /* only temporary: */
-/* line 212, ../compass/src/style_client.scss */
+/* line 125, ../compass/src/style_client.scss */
 #mobile-menu, #fixed-information-badges, #example-container {
   display: none;
 }
