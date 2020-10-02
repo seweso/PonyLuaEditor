@@ -308,9 +308,9 @@ class View extends SimpleEventor {
         })
         this.dom.find('.select').append(select)
         
-        let moveto = $('<span class="moveto icon-shuffle">')
+        let moveto = $('<span class="moveto icon-menu">')
         let choose
-        moveto.on('mouseenter', (evt)=>{
+        moveto.on('click', (evt)=>{
             choose = $('<div class="moveto_choose">')
             choose.append(
                 $('<div class="header">Move To</div>'))
