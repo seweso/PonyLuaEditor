@@ -113,6 +113,7 @@
                     box-shadow: $box-shadow;
                     background: $light;
                     color: $dark;
+                    z-index: 100;
 
                     .header {
                         padding: 6px 6px;
