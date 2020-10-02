@@ -317,7 +317,6 @@ class View extends SimpleEventor {
 
             choose.css({
                 position: 'fixed',
-                'z-index': '2',
                 top: evt.originalEvent.pageY - 10,
                 right: ( $(window).width() - evt.originalEvent.pageX ) - 10
             })
