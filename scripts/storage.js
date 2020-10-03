@@ -137,7 +137,7 @@ storage = (()=>{
             /* old shared information */
             let parsedSettings = parseOrUndefined(confJSON.settings)
 
-            setFromShare(key, JSON.stringify({
+            setFromShare(key, {
                 version: '1',
                 editors: {
                     normal: confJSON.code,
@@ -163,7 +163,7 @@ storage = (()=>{
                     touchscreenSecondaryEnabled: undefined,
                     layout: undefined
                 }
-            }))
+            })
 
             function parseOrUndefined(json){
                 try {
