@@ -165,13 +165,13 @@ storage = (()=>{
                     layout: undefined
                 }
             })
+        }
 
-            function parseOrUndefined(json){
-                try {
-                    return JSON.parse(json)
-                } catch (ex){
-                    /* ignored */
-                }
+        function parseOrUndefined(json){
+            try {
+                return JSON.parse(json)
+            } catch (ex){
+                /* ignored */
             }
         }
     }
