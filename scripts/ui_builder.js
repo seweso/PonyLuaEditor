@@ -1650,20 +1650,11 @@ var UI_BUILDER = ((global, $)=>{
 
 
     function save(){
-        setStorage(buildStorage())
-    }
-
-    function setStorage(elems){
-        localStorage.setItem('ui', JSON.stringify(elems))
+        storage.setConfiguration('uibuilder', buildStorage())
     }
 
     function getStorage(){
-        try{
-            let parsed = JSON.parse(localStorage.getItem('ui'))
-            return parsed
-        } catch(thrown){
-            return null
-        }
+        return storage.getConfiguration('uibuilder')
     }
 
     function buildStorage(){
@@ -1709,8 +1700,6 @@ var UI_BUILDER = ((global, $)=>{
     return {
         Element: Element,
         Label: Label,
-        buildStorage: buildStorage,
-        setStorage: setStorage,
         loadFromStorage: loadFromStorage,
         allElements: ()=>{
             return allElements

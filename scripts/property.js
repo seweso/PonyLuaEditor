@@ -46,13 +46,13 @@ var PROPERTY = ((global, $)=>{
 
 
         let store = getFromStorage()
-        if(typeof store.bools === 'object' && store.bools !== null){
+        if(store && typeof store.bools === 'object' && store.bools !== null){
             for(let k of Object.keys(store.bools)){
                 addNewBool(k, store.bools[k])
             }
         }
 
-        if(typeof store.numbers === 'object' && store.numbers !== null){
+        if(store && store.numbers && typeof store.numbers === 'object'){
             for(let k of Object.keys(store.numbers)){
                 let n = parseFloat(store.numbers[k])
                 if(isNaN(n)){
@@ -62,7 +62,7 @@ var PROPERTY = ((global, $)=>{
             }
         }
 
-        if(typeof store.texts === 'object' && store.texts !== null){
+        if(store && store.texts && typeof store.texts === 'object'){
             for(let k of Object.keys(store.texts)){
                 addNewText(k, store.texts[k])
             }
@@ -71,14 +71,8 @@ var PROPERTY = ((global, $)=>{
         loader.done(loader.EVENT.PROPERTIES_READY)
     }
 
-    function setStorage(data){
-        localStorage.setItem('property_bools', JSON.stringify(data.bools))
-        localStorage.setItem('property_numbers', JSON.stringify(data.numbers))
-        localStorage.setItem('property_texts', JSON.stringify(data.texts))
-    }
-
     function saveToStorage(){
-        setStorage({
+        storage.setConfiguration('properties', {
             bools: bools,
             numbers: numbers,
             texts: texts
@@ -86,29 +80,7 @@ var PROPERTY = ((global, $)=>{
     }
 
     function getFromStorage(){
-        let bools = localStorage.getItem('property_bools')
-        try {
-            bools = JSON.parse(bools)
-        } catch(e){
-            bools = null
-        }
-        let numbers = localStorage.getItem('property_numbers')
-        try {
-            numbers = JSON.parse(numbers)
-        } catch(e){
-            numbers = null
-        }
-        let texts = localStorage.getItem('property_texts')
-        try {
-            texts = JSON.parse(texts)
-        } catch(e){
-            texts = null
-        }
-        return {
-            bools: bools,
-            numbers: numbers,
-            texts: texts
-        }
+        return storage.getConfiguration('properties')
     }
 
 
@@ -256,9 +228,7 @@ var PROPERTY = ((global, $)=>{
         getText: getText,
         setBool: setBool,
         setNumber: setNumber,
-        setText: setText,
-        getStorage: getFromStorage,
-        setStorage: setStorage
+        setText: setText
     }
 
 })(window, jQuery)

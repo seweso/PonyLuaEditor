@@ -2,7 +2,8 @@ var SHARE = ((global, $)=>{
     
     let currentShare
 
-    let BASE_URL = document.location.protocol + '//' + document.location.host
+    //let BASE_URL = document.location.protocol + '//' + document.location.host
+    let BASE_URL = 'https://lua.flaffipony.rocks'
 
     loader.on(loader.EVENT.STORAGE_READY, init)
 
@@ -82,24 +83,9 @@ var SHARE = ((global, $)=>{
        
         $('#ponybin-create-overlay').show()
 
-        let settings = {}
-        settings.input = INPUT.getStorage()
-        settings.property = PROPERTY.getStorage()
-        settings.general = storage.getStorage()
-
         let data = {
-            code: code,
-            settings: JSON.stringify(settings)
-        }
-
-        let minifiedCode = editor.get('minified').editor.getValue()
-        if(typeof minifiedCode === 'string' && minifiedCode.length > 0 && yyy.isCustomMinifiedCode()){
-            data.minified_code = minifiedCode
-        }
-
-        let uiBuilder = UI_BUILDER.buildStorage()
-        if(uiBuilder.elements instanceof Array && uiBuilder.elements.length > 0){
-            data.ui_builder = JSON.stringify(uiBuilder)
+            code: 'v2',
+            settings: storage.asString()
         }
 
         $.post(BASE_URL + '/api/create', data).done((data)=>{
@@ -128,42 +114,19 @@ var SHARE = ((global, $)=>{
         
         log('receiving share', currentShare)
         $('#ponybin-receive-overlay').show()
+
+        let key = currentShare.replace('/beta', '').replace(BASE_URL + '/?id=', '')
+
         $.post(BASE_URL + '/api/get', {
-            key: currentShare.replace('/beta', '').replace(BASE_URL + '/?id=', '')
+            key: key
         }).done((data)=>{
             try {
                 let json = JSON.parse(data)
 
-                if(typeof json.luabin === 'object' && typeof json.luabin.code === 'string'){
-                    editor.setValue(json.luabin.code, -1)
-                }
-
-                if(typeof json.luabin === 'object' && typeof json.luabin.minified_code === 'string'){
-                    minifiedEditor.setValue(json.luabin.minified_code, -1)
-                    $('#minified-code-container').show()
-                    $('#minified-code-container .custom_hint').show()
-                }
-
-                if(typeof json.luabin === 'object' && typeof json.luabin.settings === 'string'){
-                    try {
-                        let parsed = JSON.parse(json.luabin.settings)
-                        INPUT.setStorage(parsed.input)
-                        PROPERTY.setStorage(parsed.property)
-                        storage.setStorage(parsed.general)
-                        //YYY.refreshAll() TODO enable this again
-                    } catch (e){
-                        console.error('error parsing settings from ponybin', e)
-                    }
-                }
-
-                if(typeof json.luabin === 'object' && typeof json.luabin.ui_builder === 'string'){
-                    try {
-                        let parsed = JSON.parse(json.luabin.ui_builder)
-                        UI_BUILDER.setStorage(parsed)
-                        UI_BUILDER.loadFromStorage()
-                    } catch (e){
-                        console.error('error parsing ui_builder from ponybin', e)
-                    }
+                if(typeof json.luabin === 'object'){
+                    storage.setFromShare(key, json.luabin)
+                } else {
+                    throw 'invalid luabin format'
                 }
             } catch (e){
                 console.error(e)

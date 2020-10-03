@@ -57,7 +57,7 @@ var INPUT = ((global, $)=>{
         dom.append(dom_numbers)
 
         let store = getFromStorage()
-        if(typeof store.bools === 'object' && store.bools !== null){
+        if(store && store.bools && typeof store.bools === 'object'){
             for(let k of Object.keys(store.bools)){
                 let b = store.bools[k]
                 let val = b.val
@@ -70,7 +70,7 @@ var INPUT = ((global, $)=>{
         }
 
 
-        if(typeof store.numbers === 'object' && store.numbers !== null){
+        if(store && store.bools && typeof store.numbers === 'object'){
             for(let k of Object.keys(store.numbers)){
                 let n = store.numbers[k]
                 let val = parseFloat(n.val)
@@ -136,15 +136,9 @@ var INPUT = ((global, $)=>{
         dom_numbers_add.find('option[value="' + (i+1) + '"]').prop('selected', true)
     }
 
-    function setStorage(data){
-        localStorage.setItem('input_bools', JSON.stringify(data.bools))
-        localStorage.setItem('input_numbers', JSON.stringify(data.numbers))        
-    }
-
-
     function saveToStorage(){
         if(!initiating){
-            setStorage({
+            storage.setConfiguration('inputs', {
                 bools: bools,
                 numbers: numbers
             })
@@ -152,22 +146,7 @@ var INPUT = ((global, $)=>{
     }
 
     function getFromStorage(){
-        let bools = localStorage.getItem('input_bools')
-        try {
-            bools = JSON.parse(bools)
-        } catch(e){
-            bools = null
-        }
-        let numbers = localStorage.getItem('input_numbers')
-        try {
-            numbers = JSON.parse(numbers)
-        } catch(e){
-            numbers = null
-        }
-        return {
-            bools: bools,
-            numbers: numbers
-        }
+        return storage.getConfiguration('inputs')
     }
 
 
@@ -657,8 +636,6 @@ var INPUT = ((global, $)=>{
         getBoolLabel: getBoolLabel,
         getNumber: getNumber,
         getNumberLabel: getNumberLabel,
-        getStorage: getFromStorage,
-        setStorage: setStorage,
         setBool: setBool,
         setNumber: setNumber,
         removeBool: removeBool,
