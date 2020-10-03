@@ -125,23 +125,23 @@ storage = (()=>{
     }
 
     function setFromShare(key, confJSON){
-        if(typeof parsed.version === 'string'){
-            if(parsed.version === VERSION){
-                processStorage(parsed)
+        if(typeof confJSON.version === 'string'){
+            if(confJSON.version === VERSION){
+                processStorage(confJSON)
             } else {
                 console.info('Storage: found old configuration, updating ...')
-                let updated = updateConfiguration(parsed, parsed.version)
+                let updated = updateConfiguration(confJSON, confJSON.version)
                 processStorage(updated)
             }
         } else {
             /* old shared information */
-            let parsedSettings = parseOrUndefined(parsed.settings)
+            let parsedSettings = parseOrUndefined(confJSON.settings)
 
             setFromShare(key, JSON.stringify({
                 version: '1',
                 editors: {
-                    normal: parsed.code,
-                    minified: parsed.minified_code || ''
+                    normal: confJSON.code,
+                    minified: confJSON.minified_code || ''
                 },
                 inputs: {
                     bools: parsedSettings && parsedSettings.input ? parsedSettings.input.bools : undefined,
@@ -152,12 +152,12 @@ storage = (()=>{
                     numbers: parsedSettings && parsedSettings.property ? parsedSettings.property.numbers : undefined,
                     texts: parsedSettings && parsedSettings.property ? parsedSettings.property.texts : undefined
                 },
-                uibuilder: parseOrUndefined(parsed.ui_builder),                    
+                uibuilder: parseOrUndefined(confJSON.ui_builder),                    
                 settings: {
                     timeBetweenTicks: parsedSettings && parsedSettings.general ? parsedSettings.general.timeBetweenTicks : undefined,
                     timeBetweenDraws: parsedSettings && parsedSettings.general ? parsedSettings.general.timeBetweenDraws : undefined,
                     zoomfactor: parsedSettings && parsedSettings.general ? parsedSettings.general.zoomfactor : undefined,
-                    monitorSize: general.parsedSettings && parsedSettings.general ? parsedSettings.general.monitorSize : undefined,
+                    monitorSize: parsedSettings && parsedSettings.general ? parsedSettings.general.monitorSize : undefined,
                     showOverflow: parsedSettings && parsedSettings.general ? parsedSettings.general.showOverflow : undefined,
                     touchscreenEnabled: parsedSettings && parsedSettings.general ? parsedSettings.general.touchscreenEnabled : undefined,
                     touchscreenSecondaryEnabled: undefined,
