@@ -534,6 +534,164 @@ a:hover {
   filter: brightness(258%);
 }
 
+/* line 1, ../compass/src/_viewable_examples.scss */
+#example-container {
+  margin-left: 4%;
+  background: #0007;
+  border-radius: 3px;
+}
+/* line 6, ../compass/src/_viewable_examples.scss */
+#example-container #examples-heading {
+  background: linear-gradient(15deg, #0194E2 0%, #792692 100%);
+  color: #fff;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  padding: 10px;
+}
+/* line 18, ../compass/src/_viewable_examples.scss */
+#example-container #examples-heading h3 {
+  display: inline-block;
+  margin: 0;
+}
+/* line 24, ../compass/src/_viewable_examples.scss */
+#example-container .close {
+  cursor: pointer;
+  transition: all 0.2s ease 0s;
+}
+/* line 28, ../compass/src/_viewable_examples.scss */
+#example-container .close:hover {
+  color: #002C43;
+}
+
+/* line 34, ../compass/src/_viewable_examples.scss */
+#examples {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+  max-height: 50vh;
+  overflow-y: auto;
+}
+/* line 42, ../compass/src/_viewable_examples.scss */
+#examples .chapter {
+  display: flex;
+  flex-direction: column;
+}
+/* line 46, ../compass/src/_viewable_examples.scss */
+#examples .chapter:not(:last-child) {
+  margin-bottom: 5px;
+}
+/* line 50, ../compass/src/_viewable_examples.scss */
+#examples .chapter .chapter_head {
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  background: linear-gradient(15deg, #002c43 0%, #325668 100%);
+  color: #fff;
+  cursor: pointer;
+  padding: 5px;
+  position: relative;
+}
+/* line 59, ../compass/src/_viewable_examples.scss */
+#examples .chapter .chapter_head:after {
+  position: absolute;
+  top: 50%;
+  right: 5px;
+  font-family: 'Iconfont';
+  content: '\ea43';
+  transition: all 0.2s ease 0s;
+  transform: translateY(-50%);
+  line-height: 0;
+}
+/* line 71, ../compass/src/_viewable_examples.scss */
+#examples .chapter.open .chapter_head:after {
+  transform: translateY(-50%) rotate(180deg);
+}
+/* line 75, ../compass/src/_viewable_examples.scss */
+#examples .chapter .chapter_body {
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+}
+/* line 81, ../compass/src/_viewable_examples.scss */
+#examples .chapter:not(.open) .chapter_body {
+  display: none;
+  background: #7f95a1;
+}
+/* line 86, ../compass/src/_viewable_examples.scss */
+#examples .chapter .example {
+  display: flex;
+  flex-direction: column;
+}
+/* line 90, ../compass/src/_viewable_examples.scss */
+#examples .chapter .example:not(:last-child) {
+  margin-bottom: 5px;
+}
+/* line 94, ../compass/src/_viewable_examples.scss */
+#examples .chapter .example .example_head {
+  position: relative;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  background: linear-gradient(15deg, #2150bf 0%, #3073a4 100%);
+  cursor: pointer;
+  padding: 5px;
+}
+/* line 102, ../compass/src/_viewable_examples.scss */
+#examples .chapter .example .example_head:after {
+  position: absolute;
+  top: 50%;
+  right: 5px;
+  font-family: 'Iconfont';
+  content: '\ea43';
+  transition: all 0.2s ease 0s;
+  transform: translateY(-50%);
+  line-height: 0;
+}
+/* line 114, ../compass/src/_viewable_examples.scss */
+#examples .chapter .example.open .example_head:after {
+  transform: translateY(-50%) rotate(180deg);
+}
+/* line 118, ../compass/src/_viewable_examples.scss */
+#examples .chapter .example .example_body {
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+  background: #eaedf1;
+}
+/* line 124, ../compass/src/_viewable_examples.scss */
+#examples .chapter .example .example_body > * {
+  margin-bottom: 10px;
+}
+/* line 129, ../compass/src/_viewable_examples.scss */
+#examples .chapter .example:not(.open) .example_body {
+  display: none;
+}
+/* line 135, ../compass/src/_viewable_examples.scss */
+#examples .example_text {
+  color: #222;
+}
+/* line 139, ../compass/src/_viewable_examples.scss */
+#examples .example_code {
+  border: 3px solid #202020;
+  box-sizing: content-box;
+  border-radius: 3px;
+  margin: 5px 0;
+}
+/* line 146, ../compass/src/_viewable_examples.scss */
+#examples keyword {
+  color: #F92672;
+  font-family: "Monaco", "Menlo", "Ubuntu Mono", "Consolas", "source-code-pro", monospace;
+}
+/* line 151, ../compass/src/_viewable_examples.scss */
+#examples obj {
+  color: #4FA8B9;
+  font-family: "Monaco", "Menlo", "Ubuntu Mono", "Consolas", "source-code-pro", monospace;
+}
+
 /* line 1, ../compass/src/_navigation.scss */
 #logo {
   background: url("../images/logo.png") center 100% no-repeat;
@@ -1104,7 +1262,7 @@ a:hover {
     opacity: 1;
   }
 }
-/* line 18, ../compass/src/style_client.scss */
+/* line 19, ../compass/src/style_client.scss */
 .ide {
   width: 100%;
   height: calc(100vh - 75px);
@@ -1112,7 +1270,7 @@ a:hover {
   display: flex;
   flex-direction: column;
 }
-/* line 25, ../compass/src/style_client.scss */
+/* line 26, ../compass/src/style_client.scss */
 .ide .ide_bar {
   background: grey;
   display: flex;
@@ -1121,7 +1279,7 @@ a:hover {
   align-items: center;
   height: 60px;
 }
-/* line 33, ../compass/src/style_client.scss */
+/* line 34, ../compass/src/style_client.scss */
 .ide .ide_bar .ide_controls {
   display: flex;
   flex-direction: row;
@@ -1129,41 +1287,41 @@ a:hover {
   align-items: center;
   flex-wrap: wrap;
 }
-/* line 40, ../compass/src/style_client.scss */
+/* line 41, ../compass/src/style_client.scss */
 .ide .ide_bar .ide_controls .controls_group {
   padding: 5px;
   display: inline-block;
   color: #eaedf1;
 }
-/* line 45, ../compass/src/style_client.scss */
+/* line 46, ../compass/src/style_client.scss */
 .ide .ide_bar .ide_controls .controls_group:not(:last-child) {
   border-right: 1px solid #eaedf1;
   padding-right: 25px;
 }
-/* line 50, ../compass/src/style_client.scss */
+/* line 51, ../compass/src/style_client.scss */
 .ide .ide_bar .ide_controls .controls_group button {
   margin: 0;
   padding: 6px 10px;
 }
-/* line 55, ../compass/src/style_client.scss */
+/* line 56, ../compass/src/style_client.scss */
 .ide .ide_bar .ide_controls .controls_group button:not(:last-child) {
   margin-right: 10px;
 }
-/* line 59, ../compass/src/style_client.scss */
+/* line 60, ../compass/src/style_client.scss */
 .ide .ide_bar .ide_controls .controls_group:not(:last-child) {
   margin-right: 25px;
 }
-/* line 64, ../compass/src/style_client.scss */
+/* line 65, ../compass/src/style_client.scss */
 .ide .ide_bar .ide_controls #save {
   transition: all 0.5s ease 0s;
 }
-/* line 67, ../compass/src/style_client.scss */
+/* line 68, ../compass/src/style_client.scss */
 .ide .ide_bar .ide_controls #save.saved {
   background: #4d835f;
   border-color: #fff;
   color: #fff;
 }
-/* line 75, ../compass/src/style_client.scss */
+/* line 76, ../compass/src/style_client.scss */
 .ide .ide_bar .ide_stats {
   display: flex;
   flex-direction: column;
@@ -1174,21 +1332,21 @@ a:hover {
   padding: 6px 12px;
   color: #eaedf1;
 }
-/* line 85, ../compass/src/style_client.scss */
+/* line 86, ../compass/src/style_client.scss */
 .ide .ide_bar .ide_stats > *:not(:last-child) {
   margin-bottom: 5px;
 }
-/* line 89, ../compass/src/style_client.scss */
+/* line 90, ../compass/src/style_client.scss */
 .ide .ide_bar .ide_stats #drawtime.warning, .ide .ide_bar .ide_stats #ticktime.warning {
   color: red;
 }
-/* line 95, ../compass/src/style_client.scss */
+/* line 96, ../compass/src/style_client.scss */
 .ide .ide_flex_view {
   position: relative;
   width: 100%;
   height: calc(100vh - 75px - 60px);
 }
-/* line 101, ../compass/src/style_client.scss */
+/* line 102, ../compass/src/style_client.scss */
 .ide [splitter] {
   position: absolute;
   background: var(--background-strong-accent-gradient);
@@ -1196,7 +1354,7 @@ a:hover {
   z-index: 1000;
   /* hack so the mouse is not leaving the splitter directly */
 }
-/* line 108, ../compass/src/style_client.scss */
+/* line 109, ../compass/src/style_client.scss */
 .ide [splitter]:after {
   display: none;
   content: ' ';
@@ -1206,11 +1364,11 @@ a:hover {
   width: calc(100% + 2000px);
   height: calc(100% + 2000px);
 }
-/* line 119, ../compass/src/style_client.scss */
+/* line 120, ../compass/src/style_client.scss */
 .ide [splitter][draging="true"]:after {
   display: initial;
 }
-/* line 123, ../compass/src/style_client.scss */
+/* line 124, ../compass/src/style_client.scss */
 .ide [splitter="vertical"] {
   left: calc(50vw - (6px / 2));
   top: 0;
@@ -1218,24 +1376,24 @@ a:hover {
   width: 8px;
   cursor: e-resize;
 }
-/* line 131, ../compass/src/style_client.scss */
+/* line 132, ../compass/src/style_client.scss */
 .ide [splitter="horizontal_left"], .ide [splitter="horizontal_right"] {
   top: calc( ( 100vh - 75px - 60px ) / 2 - (6px / 2));
   height: 6px;
   width: calc(50vw - (6px / 2));
   cursor: n-resize;
 }
-/* line 138, ../compass/src/style_client.scss */
+/* line 139, ../compass/src/style_client.scss */
 .ide [splitter="horizontal_left"] {
   left: 0;
 }
-/* line 142, ../compass/src/style_client.scss */
+/* line 143, ../compass/src/style_client.scss */
 .ide [splitter="horizontal_right"] {
   left: calc(50vw + (6px / 2));
 }
 
 /* only temporary: */
-/* line 148, ../compass/src/style_client.scss */
+/* line 149, ../compass/src/style_client.scss */
 #mobile-menu, #fixed-information-badges, #example-container {
   display: none;
 }
