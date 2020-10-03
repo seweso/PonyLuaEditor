@@ -33,7 +33,6 @@ You can also minify code, find tutorials and examples or use the ui builder to c
     <link rel="stylesheet" type="text/css" href="stylesheets/style_client.css">
     <link rel="stylesheet" type="text/css" href="stylesheets/iconfont.css">
     <link rel="stylesheet" type="text/css" href="stylesheets/jquery_ui.css">
-    <link rel="stylesheet" type="text/css" href="stylesheets/incognito.css">
     <link rel="stylesheet" type="text/css" href="stylesheets/ui_elements.css">
 
     <!-- external libs -->
@@ -90,16 +89,6 @@ You can also minify code, find tutorials and examples or use the ui builder to c
     <!--<script type="text/javascript" src="https://statistics.flaffipony.rocks/tracking.js"></script>-->
 </head>
 <body>
-    <script type="text/javascript">
-        if(new URLSearchParams(window.location.search).has("incognito")){
-            /*let link = document.createElement('link', )
-            link.setAttribute('rel', 'stylesheet')
-            link.setAttribute('type', 'text/css')
-            link.setAttribute('href', 'stylesheets/incognito.css')
-            document.head.appendChild(link)*/
-            document.body.className += " incognito "
-        }
-    </script>
     <div id="mobile-menu">
         <div id="mobile-menu-inner">
             <div class="mobile_menu_logo">
@@ -112,7 +101,6 @@ You can also minify code, find tutorials and examples or use the ui builder to c
                 <div id="learn-menu-entry"><span>Learn & Examples</span></div>
                 <div id="help-menu-entry"><span>Help / Manual</span></div>
                 <a href="http-allow-localhost">How to use Stormworks HTTP API</a>
-                <a href="?incognito">@work mode (no fancy colors)</a>
             </div>
             <div class="menu_group">
                 <div class="menu_group_title">Contact me</div>
@@ -275,7 +263,7 @@ You can also minify code, find tutorials and examples or use the ui builder to c
         </div>
 
         <div id="examples" viewable="viewable_examples">
-                    
+
         </div>
 
         <div id="editor" viewable="viewable_editor_normal">
