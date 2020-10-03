@@ -125,60 +125,53 @@ storage = (()=>{
     }
 
     function setFromShare(key, confJSON){
-        try {
-            let parsed = JSON.parse(confJSON)
-
-            if(typeof parsed.version === 'string'){
-                if(parsed.version === VERSION){
-                    processStorage(parsed)
-                } else {
-                    console.info('Storage: found old configuration, updating ...')
-                    let updated = updateConfiguration(parsed, parsed.version)
-                    processStorage(updated)
-                }
+        if(typeof parsed.version === 'string'){
+            if(parsed.version === VERSION){
+                processStorage(parsed)
             } else {
-                /* old shared information */
-                let parsedSettings = parseOrUndefined(parsed.settings)
+                console.info('Storage: found old configuration, updating ...')
+                let updated = updateConfiguration(parsed, parsed.version)
+                processStorage(updated)
+            }
+        } else {
+            /* old shared information */
+            let parsedSettings = parseOrUndefined(parsed.settings)
 
-                setFromShare(key, JSON.stringify({
-                    version: '1',
-                    editors: {
-                        normal: parsed.code,
-                        minified: parsed.minified_code || ''
-                    },
-                    inputs: {
-                        bools: parsedSettings && parsedSettings.input ? parsedSettings.input.bools : undefined,
-                        numbers: parsedSettings && parsedSettings.input ? parsedSettings.input.numbers : undefined
-                    },
-                    properties: {
-                        bools: parsedSettings && parsedSettings.property ? parsedSettings.property.bools : undefined,
-                        numbers: parsedSettings && parsedSettings.property ? parsedSettings.property.numbers : undefined,
-                        texts: parsedSettings && parsedSettings.property ? parsedSettings.property.texts : undefined
-                    },
-                    uibuilder: parseOrUndefined(parsed.ui_builder),                    
-                    settings: {
-                        timeBetweenTicks: parsedSettings && parsedSettings.general ? parsedSettings.general.timeBetweenTicks : undefined,
-                        timeBetweenDraws: parsedSettings && parsedSettings.general ? parsedSettings.general.timeBetweenDraws : undefined,
-                        zoomfactor: parsedSettings && parsedSettings.general ? parsedSettings.general.zoomfactor : undefined,
-                        monitorSize: general.parsedSettings && parsedSettings.general ? parsedSettings.general.monitorSize : undefined,
-                        showOverflow: parsedSettings && parsedSettings.general ? parsedSettings.general.showOverflow : undefined,
-                        touchscreenEnabled: parsedSettings && parsedSettings.general ? parsedSettings.general.touchscreenEnabled : undefined,
-                        touchscreenSecondaryEnabled: undefined,
-                        layout: undefined
-                    }
-                }))
+            setFromShare(key, JSON.stringify({
+                version: '1',
+                editors: {
+                    normal: parsed.code,
+                    minified: parsed.minified_code || ''
+                },
+                inputs: {
+                    bools: parsedSettings && parsedSettings.input ? parsedSettings.input.bools : undefined,
+                    numbers: parsedSettings && parsedSettings.input ? parsedSettings.input.numbers : undefined
+                },
+                properties: {
+                    bools: parsedSettings && parsedSettings.property ? parsedSettings.property.bools : undefined,
+                    numbers: parsedSettings && parsedSettings.property ? parsedSettings.property.numbers : undefined,
+                    texts: parsedSettings && parsedSettings.property ? parsedSettings.property.texts : undefined
+                },
+                uibuilder: parseOrUndefined(parsed.ui_builder),                    
+                settings: {
+                    timeBetweenTicks: parsedSettings && parsedSettings.general ? parsedSettings.general.timeBetweenTicks : undefined,
+                    timeBetweenDraws: parsedSettings && parsedSettings.general ? parsedSettings.general.timeBetweenDraws : undefined,
+                    zoomfactor: parsedSettings && parsedSettings.general ? parsedSettings.general.zoomfactor : undefined,
+                    monitorSize: general.parsedSettings && parsedSettings.general ? parsedSettings.general.monitorSize : undefined,
+                    showOverflow: parsedSettings && parsedSettings.general ? parsedSettings.general.showOverflow : undefined,
+                    touchscreenEnabled: parsedSettings && parsedSettings.general ? parsedSettings.general.touchscreenEnabled : undefined,
+                    touchscreenSecondaryEnabled: undefined,
+                    layout: undefined
+                }
+            }))
 
-                function parseOrUndefined(json){
-                    try {
-                        return JSON.parse(json)
-                    } catch (ex){
-                        /* ignored */
-                    }
+            function parseOrUndefined(json){
+                try {
+                    return JSON.parse(json)
+                } catch (ex){
+                    /* ignored */
                 }
             }
-        } catch (ex){
-            console.error('ex')
-            util.alert('Shared code cannot be loaded. Please contact me!')
         }
     }
     
