@@ -185,6 +185,7 @@ storage = (()=>{
     return {
         setConfiguration: setConfiguration,
         getConfiguration: getConfiguration,
-        asString: asString
+        asString: asString,
+        setFromShare: setFromShare
     } 
 })()

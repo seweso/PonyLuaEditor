@@ -60,7 +60,7 @@ var SHARE = ((global, $)=>{
     }
 
     function setCurrentShare(id){
-        currentShare = id.replace('/beta', '').replace(BASE_URL + '/?id=', '')
+        currentShare = id
         if(typeof currentShare === 'string' && currentShare.length > 0){
             $('#share').addClass('has_share')
         } else {
@@ -115,16 +115,14 @@ var SHARE = ((global, $)=>{
         log('receiving share', currentShare)
         $('#ponybin-receive-overlay').show()
 
-        let key = currentShare.replace('/beta', '').replace(BASE_URL + '/?id=', '')
-
         $.post(BASE_URL + '/api/get', {
-            key: key
+            key: currentShare
         }).done((data)=>{
             try {
                 let json = JSON.parse(data)
 
                 if(typeof json.luabin === 'object'){
-                    storage.setFromShare(key, json.luabin)
+                    storage.setFromShare(currentShare, json.luabin)
                 } else {
                     throw 'invalid luabin format'
                 }
