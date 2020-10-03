@@ -54,7 +54,7 @@ class Editor extends DynamicSizedViewableContent {
     constructor(container, viewable){
         super(container, viewable)
         this.editor = ace.edit(this.dom.get(0))
-        this.editor.setTheme("ace/theme/monokai")
+        this.editor.setTheme("ace/theme/pony_ide")
         this.editor.session.setMode("ace/mode/lua")
         this.editor.session.setUseSoftTabs(false)
 

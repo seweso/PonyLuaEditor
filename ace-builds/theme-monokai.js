@@ -3,16 +3,16 @@ define("ace/theme/monokai",["require","exports","module","ace/lib/dom"], functio
 exports.isDark = true;
 exports.cssClass = "ace-monokai";
 exports.cssText = ".ace-monokai .ace_gutter {\
-background: var(--editor-sidebar-background);\
-color: var(--editor-sidebar-color)\
+background: #2F3129;\
+color: #8F908A\
 }\
 .ace-monokai .ace_print-margin {\
 width: 1px;\
 background: #555651\
 }\
 .ace-monokai {\
-background-color: var(--editor-background);\
-color: var(--editor-color)\
+background-color: #272822;\
+color: #F8F8F2\
 }\
 .ace-monokai .ace_cursor {\
 color: #F8F8F0\
@@ -31,7 +31,7 @@ margin: -1px 0 0 -1px;\
 border: 1px solid #49483E\
 }\
 .ace-monokai .ace_marker-layer .ace_active-line {\
-background: var(--editor-active-line-background)\
+background: #202020\
 }\
 .ace-monokai .ace_gutter-active-line {\
 background-color: #272727\
