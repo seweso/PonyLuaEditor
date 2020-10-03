@@ -1,27 +1,6 @@
 
 @media (max-width: 1023px) {
-    #editor-bottom-container {
-        flex-direction: column;
-        &.show_examples > * {
-            width: 100%;
-        }
-    }
-
-    #example-container {
-        margin-left: 0;
-    }
-
-    #mobile-menu-open {
-        display: block !important;
-    }
-
-    #fixed-information-badges {
-        display: none;
-    }   
-
-    #download-offline {
-        display: none;
-    }
+    
 }
 
 @media (max-width: 767) {

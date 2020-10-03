@@ -68,13 +68,13 @@ button[disabled].special_button {
 
 /* line 55, ../compass/src/_base.scss */
 a {
-  color: #EE4A4B;
+  color: #0081cc;
   text-decoration: underline;
 }
 
 /* line 60, ../compass/src/_base.scss */
 a:hover {
-  color: #F4812E;
+  color: #1a8ed1;
 }
 
 /* line 1, ../compass/src/_navigation.scss */
@@ -267,35 +267,4 @@ a:hover {
   justify-content: space-evenly;
   align-items: center;
   flex-wrap: wrap;
-}
-
-@media (max-width: 1023px) {
-  /* line 3, ../compass/src/_media.scss */
-  #editor-bottom-container {
-    flex-direction: column;
-  }
-  /* line 5, ../compass/src/_media.scss */
-  #editor-bottom-container.show_examples > * {
-    width: 100%;
-  }
-
-  /* line 10, ../compass/src/_media.scss */
-  #example-container {
-    margin-left: 0;
-  }
-
-  /* line 14, ../compass/src/_media.scss */
-  #mobile-menu-open {
-    display: block !important;
-  }
-
-  /* line 18, ../compass/src/_media.scss */
-  #fixed-information-badges {
-    display: none;
-  }
-
-  /* line 22, ../compass/src/_media.scss */
-  #download-offline {
-    display: none;
-  }
 }

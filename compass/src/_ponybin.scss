@@ -1,0 +1,96 @@
+
+.ponybin_overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 10000;
+    background: #000c;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    .inner {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .circle {
+        background: linear-gradient(15deg, rgba(242,223,23,0.666) 0%, rgba(110,188,136,0.666) 100%);
+        box-shadow: 0px 0px 5px 3px #F2DF1777;
+        color: #000;
+        border-radius: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        width: 80vw;
+        max-width: 250px;
+        height: 80vw;
+        max-height: 250px;
+        padding: 20%;
+        animation-duration: 3s;
+        animation-name: circle;
+        animation-iteration-count: infinite;
+    
+        p {
+            text-align: center;
+            line-height: 150%;
+            font-weight: bold;
+            animation-duration: 3s;
+            animation-name: anticircle;
+            animation-iteration-count: infinite;
+        }
+
+        [dot] {
+            animation-iteration-count: infinite;
+            animation-duration: 2s;    
+        }
+
+        [dot="1"] {
+            animation-name: dot1;
+        }
+
+        [dot="2"] {
+            animation-name: dot2;
+        }
+
+        [dot="3"] {
+            animation-name: dot3;
+        }
+    }
+}
+
+
+@keyframes circle {
+    0% { background-color: #F2DF17 }
+    25% { background-color: #6EBC88 }
+    50% { background-color: #EE4A4B }
+    75% { background-color: #F4812E}
+    100% { background-color: #F2DF17 }
+}
+
+@keyframes dot1 {
+    0% { opacity: 0 }
+    25% { opacity: 0 }    
+    50% { opacity: 1 }
+    75% { opacity: 1 }
+    100% { opacity: 1 }
+}
+
+@keyframes dot2 {
+    0% { opacity: 0 }
+    25% { opacity: 0 }    
+    50% { opacity: 0 }
+    75% { opacity: 1 }
+    100% { opacity: 1 }
+}
+
+@keyframes dot3 {
+    0% { opacity: 0 }
+    25% { opacity: 0 }    
+    50% { opacity: 0 }
+    75% { opacity: 0 }
+    100% { opacity: 1 }
+}

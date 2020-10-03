@@ -53,10 +53,10 @@ button[disabled] {
 }
 
 a {
-    color: #EE4A4B;
+    color: $stormworks-blue;
     text-decoration: underline;
 }
 
 a:hover {
-    color: #F4812E;
+    color: tint($stormworks-blue, 10%);
 }

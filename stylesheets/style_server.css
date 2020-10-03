@@ -68,13 +68,13 @@ button[disabled].special_button {
 
 /* line 55, ../compass/src/_base.scss */
 a {
-  color: #EE4A4B;
+  color: #0081cc;
   text-decoration: underline;
 }
 
 /* line 60, ../compass/src/_base.scss */
 a:hover {
-  color: #F4812E;
+  color: #1a8ed1;
 }
 
 /* line 1, ../compass/src/_util.scss */
@@ -173,7 +173,7 @@ a:hover {
 /* line 23, ../compass/src/_dialog.scss */
 .dialog .title {
   margin: 0;
-  color: #bf5421;
+  color: #0081cc;
   font-weight: bold;
   text-align: center;
 }
@@ -210,6 +210,57 @@ a:hover {
 /* line 17, ../compass/src/_editor.scss */
 .code_container .charactercount.limit {
   background: #ae0000;
+}
+
+/* editor fullscreen */
+/* line 26, ../compass/src/_editor.scss */
+.ace_editor.fullscreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  z-index: 10000000000000;
+}
+/* line 35, ../compass/src/_editor.scss */
+.ace_editor .fullscreen_toggle {
+  position: absolute;
+  top: 0;
+  right: 17px;
+  z-index: 1;
+  padding: 5px;
+  font-size: 20px;
+  background: #0004;
+  border-radius: 2px;
+  cursor: pointer;
+}
+/* line 46, ../compass/src/_editor.scss */
+.ace_editor .fullscreen_toggle:hover {
+  background: #000a;
+}
+/* line 51, ../compass/src/_editor.scss */
+.ace_editor .font_plus, .ace_editor .font_minus {
+  position: absolute;
+  top: 0;
+  right: 17px;
+  z-index: 1;
+  padding: 5px;
+  font-size: 20px;
+  background: #0004;
+  border-radius: 2px;
+  cursor: pointer;
+}
+/* line 62, ../compass/src/_editor.scss */
+.ace_editor .font_plus:hover, .ace_editor .font_minus:hover {
+  background: #000a;
+}
+/* line 67, ../compass/src/_editor.scss */
+.ace_editor .font_plus {
+  right: 50px;
+}
+/* line 71, ../compass/src/_editor.scss */
+.ace_editor .font_minus {
+  right: 83px;
 }
 
 /* line 1, ../compass/src/_viewable_documentation.scss */
