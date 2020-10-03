@@ -185,13 +185,19 @@ You can also minify code, find tutorials and examples or use the ui builder to c
                 <canvas id="canvas"></canvas>
                 <div id="overflow"></div>
             </div>
-            <div id="monitor-sizes">
-                <div>Width <span class="width">0</span>px</div>
-                <div>Height <span class="height">0</span>px</div>
-            </div>
-            <div class="zoomfactor">
-                <label for="zoomfactor">Monitor Zoom: <span>3x</span></label>
-                <input type="range" min="1" max="4" id="zoomfactor" name="zoomfactor" value="1">
+            <div class="monitor_info">
+                <div>
+                    <label>Width:</label>
+                    <span class="width">0</span>
+                </div>
+                <div>
+                    <label>Height:</label>
+                    <span class="height">0</span>
+                </div>
+                <div>
+                    <label>Zoom:</label><span class="zoom">3x</span>
+                    <input type="range" min="1" max="4" id="zoomfactor" name="zoomfactor" value="1">
+                </div>
             </div>
             <canvas id="render-canvas"></canvas>
         </div>

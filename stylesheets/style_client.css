@@ -338,6 +338,25 @@ a:hover {
   position: relative;
 }
 /* line 10, ../compass/src/_viewable_monitor.scss */
+[viewable="viewable_monitor"] .monitor_info {
+  margin-top: 10px;
+}
+/* line 13, ../compass/src/_viewable_monitor.scss */
+[viewable="viewable_monitor"] .monitor_info div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+/* line 18, ../compass/src/_viewable_monitor.scss */
+[viewable="viewable_monitor"] .monitor_info div label {
+  margin-right: 10px;
+  min-width: 60px;
+}
+/* line 24, ../compass/src/_viewable_monitor.scss */
+[viewable="viewable_monitor"] .monitor_info span.zoom + input {
+  margin-left: 10px;
+}
+/* line 29, ../compass/src/_viewable_monitor.scss */
 [viewable="viewable_monitor"] #overflow {
   position: absolute;
   top: 31px;
@@ -348,7 +367,7 @@ a:hover {
   border: 1px solid #ff0000cc;
   margin: 0;
 }
-/* line 21, ../compass/src/_viewable_monitor.scss */
+/* line 40, ../compass/src/_viewable_monitor.scss */
 [viewable="viewable_monitor"] #canvas {
   z-index: 1;
   background: #000;

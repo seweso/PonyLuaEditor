@@ -44,6 +44,16 @@ var CANVAS = ((global, $)=>{
         $('#monitor-size, #show-overflow').on('change', (e)=>{
             recalculateCanvas()
         })
+
+        $('#zoomfactor').on('change', ()=>{
+            let val = $('#zoomfactor').val()
+            CANVAS.setZoomFactor(val)
+            PAINT.setZoomFactor(val)
+            MAP.setZoomFactor(val)
+            $('.monitor_info .zoom').html(val+'x')
+            
+            //TODO save to storage
+        })
         
         /* touchscreen */
         $('#monitor').on('mouseenter', ()=>{
@@ -331,8 +341,8 @@ var CANVAS = ((global, $)=>{
         width = unzoom(dim.width)
         height = unzoom(dim.height)
 
-        $('#monitor-sizes .width').html(width)
-        $('#monitor-sizes .height').html(height)
+        $('.monitor_info .width').html(width)
+        $('.monitor_info .height').html(height)
 
         top = showOverflow ? 32 : 0
         left = showOverflow ? 32 : 0
@@ -352,8 +362,7 @@ var CANVAS = ((global, $)=>{
         renderCtx.restore()
 
         $('#monitor').css({width: canvasWidth, height: canvasHeight})
-        $('#monitor-sizes, .zoomfactor').css({width: canvasWidth})
-
+        
         $('#overflow').css('display', showOverflow ? '' : 'none')
         PAINT._restoreLastColorUsed()
     }

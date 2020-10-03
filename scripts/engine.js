@@ -24,16 +24,6 @@ engine = (($)=>{
 
     function init(){
 
-        $('#zoomfactor').on('change', ()=>{
-            let val = $('#zoomfactor').val()
-            CANVAS.setZoomFactor(val)
-            PAINT.setZoomFactor(val)
-            MAP.setZoomFactor(val)
-            $('.zoomfactor span').html(val+'x')
-            
-            //TODO save to storage
-        })
-
         $('#start').on('click', start)
 
         $('#pause').prop('disabled', true)

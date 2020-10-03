@@ -7,6 +7,25 @@
 		position: relative;
 	}
 
+	.monitor_info {
+		margin-top: 10px;
+
+		div {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+
+			label {
+				margin-right: 10px;
+				min-width: 60px;
+			}
+		}
+
+		span.zoom + input {
+			margin-left: 10px;
+		}
+	}
+
 	#overflow {
 	    position: absolute;
 	    top: 31px;
