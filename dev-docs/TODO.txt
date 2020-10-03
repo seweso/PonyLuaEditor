@@ -16,3 +16,8 @@
 - report function inside the page (to report issues without any login)
 
 - hightlight error in editor if script fails
+
+- after loading share, settings are not loaded ?!?
+- related: do we even load the settings from storage.js or is the browser applying his own saved information (by name attribute)
+
+- on old IDE version: add check for v2 inside the "code" to show the user a warning
