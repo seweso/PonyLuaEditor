@@ -1,0 +1,49 @@
+[viewable="viewable_settings"] {
+    display: flex;
+    flex-direction: column;
+
+    .setting {
+    	margin-bottom: 5px;
+		background: #222;
+		padding: 6px;
+		border-radius: 3px;
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+
+		&.multi_setting {
+			flex-direction: column;
+			align-items: initial;
+
+			> div {
+				display: flex;
+				flex-direction: row;				
+				justify-content: space-between;
+				align-items: center;
+			}
+
+			> div:not(:last-child){
+				margin-bottom: 10px;
+			}
+		}
+
+		label {
+			margin-right: 5px;
+		}
+
+		label + div {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+
+			input {
+				margin-left: 10px;
+			}
+		}
+    }
+
+    #timeBetweenTicks, #timeBetweenDraws, {
+    	direction: rtl;
+    }
+}
