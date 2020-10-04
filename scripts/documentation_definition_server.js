@@ -6,17 +6,670 @@ DOCUMENTATION_DEFINITION = (()=>{
     const TV = DOCUMENTATION.TV
     const TA = DOCUMENTATION.TA
 
+    OBJECT_TYPE = {
+        0: 'none',
+        1: 'character',
+        2: 'crate_small',
+        3: 'collectable',
+        4: 'basketball',
+        5: 'television',
+        6: 'barrel',
+        7: 'schematic',
+        8: 'debris',
+        9: 'chair',
+        10: 'trolley_food',
+        11: 'trolley_med',
+        12: 'clothing',
+        13: 'office_chair',
+        14: 'book',
+        15: 'bottle',
+        16: 'fryingpan',
+        17: 'mug',
+        18: 'saucepan',
+        19: 'stool',
+        20: 'telescope',
+        21: 'log',
+        22: 'bin',
+        23: 'book_2',
+        24: 'loot',
+        25: 'blue_barrel',
+        26: 'buoyancy_ring',
+        27: 'container',
+        28: 'gas_canister',
+        29: 'pallet',
+        30: 'storage_bin',
+        31: 'fire_extinguisher',
+        32: 'trolley_tool',
+        33: 'cafetiere',
+        34: 'drawers_tools',
+        35: 'glass',
+        36: 'microwave',
+        37: 'plate',
+        38: 'box_closed',
+        39: 'box_open',
+        40: 'desk_lamp',
+        41: 'eraser_board',
+        42: 'folder',
+        43: 'funnel',
+        44: 'lamp',
+        45: 'microscope',
+        46: 'notebook',
+        47: 'pen_marker',
+        48: 'pencil',
+        49: 'scales',
+        50: 'science_beaker',
+        51: 'science_cylinder',
+        52: 'science_flask',
+        53: 'tub_1',
+        54: 'tub_2',
+        55: 'filestack',
+        56: 'barrel_toxic',
+        57: 'flare',
+        58: 'fire',
+        59: 'animal',
+        60: 'map_label',
+        61: 'iceberg',
+        62: 'small_flare',
+        63: 'big_flare'
+    }
+
+    OUTFIT_TYPE = {
+        0: 'none',
+        1: 'worker',
+        2: 'fishing',
+        3: 'waiter',
+        4: 'swimsuit',
+        5: 'military',
+        6: 'office',
+        7: 'police',
+        8: 'science',
+        9: 'medical',
+        10: 'wetsuit',
+        11: 'civilian'
+    }
+
+    POSITION_TYPE = {
+        0: 'fixed',
+        1: 'vehicle',
+        2: 'object'
+    }
+
+    NOTIFICATION_TYPE = {
+        0: 'new_mission',
+        1: 'new_mission_critical',
+        2: 'failed_mission',
+        3: 'failed_mission_critical',
+        4: 'complete_mission',
+        5: 'network_connect',
+        6: 'network_disconnect',
+        7: 'network_info',
+        8: 'chat_message',
+        9: 'network_info_critical'
+    }
+
+    MARKER_TYPE = {
+        0: 'delivery_target',
+        1: 'survivor',
+        2: 'object',
+        3: 'waypoint',
+        4: 'tutorial',
+        5: 'fire',
+        6: 'shark',
+        7: 'ice',
+        8: 'search_radius'
+    }
+
+    LABEL_TYPE = {
+        0: 'none',
+        1: 'cross',
+        2: 'wreckage',
+        3: 'terminal',
+        4: 'military',
+        5: 'heritage',
+        6: 'rig',
+        7: 'industrial',
+        8: 'hospital',
+        9: 'science',
+        10: 'airport',
+        11: 'coastguard',
+        12: 'lighthouse',
+        13: 'fuel',
+        14: 'fuel_sell'
+    }
+
+    ZONE_TYPE = {
+        0: 'box',
+        1: 'sphere',
+        2: 'radius'
+    }
+
+    EQUIPMENT_ID = {
+        0: 'none',
+        1: 'diving',
+        2: 'firefighter',
+        3: 'scuba',
+        4: 'parachute',
+        5: 'arctic',        
+        6: 'binoculars',
+        7: 'cable',
+        8: 'compass',
+        9: 'defibrillator',
+        10: 'fire_extinguisher',
+        11: 'first_aid',
+        12: 'flare',
+        13: 'flaregun',
+        14: 'flaregun_ammo',
+        15: 'flashlight',
+        16: 'hose',
+        17: 'night_vision_binoculars',
+        18: 'oxygen_mask',
+        19: 'radio',
+        20: 'radio_signal_locator',
+        21: 'remote_control',
+        22: 'rope',
+        23: 'strobe_light',
+        24: 'strobe_light_infrared',
+        25: 'transponder',
+        26: 'underwater_welding_torch',
+        27: 'welding_torch'
+    }
+
+
+   TYPE_STRING = [
+    "zone",
+    "object",
+    "character",
+    "vehicle",
+    "flare",
+    "fire",
+    "loot",
+    "button",
+    "animal"
+    "ice",
+    "cargo_zone",
+   ]
+
+    GAME_SETTINGS = {
+        'third_person': '',
+        'third_person_vehicle': '',
+        'vehicle_damage': '',
+        'player_damage': '',
+        'npc_damage': '',
+        'sharks': '',
+        'fast_travel': '',
+        'teleport_vehicle': '',
+        'rogue_mode': '',
+        'auto_refuel': '',
+        'megalodon': '',
+        'map_show_players': '',
+        'map_show_vehicles': '',
+        'show_3d_waypoints': '',
+        'show_name_plates': '',
+        'day_night_length': 'number between 0-1, currently cannot be written to',
+        'sunrise': 'currently cannot be written to',
+        'sunset': 'currently cannot be written to',
+        'infinite_money': '',
+        'settings_menu': '',
+        'unlock_all_islands': '',
+        'infinite_batteries': '',
+        'infinite_fuel': '',
+        'engine_overheating': '',
+        'no_clip': '',
+        'map_teleport': '',
+        'cleanup_veicle': '',
+        'clear_fow': 'lear fog of war',
+        'vehicle_spawning': '',
+        'photo_mode': '',
+        'respawning': '',
+        'settings_menu_lock': '',
+        'despawn_on_leave': 'despawn player characters on leave',
+        'unlock_all_components': '',
+    }
+
+ 
+
+
+
     const DEF = {
         children: {
             server: {
                 type: TO,
                 lib: 'stormworks',
-                description: 'Test',
+                description: 'All the functionality for server scripts\n\npeer_id can be passed as -1 to send for all connected peers',
                 children: {
-                    getClients: {
+                    announce: {
+                        type: TF,
+                        args: [{name: 'name'}, {name: 'message'}],
+                        description: ''
+                    },
+                    whisper: {
+                        type: TF,
+                        args: [{name: 'peer_id'}, {name: 'message'}],
+                        description: ''
+                    },
+                    notify: {
+                        type: TF,
+                        args: [{name: 'peer_id'}, {name: 'title'}, {name: 'message'}, {name: 'NOTIFICATION_TYPE', possibleValues: NOTIFICATION_TYPE}],
+                        description: ''
+                    },
+                    removeMapID: {
+                        type: TF,
+                        args: [{name: 'peer_id'}, {name: 'ui_id'}],
+                        description: ''
+                    },
+                    addMapObject: {
+                        type: TF,
+                        args: [{name: 'peer_id'}, {name: 'ui_id'}, {name: 'POSITION_TYPE', possibleValues: POSITION_TYPE}, {name: 'MARKER_TYPE', possibleValues: MARKER_TYPE}, {name: 'x'}, {name: 'y'}, {name: 'z'}, {name: 'parent_local_x'}, {name: 'parent_local_y'}, {name: 'parent_local_z'}, {name: 'vehicle_id'}, {name: 'object_id'}, {name: 'label'}, {name: 'vehicle_parent_id'}, {name: 'radius'}, {name: 'hover_label'}],
+                        description: ''
+                    },
+                    removeMapObject: {
+                        type: TF,
+                        args: [{name: 'peer_id'}, {name: 'ui_id'}],
+                        description: ''
+                    },
+                    addMapLabel: {
+                        type: TF,
+                        args: [{name: 'peer_id'}, {name: 'ui_id'}, {name: 'LABEL_TYPE', possibleValues: LABEL_TYPE}, {name: 'name'}, {name: 'x'}, {name: 'y'}, {name: 'z'}],
+                        description: ''
+                    },
+                    removeMapLabel: {
+                        type: TF,
+                        args: [{name: 'peer_id'}, {name: 'ui_id'}],
+                        description: ''
+                    },
+                    addMapLine: {
+                        type: TF,
+                        args: [{name: 'peer_id'}, {name: 'ui_id'}, {name: 'start_matrix'}, {name: 'end_matrix'}, {name: 'width'}],
+                        description: ''
+                    },
+                    removeMapLine: {
+                        type: TF,
+                        args: [{name: 'peer_id'}, {name: 'ui_id'}],
+                        description: ''
+                    },
+                    setPopup: {
+                        type: TF,
+                        args: [{name: 'peer_id'}, {name: 'ui_id'}, {name: 'name'}, {name: 'is_show'}, {name: 'text'}, {name: 'x'}, {name: 'y'}, {name: 'z'}, {name: 'is_worldspace'}, {name: 'render_distance'}],
+                        description: ''
+                    },
+                    removePopup: {
+                        type: TF,
+                        args: [{name: 'peer_id'}, {name: 'ui_id'}],
+                        description: ''
+                    },
+                    createPopup: {
+                        type: TF,
+                        args: [{name: 'peer_id'}, {name: 'ui_id'}],
+                        description: ''
+                    },
+                    getPlayerName: {
+                        type: TF,
+                        args: [{name: 'peer_id'}],
+                        description: 'Returns name of the player'
+                    },
+                    getPlayers: {
                         type: TF,
                         args: [],
-                        description: 'This is just a test!'
+                        description: 'Returns list of all players'
+                    },
+                    getPlayerPos: {
+                        type: TF,
+                        args: [{name: 'peer_id'}],
+                        description: 'Returns a matrix'
+                    },
+                    teleportPlayer: {
+                        type: TF,
+                        args: [{name: 'peer_id'}, {name: 'matrix'}],
+                        description: ''
+                    },
+                    killPlayer: {
+                        type: TF,
+                        args: [{name: 'peer_id'}],
+                        description: ''
+                    },
+                    setSeated: {
+                        type: TF,
+                        args: [{name: 'peer_id'}, {name: 'vehicle_id'}, {name: 'seat_name'}],
+                        description: ''
+                    },
+                    getPlayerLookDirection: {
+                        type: TF,
+                        args: [{name: 'peer_id'}],
+                        description: 'Returns x,y,z of the players look direction'
+                    },
+                    spawnVehicle: {
+                        type: TF,
+                        args: [{name: 'matrix'}, {name: 'playlist_index'}, {name: 'component_id'}],
+                        description: ''
+                    },
+                    spawnVehicleSavefile: {
+                        type: TF,
+                        args: [{name: 'matrix'}, {name: 'save_name'}],
+                        description: ''
+                    },
+                    despawnVehicle: {
+                        type: TF,
+                        args: [{name: 'vehicle_id'}, {name: 'is_instant'}],
+                        description: ''
+                    },
+                    getVehiclePos: {
+                        type: TF,
+                        args: [{name: 'vehicle_id'}, {name: 'voxel_x'}, {name: 'voxel_y'}, {name: 'voxel_z'}],
+                        description: 'Returns position as a matrix'
+                    },
+                    getVehicleName: {
+                        type: TF,
+                        args: [{name: 'vehicle_id'}],
+                        description: 'Returns name of the vehicle'
+                    },
+                    teleportVehicle: {
+                        type: TF,
+                        args: [{name: 'matrix'}, {name: 'vehicle_id'}],
+                        description: ''
+                    },
+                    cleanVehicles: {
+                        type: TF,
+                        args: [],
+                        description: ''
+                    },
+                    pressVehicleButton: {
+                        type: TF,
+                        args: [{name: 'vehicle_id'}, {name: 'button_name'}],
+                        description: ''
+                    },
+                    getVehicleFireCount: {
+                        type: TF,
+                        args: [{name: 'vehicle_id'}],
+                        description: ''
+                    },
+                    setVehicleTooltip: {
+                        type: TF,
+                        args: [{name: 'vehicle_id'}, {name: 'text'}],
+                        description: ''
+                    },
+                    getVehicleSimulating: {
+                        type: TF,
+                        args: [{name: 'vehicle_id'}],
+                        description: ''
+                    },
+                    setVehicleTransponder: {
+                        type: TF,
+                        args: [{name: 'vehicle_id'}, {name: 'is_active'}],
+                        description: ''
+                    },
+                    pressVehicleButton: {
+                        type: TF,
+                        args: [{name: 'vehicle_id'}, {name: 'is_editable'}],
+                        description: ''
+                    },
+                    getPlaylistIndexByName: {
+                        type: TF,
+                        args: [{name: 'name'}],
+                        description: ''
+                    },
+                    getPlaylistIndexCurrent: {
+                        type: TF,
+                        args: [],
+                        description: ''
+                    },
+                    getLocationIndexByName: {
+                        type: TF,
+                        args: [{name: 'playlist_index'}, {name: 'name'}],
+                        description: ''
+                    },
+                    spawnThisPlaylistMissionLocation: {
+                        type: TF,
+                        args: [{name: 'name'}],
+                        description: ''
+                    },
+                    spawnMissionLocation: {
+                        type: TF,
+                        args: [{name: 'matrix'}, {name: 'playlist_index'}, {name: 'location_index'}],
+                        description: 'if matrix = 0,0,0 it will spawn at a random location'
+                    },
+                    getPlaylistPath: {
+                        type: TF,
+                        args: [{name: 'playlist_name'}, {name: 'is_rom'}],
+                        description: ''
+                    },
+                    spawnObject: {
+                        type: TF,
+                        args: [{name: 'matrix'}, {name: 'OBJECT_TYPE': possibleValues: OBJECT_TYPE}],
+                        description: ''
+                    },
+                    getObjectPos: {
+                        type: TF,
+                        args: [{name: 'object_id'}],
+                        description: 'Returns is_found, matrix'
+                    },
+                    spawnFire: {
+                        type: TF,
+                        args: [{name: 'matrix'}, {name: 'size'}, {name: 'magnitude'}, {name: 'is_lit'}, {name: 'is_initialzied'}, {name: 'is_explosive'}, {name: 'parent_vehicle_id'}, {name: 'explosion_point'}, {name: 'explosion_magnitude'}],
+                        description: 'Returns object_id'
+                    },
+                    despawnObject: {
+                        type: TF,
+                        args: [{name: 'object_id'}, {name: 'is_instant'}],
+                        description: ''
+                    },
+                    spawnCharacter: {
+                        type: TF,
+                        args: [{name: 'matrix'}, {name: 'outfit_id', optional: true}],
+                        description: 'Returns object_id'
+                    },
+                    spawnAnimal: {
+                        type: TF,
+                        args: [{name: 'matrix'}, {name: 'animal_type'}, {name: 'scale'}],
+                        description: 'Returns object_id'
+                    },
+                    despawnCharacter: {
+                        type: TF,
+                        args: [{name: 'object_id'}, {name: 'is_instant'}],
+                        description: ''
+                    },
+                    getCharacterData: {
+                        type: TF,
+                        args: [{name: 'object_id'}],
+                        description: 'Returns hp, matrix'
+                    },
+                    setCharacterData: {
+                        type: TF,
+                        args: [{name: 'object_id'}, {name: 'hp'}, {name: 'is_interactable'}],
+                        description: ''
+                    },
+                    setCharacterItem: {
+                        type: TF,
+                        args: [{name: 'object_id'}, {name: 'slot'}, {name: 'EQUIPMENT_ID', possibleValues: EQUIPMENT_ID}, {name: 'is_active'}],
+                        description: ''
+                    },
+                    getTutorial: {
+                        type: TF,
+                        args: [],
+                        description: 'Returns tutorial_completed'
+                    },
+                    getZones: {
+                        type: TF,
+                        args: [{name: 'tag(s)'}],
+                        description: 'Returns ZONE_LIST: ' + '{ [zone_index] = { ["name"] = name,["transform"] = matrix,["size"] = {x, y, z},["radius"] = radius,["type"] = ZONE_TYPE ,["tags"] = { [i] = tag } }}'
+                    },
+                    isInZone: {
+                        type: TF,
+                        args: [{name: 'matrix'}, {name: 'zone_name'}],
+                        description: 'Returns is_in_zone'
+                    },
+                    spawnMissionObject: {
+                        type: TF,
+                        args: [{name: 'matrix'}, {name: 'playlist_index'}, {name: 'location_index'}, {name: 'object_index'}],
+                        description: ''
+                    },
+                    despawnMissionObject: {
+                        type: TF,
+                        args: [{name: 'object_id'}, {name: 'is_instant'}],
+                        description: ''
+                    },
+                    getPlaylistCount: {
+                        type: TF,
+                        args: [],
+                        description: 'Returns count'
+                    },
+                    getPlaylistData: {
+                        type: TF,
+                        args: [{name: 'playlist_index'}],
+                        description: 'Returns PLAYLIST_DATA: ' + '{ ["name"] = name, ["path_id"] = folder_path, ["file_store"] = is_app_data, ["location_count"] = location_count }'
+                    },
+                    getLocationData: {
+                        type: TF,
+                        args: [{name: 'playlist_index'}, {name: 'location_index'}],
+                        description: 'Returns LOCATION_DATA: ' + '{ ["name"] = name, ["tile"] = tile_filename, ["env_spawn_count"] = spawn_count, ["env_mod"] = is_env_mod, ["object_count"] = object_count }'
+                    },
+                    getLocationObjectData: {
+                        type: TF,
+                        args: [{name: 'playlist_index'}, {name: 'location_index'}, {name: 'object_index'}],
+                        description: 'Returns OBJECT_DATA: ' + '{ ["name"] = name, ["display_name"] = display_name, ["type"] = TYPE_STRING, ["id"] = component_id, ["dynamic_object_type"] = OBJECT_TYPE, ["tags"] = { [i] = tag }, ["transform"] = matrix, ["character_outfit_type"] = OUTFIT_TYPE }'
+                    },
+                    setFireData: {
+                        type: TF,
+                        args: [{name: 'object_id'}, {name: 'is_lit'}, {name: 'is_explosive'}],
+                        description: ''
+                    },
+                    getFireData: {
+                        type: TF,
+                        args: [{name: 'object_id'}],
+                        description: 'Returns is_lit'
+                    },
+                    getOceanTransform: {
+                        type: TF,
+                        args: [{name: 'matrix'}, {name: 'min_search_range'}, {name: 'max_search_range'}],
+                        description: 'Returns matrix'
+                    },
+                    isInTransformArea: {
+                        type: TF,
+                        args: [{name: 'matrix_object'}, {name: 'matrix_zone'}, {name: 'zone_x'},{name: 'zone_y'}, {name: 'zone_z'}],
+                        description: 'Returns is_in_area'
+                    },
+                    setGameSetting: {
+                        type: TF,
+                        args: [{name: 'GAME_SETTING', possibleValues: GAME_SETTINGS}, {name: 'value'}],
+                        description: 'Some settings cannot be set: "day_night_length", "sunrise", "sunset"'
+                    },
+                    getGameSettings: {
+                        type: TF,
+                        args: [],
+                        description: 'Returns a table with all the game settings (key = setting name, value = setting value)'
+                    },
+                    setCurrency: {
+                        type: TF,
+                        args: [{name: 'money'}, {name: 'research'}],
+                        description: 'Sets the amount of money and research'
+                    },
+                    getCurrency: {
+                        type: TF,
+                        args: []],
+                        description: 'Returns the amount of money'
+                    },
+                    getResearchPoints: {
+                        type: TF,
+                        args: [],
+                        description: 'Returns the amount of research points'
+                    },
+                    getDateValue: {
+                        type: TF,
+                        args: [],
+                        description: 'Returns time since game has started in ingame days'
+                    },
+                    getTimeMillisec: {
+                        type: TF,
+                        args: [],
+                        description: ''
+                    },
+                    getTilePurchased: {
+                        type: TF,
+                        args: [{name: 'matrix'}],
+                        description: 'Returns is_purchased'
+                    },
+                    httpGet: {
+                        type: TF,
+                        args: [{name: 'port'}, {name: 'request'}],
+                        description: 'Returns is_purchased'
+                    },
+                    banPlayer: {
+                        type: TF,
+                        args: [{name: 'peer_id'}],
+                        description: ''
+                    },
+                    kickPlayer: {
+                        type: TF,
+                        args: [{name: 'peer_id'}],
+                        description: ''
+                    }
+                }
+            },
+            ui: {
+                type: TO,
+                lib: 'stormworks',
+                description: 'Special user interface functionality',
+                children: {
+                    getMapID: {
+                        type: TF,
+                        args: [],
+                        description: ''
+                    }
+                }
+            },
+            matrix: {
+                type: TO,
+                lib: 'stormworks',
+                description: 'Helpful library to work with matrices',
+                children: {
+                    multiply: {
+                        type: TF,
+                        args: [{name: 'matrix1'}, {name: 'matrix2'}],
+                        description: 'Multiplies two matrix'
+                    },
+                    invert: {
+                        type: TF,
+                        args: [{name: 'matrix'}],
+                        description: 'Inverts the matrix'
+                    },
+                    transpose: {
+                        type: TF,
+                        args: [{name: 'matrix'}],
+                        description: 'Transposes the matrix'
+                    },
+                    identity: {
+                        type: TF,
+                        args: [],
+                        description: 'Returns the special identity matrix'
+                    },
+                    rotationX: {
+                        type: TF,
+                        args: [{name: 'radians'}],
+                        description: 'Rotate a matrix around the x axis'
+                    },
+                    rotationY: {
+                        type: TF,
+                        args: [{name: 'radians'}],
+                        description: 'Rotate a matrix around the y axis'
+                    },
+                    rotationZ: {
+                        type: TF,
+                        args: [{name: 'radians'}],
+                        description: 'Rotate a matrix around the z axis'
+                    },
+                    translation: {
+                        type: TF,
+                        args: [{name: 'x'}, {name: 'y'}, {name: 'z'}],
+                        description: 'Translate (~move) a matrix'
+                    },
+                    position: {
+                        type: TF,
+                        args: [{name: 'matrix'}],
+                        description: 'Returns x,y,z (x,y = map coordinates, z = altitude) values of the matrix'
+                    },
+                    distance: {
+                        type: TF,
+                        args: [{name: 'matrix1'}, {name: 'matrix2'}],
+                        description: 'Translate (~move) a matrix'
                     }
                 }
             },
