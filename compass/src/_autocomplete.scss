@@ -48,15 +48,15 @@
         }
 
         .entry[lib="stormworks"] {
-            background: #3e2215;
+            background: shade($stormworks-blue, 75%);
         }
 
         .entry[lib="dev"] {
-            background: #300101;
+            background: shade(#b9085b, 75%);
         }
 
         .entry[lib="lua"] {
-            background: #001a28;
+            background: shade(#44b511, 75%);
         }
     }
 
@@ -95,41 +95,25 @@
                 border-radius: 100000px;
                 padding: 2px 6px;
                 display: inline-block;
+                margin-bottom: 4px;
             }
 
-            &[lib="stormworks"] {
-                background: #391909;
-
-                .lib_title {
-                    margin-bottom: 4px;
-                    color: #bf5421;
-                    border-color: #bf5421;
-                }
+            &[lib="stormworks"] .lib_title {
+                color: $stormworks-blue;
+                border-color: $stormworks-blue;
             }
 
-            &[lib="dev"] {
-                background: #300101;
-
-                .lib_title {
-                    margin-bottom: 4px;
-                    color: #ae6767;
-                    border-color: #ae6767;
-                }
+            &[lib="dev"] .lib_title {
+                color: #b9085b;
+                border-color: #b9085b;
             }
 
-            &[lib="lua"] {
-                background: #001a28;
-
-                .lib_title {
-                    margin-bottom: 4px;
-                    color: #0194E2;
-                    border-color: #0194E2;
-                }
+            &[lib="lua"] .lib_title {
+                color: #44b511;
+                border-color: #44b511;
             }
-
 
             &[lib="user"] .lib_title {
-                margin-bottom: 4px;
                 color: #fff;
                 border-color: #fff;
             }

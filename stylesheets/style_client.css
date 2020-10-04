@@ -375,15 +375,15 @@ a:hover {
 }
 /* line 50, ../compass/src/_autocomplete.scss */
 .autocompletition .list .entry[lib="stormworks"] {
-  background: #3e2215;
+  background: #002033;
 }
 /* line 54, ../compass/src/_autocomplete.scss */
 .autocompletition .list .entry[lib="dev"] {
-  background: #300101;
+  background: #2e0217;
 }
 /* line 58, ../compass/src/_autocomplete.scss */
 .autocompletition .list .entry[lib="lua"] {
-  background: #001a28;
+  background: #112d04;
 }
 /* line 63, ../compass/src/_autocomplete.scss */
 .autocompletition .descriptions {
@@ -422,48 +422,33 @@ a:hover {
   border-radius: 100000px;
   padding: 2px 6px;
   display: inline-block;
+  margin-bottom: 4px;
 }
-/* line 100, ../compass/src/_autocomplete.scss */
-.autocompletition .descriptions .description[lib="stormworks"] {
-  background: #391909;
-}
-/* line 103, ../compass/src/_autocomplete.scss */
+/* line 101, ../compass/src/_autocomplete.scss */
 .autocompletition .descriptions .description[lib="stormworks"] .lib_title {
-  margin-bottom: 4px;
-  color: #bf5421;
-  border-color: #bf5421;
+  color: #0081cc;
+  border-color: #0081cc;
 }
-/* line 110, ../compass/src/_autocomplete.scss */
-.autocompletition .descriptions .description[lib="dev"] {
-  background: #300101;
-}
-/* line 113, ../compass/src/_autocomplete.scss */
+/* line 106, ../compass/src/_autocomplete.scss */
 .autocompletition .descriptions .description[lib="dev"] .lib_title {
-  margin-bottom: 4px;
-  color: #ae6767;
-  border-color: #ae6767;
+  color: #b9085b;
+  border-color: #b9085b;
 }
-/* line 120, ../compass/src/_autocomplete.scss */
-.autocompletition .descriptions .description[lib="lua"] {
-  background: #001a28;
-}
-/* line 123, ../compass/src/_autocomplete.scss */
+/* line 111, ../compass/src/_autocomplete.scss */
 .autocompletition .descriptions .description[lib="lua"] .lib_title {
-  margin-bottom: 4px;
-  color: #0194E2;
-  border-color: #0194E2;
+  color: #44b511;
+  border-color: #44b511;
 }
-/* line 131, ../compass/src/_autocomplete.scss */
+/* line 116, ../compass/src/_autocomplete.scss */
 .autocompletition .descriptions .description[lib="user"] .lib_title {
-  margin-bottom: 4px;
   color: #fff;
   border-color: #fff;
 }
-/* line 139, ../compass/src/_autocomplete.scss */
+/* line 123, ../compass/src/_autocomplete.scss */
 .autocompletition a {
   color: #bf5421 !important;
 }
-/* line 143, ../compass/src/_autocomplete.scss */
+/* line 127, ../compass/src/_autocomplete.scss */
 .autocompletition input {
   position: absolute;
   left: -99999999px;
@@ -540,7 +525,7 @@ a:hover {
 }
 /* line 86, ../compass/src/_viewable_documentation.scss */
 .ide [viewable="viewable_documentation"] .node[lib="dev"] .lib {
-  color: #b9085b !important;
+  color: #b9085b;
   border-color: #b9085b;
 }
 /* line 94, ../compass/src/_viewable_documentation.scss */
