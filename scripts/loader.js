@@ -74,14 +74,16 @@ loader = (($)=>{
         }
 
         //TODO maybe we need a small timeout in here? e.g. 10 ms, we had some timeouts here in the old code too
-        doneEvents.push(event)
-        if(listeners[event]){
-            for(let callback of listeners[event]){
-                if(typeof callback === 'function'){
-                    callback()
+        setTimeout(()=>{
+            doneEvents.push(event)
+            if(listeners[event]){
+                for(let callback of listeners[event]){
+                    if(typeof callback === 'function'){
+                        callback()
+                    }
                 }
             }
-        }
+        }, 1)
     }
 
     function eventExists(event){

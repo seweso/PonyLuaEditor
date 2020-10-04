@@ -152,7 +152,7 @@ var DOCUMENTATION = ((global, $)=>{
         if(node.type === TF){
             let args = $('<div class="args">')
             
-            args.html(parseArgs(node.args))
+            args.html(argsAsString(node.args))
 
             definition.append(args)
         }
