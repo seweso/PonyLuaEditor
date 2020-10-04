@@ -104,20 +104,60 @@ storage = (()=>{
         localStorage.setItem('yyy', JSON.stringify(configuration))
     }
 
-    /* value can be a simple type (e.g. number, boolean) or an object */
+    /*
+        name can include "." which allows access to nested settings
+        e.g. settings.timeBetweenDraws
+
+        value can be a simple type (e.g. number, boolean) or an object
+    */
     function setConfiguration(name, value, dontSave){
         if(name === 'version'){
             throw 'field is not writable: "' + name + '"'
         }
-        configuration[name] = value
+
+        let currentNode = configuration
+        let keyParts = name.split('.')
+        
+        while(keyParts.length > 1){
+            keyParts.reverse()
+            let kp = keyParts.pop()
+            keyParts.reverse()
+
+            if(currentNode.hasOwnProperty(kp)){
+                currentNode = currentNode[kp]
+            } else {
+                currentNode[kp] = {}
+            }
+        }
+
+        currentNode[keyParts[0]] = value
 
         if( !dontSave ){
             saveConfiguration()
         }
     }
 
+    /* 
+        name can include "." which allows access to nested settings
+        e.g. settings.timeBetweenDraws
+    */
     function getConfiguration(name){
-        return configuration[name]
+        let currentNode = configuration
+        let keyParts = name.split('.')
+        
+        while(keyParts.length > 1){
+            keyParts.reverse()
+            let kp = keyParts.pop()
+            keyParts.reverse()
+
+            if(currentNode.hasOwnProperty(kp)){
+                currentNode = currentNode[kp]
+            } else {
+                currentNode[kp] = {}
+            }
+        }
+
+        return currentNode[keyParts[0]]
     }
 
     function asString(){

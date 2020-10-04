@@ -54,28 +54,25 @@ engine = (($)=>{
             })
         })
 
-        $('#monitor-size, #show-overflow, #enable-touchscreen, #enable-touchscreen-secondary').on('change', (e)=>{
-            //TODO save to storage
-        })
 
         $('#timeBetweenTicks').on('input', ()=>{
             refreshTimeBetweenTicks()
-            //TODO save to storage
+            storage.setConfiguration('settings.timeBetweenTicks', $('#timeBetweenTicks').val())
         })
 
         $('#timeBetweenTicks').on('change', ()=>{
             refreshTimeBetweenTicks(true)
-            //TODO save to storage
+            storage.setConfiguration('settings.timeBetweenTicks', $('#timeBetweenTicks').val())
         })
 
         $('#timeBetweenDraws').on('input', ()=>{
             refreshTimeBetweenDraws()
-            //TODO save to storage
+            storage.setConfiguration('settings.timeBetweenDraws', $('#timeBetweenDraws').val())
         })
 
         $('#timeBetweenDraws').on('change', ()=>{
             refreshTimeBetweenDraws(true)
-            //TODO save to storage
+            storage.setConfiguration('settings.timeBetweenDraws', $('#timeBetweenDraws').val())
         })
 
         $('#save').on('click', ()=>{
@@ -113,7 +110,24 @@ engine = (($)=>{
 
 
     function refresh(){
-        //TODO add load config from localStorage (currently in script.js)
+        setConfigVal($('#timeBetweenTicks'), 'settings.timeBetweenTicks', 16)
+        setConfigVal($('#timeBetweenDraws'), 'settings.timeBetweenDraws', 16)
+
+        function setConfigVal(elem, confName, defaultValue){
+            let v = storage.getConfiguration(confName)
+
+            console.log(elem, confName, defaultValue, v)
+
+            let setterFunc
+            if(typeof defaultValue === 'boolean'){
+                setterFunc = (vv)=>{elem.prop('checked', vv)}
+            } else {
+                setterFunc = (vv)=>{elem.val(vv)}
+            }
+            
+            setterFunc( ( v !== undefined && v !== null ) ? v : defaultValue )
+            elem.trigger('change')
+        }
 
         CANVAS.refresh()        
 

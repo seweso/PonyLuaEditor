@@ -41,8 +41,17 @@ var CANVAS = ((global, $)=>{
     loader.on(loader.EVENT.ENGINE_READY, init)
 
     function init(){
+
         $('#monitor-size, #show-overflow').on('change', (e)=>{
             recalculateCanvas()
+        })
+
+        $('#monitor-size').on('change', (e)=>{
+            storage.setConfiguration('settings.monitorSize', $('#monitor-size').val())
+        })
+
+        $('#show-overflow').on('change', (e)=>{
+            storage.setConfiguration('settings.showOverflow', $('#show-overflow').prop('checked'))
         })
 
         $('#zoomfactor').on('change', ()=>{
@@ -52,7 +61,7 @@ var CANVAS = ((global, $)=>{
             MAP.setZoomFactor(val)
             $('.monitor_info .zoom').html(val+'x')
             
-            //TODO save to storage
+            storage.setConfiguration('settings.zoomfactor', val)
         })
         
         /* touchscreen */
@@ -80,8 +89,13 @@ var CANVAS = ((global, $)=>{
             }, 100)
         })
 
+        $('#enable-touchscreen').on('change', ()=>{
+            storage.setConfiguration('settings.touchscreenEnabled', $('#enable-touchscreen').prop('checked'))
+        })
+
         $('#enable-touchscreen-secondary').on('change', ()=>{
             secondaryTouchEnabled = $('#enable-touchscreen-secondary').prop('checked')
+            storage.setConfiguration('settings.touchscreenSecondaryEnabled', secondaryTouchEnabled)
         })
 
         $(window).on('keydown mousedown', handleKeyDown)
@@ -101,6 +115,30 @@ var CANVAS = ((global, $)=>{
         $('body').append($renderCanvas)
 
         refresh()
+
+
+        /* load config from storage */
+        setConfigVal($('#zoomfactor'), 'settings.zoomfactor', 1)
+        setConfigVal($('#monitor-size'), 'settings.monitorSize', '1x1')
+        setConfigVal($('#show-overflow'), 'settings.showOverflow', true)
+        setConfigVal($('#enable-touchscreen'), 'settings.touchscreenEnabled', false)
+        setConfigVal($('#enable-touchscreen-secondary'), 'settings.touchscreenSecondaryEnabled', false)
+
+        function setConfigVal(elem, confName, defaultValue){
+            let v = storage.getConfiguration(confName)
+
+            console.log(elem, confName, defaultValue, v)
+
+            let setterFunc
+            if(typeof defaultValue === 'boolean'){
+                setterFunc = (vv)=>{elem.prop('checked', vv)}
+            } else {
+                setterFunc = (vv)=>{elem.val(vv)}
+            }
+            
+            setterFunc( ( v !== undefined && v !== null ) ? v : defaultValue )
+            elem.trigger('change')
+        }
         
         loader.done(loader.EVENT.CANVAS_READY)
     }
