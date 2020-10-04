@@ -1,4 +1,4 @@
-var EXAMPLES = ((global, $)=>{
+var EXAMPLES = (($)=>{
   "use strict";
 
     const CHAPTERS = [{
@@ -435,22 +435,14 @@ var EXAMPLES = ((global, $)=>{
 
     loader.on(loader.EVENT.UI_READY, init)
 
-    $(global).on('resize', resizeCodeBlocks)
-
     function init(){
 
-        $('#learn-badge, #learn-menu-entry').on('click', ()=>{
-            YYY.report(YYY.REPORT_TYPE_IDS.openLearnAndExamples)
-
-            $('#editor-bottom-container').addClass('show_examples')
-            editor.resize()
-
-            resizeCodeBlocks()
+        ui.viewables()['viewable_examples'].onGainFocus(()=>{
+            reporter.report(reporter.REPORT_TYPE_IDS.openLearnAndExamples)
         })
 
-        $('#examples-heading .close').on('click', ()=>{
-            $('#editor-bottom-container').removeClass('show_examples')
-        })
+        ui.viewables()['viewable_examples'].onViewableResize(resizeCodeBlocks)
+
 
         for(let ch of CHAPTERS){
             let chapter = $('<div class="chapter"><div class="chapter_head"><div class="chapter_title">' + ch.title + '</div></div><div class="chapter_body"></div></div>')
@@ -468,7 +460,7 @@ var EXAMPLES = ((global, $)=>{
                             let editor = ace.edit(c.get(0),{
                                 maxLines: 50
                             });
-                            editor.setTheme("ace/theme/monokai");
+                            editor.setTheme("ace/theme/pony_ide");
                             editor.session.setMode("ace/mode/lua");
                             editor.session.setUseSoftTabs(false); 
                             editor.setReadOnly(true)
@@ -525,4 +517,4 @@ var EXAMPLES = ((global, $)=>{
     return {
     }
 
-})(window, jQuery)
+})(jQuery)

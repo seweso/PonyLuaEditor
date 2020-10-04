@@ -1,4 +1,5 @@
 util = (($)=>{
+    "use strict";
 
     window.onerror = (errorMsg, url, lineNumber)=>{
         alert("Unexpected error occured:<br>Please contact me!<br><br>" + url + '<br><br>' + lineNumber + '<br><br>' + errorMsg)

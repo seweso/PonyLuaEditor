@@ -29,6 +29,8 @@ loader = (($)=>{
         DOCUMENTATION_READY: 'Autocomplete & Documentation',
         OTHERS_READY: 'Other',
 
+        MINMAX_READY: 'Minifier and Unminifier',
+
         ENGINE_READY: 'Engine',
 
         INPUTS_READY: 'Inputs',

@@ -209,7 +209,7 @@ var MAP = (($)=>{
     }
 
     function zoom(val){
-        return val * zoomFactor// * CANVAS.RENDER_SCALING_FACTOR
+        return val * zoomFactor
     }
 
     function log(){

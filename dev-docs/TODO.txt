@@ -21,3 +21,15 @@
 - related: do we even load the settings from storage.js or is the browser applying his own saved information (by name attribute)
 
 - on old IDE version: add check for v2 inside the "code" to show the user a warning
+
+- automated error reporting (to my server)
+
+- show loader status in a viewable
+
+- rename all new modules to UPPERCASE
+
+- make custom minified code hint work again
+
+- make minifictaion and unminifaction work again
+
+- many TODOs (see code comments)

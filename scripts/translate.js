@@ -1,4 +1,5 @@
 translate = (()=>{
+    "use strict";
     
     let selectedLanguage = 'en'
     const DEFAULT_LANGUAGE = 'en'

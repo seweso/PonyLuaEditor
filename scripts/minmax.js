@@ -1,4 +1,6 @@
 minmax = (()=>{
+    "use strict";
+
     const IDENTIFIERS_NOT_ALLOWED_TO_MINIFY = ['onTick', 'onDraw']
 
     const LIBRARY_IDENTIFIERS = []
@@ -8,11 +10,10 @@ minmax = (()=>{
     let shortenedIdentifiers = []
 
 
-    $(window).on('newui_loaded', init)
-
+    loader.on(loader.EVENT.DOCUMENTATION_READY, init)
 
     function init(){
-        addChildrenToLibraryIdentifiers(DOCUMENTATION.getAllAutocompletitions())
+        addChildrenToLibraryIdentifiers(DOCUMENTATION.getParsed())
 
         function addChildrenToLibraryIdentifiers(node){
             if(node.children){
@@ -26,7 +27,7 @@ minmax = (()=>{
         
 
         $('#minify').on('click', ()=>{
-            report(REPORT_TYPE_IDS.minify)
+            reporter.report(REPORT_TYPE_IDS.minify)
 
             try {
 
@@ -166,7 +167,7 @@ minmax = (()=>{
 
     
         $('#unminify').on('click', ()=>{
-            report(REPORT_TYPE_IDS.unminify)
+            reporter.report(REPORT_TYPE_IDS.unminify)
 
             let minified = editor.get('minified').getValue()
 
@@ -236,6 +237,7 @@ minmax = (()=>{
 
         })
 
+        loader.done(loader.EVENT.MINMAX_READY)
     }
 
     function isMinificationAllowed(keyword, /* optional */ library){

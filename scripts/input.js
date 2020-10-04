@@ -1,5 +1,5 @@
-var INPUT = ((global, $)=>{
-  "use strict";
+var INPUT = (($)=>{
+    "use strict";
 
     let bools = {}
     let numbers = {}
@@ -18,8 +18,8 @@ var INPUT = ((global, $)=>{
 
     function init(){
 
-        $(global).on('keydown', handleKeyDown)
-        $(global).on('keyup', handleKeyUp)
+        $(window).on('keydown', handleKeyDown)
+        $(window).on('keyup', handleKeyUp)
 
         bools = {}
         numbers = {}
@@ -433,7 +433,7 @@ var INPUT = ((global, $)=>{
 
         let myOscilateDirection = true
 
-        $(global).on('lua_tick', ()=>{
+        $(window).on('lua_tick', ()=>{
             if(oscilatecheck.prop('checked')){
                 let val = number.find('.change input[type="number"]').val()
                 val = parseFloat(val)
@@ -642,4 +642,4 @@ var INPUT = ((global, $)=>{
         removeNumber: removeNumber
     }
 
-})(window, jQuery)
+})(jQuery)

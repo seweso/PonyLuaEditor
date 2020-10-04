@@ -1,4 +1,4 @@
-var UI_BUILDER = ((global, $)=>{
+var UI_BUILDER = (($)=>{
     "use strict";
 
     let maxX
@@ -54,7 +54,7 @@ var UI_BUILDER = ((global, $)=>{
 
 
         $('#monitor-size').on('change', ()=>{
-            recalculateSize()
+            setTimeout(recalculateSize, 10)
         })
 
         $('#ui-builder-zoom').on('change', ()=>{
@@ -120,7 +120,7 @@ var UI_BUILDER = ((global, $)=>{
         })
 
         $('#generate-ui-builder-lua-code').on('click', ()=>{
-            YYY.report(YYY.REPORT_TYPE_IDS.generateUIBuilderCode)
+            reporter.report(YYY.REPORT_TYPE_IDS.generateUIBuilderCode)
 
             generateLuaCode()
         })
@@ -1706,7 +1706,7 @@ var UI_BUILDER = ((global, $)=>{
         }
     }
 
-})(window, jQuery)
+})(jQuery)
 
 function uiZoom(v){
     return v * $('#ui-builder-zoom').val()

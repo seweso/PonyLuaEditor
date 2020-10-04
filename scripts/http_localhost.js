@@ -1,4 +1,4 @@
-var HttpLocalhost = ((global, $)=>{
+var HttpLocalhost = (($)=>{
 
     let hasShownHttpHint = false
 
@@ -9,7 +9,7 @@ var HttpLocalhost = ((global, $)=>{
         'httpUse': 16,
     }
 
-	$(global).on('lua_tick', checkQueue)
+	$(window).on('lua_tick', checkQueue)
 
 	function get(port, url){
 
@@ -67,4 +67,4 @@ var HttpLocalhost = ((global, $)=>{
 	return {
 		get: get
 	}
-})(window, jQuery)
+})(jQuery)

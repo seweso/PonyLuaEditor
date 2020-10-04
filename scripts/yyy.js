@@ -31,7 +31,7 @@ yyy = (($)=>{
 
 
         $('#download-offline').on('click', ()=>{
-            report(REPORT_TYPE_IDS.downloadOffline)
+            reporter.report(REPORT_TYPE_IDS.downloadOffline)
             util.message('How to use the offline version:', '<ul><li>extract the zip folder</li><li>doubleclick "index.html"</li><li>This opens the offline version with your default browser</li><ul>')
         })
 
@@ -40,7 +40,7 @@ yyy = (($)=>{
         let firstHelpOpen = true
 
         $('#help-badge, #help-menu-entry').on('click', ()=>{
-            report(REPORT_TYPE_IDS.openHelp)
+            reporter.report(REPORT_TYPE_IDS.openHelp)
 
             if(firstHelpOpen){
                 firstHelpOpen = false
@@ -85,91 +85,7 @@ yyy = (($)=>{
 
 
         engine.refresh()
-
-        /*
-            TODO: fetch codes from storage
-
-            let codeFromStorage = getCodeFromStorage()
-            if(typeof codeFromStorage === 'string' && codeFromStorage.length > 0){
-                editor.get('normal').setValue(codeFromStorage, -1)
-            }
-
-            let minifiedCodeFromStorage = getMinifiedCodeFromStorage()
-            if(typeof minifiedCodeFromStorage === 'string' && minifiedCodeFromStorage.length > 0){
-                editor.get('minified').setValue(minifiedCodeFromStorage, -1)
-                $('#minified-editor').show()
-                $('#minified-code-container .custom_hint').show()
-                isCustomMinifiedCode = true
-            }
-
-
-
-
-
-
-
-            TODO: read from storage and update viewables
-
-
-            function refreshAll(){
-
-                let store = getStorage()
-                if(store){
-                    if(isNaN(parseInt(store.timeBetweenTicks)) === false){
-                        $('#timeBetweenTicks').val(parseInt(store.timeBetweenTicks))
-                    }
-                    if(isNaN(parseInt(store.timeBetweenDraws)) === false){
-                        $('#timeBetweenDraws').val(parseInt(store.timeBetweenDraws))
-                    }
-                    if(isNaN(parseInt(store.zoomfactor)) === false){
-                        $('#zoomfactor').val(parseInt(store.zoomfactor))
-                    }
-                    $('#zoomfactor').trigger('change')
-                    if(typeof store.monitorSize === 'string'){
-                        $('#monitor-size').find('option[selected]').prop('selected', false)
-                        $('#monitor-size').find('option[value="'+store.monitorSize+'"]').prop('selected', true)
-                    }
-                    if(typeof store.showOverflow === 'boolean'){
-                        $('#show-overflow').prop('checked', store.showOverflow)
-                    }
-                    if(typeof store.touchScreenEnabled === 'boolean'){
-                        $('#enable-touchscreen').prop('checked', store.touchScreenEnabled)
-                    }
-                    if(typeof store.touchScreenEnabledSecondary === 'boolean'){
-                        $('#enable-touchscreen-secondary').prop('checked', store.touchScreenEnabledSecondary)
-                    } else {
-                        $('#enable-touchscreen-secondary').prop('checked', true)
-                    }
-                    if(typeof store.editorLayout === 'string'){
-                        $('#editor-layout').find('option[selected]').prop('selected', false)
-                        $('#editor-layout').find('option[value="'+store.editorLayout+'"]').prop('selected', true)
-                        $('#editor-layout').trigger('change')                
-                    }
-                }
-
-
-
-                setStorage(store)
-            }
-
-
-            function updateStorage(){
-                var toStore = {
-                    timeBetweenTicks: parseInt($('#timeBetweenTicks').val()),
-                    timeBetweenDraws: parseInt($('#timeBetweenDraws').val()),
-                    zoomfactor: parseInt($('#zoomfactor').val()),
-                    monitorSize: $('#monitor-size').val(),
-                    showOverflow: $('#show-overflow').prop('checked'),
-                    touchScreenEnabled: $('#enable-touchscreen').prop('checked'),
-                    touchScreenEnabledSecondary: $('#enable-touchscreen-secondary').prop('checked'),
-                    editorLayout: $('#editor-layout').val()
-                }
-                setStorage(toStore)
-            }
-
-            //refreshAll()
-        */
-
+        
         loader.done(loader.EVENT.OTHERS_READY)
     }
 

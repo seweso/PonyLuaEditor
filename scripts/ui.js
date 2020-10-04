@@ -8,7 +8,6 @@ ui = (($)=>{
     let splitterHorizontalLeft
     let splitterHorizontalRight
 
-    const DO_LOG = true
 
     const VIEW_VIEW_MIN_SIZE = 100
     const SPLITTER_WIDTH = 6 /* this needs to be changed together with the css */
@@ -38,10 +37,6 @@ ui = (($)=>{
             viewables[ $(el).attr('viewable') ] = new Viewable( el )
         })
 
-        if(DO_LOG){
-            console.log('Viewables', viewables)
-        }
-
         $('[view]').each((i, el)=>{
             let view = new View( el )
             let name = $(el).attr('view')
@@ -68,9 +63,6 @@ ui = (($)=>{
 
         new DynamicSizedViewableContent($('#console').get(0), viewables['viewable_console'])
 
-        if(DO_LOG){
-            console.log('Views', views)
-        }
 
         splitterVertical = new Splitter($('[splitter="vertical"]').get(0), 'vertical')
         splitterHorizontalLeft = new Splitter($('[splitter="horizontal_left"]').get(0), 'horizontal', true)
@@ -146,7 +138,6 @@ ui = (($)=>{
     }
 
     function onSplitterUpdate(){
-        console.log('onSplitterUpdate')
         views.top_left.resize(0, 0, splitterVertical.x, splitterHorizontalLeft.y)
         views.top_right.resize(splitterVertical.x, 0, ui.flexview().width() - splitterVertical.x, splitterHorizontalRight.y)
 
@@ -182,7 +173,6 @@ ui = (($)=>{
         viewables: ()=>{
             return viewables
         },
-        DO_LOG: DO_LOG,
         VIEW_VIEW_MIN_SIZE: VIEW_VIEW_MIN_SIZE,
         SPLITTER_WIDTH: SPLITTER_WIDTH,
         verticalSplitterPosition: ()=>{
@@ -368,8 +358,6 @@ class View extends SimpleEventor {
         /* remove old selects where the viewable has been removed */
         let myViewables = this.getViewables()
 
-        console.log('afterViewablesChanged', this, myViewables)
-
         this.dom.find('[select-viewable]').each((i, el)=>{
             if(! myViewables[ $(el).attr('select-viewable') ] ){
                 $(el).remove()
@@ -399,7 +387,6 @@ class View extends SimpleEventor {
     }
 
     focus(viewable){
-        console.log('focus', this)
         if(this.isViewablePartOfThisView(viewable)){
             this.dom.find('[viewable]').attr('visible', 'false')
             viewable.dom.attr('visible', 'true')
@@ -408,9 +395,7 @@ class View extends SimpleEventor {
 
             viewable.dispatchEvent('viewable-gain-focus')
         } else {
-            if(ui.DO_LOG){
-                console.warn('cannot focus viewable that is not part of this view', viewable, this)
-            }
+            console.warn('cannot focus viewable that is not part of this view', viewable, this)
         }
     }
 

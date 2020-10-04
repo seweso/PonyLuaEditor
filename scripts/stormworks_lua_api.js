@@ -1,4 +1,4 @@
-stormworks_lua_api = ((global, $)=>{
+stormworks_lua_api = (($)=>{
   "use strict";
 
 
@@ -722,4 +722,4 @@ stormworks_lua_api = ((global, $)=>{
         init: init
     }
     
-})(window, jQuery)
+})(jQuery)

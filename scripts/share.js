@@ -1,10 +1,10 @@
-var SHARE = ((global, $)=>{
+var SHARE = (($)=>{
+    "use strict";
     
     let currentShare
 
-    //let BASE_URL = document.location.protocol + '//' + document.location.host
-    let BASE_URL = 'https://lua.flaffipony.rocks'
-
+    let BASE_URL = document.location.protocol + '//' + document.location.host
+    
     loader.on(loader.EVENT.STORAGE_READY, init)
 
     let isShareOpen = false
@@ -72,7 +72,7 @@ var SHARE = ((global, $)=>{
     function doCreate(){
         reporter.report(reporter.REPORT_TYPE_IDS.shareCode)
 
-        log('creating new share')
+        console.log('creating new share')
 
 
         let code = editor.get('normal').editor.getValue()
@@ -112,7 +112,7 @@ var SHARE = ((global, $)=>{
         }
         reporter.report(reporter.REPORT_TYPE_IDS.receiveShareCode)
         
-        log('receiving share', currentShare)
+        console.log('receiving share', currentShare)
         $('#ponybin-receive-overlay').show()
 
         $.post(BASE_URL + '/api/get', {
@@ -139,14 +139,4 @@ var SHARE = ((global, $)=>{
         })
     }
 
-    /* helper */
-
-    function log(){
-        let args = []
-        for(let a of arguments){
-            args.push(a)
-        }
-        console.log.apply(console, ['SHARE.' + arguments.callee.caller.name + '()'].concat(args))
-    }
-
-})(window, jQuery)
+})(jQuery)

@@ -1,4 +1,4 @@
-var LUA_EMULATOR = ((global, $)=>{
+var LUA_EMULATOR = (($)=>{
     
     const DO_LOG = false
 
@@ -437,8 +437,5 @@ var LUA_EMULATOR = ((global, $)=>{
             lua_console.print('-- step forward #' + stepCount, lua_console.COLOR.DEBUG)
         }
     }
-})(window, jQuery)
+})(jQuery)
 
-
-
-$(window).trigger('lua_emulator_loaded')

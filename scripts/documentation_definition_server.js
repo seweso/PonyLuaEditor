@@ -1,4 +1,5 @@
 DOCUMENTATION_DEFINITION = (()=>{
+    "use strict";
 
     const TO = DOCUMENTATION.TO
     const TF = DOCUMENTATION.TF

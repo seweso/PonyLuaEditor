@@ -1,4 +1,5 @@
 storage = (()=>{
+    "use strict";
    
     const VERSION = "1"
 
@@ -11,10 +12,10 @@ storage = (()=>{
     let loaderNotified = false
 
     function init(){
-        let yyy = localStorage.getItem('yyy')
-        if(yyy){
+        let y = localStorage.getItem('yyy')
+        if(y){
             try {
-                let parsed = JSON.parse(yyy)
+                let parsed = JSON.parse(y)
 
                 if(parsed.version === VERSION){
                     processStorage(parsed)

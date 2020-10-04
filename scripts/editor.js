@@ -170,6 +170,7 @@ class Editor extends DynamicSizedViewableContent {
 Editors = []
 
 editor = (()=>{
+    "use strict";
 
     let editors = {}
     let activeEditor
