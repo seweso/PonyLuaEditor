@@ -9,7 +9,7 @@ class Autocomplete {
         this.editor.commands.addCommand({
             name: 'autocompletition',
             bindKey: {win: 'Ctrl-Space',  mac: 'Command-Space'},
-            exec: (editor)=>{
+            exec: ()=>{
                 this.suggestAutocomplete()
             },
             readOnly: false
@@ -279,12 +279,12 @@ function AutocompletitionElement(completions, part, autocomplete){
         } else {
             this.preventFocusOut = true
             this.autocomplete.editor.focus()
-            this.autocomplete.dom.find('.ace_text-input').trigger(e)
+            this.autocomplete.codeField.find('.ace_text-input').trigger(e)
             setTimeout(DOCUMENTATION.suggestAutocomplete, 10)
         }
     })
 
-    this.$input.on('focusout', ()=>{
+    this.$input.on('focusout mouseleave', ()=>{
         if(this.preventFocusOut){
             this.preventFocusOut = false
             return
