@@ -6,7 +6,7 @@ DOCUMENTATION_DEFINITION = (()=>{
     const TV = DOCUMENTATION.TV
     const TA = DOCUMENTATION.TA
 
-    OBJECT_TYPE = {
+    const OBJECT_TYPE = {
         0: 'none',
         1: 'character',
         2: 'crate_small',
@@ -73,7 +73,7 @@ DOCUMENTATION_DEFINITION = (()=>{
         63: 'big_flare'
     }
 
-    OUTFIT_TYPE = {
+    const OUTFIT_TYPE = {
         0: 'none',
         1: 'worker',
         2: 'fishing',
@@ -88,13 +88,13 @@ DOCUMENTATION_DEFINITION = (()=>{
         11: 'civilian'
     }
 
-    POSITION_TYPE = {
+    const POSITION_TYPE = {
         0: 'fixed',
         1: 'vehicle',
         2: 'object'
     }
 
-    NOTIFICATION_TYPE = {
+    const NOTIFICATION_TYPE = {
         0: 'new_mission',
         1: 'new_mission_critical',
         2: 'failed_mission',
@@ -107,7 +107,7 @@ DOCUMENTATION_DEFINITION = (()=>{
         9: 'network_info_critical'
     }
 
-    MARKER_TYPE = {
+    const MARKER_TYPE = {
         0: 'delivery_target',
         1: 'survivor',
         2: 'object',
@@ -119,7 +119,7 @@ DOCUMENTATION_DEFINITION = (()=>{
         8: 'search_radius'
     }
 
-    LABEL_TYPE = {
+    const LABEL_TYPE = {
         0: 'none',
         1: 'cross',
         2: 'wreckage',
@@ -137,13 +137,13 @@ DOCUMENTATION_DEFINITION = (()=>{
         14: 'fuel_sell'
     }
 
-    ZONE_TYPE = {
+    const ZONE_TYPE = {
         0: 'box',
         1: 'sphere',
         2: 'radius'
     }
 
-    EQUIPMENT_ID = {
+    const EQUIPMENT_ID = {
         0: 'none',
         1: 'diving',
         2: 'firefighter',
@@ -175,21 +175,21 @@ DOCUMENTATION_DEFINITION = (()=>{
     }
 
 
-   TYPE_STRING = [
-    "zone",
-    "object",
-    "character",
-    "vehicle",
-    "flare",
-    "fire",
-    "loot",
-    "button",
-    "animal"
-    "ice",
-    "cargo_zone",
-   ]
+    const TYPE_STRING = {
+        'zone': '',
+        'object': '',
+        'character': '',
+        'vehicle': '',
+        'flare': '',
+        'fire': '',
+        'loot': '',
+        'button': '',
+        'animal': '',
+        'ice': '',
+        'cargo_zone': ''
+    }
 
-    GAME_SETTINGS = {
+    const GAME_SETTINGS = {
         'third_person': '',
         'third_person_vehicle': '',
         'vehicle_damage': '',
@@ -434,7 +434,7 @@ DOCUMENTATION_DEFINITION = (()=>{
                     },
                     spawnObject: {
                         type: TF,
-                        args: [{name: 'matrix'}, {name: 'OBJECT_TYPE': possibleValues: OBJECT_TYPE}],
+                        args: [{name: 'matrix'}, {name: 'OBJECT_TYPE', possibleValues: OBJECT_TYPE}],
                         description: ''
                     },
                     getObjectPos: {
@@ -564,7 +564,7 @@ DOCUMENTATION_DEFINITION = (()=>{
                     },
                     getCurrency: {
                         type: TF,
-                        args: []],
+                        args: [],
                         description: 'Returns the amount of money'
                     },
                     getResearchPoints: {
