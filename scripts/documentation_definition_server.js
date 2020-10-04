@@ -685,12 +685,6 @@ DOCUMENTATION_DEFINITION = (()=>{
                     }
                 }
             },
-            pause: {
-                type: TF,
-                lib: 'dev',
-                args: [],
-                description: 'Pauses the script. Note: the currently running onTick() and onDraw() functions are executed.'
-            },
             pairs: {
                 type: TF,
                 lib: 'lua',

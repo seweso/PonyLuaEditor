@@ -117,6 +117,91 @@ var DOCUMENTATION = ((global, $)=>{
         }
     }
 
+    function argsAsDOM(args){
+        if(args instanceof Array === false){
+            throw 'args must be an array @ ' + name
+        } else {
+            let dom = $('<div class="args">') 
+            let optionalArgs = 0
+
+            let previousArg
+
+            for(let i in args){
+                let a = args[i]
+
+                let currentArg = $('<div class="arg">').html(a.name)
+
+                let help_text = ''
+
+                if(a.help){
+                    help_text += a.help
+                }
+
+                if(a.possibleValues){
+                    if(help_text.length > 0){
+                        help_text += '\n\n'
+                    }
+
+                    let table = '<table><tr><th>Value</th><th>Description</th></tr>'
+
+                    for(let k in a.possibleValues){
+                        table += '<tr><td>' + k + '</td><td>' + ( a.possibleValues[k] || '?' ) + '</tr>'
+                    }
+
+                    table += '</table>'
+
+                    help_text += 'Possible Values:\n' + table
+                }
+
+                if(help_text.length > 0){
+                    currentArg.addClass('has_help')
+                    currentArg.append( $('<div class="arg_help_open"><span class="icon-question"></span></div>') )
+                    currentArg.append( $('<div class="arg_help">').html( help_text ) )
+                    currentArg.on('mouseenter', ()=>{
+                        currentArg.addClass('help_open')
+                    })
+                    currentArg.on('mouseleave', ()=>{
+                        currentArg.removeClass('help_open')
+                    })
+                }
+
+                if(a.optional){
+                    if(a.optionalConnectedToPrevious !== true){
+                        optionalArgs++
+                        currentArg.attr('before', '\xa0[,\xa0')
+
+                        if(previousArg){
+                            previousArg.attr('after', previousArg.attr('after').substring(0, previousArg.attr('after').length - 2) )
+                        }
+                    }
+                } else if (optionalArgs > 0){
+                    optionalArgs--
+
+                    if(previousArg){
+                       previousArg.attr('after', previousArg.attr('after').substring(0, previousArg.attr('after').length - 2) + '],\xa0')
+                    }
+                }
+
+                let isLastArg = (i == (args.length - 1))
+                if(isLastArg){
+                    let brackets = ''
+                    for(let ii = 0; ii < optionalArgs; ii++){
+                        brackets += ']'
+                    }
+                    currentArg.attr('after', brackets)
+                } else {
+                    currentArg.attr('after', ',\xa0')
+                }
+
+                dom.append(currentArg)
+
+                previousArg = currentArg
+            }
+
+            return dom
+        }
+    }
+
     function buildDocumentation(){
         for(let name of Object.keys(PARSED.children)){
             let child = PARSED.children[name]
@@ -149,12 +234,8 @@ var DOCUMENTATION = ((global, $)=>{
             $('<div class="name">' + name + '</div>')
         )
 
-        if(node.type === TF){
-            let args = $('<div class="args">')
-            
-            args.html(argsAsString(node.args))
-
-            definition.append(args)
+        if(node.type === TF){           
+            definition.append(argsAsDOM(node.args))
         }
 
         if(node.lib && topNode){

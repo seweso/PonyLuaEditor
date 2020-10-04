@@ -40,8 +40,55 @@
                 .args {
                     display: flex;
                     flex-direction: row;
+                    flex-wrap: wrap;
                     margin-left: 5px;
                     color: #e87704;
+
+                    .arg {
+                        position: relative;
+                        display: flex;
+                        flex-direction: row;
+
+                        &:before {
+                            content: attr(before);
+                        }
+
+                        &:after {
+                            content: attr(after);
+                        }
+
+                        &.has_help {
+
+                        }
+
+                        .arg_help_open {
+                            margin-left: 6px;
+                            color: #fff;
+                        }
+
+                        .arg_help {
+                            position: absolute;
+                            z-index: 10;
+                            top: 100%;
+                            left: 0;
+                            display: none;
+                            background: $medium-dark;
+                            padding: 6px;
+
+                            table {
+                                border-collapse: separate;
+                                border-spacing: 10px;
+
+                                th, td {
+                                    text-align: left;
+                                }
+                            }
+                        }
+
+                        &.has_help.help_open .arg_help {
+                            display: inline-block;
+                        }
+                    }
                 }
 
             }
