@@ -29,9 +29,9 @@ class Autocomplete {
             return
         }
         let word = this.getWordInFrontOfPosition(pos.row, pos.column)
-        let [autocompletions, part] = getAutocompletions(word)
+        let [autocompletions, part] = this.getAutocompletions(word)
         console.log('suggestAutocomplete(' + word + ')', autocompletions)
-        this.showAutocompletions($('#autocompletition-container'), autocompletions, part)
+        this.showAutocompletions(this.codeField.find('.autocompletion_container'), autocompletions, part)
     }
 
     getWordInFrontOfPosition(row, column){
@@ -71,7 +71,7 @@ class Autocomplete {
         if(node.children){
             for(let [key, value] of Object.entries(node.children)) {
               if(!partLeft.length > 0 || key.indexOf(partLeft) === 0){                
-                ret.push({name: key, type: value.type, lib: value.lib, url: value.url, args: value.args || '', description: value.description || '...', full: path + '.' + key})
+                ret.push({name: key, type: value.type, lib: value.lib, url: value.url, args: value.args, description: value.description || '...', full: path + '.' + key})
               }
             }
         }
@@ -102,9 +102,9 @@ class Autocomplete {
 
             let that = this
 
-            addToRet(vars, TV)
-            addToRet(functions, TF)
-            addToRet(functionArguments, TA)
+            addToRet(vars, DOCUMENTATION.TV)
+            addToRet(functions, DOCUMENTATION.TF)
+            addToRet(functionArguments, DOCUMENTATION.TA)
 
             function addToRet(matches, type){
 
@@ -156,10 +156,10 @@ class Autocomplete {
         return ret
     }    
 
-    showAutocompletions(container, completitions, part){
-        YYY.report(YYY.REPORT_TYPE_IDS.openAutocomplete)
-        
-        if(autocompletitionIsShown){
+    showAutocompletions(container, completions, part){
+        reporter.report(reporter.REPORT_TYPE_IDS.openAutocomplete)
+
+        if(this.autocompletitionIsShown){
             this.closeAutocomplete()
         }
         this.autocompletitionIsShown = true
@@ -167,12 +167,12 @@ class Autocomplete {
         let $c = $(container)
         $c.html('')
 
-        this.currentAutocomplete = new AutocompletitionElement(completitions, part)
+        this.currentAutocomplete = new AutocompletitionElement(completions, part, this)
 
-        $c.append(currentAutocomplete.getDom())
+        $c.append(this.currentAutocomplete.getDom())
 
-        let cursor = $('#code .ace_cursor').offset()
-        let containerpos = $('#code-container').offset()
+        let cursor = this.codeField.find('.ace_cursor').offset()
+        let containerpos = this.codeField.offset()
 
         let top = cursor.top - containerpos.top
         let left = cursor.left - containerpos.left
@@ -181,16 +181,16 @@ class Autocomplete {
         }
 
         $c.css({
-            'top': top,//top + 'px + ' + $('#code').css('font-size'),
+            'top': top,
             'left': left + 3,
-            'font-size': $('#code').css('font-size')
+            'font-size': this.codeField.css('font-size')
         })
     }
 
     closeAutocomplete(){
         console.log('closing currentAutocomplete')
         this.autocompletitionIsShown = false
-        $('#autocompletition-container').html('')
+        this.codeField.find('.autocompletion_container').html('')
         this.currentAutocomplete = null
         this.editor.focus()
     }
@@ -202,14 +202,15 @@ class Autocomplete {
 
 
 
-function AutocompletitionElement(completitions, part){
+function AutocompletitionElement(completions, part, autocomplete){
+    this.autocomplete = autocomplete
     this.$dom = $('<div class="autocompletition"></div>')
     this.$list = $('<div class="list"></div>')
     this.$dom.append(this.$list)
     this.$descriptions = $('<div class="descriptions"></div>')
     this.$dom.append(this.$descriptions)
 
-    this.completitions = completitions
+    this.completions = completions
     this.part = part
 
     this.$input = $('<input type="text" />')
@@ -218,13 +219,14 @@ function AutocompletitionElement(completitions, part){
     this.click = false
     this.blockMouseEnter = false
 
-    if(completitions instanceof Array === false || completitions.length === 0){
+    if(completions instanceof Array === false || completions.length === 0){
         this.$list.append('<div class="empty">nothing found</div>')
     } else {
         let id = 0
-        for(let c of completitions) {
+        for(let c of completions) {
             const myid = id
-            let cdescription = $('<div class="description" aid="' + id + '" atype="' + c.type + '" ' + (c.lib ? 'lib="' + c.lib + '"' : '') + '><div class="top"><div class="name">' + c.name + '</div><div class="args">' + c.args + '</div></div>' + (c.lib ? '<div class="lib_title">' + DOCUMENTATION.LIB_TITLES[c.lib] + '</div>' : '') + (c.url ? '<div class="url">' + c.url + '</div>' : '') + '<div class="text">' + c.description + '</div></div>')
+
+            let cdescription = $('<div class="description" aid="' + id + '" atype="' + c.type + '" ' + (c.lib ? 'lib="' + c.lib + '"' : '') + '><div class="top"><div class="name">' + c.name + '</div><div class="args">' + ( c.args ? DOCUMENTATION.argsAsString(c.args) : '' ) + '</div></div>' + (c.lib ? '<div class="lib_title">' + DOCUMENTATION.LIB_TITLES[c.lib] + '</div>' : '') + (c.url ? '<div class="url">' + c.url + '</div>' : '') + '<div class="text">' + c.description + '</div></div>')
             this.$descriptions.append(cdescription)
 
             let centry = $('<div class="entry" aid="' + id + '" afull="' + c.full + '" atype="' + c.type + '" ' + (c.lib ? 'lib="' + c.lib + '"' : '') + '><div class="name">' + c.name  + (c.type === DOCUMENTATION.TF ? '()' : '') + '</div><div class="type">' + c.type + '</div></div>')
@@ -264,7 +266,7 @@ function AutocompletitionElement(completitions, part){
             e.preventDefault()
             e.stopImmediatePropagation()
 
-            DOCUMENTATION.closeAutocomplete()
+            this.autocomplete.closeAutocomplete()
         } else if(e.keyCode === 13) {//enter
             e.preventDefault()
             e.stopImmediatePropagation()
@@ -272,12 +274,12 @@ function AutocompletitionElement(completitions, part){
             if(this.$list.find('.entry.selected').get(0)){
                 this.insertAutoCompletition( this.$list.find('.entry.selected').get(0).completition )
             } else {
-                DOCUMENTATION.closeAutocomplete()                
+                this.closeAutocomplete()                
             }
         } else {
             this.preventFocusOut = true
-            editor.focus()
-            $('#code .ace_text-input').trigger(e)
+            this.autocomplete.editor.focus()
+            this.autocomplete.dom.find('.ace_text-input').trigger(e)
             setTimeout(DOCUMENTATION.suggestAutocomplete, 10)
         }
     })
@@ -289,7 +291,7 @@ function AutocompletitionElement(completitions, part){
         }
         setTimeout(()=>{
             if(!this.click){
-                DOCUMENTATION.closeAutocomplete()
+                this.autocomplete.closeAutocomplete()
             }
         }, 300)
     })
@@ -308,7 +310,7 @@ AutocompletitionElement.prototype.arrowDown = function() {
 
 AutocompletitionElement.prototype.arrowUp = function() {
     if(this.selected - 1 < 0){
-        DOCUMENTATION.closeAutocomplete()
+        this.autocomplete.closeAutocomplete()
         return
     }
     this.select(this.selected - 1, true)
@@ -367,12 +369,12 @@ AutocompletitionElement.prototype.insertAutoCompletition = function(completition
     if(completition.type === DOCUMENTATION.TO){
         text += '.'
     } else if(completition.type === DOCUMENTATION.TF){
-        let args = completition.args ? completition.args : '()'
+        let args = DOCUMENTATION.argsAsString(completition.args)
         text += args
         setTimeout(()=>{
-            editor.navigateLeft(args.length - 1)
+            this.autocomplete.editor.navigateLeft(args.length - 1)
         }, 10)
     }
-    editor.insert(text)
-    DOCUMENTATION.closeAutocomplete()
+    this.autocomplete.editor.insert(text)
+    this.autocomplete.closeAutocomplete()
 }

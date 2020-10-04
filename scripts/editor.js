@@ -53,10 +53,16 @@ class DynamicSizedViewableContent {
 class Editor extends DynamicSizedViewableContent {
     constructor(container, viewable){
         super(container, viewable)
+
         this.editor = ace.edit(this.dom.get(0))
         this.editor.setTheme("ace/theme/pony_ide")
         this.editor.session.setMode("ace/mode/lua")
         this.editor.session.setUseSoftTabs(false)
+
+        this.dom.append( $('<div class="code_lock">') )
+        this.dom.append( $('<div class="autocompletion_container">') )
+
+        this.autocomplete = new Autocomplete(this.editor, this.dom)
 
         this.oldHeight = 0
         
@@ -116,7 +122,9 @@ class Editor extends DynamicSizedViewableContent {
         })
         this.dom.on('keydown', (e)=>{
             if (e.keyCode === 27){//esc
-                this.leaveFullscreen()
+                if(this.dom.hasClass('fullscreen')){
+                    this.leaveFullscreen()
+                }
             }
         })
         this.dom.append(fullscreen)

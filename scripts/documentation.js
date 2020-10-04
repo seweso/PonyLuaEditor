@@ -80,6 +80,43 @@ var DOCUMENTATION = ((global, $)=>{
         return '<a href="' + url + '" target="_blank" rel="noopener noreferrer">' + label + '</a>'
     }
 
+    function argsAsString(args){
+        if(args instanceof Array === false){
+            throw 'args must be an array @ ' + name
+        } else {
+            let text = ''
+            let optionalArgs = 0
+
+            for(let i in args){
+                let a = args[i]
+
+                let isLastArg = (i == (args.length - 1))
+
+                if(a.optional){
+                    if(a.optionalConnectedToPrevious !== true){
+                        optionalArgs++
+                        text = text.substring(0, text.length - 2) + ' [, '
+                    }
+                } else if (optionalArgs > 0){
+                    optionalArgs--
+                    text = text.substring(0, text.length - 2) + '], '
+                }
+
+                text += a.name
+
+                if(isLastArg){
+                    for(let ii = 0; ii < optionalArgs; ii++){
+                        text += ']'
+                    }
+                } else {
+                    text += ', '
+                }
+            }
+
+            return '(' + text + ')'
+        }
+    }
+
     function buildDocumentation(){
         for(let name of Object.keys(PARSED.children)){
             let child = PARSED.children[name]
@@ -114,40 +151,8 @@ var DOCUMENTATION = ((global, $)=>{
 
         if(node.type === TF){
             let args = $('<div class="args">')
-            if(node.args instanceof Array === false){
-                throw 'args must be an array @ ' + name
-            } else {
-                let text = ''
-                let optionalArgs = 0
-
-                for(let i in node.args){
-                    let a = node.args[i]
-
-                    let isLastArg = (i == (node.args.length - 1))
-
-                    if(a.optional){
-                        if(a.optionalConnectedToPrevious !== true){
-                            optionalArgs++
-                            text = text.substring(0, text.length - 2) + ' [, '
-                        }
-                    } else if (optionalArgs > 0){
-                        optionalArgs--
-                        text = text.substring(0, text.length - 2) + '], '
-                    }
-
-                    text += a.name
-
-                    if(isLastArg){
-                        for(let ii = 0; ii < optionalArgs; ii++){
-                            text += ']'
-                        }
-                    } else {
-                        text += ', '
-                    }
-                }
-
-                args.html( '(' + text + ')' )
-            }
+            
+            args.html(parseArgs(node.args))
 
             definition.append(args)
         }
@@ -188,7 +193,8 @@ var DOCUMENTATION = ((global, $)=>{
         TA: TA,
         LIB_TITLES: LIB_TITLES,
         getRaw: ()=>{ return DEFINITION; },
-        getParsed: ()=>{ return PARSED}
+        getParsed: ()=>{ return PARSED},
+        argsAsString: argsAsString
     }
 
 })(window, jQuery)
