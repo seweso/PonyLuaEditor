@@ -110,6 +110,11 @@ You can also minify code, find tutorials and examples or use the ui builder to c
         </div>
     </div>
 
+
+
+    <!--
+        INVISIBLE STUFF
+    -->
     <div style="display: none;">
         <div viewable="viewable_server_editor">
             <div code-field="server">
@@ -125,59 +130,6 @@ You can also minify code, find tutorials and examples or use the ui builder to c
     
     
 
-    <!--
-        INVISIBLE STUFF
-    -->
-
-    <div style="display: none;">
-        
-        <div id="documentation" viewable="viewable_documentation">
-            <h2>Available functions:</h2>
-        </div>
-
-        <div viewable="viewable_official_manuals">
-            <p><b>Official Lua Language Manual:</b><br>
-                <a href="https://www.lua.org/manual/5.3/" target="_blank" rel="noopener noreferrer">https://www.lua.org/manual/5.3/</a>
-            </p>
-            <p><b>Stormworks Lua Manual</b><br>
-                TODO
-            </p>
-        </div>
-
-        
-
-        <div id="editor" viewable="viewable_editor_normal">
-            <div id="code-container">
-                <div id="code" code-field="normal">
-function onTick()
-    -- your code
-end
-
-function onDraw()
-    -- your code
-end
-
-function httpReply(port, request_body, response_body)
-    -- your code
-    --
-    -- IMPORTANT: You must follow these steps to enable http support in this Lua IDE:
-    -- the first time you run asyn.httpGet() a popup will explain you what to do
-    --
-end
-</div>
-                <div id="code-editor-information">
-                    <span id="selection-information">Line 0, Column 0, Char 0</span>
-                    <span id="autocompletition-hint">Autocomplete: right click, Ctrl+Space or Command+Space</span>
-                    <span id="charactercount">0/4096</span>
-                </div>
-                <div class="code_lock"></div>
-                <div id="autocompletition-container"></div>
-            </div>
-            <div id="example-container">
-                <div id="examples-heading"><h3>Learn & Examples:</h3><span class="close icon-cross"></span></div>
-                <div id="examples"></div>
-            </div>
-        </div>
         
     <div style="display: none" id="ponybin-create-overlay" class="ponybin_overlay">
         <div class="inner">
