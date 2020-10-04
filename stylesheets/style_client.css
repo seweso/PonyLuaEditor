@@ -692,6 +692,29 @@ a:hover {
   font-family: "Monaco", "Menlo", "Ubuntu Mono", "Consolas", "source-code-pro", monospace;
 }
 
+/* line 1, ../compass/src/_viewable_uibuilder.scss */
+#ui-builder-container .canvas_container .element.line svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* line 10, ../compass/src/_viewable_uibuilder.scss */
+#ui-builder-container .canvas_container .element.buttonrectangle .content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* line 17, ../compass/src/_viewable_uibuilder.scss */
+#ui-builder-container .canvas_container .element.verticalslider .slider_value {
+  position: absolute;
+  width: 100%;
+}
+
 /* line 1, ../compass/src/_navigation.scss */
 #logo {
   background: url("../images/logo.png") center 100% no-repeat;
@@ -1262,7 +1285,7 @@ a:hover {
     opacity: 1;
   }
 }
-/* line 19, ../compass/src/style_client.scss */
+/* line 20, ../compass/src/style_client.scss */
 .ide {
   width: 100%;
   height: calc(100vh - 75px);
@@ -1270,7 +1293,7 @@ a:hover {
   display: flex;
   flex-direction: column;
 }
-/* line 26, ../compass/src/style_client.scss */
+/* line 27, ../compass/src/style_client.scss */
 .ide .ide_bar {
   background: grey;
   display: flex;
@@ -1279,7 +1302,7 @@ a:hover {
   align-items: center;
   height: 60px;
 }
-/* line 34, ../compass/src/style_client.scss */
+/* line 35, ../compass/src/style_client.scss */
 .ide .ide_bar .ide_controls {
   display: flex;
   flex-direction: row;
@@ -1287,41 +1310,41 @@ a:hover {
   align-items: center;
   flex-wrap: wrap;
 }
-/* line 41, ../compass/src/style_client.scss */
+/* line 42, ../compass/src/style_client.scss */
 .ide .ide_bar .ide_controls .controls_group {
   padding: 5px;
   display: inline-block;
   color: #eaedf1;
 }
-/* line 46, ../compass/src/style_client.scss */
+/* line 47, ../compass/src/style_client.scss */
 .ide .ide_bar .ide_controls .controls_group:not(:last-child) {
   border-right: 1px solid #eaedf1;
   padding-right: 25px;
 }
-/* line 51, ../compass/src/style_client.scss */
+/* line 52, ../compass/src/style_client.scss */
 .ide .ide_bar .ide_controls .controls_group button {
   margin: 0;
   padding: 6px 10px;
 }
-/* line 56, ../compass/src/style_client.scss */
+/* line 57, ../compass/src/style_client.scss */
 .ide .ide_bar .ide_controls .controls_group button:not(:last-child) {
   margin-right: 10px;
 }
-/* line 60, ../compass/src/style_client.scss */
+/* line 61, ../compass/src/style_client.scss */
 .ide .ide_bar .ide_controls .controls_group:not(:last-child) {
   margin-right: 25px;
 }
-/* line 65, ../compass/src/style_client.scss */
+/* line 66, ../compass/src/style_client.scss */
 .ide .ide_bar .ide_controls #save {
   transition: all 0.5s ease 0s;
 }
-/* line 68, ../compass/src/style_client.scss */
+/* line 69, ../compass/src/style_client.scss */
 .ide .ide_bar .ide_controls #save.saved {
   background: #4d835f;
   border-color: #fff;
   color: #fff;
 }
-/* line 76, ../compass/src/style_client.scss */
+/* line 77, ../compass/src/style_client.scss */
 .ide .ide_bar .ide_stats {
   display: flex;
   flex-direction: column;
@@ -1332,21 +1355,21 @@ a:hover {
   padding: 6px 12px;
   color: #eaedf1;
 }
-/* line 86, ../compass/src/style_client.scss */
+/* line 87, ../compass/src/style_client.scss */
 .ide .ide_bar .ide_stats > *:not(:last-child) {
   margin-bottom: 5px;
 }
-/* line 90, ../compass/src/style_client.scss */
+/* line 91, ../compass/src/style_client.scss */
 .ide .ide_bar .ide_stats #drawtime.warning, .ide .ide_bar .ide_stats #ticktime.warning {
   color: red;
 }
-/* line 96, ../compass/src/style_client.scss */
+/* line 97, ../compass/src/style_client.scss */
 .ide .ide_flex_view {
   position: relative;
   width: 100%;
   height: calc(100vh - 75px - 60px);
 }
-/* line 102, ../compass/src/style_client.scss */
+/* line 103, ../compass/src/style_client.scss */
 .ide [splitter] {
   position: absolute;
   background: var(--background-strong-accent-gradient);
@@ -1354,7 +1377,7 @@ a:hover {
   z-index: 1000;
   /* hack so the mouse is not leaving the splitter directly */
 }
-/* line 109, ../compass/src/style_client.scss */
+/* line 110, ../compass/src/style_client.scss */
 .ide [splitter]:after {
   display: none;
   content: ' ';
@@ -1364,11 +1387,11 @@ a:hover {
   width: calc(100% + 2000px);
   height: calc(100% + 2000px);
 }
-/* line 120, ../compass/src/style_client.scss */
+/* line 121, ../compass/src/style_client.scss */
 .ide [splitter][draging="true"]:after {
   display: initial;
 }
-/* line 124, ../compass/src/style_client.scss */
+/* line 125, ../compass/src/style_client.scss */
 .ide [splitter="vertical"] {
   left: calc(50vw - (6px / 2));
   top: 0;
@@ -1376,24 +1399,24 @@ a:hover {
   width: 8px;
   cursor: e-resize;
 }
-/* line 132, ../compass/src/style_client.scss */
+/* line 133, ../compass/src/style_client.scss */
 .ide [splitter="horizontal_left"], .ide [splitter="horizontal_right"] {
   top: calc( ( 100vh - 75px - 60px ) / 2 - (6px / 2));
   height: 6px;
   width: calc(50vw - (6px / 2));
   cursor: n-resize;
 }
-/* line 139, ../compass/src/style_client.scss */
+/* line 140, ../compass/src/style_client.scss */
 .ide [splitter="horizontal_left"] {
   left: 0;
 }
-/* line 143, ../compass/src/style_client.scss */
+/* line 144, ../compass/src/style_client.scss */
 .ide [splitter="horizontal_right"] {
   left: calc(50vw + (6px / 2));
 }
 
 /* only temporary: */
-/* line 149, ../compass/src/style_client.scss */
+/* line 150, ../compass/src/style_client.scss */
 #mobile-menu, #fixed-information-badges, #example-container {
   display: none;
 }
