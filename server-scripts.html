@@ -32,19 +32,20 @@ You can also minify code, find tutorials and examples or use the ui builder to c
 
     <link rel="stylesheet" type="text/css" href="stylesheets/style_server.css">
     <link rel="stylesheet" type="text/css" href="stylesheets/iconfont.css">
-    <link rel="stylesheet" type="text/css" href="stylesheets/jquery_ui.css">
-    <link rel="stylesheet" type="text/css" href="stylesheets/ui_elements.css">
 
     <!-- external libs -->
     <script type="text/javascript" src="scripts/jquery.js"></script>
-    <script type="text/javascript" src="scripts/jquery_ui.js"></script>
     <script type="text/javascript" id="fengari-script" src="scripts/fengari_web.js"></script>
+
+    <script src="ace-builds/ace.js" type="text/javascript" charset="utf-8"></script>
+    <script src="ace-builds/ext-language_tools.js" type="text/javascript" charset="utf-8"></script>
 
     <!-- my scripts -->
     <script type="text/javascript" src="scripts/loader.js"></script>
 
     <!-- scripts without loading -->
     <script type="text/javascript" src="scripts/reporter.js"></script>
+    <script type="text/javascript" src="scripts/translate.js"></script>
 
 
     <!-- scripts with loading, more ore less ordered -->
@@ -52,7 +53,8 @@ You can also minify code, find tutorials and examples or use the ui builder to c
     
     <script type="text/javascript" src="scripts/share.js"></script>
 
-    <script type="text/javascript" src="scripts/ui_server.js"></script>
+    <script type="text/javascript" src="scripts/ui_for_server.js"></script>
+    <script type="text/javascript" src="scripts/ui_helpers.js"></script>
     <script type="text/javascript" src="scripts/editor.js"></script>
     <script type="text/javascript" src="scripts/autocompletion.js"></script>
     <script type="text/javascript" src="scripts/documentation.js"></script>
@@ -97,9 +99,28 @@ You can also minify code, find tutorials and examples or use the ui builder to c
         <div id="logo"></div>        
     </div>
 
-   <div class="server_editor">
-       TODO
-   </div>
+    <div class="server_editor">
+        <div class="views">
+            <div view="main">
+
+            </div>
+            <div view="secondary">
+
+            </div>
+        </div>
+    </div>
+
+    <div style="display: none;">
+        <div viewable="viewable_server_editor">
+            <div code-field="server">
+                
+            </div>
+        </div>
+
+        <div id="documentation" viewable="viewable_documentation">
+            <h2>Available functions:</h2>
+        </div>
+    </div>
 
     
     

@@ -746,11 +746,11 @@ a:hover {
 }
 
 /* line 1, ../compass/src/_viewable_documentation.scss */
-.ide [viewable="viewable_documentation"] {
+[viewable="viewable_documentation"] {
   padding: 5px;
 }
 /* line 5, ../compass/src/_viewable_documentation.scss */
-.ide [viewable="viewable_documentation"] .node {
+[viewable="viewable_documentation"] .node {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -759,15 +759,15 @@ a:hover {
   color: #eaedf1;
 }
 /* line 13, ../compass/src/_viewable_documentation.scss */
-.ide [viewable="viewable_documentation"] .node:not(:last-child) {
+[viewable="viewable_documentation"] .node:not(:last-child) {
   margin-bottom: 5px;
 }
 /* line 19, ../compass/src/_viewable_documentation.scss */
-.ide [viewable="viewable_documentation"] .node.contracted .bottom, .ide [viewable="viewable_documentation"] .node.contracted .children {
+[viewable="viewable_documentation"] .node.contracted .bottom, [viewable="viewable_documentation"] .node.contracted .children {
   display: none;
 }
 /* line 24, ../compass/src/_viewable_documentation.scss */
-.ide [viewable="viewable_documentation"] .node .top {
+[viewable="viewable_documentation"] .node .top {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -775,20 +775,20 @@ a:hover {
   cursor: pointer;
 }
 /* line 31, ../compass/src/_viewable_documentation.scss */
-.ide [viewable="viewable_documentation"] .node .top .definition {
+[viewable="viewable_documentation"] .node .top .definition {
   display: flex;
   flex-direction: row;
   font-size: 18px;
 }
 /* line 40, ../compass/src/_viewable_documentation.scss */
-.ide [viewable="viewable_documentation"] .node .top .definition .args {
+[viewable="viewable_documentation"] .node .top .definition .args {
   display: flex;
   flex-direction: row;
   margin-left: 5px;
   color: #e87704;
 }
 /* line 49, ../compass/src/_viewable_documentation.scss */
-.ide [viewable="viewable_documentation"] .node .top .lib {
+[viewable="viewable_documentation"] .node .top .lib {
   border: 1px solid;
   border-radius: 10000px;
   padding: 2px 8px;
@@ -796,40 +796,40 @@ a:hover {
   height: calc(1em + 2px * 4);
 }
 /* line 58, ../compass/src/_viewable_documentation.scss */
-.ide [viewable="viewable_documentation"] .node .bottom {
+[viewable="viewable_documentation"] .node .bottom {
   display: flex;
   flex-direction: column;
   padding: 5px 10px 10px 10px;
 }
 /* line 63, ../compass/src/_viewable_documentation.scss */
-.ide [viewable="viewable_documentation"] .node .bottom .url {
+[viewable="viewable_documentation"] .node .bottom .url {
   margin-bottom: 8px;
 }
 /* line 72, ../compass/src/_viewable_documentation.scss */
-.ide [viewable="viewable_documentation"] .node .children {
+[viewable="viewable_documentation"] .node .children {
   padding-left: 10px;
 }
 /* line 78, ../compass/src/_viewable_documentation.scss */
-.ide [viewable="viewable_documentation"] .node[lib="stormworks"] .lib {
+[viewable="viewable_documentation"] .node[lib="stormworks"] .lib {
   color: #0081cc;
   border-color: #0081cc;
 }
 /* line 86, ../compass/src/_viewable_documentation.scss */
-.ide [viewable="viewable_documentation"] .node[lib="dev"] .lib {
+[viewable="viewable_documentation"] .node[lib="dev"] .lib {
   color: #b9085b;
   border-color: #b9085b;
 }
 /* line 94, ../compass/src/_viewable_documentation.scss */
-.ide [viewable="viewable_documentation"] .node[lib="lua"] .lib {
+[viewable="viewable_documentation"] .node[lib="lua"] .lib {
   color: #44b511;
   border-color: #44b511;
 }
 /* line 101, ../compass/src/_viewable_documentation.scss */
-.ide [viewable="viewable_documentation"] .node[ntype="object"] .name {
+[viewable="viewable_documentation"] .node[ntype="object"] .name {
   color: #A6CE28;
 }
 /* line 107, ../compass/src/_viewable_documentation.scss */
-.ide [viewable="viewable_documentation"] .node[ntype="function"] .name {
+[viewable="viewable_documentation"] .node[ntype="function"] .name {
   color: #66D9EF;
 }
 
@@ -1491,7 +1491,7 @@ a:hover {
 }
 
 /* line 3, ../compass/src/_view.scss */
-.ide [view] {
+[view] {
   position: absolute;
   display: flex;
   flex-direction: column;
@@ -1502,7 +1502,7 @@ a:hover {
   padding: 6px;
 }
 /* line 14, ../compass/src/_view.scss */
-.ide [view] .select {
+[view] .select {
   display: flex;
   flex-direction: row;
   width: 100%;
@@ -1511,60 +1511,60 @@ a:hover {
   margin-bottom: 6px;
 }
 /* line 22, ../compass/src/_view.scss */
-.ide [view] .select [select-viewable] {
+[view] .select [select-viewable] {
   background: #1c3146;
   color: #eaedf1;
   cursor: pointer;
   padding: 0.25em 0.5em;
 }
 /* line 28, ../compass/src/_view.scss */
-.ide [view] .select [select-viewable] .moveto {
+[view] .select [select-viewable] .moveto {
   margin-left: 10px;
   opacity: 0;
   transition: all 0.2s ease 0s;
 }
 /* line 34, ../compass/src/_view.scss */
-.ide [view] .select [select-viewable]:hover .moveto {
+[view] .select [select-viewable]:hover .moveto {
   opacity: 1;
 }
 /* line 38, ../compass/src/_view.scss */
-.ide [view] .select [select-viewable] .moveto_choose {
+[view] .select [select-viewable] .moveto_choose {
   box-shadow: 1px 1px 2px 2px #4b4b4b;
   background: #eaedf1;
   color: #151719;
   z-index: 100;
 }
 /* line 44, ../compass/src/_view.scss */
-.ide [view] .select [select-viewable] .moveto_choose .header {
+[view] .select [select-viewable] .moveto_choose .header {
   padding: 6px 6px;
   background: #151719;
   color: #eaedf1;
   font-weight: bold;
 }
 /* line 51, ../compass/src/_view.scss */
-.ide [view] .select [select-viewable] .moveto_choose .entry {
+[view] .select [select-viewable] .moveto_choose .entry {
   padding: 6px 6px;
   transition: all 0.2s ease 0s;
 }
 /* line 55, ../compass/src/_view.scss */
-.ide [view] .select [select-viewable] .moveto_choose .entry:hover {
+[view] .select [select-viewable] .moveto_choose .entry:hover {
   background: #7e7e7e;
 }
 /* line 59, ../compass/src/_view.scss */
-.ide [view] .select [select-viewable] .moveto_choose .entry:not(:last-child) {
+[view] .select [select-viewable] .moveto_choose .entry:not(:last-child) {
   border-bottom: 1px solid #151719;
 }
 /* line 66, ../compass/src/_view.scss */
-.ide [view] .select [select-viewable]:not(:last-child) {
+[view] .select [select-viewable]:not(:last-child) {
   margin-right: 4px;
 }
 /* line 70, ../compass/src/_view.scss */
-.ide [view] .select [select-viewable][select="true"] {
+[view] .select [select-viewable][select="true"] {
   background: #eaedf1;
   color: #151719;
 }
 /* line 76, ../compass/src/_view.scss */
-.ide [view] .viewable_container {
+[view] .viewable_container {
   width: 100%;
   height: 100%;
   overflow: auto;
@@ -1572,8 +1572,9 @@ a:hover {
   border-radius: 3px;
   padding: 4px;
 }
+
 /* line 86, ../compass/src/_view.scss */
-.ide [viewable][visible="false"] {
+[viewable][visible="false"] {
   display: none;
 }
 

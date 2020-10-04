@@ -24,7 +24,10 @@ translate = (()=>{
         "top_left": {en: "Top Left"},
         "top_right": {en: "Top Right"},
         "bottom_left": {en: "Bottom Left"},
-        "bottom_right": {en: "Bottom Right"}
+        "bottom_right": {en: "Bottom Right"},
+
+        /* server editor */
+        "viewable_server_editor": {en: "Server Script"}
     }
 
     function translateKey(key){

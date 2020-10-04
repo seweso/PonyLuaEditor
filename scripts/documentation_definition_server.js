@@ -37,7 +37,7 @@ DOCUMENTATION_DEFINITION = (()=>{
                 lib: 'dev',
                 args: [],
                 description: 'Pauses the script. Note: the currently running onTick() and onDraw() functions are executed.'
-            }
+            },
             pairs: {
                 type: TF,
                 lib: 'lua',
@@ -257,6 +257,12 @@ DOCUMENTATION_DEFINITION = (()=>{
                         description: ' Returns the elements from the given list. This function is equivalent to\n    return list[i], list[i+1], ···, list[j]\nBy default, i is 1 and j is #list.'
                     }
                 }
+            },
+            type: {
+                type: TF,
+                lib: 'lua',
+                description: 'Returns a string, which is the type of the supplied argument:\n"nil"\n"number"\n"string"\n"boolean"\n"table"\n"function"\n"thread"\n"userdata"',
+                args: [{name: 'v'}]
             },
             string: {
                 type: TO,
