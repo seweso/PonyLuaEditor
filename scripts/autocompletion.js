@@ -75,6 +75,29 @@ class Autocomplete {
               }
             }
         }
+
+        ret.sort((a,b)=>{
+            if(a.lib > b.lib){
+                return 1
+            }
+
+            if(a.lib < b.lib){
+                return -1
+            }
+
+            /* else: same lib */
+
+            if(a.name > b.name){
+                return 1
+            }
+
+            if(a.name < b.name){
+                return -1
+            }
+
+            return 0
+        })
+
         return [ret, partLeft]
     }
 
