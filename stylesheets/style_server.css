@@ -1718,4 +1718,5 @@ a:hover {
 /* line 27, ../compass/src/style_server.scss */
 .server_editor .views [view] {
   position: relative;
+  height: calc( ( 100vh - 75px - 60px ) );
 }
