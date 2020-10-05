@@ -143,7 +143,7 @@ class Autocomplete {
                         if(!node[p]){
                             if(parts.length > 0){//has children
                                 node[p] = {
-                                    type: TO,
+                                    type: DOCUMENTATION.TO,
                                     lib: 'user',
                                     description: 'Defined on LINE ' + (1 + documentPosition.row),
                                     children: {}
@@ -161,7 +161,7 @@ class Autocomplete {
                             if(parts.length > 0){
                                 if(!node[p].children){
                                     node[p] = {
-                                        type: TO,
+                                        type: DOCUMENTATION.TO,
                                         lib: 'user',
                                         description: 'Defined on LINE ' + (1 + documentPosition.row),
                                         children: {}
@@ -303,7 +303,9 @@ function AutocompletitionElement(completions, part, autocomplete){
             this.preventFocusOut = true
             this.autocomplete.editor.focus()
             this.autocomplete.codeField.find('.ace_text-input').trigger(e)
-            setTimeout(DOCUMENTATION.suggestAutocomplete, 10)
+            setTimeout(()=>{
+                this.autocomplete.suggestAutocomplete()
+            }, 200)
         }
     })
 
@@ -391,7 +393,7 @@ AutocompletitionElement.prototype.insertAutoCompletition = function(completition
     }
     if(completition.type === DOCUMENTATION.TO){
         text += '.'
-    } else if(completition.type === DOCUMENTATION.TF){
+    } else if(completition.args){
         let args = DOCUMENTATION.argsAsString(completition.args)
         text += args
         setTimeout(()=>{
