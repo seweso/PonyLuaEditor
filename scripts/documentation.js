@@ -11,9 +11,9 @@ var DOCUMENTATION = ((global, $)=>{
     const TE = 'event'
 
     const LIB_TITLES = {
+        'dev': 'Pony API (This Website)',
         'stormworks': 'Stormworks API',
         'lua': 'Lua API',
-        'dev': 'Pony API (This Website)',
         'user': 'User defined (that\'s you!)'
     }
 
@@ -204,7 +204,7 @@ var DOCUMENTATION = ((global, $)=>{
     }
 
     function buildDocumentation(){
-        for(let name of Object.keys(PARSED.children)){
+        for(let name of getSortedKeysForDocsChildren(PARSED.children)){
             let child = PARSED.children[name]
             printNode($('#documentation'), child, name, true)
         }
@@ -281,11 +281,40 @@ var DOCUMENTATION = ((global, $)=>{
         if(node.children){
             let childcontainer = $('<div class="children"></div>')
             me.append(childcontainer)
-            for(let name of Object.keys(node.children)){
+
+            for(let name of getSortedKeysForDocsChildren(node.children)){
                 let child = node.children[name]
                 printNode(childcontainer, child, '.' + name)
             }
         }
+    }
+
+    function getSortedKeysForDocsChildren(children){
+        let sortedChildren = []
+
+        for(let name of Object.keys(children)){
+            let ID = (children[name].lib ? children[name].lib : '') + '.' + name
+            sortedChildren[ID] = name
+        }
+
+        let sortedIDs = Object.keys(sortedChildren).sort((a,b)=>{
+            if(a > b){
+                return 1
+            }
+
+            if(a < b){
+                return -1
+            }
+
+            return 0
+        })
+
+        let sortedKeys = []
+        for(let id of sortedIDs){
+            sortedKeys.push(sortedChildren[id])
+        }
+
+        return sortedKeys
     }
 
 
