@@ -347,11 +347,37 @@ DOCUMENTATION_DEFINITION = (()=>{
                 args: [{name: 'port'}, {name: 'url'}, {name: 'response_body'}],
                 description: 'Called when async.httpGet() receives a server response. Port and url will be the values that you put into async.httpGet() as arguments.'
             },
+            g_savedata: {
+                type: TO,
+                lib: 'stormworks',
+                args: [],
+                description: 'Globaly accessible table, that can be written to and read from. When the game closes, values from lua will be stored in the savegame XML.'
+            },
             server: {
                 type: TO,
                 lib: 'stormworks',
                 description: 'All the functionality for server scripts\n\npeer_id can be passed as -1 to send for all connected peers',
                 children: {
+                    addAdmin: {
+                        type: TF,
+                        args: [{name: 'peer_id'}],
+                        description: 'Assigns a player the admin role'
+                    },
+                    removeAdmin: {
+                        type: TF,
+                        args: [{name: 'peer_id'}],
+                        description: 'Revokes a players admin role'
+                    },
+                    addAuth: {
+                        type: TF,
+                        args: [{name: 'peer_id'}],
+                        description: 'Assigns a player the authenticated role'
+                    },
+                    removeAuth: {
+                        type: TF,
+                        args: [{name: 'peer_id'}],
+                        description: 'Revokes a players authenticated role'
+                    },
                     announce: {
                         type: TF,
                         args: [{name: 'name'}, {name: 'message'}],
@@ -425,7 +451,7 @@ DOCUMENTATION_DEFINITION = (()=>{
                     getPlayers: {
                         type: TF,
                         args: [],
-                        description: 'Returns list of all players'
+                        description: 'Returns list of all players' + '{ [peer_index] = {["id"] = peer_id, ["name"] = name, ["admin"] = is_admin, ["auth"] = is_auth}}'
                     },
                     getPlayerPos: {
                         type: TF,
