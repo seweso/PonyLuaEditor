@@ -236,6 +236,7 @@ DOCUMENTATION_DEFINITION = (()=>{
             onTick: {
                 type: TE,
                 lib: 'stormworks',
+                questions: 'why is game_ticks always 1?',
                 args: [{name: 'game_ticks', help: 'ticks passed since the game has started'}],
                 description: 'Called everytime the game calculates a physics tick (~ 60 times per second)'
             },
@@ -243,7 +244,7 @@ DOCUMENTATION_DEFINITION = (()=>{
                 type: TE,
                 lib: 'stormworks',
                 args: [{name: 'is_world_create'}],
-                description: 'Is called when the script is initialized (together with the world).'
+                description: 'Is called when the script is initialized.\nIf the script was initialized together with a new game, then is_world_create is true.\nIf the world was already running, or you loaded a savegame, it will be false.'
             },
             onDestroy: {
                 type: TE,
@@ -254,15 +255,18 @@ DOCUMENTATION_DEFINITION = (()=>{
             onCustomCommand: {
                 type: TE,
                 lib: 'stormworks',
-                args: [{name: 'full_message'}, {name: 'user_peer_id'}, {name: 'is_admin'}, {name: 'is_auth'}, {name: 'command'}, {name: 'args ...'}],
+                args: [{name: 'full_message'}, {name: 'user_peer_id'}, {name: 'is_admin'}, {name: 'is_auth'}, {name: 'command', help: 'includes the ? at the beginning'}, {name: 'args ...', help: 'either you use the three dot operator "..." and then access them as a table "local args = table.pack(...)" or you manually add arguments (e.g. arg1, arg2, arg3)'}],
                 description: 'Called when someone types "?" followed by some text in the chat.\nwhitespace splits appart the command and args: "?command arg1 arg2 arg3"'
             },
             onChatMessage: {
                 type: TE,
                 lib: 'stormworks',
                 args: [{name: 'sender_name'}, {name: 'message'}],
-                description: 'Called when someone sends a chat message. This is related to "onCustomCommand".'
+                description: 'Called when someone sends a chat message. This is similar to "onCustomCommand".'
             },
+
+
+
             onPlayerJoin: {
                 type: TE,
                 lib: 'stormworks',
@@ -358,6 +362,53 @@ DOCUMENTATION_DEFINITION = (()=>{
                 lib: 'stormworks',
                 description: 'All the functionality for server scripts\n\npeer_id can be passed as -1 to send for all connected peers',
                 children: {
+                    getVideoTutorials: {
+                        type: TF,
+                        args: [],
+                        description: 'Returns true when player has clicked on "Video Tutorials" in the menu already, false otherwise.'
+                    },
+                    getTutorial: {
+                        type: TF,
+                        args: [],
+                        description: 'Returns true if tutorial is completed'
+                    },
+                    createPopup: {
+                        type: TF,
+                        questions: 'Why is this here? Remove this thing please!',
+                        args: [{name: 'peer_id'}, {name: 'ui_id'}],
+                        description: 'Creates a popup with the text "Test", spawned at 0,0. Can only be removed by calling removePopup() without passing a ui_id.'
+                    },
+                    setPopup: {
+                        type: TF,
+                        questions: 'This functions creates a second (unwanted) popup at 0,0,0 that shows the value of the "name" argument.',
+                        args: [{name: 'peer_id'}, {name: 'ui_id'}, {name: 'name'}, {name: 'is_show'}, {name: 'text'}, {name: 'x'}, {name: 'y'}, {name: 'z'}, {name: 'is_worldspace'}, {name: 'render_distance'}],
+                        description: ''
+                    },
+                    removePopup: {
+                        type: TF,
+                        questions: 'when you ui_id is undefined, the second (unwanted) popup from setPopup is being removed.',
+                        args: [{name: 'peer_id'}, {name: 'ui_id'}],
+                        description: ''
+                    },
+                    getMapID: {
+                        type: TF,
+                        args: [],
+                        description: 'Creates a new unique id'
+                    },
+                    announce: {
+                        type: TF,
+                        args: [{name: 'name'}, {name: 'message'}],
+                        description: ''
+                    },
+                    whisper: {
+                        type: TF,
+                        questions: 'peer_id -1 is not working (even though it should send it to all)',
+                        args: [{name: 'peer_id'}, {name: 'message'}],
+                        description: 'Sends a chat message to only a specific player.'
+                    },
+
+
+
                     addAdmin: {
                         type: TF,
                         args: [{name: 'peer_id'}],
@@ -377,16 +428,6 @@ DOCUMENTATION_DEFINITION = (()=>{
                         type: TF,
                         args: [{name: 'peer_id'}],
                         description: 'Revokes a players authenticated role'
-                    },
-                    announce: {
-                        type: TF,
-                        args: [{name: 'name'}, {name: 'message'}],
-                        description: ''
-                    },
-                    whisper: {
-                        type: TF,
-                        args: [{name: 'peer_id'}, {name: 'message'}],
-                        description: ''
                     },
                     notify: {
                         type: TF,
@@ -424,21 +465,6 @@ DOCUMENTATION_DEFINITION = (()=>{
                         description: ''
                     },
                     removeMapLine: {
-                        type: TF,
-                        args: [{name: 'peer_id'}, {name: 'ui_id'}],
-                        description: ''
-                    },
-                    setPopup: {
-                        type: TF,
-                        args: [{name: 'peer_id'}, {name: 'ui_id'}, {name: 'name'}, {name: 'is_show'}, {name: 'text'}, {name: 'x'}, {name: 'y'}, {name: 'z'}, {name: 'is_worldspace'}, {name: 'render_distance'}],
-                        description: ''
-                    },
-                    removePopup: {
-                        type: TF,
-                        args: [{name: 'peer_id'}, {name: 'ui_id'}],
-                        description: ''
-                    },
-                    createPopup: {
                         type: TF,
                         args: [{name: 'peer_id'}, {name: 'ui_id'}],
                         description: ''
@@ -623,10 +649,10 @@ DOCUMENTATION_DEFINITION = (()=>{
                         args: [{name: 'object_id'}, {name: 'slot'}, {name: 'EQUIPMENT_ID', possibleValues: EQUIPMENT_ID}, {name: 'is_active'}],
                         description: ''
                     },
-                    getTutorial: {
+                    setTutorial: {
                         type: TF,
-                        args: [],
-                        description: 'Returns tutorial_completed'
+                        args: [{name: '?'}],
+                        description: 'Can be used to set tutorial completed (not tested yet).'
                     },
                     getZones: {
                         type: TF,
@@ -742,15 +768,8 @@ DOCUMENTATION_DEFINITION = (()=>{
                         type: TF,
                         args: [{name: 'peer_id'}],
                         description: ''
-                    }
-                }
-            },
-            ui: {
-                type: TO,
-                lib: 'stormworks',
-                description: 'Special user interface functionality',
-                children: {
-                    getMapID: {
+                    },
+                    setVehicleEditable: {
                         type: TF,
                         args: [],
                         description: ''

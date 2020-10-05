@@ -35,3 +35,5 @@
 - many TODOs (see code comments)
 
 - search in documentation
+
+- visualize questions attribute for docs nodes
