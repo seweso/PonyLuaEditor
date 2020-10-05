@@ -33,3 +33,5 @@
 - make minifictaion and unminifaction work again
 
 - many TODOs (see code comments)
+
+- search in documentation
