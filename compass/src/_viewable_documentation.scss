@@ -44,6 +44,16 @@
                     margin-left: 10px;
                     color: #e87704;
 
+                    &:before {
+                        content: '(';
+                        margin-right: 3px;
+                    }
+
+                    &:after {
+                        content: ')';
+                        margin-left: 3px;
+                    }
+
                     .arg {
                         position: relative;
                         display: flex;

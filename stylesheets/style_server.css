@@ -793,25 +793,35 @@ a:hover {
   color: #e87704;
 }
 /* line 47, ../compass/src/_viewable_documentation.scss */
+[viewable="viewable_documentation"] .node .top .definition .args:before {
+  content: '(';
+  margin-right: 3px;
+}
+/* line 52, ../compass/src/_viewable_documentation.scss */
+[viewable="viewable_documentation"] .node .top .definition .args:after {
+  content: ')';
+  margin-left: 3px;
+}
+/* line 57, ../compass/src/_viewable_documentation.scss */
 [viewable="viewable_documentation"] .node .top .definition .args .arg {
   position: relative;
   display: flex;
   flex-direction: row;
 }
-/* line 52, ../compass/src/_viewable_documentation.scss */
+/* line 62, ../compass/src/_viewable_documentation.scss */
 [viewable="viewable_documentation"] .node .top .definition .args .arg:before {
   content: attr(before);
 }
-/* line 56, ../compass/src/_viewable_documentation.scss */
+/* line 66, ../compass/src/_viewable_documentation.scss */
 [viewable="viewable_documentation"] .node .top .definition .args .arg:after {
   content: attr(after);
 }
-/* line 64, ../compass/src/_viewable_documentation.scss */
+/* line 74, ../compass/src/_viewable_documentation.scss */
 [viewable="viewable_documentation"] .node .top .definition .args .arg .arg_help_open {
   margin-left: 6px;
   color: #fff;
 }
-/* line 69, ../compass/src/_viewable_documentation.scss */
+/* line 79, ../compass/src/_viewable_documentation.scss */
 [viewable="viewable_documentation"] .node .top .definition .args .arg .arg_help {
   position: absolute;
   z-index: 10;
@@ -822,25 +832,25 @@ a:hover {
   padding: 6px;
   min-width: 150px;
 }
-/* line 79, ../compass/src/_viewable_documentation.scss */
+/* line 89, ../compass/src/_viewable_documentation.scss */
 [viewable="viewable_documentation"] .node .top .definition .args .arg .arg_help table {
   border-collapse: separate;
   border-spacing: 10px;
 }
-/* line 83, ../compass/src/_viewable_documentation.scss */
+/* line 93, ../compass/src/_viewable_documentation.scss */
 [viewable="viewable_documentation"] .node .top .definition .args .arg .arg_help table th, [viewable="viewable_documentation"] .node .top .definition .args .arg .arg_help table td {
   text-align: left;
 }
-/* line 89, ../compass/src/_viewable_documentation.scss */
+/* line 99, ../compass/src/_viewable_documentation.scss */
 [viewable="viewable_documentation"] .node .top .definition .args .arg.has_help.help_open .arg_help {
   display: inline-block;
 }
-/* line 96, ../compass/src/_viewable_documentation.scss */
+/* line 106, ../compass/src/_viewable_documentation.scss */
 [viewable="viewable_documentation"] .node .top .definition .hint {
   position: relative;
   margin-left: 5px;
 }
-/* line 104, ../compass/src/_viewable_documentation.scss */
+/* line 114, ../compass/src/_viewable_documentation.scss */
 [viewable="viewable_documentation"] .node .top .definition .hint .hint_inner {
   display: none;
   position: absolute;
@@ -852,11 +862,11 @@ a:hover {
   background: #363b40;
   font-size: 16px;
 }
-/* line 116, ../compass/src/_viewable_documentation.scss */
+/* line 126, ../compass/src/_viewable_documentation.scss */
 [viewable="viewable_documentation"] .node .top .definition .hint.hint_open .hint_inner {
   display: inline-block;
 }
-/* line 123, ../compass/src/_viewable_documentation.scss */
+/* line 133, ../compass/src/_viewable_documentation.scss */
 [viewable="viewable_documentation"] .node .top .lib {
   border: 1px solid;
   border-radius: 10000px;
@@ -864,44 +874,44 @@ a:hover {
   white-space: nowrap;
   height: calc(1em + 2px * 4);
 }
-/* line 132, ../compass/src/_viewable_documentation.scss */
+/* line 142, ../compass/src/_viewable_documentation.scss */
 [viewable="viewable_documentation"] .node .bottom {
   display: flex;
   flex-direction: column;
   padding: 5px 10px 10px 10px;
 }
-/* line 137, ../compass/src/_viewable_documentation.scss */
+/* line 147, ../compass/src/_viewable_documentation.scss */
 [viewable="viewable_documentation"] .node .bottom .url {
   margin-bottom: 8px;
 }
-/* line 146, ../compass/src/_viewable_documentation.scss */
+/* line 156, ../compass/src/_viewable_documentation.scss */
 [viewable="viewable_documentation"] .node .children {
   padding-left: 10px;
 }
-/* line 152, ../compass/src/_viewable_documentation.scss */
+/* line 162, ../compass/src/_viewable_documentation.scss */
 [viewable="viewable_documentation"] .node[lib="stormworks"] .lib {
   color: #0081cc;
   border-color: #0081cc;
 }
-/* line 160, ../compass/src/_viewable_documentation.scss */
+/* line 170, ../compass/src/_viewable_documentation.scss */
 [viewable="viewable_documentation"] .node[lib="dev"] .lib {
   color: #b9085b;
   border-color: #b9085b;
 }
-/* line 168, ../compass/src/_viewable_documentation.scss */
+/* line 178, ../compass/src/_viewable_documentation.scss */
 [viewable="viewable_documentation"] .node[lib="lua"] .lib {
   color: #44b511;
   border-color: #44b511;
 }
-/* line 175, ../compass/src/_viewable_documentation.scss */
+/* line 185, ../compass/src/_viewable_documentation.scss */
 [viewable="viewable_documentation"] .node[ntype="object"] .name, [viewable="viewable_documentation"] .node[ntype="object"] .hint_open_icon {
   color: #A6CE28;
 }
-/* line 181, ../compass/src/_viewable_documentation.scss */
+/* line 191, ../compass/src/_viewable_documentation.scss */
 [viewable="viewable_documentation"] .node[ntype="function"] .name, [viewable="viewable_documentation"] .node[ntype="function"] .hint_open_icon {
   color: #66D9EF;
 }
-/* line 188, ../compass/src/_viewable_documentation.scss */
+/* line 198, ../compass/src/_viewable_documentation.scss */
 [viewable="viewable_documentation"] .node[ntype="event"] .name, [viewable="viewable_documentation"] .node[ntype="event"] .hint_open_icon {
   color: #F0D322;
 }
