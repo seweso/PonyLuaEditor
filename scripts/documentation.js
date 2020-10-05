@@ -8,6 +8,7 @@ var DOCUMENTATION = ((global, $)=>{
     const TF = 'function'
     const TV = 'variable'
     const TA = 'argument'
+    const TE = 'event'
 
     const LIB_TITLES = {
         'stormworks': 'Stormworks API',
@@ -234,7 +235,28 @@ var DOCUMENTATION = ((global, $)=>{
             $('<div class="name">' + name + '</div>')
         )
 
-        if(node.type === TF){           
+        if(node.type === TE){
+            const help_text = 'Declare this function in the code, and it will be called by the game.'
+            node.help = node.help ? (help_text + '\n\n' + node.help) : help_text
+        }
+
+        if(node.help){
+            let hint = $('<div class="hint"></div>')
+            let hintinner = $('<div class="hint_inner"></div>').html(node.help)
+            let hintopen = $('<div class="hint_open_icon icon-question"></div>')
+                .on('mouseenter',()=>{
+                    hint.addClass('hint_open')
+                })
+                .on('mouseleave',()=>{
+                    hint.removeClass('hint_open')
+                })
+            hint.append(hintopen)
+            hint.append(hintinner)
+            definition.append(hint)
+        }
+
+
+        if(node.type === TF || node.type === TE){           
             definition.append(argsAsDOM(node.args))
         }
 
@@ -272,6 +294,7 @@ var DOCUMENTATION = ((global, $)=>{
         TF: TF,
         TV: TV,
         TA: TA,
+        TE: TE,
         LIB_TITLES: LIB_TITLES,
         getRaw: ()=>{ return DEFINITION; },
         getParsed: ()=>{ return PARSED},

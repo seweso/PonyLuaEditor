@@ -41,7 +41,7 @@
                     display: flex;
                     flex-direction: row;
                     flex-wrap: wrap;
-                    margin-left: 5px;
+                    margin-left: 10px;
                     color: #e87704;
 
                     .arg {
@@ -74,6 +74,7 @@
                             display: none;
                             background: $medium-dark;
                             padding: 6px;
+                            min-width: 150px;
 
                             table {
                                 border-collapse: separate;
@@ -88,6 +89,32 @@
                         &.has_help.help_open .arg_help {
                             display: inline-block;
                         }
+                    }
+                }
+
+
+                .hint {
+                    position: relative;
+                    margin-left: 5px;
+
+                    .hint_open_icon {
+
+                    }
+
+                    .hint_inner {
+                        display: none;
+                        position: absolute;
+                        top: 100%;
+                        left: 0;
+                        z-index: 10;
+                        min-width: 150px;
+                        padding: 6px;
+                        background: $medium-dark;
+                        font-size: 16px;
+                    }
+
+                    &.hint_open .hint_inner {
+                        display: inline-block;
                     }
                 }
 
@@ -145,14 +172,21 @@
         }
 
         &[ntype="object"] {
-            .name {
+            .name, .hint_open_icon {
                 color: #A6CE28;
             }
         }
 
         &[ntype="function"] {
-            .name {
+            .name, .hint_open_icon {
                 color: #66D9EF;
+            }
+        }
+
+
+        &[ntype="event"] {
+            .name, .hint_open_icon {
+                color: #F0D322;
             }
         }
     }

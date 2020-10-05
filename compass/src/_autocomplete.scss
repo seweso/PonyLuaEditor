@@ -18,6 +18,11 @@
         color: #66D9EF;
     }
 
+    .list .entry[atype="event"] .type, .descriptions .description[atype="event"] .name {
+        color: #F0D322;
+    }
+    
+
     .list {
         display: flex;
         flex-direction: column;

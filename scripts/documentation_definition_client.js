@@ -5,9 +5,29 @@ DOCUMENTATION_DEFINITION = (()=>{
     const TF = DOCUMENTATION.TF
     const TV = DOCUMENTATION.TV
     const TA = DOCUMENTATION.TA
+    const TE = DOCUMENTATION.TE
+
 
     const DEF = {
         children: {
+            onTick: {
+                type: TE,
+                lib: 'stormworks',
+                args: [],
+                description: 'Called everytime the game calculates a physics tick (~ 60 times per second)'
+            },
+            onDraw: {
+                type: TE,
+                lib: 'stormworks',
+                args: [],
+                description: 'Called everytime a monitor calculates a frame (~ 60 times per second)\nIf you connected multiple monitors, it will called once per monitor, per frame'
+            },
+            httpReply: {
+                type: TE,
+                lib: 'stormworks',
+                args: [{name: 'port'}, {name: 'url'}, {name: 'response_body'}],
+                description: 'Called when async.httpGet() receives a server response. Port and url will be the values that you put into async.httpGet() as arguments.'
+            },
             screen: {
                 type: TO,
                 lib: 'stormworks',
@@ -196,7 +216,7 @@ DOCUMENTATION_DEFINITION = (()=>{
                     httpGet: {
                         type: TF,
                         args: [{name: 'port'}, {name: 'url'}],
-                        description: 'Creates a HTTP request to "http://localhost:[PORT][url]". If you call it more then once per tick, the request will be put into a queue, every tick one reqeust will be taken from that queue and executed.\n\nIMPORTANT:\nYou must follow these steps to enable http support in this Lua IDE:\nYour browser prohibits sending and receiving data to and from localhost. To fix that, follow the <a href="http-allow-localhost" target="_blank">manual here</a>'
+                        description: 'Creates a HTTP request to "http://localhost:[PORT][url]". If you call it more then once per tick, the request will be put into a queue, every tick one request will be taken from that queue and executed.\n\nIMPORTANT:\nYou must follow these steps to enable http support in this Lua IDE:\nYour browser prohibits sending and receiving data to and from localhost. To fix that, follow the <a href="http-allow-localhost" target="_blank">manual here</a>'
                     }
                 }
             },

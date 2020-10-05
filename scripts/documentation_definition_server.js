@@ -5,6 +5,7 @@ DOCUMENTATION_DEFINITION = (()=>{
     const TF = DOCUMENTATION.TF
     const TV = DOCUMENTATION.TV
     const TA = DOCUMENTATION.TA
+    const TE = DOCUMENTATION.TE
 
     const OBJECT_TYPE = {
         0: 'none',
@@ -231,7 +232,121 @@ DOCUMENTATION_DEFINITION = (()=>{
 
 
     const DEF = {
-        children: {
+        children: {            
+            onTick: {
+                type: TE,
+                lib: 'stormworks',
+                args: [{name: 'game_ticks', help: 'ticks passed since the game has started'}],
+                description: 'Called everytime the game calculates a physics tick (~ 60 times per second)'
+            },
+            onCreate: {
+                type: TE,
+                lib: 'stormworks',
+                args: [{name: 'is_world_create'}],
+                description: 'Is called when the script is initialized (together with the world).'
+            },
+            onDestroy: {
+                type: TE,
+                lib: 'stormworks',
+                args: [],
+                description: 'Is called whenever the world is exited (game closed).'
+            },
+            onCustomCommand: {
+                type: TE,
+                lib: 'stormworks',
+                args: [{name: 'full_message'}, {name: 'user_peer_id'}, {name: 'is_admin'}, {name: 'is_auth'}, {name: 'command'}, {name: 'args ...'}],
+                description: 'Called when someone types "?" followed by some text in the chat.\nwhitespace splits appart the command and args: "?command arg1 arg2 arg3"'
+            },
+            onChatMessage: {
+                type: TE,
+                lib: 'stormworks',
+                args: [{name: 'sender_name'}, {name: 'message'}],
+                description: 'Called when someone sends a chat message. This is related to "onCustomCommand".'
+            },
+            onPlayerJoin: {
+                type: TE,
+                lib: 'stormworks',
+                args: [{name: 'steam_id'}, {name: 'name'}, {name: 'peer_id'}, {name: 'is_admin'}, {name: 'is_auth'}],
+                description: 'Caller when a player joins.'
+            },
+            onPlayerSit: {
+                type: TE,
+                lib: 'stormworks',
+                args: [{name: 'peer_id'}, {name: 'vehicle_id'}, {name: 'seat_name'}],
+                description: 'Called when a player enters a seat.'
+            },
+            onPlayerRespawn: {
+                type: TE,
+                lib: 'stormworks',
+                args: [{name: 'peer_id'}],
+                description: 'Called when a player respawns.'
+            },
+            onPlayerLeave: {
+                type: TE,
+                lib: 'stormworks',
+                args: [{name: 'steam_id'}, {name: 'name'}, {name: 'peer_id'}, {name: 'is_admin'}, {name: 'is_auth'}],
+                description: 'Called when a player leaves the server.'
+            },
+            onToggleMap: {
+                type: TE,
+                lib: 'stormworks',
+                args: [{name: 'peer_id'}, {name: 'is_open'}],
+                description: 'Called when a player opens or closes the map.'
+            },
+            onPlayerDie: {
+                type: TE,
+                lib: 'stormworks',
+                args: [{name: 'steam_id'}, {name: 'name'}, {name: 'peer_id'}, {name: 'is_admin'}, {name: 'is_auth'}],
+                description: 'Called when a player dies.'
+            },
+            onVehicleSpawn: {
+                type: TE,
+                lib: 'stormworks',
+                args: [{name: 'vehicle_id'}, {name: 'peer_id'}, {name: 'x'}, {name: 'y'}, {name: 'z'}],
+                description: 'Called when a vehicle is spawned in.'
+            },
+            onVehicleLoad: {
+                type: TE,
+                lib: 'stormworks',
+                args: [{name: 'vehicle_id'}],
+                description: ''
+            },
+            onVehicleTeleport: {
+                type: TE,
+                lib: 'stormworks',
+                args: [{name: 'vehicle_id'}, {name: 'peer_id'}, {name: 'x'}, {name: 'y'}, {name: 'z'}],
+                description: 'Called when a vehicle is teleported.'
+            },
+            onVehicleDespawn: {
+                type: TE,
+                lib: 'stormworks',
+                args: [{name: 'vehicle_id'}, {name: 'peer_id'}],
+                description: 'Called when a vehicle is despawned.'
+            },
+            onSpawnMissionObject: {
+                type: TE,
+                lib: 'stormworks',
+                args: [{name: 'object_id'}, {name: 'name'}, {name: 'OBJECT_TYPE', possibleValues: invertKeysAndValues(OBJECT_TYPE)}, {name: 'playlist_name'}],
+                description: ''
+            },
+            onVehicleDamaged: {
+                type: TE,
+                lib: 'stormworks',
+                args: [{name: 'vehicle_id'}, {name: 'damage_amount', help: 'damage_amount will be negative if the component is repaired.'}, {name: 'voxel_x'}, {name: 'voxel_y'}, {name: 'voxel_z'}],
+                description: ''
+            },
+            onFireExtinguished: {
+                type: TE,
+                lib: 'stormworks',
+                args: [{name: 'x'}, {name: 'y'}, {name: 'z'}],
+                description: 'xxxxxx'
+            },
+            httpReply: {
+                type: TE,
+                lib: 'stormworks',
+                args: [{name: 'port'}, {name: 'url'}, {name: 'response_body'}],
+                description: 'Called when async.httpGet() receives a server response. Port and url will be the values that you put into async.httpGet() as arguments.'
+            },
             server: {
                 type: TO,
                 lib: 'stormworks',
@@ -1005,6 +1120,19 @@ DOCUMENTATION_DEFINITION = (()=>{
                 }
             }
         }
+    }
+
+    /*
+        returns a new object {value1: key1, value2: key2}
+        if values are not unique, the keys might be overriden!!
+    */
+    function invertKeysAndValues(obj){
+        let ret = {}
+        for(let k of Object.keys(obj)){
+            ret[obj[k]] = k
+        }
+
+        return ret
     }
 
     return DEF
