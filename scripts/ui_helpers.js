@@ -1,3 +1,54 @@
+class DynamicSizedViewableContent {
+    constructor(container, viewable){
+        this.dom = $(container)
+        this.viewable = viewable
+
+        this.viewable.onViewableResize(()=>{
+            this.refreshSize()
+        })
+
+        this.viewable.onGainFocus(()=>{
+            this.refreshSize()
+        })
+
+        setTimeout(()=>{
+            this.refreshSize()
+        }, 100)
+    }
+
+    refreshSize(){
+        this.dom.width(this.getAvailableWidth())
+        this.dom.height(this.getAvailableHeight())
+    }
+
+    getAvailableHeight(){
+        let myCurrentView = this.viewable.myCurrentView()
+        
+        if(! myCurrentView){
+            return 0
+        }
+
+        let avail = myCurrentView.dom.find('.viewable_container').offset().top
+            + myCurrentView.dom.find('.viewable_container').height()
+            - this.dom.offset().top
+
+        return avail < 0 ? 0 : avail
+    }
+
+    getAvailableWidth(){
+        let myCurrentView = this.viewable.myCurrentView()
+
+        if(! myCurrentView){
+            return 0
+        }
+
+        let avail = myCurrentView.dom.find('.viewable_container').offset().left
+            + myCurrentView.dom.find('.viewable_container').width()
+            - this.dom.offset().left
+
+        return avail < 0 ? 0 : avail
+    }
+}
 
 class SimpleEventor {
     constructor(){

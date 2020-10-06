@@ -9,6 +9,10 @@ yyy = (($)=>{
 
     function init(){
 
+        ui.viewables()['viewable_official_manuals'].onGainFocus(()=>{
+            $('#lua-youtube-video').html('<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/Uv5NTZtQe9Q" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>')
+        })
+
         function showPerformanceHint(){
             util.hint('Performance hint', 'After 30 minutes you should reload the page to reset the emulator.\nPlease save ALL of your code (editor, minified and ui builder).\nThen reload the page.', {extended: true})
         }

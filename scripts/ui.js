@@ -63,6 +63,8 @@ ui = (($)=>{
 
         new DynamicSizedViewableContent($('#console').get(0), viewables['viewable_console'])
 
+        new DynamicSizedViewableContent($('#lua-youtube-video').get(0), viewables['viewable_official_manuals'])
+
 
         splitterVertical = new Splitter($('[splitter="vertical"]').get(0), 'vertical')
         splitterHorizontalLeft = new Splitter($('[splitter="horizontal_left"]').get(0), 'horizontal', true)
