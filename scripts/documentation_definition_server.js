@@ -218,7 +218,7 @@ DOCUMENTATION_DEFINITION = (()=>{
         'no_clip': '',
         'map_teleport': '',
         'cleanup_veicle': '',
-        'clear_fow': 'lear fog of war',
+        'clear_fow': 'clear fog of war',
         'vehicle_spawning': '',
         'photo_mode': '',
         'respawning': '',
@@ -236,8 +236,7 @@ DOCUMENTATION_DEFINITION = (()=>{
             onTick: {
                 type: TE,
                 lib: 'stormworks',
-                questions: 'why is game_ticks always 1?',
-                args: [{name: 'game_ticks', help: 'ticks passed since the game has started'}],
+                args: [{name: 'game_ticks', help: 'ticks passed since last call of onTick. If the player is sleeping, this will be 400'}],
                 description: 'Called everytime the game calculates a physics tick (~ 60 times per second)'
             },
             onCreate: {
@@ -374,26 +373,26 @@ DOCUMENTATION_DEFINITION = (()=>{
                     },
                     createPopup: {
                         type: TF,
-                        questions: 'Why is this here? Remove this thing please!',
+                        bugs: 'Why is this here? Remove this thing please!',
                         args: [{name: 'peer_id'}, {name: 'ui_id'}],
                         description: 'Creates a popup with the text "Test", spawned at 0,0. Can only be removed by calling removePopup() without passing a ui_id.'
                     },
                     setPopup: {
                         type: TF,
-                        questions: 'This functions creates a second (unwanted) popup at 0,0,0 that shows the value of the "name" argument.',
+                        bugs: 'This functions creates a second (unwanted) popup at 0,0,0 that shows the value of the "name" argument.',
                         args: [{name: 'peer_id'}, {name: 'ui_id'}, {name: 'name'}, {name: 'is_show'}, {name: 'text'}, {name: 'x'}, {name: 'y'}, {name: 'z'}, {name: 'is_worldspace'}, {name: 'render_distance'}],
                         description: ''
                     },
                     removePopup: {
                         type: TF,
-                        questions: 'when you ui_id is undefined, the second (unwanted) popup from setPopup is being removed.',
+                        bugs: 'when you ui_id is undefined, the second (unwanted) popup from setPopup is being removed.',
                         args: [{name: 'peer_id'}, {name: 'ui_id'}],
                         description: ''
                     },
                     getMapID: {
                         type: TF,
                         args: [],
-                        description: 'Creates a new unique id'
+                        description: 'Creates a new unique id that is required to create Map Objects.'
                     },
                     announce: {
                         type: TF,
@@ -402,7 +401,7 @@ DOCUMENTATION_DEFINITION = (()=>{
                     },
                     whisper: {
                         type: TF,
-                        questions: 'peer_id -1 is not working (even though it should send it to all)',
+                        bugs: 'peer_id -1 is not working (even though it should send it to all)',
                         args: [{name: 'peer_id'}, {name: 'message'}],
                         description: 'Sends a chat message to only a specific player.'
                     },

@@ -884,34 +884,55 @@ a:hover {
 [viewable="viewable_documentation"] .node .bottom .url {
   margin-bottom: 8px;
 }
-/* line 156, ../compass/src/_viewable_documentation.scss */
+/* line 155, ../compass/src/_viewable_documentation.scss */
+[viewable="viewable_documentation"] .node .bottom .bugs {
+  margin-top: 10px;
+  background: #952424;
+  color: #fff;
+  padding: 6px;
+  border-radius: 3px;
+}
+/* line 162, ../compass/src/_viewable_documentation.scss */
+[viewable="viewable_documentation"] .node .bottom .bugs .heading {
+  background: #fff;
+  color: #952424;
+  padding: 3px 10px;
+  border-radius: 100000px;
+  font-weight: bold;
+}
+/* line 170, ../compass/src/_viewable_documentation.scss */
+[viewable="viewable_documentation"] .node .bottom .bugs .bug_text {
+  margin-top: 10px;
+  padding: 5px;
+}
+/* line 177, ../compass/src/_viewable_documentation.scss */
 [viewable="viewable_documentation"] .node .children {
   padding-left: 10px;
 }
-/* line 162, ../compass/src/_viewable_documentation.scss */
+/* line 183, ../compass/src/_viewable_documentation.scss */
 [viewable="viewable_documentation"] .node[lib="stormworks"] .lib {
   color: #0081cc;
   border-color: #0081cc;
 }
-/* line 170, ../compass/src/_viewable_documentation.scss */
+/* line 191, ../compass/src/_viewable_documentation.scss */
 [viewable="viewable_documentation"] .node[lib="dev"] .lib {
   color: #b9085b;
   border-color: #b9085b;
 }
-/* line 178, ../compass/src/_viewable_documentation.scss */
+/* line 199, ../compass/src/_viewable_documentation.scss */
 [viewable="viewable_documentation"] .node[lib="lua"] .lib {
   color: #44b511;
   border-color: #44b511;
 }
-/* line 185, ../compass/src/_viewable_documentation.scss */
+/* line 206, ../compass/src/_viewable_documentation.scss */
 [viewable="viewable_documentation"] .node[ntype="object"] .name, [viewable="viewable_documentation"] .node[ntype="object"] .hint_open_icon {
   color: #A6CE28;
 }
-/* line 191, ../compass/src/_viewable_documentation.scss */
+/* line 212, ../compass/src/_viewable_documentation.scss */
 [viewable="viewable_documentation"] .node[ntype="function"] .name, [viewable="viewable_documentation"] .node[ntype="function"] .hint_open_icon {
   color: #66D9EF;
 }
-/* line 198, ../compass/src/_viewable_documentation.scss */
+/* line 219, ../compass/src/_viewable_documentation.scss */
 [viewable="viewable_documentation"] .node[ntype="event"] .name, [viewable="viewable_documentation"] .node[ntype="event"] .hint_open_icon {
   color: #F0D322;
 }

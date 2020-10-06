@@ -43,3 +43,5 @@
 add information:
 
 when an exception happens inside a event function of a server script, this function gets added to a blacklist and will never be called again. other event functios will be
+
+how does matrix. work??? How is it accepting a matrix as an argument???

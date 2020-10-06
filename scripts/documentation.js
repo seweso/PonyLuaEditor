@@ -275,6 +275,12 @@ var DOCUMENTATION = ((global, $)=>{
         bottom.append(
             $('<div class="text">' + node.description + '</div>')
         )
+
+        if(node.bugs){
+            bottom.append(
+                $('<div class="bugs"><span class="heading">Known Bugs / Problems</span><br><div class="bug_text">' + node.bugs + '</div></div>')
+            )
+        }
         
         
         container.append(me)
