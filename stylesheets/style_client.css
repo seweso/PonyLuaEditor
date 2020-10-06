@@ -899,40 +899,41 @@ a:hover {
   padding: 3px 10px;
   border-radius: 100000px;
   font-weight: bold;
+  line-height: 1.3em;
 }
-/* line 170, ../compass/src/_viewable_documentation.scss */
+/* line 171, ../compass/src/_viewable_documentation.scss */
 [viewable="viewable_documentation"] .node .bottom .bugs .bug_text {
   margin-top: 10px;
   padding: 5px;
 }
-/* line 177, ../compass/src/_viewable_documentation.scss */
+/* line 178, ../compass/src/_viewable_documentation.scss */
 [viewable="viewable_documentation"] .node .children {
   padding-left: 10px;
 }
-/* line 183, ../compass/src/_viewable_documentation.scss */
+/* line 184, ../compass/src/_viewable_documentation.scss */
 [viewable="viewable_documentation"] .node[lib="stormworks"] .lib {
   color: #0081cc;
   border-color: #0081cc;
 }
-/* line 191, ../compass/src/_viewable_documentation.scss */
+/* line 192, ../compass/src/_viewable_documentation.scss */
 [viewable="viewable_documentation"] .node[lib="dev"] .lib {
   color: #b9085b;
   border-color: #b9085b;
 }
-/* line 199, ../compass/src/_viewable_documentation.scss */
+/* line 200, ../compass/src/_viewable_documentation.scss */
 [viewable="viewable_documentation"] .node[lib="lua"] .lib {
   color: #44b511;
   border-color: #44b511;
 }
-/* line 206, ../compass/src/_viewable_documentation.scss */
+/* line 207, ../compass/src/_viewable_documentation.scss */
 [viewable="viewable_documentation"] .node[ntype="object"] .name, [viewable="viewable_documentation"] .node[ntype="object"] .hint_open_icon {
   color: #A6CE28;
 }
-/* line 212, ../compass/src/_viewable_documentation.scss */
+/* line 213, ../compass/src/_viewable_documentation.scss */
 [viewable="viewable_documentation"] .node[ntype="function"] .name, [viewable="viewable_documentation"] .node[ntype="function"] .hint_open_icon {
   color: #66D9EF;
 }
-/* line 219, ../compass/src/_viewable_documentation.scss */
+/* line 220, ../compass/src/_viewable_documentation.scss */
 [viewable="viewable_documentation"] .node[ntype="event"] .name, [viewable="viewable_documentation"] .node[ntype="event"] .hint_open_icon {
   color: #F0D322;
 }
