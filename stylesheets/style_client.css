@@ -1610,10 +1610,10 @@ a:hover {
 [view] .select {
   display: flex;
   flex-direction: row;
-  width: 100%;
-  height: 2em;
+  flex-wrap: wrap;
+  width: calc(100% + 4px);
   background: #151719;
-  margin-bottom: 6px;
+  margin: -2px -2px 4px -2px;
 }
 /* line 22, ../compass/src/_view.scss */
 [view] .select [select-viewable] {
@@ -1621,54 +1621,55 @@ a:hover {
   color: #eaedf1;
   cursor: pointer;
   padding: 0.25em 0.5em;
+  margin: 4px;
 }
-/* line 28, ../compass/src/_view.scss */
+/* line 29, ../compass/src/_view.scss */
 [view] .select [select-viewable] .moveto {
   margin-left: 10px;
   opacity: 0;
   transition: all 0.2s ease 0s;
 }
-/* line 34, ../compass/src/_view.scss */
+/* line 35, ../compass/src/_view.scss */
 [view] .select [select-viewable]:hover .moveto {
   opacity: 1;
 }
-/* line 38, ../compass/src/_view.scss */
+/* line 39, ../compass/src/_view.scss */
 [view] .select [select-viewable] .moveto_choose {
   box-shadow: 1px 1px 2px 2px #4b4b4b;
   background: #eaedf1;
   color: #151719;
   z-index: 100;
 }
-/* line 44, ../compass/src/_view.scss */
+/* line 45, ../compass/src/_view.scss */
 [view] .select [select-viewable] .moveto_choose .header {
   padding: 6px 6px;
   background: #151719;
   color: #eaedf1;
   font-weight: bold;
 }
-/* line 51, ../compass/src/_view.scss */
+/* line 52, ../compass/src/_view.scss */
 [view] .select [select-viewable] .moveto_choose .entry {
   padding: 6px 6px;
   transition: all 0.2s ease 0s;
 }
-/* line 55, ../compass/src/_view.scss */
+/* line 56, ../compass/src/_view.scss */
 [view] .select [select-viewable] .moveto_choose .entry:hover {
   background: #7e7e7e;
 }
-/* line 59, ../compass/src/_view.scss */
+/* line 60, ../compass/src/_view.scss */
 [view] .select [select-viewable] .moveto_choose .entry:not(:last-child) {
   border-bottom: 1px solid #151719;
 }
-/* line 66, ../compass/src/_view.scss */
+/* line 67, ../compass/src/_view.scss */
 [view] .select [select-viewable]:not(:last-child) {
   margin-right: 4px;
 }
-/* line 70, ../compass/src/_view.scss */
+/* line 71, ../compass/src/_view.scss */
 [view] .select [select-viewable][select="true"] {
   background: #eaedf1;
   color: #151719;
 }
-/* line 76, ../compass/src/_view.scss */
+/* line 77, ../compass/src/_view.scss */
 [view] .viewable_container {
   width: 100%;
   height: 100%;
@@ -1678,7 +1679,7 @@ a:hover {
   padding: 4px;
 }
 
-/* line 86, ../compass/src/_view.scss */
+/* line 87, ../compass/src/_view.scss */
 [viewable][visible="false"] {
   display: none;
 }

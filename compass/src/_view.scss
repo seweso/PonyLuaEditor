@@ -14,16 +14,17 @@
     .select {
         display: flex;
         flex-direction: row;
-        width: 100%;
-        height: 2em;
+        flex-wrap: wrap;
+        width: calc(100% + 4px);
         background: $dark;
-        margin-bottom: 6px;
+        margin: -2px -2px 4px -2px;
 
         [select-viewable] {
             background: $medium-darker;
             color: $light;
             cursor: pointer;
             padding: 0.25em 0.5em;
+            margin: 4px;
 
             .moveto {
                 margin-left: 10px;
