@@ -1902,13 +1902,48 @@ a:hover {
 }
 /* line 87, ../compass/src/style_client.scss */
 .ide .ide_bar .ide_bar_right .ide_mode_switch {
-  margin-right: 20px;
+  position: relative;
+  margin-right: 40px;
   background: #0081cc;
   border: 1px solid #eaedf1;
   border-radius: 6px;
   color: #eaedf1;
 }
-/* line 97, ../compass/src/style_client.scss */
+/* line 95, ../compass/src/style_client.scss */
+.ide .ide_bar .ide_bar_right .ide_mode_switch input#ide-server-mode {
+  display: none;
+}
+/* line 98, ../compass/src/style_client.scss */
+.ide .ide_bar .ide_bar_right .ide_mode_switch input#ide-server-mode:checked + label[for="ide-server-mode"]:after {
+  left: 50%;
+}
+/* line 103, ../compass/src/style_client.scss */
+.ide .ide_bar .ide_bar_right .ide_mode_switch label[for="ide-server-mode"] {
+  padding: 12px;
+  cursor: pointer;
+}
+/* line 107, ../compass/src/style_client.scss */
+.ide .ide_bar .ide_bar_right .ide_mode_switch label[for="ide-server-mode"]:before {
+  content: 'Client\00a0\00a0\00a0\00a0\00a0Server';
+  display: inline-flex;
+  height: 2em;
+  flex-direction: row;
+  align-items: center;
+}
+/* line 115, ../compass/src/style_client.scss */
+.ide .ide_bar .ide_bar_right .ide_mode_switch label[for="ide-server-mode"]:after {
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: -6px;
+  height: calc(100% + 8px);
+  width: calc(50% + 8px);
+  background: #eaedf1;
+  border: 2px solid #757779;
+  border-radius: 12px;
+  transition: all 0.3s ease 0s;
+}
+/* line 130, ../compass/src/style_client.scss */
 .ide .ide_bar .ide_bar_right .ide_stats {
   display: flex;
   flex-direction: column;
@@ -1919,21 +1954,21 @@ a:hover {
   padding: 6px 12px;
   color: #eaedf1;
 }
-/* line 107, ../compass/src/style_client.scss */
+/* line 140, ../compass/src/style_client.scss */
 .ide .ide_bar .ide_bar_right .ide_stats > *:not(:last-child) {
   margin-bottom: 5px;
 }
-/* line 111, ../compass/src/style_client.scss */
+/* line 144, ../compass/src/style_client.scss */
 .ide .ide_bar .ide_bar_right .ide_stats #drawtime.warning, .ide .ide_bar .ide_bar_right .ide_stats #ticktime.warning {
   color: red;
 }
-/* line 118, ../compass/src/style_client.scss */
+/* line 151, ../compass/src/style_client.scss */
 .ide .ide_flex_view {
   position: relative;
   width: 100%;
   height: calc(100vh - 75px - 60px);
 }
-/* line 124, ../compass/src/style_client.scss */
+/* line 157, ../compass/src/style_client.scss */
 .ide [splitter] {
   position: absolute;
   background: var(--background-strong-accent-gradient);
@@ -1941,7 +1976,7 @@ a:hover {
   z-index: 1000;
   /* hack so the mouse is not leaving the splitter directly */
 }
-/* line 131, ../compass/src/style_client.scss */
+/* line 164, ../compass/src/style_client.scss */
 .ide [splitter]:after {
   display: none;
   content: ' ';
@@ -1951,11 +1986,11 @@ a:hover {
   width: calc(100% + 2000px);
   height: calc(100% + 2000px);
 }
-/* line 142, ../compass/src/style_client.scss */
+/* line 175, ../compass/src/style_client.scss */
 .ide [splitter][draging="true"]:after {
   display: initial;
 }
-/* line 146, ../compass/src/style_client.scss */
+/* line 179, ../compass/src/style_client.scss */
 .ide [splitter="vertical"] {
   left: calc(50vw - (6px / 2));
   top: 0;
@@ -1963,24 +1998,24 @@ a:hover {
   width: 8px;
   cursor: e-resize;
 }
-/* line 154, ../compass/src/style_client.scss */
+/* line 187, ../compass/src/style_client.scss */
 .ide [splitter="horizontal_left"], .ide [splitter="horizontal_right"] {
   top: calc( ( 100vh - 75px - 60px ) / 2 - (6px / 2));
   height: 6px;
   width: calc(50vw - (6px / 2));
   cursor: n-resize;
 }
-/* line 161, ../compass/src/style_client.scss */
+/* line 194, ../compass/src/style_client.scss */
 .ide [splitter="horizontal_left"] {
   left: 0;
 }
-/* line 165, ../compass/src/style_client.scss */
+/* line 198, ../compass/src/style_client.scss */
 .ide [splitter="horizontal_right"] {
   left: calc(50vw + (6px / 2));
 }
 
 /* only temporary: */
-/* line 173, ../compass/src/style_client.scss */
+/* line 206, ../compass/src/style_client.scss */
 #mobile-menu, #fixed-information-badges, #example-container {
   display: none;
 }

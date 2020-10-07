@@ -8,6 +8,8 @@ UI = (($)=>{
     let splitterHorizontalLeft
     let splitterHorizontalRight
 
+    let isServerMode = false
+
 
     const VIEW_VIEW_MIN_SIZE = 100
     const SPLITTER_WIDTH = 6 /* this needs to be changed together with the css */
@@ -130,6 +132,27 @@ UI = (($)=>{
 
         setSplittersFromConfig()
 
+
+        
+        $('#ide-server-mode').on('change', ()=>{
+
+            isServerMode = $('#ide-server-mode').prop('checked')
+            STORAGE.setConfiguration('settings.servermode', isServerMode)
+
+            if(isServerMode){            
+                $('.ide').attr('mode', 'server')
+                if(ENGINE.isRunning()){
+                    ENGINE.stop()
+                }
+            } else {
+                $('.ide').attr('mode', 'client')            
+            }
+            DOCUMENTATION.refresh()
+        })
+
+        $('#ide-server-mode').prop('checked', STORAGE.getConfiguration('settings.servermode') || false).trigger('change')
+
+
         LOADER.done(LOADER.EVENT.UI_READY)
     }
 
@@ -183,6 +206,9 @@ UI = (($)=>{
         },
         editor: (name)=>{
             return editors[name]
+        },
+        isServerMode: ()=>{
+            return isServerMode
         }
     }
 

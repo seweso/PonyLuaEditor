@@ -28,9 +28,6 @@ var DOCUMENTATION = ((global, $)=>{
 
 
     function init(){
-        $('#ide-server-mode').on('change', refresh)
-
-        $('#ide-server-mode').prop('checked', STORAGE.getConfiguration('settings.servermode') || false)
 
         refresh()
 
@@ -39,14 +36,8 @@ var DOCUMENTATION = ((global, $)=>{
 
     function refresh(){
 
-        let isServerMode = $('#ide-server-mode').prop('checked')
-        STORAGE.setConfiguration('settings.servermode', isServerMode)
-        if(isServerMode){
+        if(UI.isServerMode()){
             DEFINITION = DOCUMENTATION_DEFINITION_SERVER
-            $('.ide').attr('mode', 'server')
-            if(ENGINE.isRunning()){
-                ENGINE.stop()
-            }
         } else {
             DEFINITION = DOCUMENTATION_DEFINITION_CLIENT
             $('.ide').attr('mode', 'client')
@@ -354,7 +345,8 @@ var DOCUMENTATION = ((global, $)=>{
         LIB_TITLES: LIB_TITLES,
         getRaw: ()=>{ return DEFINITION; },
         getParsed: ()=>{ return PARSED},
-        argsAsString: argsAsString
+        argsAsString: argsAsString,
+        refresh: refresh
     }
 
 })(window, jQuery)

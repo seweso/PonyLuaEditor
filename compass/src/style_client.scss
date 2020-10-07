@@ -85,13 +85,46 @@
             align-items: center;
 
             .ide_mode_switch {
-                margin-right: 20px;
+                position: relative;
+                margin-right: 40px;
                 background: $stormworks-blue;
                 border: 1px solid $light;
                 border-radius: 6px;
                 color: $light;
 
+                input#ide-server-mode {
+                    display: none;
 
+                    &:checked + label[for="ide-server-mode"]:after {
+                        left: 50%;
+                    }
+                }
+
+                label[for="ide-server-mode"] {
+                    padding: 12px;
+                    cursor: pointer;
+
+                    &:before {
+                        content: 'Client\00a0\00a0\00a0\00a0\00a0Server';
+                        display: inline-flex;
+                        height: 2em;
+                        flex-direction: row;
+                        align-items: center;
+                    }
+
+                    &:after {
+                        content: '';
+                        position: absolute;
+                        top: -6px;
+                        left: -6px;
+                        height: calc(100% + 8px);
+                        width: calc(50% + 8px);
+                        background: $light;
+                        border: 2px solid shade($light, 50%);
+                        border-radius: 12px;
+                        transition: all 0.3s ease 0s;
+                    }
+                }
             }
 
             .ide_stats {
