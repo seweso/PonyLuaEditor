@@ -1,7 +1,9 @@
 class DynamicSizedViewableContent {
-    constructor(container, viewable){
+    /* if only_width === true, then only the width will be adjusted to match the viewables width, the height will change to keep the aspect ratio */
+    constructor(container, viewable, only_width){
         this.dom = $(container)
         this.viewable = viewable
+        this.only_width = only_width
 
         this.viewable.onViewableResize(()=>{
             this.refreshSize()
@@ -17,8 +19,15 @@ class DynamicSizedViewableContent {
     }
 
     refreshSize(){
+        let oldRatio = this.dom.width() / this.dom.height()
+
         this.dom.width(this.getAvailableWidth())
-        this.dom.height(this.getAvailableHeight())
+
+        if(this.only_width){
+            this.dom.height(this.dom.width() / oldRatio)
+        } else {
+            this.dom.height(this.getAvailableHeight())
+        }        
     }
 
     getAvailableHeight(){

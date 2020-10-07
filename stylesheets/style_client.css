@@ -1100,6 +1100,129 @@ a:hover {
   flex-direction: row;
 }
 
+/* line 1, ../compass/src/_chapters.scss */
+.chapters {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+  overflow-y: auto;
+}
+/* line 8, ../compass/src/_chapters.scss */
+.chapters .chapter {
+  display: flex;
+  flex-direction: column;
+}
+/* line 12, ../compass/src/_chapters.scss */
+.chapters .chapter:not(:last-child) {
+  margin-bottom: 5px;
+}
+/* line 16, ../compass/src/_chapters.scss */
+.chapters .chapter .chapter_head {
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  background: linear-gradient(15deg, #002c43 0%, #325668 100%);
+  color: #fff;
+  cursor: pointer;
+  padding: 5px;
+  position: relative;
+}
+/* line 25, ../compass/src/_chapters.scss */
+.chapters .chapter .chapter_head:after {
+  position: absolute;
+  top: 50%;
+  right: 5px;
+  font-family: 'Iconfont';
+  content: '\ea43';
+  transition: all 0.2s ease 0s;
+  transform: translateY(-50%);
+  line-height: 0;
+}
+/* line 37, ../compass/src/_chapters.scss */
+.chapters .chapter.open .chapter_head:after {
+  transform: translateY(-50%) rotate(180deg);
+}
+/* line 41, ../compass/src/_chapters.scss */
+.chapters .chapter .chapter_body {
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+}
+/* line 47, ../compass/src/_chapters.scss */
+.chapters .chapter:not(.open) .chapter_body {
+  display: none;
+  background: #7f95a1;
+}
+/* line 52, ../compass/src/_chapters.scss */
+.chapters .chapter .section {
+  display: flex;
+  flex-direction: column;
+}
+/* line 56, ../compass/src/_chapters.scss */
+.chapters .chapter .section:not(:last-child) {
+  margin-bottom: 5px;
+}
+/* line 60, ../compass/src/_chapters.scss */
+.chapters .chapter .section .section_head {
+  position: relative;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  background: linear-gradient(15deg, #2150bf 0%, #3073a4 100%);
+  cursor: pointer;
+  padding: 5px;
+}
+/* line 68, ../compass/src/_chapters.scss */
+.chapters .chapter .section .section_head:after {
+  position: absolute;
+  top: 50%;
+  right: 5px;
+  font-family: 'Iconfont';
+  content: '\ea43';
+  transition: all 0.2s ease 0s;
+  transform: translateY(-50%);
+  line-height: 0;
+}
+/* line 80, ../compass/src/_chapters.scss */
+.chapters .chapter .section.open .section_head:after {
+  transform: translateY(-50%) rotate(180deg);
+}
+/* line 84, ../compass/src/_chapters.scss */
+.chapters .chapter .section .section_body {
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+  background: #eaedf1;
+}
+/* line 90, ../compass/src/_chapters.scss */
+.chapters .chapter .section .section_body > * {
+  margin-bottom: 10px;
+}
+/* line 95, ../compass/src/_chapters.scss */
+.chapters .chapter .section:not(.open) .section_body {
+  display: none;
+}
+/* line 101, ../compass/src/_chapters.scss */
+.chapters .part_text {
+  color: #222;
+}
+/* line 105, ../compass/src/_chapters.scss */
+.chapters .part_code {
+  border: 3px solid #202020;
+  box-sizing: content-box;
+  border-radius: 3px;
+  margin: 5px 0;
+}
+/* line 112, ../compass/src/_chapters.scss */
+.chapters keyword {
+  color: #F92672;
+  font-family: "Monaco", "Menlo", "Ubuntu Mono", "Consolas", "source-code-pro", monospace;
+}
+/* line 117, ../compass/src/_chapters.scss */
+.chapters obj {
+  color: #4FA8B9;
+  font-family: "Monaco", "Menlo", "Ubuntu Mono", "Consolas", "source-code-pro", monospace;
+}
+
 /* line 3, ../compass/src/_view.scss */
 [view] {
   position: absolute;
@@ -1512,164 +1635,6 @@ a:hover {
   filter: brightness(258%);
 }
 
-/* line 1, ../compass/src/_viewable_examples.scss */
-#example-container {
-  margin-left: 4%;
-  background: #0007;
-  border-radius: 3px;
-}
-/* line 6, ../compass/src/_viewable_examples.scss */
-#example-container #examples-heading {
-  background: linear-gradient(15deg, #0194E2 0%, #792692 100%);
-  color: #fff;
-  border-top-left-radius: 3px;
-  border-top-right-radius: 3px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
-  padding: 10px;
-}
-/* line 18, ../compass/src/_viewable_examples.scss */
-#example-container #examples-heading h3 {
-  display: inline-block;
-  margin: 0;
-}
-/* line 24, ../compass/src/_viewable_examples.scss */
-#example-container .close {
-  cursor: pointer;
-  transition: all 0.2s ease 0s;
-}
-/* line 28, ../compass/src/_viewable_examples.scss */
-#example-container .close:hover {
-  color: #002C43;
-}
-
-/* line 34, ../compass/src/_viewable_examples.scss */
-#examples {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  padding: 5px;
-  max-height: 50vh;
-  overflow-y: auto;
-}
-/* line 42, ../compass/src/_viewable_examples.scss */
-#examples .chapter {
-  display: flex;
-  flex-direction: column;
-}
-/* line 46, ../compass/src/_viewable_examples.scss */
-#examples .chapter:not(:last-child) {
-  margin-bottom: 5px;
-}
-/* line 50, ../compass/src/_viewable_examples.scss */
-#examples .chapter .chapter_head {
-  border-top-left-radius: 3px;
-  border-top-right-radius: 3px;
-  background: linear-gradient(15deg, #002c43 0%, #325668 100%);
-  color: #fff;
-  cursor: pointer;
-  padding: 5px;
-  position: relative;
-}
-/* line 59, ../compass/src/_viewable_examples.scss */
-#examples .chapter .chapter_head:after {
-  position: absolute;
-  top: 50%;
-  right: 5px;
-  font-family: 'Iconfont';
-  content: '\ea43';
-  transition: all 0.2s ease 0s;
-  transform: translateY(-50%);
-  line-height: 0;
-}
-/* line 71, ../compass/src/_viewable_examples.scss */
-#examples .chapter.open .chapter_head:after {
-  transform: translateY(-50%) rotate(180deg);
-}
-/* line 75, ../compass/src/_viewable_examples.scss */
-#examples .chapter .chapter_body {
-  display: flex;
-  flex-direction: column;
-  padding: 5px;
-}
-/* line 81, ../compass/src/_viewable_examples.scss */
-#examples .chapter:not(.open) .chapter_body {
-  display: none;
-  background: #7f95a1;
-}
-/* line 86, ../compass/src/_viewable_examples.scss */
-#examples .chapter .example {
-  display: flex;
-  flex-direction: column;
-}
-/* line 90, ../compass/src/_viewable_examples.scss */
-#examples .chapter .example:not(:last-child) {
-  margin-bottom: 5px;
-}
-/* line 94, ../compass/src/_viewable_examples.scss */
-#examples .chapter .example .example_head {
-  position: relative;
-  border-top-left-radius: 3px;
-  border-top-right-radius: 3px;
-  background: linear-gradient(15deg, #2150bf 0%, #3073a4 100%);
-  cursor: pointer;
-  padding: 5px;
-}
-/* line 102, ../compass/src/_viewable_examples.scss */
-#examples .chapter .example .example_head:after {
-  position: absolute;
-  top: 50%;
-  right: 5px;
-  font-family: 'Iconfont';
-  content: '\ea43';
-  transition: all 0.2s ease 0s;
-  transform: translateY(-50%);
-  line-height: 0;
-}
-/* line 114, ../compass/src/_viewable_examples.scss */
-#examples .chapter .example.open .example_head:after {
-  transform: translateY(-50%) rotate(180deg);
-}
-/* line 118, ../compass/src/_viewable_examples.scss */
-#examples .chapter .example .example_body {
-  display: flex;
-  flex-direction: column;
-  padding: 5px;
-  background: #eaedf1;
-}
-/* line 124, ../compass/src/_viewable_examples.scss */
-#examples .chapter .example .example_body > * {
-  margin-bottom: 10px;
-}
-/* line 129, ../compass/src/_viewable_examples.scss */
-#examples .chapter .example:not(.open) .example_body {
-  display: none;
-}
-/* line 135, ../compass/src/_viewable_examples.scss */
-#examples .example_text {
-  color: #222;
-}
-/* line 139, ../compass/src/_viewable_examples.scss */
-#examples .example_code {
-  border: 3px solid #202020;
-  box-sizing: content-box;
-  border-radius: 3px;
-  margin: 5px 0;
-}
-/* line 146, ../compass/src/_viewable_examples.scss */
-#examples keyword {
-  color: #F92672;
-  font-family: "Monaco", "Menlo", "Ubuntu Mono", "Consolas", "source-code-pro", monospace;
-}
-/* line 151, ../compass/src/_viewable_examples.scss */
-#examples obj {
-  color: #4FA8B9;
-  font-family: "Monaco", "Menlo", "Ubuntu Mono", "Consolas", "source-code-pro", monospace;
-}
-
 /* line 1, ../compass/src/_viewable_uibuilder.scss */
 #ui-builder-container .canvas_container .element.line svg {
   position: absolute;
@@ -1831,7 +1796,7 @@ a:hover {
     opacity: 1;
   }
 }
-/* line 17, ../compass/src/style_client.scss */
+/* line 18, ../compass/src/style_client.scss */
 .ide {
   width: 100%;
   height: calc(100vh - 75px);
@@ -1839,11 +1804,11 @@ a:hover {
   display: flex;
   flex-direction: column;
 }
-/* line 26, ../compass/src/style_client.scss */
+/* line 27, ../compass/src/style_client.scss */
 .ide[mode="server"] .engine_controls {
   display: none !important;
 }
-/* line 31, ../compass/src/style_client.scss */
+/* line 32, ../compass/src/style_client.scss */
 .ide .ide_bar {
   background: grey;
   display: flex;
@@ -1852,7 +1817,7 @@ a:hover {
   align-items: center;
   height: 60px;
 }
-/* line 39, ../compass/src/style_client.scss */
+/* line 40, ../compass/src/style_client.scss */
 .ide .ide_bar .ide_controls {
   display: flex;
   flex-direction: row;
@@ -1860,47 +1825,47 @@ a:hover {
   align-items: center;
   flex-wrap: wrap;
 }
-/* line 46, ../compass/src/style_client.scss */
+/* line 47, ../compass/src/style_client.scss */
 .ide .ide_bar .ide_controls .controls_group {
   padding: 5px;
   display: inline-block;
   color: #eaedf1;
 }
-/* line 51, ../compass/src/style_client.scss */
+/* line 52, ../compass/src/style_client.scss */
 .ide .ide_bar .ide_controls .controls_group:not(:last-child) {
   border-right: 1px solid #eaedf1;
   padding-right: 25px;
 }
-/* line 56, ../compass/src/style_client.scss */
+/* line 57, ../compass/src/style_client.scss */
 .ide .ide_bar .ide_controls .controls_group button {
   margin: 0;
   padding: 6px 10px;
 }
-/* line 61, ../compass/src/style_client.scss */
+/* line 62, ../compass/src/style_client.scss */
 .ide .ide_bar .ide_controls .controls_group button:not(:last-child) {
   margin-right: 10px;
 }
-/* line 65, ../compass/src/style_client.scss */
+/* line 66, ../compass/src/style_client.scss */
 .ide .ide_bar .ide_controls .controls_group:not(:last-child) {
   margin-right: 25px;
 }
-/* line 70, ../compass/src/style_client.scss */
+/* line 71, ../compass/src/style_client.scss */
 .ide .ide_bar .ide_controls #save {
   transition: all 0.5s ease 0s;
 }
-/* line 73, ../compass/src/style_client.scss */
+/* line 74, ../compass/src/style_client.scss */
 .ide .ide_bar .ide_controls #save.saved {
   background: #4d835f;
   border-color: #fff;
   color: #fff;
 }
-/* line 82, ../compass/src/style_client.scss */
+/* line 83, ../compass/src/style_client.scss */
 .ide .ide_bar .ide_bar_right {
   display: flex;
   flex-direction: row;
   align-items: center;
 }
-/* line 87, ../compass/src/style_client.scss */
+/* line 88, ../compass/src/style_client.scss */
 .ide .ide_bar .ide_bar_right .ide_mode_switch {
   position: relative;
   margin-right: 40px;
@@ -1909,20 +1874,20 @@ a:hover {
   border-radius: 6px;
   color: #eaedf1;
 }
-/* line 95, ../compass/src/style_client.scss */
+/* line 96, ../compass/src/style_client.scss */
 .ide .ide_bar .ide_bar_right .ide_mode_switch input#ide-server-mode {
   display: none;
 }
-/* line 98, ../compass/src/style_client.scss */
+/* line 99, ../compass/src/style_client.scss */
 .ide .ide_bar .ide_bar_right .ide_mode_switch input#ide-server-mode:checked + label[for="ide-server-mode"]:after {
   left: -6px;
 }
-/* line 103, ../compass/src/style_client.scss */
+/* line 104, ../compass/src/style_client.scss */
 .ide .ide_bar .ide_bar_right .ide_mode_switch label[for="ide-server-mode"] {
   padding: 12px;
   cursor: pointer;
 }
-/* line 107, ../compass/src/style_client.scss */
+/* line 108, ../compass/src/style_client.scss */
 .ide .ide_bar .ide_bar_right .ide_mode_switch label[for="ide-server-mode"]:before {
   content: 'Client\00a0\00a0\00a0\00a0\00a0Server';
   display: inline-flex;
@@ -1930,7 +1895,7 @@ a:hover {
   flex-direction: row;
   align-items: center;
 }
-/* line 115, ../compass/src/style_client.scss */
+/* line 116, ../compass/src/style_client.scss */
 .ide .ide_bar .ide_bar_right .ide_mode_switch label[for="ide-server-mode"]:after {
   content: '';
   position: absolute;
@@ -1943,7 +1908,7 @@ a:hover {
   border-radius: 12px;
   transition: all 0.3s ease 0s;
 }
-/* line 130, ../compass/src/style_client.scss */
+/* line 131, ../compass/src/style_client.scss */
 .ide .ide_bar .ide_bar_right .ide_stats {
   display: flex;
   flex-direction: column;
@@ -1954,21 +1919,21 @@ a:hover {
   padding: 6px 12px;
   color: #eaedf1;
 }
-/* line 140, ../compass/src/style_client.scss */
+/* line 141, ../compass/src/style_client.scss */
 .ide .ide_bar .ide_bar_right .ide_stats > *:not(:last-child) {
   margin-bottom: 5px;
 }
-/* line 144, ../compass/src/style_client.scss */
+/* line 145, ../compass/src/style_client.scss */
 .ide .ide_bar .ide_bar_right .ide_stats #drawtime.warning, .ide .ide_bar .ide_bar_right .ide_stats #ticktime.warning {
   color: red;
 }
-/* line 151, ../compass/src/style_client.scss */
+/* line 152, ../compass/src/style_client.scss */
 .ide .ide_flex_view {
   position: relative;
   width: 100%;
   height: calc(100vh - 75px - 60px);
 }
-/* line 157, ../compass/src/style_client.scss */
+/* line 158, ../compass/src/style_client.scss */
 .ide [splitter] {
   position: absolute;
   background: var(--background-strong-accent-gradient);
@@ -1976,7 +1941,7 @@ a:hover {
   z-index: 1000;
   /* hack so the mouse is not leaving the splitter directly */
 }
-/* line 164, ../compass/src/style_client.scss */
+/* line 165, ../compass/src/style_client.scss */
 .ide [splitter]:after {
   display: none;
   content: ' ';
@@ -1986,11 +1951,11 @@ a:hover {
   width: calc(100% + 2000px);
   height: calc(100% + 2000px);
 }
-/* line 175, ../compass/src/style_client.scss */
+/* line 176, ../compass/src/style_client.scss */
 .ide [splitter][draging="true"]:after {
   display: initial;
 }
-/* line 179, ../compass/src/style_client.scss */
+/* line 180, ../compass/src/style_client.scss */
 .ide [splitter="vertical"] {
   left: calc(50vw - (6px / 2));
   top: 0;
@@ -1998,24 +1963,24 @@ a:hover {
   width: 8px;
   cursor: e-resize;
 }
-/* line 187, ../compass/src/style_client.scss */
+/* line 188, ../compass/src/style_client.scss */
 .ide [splitter="horizontal_left"], .ide [splitter="horizontal_right"] {
   top: calc( ( 100vh - 75px - 60px ) / 2 - (6px / 2));
   height: 6px;
   width: calc(50vw - (6px / 2));
   cursor: n-resize;
 }
-/* line 194, ../compass/src/style_client.scss */
+/* line 195, ../compass/src/style_client.scss */
 .ide [splitter="horizontal_left"] {
   left: 0;
 }
-/* line 198, ../compass/src/style_client.scss */
+/* line 199, ../compass/src/style_client.scss */
 .ide [splitter="horizontal_right"] {
   left: calc(50vw + (6px / 2));
 }
 
 /* only temporary: */
-/* line 206, ../compass/src/style_client.scss */
+/* line 207, ../compass/src/style_client.scss */
 #mobile-menu, #fixed-information-badges, #example-container {
   display: none;
 }

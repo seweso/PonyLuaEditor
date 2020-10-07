@@ -18,7 +18,7 @@ UI = (($)=>{
 
     const DEFAULT_LAYOUT = {
         top_left: ['viewable_editor_normal', 'viewable_editor_minified', 'viewable_editor_unminified', 'viewable_editor_uibuilder'],
-        top_right: ['viewable_documentation', 'viewable_properties', 'viewable_inputs', 'viewable_outputs', 'viewable_examples', 'viewable_official_manuals'],
+        top_right: ['viewable_documentation', 'viewable_properties', 'viewable_inputs', 'viewable_outputs', 'viewable_examples', 'viewable_learn', 'viewable_official_manuals'],
         bottom_left: ['viewable_console'],
         bottom_right: ['viewable_monitor', 'viewable_settings']
     }
@@ -58,12 +58,6 @@ UI = (($)=>{
             let editor = new Editor(el, viewables[$(el).closest('[viewable]').attr('viewable')] )
             editors[$(el).attr('code-field')] = editor
         })
-
-
-
-        new DynamicSizedViewableContent($('#console').get(0), viewables['viewable_console'])
-
-        new DynamicSizedViewableContent($('#lua-youtube-video').get(0), viewables['viewable_official_manuals'])
 
 
         splitterVertical = new Splitter($('[splitter="vertical"]').get(0), 'vertical')
@@ -132,6 +126,25 @@ UI = (($)=>{
 
         setSplittersFromConfig()
 
+
+        new DynamicSizedViewableContent($('#console').get(0), viewables['viewable_console'])
+
+        for(let v of Object.keys(viewables)){
+            let vw = viewables[v]
+            vw.onGainFocus(()=>{
+                vw.dom.find('[youtube-embed]').each((i, el)=>{
+                    let id = $(el).attr('youtube-embed')
+                    if(typeof id === 'string' && id.trim() !== ''){
+                        $(el).append(
+                            $('<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/' + id +'" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>')
+                        )
+                    }
+                    $(el).removeAttr('youtube-embed')
+
+                    new DynamicSizedViewableContent($(el).get(0), vw, true)
+                })
+            })
+        }
 
         
         $('#ide-server-mode').on('change', ()=>{

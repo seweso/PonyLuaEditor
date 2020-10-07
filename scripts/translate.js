@@ -15,6 +15,7 @@ TRANSLATE = (()=>{
         "viewable_outputs": {en: "Outputs"},
         "viewable_documentation": {en: "Documentation"},
         "viewable_examples": {en: "Examples"},
+        "viewable_learn": {en: "Learn"},
         "viewable_official_manuals": {en: "Official Manuals"},
         "viewable_editor_normal": {en: "Editor"},
         "viewable_editor_minified": {en: "Minifier"},
