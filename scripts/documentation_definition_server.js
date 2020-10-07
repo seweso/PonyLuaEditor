@@ -1,4 +1,4 @@
-DOCUMENTATION_DEFINITION = (()=>{
+DOCUMENTATION_DEFINITION_SERVER = (()=>{
     "use strict";
 
     const TO = DOCUMENTATION.TO

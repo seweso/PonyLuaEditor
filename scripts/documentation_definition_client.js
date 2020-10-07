@@ -1,4 +1,4 @@
-DOCUMENTATION_DEFINITION = (()=>{
+DOCUMENTATION_DEFINITION_CLIENT = (()=>{
     "use strict";
 
     const TO = DOCUMENTATION.TO

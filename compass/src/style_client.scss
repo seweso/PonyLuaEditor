@@ -7,16 +7,10 @@
 @import "_editor.scss";
 @import "_uibuilder.scss";
 @import "_autocomplete.scss";
-@import "_viewable_documentation.scss";
-@import "_viewable_settings.scss";
-@import "_viewable_console.scss";
-@import "_viewable_monitor.scss";
-@import "_viewable_examples.scss";
-@import "_viewable_uibuilder.scss";
-@import "_viewable_official_manuals.scss";
 @import "_navigation.scss";
 @import "_value_list.scss";
 @import "_view.scss";
+@import "_viewable.scss";
 @import "ponybin.scss";
 
 
@@ -26,6 +20,13 @@
     overflow: hidden;
     display: flex;
     flex-direction: column;
+
+    &[mode="server"] {
+        
+        .engine_controls {
+            display: none!important;
+        }
+    }
 
     .ide_bar {
         background: grey;
@@ -77,22 +78,39 @@
             }
         }
 
-        .ide_stats {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100%;
-            background: $medium-dark;
-            padding: 6px 12px;
-            color: $light;
 
-            & > *:not(:last-child) {
-                margin-bottom: 5px;
+        .ide_bar_right {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+
+            .ide_mode_switch {
+                margin-right: 20px;
+                background: $stormworks-blue;
+                border: 1px solid $light;
+                border-radius: 6px;
+                color: $light;
+
+
             }
 
-            #drawtime.warning, #ticktime.warning {
-                color: red;
+            .ide_stats {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                height: 100%;
+                background: $medium-dark;
+                padding: 6px 12px;
+                color: $light;
+
+                & > *:not(:last-child) {
+                    margin-bottom: 5px;
+                }
+
+                #drawtime.warning, #ticktime.warning {
+                    color: red;
+                }
             }
         }
     }
@@ -148,6 +166,8 @@
         left: calc(50vw + (#{$splitter_width} / 2));
     }
 }
+
+
 
 /* only temporary: */
 #mobile-menu, #fixed-information-badges, #example-container {

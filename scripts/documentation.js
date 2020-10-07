@@ -28,15 +28,35 @@ var DOCUMENTATION = ((global, $)=>{
 
 
     function init(){
-        DEFINITION = DOCUMENTATION_DEFINITION
+        $('#ide-server-mode').on('change', refresh)
+
+        $('#ide-server-mode').prop('checked', STORAGE.getConfiguration('settings.servermode') || false)
+
+        refresh()
+
+        LOADER.done(LOADER.EVENT.DOCUMENTATION_READY)
+    }
+
+    function refresh(){
+
+        let isServerMode = $('#ide-server-mode').prop('checked')
+        STORAGE.setConfiguration('settings.servermode', isServerMode)
+        if(isServerMode){
+            DEFINITION = DOCUMENTATION_DEFINITION_SERVER
+            $('.ide').attr('mode', 'server')
+            if(ENGINE.isRunning()){
+                ENGINE.stop()
+            }
+        } else {
+            DEFINITION = DOCUMENTATION_DEFINITION_CLIENT
+            $('.ide').attr('mode', 'client')
+        }
 
         if(DEFINITION && DEFINITION instanceof Object){
 
             parseDefinition()
 
             buildDocumentation()
-
-            LOADER.done(LOADER.EVENT.DOCUMENTATION_READY)
         } else {
             throw 'unable to load DOCUMENTATION_DEFINITION'
         }
@@ -204,6 +224,7 @@ var DOCUMENTATION = ((global, $)=>{
     }
 
     function buildDocumentation(){
+        $('#documentation').html('')
         for(let name of getSortedKeysForDocsChildren(PARSED.children)){
             let child = PARSED.children[name]
             printNode($('#documentation'), child, name, true)

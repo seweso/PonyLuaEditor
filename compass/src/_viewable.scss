@@ -1,0 +1,22 @@
+[viewable][visible="false"] {
+    display: none;
+}
+
+
+.ide[mode="server"] {
+    [select-viewable="viewable_console"], [select-viewable="viewable_monitor"], [select-viewable="viewable_editor_uibuilder"], [select-viewable="viewable_properties"], [select-viewable="viewable_inputs"], [select-viewable="viewable_outputs"] {
+        display: none;
+    }
+
+    [viewable="viewable_console"], [viewable="viewable_monitor"], [viewable="viewable_uibuilder"], [viewable="viewable_properties"], [viewable="viewable_inputs"], [viewable="viewable_outputs"] {
+        display: none;
+    }
+}
+
+@import "_viewable_documentation.scss";
+@import "_viewable_settings.scss";
+@import "_viewable_console.scss";
+@import "_viewable_monitor.scss";
+@import "_viewable_examples.scss";
+@import "_viewable_uibuilder.scss";
+@import "_viewable_official_manuals.scss";

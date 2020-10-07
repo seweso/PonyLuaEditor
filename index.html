@@ -74,6 +74,8 @@ You can also minify code, find tutorials and examples or use the ui builder to c
     <script type="text/javascript" src="scripts/editor.js"></script>
     <script type="text/javascript" src="scripts/autocompletion.js"></script>
     <script type="text/javascript" src="scripts/documentation.js"></script>
+    <script type="text/javascript" src="scripts/documentation_definition_client.js"></script>
+    <script type="text/javascript" src="scripts/documentation_definition_server.js"></script>
     <script type="text/javascript" src="scripts/yyy.js"></script>
     <script type="text/javascript" src="scripts/engine.js"></script>
 
@@ -85,7 +87,6 @@ You can also minify code, find tutorials and examples or use the ui builder to c
 
 
     <!-- other scripts -->    
-    <script type="text/javascript" src="scripts/documentation_definition_client.js"></script>
 
     <!--<script type="text/javascript" src="https://statistics.flaffipony.rocks/tracking.js"></script>-->
 </head>
@@ -130,7 +131,7 @@ You can also minify code, find tutorials and examples or use the ui builder to c
                     <button id="save" title="Save"><span class="icon-floppy-disk"></span></button> 
                     <button id="reset" title="Reset">Reset</button>
                 </div>
-                <div class="controls_group">
+                <div class="controls_group engine_controls">
                     <button id="start" title="Start"><span class="icon-play3"></span></button>
                     <button id="pause" class="special_button" title="Pause"><span class="icon-pause2"></span></button>
                     <button id="step" class="special_button" title="Step forward"><span class="icon-next2"></span></button>
@@ -148,9 +149,14 @@ You can also minify code, find tutorials and examples or use the ui builder to c
                     </div>
                 </div>
             </div>
-            <div class="ide_stats">
-                <span>Average TPS: <span id="ticktime">0</span></span>
-                <span>Average FPS: <span id="drawtime">0</span></span>
+            <div class="ide_bar_right">
+                <div class="ide_mode_switch">
+                    <input type="checkbox" name="ide-server-mode" id="ide-server-mode"/><label for="ide-server-mode">IDE mode</label>
+                </div>
+                <div class="ide_stats">
+                    <span>Average TPS: <span id="ticktime">0</span></span>
+                    <span>Average FPS: <span id="drawtime">0</span></span>
+                </div>
             </div>
         </div>
         <div class="ide_flex_view">
@@ -250,9 +256,7 @@ You can also minify code, find tutorials and examples or use the ui builder to c
 
         <div id="output" class="value_list" viewable="viewable_outputs"></div>
 
-        <div id="documentation" viewable="viewable_documentation">
-            <h2>Available functions:</h2>
-        </div>
+        <div id="documentation" viewable="viewable_documentation"></div>
 
         <div viewable="viewable_official_manuals">
             <div>

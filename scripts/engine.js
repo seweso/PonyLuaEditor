@@ -415,6 +415,7 @@ ENGINE = (($)=>{
     return {        
         refresh: refresh,
         errorStop: errorStop,
+        stop: stop,
         isRunning: ()=>{ return running },
         pauseScript: pauseScript
     }
