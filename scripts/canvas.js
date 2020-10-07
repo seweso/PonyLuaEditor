@@ -111,9 +111,8 @@ var CANVAS = ((global, $)=>{
             }, 1000)
         }
 
-        $renderCanvas = $('<canvas id="render-canvas">').css({display: 'none'})
-        $('body').append($renderCanvas)
-
+        $renderCanvas = $('#render-canvas')
+        
         refresh()
 
 
@@ -409,8 +408,14 @@ var CANVAS = ((global, $)=>{
         if(DO_LOG){
             console.log('resetting canvas')
         }
-        ctx.clearRect(0, 0, canvas.width * 2, canvas.height * 2) /* multiply with 2 to make sure its enough */
-        renderCtx.clearRect(0, 0, renderCanvas.width * 2, renderCanvas.height * 2)
+        
+        renderCtx.save()
+        renderCtx.fillStyle = '#000f'
+        renderCtx.closePath()
+        renderCtx.beginPath()
+        renderCtx.clearRect(0, 0, renderCanvas.width, renderCanvas.height)
+        renderCtx.fillRect(0, 0, renderCanvas.width, renderCanvas.height)
+        renderCtx.restore()
     }
 
     function resetTouchpoints(){        
