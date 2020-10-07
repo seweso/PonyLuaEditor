@@ -126,8 +126,6 @@ var CANVAS = ((global, $)=>{
         function setConfigVal(elem, confName, defaultValue){
             let v = STORAGE.getConfiguration(confName)
 
-            console.log(elem, confName, defaultValue, v)
-
             let setterFunc
             if(typeof defaultValue === 'boolean'){
                 setterFunc = (vv)=>{elem.prop('checked', vv)}

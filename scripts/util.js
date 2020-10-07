@@ -66,24 +66,21 @@ UTIL = (($)=>{
         })
     }
 
-    function hint(title, text, options){
-        let h = $('<div class="hint"><span class="close icon-cancel-circle"></span><h4>'+title+'<span class="extend icon-circle-down"></span></h4><div style="' + ((options && options.extended) ? '' : 'display: none') + '">'+(text+'').replace('\n', '<br>')+'</div></div>')
-        if(options && options.extended){
-            h.find('.extend').remove()
-        } else {
-            h.find('h4').on('click', ()=>{
-                h.find('div').css('display', 'inline-block')
-            })
-        }
+    function hint(title, text){
+        let h = $('<div class="hint"><span class="close icon-cancel-circle"></span><h4>'+title+'</h4><div>'+(text+'').replace('\n', '<br>')+'</div></div>')
+        
+        h.find('h4').on('click', ()=>{
+            h.find('div').css('display', 'inline-block')
+        })
+
         h.find('.close').on('click', ()=>{
             h.remove()
         })
         $('#hints-container').append(h)
-        if(!options || !options.nofadeout){
-            setTimeout(()=>{
-                //disappear after 10 seconds
-                h.remove()
-            }, 10000)
+
+        let currView = UI.viewables()['viewable_hints'].myCurrentView()
+        if(currView){
+            currView.focus(UI.viewables()['viewable_hints'])
         }
     }
 

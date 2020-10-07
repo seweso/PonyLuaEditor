@@ -10,6 +10,7 @@ TRANSLATE = (()=>{
         "viewable_monitor": {en: "Monitor"},
         "viewable_settings": {en: "Settings"},
         "viewable_console": {en: "Console"},
+        "viewable_hints": {en: "Hints"},
         "viewable_properties": {en: "Properties"},
         "viewable_inputs": {en: "Inputs"},
         "viewable_outputs": {en: "Outputs"},

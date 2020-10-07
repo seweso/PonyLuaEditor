@@ -19,7 +19,7 @@ UI = (($)=>{
     const DEFAULT_LAYOUT = {
         top_left: ['viewable_editor_normal', 'viewable_editor_minified', 'viewable_editor_unminified', 'viewable_editor_uibuilder'],
         top_right: ['viewable_documentation', 'viewable_properties', 'viewable_inputs', 'viewable_outputs', 'viewable_examples', 'viewable_learn', 'viewable_official_manuals'],
-        bottom_left: ['viewable_console'],
+        bottom_left: ['viewable_console', 'viewable_hints'],
         bottom_right: ['viewable_monitor', 'viewable_settings']
     }
 
