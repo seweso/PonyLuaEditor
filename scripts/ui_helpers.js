@@ -40,6 +40,7 @@ class DynamicSizedViewableContent {
         let avail = myCurrentView.dom.find('.viewable_container').offset().top
             + myCurrentView.dom.find('.viewable_container').height()
             - this.dom.offset().top
+            - 3
 
         return avail < 0 ? 0 : avail
     }
@@ -54,6 +55,7 @@ class DynamicSizedViewableContent {
         let avail = myCurrentView.dom.find('.viewable_container').offset().left
             + myCurrentView.dom.find('.viewable_container').width()
             - this.dom.offset().left
+            - 3
 
         return avail < 0 ? 0 : avail
     }
