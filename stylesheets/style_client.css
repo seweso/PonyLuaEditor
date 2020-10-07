@@ -1915,7 +1915,7 @@ a:hover {
 }
 /* line 98, ../compass/src/style_client.scss */
 .ide .ide_bar .ide_bar_right .ide_mode_switch input#ide-server-mode:checked + label[for="ide-server-mode"]:after {
-  left: 50%;
+  left: -6px;
 }
 /* line 103, ../compass/src/style_client.scss */
 .ide .ide_bar .ide_bar_right .ide_mode_switch label[for="ide-server-mode"] {
@@ -1935,7 +1935,7 @@ a:hover {
   content: '';
   position: absolute;
   top: -6px;
-  left: -6px;
+  left: 50%;
   height: calc(100% + 8px);
   width: calc(50% + 8px);
   background: #eaedf1;

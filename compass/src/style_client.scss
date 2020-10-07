@@ -96,7 +96,7 @@
                     display: none;
 
                     &:checked + label[for="ide-server-mode"]:after {
-                        left: 50%;
+                        left: -6px;
                     }
                 }
 
@@ -116,7 +116,7 @@
                         content: '';
                         position: absolute;
                         top: -6px;
-                        left: -6px;
+                        left: 50%;
                         height: calc(100% + 8px);
                         width: calc(50% + 8px);
                         background: $light;
