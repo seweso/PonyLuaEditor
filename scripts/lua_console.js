@@ -1,4 +1,4 @@
-lua_console = (($)=>{
+CONSOLE = (($)=>{
     "use strict";
     
 
@@ -13,7 +13,7 @@ lua_console = (($)=>{
     let currentPrintColor = DEFAULT_PRINT_COLOR
 
 
-    loader.on(loader.EVENT.UI_READY, init)
+    LOADER.on(LOADER.EVENT.UI_READY, init)
 
     function init(){
 
@@ -24,7 +24,7 @@ lua_console = (($)=>{
         
         $('#console-inner').html('')
 
-        loader.done(loader.EVENT.LUA_CONSOLE_READY)
+        LOADER.done(LOADER.EVENT.LUA_CONSOLE_READY)
     }
 
 

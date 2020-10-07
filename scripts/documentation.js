@@ -23,7 +23,7 @@ var DOCUMENTATION = ((global, $)=>{
     let PARSED
 
 
-    loader.on(loader.EVENT.UI_READY, init)
+    LOADER.on(LOADER.EVENT.UI_READY, init)
 
 
 
@@ -36,7 +36,7 @@ var DOCUMENTATION = ((global, $)=>{
 
             buildDocumentation()
 
-            loader.done(loader.EVENT.DOCUMENTATION_READY)
+            LOADER.done(LOADER.EVENT.DOCUMENTATION_READY)
         } else {
             throw 'unable to load DOCUMENTATION_DEFINITION'
         }

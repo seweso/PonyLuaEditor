@@ -1,4 +1,4 @@
-reporter = (()=>{
+REPORTER = (()=>{
     "use strict";
 
 

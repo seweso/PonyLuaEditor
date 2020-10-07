@@ -180,7 +180,7 @@ class Autocomplete {
     }    
 
     showAutocompletions(container, completions, part){
-        reporter.report(reporter.REPORT_TYPE_IDS.openAutocomplete)
+        REPORTER.report(REPORTER.REPORT_TYPE_IDS.openAutocomplete)
 
         if(this.autocompletitionIsShown){
             this.closeAutocomplete()

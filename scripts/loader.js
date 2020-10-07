@@ -1,4 +1,4 @@
-loader = (($)=>{
+LOADER = (($)=>{
     "use strict";
 
     let listeners = {}

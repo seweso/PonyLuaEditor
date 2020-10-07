@@ -1,4 +1,4 @@
-minmax = (()=>{
+MINMAX = (()=>{
     "use strict";
 
     const IDENTIFIERS_NOT_ALLOWED_TO_MINIFY = ['onTick', 'onDraw']
@@ -10,7 +10,7 @@ minmax = (()=>{
     let shortenedIdentifiers = []
 
 
-    loader.on(loader.EVENT.DOCUMENTATION_READY, init)
+    LOADER.on(LOADER.EVENT.DOCUMENTATION_READY, init)
 
     function init(){
         addChildrenToLibraryIdentifiers(DOCUMENTATION.getParsed())
@@ -27,19 +27,19 @@ minmax = (()=>{
         
 
         $('#minify').on('click', ()=>{
-            reporter.report(reporter.REPORT_TYPE_IDS.minify)
+            REPORTER.report(REPORTER.REPORT_TYPE_IDS.minify)
 
             try {
 
                 let minified
 
                 if($('#minify-type').val() === 'conservative-with-line-breaks' || $('#minify-type').val() === 'conservative-no-line-breaks'){
-                    let ast = luaparse.parse(editor.get('normal').editor.getValue())
+                    let ast = luaparse.parse(EDITORS.get('normal').editor.getValue())
 
                     minified = luamin.minify(ast).trim()
                 } else {
 
-                    let ast = luaparse.parse(editor.get('normal').editor.getValue())
+                    let ast = luaparse.parse(EDITORS.get('normal').editor.getValue())
 
                     minified = luaminy.minify(ast).trim()
 
@@ -145,14 +145,14 @@ minmax = (()=>{
                     }
                 }
 
-                editor.get('minified').editor.setValue(minified, -1)
+                EDITORS.get('minified').editor.setValue(minified, -1)
             } catch (ex){
                 console.trace(ex)
                 $('#minified-editor').show()
-                editor.get('minified').editor.setValue('Error: ' + ex.message, -1)
+                EDITORS.get('minified').editor.setValue('Error: ' + ex.message, -1)
             }
 
-            let viewable = ui.viewables()['viewable_editor_minified']
+            let viewable = UI.viewables()['viewable_editor_minified']
             let currView = viewable.myCurrentView()
             if(currView){
                 currView.focus(viewable)
@@ -160,7 +160,7 @@ minmax = (()=>{
         })
 
         $('#minify-help').on('click', ()=>{
-            util.message('Minify Help', 'You can use two different modes:<br><ul>'
+            UTIL.message('Minify Help', 'You can use two different modes:<br><ul>'
                 + '<li><strong>Conservative</strong><br>will only replace names of <i>local</i> declared variables and functions</li><br>'
                 + '<li><strong>Agressive</strong><br>will replace almost every varable and function name.<br><span style="color: red;font-weight: bold">In rare cases, this produces errors, which you have to fix manually.</span></li>'
                 + '</ul><br>Each of those modes supports output with or without line breaks.<br>Without line breaks you save a small amount of characters, but the code is very hard to read and debug')
@@ -168,9 +168,9 @@ minmax = (()=>{
 
     
         $('#unminify').on('click', ()=>{
-            reporter.report(reporter.REPORT_TYPE_IDS.unminify)
+            REPORTER.report(REPORTER.REPORT_TYPE_IDS.unminify)
 
-            let minified = editor.get('minified').editor.getValue()
+            let minified = EDITORS.get('minified').editor.getValue()
 
             if(typeof minified !== 'string' || minified.length == 0){
                 fail('empty')
@@ -228,9 +228,9 @@ minmax = (()=>{
             unminified += luamax.maxify(code, idMap, libIdMap)
 
 
-            editor.get('unminified').editor.setValue(unminified, -1)
+            EDITORS.get('unminified').editor.setValue(unminified, -1)
 
-            let viewable = ui.viewables()['viewable_editor_unminified']
+            let viewable = UI.viewables()['viewable_editor_unminified']
             let currView = viewable.myCurrentView()
             if(currView){
                 currView.focus(viewable)
@@ -239,12 +239,12 @@ minmax = (()=>{
 
             function fail(msg){
                 $('#unminified-editor').show()
-                editor.get('unminified').editor.setValue('Unminification failed:\n' + msg, -1)
+                EDITORS.get('unminified').editor.setValue('Unminification failed:\n' + msg, -1)
             }
 
         })
 
-        loader.done(loader.EVENT.MINMAX_READY)
+        LOADER.done(LOADER.EVENT.MINMAX_READY)
     }
 
     function isMinificationAllowed(keyword, /* optional */ library){

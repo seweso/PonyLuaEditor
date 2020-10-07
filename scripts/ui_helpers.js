@@ -108,7 +108,7 @@ class Viewable extends SimpleEventor {
     }
 
     myCurrentView(){
-        let views = ui.views()
+        let views = UI.views()
         for(let v of Object.keys(views)){
             if(views[v].isViewablePartOfThisView(this)){
                 return views[v]
@@ -150,7 +150,7 @@ class View extends SimpleEventor {
 
     addViewable(viewable, focus){
         this.dom.find('.viewable_container').append( viewable.dom )
-        let select = $('<div select-viewable="' + viewable.name() + '" select="false">' + translate.key(viewable.name()) + '</div>')
+        let select = $('<div select-viewable="' + viewable.name() + '" select="false">' + TRANSLATE.key(viewable.name()) + '</div>')
         select.on('click', ()=>{
             this.focus(viewable)
         })
@@ -175,25 +175,25 @@ class View extends SimpleEventor {
 
             select.append(choose)
 
-            for(let v in ui.views()){
+            for(let v in UI.views()){
                 if(v === this.name()){
                     continue
                 }
-                let view = ui.views()[v]
-                let entry = $('<div class="entry">' + translate.key(v) + '</div>')
+                let view = UI.views()[v]
+                let entry = $('<div class="entry">' + TRANSLATE.key(v) + '</div>')
                 entry.on('click', (evt)=>{
                     evt.originalEvent.stopPropagation()
                     viewable.moveToView( view )
                     choose.remove()
-                    util.unHighlight(view.dom.get(0))
+                    UTIL.unHighlight(view.dom.get(0))
                 })
 
                 entry.on('mouseenter', ()=>{
-                    util.highlight(view.dom.get(0))
+                    UTIL.highlight(view.dom.get(0))
                 })
 
                 entry.on('mouseleave', ()=>{
-                    util.unHighlight(view.dom.get(0))
+                    UTIL.unHighlight(view.dom.get(0))
                 })
 
                 choose.append(entry)
@@ -238,7 +238,7 @@ class View extends SimpleEventor {
 
         this.dom.find('[viewable]').each((i, el)=>{
             let name = $(el).attr('viewable')
-            viewables[ name ] = ui.viewables()[name]
+            viewables[ name ] = UI.viewables()[name]
         })
 
         return viewables
@@ -371,7 +371,7 @@ class Splitter extends SimpleEventor {
     }
 
     setRelative(xr,yr){
-        this.set( ui.flexview().width() * xr, ui.flexview().height() * yr )
+        this.set( UI.flexview().width() * xr, UI.flexview().height() * yr )
     }
 
     set(x,y){
@@ -383,21 +383,21 @@ class Splitter extends SimpleEventor {
 
     getRelative(){
         if(this.type === 'vertical'){
-            return this.x / ui.flexview().width()
+            return this.x / UI.flexview().width()
         } else if(this.type === 'horizontal'){
-            return this.y / ui.flexview().height()
+            return this.y / UI.flexview().height()
         }
     }
 
     checkLimits(){
-        if(this.x < ui.VIEW_MIN_SIZE){
-            this.x = ui.VIEW_MIN_SIZE
+        if(this.x < UI.VIEW_MIN_SIZE){
+            this.x = UI.VIEW_MIN_SIZE
         }
-        if(this.x > ui.flexview().width() - ui.VIEW_MIN_SIZE){
-            this.x = ui.flexview().width() - ui.VIEW_MIN_SIZE
+        if(this.x > UI.flexview().width() - UI.VIEW_MIN_SIZE){
+            this.x = UI.flexview().width() - UI.VIEW_MIN_SIZE
         }
-        if(this.y > ui.flexview().height() - ui.VIEW_MIN_SIZE){
-            this.y = ui.flexview().height() - ui.VIEW_MIN_SIZE
+        if(this.y > UI.flexview().height() - UI.VIEW_MIN_SIZE){
+            this.y = UI.flexview().height() - UI.VIEW_MIN_SIZE
         }
 
         /* only use one axis for each type */
@@ -430,12 +430,12 @@ class Splitter extends SimpleEventor {
     getX(){
         if(this.type === 'horizontal'){
             if(! this.isHorizontalLeft){
-                return ui.verticalSplitterPosition() + 3 /* tiny offset, so they dont overlay each other */
+                return UI.verticalSplitterPosition() + 3 /* tiny offset, so they dont overlay each other */
             } else {
                 this.x
             }
         } else {
-            return this.x - ui.SPLITTER_WIDTH / 2
+            return this.x - UI.SPLITTER_WIDTH / 2
         }
     }
 
@@ -443,27 +443,27 @@ class Splitter extends SimpleEventor {
         if(this.type === 'vertical'){
             return this.y
         } else {
-            return this.y - ui.SPLITTER_WIDTH / 2
+            return this.y - UI.SPLITTER_WIDTH / 2
         }
     }
 
     getWidth(){
         if(this.type === 'vertical'){
-            return ui.SPLITTER_WIDTH
+            return UI.SPLITTER_WIDTH
         } else if(this.type === 'horizontal'){
             if(this.isHorizontalLeft){
-                return ui.verticalSplitterPosition() - 3 /* tiny offset, so they dont overlay each other */
+                return UI.verticalSplitterPosition() - 3 /* tiny offset, so they dont overlay each other */
             } else {
-                return ui.flexview().width() - ui.verticalSplitterPosition()
+                return UI.flexview().width() - UI.verticalSplitterPosition()
             }
         }
     }
 
     getHeight(){
         if(this.type === 'vertical'){
-            return ui.flexview().height()
+            return UI.flexview().height()
         } else if(this.type === 'horizontal'){
-            return ui.SPLITTER_WIDTH
+            return UI.SPLITTER_WIDTH
         }
     }
 }

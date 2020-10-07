@@ -1,20 +1,20 @@
-yyy = (($)=>{
+YYY = (($)=>{
     "use strict";
 
     let noExitConfirm = true /* TODO remove before production */
 
     let isCustomMinifiedCode = false
 
-    loader.on(loader.EVENT.UI_READY, init)
+    LOADER.on(LOADER.EVENT.UI_READY, init)
 
     function init(){
 
-        ui.viewables()['viewable_official_manuals'].onGainFocus(()=>{
+        UI.viewables()['viewable_official_manuals'].onGainFocus(()=>{
             $('#lua-youtube-video').html('<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/Uv5NTZtQe9Q" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>')
         })
 
         function showPerformanceHint(){
-            util.hint('Performance hint', 'After 30 minutes you should reload the page to reset the emulator.\nPlease save ALL of your code (editor, minified and ui builder).\nThen reload the page.', {extended: true})
+            UTIL.hint('Performance hint', 'After 30 minutes you should reload the page to reset the emulator.\nPlease save ALL of your code (editor, minified and ui builder).\nThen reload the page.', {extended: true})
         }
         setTimeout(()=>{
             showPerformanceHint()
@@ -35,8 +35,8 @@ yyy = (($)=>{
 
 
         $('#download-offline').on('click', ()=>{
-            reporter.report(REPORT_TYPE_IDS.downloadOffline)
-            util.message('How to use the offline version:', '<ul><li>extract the zip folder</li><li>doubleclick "index.html"</li><li>This opens the offline version with your default browser</li><ul>')
+            REPORTER.report(REPORTER.REPORT_TYPE_IDS.downloadOffline)
+            UTIL.message('How to use the offline version:', '<ul><li>extract the zip folder</li><li>doubleclick "index.html"</li><li>This opens the offline version with your default browser</li><ul>')
         })
 
 
@@ -44,7 +44,7 @@ yyy = (($)=>{
         let firstHelpOpen = true
 
         $('#help-badge, #help-menu-entry').on('click', ()=>{
-            reporter.report(REPORT_TYPE_IDS.openHelp)
+            REPORTER.report(REPORTER.REPORT_TYPE_IDS.openHelp)
 
             if(firstHelpOpen){
                 firstHelpOpen = false
@@ -88,9 +88,9 @@ yyy = (($)=>{
 
 
 
-        engine.refresh()
+        ENGINE.refresh()
         
-        loader.done(loader.EVENT.OTHERS_READY)
+        LOADER.done(LOADER.EVENT.OTHERS_READY)
     }
 
     return {
@@ -107,7 +107,7 @@ yyy = (($)=>{
 
 
 window.onbeforeunload = function (e) {
-    if(yyy.noExitConfirm){
+    if(YYY.noExitConfirm){
         return
     }
     e = e || window.event;

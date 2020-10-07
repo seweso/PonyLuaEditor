@@ -14,8 +14,6 @@ class Editor extends DynamicSizedViewableContent {
 
         this.oldHeight = 0
         
-        Editors.push(this)
-
         this.editor.on('change', ()=>{
             this.refreshCharacterCount()
         })
@@ -28,10 +26,10 @@ class Editor extends DynamicSizedViewableContent {
 
         this.addEditorControls()
 
-        editor.registerEditor(this, this.name())
+        EDITORS.registerEditor(this, this.name())
 
         viewable.onGainFocus(()=>{
-            editor.setActiveEditor(this.name())
+            EDITORS.setActiveEditor(this.name())
         })
 
         let tempFunc = this.refreshSize        
@@ -115,9 +113,7 @@ class Editor extends DynamicSizedViewableContent {
     }
 }
 
-Editors = []
-
-editor = (()=>{
+EDITORS = (()=>{
     "use strict";
 
     let editors = {}
@@ -125,12 +121,12 @@ editor = (()=>{
 
     const DEFAULT_EDITOR_FONTSIZE = 12
 
-    loader.on(loader.EVENT.UI_READY, init)
+    LOADER.on(LOADER.EVENT.UI_READY, init)
 
     function init(){
         refreshEditorFontSize()
 
-        loader.done(loader.EVENT.EDITORS_READY)
+        LOADER.done(LOADER.EVENT.EDITORS_READY)
     }
 
     function registerEditor(editor, name){
@@ -198,11 +194,18 @@ editor = (()=>{
         setEditorFontSize(fontsize)
     }
 
+    function resize(){
+        for(let e of editors){
+            e.refreshSize()
+        }
+    }
+
     return {
         registerEditor: registerEditor,
         setActiveEditor: setActiveEditor,
         getActiveEditor: ()=>{return editors[activeEditor]},
         get: (name)=>{return editors[name]},
+        resize: resize
     }
 })()
 

@@ -1,7 +1,7 @@
-ui = (($)=>{
+UI = (($)=>{
 	"use strict";
 
-	loader.on(loader.EVENT.SHARE_READY, init)
+	LOADER.on(LOADER.EVENT.SHARE_READY, init)
 
 	let views = {}
 	let viewables = {}
@@ -23,7 +23,7 @@ ui = (($)=>{
         viewableEditor.moveToView(viewMain)
         viewableDocumentation.moveToView(viewSecondary)
 
-        loader.done(loader.EVENT.UI_READY)
+        LOADER.done(LOADER.EVENT.UI_READY)
 	}
 
 	return {

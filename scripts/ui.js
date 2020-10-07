@@ -1,4 +1,4 @@
-ui = (($)=>{
+UI = (($)=>{
 
     let viewables = {}
     let views = {}
@@ -30,7 +30,7 @@ ui = (($)=>{
         }
     }
 
-    loader.on(loader.EVENT.SHARE_READY, init)
+    LOADER.on(LOADER.EVENT.SHARE_READY, init)
 
     function init(){
         $('[viewable]').each((i, el)=>{
@@ -43,9 +43,7 @@ ui = (($)=>{
             views[ name ] = view
 
             view.addListener('resize', ()=>{
-                for(let e of Editors){
-                    e.refreshSize()
-                }
+                Editors.resize()
             })
 
             view.addListener('viewable-change', ()=>{
@@ -90,7 +88,7 @@ ui = (($)=>{
 
         onSplitterUpdate()
 
-        let conf = storage.getConfiguration(MY_CONFIGURATION_NAME)
+        let conf = STORAGE.getConfiguration(MY_CONFIGURATION_NAME)
         if(conf){
             if(conf.layout && conf.layout instanceof Object){
                 if(countEntries(conf.layout) === countEntries(DEFAULT_LAYOUT)){
@@ -132,19 +130,19 @@ ui = (($)=>{
 
         setSplittersFromConfig()
 
-        loader.done(loader.EVENT.UI_READY)
+        LOADER.done(LOADER.EVENT.UI_READY)
     }
 
     function saveConfiguration(){
-        storage.setConfiguration(MY_CONFIGURATION_NAME, config)
+        STORAGE.setConfiguration(MY_CONFIGURATION_NAME, config)
     }
 
     function onSplitterUpdate(){
         views.top_left.resize(0, 0, splitterVertical.x, splitterHorizontalLeft.y)
-        views.top_right.resize(splitterVertical.x, 0, ui.flexview().width() - splitterVertical.x, splitterHorizontalRight.y)
+        views.top_right.resize(splitterVertical.x, 0, UI.flexview().width() - splitterVertical.x, splitterHorizontalRight.y)
 
-        views.bottom_left.resize(0, splitterHorizontalLeft.y, splitterVertical.x, ui.flexview().height() - splitterHorizontalLeft.y)
-        views.bottom_right.resize(splitterVertical.x, splitterHorizontalRight.y, ui.flexview().width() - splitterVertical.x, ui.flexview().height() - splitterHorizontalRight.y)
+        views.bottom_left.resize(0, splitterHorizontalLeft.y, splitterVertical.x, UI.flexview().height() - splitterHorizontalLeft.y)
+        views.bottom_right.resize(splitterVertical.x, splitterHorizontalRight.y, UI.flexview().width() - splitterVertical.x, UI.flexview().height() - splitterHorizontalRight.y)
     }
 
 

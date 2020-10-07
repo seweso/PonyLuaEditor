@@ -3,7 +3,7 @@ var GIVEAWAY = (($)=>{
 
     let currentGiveaway
 
-    loader.on(loader.EVENT.PAGE_READY, init)
+    LOADER.on(LOADER.EVENT.PAGE_READY, init)
 
     function init(){
         $('#giveaway-container').find('.send').on('click', giveawaySend)
@@ -23,7 +23,7 @@ var GIVEAWAY = (($)=>{
             }
         })
 
-        loader.done(loader.EVENT.GIVEAWAY_READY)
+        LOADER.done(LOADER.EVENT.GIVEAWAY_READY)
     }
 
     function giveawaySend(){

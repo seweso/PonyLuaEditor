@@ -14,7 +14,7 @@ var INPUT = (($)=>{
 
     const SUPPORTED_INPUT_KEYS = ['e', 'q', 1, 2, 3, 4, 5, 6, 7, 8, 9, 'a', 'b', 'c', 'd', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
 
-    loader.on(loader.EVENT.ENGINE_READY, init)
+    LOADER.on(LOADER.EVENT.ENGINE_READY, init)
 
     function init(){
 
@@ -83,11 +83,11 @@ var INPUT = (($)=>{
 
         initiating = false
 
-        loader.done(loader.EVENT.INPUTS_READY)
+        LOADER.done(LOADER.EVENT.INPUTS_READY)
     }
 
     function handleKeyDown(evt){
-        if(engine.isRunning()){
+        if(ENGINE.isRunning()){
             for(let k of Object.keys(bools)){
                 let b = bools[k]
                 if(evt.originalEvent.key === b.key){
@@ -103,7 +103,7 @@ var INPUT = (($)=>{
     }
 
     function handleKeyUp(evt){
-        if(engine.isRunning()){
+        if(ENGINE.isRunning()){
             for(let k of Object.keys(bools)){
                 let b = bools[k]
                 if(evt.originalEvent.key === b.key){
@@ -138,7 +138,7 @@ var INPUT = (($)=>{
 
     function saveToStorage(){
         if(!initiating){
-            storage.setConfiguration('inputs', {
+            STORAGE.setConfiguration('inputs', {
                 bools: bools,
                 numbers: numbers
             })
@@ -146,7 +146,7 @@ var INPUT = (($)=>{
     }
 
     function getFromStorage(){
-        return storage.getConfiguration('inputs')
+        return STORAGE.getConfiguration('inputs')
     }
 
 

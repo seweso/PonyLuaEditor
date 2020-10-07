@@ -1,4 +1,4 @@
-engine = (($)=>{
+ENGINE = (($)=>{
     "use strict";
 
     let intervalTick
@@ -20,7 +20,7 @@ engine = (($)=>{
 
     let totalStartsInTheSession = 0
 
-    loader.on(loader.EVENT.UI_READY, init)
+    LOADER.on(LOADER.EVENT.UI_READY, init)
 
     function init(){
 
@@ -43,10 +43,10 @@ engine = (($)=>{
 
         $('#stop').prop('disabled', true).on('click', stop)
         $('#reset').on('click', ()=>{
-            util.confirm('Are you sure? This will also remove the code in the editor!').then((result)=>{
+            UTIL.confirm('Are you sure? This will also remove the code in the editor!').then((result)=>{
                 if(result === true){
                     localStorage.clear()
-                    yyy.makeNoExitConfirm()
+                    YYY.makeNoExitConfirm()
                     document.location = document.location.href.split('?')[0]
                 }
             }).catch(()=>{
@@ -57,22 +57,22 @@ engine = (($)=>{
 
         $('#timeBetweenTicks').on('input', ()=>{
             refreshTimeBetweenTicks()
-            storage.setConfiguration('settings.timeBetweenTicks', $('#timeBetweenTicks').val())
+            STORAGE.setConfiguration('settings.timeBetweenTicks', $('#timeBetweenTicks').val())
         })
 
         $('#timeBetweenTicks').on('change', ()=>{
             refreshTimeBetweenTicks(true)
-            storage.setConfiguration('settings.timeBetweenTicks', $('#timeBetweenTicks').val())
+            STORAGE.setConfiguration('settings.timeBetweenTicks', $('#timeBetweenTicks').val())
         })
 
         $('#timeBetweenDraws').on('input', ()=>{
             refreshTimeBetweenDraws()
-            storage.setConfiguration('settings.timeBetweenDraws', $('#timeBetweenDraws').val())
+            STORAGE.setConfiguration('settings.timeBetweenDraws', $('#timeBetweenDraws').val())
         })
 
         $('#timeBetweenDraws').on('change', ()=>{
             refreshTimeBetweenDraws(true)
-            storage.setConfiguration('settings.timeBetweenDraws', $('#timeBetweenDraws').val())
+            STORAGE.setConfiguration('settings.timeBetweenDraws', $('#timeBetweenDraws').val())
         })
 
         $('#save').on('click', ()=>{
@@ -99,7 +99,7 @@ engine = (($)=>{
 
         loadCodesFromStorage()
 
-        loader.done(loader.EVENT.ENGINE_READY)
+        LOADER.done(LOADER.EVENT.ENGINE_READY)
     }
 
 
@@ -108,7 +108,7 @@ engine = (($)=>{
         setConfigVal($('#timeBetweenDraws'), 'settings.timeBetweenDraws', 16)
 
         function setConfigVal(elem, confName, defaultValue){
-            let v = storage.getConfiguration(confName)
+            let v = STORAGE.getConfiguration(confName)
 
             console.log(elem, confName, defaultValue, v)
 
@@ -151,7 +151,7 @@ engine = (($)=>{
     }
 
     function pauseScript(){        
-        reporter.report(reporter.REPORT_TYPE_IDS.pauseScript)
+        REPORTER.report(REPORTER.REPORT_TYPE_IDS.pauseScript)
 
         paused = true
         LUA_EMULATOR.notifyPaused()
@@ -188,7 +188,7 @@ engine = (($)=>{
         lockUI()
         saveCodesInStorage()
 
-        let code = editor.getActiveEditor().editor.getValue()
+        let code = EDITORS.getActiveEditor().editor.getValue()
 
         startCode(code)
 
@@ -201,7 +201,7 @@ engine = (($)=>{
         lockUI()
         saveCodesInStorage()
 
-        let code = editor.get('minified').editor.getValue()
+        let code = EDITORS.get('minified').editor.getValue()
 
         startCode(code)
 
@@ -213,7 +213,7 @@ engine = (($)=>{
     function startGenerated(){
         lockUI()
 
-        let code = editor.get('uibuilder').editor.getValue()
+        let code = EDITORS.get('uibuilder').editor.getValue()
 
         startCode(code)
 
@@ -231,12 +231,12 @@ engine = (($)=>{
     }
 
     function startCode(code){
-        reporter.report(reporter.REPORT_TYPE_IDS.startEmulator)
+        REPORTER.report(REPORTER.REPORT_TYPE_IDS.startEmulator)
 
         totalStartsInTheSession++
 
         if(totalStartsInTheSession % 50 == 0){
-            util.hint('Performace hint', 'After 50 starts you should reload the page to reset the emulator.\nPlease save ALL of your code (editor, minified and ui builder).\nThen reload the page.', {extended: true})
+            UTIL.hint('Performace hint', 'After 50 starts you should reload the page to reset the emulator.\nPlease save ALL of your code (editor, minified and ui builder).\nThen reload the page.', {extended: true})
         }
 
         running = true
@@ -386,27 +386,27 @@ engine = (($)=>{
         }, 1000)
 
         let codes = {
-            normal: editor.get('normal').editor.getValue(),
-            minified: editor.get('minified').editor.getValue(),
-            unminified: editor.get('unminified').editor.getValue()
+            normal: EDITORS.get('normal').editor.getValue(),
+            minified: EDITORS.get('minified').editor.getValue(),
+            unminified: EDITORS.get('unminified').editor.getValue()
         }
 
         if(!codes.minified || codes.minified.trim() === ''){
             delete codes.minified
         }
 
-        storage.setConfiguration('editors', codes)
+        STORAGE.setConfiguration('editors', codes)
 
         UI_BUILDER.save()
     }
 
     function loadCodesFromStorage(){
-        let codes = storage.getConfiguration('editors')
+        let codes = STORAGE.getConfiguration('editors')
 
         if(codes){
             for(let e of ['normal', 'minified', 'unminified']){            
                 if(typeof codes[e] === 'string'){
-                    editor.get(e).editor.setValue(codes[e])
+                    EDITORS.get(e).editor.setValue(codes[e])
                 }
             }
         }

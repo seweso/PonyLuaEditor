@@ -1,4 +1,4 @@
-stormworks_lua_api = (($)=>{
+STORMWORKS_LUA_API = (($)=>{
   "use strict";
 
 
@@ -16,7 +16,7 @@ stormworks_lua_api = (($)=>{
 
         if(! loaderNotified){
             loaderNotified = true
-            loader.done(loader.EVENT.STORMWORKS_LUA_API_READY)
+            LOADER.done(LOADER.EVENT.STORMWORKS_LUA_API_READY)
         }        
     }
 

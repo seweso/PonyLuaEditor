@@ -1,4 +1,4 @@
-translate = (()=>{
+TRANSLATE = (()=>{
     "use strict";
     
     let selectedLanguage = 'en'
@@ -79,7 +79,7 @@ translate = (()=>{
                 msg = 'none. Yay!'
             }
 
-            util.message('Reportedly missing keys:', msg)
+            UTIL.message('Reportedly missing keys:', msg)
         }
     }
 })()

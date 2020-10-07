@@ -1,4 +1,4 @@
-util = (($)=>{
+UTIL = (($)=>{
     "use strict";
 
     window.onerror = (errorMsg, url, lineNumber)=>{

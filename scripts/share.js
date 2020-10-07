@@ -5,7 +5,7 @@ var SHARE = (($)=>{
 
     let BASE_URL = document.location.protocol + '//' + document.location.host
     
-    loader.on(loader.EVENT.STORAGE_READY, init)
+    LOADER.on(LOADER.EVENT.STORAGE_READY, init)
 
     let isShareOpen = false
 
@@ -55,7 +55,7 @@ var SHARE = (($)=>{
             setCurrentShare(paramid)
             setTimeout(doReceive, 1000)
         } else {
-            loader.done(loader.EVENT.SHARE_READY)
+            LOADER.done(LOADER.EVENT.SHARE_READY)
         }
     }
 
@@ -70,14 +70,14 @@ var SHARE = (($)=>{
     }
 
     function doCreate(){
-        reporter.report(reporter.REPORT_TYPE_IDS.shareCode)
+        REPORTER.report(REPORTER.REPORT_TYPE_IDS.shareCode)
 
         console.log('creating new share')
 
 
-        let code = editor.get('normal').editor.getValue()
+        let code = EDITORS.get('normal').editor.getValue()
         if(typeof code !== 'string' || code.length === 0){
-            util.alert('Cannot share empty code!')
+            UTIL.alert('Cannot share empty code!')
             return
         }
        
@@ -85,7 +85,7 @@ var SHARE = (($)=>{
 
         let data = {
             code: 'v2',
-            settings: storage.asString()
+            settings: STORAGE.asString()
         }
 
         $.post(BASE_URL + '/api/create', data).done((data)=>{
@@ -95,11 +95,11 @@ var SHARE = (($)=>{
                 setCurrentShare(id)
             } catch (e){
                 console.error(e)
-                util.alert('Cannot share via ponybin. Please contact me.')
+                UTIL.alert('Cannot share via ponybin. Please contact me.')
             }
         }).fail((e)=>{
             console.error(e)
-            util.alert('Cannot share via ponybin. Please contact me!')
+            UTIL.alert('Cannot share via ponybin. Please contact me!')
         }).always(()=>{
             $('#ponybin-create-overlay').hide()
         })
@@ -107,10 +107,10 @@ var SHARE = (($)=>{
 
     function doReceive(){
         if(!currentShare){
-            util.alert('Cannot get data from ponybin. Please contact me.')
+            UTIL.alert('Cannot get data from ponybin. Please contact me.')
             return
         }
-        reporter.report(reporter.REPORT_TYPE_IDS.receiveShareCode)
+        REPORTER.report(REPORTER.REPORT_TYPE_IDS.receiveShareCode)
         
         console.log('receiving share', currentShare)
         $('#ponybin-receive-overlay').show()
@@ -122,20 +122,20 @@ var SHARE = (($)=>{
                 let json = JSON.parse(data)
 
                 if(typeof json.luabin === 'object'){
-                    storage.setFromShare(currentShare, json.luabin)
+                    STORAGE.setFromShare(currentShare, json.luabin)
                 } else {
                     throw 'invalid luabin format'
                 }
             } catch (e){
                 console.error(e)
-                util.alert('Cannot get data from ponybin. Please contact me!')
+                UTIL.alert('Cannot get data from ponybin. Please contact me!')
             }
         }).fail((e)=>{
             console.error(e)
-            util.alert('Cannot get data from ponybin. Is the share key correct?')
+            UTIL.alert('Cannot get data from ponybin. Is the share key correct?')
         }).always(()=>{
             $('#ponybin-receive-overlay').hide()
-            loader.done(loader.EVENT.SHARE_READY)
+            LOADER.done(LOADER.EVENT.SHARE_READY)
         })
     }
 

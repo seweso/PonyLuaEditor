@@ -10,7 +10,7 @@ var PROPERTY = ((global, $)=>{
     let dom_numbers
     let dom_texts
 
-    loader.on(loader.EVENT.ENGINE_READY, init)
+    LOADER.on(LOADER.EVENT.ENGINE_READY, init)
 
     function init(){
     	bools = {}
@@ -68,11 +68,11 @@ var PROPERTY = ((global, $)=>{
             }
         }
 
-        loader.done(loader.EVENT.PROPERTIES_READY)
+        LOADER.done(LOADER.EVENT.PROPERTIES_READY)
     }
 
     function saveToStorage(){
-        storage.setConfiguration('properties', {
+        STORAGE.setConfiguration('properties', {
             bools: bools,
             numbers: numbers,
             texts: texts
@@ -80,7 +80,7 @@ var PROPERTY = ((global, $)=>{
     }
 
     function getFromStorage(){
-        return storage.getConfiguration('properties')
+        return STORAGE.getConfiguration('properties')
     }
 
 

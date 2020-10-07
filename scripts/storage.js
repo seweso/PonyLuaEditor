@@ -1,4 +1,4 @@
-storage = (()=>{
+STORAGE = (()=>{
     "use strict";
    
     const VERSION = "1"
@@ -7,7 +7,7 @@ storage = (()=>{
     /* configuration might be an empty object, contain parts of a full configuration, or a complete configuration */
     let configuration = {}
 
-    loader.on(loader.EVENT.PAGE_READY, init)
+    LOADER.on(LOADER.EVENT.PAGE_READY, init)
 
     let loaderNotified = false
 
@@ -97,7 +97,7 @@ storage = (()=>{
 
         if(!loaderNotified){
             loaderNotified = true
-            loader.done(loader.EVENT.STORAGE_READY)
+            LOADER.done(LOADER.EVENT.STORAGE_READY)
         }
     }
 

@@ -16,7 +16,7 @@ var LUA_EMULATOR = (($)=>{
 
     let stepCount = 0
 
-    loader.on(loader.EVENT.PAGE_READY, init)
+    LOADER.on(LOADER.EVENT.PAGE_READY, init)
 
     let loaderNotified = false
 
@@ -27,7 +27,7 @@ var LUA_EMULATOR = (($)=>{
         makeFunctionAvailableInLuaViaName(timeStop, 'stop', 'timer')
 
         makeFunctionAvailableInLua(function pause(){
-            engine.pauseScript()
+            ENGINE.pauseScript()
         })
 
 
@@ -37,11 +37,11 @@ var LUA_EMULATOR = (($)=>{
             deleteGlobalVariable(n)
         }
 
-        stormworks_lua_api.init()
+        STORMWORKS_LUA_API.init()
 
         if(! loaderNotified){
             loaderNotified = true
-            loader.done(loader.EVENT.LUA_EMULATOR_READY)
+            LOADER.done(LOADER.EVENT.LUA_EMULATOR_READY)
         }
     }
 
@@ -57,16 +57,16 @@ var LUA_EMULATOR = (($)=>{
         for(let arg of args){
             text += luaToString(arg) + ' '
         }
-        lua_console.print(text)
+        CONSOLE.print(text)
     }
 
     let printColor = function(r,g,b){
-        lua_console.setPrintColor(r,g,b)
+        CONSOLE.setPrintColor(r,g,b)
     }
 
     let timeStart = function(){
         timer = performance.now()
-        lua_console.print('timer started', lua_console.COLOR.SPECIAL)
+        CONSOLE.print('timer started', CONSOLE.COLOR.SPECIAL)
     }   
 
     let timeStop = function(label){
@@ -78,7 +78,7 @@ var LUA_EMULATOR = (($)=>{
         let s = (time-ms)/1000 % 60
         let m = (time-ms-s*1000)/1000/60
         timer = false
-        lua_console.print('timer stopped (min:sec:milsec) = ' + m + ':' + (s < 10 ? '0'+s : s) + ':' + ms, lua_console.COLOR.SPECIAL)
+        CONSOLE.print('timer stopped (min:sec:milsec) = ' + m + ':' + (s < 10 ? '0'+s : s) + ':' + ms, CONSOLE.COLOR.SPECIAL)
     }   
 
     function createNamespace(name){    
@@ -350,9 +350,9 @@ var LUA_EMULATOR = (($)=>{
     }
 
     function bluescreenError(l, message, luaObject){
-        engine.errorStop()
+        ENGINE.errorStop()
         console.error('LUA_EMULATOR.bluescreenError()', message, luaToString(luaObject), convertLuaValue(l.stack[l.top-1]))
-        lua_console.print(message + ' ' + luaToString(luaObject), lua_console.COLOR.ERROR)
+        CONSOLE.print(message + ' ' + luaToString(luaObject), CONSOLE.COLOR.ERROR)
         setTimeout(()=>{
             console.log('paint bluescreen error')
             PAINT.setColor(0,0,255, 255)
@@ -369,7 +369,7 @@ var LUA_EMULATOR = (($)=>{
             namespaces = {}
             fresh = false
 
-            lua_console.reset()
+            CONSOLE.reset()
 
             stepCount = 0
             
@@ -389,7 +389,7 @@ var LUA_EMULATOR = (($)=>{
                 console.log('reseted lua vm', LUA_EMULATOR.getGlobalVariable('screen'))
             } catch (err){
                 console.error('error reseting lua vm', err)
-                util.alert('Cannot reset the Lua VM, please reload the page and tell me about this bug!')
+                UTIL.alert('Cannot reset the Lua VM, please reload the page and tell me about this bug!')
                 fresh = true
                 fulfill()
             }
@@ -427,14 +427,14 @@ var LUA_EMULATOR = (($)=>{
         isInTick: ()=>{return isInTick},
         isInDraw: ()=>{return isInDraw},
         notifyPaused: ()=>{
-            lua_console.print('-- paused script', lua_console.COLOR.DEBUG)
+            CONSOLE.print('-- paused script', CONSOLE.COLOR.DEBUG)
         },
         notifyUnPaused: ()=>{
-            lua_console.print('-- resumed script', lua_console.COLOR.DEBUG)
+            CONSOLE.print('-- resumed script', CONSOLE.COLOR.DEBUG)
         },
         notifyStep: ()=>{
             stepCount++
-            lua_console.print('-- step forward #' + stepCount, lua_console.COLOR.DEBUG)
+            CONSOLE.print('-- step forward #' + stepCount, CONSOLE.COLOR.DEBUG)
         }
     }
 })(jQuery)

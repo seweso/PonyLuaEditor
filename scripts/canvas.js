@@ -38,7 +38,7 @@ var CANVAS = ((global, $)=>{
 
     let secondaryTouchEnabled = true
 
-    loader.on(loader.EVENT.ENGINE_READY, init)
+    LOADER.on(LOADER.EVENT.ENGINE_READY, init)
 
     function init(){
 
@@ -47,11 +47,11 @@ var CANVAS = ((global, $)=>{
         })
 
         $('#monitor-size').on('change', (e)=>{
-            storage.setConfiguration('settings.monitorSize', $('#monitor-size').val())
+            STORAGE.setConfiguration('settings.monitorSize', $('#monitor-size').val())
         })
 
         $('#show-overflow').on('change', (e)=>{
-            storage.setConfiguration('settings.showOverflow', $('#show-overflow').prop('checked'))
+            STORAGE.setConfiguration('settings.showOverflow', $('#show-overflow').prop('checked'))
         })
 
         $('#zoomfactor').on('change', ()=>{
@@ -61,7 +61,7 @@ var CANVAS = ((global, $)=>{
             MAP.setZoomFactor(val)
             $('.monitor_info .zoom').html(val+'x')
             
-            storage.setConfiguration('settings.zoomfactor', val)
+            STORAGE.setConfiguration('settings.zoomfactor', val)
         })
         
         /* touchscreen */
@@ -90,12 +90,12 @@ var CANVAS = ((global, $)=>{
         })
 
         $('#enable-touchscreen').on('change', ()=>{
-            storage.setConfiguration('settings.touchscreenEnabled', $('#enable-touchscreen').prop('checked'))
+            STORAGE.setConfiguration('settings.touchscreenEnabled', $('#enable-touchscreen').prop('checked'))
         })
 
         $('#enable-touchscreen-secondary').on('change', ()=>{
             secondaryTouchEnabled = $('#enable-touchscreen-secondary').prop('checked')
-            storage.setConfiguration('settings.touchscreenSecondaryEnabled', secondaryTouchEnabled)
+            STORAGE.setConfiguration('settings.touchscreenSecondaryEnabled', secondaryTouchEnabled)
         })
 
         $(window).on('keydown mousedown', handleKeyDown)
@@ -117,7 +117,7 @@ var CANVAS = ((global, $)=>{
         refresh()
 
 
-        /* load config from storage */
+        /* load config from STORAGE */
         setConfigVal($('#zoomfactor'), 'settings.zoomfactor', 1)
         setConfigVal($('#monitor-size'), 'settings.monitorSize', '1x1')
         setConfigVal($('#show-overflow'), 'settings.showOverflow', true)
@@ -125,7 +125,7 @@ var CANVAS = ((global, $)=>{
         setConfigVal($('#enable-touchscreen-secondary'), 'settings.touchscreenSecondaryEnabled', false)
 
         function setConfigVal(elem, confName, defaultValue){
-            let v = storage.getConfiguration(confName)
+            let v = STORAGE.getConfiguration(confName)
 
             console.log(elem, confName, defaultValue, v)
 
@@ -140,11 +140,11 @@ var CANVAS = ((global, $)=>{
             elem.trigger('change')
         }
         
-        loader.done(loader.EVENT.CANVAS_READY)
+        LOADER.done(LOADER.EVENT.CANVAS_READY)
     }
 
     function handleKeyDown(evt){
-        if(engine.isRunning() && $('#enable-touchscreen').prop('checked')){
+        if(ENGINE.isRunning() && $('#enable-touchscreen').prop('checked')){
             if(evt.originalEvent.button === 0 && mouseIsOverMonitor){
                 evt.originalEvent.key = 'e'
             }
@@ -165,7 +165,7 @@ var CANVAS = ((global, $)=>{
                 }
             }
             calculateTouchscreenInput()
-        } else if (engine.isRunning() && !enableTouchscreenHintShown){
+        } else if (ENGINE.isRunning() && !enableTouchscreenHintShown){
             enableTouchscreenHintShown = true
 
             $('#enable-touchscreen-container').addClass('show_hint')
@@ -176,7 +176,7 @@ var CANVAS = ((global, $)=>{
     }
 
     function handleKeyUp(evt){
-        if(engine.isRunning() && $('#enable-touchscreen').prop('checked')){
+        if(ENGINE.isRunning() && $('#enable-touchscreen').prop('checked')){
             if(evt.originalEvent.button === 0 && mouseIsOverMonitor){
                 evt.originalEvent.key = 'e'
                 console.log('mouseup')

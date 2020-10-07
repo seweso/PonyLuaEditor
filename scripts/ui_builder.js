@@ -41,7 +41,7 @@ var UI_BUILDER = (($)=>{
         rotate_point: 'function rotatePoint(cx,cy,angle,px,py)\ns=math.sin(angle)\nc=math.cos(angle)\npx=px-cx\npy=py-cy\nxnew=px*c-py*s\nynew=px*s+py*c\npx=xnew+cx\npy=ynew+cy\nreturn {x=px,y=py}\nend'
     }
 
-    loader.on(loader.EVENT.CANVAS_READY, ()=>{
+    LOADER.on(LOADER.EVENT.CANVAS_READY, ()=>{
         init($('#ui-builder-container'))
     })
 
@@ -112,14 +112,14 @@ var UI_BUILDER = (($)=>{
         }
 
         $('#generate-ui-builder-lua-code').on('click', ()=>{
-            reporter.report(reporter.REPORT_TYPE_IDS.generateUIBuilderCode)
+            REPORTER.report(REPORTER.REPORT_TYPE_IDS.generateUIBuilderCode)
 
             generateLuaCode()
         })
 
         loadFromStorage()
 
-        loader.done(loader.EVENT.UI_BUILDER_READY)
+        LOADER.done(LOADER.EVENT.UI_BUILDER_READY)
     }
 
     function deactivateAllElements(){
@@ -1525,10 +1525,10 @@ var UI_BUILDER = (($)=>{
             allCode = allCode.replace(/[\n]{3,}/g, '\n\n')
 
             $('#ui-builder-code').show()
-            uiBuilderEditor.setValue(allCode, -1)
+            EDITORS.get('uibuilder').editor.setValue(allCode, -1)
         } catch (ex){
             console.error('Error building lua code', ex)
-            util.alert('Error building lua code.\nPlease contact the developer.')
+            UTIL.alert('Error building lua code.\nPlease contact the developer.')
         }
     }
 
@@ -1648,11 +1648,11 @@ var UI_BUILDER = (($)=>{
 
 
     function save(){
-        storage.setConfiguration('uibuilder', buildStorage())
+        STORAGE.setConfiguration('uibuilder', buildStorage())
     }
 
     function getStorage(){
-        return storage.getConfiguration('uibuilder')
+        return STORAGE.getConfiguration('uibuilder')
     }
 
     function buildStorage(){

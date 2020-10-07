@@ -433,15 +433,15 @@ var EXAMPLES = (($)=>{
     }]
 
 
-    loader.on(loader.EVENT.UI_READY, init)
+    LOADER.on(LOADER.EVENT.UI_READY, init)
 
     function init(){
 
-        ui.viewables()['viewable_examples'].onGainFocus(()=>{
-            reporter.report(reporter.REPORT_TYPE_IDS.openLearnAndExamples)
+        UI.viewables()['viewable_examples'].onGainFocus(()=>{
+            REPORTER.report(REPORTER.REPORT_TYPE_IDS.openLearnAndExamples)
         })
 
-        ui.viewables()['viewable_examples'].onViewableResize(resizeCodeBlocks)
+        UI.viewables()['viewable_examples'].onViewableResize(resizeCodeBlocks)
 
 
         for(let ch of CHAPTERS){
@@ -503,7 +503,7 @@ var EXAMPLES = (($)=>{
 
         resizeCodeBlocks()
 
-        loader.done(loader.EVENT.EXAMPLES_READY)
+        LOADER.done(LOADER.EVENT.EXAMPLES_READY)
     }
     
     function resizeCodeBlocks(){
