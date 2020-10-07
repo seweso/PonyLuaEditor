@@ -1,43 +1,6 @@
--   history of my recent share codes
--   history of my codes (persistent over page reloads)
--   user defined color scheme
--   funny loading screen or loading messages (saddling ponies, feeding ponies, buying carrots, cleaning rainbow)
-
--   when engine is running, add a symbol to the select tab of the editor whose code is running
-
-- save which viewable is focused to storage
-
-- integrate carsons lua tutorials
-
-- dragable viewables (instead of moveto via menu)
-
-- interactive help
-
-- report function inside the page (to report issues without any login)
-
-- hightlight error in editor if script fails
 
 - after loading share, settings are not loaded ?!?
 - related: do we even load the settings from storage.js or is the browser applying his own saved information (by name attribute)
-
-- on old IDE version: add check for v2 inside the "code" to show the user a warning
-
-- automated error reporting (to my server)
-
-- show loader status in a viewable
-
-- rename all new modules to UPPERCASE
-
-- make custom minified code hint work again
-
-- make minifictaion and unminifaction work again
-
-- many TODOs (see code comments)
-
-- search in documentation
-
-- visualize questions attribute for docs nodes
-
 
 
 add information:

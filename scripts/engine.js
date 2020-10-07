@@ -96,12 +96,6 @@ engine = (($)=>{
             }
         })
 
-        /* TODO: when saving minfied code, then show custom hint
-
-        
-            $('#minified-code-container .custom_hint').show()
-
-        */
 
         loadCodesFromStorage()
 
@@ -402,6 +396,8 @@ engine = (($)=>{
         }
 
         storage.setConfiguration('editors', codes)
+
+        UI_BUILDER.save()
     }
 
     function loadCodesFromStorage(){

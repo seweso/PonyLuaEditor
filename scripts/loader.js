@@ -75,7 +75,6 @@ loader = (($)=>{
             throw 'event was already reported as done, duplicate? "' + event + '"'
         }
 
-        //TODO maybe we need a small timeout in here? e.g. 10 ms, we had some timeouts here in the old code too
         setTimeout(()=>{
             doneEvents.push(event)
             if(listeners[event]){

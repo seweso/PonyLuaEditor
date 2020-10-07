@@ -41,7 +41,7 @@ var UI_BUILDER = (($)=>{
         rotate_point: 'function rotatePoint(cx,cy,angle,px,py)\ns=math.sin(angle)\nc=math.cos(angle)\npx=px-cx\npy=py-cy\nxnew=px*c-py*s\nynew=px*s+py*c\npx=xnew+cx\npy=ynew+cy\nreturn {x=px,y=py}\nend'
     }
 
-    loader.on(loader.EVENT.UI_READY, ()=>{
+    loader.on(loader.EVENT.CANVAS_READY, ()=>{
         init($('#ui-builder-container'))
     })
 
@@ -111,16 +111,8 @@ var UI_BUILDER = (($)=>{
             container.find('.element_list').append(entry)
         }
 
-        $('#save-ui-builder').on('click', ()=>{
-            $('#save-ui-builder').addClass('saved')
-            setTimeout(()=>{
-                $('#save-ui-builder').removeClass('saved')
-            }, 1000)
-            save()
-        })
-
         $('#generate-ui-builder-lua-code').on('click', ()=>{
-            reporter.report(YYY.REPORT_TYPE_IDS.generateUIBuilderCode)
+            reporter.report(reporter.REPORT_TYPE_IDS.generateUIBuilderCode)
 
             generateLuaCode()
         })
@@ -491,6 +483,12 @@ var UI_BUILDER = (($)=>{
                 width: uiZoom(this.width),
                 height: uiZoom(this.height)
             })
+            console.log(this, {
+                left: uiZoom(this.x),
+                top: uiZoom(this.y),
+                width: uiZoom(this.width),
+                height: uiZoom(this.height)
+            }, maxX, maxY)
         }
 
         refreshZindex(){
@@ -1700,7 +1698,7 @@ var UI_BUILDER = (($)=>{
     return {
         Element: Element,
         Label: Label,
-        loadFromStorage: loadFromStorage,
+        save: save,
         allElements: ()=>{
             return allElements
         }

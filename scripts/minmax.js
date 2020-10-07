@@ -27,19 +27,19 @@ minmax = (()=>{
         
 
         $('#minify').on('click', ()=>{
-            reporter.report(REPORT_TYPE_IDS.minify)
+            reporter.report(reporter.REPORT_TYPE_IDS.minify)
 
             try {
 
                 let minified
 
                 if($('#minify-type').val() === 'conservative-with-line-breaks' || $('#minify-type').val() === 'conservative-no-line-breaks'){
-                    let ast = luaparse.parse(editor.get('normal').getValue())
+                    let ast = luaparse.parse(editor.get('normal').editor.getValue())
 
                     minified = luamin.minify(ast).trim()
                 } else {
 
-                    let ast = luaparse.parse(editor.get('normal').getValue())
+                    let ast = luaparse.parse(editor.get('normal').editor.getValue())
 
                     minified = luaminy.minify(ast).trim()
 
@@ -145,16 +145,17 @@ minmax = (()=>{
                     }
                 }
 
-                $('#minified-editor').show()
-                editor.get('minified').setValue(minified, -1)
-                $('#minified-code-container .custom_hint').hide()
-                yyy.setCustomMinifiedCode(false)
-
-                removeMinifiedCodeFromStorage()
+                editor.get('minified').editor.setValue(minified, -1)
             } catch (ex){
                 console.trace(ex)
                 $('#minified-editor').show()
-                editor.get('minified').setValue('Error: ' + ex.message, -1)
+                editor.get('minified').editor.setValue('Error: ' + ex.message, -1)
+            }
+
+            let viewable = ui.viewables()['viewable_editor_minified']
+            let currView = viewable.myCurrentView()
+            if(currView){
+                currView.focus(viewable)
             }
         })
 
@@ -167,9 +168,9 @@ minmax = (()=>{
 
     
         $('#unminify').on('click', ()=>{
-            reporter.report(REPORT_TYPE_IDS.unminify)
+            reporter.report(reporter.REPORT_TYPE_IDS.unminify)
 
-            let minified = editor.get('minified').getValue()
+            let minified = editor.get('minified').editor.getValue()
 
             if(typeof minified !== 'string' || minified.length == 0){
                 fail('empty')
@@ -226,13 +227,19 @@ minmax = (()=>{
 
             unminified += luamax.maxify(code, idMap, libIdMap)
 
-            $('#unminified-editor').show()
-            editor.get('unminified').setValue(unminified, -1)
+
+            editor.get('unminified').editor.setValue(unminified, -1)
+
+            let viewable = ui.viewables()['viewable_editor_unminified']
+            let currView = viewable.myCurrentView()
+            if(currView){
+                currView.focus(viewable)
+            }
 
 
             function fail(msg){
                 $('#unminified-editor').show()
-                editor.get('unminified').setValue('Unminification failed:\n' + msg, -1)
+                editor.get('unminified').editor.setValue('Unminification failed:\n' + msg, -1)
             }
 
         })

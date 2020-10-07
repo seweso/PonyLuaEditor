@@ -132,7 +132,7 @@
     var generateIdentifier = function(originalName, library) {
         console.log('generateIdentifier', originalName, library)
         // Preserve `self` in methods
-        if (originalName == 'self' || ! YYY.isMinificationAllowed(originalName, library)) {
+        if (originalName == 'self' || ! minmax.isMinificationAllowed(originalName, library)) {
             console.log(originalName)
             return originalName;
         }
