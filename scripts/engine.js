@@ -24,6 +24,18 @@ ENGINE = (($)=>{
 
     function init(){
 
+        function showPerformanceHint(){
+            UTIL.hint('Performance hint', 'After 30 minutes you should reload the page to reset the emulator.\nPlease save ALL of your code (editor, minified and ui builder).\nThen reload the page.', {extended: true})
+        }
+        
+        setTimeout(()=>{
+            showPerformanceHint()
+            setInterval(()=>{
+                showPerformanceHint()            
+            }, 1000 * 60 * 10)
+        }, 1000 * 60 * 30)
+
+
         $('#start').on('click', start)
 
         $('#pause').prop('disabled', true)
