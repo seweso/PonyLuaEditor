@@ -27,7 +27,7 @@ ENGINE = (($)=>{
         function showPerformanceHint(){
             UTIL.hint('Performance hint', 'After 30 minutes you should reload the page to reset the emulator.\nPlease save ALL of your code (editor, minified and ui builder).\nThen reload the page.', {extended: true})
         }
-        
+
         setTimeout(()=>{
             showPerformanceHint()
             setInterval(()=>{
@@ -207,37 +207,12 @@ ENGINE = (($)=>{
         }, 100)
     }
 
-    function startMinified(){
-        lockUI()
-        saveCodesInStorage()
-
-        let code = EDITORS.get('minified').editor.getValue()
-
-        startCode(code)
-
-        setTimeout(()=>{
-            $('#start, #start-minified, #start-generated').blur()
-        }, 100)
-    }
-
-    function startGenerated(){
-        lockUI()
-
-        let code = EDITORS.get('uibuilder').editor.getValue()
-
-        startCode(code)
-
-        setTimeout(()=>{
-            $('#start, #start-minified, #start-generated').blur()
-        }, 100)
-    }
-
     function lockUI(){        
-        $('#code-container, #minified-code-container, #ui-builder').addClass('locked')
+        
     }
 
     function unlockUI(){
-        $('#code-container, #minified-code-container, #ui-builder').removeClass('locked')
+        
     }
 
     function startCode(code){
@@ -336,7 +311,7 @@ ENGINE = (($)=>{
             $('#ticktime').removeClass('warning')
         }
         if(diff > 1000){
-            LUA_EMULATOR.printToConsole('onTick() execution was longer then 1000ms!')
+            CONSOLE.print('onTick() execution was longer then 1000ms!')
         }
         tickTimes.reverse()
         tickTimes.pop()
@@ -371,7 +346,7 @@ ENGINE = (($)=>{
             $('#drawtime').removeClass('warning')
         }
         if(diff > 1000){
-            LUA_EMULATOR.printToConsole('onDraw() execution was longer then 1000ms!')
+            CONSOLE.print('onDraw() execution was longer then 1000ms!')
         }
         drawTimes.reverse()
         drawTimes.pop()
