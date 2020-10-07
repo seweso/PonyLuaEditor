@@ -105,10 +105,8 @@ var CANVAS = ((global, $)=>{
         let params = new URLSearchParams( document.location.search)
         let paramBigmonitor = params.get('bigmonitor')
         if(paramBigmonitor === 'true'){
-            setTimeout(()=>{
-                $('#zoomfactor').attr('max', '20')
-                $('.content').before($('#monitor'))
-            }, 1000)
+            $('#zoomfactor').attr('max', '20')
+            $('.ide').before($('#monitor'))
         }
 
         $renderCanvas = $('#render-canvas')
