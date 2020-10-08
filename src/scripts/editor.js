@@ -159,11 +159,11 @@ EDITORS = (()=>{
     }
 
     function loadEditorFontSize(){
-        return storage.getConfiguration('editorFontSize')
+        return STORAGE.getConfiguration('editorFontSize')
     }
 
     function saveEditorFontSize(fontsize){
-        storage.setConfiguration('editorFontSize', fontsize)
+        STORAGE.setConfiguration('editorFontSize', fontsize)
     }
 
     function increaseEditorFontSize(){
