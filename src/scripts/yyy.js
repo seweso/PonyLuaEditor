@@ -15,14 +15,21 @@ YYY = (($)=>{
         }
 
 
-        /* mobile menu */
-        $('#mobile-menu-open').on('click', ()=>{
-            $('#mobile-menu').css('display', 'flex')
+        /* navigation menu */
+        $('#menu-open, #navigation .center').on('click', ()=>{
+            if($('#navigation').hasClass('open')){
+                $('#navigation').removeClass('open')
+                $('#navigation').animate({
+                    top: '0px'
+                })
+            } else {
+                $('#navigation').animate({
+                    top: '80vh'
+                }, ()=>{
+                    $('#navigation').addClass('open')
+                })
+            }
         })
-        $('#mobile-menu .menu_group > :not(.menu_group_title), #mobile-menu-close-sidebar').on('click', ()=>{
-            $('#mobile-menu').hide()
-        })
-
 
 
         ENGINE.refresh()
