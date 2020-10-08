@@ -46,14 +46,14 @@ class Editor extends DynamicSizedViewableContent {
     addEditorControls(){
         let fontMinus = $('<span class="font_minus icon-minus"></span>')
         fontMinus.on('click', ()=>{
-            decreaseFontSize()
+            EDITORS.decreaseEditorFontSize()
         })            
         this.dom.append(fontMinus)
 
 
         let fontPlus = $('<span class="font_plus icon-plus"></span>')
         fontPlus.on('click', ()=>{
-            increaseFontSize()
+            EDITORS.increaseEditorFontSize()
         })
         this.dom.append(fontPlus)
 
@@ -159,11 +159,11 @@ EDITORS = (()=>{
     }
 
     function loadEditorFontSize(){
-        return localStorage.getItem('editor-font-size')
+        return storage.getConfiguration('editorFontSize')
     }
 
     function saveEditorFontSize(fontsize){
-        localStorage.setItem('editor-font-size', fontsize)
+        storage.setConfiguration('editorFontSize', fontsize)
     }
 
     function increaseEditorFontSize(){
@@ -205,7 +205,9 @@ EDITORS = (()=>{
         setActiveEditor: setActiveEditor,
         getActiveEditor: ()=>{return editors[activeEditor]},
         get: (name)=>{return editors[name]},
-        resize: resize
+        resize: resize,
+        increaseEditorFontSize: increaseEditorFontSize,
+        decreaseEditorFontSize: decreaseEditorFontSize
     }
 })()
 

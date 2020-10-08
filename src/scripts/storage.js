@@ -66,6 +66,7 @@ STORAGE = (()=>{
                 texts: localStorage.getItem('property_texts'),
             },            
             uibuilder: localStorage.getItem('ui'),
+            editorFontSize: localStorage.getItem('editor-font-size'),
             settings: {
                 timeBetweenTicks: general.timeBetweenTicks,
                 timeBetweenDraws: general.timeBetweenDraws,
@@ -194,7 +195,8 @@ STORAGE = (()=>{
                     numbers: parsedSettings && parsedSettings.property ? parsedSettings.property.numbers : undefined,
                     texts: parsedSettings && parsedSettings.property ? parsedSettings.property.texts : undefined
                 },
-                uibuilder: parseOrUndefined(confJSON.ui_builder),                    
+                uibuilder: parseOrUndefined(confJSON.ui_builder),
+                editorFontSize: confJSON['editor-font-size'],
                 settings: {
                     timeBetweenTicks: parsedSettings && parsedSettings.general ? parsedSettings.general.timeBetweenTicks : undefined,
                     timeBetweenDraws: parsedSettings && parsedSettings.general ? parsedSettings.general.timeBetweenDraws : undefined,
