@@ -158,41 +158,30 @@ a:hover {
   position: fixed;
   top: 0;
   left: 0;
-  height: 100vh;
-  width: 100vw;
+  height: 100vh !important;
+  width: 100vw !important;
   z-index: 10000000000000; }
 
-.ace_editor .fullscreen_toggle {
+.ace_editor .fullscreen_toggle, .ace_editor .font_plus, .ace_editor .font_minus {
   position: absolute;
-  top: 0;
-  right: 17px;
+  top: 5px;
   z-index: 1;
   padding: 5px;
   font-size: 20px;
   background: #0004;
   border-radius: 2px;
   cursor: pointer; }
-  .ace_editor .fullscreen_toggle:hover {
+  .ace_editor .fullscreen_toggle:hover, .ace_editor .font_plus:hover, .ace_editor .font_minus:hover {
     background: #000a; }
 
-.ace_editor .font_plus, .ace_editor .font_minus {
-  position: absolute;
-  top: 0;
-  right: 17px;
-  z-index: 1;
-  padding: 5px;
-  font-size: 20px;
-  background: #0004;
-  border-radius: 2px;
-  cursor: pointer; }
-  .ace_editor .font_plus:hover, .ace_editor .font_minus:hover {
-    background: #000a; }
+.ace_editor .fullscreen_toggle {
+  right: 8px; }
 
 .ace_editor .font_plus {
-  right: 50px; }
+  right: 41px; }
 
 .ace_editor .font_minus {
-  right: 83px; }
+  right: 75px; }
 
 #ui-builder {
   background: #000d;
