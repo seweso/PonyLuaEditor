@@ -1,6 +1,6 @@
 var MAP = (($)=>{
 
-    const DO_LOG = true
+    const DO_LOG = false
 
     const FONT_SIZE = 6
     const FONT = 'px "Lucida Console", Monaco, monospace'
@@ -9,18 +9,15 @@ var MAP = (($)=>{
 
     let fakecanvas = document.createElement('canvas')
     let fakectx = fakecanvas.getContext('2d')
-    let fakecanvas2 = document.createElement('canvas')
-    let fakectx2 = fakecanvas2.getContext('2d')
 
     $(window).on('load', ()=>{
         $('body').append(fakecanvas)
-        $('body').append(fakecanvas2)
     })
 
     const COLOR_MULTIPLIER = 0.75
 
-    const MAP_ZERO_X = 800
-    const MAP_ZERO_Y = 400
+    const MAP_ZERO_X = 16000
+    const MAP_ZERO_Y = -4000
 
     const DEFAULT_COLORS = {
         ocean: {
@@ -61,6 +58,8 @@ var MAP = (($)=>{
         }
     }
 
+    const METER_PER_MAP_PIXEL = 20
+
     let matches = {}
 
     function drawMap(x, y, zom){//zom from 0.1 to 50
@@ -68,12 +67,12 @@ var MAP = (($)=>{
         let currentFillStyle = CANVAS.ctx().fillStyle
         try {
             let centerx = MAP_ZERO_X + x
-            let centery = MAP_ZERO_Y - y
+            let centery = - MAP_ZERO_Y - y
 
             let sWidth = Math.max(CANVAS.width() * zom, 1)
             let sHeight = Math.max(CANVAS.height() * zom, 1)
-            let sx = centerx - sWidth/2
-            let sy = centery - sHeight/2
+            let sx = centerx / METER_PER_MAP_PIXEL - sWidth/2
+            let sy = centery / METER_PER_MAP_PIXEL - sHeight/2
 
             console.log('showing map', sx,sy, sWidth, sHeight)
 
@@ -96,12 +95,7 @@ var MAP = (($)=>{
             fakectx.clearRect(0, 0, fakecanvas.width, fakecanvas.height)
             fakectx.putImageData(imageData, 0, 0, 0, 0, fakecanvas.width, fakecanvas.height)
 
-            fakecanvas2.width = zoom(CANVAS.width())
-            fakecanvas2.height = zoom(CANVAS.height())
-
-            fakectx2.drawImage(fakecanvas, 0, 0, fakecanvas.width, fakecanvas.height, 0, 0, fakecanvas2.width, fakecanvas2.height)
-
-            CANVAS.ctx().drawImage(fakecanvas2, 0, 0, fakecanvas2.width, fakecanvas2.height, CANVAS.left(), CANVAS.top(), CANVAS.renderWidth() - CANVAS.left()*2, CANVAS.renderHeight() - CANVAS.top()*2)
+            CANVAS.ctx().drawImage(fakecanvas, 0, 0, fakecanvas.width, fakecanvas.height, CANVAS.left(), CANVAS.top(), CANVAS.renderWidth() - CANVAS.left()*2, CANVAS.renderHeight() - CANVAS.top()*2)
         } catch (err){
             console.error(err)
         }  
@@ -162,18 +156,17 @@ var MAP = (($)=>{
         }
     }
 
-    const meterPerMapPixel = 50
     function screenToMap(mapX, mapY, zoom, screenW, screenH, pixelX, pixelY){
         let screenCenterX = screenW/2
         let screenCenterY = screenH/2
         let deltaPixelX = (pixelX - screenCenterX) / zoom
         let deltaPixelY = (pixelY - screenCenterY) / zoom
-        return {emulatorUnpack: true, 0: meterPerMapPixel * deltaPixelX + mapX, 1: meterPerMapPixel * deltaPixelY + mapY}
+        return {emulatorUnpack: true, 0: METER_PER_MAP_PIXEL * deltaPixelX + mapX, 1: METER_PER_MAP_PIXEL * deltaPixelY + mapY}
     }
 
     function mapToScreen(mapX, mapY, zoom, screenW, screenH, worldX, worldY){
-        let pixelX = (worldX - mapX) * zoom / meterPerMapPixel + screenW/2
-        let pixelY = (worldY - mapY) * zoom / meterPerMapPixel + screenH/2
+        let pixelX = (worldX - mapX) * zoom / METER_PER_MAP_PIXEL + screenW/2
+        let pixelY = (worldY - mapY) * zoom / METER_PER_MAP_PIXEL + screenH/2
 
         return {emulatorUnpack: true, 0: pixelX, 1: pixelY}
     }
