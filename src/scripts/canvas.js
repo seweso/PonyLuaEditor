@@ -21,7 +21,7 @@ var CANVAS = ((global, $)=>{
     let renderCanvas
     let renderCtx
 
-    const RENDER_SCALING_FACTOR = 16
+    const RENDER_SCALING_FACTOR = 16 // if you increase the value, you need to adjust canvas limits (see #226)
 
     let top = 0
     let left = 0
@@ -43,6 +43,12 @@ var CANVAS = ((global, $)=>{
     function init(){
 
         $('#monitor-size, #show-overflow').on('change', (e)=>{
+            /* limit zoom to not exceed canvas size limits */
+            let val = $('#zoomfactor').val()
+            if($('#monitor-size').val() === '9x5' && val > 2){
+                $('#zoomfactor').val(2).trigger('change')
+            }
+
             recalculateCanvas()
         })
 
@@ -56,6 +62,13 @@ var CANVAS = ((global, $)=>{
 
         $('#zoomfactor').on('change', ()=>{
             let val = $('#zoomfactor').val()
+
+            /* limit zoom to not exceed canvas size limits */
+            if($('#monitor-size').val() === '9x5' && val > 2){
+                val = 2
+            }
+            $('#zoomfactor').val(val)
+
             CANVAS.setZoomFactor(val)
             PAINT.setZoomFactor(val)
             MAP.setZoomFactor(val)
