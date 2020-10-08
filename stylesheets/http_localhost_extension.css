@@ -55,24 +55,58 @@ a {
 a:hover {
   color: tint(#0081cc, 10%); }
 
-#logo {
-  background: url("../images/logo.png") center 100% no-repeat;
-  height: 3em;
-  width: 3em;
-  background-size: contain;
-  margin-right: 30px; }
-
 #navigation {
-  position: sticky;
-  top: 0;
   height: 75px;
-  z-index: 100000000;
   background: #000;
-  padding: 5px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center; }
+  #navigation .left, #navigation .right {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 25%;
+    height: 70%; }
+  #navigation .logo_container {
+    height: 100%; }
+    #navigation .logo_container img {
+      height: 100%;
+      width: auto; }
+  #navigation .center {
+    position: relative;
+    width: 50%;
+    height: 100%; }
+    #navigation .center svg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 110%;
+      width: 100%;
+      z-index: 1; }
+      #navigation .center svg path#border {
+        fill: none;
+        stroke: #0081cc;
+        stroke-width: 1px;
+        stroke-linecap: butt;
+        stroke-linejoin: miter;
+        stroke-opacity: 1; }
+      #navigation .center svg path#fill {
+        fill: #1c3146; }
+    #navigation .center .content {
+      z-index: 2;
+      position: relative;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100%; }
+      #navigation .center .content span {
+        color: #fff;
+        font-family: "Lucida Console", Monaco, monospace;
+        font-size: 40px; }
 
 #beta, #offline, #download-offline {
   display: inline-block;
@@ -109,70 +143,6 @@ a:hover {
   background: linear-gradient(15deg, #9A8D00 0%, #4d835f 100%);
   box-shadow: 0px 0px 3px 2px #a99c1077;
   text-decoration: none; }
-
-/* mobile menu */
-#mobile-menu {
-  display: none;
-  flex-direction: row;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  min-height: 100vh;
-  z-index: 1000000000000; }
-  #mobile-menu #mobile-menu-close-sidebar {
-    width: 100%;
-    background: #fff7; }
-  #mobile-menu #mobile-menu-inner {
-    display: flex;
-    flex-direction: column;
-    width: 80%;
-    max-width: 350px;
-    height: 100%;
-    min-height: 100vh;
-    background: #0a0a0a;
-    color: #ddd;
-    padding-bottom: 10px; }
-  #mobile-menu .mobile_menu_logo {
-    height: 5em;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    background: #000; }
-    #mobile-menu .mobile_menu_logo img {
-      height: 70%;
-      width: auto; }
-  #mobile-menu .menu_group {
-    display: flex;
-    flex-direction: column;
-    background: #0a0a0a; }
-    #mobile-menu .menu_group > * {
-      padding: 10px; }
-    #mobile-menu .menu_group > :not(.menu_group_title) {
-      padding-left: 25px; }
-  #mobile-menu .menu_group_title {
-    background: #000;
-    border-bottom: 2px solid #111; }
-  #mobile-menu #learn-menu-entry span, #mobile-menu #help-menu-entry span {
-    cursor: pointer;
-    padding: 4px 10px;
-    border-radius: 10000px;
-    font-weight: bold; }
-  #mobile-menu #learn-menu-entry span {
-    background: linear-gradient(15deg, #0194E2 0%, #792692 100%);
-    box-shadow: 1px 0px 3px 1px #0194E277; }
-  #mobile-menu #help-menu-entry span {
-    background: linear-gradient(15deg, #9A8D00 0%, #4d835f 100%);
-    box-shadow: 0px 0px 3px 2px #a99c1077; }
-
-#mobile-menu-open {
-  background: url("../images/menu_icon.png");
-  background-size: cover;
-  height: 2em;
-  width: 2em;
-  margin: 0.5em;
-  cursor: pointer; }
 
 .bordered_container {
   margin: 30px;
