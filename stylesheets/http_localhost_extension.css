@@ -138,7 +138,35 @@ body {
     min-height: 80vh;
     width: 100vw;
     background: #090b0d;
-    border-bottom: 1px solid #363b40; }
+    border-bottom: 1px solid #363b40;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-image: url("../images/logo_ghost.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center; }
+    #navigation .main .part {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: #eaedf1;
+      font-size: 20px; }
+      #navigation .main .part:not(:last-child) {
+        margin-bottom: 60px; }
+      #navigation .main .part:before {
+        content: ' ';
+        position: absolute;
+        right: calc(100% + 30px);
+        top: 50%;
+        width: 10px;
+        height: 10px;
+        transform: translateY(-50%);
+        background: #0081cc;
+        border-radius: 100000px; }
 
 #beta, #offline, #download-offline {
   display: inline-block;

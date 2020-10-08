@@ -119,6 +119,46 @@ body {
         width: 100vw;
         background: $very-dark;
         border-bottom: 1px solid $medium-dark;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        background-image: url('../images/logo_ghost.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+
+        .part {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: $light;
+            font-size: 20px;
+
+            a {
+
+            }
+
+            &:not(:last-child) {
+                margin-bottom: 60px;
+            }
+
+            &:before {
+                content: ' ';
+                position: absolute;
+                right: calc(100% + 30px);
+                top: 50%;
+                width: 10px;
+                height: 10px;
+                transform: translateY(-50%);
+                background: $stormworks-blue;
+                border-radius: 100000px;
+            }
+        }
     }
 }
 
