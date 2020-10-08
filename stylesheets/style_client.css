@@ -1387,6 +1387,20 @@ a:hover {
   margin-bottom: 8px;
 }
 /* line 155, ../compass/src/_viewable_documentation.scss */
+[viewable="viewable_documentation"] .node .bottom .returns {
+  font-weight: bold;
+  color: #7e7e7e;
+  margin-bottom: 8px;
+}
+/* line 160, ../compass/src/_viewable_documentation.scss */
+[viewable="viewable_documentation"] .node .bottom .returns span {
+  font-weight: normal;
+}
+/* line 163, ../compass/src/_viewable_documentation.scss */
+[viewable="viewable_documentation"] .node .bottom .returns span.nothing {
+  text-decoration: underline;
+}
+/* line 169, ../compass/src/_viewable_documentation.scss */
 [viewable="viewable_documentation"] .node .bottom .bugs {
   margin-top: 10px;
   background: #952424;
@@ -1394,7 +1408,7 @@ a:hover {
   padding: 6px;
   border-radius: 3px;
 }
-/* line 162, ../compass/src/_viewable_documentation.scss */
+/* line 176, ../compass/src/_viewable_documentation.scss */
 [viewable="viewable_documentation"] .node .bottom .bugs .heading {
   background: #fff;
   color: #952424;
@@ -1403,39 +1417,39 @@ a:hover {
   font-weight: bold;
   line-height: 1.3em;
 }
-/* line 171, ../compass/src/_viewable_documentation.scss */
+/* line 185, ../compass/src/_viewable_documentation.scss */
 [viewable="viewable_documentation"] .node .bottom .bugs .bug_text {
   margin-top: 10px;
   padding: 5px;
 }
-/* line 178, ../compass/src/_viewable_documentation.scss */
+/* line 192, ../compass/src/_viewable_documentation.scss */
 [viewable="viewable_documentation"] .node .children {
   padding-left: 10px;
 }
-/* line 184, ../compass/src/_viewable_documentation.scss */
+/* line 198, ../compass/src/_viewable_documentation.scss */
 [viewable="viewable_documentation"] .node[lib="stormworks"] .lib {
   color: #0081cc;
   border-color: #0081cc;
 }
-/* line 192, ../compass/src/_viewable_documentation.scss */
+/* line 206, ../compass/src/_viewable_documentation.scss */
 [viewable="viewable_documentation"] .node[lib="dev"] .lib {
   color: #b9085b;
   border-color: #b9085b;
 }
-/* line 200, ../compass/src/_viewable_documentation.scss */
+/* line 214, ../compass/src/_viewable_documentation.scss */
 [viewable="viewable_documentation"] .node[lib="lua"] .lib {
   color: #44b511;
   border-color: #44b511;
 }
-/* line 207, ../compass/src/_viewable_documentation.scss */
+/* line 221, ../compass/src/_viewable_documentation.scss */
 [viewable="viewable_documentation"] .node[ntype="object"] .name, [viewable="viewable_documentation"] .node[ntype="object"] .hint_open_icon {
   color: #A6CE28;
 }
-/* line 213, ../compass/src/_viewable_documentation.scss */
+/* line 227, ../compass/src/_viewable_documentation.scss */
 [viewable="viewable_documentation"] .node[ntype="function"] .name, [viewable="viewable_documentation"] .node[ntype="function"] .hint_open_icon {
   color: #66D9EF;
 }
-/* line 220, ../compass/src/_viewable_documentation.scss */
+/* line 234, ../compass/src/_viewable_documentation.scss */
 [viewable="viewable_documentation"] .node[ntype="event"] .name, [viewable="viewable_documentation"] .node[ntype="event"] .hint_open_icon {
   color: #F0D322;
 }

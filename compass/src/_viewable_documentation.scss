@@ -152,6 +152,20 @@
 
             }
 
+            .returns {
+                font-weight: bold;
+                color: $light-dark;
+                margin-bottom: 8px;
+
+                span {
+                    font-weight: normal;
+
+                    &.nothing {
+                        text-decoration: underline;
+                    }
+                }
+            }
+
             .bugs {
                 margin-top: 10px;
                 background: $red;

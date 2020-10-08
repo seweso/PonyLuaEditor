@@ -364,11 +364,13 @@ DOCUMENTATION_DEFINITION_SERVER = (()=>{
                     getVideoTutorials: {
                         type: TF,
                         args: [],
+                        returns: 'boolean',
                         description: 'Returns true when player has clicked on "Video Tutorials" in the menu already, false otherwise.'
                     },
                     getTutorial: {
                         type: TF,
                         args: [],
+                        returns: 'boolean',
                         description: 'Returns true if tutorial is completed'
                     },
                     createPopup: {
@@ -392,6 +394,7 @@ DOCUMENTATION_DEFINITION_SERVER = (()=>{
                     getMapID: {
                         type: TF,
                         args: [],
+                        returns: 'number',
                         description: 'Creates a new unique id that is required to create Map Objects.'
                     },
                     announce: {
@@ -783,52 +786,62 @@ DOCUMENTATION_DEFINITION_SERVER = (()=>{
                     multiply: {
                         type: TF,
                         args: [{name: 'matrix1'}, {name: 'matrix2'}],
-                        description: 'Multiplies two matrix'
+                        returns: 'matrix',
+                        description: 'Multiplies two matrix.'
                     },
                     invert: {
                         type: TF,
                         args: [{name: 'matrix'}],
-                        description: 'Inverts the matrix'
+                        returns: 'matrix',
+                        description: 'Inverts the matrix.'
                     },
                     transpose: {
                         type: TF,
                         args: [{name: 'matrix'}],
-                        description: 'Transposes the matrix'
+                        returns: 'matrix',
+                        description: 'Transposes the matrix.'
                     },
                     identity: {
                         type: TF,
                         args: [],
-                        description: 'Returns the special identity matrix'
+                        returns: 'matrix',
+                        description: 'Returns the special identity matrix.'
                     },
                     rotationX: {
                         type: TF,
                         args: [{name: 'radians'}],
-                        description: 'Rotate a matrix around the x axis'
+                        returns: 'matrix',
+                        description: 'Creates a rotation matrix around the x axis.'
                     },
                     rotationY: {
                         type: TF,
                         args: [{name: 'radians'}],
-                        description: 'Rotate a matrix around the y axis'
+                        returns: 'matrix',
+                        description: 'Creates a rotation matrix around the y axis.'
                     },
                     rotationZ: {
                         type: TF,
                         args: [{name: 'radians'}],
-                        description: 'Rotate a matrix around the z axis'
+                        returns: 'matrix',
+                        description: 'Creates a rotation matrix around the z axis.'
                     },
                     translation: {
                         type: TF,
                         args: [{name: 'x'}, {name: 'y'}, {name: 'z'}],
-                        description: 'Translate (~move) a matrix'
+                        returns: 'matrix',
+                        description: 'Creates a translation matrix.'
                     },
                     position: {
                         type: TF,
                         args: [{name: 'matrix'}],
-                        description: 'Returns x,y,z (x,y = map coordinates, z = altitude) values of the matrix'
+                        returns: 'x,y,z',
+                        description: 'Returns x,y,z (x,y = map coordinates, z = altitude) values of the matrix.'
                     },
                     distance: {
                         type: TF,
                         args: [{name: 'matrix1'}, {name: 'matrix2'}],
-                        description: 'Translate (~move) a matrix'
+                        returns: 'number',
+                        description: 'Calculates distance between two matrixes.'
                     }
                 }
             },

@@ -284,6 +284,12 @@ var DOCUMENTATION = ((global, $)=>{
             )
         }
 
+        if(node.type === TF){
+            bottom.append(
+                $('<div class="returns">Returns: ' + (node.returns ? node.returns : '<span class="nothing">nothing</span>') + '</div>')
+            )
+        }
+
         bottom.append(
             $('<div class="text">' + node.description + '</div>')
         )
