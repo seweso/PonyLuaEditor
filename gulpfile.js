@@ -1,7 +1,14 @@
 var gulp = require('gulp');
+
+
+/* Build Scripts */
 var concat = require('gulp-concat');
  
-gulp.task('default', function() {
+gulp.task('scripts', function() {
+    return buildScripts()
+})
+
+function buildScripts(){
     let prefix = './src/scripts/'
     let suffix = '.js'
     let order = [ 'loader',
@@ -18,23 +25,32 @@ gulp.task('default', function() {
         order[i] = prefix + order[i] + suffix
     }
 
-
-
     return gulp.src(order)
         .pipe(concat('all.js', {newLine: '\n;\n'}))
         .pipe(gulp.dest('./scripts/'))
-})
+}
 
+
+/* Build Stylesheets */
 var sass = require('gulp-sass');
  
 sass.compiler = require('node-sass');
  
 gulp.task('sass', function () {
-  return gulp.src('./src/sass/*.scss')
+    return buildStylesheets()
+})
+
+function buildStylesheets(){
+    return gulp.src('./src/sass/*.scss')
     .pipe(sass().on('error', sass.logError))
-    .pipe(gulp.dest('./stylesheets/'));
-});
+    .pipe(gulp.dest('./stylesheets/'))
+}
  
-gulp.task('sass:watch', function () {
-  gulp.watch('./src/sass/*.scss', ['sass']);
-});
+
+
+/* Watch for file changes */
+
+gulp.task('watch', function () {
+  gulp.watch('./src/sass/*.scss', buildStylesheets)
+  gulp.watch('./src/scripts/*.js', buildScripts)
+})

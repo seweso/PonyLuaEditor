@@ -10,7 +10,6 @@ UI = (($)=>{
 
     let isServerMode = false
 
-
     const VIEW_VIEW_MIN_SIZE = 100
     const SPLITTER_WIDTH = 6 /* this needs to be changed together with the css */
 
