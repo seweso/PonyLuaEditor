@@ -1,6 +1,6 @@
 var MAP = (($)=>{
 
-    const DO_LOG = false
+    const DO_LOG = true
 
     const FONT_SIZE = 6
     const FONT = 'px "Lucida Console", Monaco, monospace'
@@ -12,6 +12,10 @@ var MAP = (($)=>{
     let fakecanvas2 = document.createElement('canvas')
     let fakectx2 = fakecanvas2.getContext('2d')
 
+    $(window).on('load', ()=>{
+        $('body').append(fakecanvas)
+        $('body').append(fakecanvas2)
+    })
 
     const COLOR_MULTIPLIER = 0.75
 
@@ -71,6 +75,7 @@ var MAP = (($)=>{
             let sx = centerx - sWidth/2
             let sy = centery - sHeight/2
 
+            console.log('showing map', sx,sy, sWidth, sHeight)
 
             fakecanvas.width = sWidth
             fakecanvas.height = sHeight
@@ -186,9 +191,9 @@ var MAP = (($)=>{
         let distances = []
         for(let k of Object.keys(DEFAULT_COLORS)){
             let c = DEFAULT_COLORS[k]
-            let dr =  Math.abs(CANVAS.r - r)
-            let dg =  Math.abs(CANVAS.g - g)
-            let db =  Math.abs(CANVAS.b - b)
+            let dr =  Math.abs(c.r - r)
+            let dg =  Math.abs(c.g - g)
+            let db =  Math.abs(c.b - b)
             distances.push({key: k, distance: dr + dg + db})
         }
         distances.sort((a, b)=>{
