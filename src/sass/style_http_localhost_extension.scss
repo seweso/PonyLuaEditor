@@ -1,0 +1,47 @@
+@import "_variables.scss";
+@import "_base.scss";
+@import "_navigation.scss";
+
+
+.http_extension_manual {
+    background: $medium-darker;
+    padding: 30px;
+
+    .bordered_container {
+        padding: 30px;
+        border: 3px solid #000a;
+        border-radius: 20px;
+        background: #0007;
+        color: #fff;
+
+        &:not(:last-child) {
+            margin-bottom: 30px;
+        }
+
+        .code {
+            margin: 5px;
+            
+            &.inline_code {
+                margin: 0 5px;
+                display: inline-block;
+                vertical-align: bottom;
+            }
+        }
+
+        ul, ol {
+            li:not(:last-of-type) {
+                margin-bottom: 0.5em;
+            }
+        }
+    }
+
+    .browser_extensions_container {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+}
+
+@import "_media.scss"

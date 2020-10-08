@@ -27,44 +27,85 @@
 You can also minify code, find tutorials and examples or use the ui builder to create lua scripts without any programming skills." />
 
     
-    <script type="text/javascript" src="scripts/jquery.js"></script>
+    <script type="text/javascript" src="scripts/lib/jquery.js"></script>
 
-    <link rel="stylesheet" type="text/css" href="stylesheets/http_localhost_extension.css">
+    <link rel="stylesheet" type="text/css" href="stylesheets/style_http_localhost_extension.css">
+    <link rel="stylesheet" type="text/css" href="stylesheets/iconfont.css">
+
 </head>
 <body>
 
-  <div id="background"></div>
-  <div class="content">
-      <div id="mobile-menu">
-        <div id="mobile-menu-inner">
-            <div class="mobile_menu_logo">
-                <img src="images/pony.png">
-            </div>
-            <div class="menu_group">
-                <div class="menu_group_title">Page Navigation</div>
-                <a href="/">Lua IDE</a>
-                <a href="#">How to use Stormworks HTTP API</a>
-            </div>
-            <div class="menu_group">
-                <div class="menu_group_title">Contact me</div>
-                <span>Discord: CrazyFluffyPony#0587</span>
-                <a href="mailto://crazyfluffypony@gmail.com">crazyfluffypony@gmail.com</a>
-            </div>
-            <div class="menu_group">
-                <div class="menu_group_title">Other Information</div>
-                <a href="https://stormworks.flaffipony.rocks/" target="_blank" rel="noopener">All Stormworks Tools</a>
-                <a href="https://www.lua.org/manual/5.3/" target="_blank" rel="noopener noreferrer">Official Lua manual</a>
-                <a target="_blank" rel="noopener noreferrer" href="https://gitlab.com/stormworks-tools/editor">View source code</a>
-                <a href="https://gitlab.com/stormworks-tools/editor/-/archive/master/editor-master.zip" download="" rel="nofollow">Download for offline use</a>
+    <div id="navigation">
+        <div class="left">
+            <span class="icon-menu" id="menu-open"></span>
+        </div>
+        <div class="center">
+            <svg
+                xmlns:dc="http://purl.org/dc/elements/1.1/"
+                xmlns:cc="http://creativecommons.org/ns#"
+                xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+                xmlns:svg="http://www.w3.org/2000/svg"
+                xmlns="http://www.w3.org/2000/svg"
+                width="120mm"
+                height="22mm"
+                viewBox="0 0 120 22"
+                version="1.1" pref
+                preserveAspectRatio="none">
+                <g transform="translate(5.5, -10)">
+                    <path
+                    id="fill"
+                    d="M 0,10 l 8,20 H 100 l 8,-20 h -116"
+                    />
+                </g>
+                <g transform="translate(5.5, -10)">
+                    <defs>
+                        <filter id="glow">
+                            <fegaussianblur class="blur" result="coloredBlur" stddeviation="2"></fegaussianblur>
+                            <femerge>
+                                <femergenode in="coloredBlur"></femergenode>
+                                <femergenode in="coloredBlur"></femergenode>
+                                <femergenode in="coloredBlur"></femergenode>
+                                <femergenode in="SourceGraphic"></femergenode>
+                            </femerge>
+                        </filter>
+                    </defs>
+                    <path
+                    style="filter: url(#glow)"
+                    id="border"
+                    d="M 0,10 l 8,20 H 100 l 8,-20"
+                    />
+                </g>
+            </svg>
+            <div class="content">
+                <span class="not_open">Pony IDE</span>
+                <span class="on_open">close</span>
             </div>
         </div>
-        <div id="mobile-menu-close-sidebar"></div>
-      </div>
-    <div id="navigation">
-        <div id="mobile-menu-open"></div>
-        <div id="logo"></div>
-        <!--<div id="giveaway-hint">Giveaway claimed by Script Sauce</div>-->
+        <div class="right">
+            <div class="logo_container">
+                <img src="images/logo.png"/>
+            </div>
+        </div>
+        <div class="main">
+                <div class="part">
+                    <a href="/">Pony IDE</a>
+                </div>
+                <div class="part">
+                    <a href="https://gitlab.com/stormworks-tools/editor" target="_blank" rel="noopener noreferrer">View source code</a>
+                </div>
+                <div class="part">
+                    <a href="https://gitlab.com/stormworks-tools/editor/-/archive/master/editor-master.zip" download="" rel="nofollow">Download for offline use</a>                    
+                </div>
+                <div class="part">
+                    <a href="https://stormworks.flaffipony.rocks/" target="_blank" rel="noopener noreferrer">All Stormworks Tools</a>
+                </div>
+                <div class="part">
+                    <span style="margin-bottom: 10px">Discord: CrazyFluffyPony#0587</span>
+                    <a href="mailto://crazyfluffypony@gmail.com">crazyfluffypony@gmail.com</a>
+                </div>
+        </div>
     </div>
+
     <div class="http_extension_manual">
         <div class="bordered_container">
             <h1>HTTP Allow Localhost</h1>
@@ -138,7 +179,7 @@ You can also minify code, find tutorials and examples or use the ui builder to c
 
             <br>
             
-            <h3>Example NodeJS with Expressjs</h2>
+            <h3>Example NodeJS with Expressjs</h3>
             <p>Use the simple cors package from npm <a href="https://www.npmjs.com/package/cors">https://www.npmjs.com/package/cors</a></p>
             <textarea class="code" mode="sh">$ npm install cors</textarea>
             <p>In your app.js or index.js you can configure cors to only allow <i>https://lua.flaffipony.rocks</i></p>
@@ -164,36 +205,22 @@ You can also minify code, find tutorials and examples or use the ui builder to c
     </div>
 
     <script type="text/javascript">
-        /* taken from scripts/script.js */
+        /* taken from scripts/yyy.js */
 
-        /* mobile menu */
-        $('#mobile-menu-open').on('click', ()=>{
-            lastScrollPos = $(window).scrollTop()
-            $('#mobile-menu').css('display', 'flex')
-            $('.content').css({
-                'margin-top': -lastScrollPos + $('#navigation').height(),
-                'max-height': Math.max($(window).height(), lastScrollPos + $('#mobile-menu-inner').height()),
-                'overflow': 'hidden'
-            })
-            $('#navigation').css({
-                'position': 'absolute',
-                'top': 0,
-                'width': '100%'
-            })
-            $(window).scrollTop(0)            
-        })
-        $('#mobile-menu .menu_group > :not(.menu_group_title), #mobile-menu-close-sidebar').on('click', ()=>{
-            $('#mobile-menu').hide()
-            $('.content').css({
-                'margin-top': '',
-                'max-height': '',
-                'overflow': ''
-            })            
-            $('#navigation').css({
-                'position': '',
-                'top': ''
-            })
-            $(window).scrollTop(lastScrollPos)
+        /* navigation menu */
+        $('#menu-open, #navigation .center').on('click', ()=>{
+            if($('#navigation').hasClass('open')){
+                $('#navigation').removeClass('open')
+                $('#navigation').animate({
+                    top: '0px'
+                })
+            } else {
+                $('#navigation').animate({
+                    top: '80vh'
+                }, ()=>{
+                    $('#navigation').addClass('open')
+                })
+            }
         })
 
     </script>
