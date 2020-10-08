@@ -24,3 +24,17 @@ gulp.task('default', function() {
         .pipe(concat('all.js', {newLine: '\n;\n'}))
         .pipe(gulp.dest('./scripts/'))
 })
+
+var sass = require('gulp-sass');
+ 
+sass.compiler = require('node-sass');
+ 
+gulp.task('sass', function () {
+  return gulp.src('./src/sass/*.scss')
+    .pipe(sass().on('error', sass.logError))
+    .pipe(gulp.dest('./stylesheets/'));
+});
+ 
+gulp.task('sass:watch', function () {
+  gulp.watch('./src/sass/*.scss', ['sass']);
+});

@@ -1,33 +1,26 @@
 /* element sizes */
 /* colors */
 /* css variables */
-/* line 29, ../compass/src/_variables.scss */
 :root {
   --background-accent-gradient: linear-gradient(10deg, #2b4a6a 0%, #446483 100%);
   --background-strong-accent-gradient: linear-gradient(10deg, #2b5a88 0%, #5e8dbb 100%);
-  --background-grey-gradient: linear-gradient(10deg, #666 0%, #888 100%);
-}
+  --background-grey-gradient: linear-gradient(10deg, #666 0%, #888 100%); }
 
 @font-face {
   font-family: "Screen Mono";
-  src: url("../fonts/CG_pixel_4x5_mono.ttf");
-}
-/* line 6, ../compass/src/_base.scss */
+  src: url("../fonts/CG_pixel_4x5_mono.ttf"); }
+
 body {
   width: 100%;
   height: 100%;
   min-height: 100vh;
   margin: 0;
   padding: 0;
-  font-family: 'Helvetica', 'Arial', 'sans-serif';
-}
+  font-family: 'Helvetica', 'Arial', 'sans-serif'; }
 
-/* line 15, ../compass/src/_base.scss */
 body, * {
-  box-sizing: border-box;
-}
+  box-sizing: border-box; }
 
-/* line 19, ../compass/src/_base.scss */
 button {
   background: linear-gradient(15deg, #2b4a6a 0%, #446483 100%);
   border: 1px solid #305376;
@@ -37,117 +30,81 @@ button {
   cursor: pointer;
   margin-bottom: 30px;
   font-size: 16px;
-  transition: all 0.2s ease 0s;
-}
-/* line 30, ../compass/src/_base.scss */
-button.special_button {
-  background: linear-gradient(13deg, #930851 0%, #c63a84 100%);
-  border: 1px solid #b80a66;
-}
+  transition: all 0.2s ease 0s; }
+  button.special_button {
+    background: linear-gradient(13deg, #930851 0%, #c63a84 100%);
+    border: 1px solid #b80a66; }
 
-/* line 36, ../compass/src/_base.scss */
 button:hover {
-  background: linear-gradient(15deg, #446483 0%, #6e869f 100%);
-}
-/* line 39, ../compass/src/_base.scss */
-button:hover.special_button {
-  background: linear-gradient(13deg, #490428 0%, #930851 100%);
-}
+  background: linear-gradient(15deg, #446483 0%, #6e869f 100%); }
+  button:hover.special_button {
+    background: linear-gradient(13deg, #490428 0%, #930851 100%); }
 
-/* line 44, ../compass/src/_base.scss */
 button[disabled] {
   border-color: #dbdbdb;
   color: #898989;
   cursor: not-allowed;
-  background: #8297ac;
-}
-/* line 50, ../compass/src/_base.scss */
-button[disabled].special_button {
-  background: #db84b2;
-}
+  background: #8297ac; }
+  button[disabled].special_button {
+    background: #db84b2; }
 
-/* line 55, ../compass/src/_base.scss */
 a {
   color: #0081cc;
-  text-decoration: underline;
-}
+  text-decoration: underline; }
 
-/* line 60, ../compass/src/_base.scss */
 a:hover {
-  color: #1a8ed1;
-}
+  color: tint(#0081cc, 10%); }
 
-/* line 1, ../compass/src/_util.scss */
 .highlighted {
-  border: 1px solid red !important;
-}
+  border: 1px solid red !important; }
 
-/* line 5, ../compass/src/_util.scss */
 [view].highlighted {
   border: none !important;
-  background: red !important;
-}
+  background: red !important; }
 
-/* line 1, ../compass/src/_share.scss */
 .share {
   display: inline-flex !important;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  position: relative;
-}
-/* line 8, ../compass/src/_share.scss */
-.share .docreate, .share .currentshare_container {
-  color: #fff;
-  border-radius: 3px;
-  cursor: pointer;
-  font-size: 20px;
-  display: flex;
-  flex-direction: revert;
-  justify-content: center;
-  align-items: center;
-}
-/* line 19, ../compass/src/_share.scss */
-.share .currentshare_container {
-  padding: 8px;
-}
-/* line 23, ../compass/src/_share.scss */
-.share .currentshare {
-  font-family: "Monaco", "Menlo", "Ubuntu Mono", "Consolas", "souce-code-pro", monospace;
-}
-/* line 27, ../compass/src/_share.scss */
-.share .more {
-  display: flex;
-  flex-direction: row;
-  overflow: hidden;
-}
-/* line 33, ../compass/src/_share.scss */
-.share .copy_share_to_clipboard {
-  background: #0004;
-  color: #fff;
-  padding: 5px 10px;
-  border-radius: 3px;
-  transition: all 0.2s ease 0s;
-  font-size: 16px;
-}
-/* line 41, ../compass/src/_share.scss */
-.share .copy_share_to_clipboard:hover {
-  background: #fff4;
-  color: #000;
-}
-/* line 47, ../compass/src/_share.scss */
-.share .currentshare {
-  background: #000a;
-  border-radius: 3px;
-  border: none;
-  color: #fff;
-  font-size: 12px;
-  line-height: 16px;
-  padding: 6px 6px;
-  margin-right: 10px;
-}
+  position: relative; }
+  .share .docreate, .share .currentshare_container {
+    color: #fff;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 20px;
+    display: flex;
+    flex-direction: revert;
+    justify-content: center;
+    align-items: center; }
+  .share .currentshare_container {
+    padding: 8px; }
+  .share .currentshare {
+    font-family: "Monaco", "Menlo", "Ubuntu Mono", "Consolas", "souce-code-pro", monospace; }
+  .share .more {
+    display: flex;
+    flex-direction: row;
+    overflow: hidden; }
+  .share .copy_share_to_clipboard {
+    background: #0004;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 3px;
+    transition: all 0.2s ease 0s;
+    font-size: 16px; }
+    .share .copy_share_to_clipboard:hover {
+      background: #fff4;
+      color: #000; }
+  .share .currentshare {
+    background: #000a;
+    border-radius: 3px;
+    border: none;
+    color: #fff;
+    font-size: 12px;
+    line-height: 16px;
+    padding: 6px 6px;
+    margin-right: 10px; }
 
-/* line 1, ../compass/src/_dialog.scss */
 .dialog {
   position: fixed;
   top: 0;
@@ -159,70 +116,52 @@ a:hover {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  align-items: center;
-}
-/* line 14, ../compass/src/_dialog.scss */
-.dialog .inner {
-  display: flex;
-  flex-direction: column;
-  background: #e3e3e3;
-  padding: 20px;
-  border-radius: 3px;
-  box-shadow: 2px 2px 3px #555;
-}
-/* line 23, ../compass/src/_dialog.scss */
-.dialog .title {
-  margin: 0;
-  color: #0081cc;
-  font-weight: bold;
-  text-align: center;
-}
-/* line 30, ../compass/src/_dialog.scss */
-.dialog .message {
-  margin: 20px 0;
-}
-/* line 34, ../compass/src/_dialog.scss */
-.dialog .buttons {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-}
-/* line 39, ../compass/src/_dialog.scss */
-.dialog .buttons button {
-  margin: 0 10px;
-}
+  align-items: center; }
+  .dialog .inner {
+    display: flex;
+    flex-direction: column;
+    background: #e3e3e3;
+    padding: 20px;
+    border-radius: 3px;
+    box-shadow: 2px 2px 3px #555; }
+  .dialog .title {
+    margin: 0;
+    color: #0081cc;
+    font-weight: bold;
+    text-align: center; }
+  .dialog .message {
+    margin: 20px 0; }
+  .dialog .buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center; }
+    .dialog .buttons button {
+      margin: 0 10px; }
 
-/* line 3, ../compass/src/_editor.scss */
 .code_container .code_information {
   padding: 3px 8px;
   margin-bottom: 5px;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
-}
-/* line 11, ../compass/src/_editor.scss */
+  justify-content: space-between; }
+
 .code_container .charactercount {
   font-weight: bold;
   padding: 13px 8px 11px;
   line-height: 0;
-  border-radius: 10000px;
-}
-/* line 17, ../compass/src/_editor.scss */
-.code_container .charactercount.limit {
-  background: #ae0000;
-}
+  border-radius: 10000px; }
+  .code_container .charactercount.limit {
+    background: #ae0000; }
 
 /* editor fullscreen */
-/* line 26, ../compass/src/_editor.scss */
 .ace_editor.fullscreen {
   position: fixed;
   top: 0;
   left: 0;
   height: 100vh;
   width: 100vw;
-  z-index: 10000000000000;
-}
-/* line 35, ../compass/src/_editor.scss */
+  z-index: 10000000000000; }
+
 .ace_editor .fullscreen_toggle {
   position: absolute;
   top: 0;
@@ -232,13 +171,10 @@ a:hover {
   font-size: 20px;
   background: #0004;
   border-radius: 2px;
-  cursor: pointer;
-}
-/* line 46, ../compass/src/_editor.scss */
-.ace_editor .fullscreen_toggle:hover {
-  background: #000a;
-}
-/* line 51, ../compass/src/_editor.scss */
+  cursor: pointer; }
+  .ace_editor .fullscreen_toggle:hover {
+    background: #000a; }
+
 .ace_editor .font_plus, .ace_editor .font_minus {
   position: absolute;
   top: 0;
@@ -248,447 +184,293 @@ a:hover {
   font-size: 20px;
   background: #0004;
   border-radius: 2px;
-  cursor: pointer;
-}
-/* line 62, ../compass/src/_editor.scss */
-.ace_editor .font_plus:hover, .ace_editor .font_minus:hover {
-  background: #000a;
-}
-/* line 67, ../compass/src/_editor.scss */
-.ace_editor .font_plus {
-  right: 50px;
-}
-/* line 71, ../compass/src/_editor.scss */
-.ace_editor .font_minus {
-  right: 83px;
-}
+  cursor: pointer; }
+  .ace_editor .font_plus:hover, .ace_editor .font_minus:hover {
+    background: #000a; }
 
-/* line 2, ../compass/src/_uibuilder.scss */
+.ace_editor .font_plus {
+  right: 50px; }
+
+.ace_editor .font_minus {
+  right: 83px; }
+
 #ui-builder {
   background: #000d;
   border-radius: 3px;
   color: #fff;
   padding: 10px;
   margin: 20px;
-  position: relative;
-}
-/* line 10, ../compass/src/_uibuilder.scss */
-#ui-builder h2 {
-  color: #bf5421;
-  margin: 0 0 20px 0;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #444444;
-}
+  position: relative; }
+  #ui-builder h2 {
+    color: #bf5421;
+    margin: 0 0 20px 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #444444; }
 
-/* line 18, ../compass/src/_uibuilder.scss */
 #ui-builder-container {
   display: flex;
   flex-direction: row;
-  margin-bottom: 20px;
-}
-/* line 23, ../compass/src/_uibuilder.scss */
-#ui-builder-container > * {
-  margin-right: 10px;
-  user-select: none;
-}
-/* line 28, ../compass/src/_uibuilder.scss */
-#ui-builder-container .element_list, #ui-builder-container .element_layer_list {
-  max-height: 300px;
-  overflow-y: scroll;
-  background: #000a;
-}
-/* line 34, ../compass/src/_uibuilder.scss */
-#ui-builder-container .element_list .element {
-  cursor: pointer;
-  margin-bottom: 3px;
-  padding: 3px;
-}
-/* line 40, ../compass/src/_uibuilder.scss */
-#ui-builder-container .element_list .element:hover {
-  color: #bf5421;
-}
-/* line 44, ../compass/src/_uibuilder.scss */
-#ui-builder-container .canvas_container {
-  position: relative;
-  background: #000;
-}
-/* line 48, ../compass/src/_uibuilder.scss */
-#ui-builder-container .canvas_container .element {
-  position: absolute;
-  cursor: pointer;
-  font: 12px "Screen Mono", "Lucida Console", Monaco, monospace;
-}
-/* line 53, ../compass/src/_uibuilder.scss */
-#ui-builder-container .canvas_container .element.highlight .content {
-  box-shadow: 1px 1px 4px #aaa;
-}
-/* line 57, ../compass/src/_uibuilder.scss */
-#ui-builder-container .canvas_container .element.settings_open {
-  z-index: 10000000000000 !important;
-}
-/* line 61, ../compass/src/_uibuilder.scss */
-#ui-builder-container .canvas_container .element:not(.settings_open) .settings {
-  display: none;
-}
-/* line 65, ../compass/src/_uibuilder.scss */
-#ui-builder-container .canvas_container .element .content {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-}
-/* line 72, ../compass/src/_uibuilder.scss */
-#ui-builder-container .canvas_container .element .content svg {
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-/* line 79, ../compass/src/_uibuilder.scss */
-#ui-builder-container .canvas_container .element .settings {
-  position: absolute;
-  top: calc(100% + 5px);
-  display: flex;
-  flex-direction: column;
-  background: #fff;
-  color: #000;
-  font: 12px 'Helvetica', 'Arial', 'sans-serif';
-  border-radius: 3px;
-  padding-top: 10px;
-}
-/* line 90, ../compass/src/_uibuilder.scss */
-#ui-builder-container .canvas_container .element .settings .close {
-  position: absolute;
-  top: 0;
-  right: 0;
-  line-height: 0;
-  padding: 7px 5px;
-  background: #000;
-  color: #fff;
-  border-bottom-left-radius: 5px;
-}
-/* line 101, ../compass/src/_uibuilder.scss */
-#ui-builder-container .canvas_container .element .settings .setting {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  padding: 5px;
-}
-/* line 107, ../compass/src/_uibuilder.scss */
-#ui-builder-container .canvas_container .element .settings .setting .name {
-  margin-right: 5px;
-}
-/* line 112, ../compass/src/_uibuilder.scss */
-#ui-builder-container .canvas_container .element .settings .element_description {
-  position: relative;
-}
-/* line 116, ../compass/src/_uibuilder.scss */
-#ui-builder-container .canvas_container .element .settings .element_description_content {
-  position: absolute;
-  background: #b0b0b0;
-  box-shadow: 1px 1px 1px #808080;
-  padding: 5px;
-  z-index: 1;
-  border-radius: 3px;
-  width: 150px;
-}
-/* line 126, ../compass/src/_uibuilder.scss */
-#ui-builder-container .canvas_container .element .settings .element_description:not(:hover) .element_description_content {
-  display: none;
-}
-/* line 132, ../compass/src/_uibuilder.scss */
-#ui-builder-container .canvas_container[mode="delete"] .element.delete_overlay .content {
-  box-shadow: 1px 1px 4px #a00;
-}
-/* line 135, ../compass/src/_uibuilder.scss */
-#ui-builder-container .canvas_container[mode="delete"] .element.delete_overlay .content:after {
-  content: ' ';
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  background: url("../../images/delete_overlay.png");
-  background-size: 100% 100%;
-}
-/* line 148, ../compass/src/_uibuilder.scss */
-#ui-builder-container .controls {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-/* line 153, ../compass/src/_uibuilder.scss */
-#ui-builder-container .controls .control {
-  cursor: pointer;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  margin-bottom: 10px;
-  transition: color 0.2s ease 0s;
-}
-/* line 162, ../compass/src/_uibuilder.scss */
-#ui-builder-container .controls .control:hover {
-  color: #bf5421;
-}
-/* line 166, ../compass/src/_uibuilder.scss */
-#ui-builder-container .controls .control > span {
-  margin-right: 5px;
-}
-/* line 171, ../compass/src/_uibuilder.scss */
-#ui-builder-container .controls[mode="move"] .control.move {
-  color: #bf5421;
-}
-/* line 175, ../compass/src/_uibuilder.scss */
-#ui-builder-container .controls[mode="resize"] .control.resize {
-  color: #bf5421;
-}
-/* line 179, ../compass/src/_uibuilder.scss */
-#ui-builder-container .controls[mode="settings"] .control.settings {
-  color: #bf5421;
-}
-/* line 183, ../compass/src/_uibuilder.scss */
-#ui-builder-container .controls[mode="delete"] .control.delete {
-  color: #bf5421;
-}
-/* line 187, ../compass/src/_uibuilder.scss */
-#ui-builder-container .controls[mode="zindex"] .control.zindex {
-  color: #bf5421;
-}
-/* line 192, ../compass/src/_uibuilder.scss */
-#ui-builder-container .element_layer_list {
-  display: flex;
-  flex-direction: column-reverse;
-  justify-content: flex-end;
-}
-/* line 197, ../compass/src/_uibuilder.scss */
-#ui-builder-container .element_layer_list .layer_list_entry {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  margin: 3px;
-  padding: 3px;
-  background: #222;
-  border-radius: 3px;
-  transition: background 0.5s ease 0s;
-}
-/* line 207, ../compass/src/_uibuilder.scss */
-#ui-builder-container .element_layer_list .layer_list_entry:hover {
-  box-shadow: 1px 1px 4px #aaa;
-}
-/* line 212, ../compass/src/_uibuilder.scss */
-#ui-builder-container .element_layer_list .layer_list_entry.light_up {
-  background: #888;
-}
-/* line 216, ../compass/src/_uibuilder.scss */
-#ui-builder-container .element_layer_list .layer_list_entry .lcontrols {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  margin-left: 10px;
-}
-/* line 223, ../compass/src/_uibuilder.scss */
-#ui-builder-container .element_layer_list .layer_list_entry .lcontrols > * {
-  cursor: pointer;
-}
-/* line 227, ../compass/src/_uibuilder.scss */
-#ui-builder-container .element_layer_list .layer_list_entry .lcontrols .up {
-  margin-bottom: 3px;
-}
-/* line 231, ../compass/src/_uibuilder.scss */
-#ui-builder-container .element_layer_list .layer_list_entry .lcontrols > *:not(:last-of-type) {
-  margin-right: 6px;
-}
-/* line 237, ../compass/src/_uibuilder.scss */
-#ui-builder-container .element_layer_list .layer_list_entry:last-of-type .up, #ui-builder-container .element_layer_list .layer_list_entry:first-of-type .down {
-  color: transparent;
-  cursor: initial;
-}
-/* line 242, ../compass/src/_uibuilder.scss */
-#ui-builder-container .element_layer_list .layer_list_entry .background {
-  height: 1em;
-  margin-top: 3px;
-}
+  margin-bottom: 20px; }
+  #ui-builder-container > * {
+    margin-right: 10px;
+    user-select: none; }
+  #ui-builder-container .element_list, #ui-builder-container .element_layer_list {
+    max-height: 300px;
+    overflow-y: scroll;
+    background: #000a; }
+  #ui-builder-container .element_list .element {
+    cursor: pointer;
+    margin-bottom: 3px;
+    padding: 3px; }
+  #ui-builder-container .element_list .element:hover {
+    color: #bf5421; }
+  #ui-builder-container .canvas_container {
+    position: relative;
+    background: #000; }
+    #ui-builder-container .canvas_container .element {
+      position: absolute;
+      cursor: pointer;
+      font: 12px "Screen Mono", "Lucida Console", Monaco, monospace; }
+      #ui-builder-container .canvas_container .element.highlight .content {
+        box-shadow: 1px 1px 4px #aaa; }
+      #ui-builder-container .canvas_container .element.settings_open {
+        z-index: 10000000000000 !important; }
+      #ui-builder-container .canvas_container .element:not(.settings_open) .settings {
+        display: none; }
+      #ui-builder-container .canvas_container .element .content {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden; }
+        #ui-builder-container .canvas_container .element .content svg {
+          position: absolute;
+          top: 0;
+          left: 0; }
+      #ui-builder-container .canvas_container .element .settings {
+        position: absolute;
+        top: calc(100% + 5px);
+        display: flex;
+        flex-direction: column;
+        background: #fff;
+        color: #000;
+        font: 12px 'Helvetica', 'Arial', 'sans-serif';
+        border-radius: 3px;
+        padding-top: 10px; }
+        #ui-builder-container .canvas_container .element .settings .close {
+          position: absolute;
+          top: 0;
+          right: 0;
+          line-height: 0;
+          padding: 7px 5px;
+          background: #000;
+          color: #fff;
+          border-bottom-left-radius: 5px; }
+        #ui-builder-container .canvas_container .element .settings .setting {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          padding: 5px; }
+          #ui-builder-container .canvas_container .element .settings .setting .name {
+            margin-right: 5px; }
+        #ui-builder-container .canvas_container .element .settings .element_description {
+          position: relative; }
+        #ui-builder-container .canvas_container .element .settings .element_description_content {
+          position: absolute;
+          background: #b0b0b0;
+          box-shadow: 1px 1px 1px #808080;
+          padding: 5px;
+          z-index: 1;
+          border-radius: 3px;
+          width: 150px; }
+        #ui-builder-container .canvas_container .element .settings .element_description:not(:hover) .element_description_content {
+          display: none; }
+    #ui-builder-container .canvas_container[mode="delete"] .element.delete_overlay .content {
+      box-shadow: 1px 1px 4px #a00; }
+      #ui-builder-container .canvas_container[mode="delete"] .element.delete_overlay .content:after {
+        content: ' ';
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        background: url("../../images/delete_overlay.png");
+        background-size: 100% 100%; }
+  #ui-builder-container .controls {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; }
+    #ui-builder-container .controls .control {
+      cursor: pointer;
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: center;
+      margin-bottom: 10px;
+      transition: color 0.2s ease 0s; }
+      #ui-builder-container .controls .control:hover {
+        color: #bf5421; }
+      #ui-builder-container .controls .control > span {
+        margin-right: 5px; }
+    #ui-builder-container .controls[mode="move"] .control.move {
+      color: #bf5421; }
+    #ui-builder-container .controls[mode="resize"] .control.resize {
+      color: #bf5421; }
+    #ui-builder-container .controls[mode="settings"] .control.settings {
+      color: #bf5421; }
+    #ui-builder-container .controls[mode="delete"] .control.delete {
+      color: #bf5421; }
+    #ui-builder-container .controls[mode="zindex"] .control.zindex {
+      color: #bf5421; }
+  #ui-builder-container .element_layer_list {
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: flex-end; }
+    #ui-builder-container .element_layer_list .layer_list_entry {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      margin: 3px;
+      padding: 3px;
+      background: #222;
+      border-radius: 3px;
+      transition: background 0.5s ease 0s; }
+      #ui-builder-container .element_layer_list .layer_list_entry:hover {
+        box-shadow: 1px 1px 4px #aaa; }
+      #ui-builder-container .element_layer_list .layer_list_entry.light_up {
+        background: #888; }
+      #ui-builder-container .element_layer_list .layer_list_entry .lcontrols {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        margin-left: 10px; }
+        #ui-builder-container .element_layer_list .layer_list_entry .lcontrols > * {
+          cursor: pointer; }
+        #ui-builder-container .element_layer_list .layer_list_entry .lcontrols .up {
+          margin-bottom: 3px; }
+        #ui-builder-container .element_layer_list .layer_list_entry .lcontrols > *:not(:last-of-type) {
+          margin-right: 6px; }
+      #ui-builder-container .element_layer_list .layer_list_entry:last-of-type .up, #ui-builder-container .element_layer_list .layer_list_entry:first-of-type .down {
+        color: transparent;
+        cursor: initial; }
+      #ui-builder-container .element_layer_list .layer_list_entry .background {
+        height: 1em;
+        margin-top: 3px; }
 
-/* line 250, ../compass/src/_uibuilder.scss */
 #ui-builder-code {
-  height: 300px;
-}
+  height: 300px; }
 
-/* line 254, ../compass/src/_uibuilder.scss */
 #ui-builder-controls {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  flex-wrap: wrap;
-}
-/* line 261, ../compass/src/_uibuilder.scss */
-#ui-builder-controls .controls_container {
-  margin-bottom: 0;
-}
-/* line 264, ../compass/src/_uibuilder.scss */
-#ui-builder-controls .controls_container button {
-  margin-bottom: 0;
-}
-/* line 269, ../compass/src/_uibuilder.scss */
-#ui-builder-controls > *:not(:last-child) {
-  margin-right: 10px;
-}
+  flex-wrap: wrap; }
+  #ui-builder-controls .controls_container {
+    margin-bottom: 0; }
+    #ui-builder-controls .controls_container button {
+      margin-bottom: 0; }
+  #ui-builder-controls > *:not(:last-child) {
+    margin-right: 10px; }
 
-/* line 274, ../compass/src/_uibuilder.scss */
 .ui_builder_zoom {
   display: flex;
-  flex-direction: column;
-}
+  flex-direction: column; }
 
-/* line 1, ../compass/src/_autocomplete.scss */
 .autocompletion_container {
   position: absolute;
-  z-index: 10;
-}
+  z-index: 10; }
 
-/* line 6, ../compass/src/_autocomplete.scss */
 .autocompletition {
   position: relative;
   background: #3d3e38;
   color: #fff;
   min-width: 250px;
-  font-family: 'Helvetica', 'Arial', 'sans-serif';
-}
-/* line 13, ../compass/src/_autocomplete.scss */
-.autocompletition .list .entry[atype="object"] .type, .autocompletition .descriptions .description[atype="object"] .name {
-  color: #A6CE28;
-}
-/* line 17, ../compass/src/_autocomplete.scss */
-.autocompletition .list .entry[atype="function"] .type, .autocompletition .descriptions .description[atype="function"] .name {
-  color: #66D9EF;
-}
-/* line 21, ../compass/src/_autocomplete.scss */
-.autocompletition .list .entry[atype="event"] .type, .autocompletition .descriptions .description[atype="event"] .name {
-  color: #F0D322;
-}
-/* line 26, ../compass/src/_autocomplete.scss */
-.autocompletition .list {
-  display: flex;
-  flex-direction: column;
-  max-height: 10.5em;
-  overflow-y: auto;
-  position: relative;
-}
-/* line 33, ../compass/src/_autocomplete.scss */
-.autocompletition .list .entry, .autocompletition .list .empty {
-  padding: 3px 5px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  cursor: pointer;
-}
-/* line 41, ../compass/src/_autocomplete.scss */
-.autocompletition .list .empty {
-  cursor: not-allowed;
-  color: #EE4A4B;
-}
-/* line 46, ../compass/src/_autocomplete.scss */
-.autocompletition .list .entry.selected {
-  background: #666666 !important;
-}
-/* line 50, ../compass/src/_autocomplete.scss */
-.autocompletition .list .entry .type {
-  margin-left: 15px;
-  font-style: italic;
-}
-/* line 55, ../compass/src/_autocomplete.scss */
-.autocompletition .list .entry[lib="stormworks"] {
-  background: #002033;
-}
-/* line 59, ../compass/src/_autocomplete.scss */
-.autocompletition .list .entry[lib="dev"] {
-  background: #2e0217;
-}
-/* line 63, ../compass/src/_autocomplete.scss */
-.autocompletition .list .entry[lib="lua"] {
-  background: #112d04;
-}
-/* line 68, ../compass/src/_autocomplete.scss */
-.autocompletition .descriptions {
-  position: absolute;
-  top: 0;
-  left: 100%;
-  min-width: 100px;
-  max-width: 90vw;
-}
-/* line 75, ../compass/src/_autocomplete.scss */
-.autocompletition .descriptions .description {
-  display: none;
-  background: #414141;
-  padding: 8px;
-  font-size: 120%;
-  line-height: 120%;
-}
-/* line 83, ../compass/src/_autocomplete.scss */
-.autocompletition .descriptions .description .top {
-  display: flex;
-  flex-direction: row;
-  font-weight: bold;
-  margin-bottom: 5px;
-}
-/* line 90, ../compass/src/_autocomplete.scss */
-.autocompletition .descriptions .description .args {
-  margin-left: 2px;
-}
-/* line 94, ../compass/src/_autocomplete.scss */
-.autocompletition .descriptions .description .url {
-  margin-bottom: 5px;
-}
-/* line 98, ../compass/src/_autocomplete.scss */
-.autocompletition .descriptions .description .lib_title {
-  border: 1px solid transparent;
-  border-radius: 100000px;
-  padding: 2px 6px;
-  display: inline-block;
-  margin-bottom: 4px;
-}
-/* line 106, ../compass/src/_autocomplete.scss */
-.autocompletition .descriptions .description[lib="stormworks"] .lib_title {
-  color: #0081cc;
-  border-color: #0081cc;
-}
-/* line 111, ../compass/src/_autocomplete.scss */
-.autocompletition .descriptions .description[lib="dev"] .lib_title {
-  color: #b9085b;
-  border-color: #b9085b;
-}
-/* line 116, ../compass/src/_autocomplete.scss */
-.autocompletition .descriptions .description[lib="lua"] .lib_title {
-  color: #44b511;
-  border-color: #44b511;
-}
-/* line 121, ../compass/src/_autocomplete.scss */
-.autocompletition .descriptions .description[lib="user"] .lib_title {
-  color: #fff;
-  border-color: #fff;
-}
-/* line 128, ../compass/src/_autocomplete.scss */
-.autocompletition a {
-  color: #bf5421 !important;
-}
-/* line 132, ../compass/src/_autocomplete.scss */
-.autocompletition input {
-  position: absolute;
-  left: -99999999px;
-}
+  font-family: 'Helvetica', 'Arial', 'sans-serif'; }
+  .autocompletition .list .entry[atype="object"] .type, .autocompletition .descriptions .description[atype="object"] .name {
+    color: #A6CE28; }
+  .autocompletition .list .entry[atype="function"] .type, .autocompletition .descriptions .description[atype="function"] .name {
+    color: #66D9EF; }
+  .autocompletition .list .entry[atype="event"] .type, .autocompletition .descriptions .description[atype="event"] .name {
+    color: #F0D322; }
+  .autocompletition .list {
+    display: flex;
+    flex-direction: column;
+    max-height: 10.5em;
+    overflow-y: auto;
+    position: relative; }
+    .autocompletition .list .entry, .autocompletition .list .empty {
+      padding: 3px 5px;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      cursor: pointer; }
+    .autocompletition .list .empty {
+      cursor: not-allowed;
+      color: #EE4A4B; }
+    .autocompletition .list .entry.selected {
+      background: #666666 !important; }
+    .autocompletition .list .entry .type {
+      margin-left: 15px;
+      font-style: italic; }
+    .autocompletition .list .entry[lib="stormworks"] {
+      background: shade(#0081cc, 75%); }
+    .autocompletition .list .entry[lib="dev"] {
+      background: shade(#b9085b, 75%); }
+    .autocompletition .list .entry[lib="lua"] {
+      background: shade(#44b511, 75%); }
+  .autocompletition .descriptions {
+    position: absolute;
+    top: 0;
+    left: 100%;
+    min-width: 100px;
+    max-width: 90vw; }
+    .autocompletition .descriptions .description {
+      display: none;
+      background: #414141;
+      padding: 8px;
+      font-size: 120%;
+      line-height: 120%; }
+      .autocompletition .descriptions .description .top {
+        display: flex;
+        flex-direction: row;
+        font-weight: bold;
+        margin-bottom: 5px; }
+      .autocompletition .descriptions .description .args {
+        margin-left: 2px; }
+      .autocompletition .descriptions .description .url {
+        margin-bottom: 5px; }
+      .autocompletition .descriptions .description .lib_title {
+        border: 1px solid transparent;
+        border-radius: 100000px;
+        padding: 2px 6px;
+        display: inline-block;
+        margin-bottom: 4px; }
+      .autocompletition .descriptions .description[lib="stormworks"] .lib_title {
+        color: #0081cc;
+        border-color: #0081cc; }
+      .autocompletition .descriptions .description[lib="dev"] .lib_title {
+        color: #b9085b;
+        border-color: #b9085b; }
+      .autocompletition .descriptions .description[lib="lua"] .lib_title {
+        color: #44b511;
+        border-color: #44b511; }
+      .autocompletition .descriptions .description[lib="user"] .lib_title {
+        color: #fff;
+        border-color: #fff; }
+  .autocompletition a {
+    color: #bf5421 !important; }
+  .autocompletition input {
+    position: absolute;
+    left: -99999999px; }
 
-/* line 1, ../compass/src/_navigation.scss */
 #logo {
   background: url("../images/logo.png") center 100% no-repeat;
   height: 3em;
   width: 3em;
   background-size: contain;
-  margin-right: 30px;
-}
+  margin-right: 30px; }
 
-/* line 9, ../compass/src/_navigation.scss */
 #navigation {
   position: sticky;
   top: 0;
@@ -699,10 +481,8 @@ a:hover {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: center;
-}
+  align-items: center; }
 
-/* line 23, ../compass/src/_navigation.scss */
 #beta, #offline, #download-offline {
   display: inline-block;
   color: #fff;
@@ -710,10 +490,8 @@ a:hover {
   font-weight: bold;
   padding: 10px;
   margin: 0 0 0 auto;
-  border-radius: 10000px;
-}
+  border-radius: 10000px; }
 
-/* line 33, ../compass/src/_navigation.scss */
 #giveaway-hint {
   background: url("../images/giveaway_background_small.jpg");
   background-size: cover;
@@ -726,30 +504,22 @@ a:hover {
   padding: 5px 10px;
   border-radius: 10000px;
   color: #fff;
-  font-weight: bold;
-}
+  font-weight: bold; }
 
-/* line 48, ../compass/src/_navigation.scss */
 #beta {
   background: linear-gradient(15deg, #EE4A4B 0%, #F4812E 100%);
-  box-shadow: 0px 0px 3px 2px #EE4A4B77;
-}
+  box-shadow: 0px 0px 3px 2px #EE4A4B77; }
 
-/* line 53, ../compass/src/_navigation.scss */
 #offline {
   background: linear-gradient(15deg, #0194E2 0%, #792692 100%);
-  box-shadow: 1px 0px 3px 1px #0194E277;
-}
+  box-shadow: 1px 0px 3px 1px #0194E277; }
 
-/* line 58, ../compass/src/_navigation.scss */
 #download-offline {
   background: linear-gradient(15deg, #9A8D00 0%, #4d835f 100%);
   box-shadow: 0px 0px 3px 2px #a99c1077;
-  text-decoration: none;
-}
+  text-decoration: none; }
 
 /* mobile menu */
-/* line 68, ../compass/src/_navigation.scss */
 #mobile-menu {
   display: none;
   flex-direction: row;
@@ -758,402 +528,269 @@ a:hover {
   left: 0;
   width: 100vw;
   min-height: 100vh;
-  z-index: 1000000000000;
-}
-/* line 78, ../compass/src/_navigation.scss */
-#mobile-menu #mobile-menu-close-sidebar {
-  width: 100%;
-  background: #fff7;
-}
-/* line 83, ../compass/src/_navigation.scss */
-#mobile-menu #mobile-menu-inner {
-  display: flex;
-  flex-direction: column;
-  width: 80%;
-  max-width: 350px;
-  height: 100%;
-  min-height: 100vh;
-  background: #0a0a0a;
-  color: #ddd;
-  padding-bottom: 10px;
-}
-/* line 95, ../compass/src/_navigation.scss */
-#mobile-menu .mobile_menu_logo {
-  height: 5em;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  background: #000;
-}
-/* line 103, ../compass/src/_navigation.scss */
-#mobile-menu .mobile_menu_logo img {
-  height: 70%;
-  width: auto;
-}
-/* line 109, ../compass/src/_navigation.scss */
-#mobile-menu .menu_group {
-  display: flex;
-  flex-direction: column;
-  background: #0a0a0a;
-}
-/* line 114, ../compass/src/_navigation.scss */
-#mobile-menu .menu_group > * {
-  padding: 10px;
-}
-/* line 118, ../compass/src/_navigation.scss */
-#mobile-menu .menu_group > :not(.menu_group_title) {
-  padding-left: 25px;
-}
-/* line 123, ../compass/src/_navigation.scss */
-#mobile-menu .menu_group_title {
-  background: #000;
-  border-bottom: 2px solid #111;
-}
-/* line 128, ../compass/src/_navigation.scss */
-#mobile-menu #learn-menu-entry span, #mobile-menu #help-menu-entry span {
-  cursor: pointer;
-  padding: 4px 10px;
-  border-radius: 10000px;
-  font-weight: bold;
-}
-/* line 135, ../compass/src/_navigation.scss */
-#mobile-menu #learn-menu-entry span {
-  background: linear-gradient(15deg, #0194E2 0%, #792692 100%);
-  box-shadow: 1px 0px 3px 1px #0194E277;
-}
-/* line 140, ../compass/src/_navigation.scss */
-#mobile-menu #help-menu-entry span {
-  background: linear-gradient(15deg, #9A8D00 0%, #4d835f 100%);
-  box-shadow: 0px 0px 3px 2px #a99c1077;
-}
+  z-index: 1000000000000; }
+  #mobile-menu #mobile-menu-close-sidebar {
+    width: 100%;
+    background: #fff7; }
+  #mobile-menu #mobile-menu-inner {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    max-width: 350px;
+    height: 100%;
+    min-height: 100vh;
+    background: #0a0a0a;
+    color: #ddd;
+    padding-bottom: 10px; }
+  #mobile-menu .mobile_menu_logo {
+    height: 5em;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background: #000; }
+    #mobile-menu .mobile_menu_logo img {
+      height: 70%;
+      width: auto; }
+  #mobile-menu .menu_group {
+    display: flex;
+    flex-direction: column;
+    background: #0a0a0a; }
+    #mobile-menu .menu_group > * {
+      padding: 10px; }
+    #mobile-menu .menu_group > :not(.menu_group_title) {
+      padding-left: 25px; }
+  #mobile-menu .menu_group_title {
+    background: #000;
+    border-bottom: 2px solid #111; }
+  #mobile-menu #learn-menu-entry span, #mobile-menu #help-menu-entry span {
+    cursor: pointer;
+    padding: 4px 10px;
+    border-radius: 10000px;
+    font-weight: bold; }
+  #mobile-menu #learn-menu-entry span {
+    background: linear-gradient(15deg, #0194E2 0%, #792692 100%);
+    box-shadow: 1px 0px 3px 1px #0194E277; }
+  #mobile-menu #help-menu-entry span {
+    background: linear-gradient(15deg, #9A8D00 0%, #4d835f 100%);
+    box-shadow: 0px 0px 3px 2px #a99c1077; }
 
-/* line 147, ../compass/src/_navigation.scss */
 #mobile-menu-open {
   background: url("../images/menu_icon.png");
   background-size: cover;
   height: 2em;
   width: 2em;
   margin: 0.5em;
-  cursor: pointer;
-}
+  cursor: pointer; }
 
 /* value_list */
-/* line 3, ../compass/src/_value_list.scss */
 .ide .value_list {
   min-width: 200px;
   color: #151719;
   padding: 5px 5px 0 5px;
   margin-bottom: 10px;
-  border-radius: 6px;
-}
-/* line 10, ../compass/src/_value_list.scss */
-.ide .value_list > * {
-  background: #d7d7d7;
-  border-radius: 3px;
-  margin-bottom: 10px;
-}
-/* line 15, ../compass/src/_value_list.scss */
-.ide .value_list > *:last-of-type {
-  margin-bottom: 5px;
-}
-/* line 20, ../compass/src/_value_list.scss */
-.ide .value_list > .head {
-  font-weight: bold;
-  background: #000 !important;
-  color: #bf5421;
-}
-/* line 26, ../compass/src/_value_list.scss */
-.ide .value_list .head {
-  display: flex;
-  flex-direction: row;
-  padding: 5px;
-  background: var(--background-accent-gradient);
-  border-top-left-radius: 3px;
-  border-top-right-radius: 3px;
-}
-/* line 34, ../compass/src/_value_list.scss */
-.ide .value_list .head button {
-  background: #000;
-  border: 1px solid #000;
-  color: #bf5421;
-}
-/* line 39, ../compass/src/_value_list.scss */
-.ide .value_list .head button:hover {
-  background: #cb764d;
-  color: #000;
-}
-/* line 45, ../compass/src/_value_list.scss */
-.ide .value_list .head .add {
-  display: flex;
-  flex-direction: row;
-  margin: 0 0 0 auto;
-}
-/* line 50, ../compass/src/_value_list.scss */
-.ide .value_list .head .add input {
-  width: calc(100% - 23px);
-  margin: 0 5px;
-}
-/* line 57, ../compass/src/_value_list.scss */
-.ide .value_list button {
-  margin: 0 0 0 auto;
-  padding: 0 2px 2px 2px;
-  font-size: 12px;
-  font-weight: bold;
-  line-height: 0;
-  height: 20px;
-  width: 20px;
-}
-/* line 66, ../compass/src/_value_list.scss */
-.ide .value_list button:not(:last-of-type) {
-  margin-right: 3px;
-}
-/* line 70, ../compass/src/_value_list.scss */
-.ide .value_list button + button {
-  margin-left: 0;
-}
-/* line 76, ../compass/src/_value_list.scss */
-.ide .value_list .bool .change, .ide .value_list .number .change, .ide .value_list .text .change {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-}
-/* line 83, ../compass/src/_value_list.scss */
-.ide .value_list .number .channel {
-  border: 1px solid #000;
-  border-radius: 10000px;
-  padding: 2px;
-  min-width: 1.5em;
-  text-align: center;
-}
-/* line 91, ../compass/src/_value_list.scss */
-.ide .value_list .settings .group {
-  margin-top: 10px;
-}
-/* line 94, ../compass/src/_value_list.scss */
-.ide .value_list .settings .group select {
-  margin-left: 10px;
-}
-/* line 98, ../compass/src/_value_list.scss */
-.ide .value_list .settings .group > * {
-  margin-top: 5px;
-}
-/* line 102, ../compass/src/_value_list.scss */
-.ide .value_list .settings .group input + label {
-  margin-left: 5px;
-}
-/* line 107, ../compass/src/_value_list.scss */
-.ide .value_list .number:not(.isslider) .settings {
-  display: none;
-}
-/* line 111, ../compass/src/_value_list.scss */
-.ide .value_list .bool .settings {
-  display: none;
-}
-/* line 115, ../compass/src/_value_list.scss */
-.ide .value_list .number .slidervalue {
-  margin: 0 4px;
-  min-width: 6em;
-  text-align: center;
-}
-/* line 121, ../compass/src/_value_list.scss */
-.ide .value_list .number:not(.isslider) .change input[type="range"], .ide .value_list .number:not(.isslider) .slidervalue {
-  display: none;
-}
-/* line 125, ../compass/src/_value_list.scss */
-.ide .value_list .number.isslider .change input[type="number"] {
-  display: none;
-}
-/* line 129, ../compass/src/_value_list.scss */
-.ide .value_list .bool input, .ide .value_list .number input, .ide .value_list .text input {
-  margin: 0 5px 0 5px;
-}
-/* line 133, ../compass/src/_value_list.scss */
-.ide .value_list .number .change input[type="number"], .ide .value_list .number .change input[type="text"] {
-  width: calc(50% - 70px);
-}
-/* line 137, ../compass/src/_value_list.scss */
-.ide .value_list .number .settings input[type="number"], .ide .value_list .number .settings input[type="text"], .ide .value_list .text input[type="text"] {
-  width: calc(100% - 70px);
-}
-/* line 141, ../compass/src/_value_list.scss */
-.ide .value_list .bool .result, .ide .value_list .number .result, .ide .value_list .text .result {
-  margin: 0 0 0 auto;
-}
-/* line 145, ../compass/src/_value_list.scss */
-.ide .value_list .user_label_container {
-  display: inline-block;
-  position: relative;
-}
-/* line 149, ../compass/src/_value_list.scss */
-.ide .value_list .user_label_container .user_label {
-  background: transparent;
-  border: none;
-  padding: 3px 4px 3px 23px;
-  cursor: text;
-  transition: all 0.2s ease 0s;
-  width: calc(100% - 5px) !important;
-}
-/* line 158, ../compass/src/_value_list.scss */
-.ide .value_list .user_label_container:after {
-  content: '\e905';
-  font-family: iconfont;
-  position: absolute;
-  left: 8px;
-  cursor: text;
-}
-/* line 167, ../compass/src/_value_list.scss */
-.ide .value_list .user_label_container:hover:after {
-  color: #c36724;
-}
-/* line 171, ../compass/src/_value_list.scss */
-.ide .value_list .user_label_container:hover .user_label {
-  background: #fff;
-}
-/* line 180, ../compass/src/_value_list.scss */
+  border-radius: 6px; }
+  .ide .value_list > * {
+    background: #d7d7d7;
+    border-radius: 3px;
+    margin-bottom: 10px; }
+    .ide .value_list > *:last-of-type {
+      margin-bottom: 5px; }
+  .ide .value_list > .head {
+    font-weight: bold;
+    background: #000 !important;
+    color: #bf5421; }
+  .ide .value_list .head {
+    display: flex;
+    flex-direction: row;
+    padding: 5px;
+    background: var(--background-accent-gradient);
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px; }
+    .ide .value_list .head button {
+      background: #000;
+      border: 1px solid #000;
+      color: #bf5421; }
+      .ide .value_list .head button:hover {
+        background: #cb764d;
+        color: #000; }
+    .ide .value_list .head .add {
+      display: flex;
+      flex-direction: row;
+      margin: 0 0 0 auto; }
+      .ide .value_list .head .add input {
+        width: calc(100% - 23px);
+        margin: 0 5px; }
+  .ide .value_list button {
+    margin: 0 0 0 auto;
+    padding: 0 2px 2px 2px;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 0;
+    height: 20px;
+    width: 20px; }
+    .ide .value_list button:not(:last-of-type) {
+      margin-right: 3px; }
+    .ide .value_list button + button {
+      margin-left: 0; }
+  .ide .value_list .bool .change, .ide .value_list .number .change, .ide .value_list .text .change {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center; }
+  .ide .value_list .number .channel {
+    border: 1px solid #000;
+    border-radius: 10000px;
+    padding: 2px;
+    min-width: 1.5em;
+    text-align: center; }
+  .ide .value_list .settings .group {
+    margin-top: 10px; }
+    .ide .value_list .settings .group select {
+      margin-left: 10px; }
+    .ide .value_list .settings .group > * {
+      margin-top: 5px; }
+    .ide .value_list .settings .group input + label {
+      margin-left: 5px; }
+  .ide .value_list .number:not(.isslider) .settings {
+    display: none; }
+  .ide .value_list .bool .settings {
+    display: none; }
+  .ide .value_list .number .slidervalue {
+    margin: 0 4px;
+    min-width: 6em;
+    text-align: center; }
+  .ide .value_list .number:not(.isslider) .change input[type="range"], .ide .value_list .number:not(.isslider) .slidervalue {
+    display: none; }
+  .ide .value_list .number.isslider .change input[type="number"] {
+    display: none; }
+  .ide .value_list .bool input, .ide .value_list .number input, .ide .value_list .text input {
+    margin: 0 5px 0 5px; }
+  .ide .value_list .number .change input[type="number"], .ide .value_list .number .change input[type="text"] {
+    width: calc(50% - 70px); }
+  .ide .value_list .number .settings input[type="number"], .ide .value_list .number .settings input[type="text"], .ide .value_list .text input[type="text"] {
+    width: calc(100% - 70px); }
+  .ide .value_list .bool .result, .ide .value_list .number .result, .ide .value_list .text .result {
+    margin: 0 0 0 auto; }
+  .ide .value_list .user_label_container {
+    display: inline-block;
+    position: relative; }
+    .ide .value_list .user_label_container .user_label {
+      background: transparent;
+      border: none;
+      padding: 3px 4px 3px 23px;
+      cursor: text;
+      transition: all 0.2s ease 0s;
+      width: calc(100% - 5px) !important; }
+    .ide .value_list .user_label_container:after {
+      content: '\e905';
+      font-family: iconfont;
+      position: absolute;
+      left: 8px;
+      cursor: text; }
+    .ide .value_list .user_label_container:hover:after {
+      color: #c36724; }
+    .ide .value_list .user_label_container:hover .user_label {
+      background: #fff; }
+
 .ide #property.value_list .bool, .ide #property.value_list .number, .ide #property.value_list .text {
   display: flex;
   flex-direction: row;
   margin: 3px 0;
-  padding: 5px;
-}
-/* line 187, ../compass/src/_value_list.scss */
+  padding: 5px; }
+
 .ide .value_list .bool, .ide .value_list .number, .ide .value_list .text {
   display: flex;
   flex-direction: column;
   margin: 3px 0;
-  padding: 5px;
-}
-/* line 194, ../compass/src/_value_list.scss */
-.ide #output.value_list .bool, .ide #output.value_list .number, .ide #output.value_list .text {
-  flex-direction: row;
-}
+  padding: 5px; }
 
-/* line 1, ../compass/src/_chapters.scss */
+.ide #output.value_list .bool, .ide #output.value_list .number, .ide #output.value_list .text {
+  flex-direction: row; }
+
 .chapters {
   position: relative;
   display: flex;
   flex-direction: column;
   padding: 5px;
-  overflow-y: auto;
-}
-/* line 8, ../compass/src/_chapters.scss */
-.chapters .chapter {
-  display: flex;
-  flex-direction: column;
-}
-/* line 12, ../compass/src/_chapters.scss */
-.chapters .chapter:not(:last-child) {
-  margin-bottom: 5px;
-}
-/* line 16, ../compass/src/_chapters.scss */
-.chapters .chapter .chapter_head {
-  border-top-left-radius: 3px;
-  border-top-right-radius: 3px;
-  background: linear-gradient(15deg, #002c43 0%, #325668 100%);
-  color: #fff;
-  cursor: pointer;
-  padding: 5px;
-  position: relative;
-}
-/* line 25, ../compass/src/_chapters.scss */
-.chapters .chapter .chapter_head:after {
-  position: absolute;
-  top: 50%;
-  right: 5px;
-  font-family: 'Iconfont';
-  content: '\ea43';
-  transition: all 0.2s ease 0s;
-  transform: translateY(-50%);
-  line-height: 0;
-}
-/* line 37, ../compass/src/_chapters.scss */
-.chapters .chapter.open .chapter_head:after {
-  transform: translateY(-50%) rotate(180deg);
-}
-/* line 41, ../compass/src/_chapters.scss */
-.chapters .chapter .chapter_body {
-  display: flex;
-  flex-direction: column;
-  padding: 5px;
-}
-/* line 47, ../compass/src/_chapters.scss */
-.chapters .chapter:not(.open) .chapter_body {
-  display: none;
-  background: #7f95a1;
-}
-/* line 52, ../compass/src/_chapters.scss */
-.chapters .chapter .section {
-  display: flex;
-  flex-direction: column;
-}
-/* line 56, ../compass/src/_chapters.scss */
-.chapters .chapter .section:not(:last-child) {
-  margin-bottom: 5px;
-}
-/* line 60, ../compass/src/_chapters.scss */
-.chapters .chapter .section .section_head {
-  position: relative;
-  border-top-left-radius: 3px;
-  border-top-right-radius: 3px;
-  background: linear-gradient(15deg, #2150bf 0%, #3073a4 100%);
-  cursor: pointer;
-  padding: 5px;
-}
-/* line 68, ../compass/src/_chapters.scss */
-.chapters .chapter .section .section_head:after {
-  position: absolute;
-  top: 50%;
-  right: 5px;
-  font-family: 'Iconfont';
-  content: '\ea43';
-  transition: all 0.2s ease 0s;
-  transform: translateY(-50%);
-  line-height: 0;
-}
-/* line 80, ../compass/src/_chapters.scss */
-.chapters .chapter .section.open .section_head:after {
-  transform: translateY(-50%) rotate(180deg);
-}
-/* line 84, ../compass/src/_chapters.scss */
-.chapters .chapter .section .section_body {
-  display: flex;
-  flex-direction: column;
-  padding: 5px;
-  background: #eaedf1;
-}
-/* line 90, ../compass/src/_chapters.scss */
-.chapters .chapter .section .section_body > * {
-  margin-bottom: 10px;
-}
-/* line 95, ../compass/src/_chapters.scss */
-.chapters .chapter .section:not(.open) .section_body {
-  display: none;
-}
-/* line 101, ../compass/src/_chapters.scss */
-.chapters .part_text {
-  color: #222;
-}
-/* line 105, ../compass/src/_chapters.scss */
-.chapters .part_code {
-  border: 3px solid #202020;
-  box-sizing: content-box;
-  border-radius: 3px;
-  margin: 5px 0;
-}
-/* line 112, ../compass/src/_chapters.scss */
-.chapters keyword {
-  color: #F92672;
-  font-family: "Monaco", "Menlo", "Ubuntu Mono", "Consolas", "source-code-pro", monospace;
-}
-/* line 117, ../compass/src/_chapters.scss */
-.chapters obj {
-  color: #4FA8B9;
-  font-family: "Monaco", "Menlo", "Ubuntu Mono", "Consolas", "source-code-pro", monospace;
-}
+  overflow-y: auto; }
+  .chapters .chapter {
+    display: flex;
+    flex-direction: column; }
+    .chapters .chapter:not(:last-child) {
+      margin-bottom: 5px; }
+    .chapters .chapter .chapter_head {
+      border-top-left-radius: 3px;
+      border-top-right-radius: 3px;
+      background: linear-gradient(15deg, #002c43 0%, #325668 100%);
+      color: #fff;
+      cursor: pointer;
+      padding: 5px;
+      position: relative; }
+      .chapters .chapter .chapter_head:after {
+        position: absolute;
+        top: 50%;
+        right: 5px;
+        font-family: 'Iconfont';
+        content: '\ea43';
+        transition: all 0.2s ease 0s;
+        transform: translateY(-50%);
+        line-height: 0; }
+    .chapters .chapter.open .chapter_head:after {
+      transform: translateY(-50%) rotate(180deg); }
+    .chapters .chapter .chapter_body {
+      display: flex;
+      flex-direction: column;
+      padding: 5px; }
+    .chapters .chapter:not(.open) .chapter_body {
+      display: none;
+      background: #7f95a1; }
+    .chapters .chapter .section {
+      display: flex;
+      flex-direction: column; }
+      .chapters .chapter .section:not(:last-child) {
+        margin-bottom: 5px; }
+      .chapters .chapter .section .section_head {
+        position: relative;
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+        background: linear-gradient(15deg, #2150bf 0%, #3073a4 100%);
+        cursor: pointer;
+        padding: 5px; }
+        .chapters .chapter .section .section_head:after {
+          position: absolute;
+          top: 50%;
+          right: 5px;
+          font-family: 'Iconfont';
+          content: '\ea43';
+          transition: all 0.2s ease 0s;
+          transform: translateY(-50%);
+          line-height: 0; }
+      .chapters .chapter .section.open .section_head:after {
+        transform: translateY(-50%) rotate(180deg); }
+      .chapters .chapter .section .section_body {
+        display: flex;
+        flex-direction: column;
+        padding: 5px;
+        background: #eaedf1; }
+        .chapters .chapter .section .section_body > * {
+          margin-bottom: 10px; }
+      .chapters .chapter .section:not(.open) .section_body {
+        display: none; }
+  .chapters .part_text {
+    color: #222; }
+  .chapters .part_code {
+    border: 3px solid #202020;
+    box-sizing: content-box;
+    border-radius: 3px;
+    margin: 5px 0; }
+  .chapters keyword {
+    color: #F92672;
+    font-family: "Monaco", "Menlo", "Ubuntu Mono", "Consolas", "source-code-pro", monospace; }
+  .chapters obj {
+    color: #4FA8B9;
+    font-family: "Monaco", "Menlo", "Ubuntu Mono", "Consolas", "source-code-pro", monospace; }
 
-/* line 3, ../compass/src/_view.scss */
 [view] {
   position: absolute;
   display: flex;
@@ -1162,379 +799,250 @@ a:hover {
   height: calc( ( 100vh - 75px - 60px ) / 2);
   background: #151719;
   color: #eaedf1;
-  padding: 6px;
-}
-/* line 14, ../compass/src/_view.scss */
-[view] .select {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  width: calc(100% + 4px);
-  background: #151719;
-  margin: -2px -2px 4px -2px;
-}
-/* line 22, ../compass/src/_view.scss */
-[view] .select [select-viewable] {
-  background: #1c3146;
-  color: #eaedf1;
-  cursor: pointer;
-  padding: 0.25em 0.5em;
-  margin: 4px;
-}
-/* line 29, ../compass/src/_view.scss */
-[view] .select [select-viewable] .moveto {
-  margin-left: 10px;
-  opacity: 0;
-  transition: all 0.2s ease 0s;
-}
-/* line 35, ../compass/src/_view.scss */
-[view] .select [select-viewable]:hover .moveto {
-  opacity: 1;
-}
-/* line 39, ../compass/src/_view.scss */
-[view] .select [select-viewable] .moveto_choose {
-  box-shadow: 1px 1px 2px 2px #4b4b4b;
-  background: #eaedf1;
-  color: #151719;
-  z-index: 100;
-}
-/* line 45, ../compass/src/_view.scss */
-[view] .select [select-viewable] .moveto_choose .header {
-  padding: 6px 6px;
-  background: #151719;
-  color: #eaedf1;
-  font-weight: bold;
-}
-/* line 52, ../compass/src/_view.scss */
-[view] .select [select-viewable] .moveto_choose .entry {
-  padding: 6px 6px;
-  transition: all 0.2s ease 0s;
-}
-/* line 56, ../compass/src/_view.scss */
-[view] .select [select-viewable] .moveto_choose .entry:hover {
-  background: #7e7e7e;
-}
-/* line 60, ../compass/src/_view.scss */
-[view] .select [select-viewable] .moveto_choose .entry:not(:last-child) {
-  border-bottom: 1px solid #151719;
-}
-/* line 67, ../compass/src/_view.scss */
-[view] .select [select-viewable]:not(:last-child) {
-  margin-right: 4px;
-}
-/* line 71, ../compass/src/_view.scss */
-[view] .select [select-viewable][select="true"] {
-  background: #eaedf1;
-  color: #151719;
-}
-/* line 77, ../compass/src/_view.scss */
-[view] .viewable_container {
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background: #363b40;
-  border-radius: 3px;
-  padding: 4px;
-}
+  padding: 6px; }
+  [view] .select {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: calc(100% + 4px);
+    background: #151719;
+    margin: -2px -2px 4px -2px; }
+    [view] .select [select-viewable] {
+      background: #1c3146;
+      color: #eaedf1;
+      cursor: pointer;
+      padding: 0.25em 0.5em;
+      margin: 4px; }
+      [view] .select [select-viewable] .moveto {
+        margin-left: 10px;
+        opacity: 0;
+        transition: all 0.2s ease 0s; }
+      [view] .select [select-viewable]:hover .moveto {
+        opacity: 1; }
+      [view] .select [select-viewable] .moveto_choose {
+        box-shadow: 1px 1px 2px 2px #4b4b4b;
+        background: #eaedf1;
+        color: #151719;
+        z-index: 100; }
+        [view] .select [select-viewable] .moveto_choose .header {
+          padding: 6px 6px;
+          background: #151719;
+          color: #eaedf1;
+          font-weight: bold; }
+        [view] .select [select-viewable] .moveto_choose .entry {
+          padding: 6px 6px;
+          transition: all 0.2s ease 0s; }
+          [view] .select [select-viewable] .moveto_choose .entry:hover {
+            background: #7e7e7e; }
+          [view] .select [select-viewable] .moveto_choose .entry:not(:last-child) {
+            border-bottom: 1px solid #151719; }
+    [view] .select [select-viewable]:not(:last-child) {
+      margin-right: 4px; }
+    [view] .select [select-viewable][select="true"] {
+      background: #eaedf1;
+      color: #151719; }
+  [view] .viewable_container {
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background: #363b40;
+    border-radius: 3px;
+    padding: 4px; }
 
-/* line 1, ../compass/src/_viewable.scss */
 [viewable][visible="false"] {
-  display: none;
-}
+  display: none; }
 
-/* line 7, ../compass/src/_viewable.scss */
 .ide[mode="server"] [select-viewable="viewable_console"], .ide[mode="server"] [select-viewable="viewable_monitor"], .ide[mode="server"] [select-viewable="viewable_editor_uibuilder"], .ide[mode="server"] [select-viewable="viewable_properties"], .ide[mode="server"] [select-viewable="viewable_inputs"], .ide[mode="server"] [select-viewable="viewable_outputs"] {
-  display: none;
-}
-/* line 11, ../compass/src/_viewable.scss */
+  display: none; }
+
 .ide[mode="server"] [viewable="viewable_console"], .ide[mode="server"] [viewable="viewable_monitor"], .ide[mode="server"] [viewable="viewable_uibuilder"], .ide[mode="server"] [viewable="viewable_properties"], .ide[mode="server"] [viewable="viewable_inputs"], .ide[mode="server"] [viewable="viewable_outputs"] {
-  display: none;
-}
+  display: none; }
 
-/* line 1, ../compass/src/_viewable_documentation.scss */
 [viewable="viewable_documentation"] {
-  padding: 5px;
-}
-/* line 5, ../compass/src/_viewable_documentation.scss */
-[viewable="viewable_documentation"] .node {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  border-radius: 3px;
-  background: #151719;
-  color: #eaedf1;
-}
-/* line 13, ../compass/src/_viewable_documentation.scss */
-[viewable="viewable_documentation"] .node:not(:last-child) {
-  margin-bottom: 5px;
-}
-/* line 19, ../compass/src/_viewable_documentation.scss */
-[viewable="viewable_documentation"] .node.contracted .bottom, [viewable="viewable_documentation"] .node.contracted .children {
-  display: none;
-}
-/* line 24, ../compass/src/_viewable_documentation.scss */
-[viewable="viewable_documentation"] .node .top {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  padding: 6px 6px;
-  cursor: pointer;
-}
-/* line 31, ../compass/src/_viewable_documentation.scss */
-[viewable="viewable_documentation"] .node .top .definition {
-  display: flex;
-  flex-direction: row;
-  font-size: 18px;
-}
-/* line 40, ../compass/src/_viewable_documentation.scss */
-[viewable="viewable_documentation"] .node .top .definition .args {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  margin-left: 10px;
-  color: #e87704;
-}
-/* line 47, ../compass/src/_viewable_documentation.scss */
-[viewable="viewable_documentation"] .node .top .definition .args:before {
-  content: '(';
-  margin-right: 3px;
-}
-/* line 52, ../compass/src/_viewable_documentation.scss */
-[viewable="viewable_documentation"] .node .top .definition .args:after {
-  content: ')';
-  margin-left: 3px;
-}
-/* line 57, ../compass/src/_viewable_documentation.scss */
-[viewable="viewable_documentation"] .node .top .definition .args .arg {
-  position: relative;
-  display: flex;
-  flex-direction: row;
-}
-/* line 62, ../compass/src/_viewable_documentation.scss */
-[viewable="viewable_documentation"] .node .top .definition .args .arg:before {
-  content: attr(before);
-}
-/* line 66, ../compass/src/_viewable_documentation.scss */
-[viewable="viewable_documentation"] .node .top .definition .args .arg:after {
-  content: attr(after);
-}
-/* line 74, ../compass/src/_viewable_documentation.scss */
-[viewable="viewable_documentation"] .node .top .definition .args .arg .arg_help_open {
-  margin-left: 6px;
-  color: #fff;
-}
-/* line 79, ../compass/src/_viewable_documentation.scss */
-[viewable="viewable_documentation"] .node .top .definition .args .arg .arg_help {
-  position: absolute;
-  z-index: 10;
-  top: 100%;
-  left: 0;
-  display: none;
-  background: #363b40;
-  padding: 6px;
-  min-width: 150px;
-}
-/* line 89, ../compass/src/_viewable_documentation.scss */
-[viewable="viewable_documentation"] .node .top .definition .args .arg .arg_help table {
-  border-collapse: separate;
-  border-spacing: 10px;
-}
-/* line 93, ../compass/src/_viewable_documentation.scss */
-[viewable="viewable_documentation"] .node .top .definition .args .arg .arg_help table th, [viewable="viewable_documentation"] .node .top .definition .args .arg .arg_help table td {
-  text-align: left;
-}
-/* line 99, ../compass/src/_viewable_documentation.scss */
-[viewable="viewable_documentation"] .node .top .definition .args .arg.has_help.help_open .arg_help {
-  display: inline-block;
-}
-/* line 106, ../compass/src/_viewable_documentation.scss */
-[viewable="viewable_documentation"] .node .top .definition .hint {
-  position: relative;
-  margin-left: 5px;
-}
-/* line 114, ../compass/src/_viewable_documentation.scss */
-[viewable="viewable_documentation"] .node .top .definition .hint .hint_inner {
-  display: none;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  z-index: 10;
-  min-width: 150px;
-  padding: 6px;
-  background: #363b40;
-  font-size: 16px;
-}
-/* line 126, ../compass/src/_viewable_documentation.scss */
-[viewable="viewable_documentation"] .node .top .definition .hint.hint_open .hint_inner {
-  display: inline-block;
-}
-/* line 133, ../compass/src/_viewable_documentation.scss */
-[viewable="viewable_documentation"] .node .top .lib {
-  border: 1px solid;
-  border-radius: 10000px;
-  padding: 2px 8px;
-  white-space: nowrap;
-  height: calc(1em + 2px * 4);
-}
-/* line 142, ../compass/src/_viewable_documentation.scss */
-[viewable="viewable_documentation"] .node .bottom {
-  display: flex;
-  flex-direction: column;
-  padding: 5px 10px 10px 10px;
-}
-/* line 147, ../compass/src/_viewable_documentation.scss */
-[viewable="viewable_documentation"] .node .bottom .url {
-  margin-bottom: 8px;
-}
-/* line 155, ../compass/src/_viewable_documentation.scss */
-[viewable="viewable_documentation"] .node .bottom .returns {
-  font-weight: bold;
-  color: #7e7e7e;
-  margin-bottom: 8px;
-}
-/* line 160, ../compass/src/_viewable_documentation.scss */
-[viewable="viewable_documentation"] .node .bottom .returns span {
-  font-weight: normal;
-}
-/* line 163, ../compass/src/_viewable_documentation.scss */
-[viewable="viewable_documentation"] .node .bottom .returns span.nothing {
-  text-decoration: underline;
-}
-/* line 169, ../compass/src/_viewable_documentation.scss */
-[viewable="viewable_documentation"] .node .bottom .bugs {
-  margin-top: 10px;
-  background: #952424;
-  color: #fff;
-  padding: 6px;
-  border-radius: 3px;
-}
-/* line 176, ../compass/src/_viewable_documentation.scss */
-[viewable="viewable_documentation"] .node .bottom .bugs .heading {
-  background: #fff;
-  color: #952424;
-  padding: 3px 10px;
-  border-radius: 100000px;
-  font-weight: bold;
-  line-height: 1.3em;
-}
-/* line 185, ../compass/src/_viewable_documentation.scss */
-[viewable="viewable_documentation"] .node .bottom .bugs .bug_text {
-  margin-top: 10px;
-  padding: 5px;
-}
-/* line 192, ../compass/src/_viewable_documentation.scss */
-[viewable="viewable_documentation"] .node .children {
-  padding-left: 10px;
-}
-/* line 198, ../compass/src/_viewable_documentation.scss */
-[viewable="viewable_documentation"] .node[lib="stormworks"] .lib {
-  color: #0081cc;
-  border-color: #0081cc;
-}
-/* line 206, ../compass/src/_viewable_documentation.scss */
-[viewable="viewable_documentation"] .node[lib="dev"] .lib {
-  color: #b9085b;
-  border-color: #b9085b;
-}
-/* line 214, ../compass/src/_viewable_documentation.scss */
-[viewable="viewable_documentation"] .node[lib="lua"] .lib {
-  color: #44b511;
-  border-color: #44b511;
-}
-/* line 221, ../compass/src/_viewable_documentation.scss */
-[viewable="viewable_documentation"] .node[ntype="object"] .name, [viewable="viewable_documentation"] .node[ntype="object"] .hint_open_icon {
-  color: #A6CE28;
-}
-/* line 227, ../compass/src/_viewable_documentation.scss */
-[viewable="viewable_documentation"] .node[ntype="function"] .name, [viewable="viewable_documentation"] .node[ntype="function"] .hint_open_icon {
-  color: #66D9EF;
-}
-/* line 234, ../compass/src/_viewable_documentation.scss */
-[viewable="viewable_documentation"] .node[ntype="event"] .name, [viewable="viewable_documentation"] .node[ntype="event"] .hint_open_icon {
-  color: #F0D322;
-}
+  padding: 5px; }
+  [viewable="viewable_documentation"] .node {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    border-radius: 3px;
+    background: #151719;
+    color: #eaedf1; }
+    [viewable="viewable_documentation"] .node:not(:last-child) {
+      margin-bottom: 5px; }
+    [viewable="viewable_documentation"] .node.contracted .bottom, [viewable="viewable_documentation"] .node.contracted .children {
+      display: none; }
+    [viewable="viewable_documentation"] .node .top {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      padding: 6px 6px;
+      cursor: pointer; }
+      [viewable="viewable_documentation"] .node .top .definition {
+        display: flex;
+        flex-direction: row;
+        font-size: 18px; }
+        [viewable="viewable_documentation"] .node .top .definition .args {
+          display: flex;
+          flex-direction: row;
+          flex-wrap: wrap;
+          margin-left: 10px;
+          color: #e87704; }
+          [viewable="viewable_documentation"] .node .top .definition .args:before {
+            content: '(';
+            margin-right: 3px; }
+          [viewable="viewable_documentation"] .node .top .definition .args:after {
+            content: ')';
+            margin-left: 3px; }
+          [viewable="viewable_documentation"] .node .top .definition .args .arg {
+            position: relative;
+            display: flex;
+            flex-direction: row; }
+            [viewable="viewable_documentation"] .node .top .definition .args .arg:before {
+              content: attr(before); }
+            [viewable="viewable_documentation"] .node .top .definition .args .arg:after {
+              content: attr(after); }
+            [viewable="viewable_documentation"] .node .top .definition .args .arg .arg_help_open {
+              margin-left: 6px;
+              color: #fff; }
+            [viewable="viewable_documentation"] .node .top .definition .args .arg .arg_help {
+              position: absolute;
+              z-index: 10;
+              top: 100%;
+              left: 0;
+              display: none;
+              background: #363b40;
+              padding: 6px;
+              min-width: 150px; }
+              [viewable="viewable_documentation"] .node .top .definition .args .arg .arg_help table {
+                border-collapse: separate;
+                border-spacing: 10px; }
+                [viewable="viewable_documentation"] .node .top .definition .args .arg .arg_help table th, [viewable="viewable_documentation"] .node .top .definition .args .arg .arg_help table td {
+                  text-align: left; }
+            [viewable="viewable_documentation"] .node .top .definition .args .arg.has_help.help_open .arg_help {
+              display: inline-block; }
+        [viewable="viewable_documentation"] .node .top .definition .hint {
+          position: relative;
+          margin-left: 5px; }
+          [viewable="viewable_documentation"] .node .top .definition .hint .hint_inner {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            z-index: 10;
+            min-width: 150px;
+            padding: 6px;
+            background: #363b40;
+            font-size: 16px; }
+          [viewable="viewable_documentation"] .node .top .definition .hint.hint_open .hint_inner {
+            display: inline-block; }
+      [viewable="viewable_documentation"] .node .top .lib {
+        border: 1px solid;
+        border-radius: 10000px;
+        padding: 2px 8px;
+        white-space: nowrap;
+        height: calc(1em + 2px * 4); }
+    [viewable="viewable_documentation"] .node .bottom {
+      display: flex;
+      flex-direction: column;
+      padding: 5px 10px 10px 10px; }
+      [viewable="viewable_documentation"] .node .bottom .url {
+        margin-bottom: 8px; }
+      [viewable="viewable_documentation"] .node .bottom .returns {
+        font-weight: bold;
+        color: #7e7e7e;
+        margin-bottom: 8px; }
+        [viewable="viewable_documentation"] .node .bottom .returns span {
+          font-weight: normal; }
+          [viewable="viewable_documentation"] .node .bottom .returns span.nothing {
+            text-decoration: underline; }
+      [viewable="viewable_documentation"] .node .bottom .bugs {
+        margin-top: 10px;
+        background: #952424;
+        color: #fff;
+        padding: 6px;
+        border-radius: 3px; }
+        [viewable="viewable_documentation"] .node .bottom .bugs .heading {
+          background: #fff;
+          color: #952424;
+          padding: 3px 10px;
+          border-radius: 100000px;
+          font-weight: bold;
+          line-height: 1.3em; }
+        [viewable="viewable_documentation"] .node .bottom .bugs .bug_text {
+          margin-top: 10px;
+          padding: 5px; }
+    [viewable="viewable_documentation"] .node .children {
+      padding-left: 10px; }
+    [viewable="viewable_documentation"] .node[lib="stormworks"] .lib {
+      color: #0081cc;
+      border-color: #0081cc; }
+    [viewable="viewable_documentation"] .node[lib="dev"] .lib {
+      color: #b9085b;
+      border-color: #b9085b; }
+    [viewable="viewable_documentation"] .node[lib="lua"] .lib {
+      color: #44b511;
+      border-color: #44b511; }
+    [viewable="viewable_documentation"] .node[ntype="object"] .name, [viewable="viewable_documentation"] .node[ntype="object"] .hint_open_icon {
+      color: #A6CE28; }
+    [viewable="viewable_documentation"] .node[ntype="function"] .name, [viewable="viewable_documentation"] .node[ntype="function"] .hint_open_icon {
+      color: #66D9EF; }
+    [viewable="viewable_documentation"] .node[ntype="event"] .name, [viewable="viewable_documentation"] .node[ntype="event"] .hint_open_icon {
+      color: #F0D322; }
 
-/* line 1, ../compass/src/_viewable_settings.scss */
 [viewable="viewable_settings"] {
   display: flex;
-  flex-direction: column;
-}
-/* line 5, ../compass/src/_viewable_settings.scss */
-[viewable="viewable_settings"] .setting {
-  margin-bottom: 5px;
-  background: #222;
-  padding: 6px;
-  border-radius: 3px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-}
-/* line 15, ../compass/src/_viewable_settings.scss */
-[viewable="viewable_settings"] .setting.multi_setting {
-  flex-direction: column;
-  align-items: initial;
-}
-/* line 19, ../compass/src/_viewable_settings.scss */
-[viewable="viewable_settings"] .setting.multi_setting > div {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-}
-/* line 26, ../compass/src/_viewable_settings.scss */
-[viewable="viewable_settings"] .setting.multi_setting > div:not(:last-child) {
-  margin-bottom: 10px;
-}
-/* line 31, ../compass/src/_viewable_settings.scss */
-[viewable="viewable_settings"] .setting label {
-  margin-right: 5px;
-}
-/* line 35, ../compass/src/_viewable_settings.scss */
-[viewable="viewable_settings"] .setting label + div {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-/* line 40, ../compass/src/_viewable_settings.scss */
-[viewable="viewable_settings"] .setting label + div input {
-  margin-left: 10px;
-}
-/* line 46, ../compass/src/_viewable_settings.scss */
-[viewable="viewable_settings"] #timeBetweenTicks, [viewable="viewable_settings"] #timeBetweenDraws {
-  direction: rtl;
-}
+  flex-direction: column; }
+  [viewable="viewable_settings"] .setting {
+    margin-bottom: 5px;
+    background: #222;
+    padding: 6px;
+    border-radius: 3px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center; }
+    [viewable="viewable_settings"] .setting.multi_setting {
+      flex-direction: column;
+      align-items: initial; }
+      [viewable="viewable_settings"] .setting.multi_setting > div {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center; }
+      [viewable="viewable_settings"] .setting.multi_setting > div:not(:last-child) {
+        margin-bottom: 10px; }
+    [viewable="viewable_settings"] .setting label {
+      margin-right: 5px; }
+    [viewable="viewable_settings"] .setting label + div {
+      display: flex;
+      flex-direction: row;
+      align-items: center; }
+      [viewable="viewable_settings"] .setting label + div input {
+        margin-left: 10px; }
+  [viewable="viewable_settings"] #timeBetweenTicks, [viewable="viewable_settings"] #timeBetweenDraws {
+    direction: rtl; }
 
-/* line 2, ../compass/src/_viewable_console.scss */
 [viewable="viewable_console"] #console {
   position: relative;
   background: #000;
-  border-radius: 3px;
-}
-/* line 7, ../compass/src/_viewable_console.scss */
-[viewable="viewable_console"] #console #console-inner {
-  color: #fff;
-  width: 100%;
-  height: 100%;
-  padding: 5px;
-  overflow: scroll;
-  font-family: monospace;
-}
-/* line 16, ../compass/src/_viewable_console.scss */
-[viewable="viewable_console"] #console .console_clear {
-  position: absolute;
-  top: 8px;
-  right: 20px;
-  font-size: 20px;
-  cursor: pointer;
-  transition: all 0.2s ease 0s;
-}
-/* line 24, ../compass/src/_viewable_console.scss */
-[viewable="viewable_console"] #console .console_clear:hover {
-  color: #be3b3c;
-}
+  border-radius: 3px; }
+  [viewable="viewable_console"] #console #console-inner {
+    color: #fff;
+    width: 100%;
+    height: 100%;
+    padding: 5px;
+    overflow: scroll;
+    font-family: monospace; }
+  [viewable="viewable_console"] #console .console_clear {
+    position: absolute;
+    top: 8px;
+    right: 20px;
+    font-size: 20px;
+    cursor: pointer;
+    transition: all 0.2s ease 0s; }
+    [viewable="viewable_console"] #console .console_clear:hover {
+      color: #be3b3c; }
 
-/* line 1, ../compass/src/_viewable_hints.scss */
 #hints-container {
   width: 100%;
   overflow-y: auto;
@@ -1542,78 +1050,55 @@ a:hover {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 5px;
-}
-/* line 10, ../compass/src/_viewable_hints.scss */
-#hints-container .hint {
-  position: relative;
-  background: #151719;
-  border-radius: 3px;
-  width: 100%;
-}
-/* line 16, ../compass/src/_viewable_hints.scss */
-#hints-container .hint:not(:last-of-type) {
-  margin-bottom: 5px;
-}
-/* line 20, ../compass/src/_viewable_hints.scss */
-#hints-container .hint h4 {
-  width: 100%;
-  padding: 6px 12px;
-  margin: 0;
-  background: #ac3d31;
-  color: #eaedf1;
-  font-weight: bold;
-  border-top-left-radius: 3px;
-  border-top-right-radius: 3px;
-}
-/* line 31, ../compass/src/_viewable_hints.scss */
-#hints-container .hint .close {
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  cursor: pointer;
-  border-radius: 10000px;
-  color: #eaedf1;
-  transition: all 0.3s ease 0s;
-}
-/* line 40, ../compass/src/_viewable_hints.scss */
-#hints-container .hint .close:hover {
-  color: #7e7e7e;
-}
-/* line 45, ../compass/src/_viewable_hints.scss */
-#hints-container .hint > div {
-  padding: 10px;
-  color: #eaedf1;
-}
+  padding: 5px; }
+  #hints-container .hint {
+    position: relative;
+    background: #151719;
+    border-radius: 3px;
+    width: 100%; }
+    #hints-container .hint:not(:last-of-type) {
+      margin-bottom: 5px; }
+    #hints-container .hint h4 {
+      width: 100%;
+      padding: 6px 12px;
+      margin: 0;
+      background: #ac3d31;
+      color: #eaedf1;
+      font-weight: bold;
+      border-top-left-radius: 3px;
+      border-top-right-radius: 3px; }
+    #hints-container .hint .close {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      cursor: pointer;
+      border-radius: 10000px;
+      color: #eaedf1;
+      transition: all 0.3s ease 0s; }
+      #hints-container .hint .close:hover {
+        color: #7e7e7e; }
+    #hints-container .hint > div {
+      padding: 10px;
+      color: #eaedf1; }
 
-/* line 2, ../compass/src/_viewable_monitor.scss */
 [viewable="viewable_monitor"] #render-canvas {
-  display: none;
-}
-/* line 6, ../compass/src/_viewable_monitor.scss */
+  display: none; }
+
 [viewable="viewable_monitor"] #monitor {
-  position: relative;
-}
-/* line 10, ../compass/src/_viewable_monitor.scss */
+  position: relative; }
+
 [viewable="viewable_monitor"] .monitor_info {
-  margin-top: 10px;
-}
-/* line 13, ../compass/src/_viewable_monitor.scss */
-[viewable="viewable_monitor"] .monitor_info div {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-/* line 18, ../compass/src/_viewable_monitor.scss */
-[viewable="viewable_monitor"] .monitor_info div label {
-  margin-right: 10px;
-  min-width: 60px;
-}
-/* line 24, ../compass/src/_viewable_monitor.scss */
-[viewable="viewable_monitor"] .monitor_info span.zoom + input {
-  margin-left: 10px;
-}
-/* line 29, ../compass/src/_viewable_monitor.scss */
+  margin-top: 10px; }
+  [viewable="viewable_monitor"] .monitor_info div {
+    display: flex;
+    flex-direction: row;
+    align-items: center; }
+    [viewable="viewable_monitor"] .monitor_info div label {
+      margin-right: 10px;
+      min-width: 60px; }
+  [viewable="viewable_monitor"] .monitor_info span.zoom + input {
+    margin-left: 10px; }
+
 [viewable="viewable_monitor"] #overflow {
   position: absolute;
   top: 31px;
@@ -1622,45 +1107,34 @@ a:hover {
   width: calc(100% - 62px);
   height: calc(100% - 62px);
   border: 1px solid #ff0000cc;
-  margin: 0;
-}
-/* line 40, ../compass/src/_viewable_monitor.scss */
+  margin: 0; }
+
 [viewable="viewable_monitor"] #canvas {
   z-index: 1;
   background: #000;
-  filter: brightness(258%);
-}
+  filter: brightness(258%); }
 
-/* line 1, ../compass/src/_viewable_uibuilder.scss */
 #ui-builder-container .canvas_container .element.line svg {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
-}
+  height: 100%; }
 
-/* line 10, ../compass/src/_viewable_uibuilder.scss */
 #ui-builder-container .canvas_container .element.buttonrectangle .content {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-}
+  align-items: center; }
 
-/* line 17, ../compass/src/_viewable_uibuilder.scss */
 #ui-builder-container .canvas_container .element.verticalslider .slider_value {
   position: absolute;
-  width: 100%;
-}
+  width: 100%; }
 
-/* line 2, ../compass/src/_viewable_official_manuals.scss */
 [viewable="viewable_official_manuals"] #lua-youtube-video iframe {
   width: 100%;
-  height: 100%;
-}
+  height: 100%; }
 
-/* line 2, ../compass/src/_ponybin.scss */
 .ponybin_overlay {
   position: fixed;
   top: 0;
@@ -1672,311 +1146,216 @@ a:hover {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  align-items: center;
-}
-/* line 15, ../compass/src/_ponybin.scss */
-.ponybin_overlay .inner {
-  display: flex;
-  flex-direction: column;
-}
-/* line 20, ../compass/src/_ponybin.scss */
-.ponybin_overlay .circle {
-  background: linear-gradient(15deg, rgba(242, 223, 23, 0.666) 0%, rgba(110, 188, 136, 0.666) 100%);
-  box-shadow: 0px 0px 5px 3px #F2DF1777;
-  color: #000;
-  border-radius: 100%;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  width: 80vw;
-  max-width: 250px;
-  height: 80vw;
-  max-height: 250px;
-  padding: 20%;
-  animation-duration: 3s;
-  animation-name: circle;
-  animation-iteration-count: infinite;
-}
-/* line 37, ../compass/src/_ponybin.scss */
-.ponybin_overlay .circle p {
-  text-align: center;
-  line-height: 150%;
-  font-weight: bold;
-  animation-duration: 3s;
-  animation-name: anticircle;
-  animation-iteration-count: infinite;
-}
-/* line 46, ../compass/src/_ponybin.scss */
-.ponybin_overlay .circle [dot] {
-  animation-iteration-count: infinite;
-  animation-duration: 2s;
-}
-/* line 51, ../compass/src/_ponybin.scss */
-.ponybin_overlay .circle [dot="1"] {
-  animation-name: dot1;
-}
-/* line 55, ../compass/src/_ponybin.scss */
-.ponybin_overlay .circle [dot="2"] {
-  animation-name: dot2;
-}
-/* line 59, ../compass/src/_ponybin.scss */
-.ponybin_overlay .circle [dot="3"] {
-  animation-name: dot3;
-}
+  align-items: center; }
+  .ponybin_overlay .inner {
+    display: flex;
+    flex-direction: column; }
+  .ponybin_overlay .circle {
+    background: linear-gradient(15deg, rgba(242, 223, 23, 0.666) 0%, rgba(110, 188, 136, 0.666) 100%);
+    box-shadow: 0px 0px 5px 3px #F2DF1777;
+    color: #000;
+    border-radius: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 80vw;
+    max-width: 250px;
+    height: 80vw;
+    max-height: 250px;
+    padding: 20%;
+    animation-duration: 3s;
+    animation-name: circle;
+    animation-iteration-count: infinite; }
+    .ponybin_overlay .circle p {
+      text-align: center;
+      line-height: 150%;
+      font-weight: bold;
+      animation-duration: 3s;
+      animation-name: anticircle;
+      animation-iteration-count: infinite; }
+    .ponybin_overlay .circle [dot] {
+      animation-iteration-count: infinite;
+      animation-duration: 2s; }
+    .ponybin_overlay .circle [dot="1"] {
+      animation-name: dot1; }
+    .ponybin_overlay .circle [dot="2"] {
+      animation-name: dot2; }
+    .ponybin_overlay .circle [dot="3"] {
+      animation-name: dot3; }
 
 @keyframes circle {
   0% {
-    background-color: #F2DF17;
-  }
+    background-color: #F2DF17; }
   25% {
-    background-color: #6EBC88;
-  }
+    background-color: #6EBC88; }
   50% {
-    background-color: #EE4A4B;
-  }
+    background-color: #EE4A4B; }
   75% {
-    background-color: #F4812E;
-  }
+    background-color: #F4812E; }
   100% {
-    background-color: #F2DF17;
-  }
-}
+    background-color: #F2DF17; } }
+
 @keyframes dot1 {
   0% {
-    opacity: 0;
-  }
+    opacity: 0; }
   25% {
-    opacity: 0;
-  }
+    opacity: 0; }
   50% {
-    opacity: 1;
-  }
+    opacity: 1; }
   75% {
-    opacity: 1;
-  }
+    opacity: 1; }
   100% {
-    opacity: 1;
-  }
-}
+    opacity: 1; } }
+
 @keyframes dot2 {
   0% {
-    opacity: 0;
-  }
+    opacity: 0; }
   25% {
-    opacity: 0;
-  }
+    opacity: 0; }
   50% {
-    opacity: 0;
-  }
+    opacity: 0; }
   75% {
-    opacity: 1;
-  }
+    opacity: 1; }
   100% {
-    opacity: 1;
-  }
-}
+    opacity: 1; } }
+
 @keyframes dot3 {
   0% {
-    opacity: 0;
-  }
+    opacity: 0; }
   25% {
-    opacity: 0;
-  }
+    opacity: 0; }
   50% {
-    opacity: 0;
-  }
+    opacity: 0; }
   75% {
-    opacity: 0;
-  }
+    opacity: 0; }
   100% {
-    opacity: 1;
-  }
-}
-/* line 17, ../compass/src/style_client.scss */
+    opacity: 1; } }
+
 .ide {
   width: 100%;
   height: calc(100vh - 75px);
   overflow: hidden;
   display: flex;
-  flex-direction: column;
-}
-/* line 26, ../compass/src/style_client.scss */
-.ide[mode="server"] .engine_controls {
-  display: none !important;
-}
-/* line 31, ../compass/src/style_client.scss */
-.ide .ide_bar {
-  background: grey;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  height: 60px;
-}
-/* line 39, ../compass/src/style_client.scss */
-.ide .ide_bar .ide_controls {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  flex-wrap: wrap;
-}
-/* line 46, ../compass/src/style_client.scss */
-.ide .ide_bar .ide_controls .controls_group {
-  padding: 5px;
-  display: inline-block;
-  color: #eaedf1;
-}
-/* line 51, ../compass/src/style_client.scss */
-.ide .ide_bar .ide_controls .controls_group:not(:last-child) {
-  border-right: 1px solid #eaedf1;
-  padding-right: 25px;
-}
-/* line 56, ../compass/src/style_client.scss */
-.ide .ide_bar .ide_controls .controls_group button {
-  margin: 0;
-  padding: 6px 10px;
-}
-/* line 61, ../compass/src/style_client.scss */
-.ide .ide_bar .ide_controls .controls_group button:not(:last-child) {
-  margin-right: 10px;
-}
-/* line 65, ../compass/src/style_client.scss */
-.ide .ide_bar .ide_controls .controls_group:not(:last-child) {
-  margin-right: 25px;
-}
-/* line 70, ../compass/src/style_client.scss */
-.ide .ide_bar .ide_controls #save {
-  transition: all 0.5s ease 0s;
-}
-/* line 73, ../compass/src/style_client.scss */
-.ide .ide_bar .ide_controls #save.saved {
-  background: #4d835f;
-  border-color: #fff;
-  color: #fff;
-}
-/* line 82, ../compass/src/style_client.scss */
-.ide .ide_bar .ide_bar_right {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-/* line 87, ../compass/src/style_client.scss */
-.ide .ide_bar .ide_bar_right .ide_mode_switch {
-  position: relative;
-  margin-right: 40px;
-  background: #0081cc;
-  border: 1px solid #eaedf1;
-  border-radius: 6px;
-  color: #eaedf1;
-}
-/* line 95, ../compass/src/style_client.scss */
-.ide .ide_bar .ide_bar_right .ide_mode_switch input#ide-server-mode {
-  display: none;
-}
-/* line 98, ../compass/src/style_client.scss */
-.ide .ide_bar .ide_bar_right .ide_mode_switch input#ide-server-mode:checked + label[for="ide-server-mode"]:after {
-  left: -6px;
-}
-/* line 103, ../compass/src/style_client.scss */
-.ide .ide_bar .ide_bar_right .ide_mode_switch label[for="ide-server-mode"] {
-  padding: 12px;
-  cursor: pointer;
-}
-/* line 107, ../compass/src/style_client.scss */
-.ide .ide_bar .ide_bar_right .ide_mode_switch label[for="ide-server-mode"]:before {
-  content: 'Client\00a0\00a0\00a0\00a0\00a0Server';
-  display: inline-flex;
-  height: 2em;
-  flex-direction: row;
-  align-items: center;
-}
-/* line 115, ../compass/src/style_client.scss */
-.ide .ide_bar .ide_bar_right .ide_mode_switch label[for="ide-server-mode"]:after {
-  content: '';
-  position: absolute;
-  top: -6px;
-  left: 50%;
-  height: calc(100% + 8px);
-  width: calc(50% + 8px);
-  background: #eaedf1;
-  border: 2px solid #757779;
-  border-radius: 12px;
-  transition: all 0.3s ease 0s;
-}
-/* line 130, ../compass/src/style_client.scss */
-.ide .ide_bar .ide_bar_right .ide_stats {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  background: #363b40;
-  padding: 6px 12px;
-  color: #eaedf1;
-}
-/* line 140, ../compass/src/style_client.scss */
-.ide .ide_bar .ide_bar_right .ide_stats > *:not(:last-child) {
-  margin-bottom: 5px;
-}
-/* line 144, ../compass/src/style_client.scss */
-.ide .ide_bar .ide_bar_right .ide_stats #drawtime.warning, .ide .ide_bar .ide_bar_right .ide_stats #ticktime.warning {
-  color: red;
-}
-/* line 151, ../compass/src/style_client.scss */
-.ide .ide_flex_view {
-  position: relative;
-  width: 100%;
-  height: calc(100vh - 75px - 60px);
-}
-/* line 157, ../compass/src/style_client.scss */
-.ide [splitter] {
-  position: absolute;
-  background: var(--background-strong-accent-gradient);
-  border: 2px solid #151719;
-  z-index: 1000;
-  /* hack so the mouse is not leaving the splitter directly */
-}
-/* line 164, ../compass/src/style_client.scss */
-.ide [splitter]:after {
-  display: none;
-  content: ' ';
-  position: absolute;
-  top: -1000px;
-  left: -1000px;
-  width: calc(100% + 2000px);
-  height: calc(100% + 2000px);
-}
-/* line 175, ../compass/src/style_client.scss */
-.ide [splitter][draging="true"]:after {
-  display: initial;
-}
-/* line 179, ../compass/src/style_client.scss */
-.ide [splitter="vertical"] {
-  left: calc(50vw - (6px / 2));
-  top: 0;
-  height: calc(100vh - 75px - 60px);
-  width: 8px;
-  cursor: e-resize;
-}
-/* line 187, ../compass/src/style_client.scss */
-.ide [splitter="horizontal_left"], .ide [splitter="horizontal_right"] {
-  top: calc( ( 100vh - 75px - 60px ) / 2 - (6px / 2));
-  height: 6px;
-  width: calc(50vw - (6px / 2));
-  cursor: n-resize;
-}
-/* line 194, ../compass/src/style_client.scss */
-.ide [splitter="horizontal_left"] {
-  left: 0;
-}
-/* line 198, ../compass/src/style_client.scss */
-.ide [splitter="horizontal_right"] {
-  left: calc(50vw + (6px / 2));
-}
+  flex-direction: column; }
+  .ide[mode="server"] .engine_controls {
+    display: none !important; }
+  .ide .ide_bar {
+    background: grey;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: 60px; }
+    .ide .ide_bar .ide_controls {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: center;
+      flex-wrap: wrap; }
+      .ide .ide_bar .ide_controls .controls_group {
+        padding: 5px;
+        display: inline-block;
+        color: #eaedf1; }
+        .ide .ide_bar .ide_controls .controls_group:not(:last-child) {
+          border-right: 1px solid #eaedf1;
+          padding-right: 25px; }
+        .ide .ide_bar .ide_controls .controls_group button {
+          margin: 0;
+          padding: 6px 10px; }
+        .ide .ide_bar .ide_controls .controls_group button:not(:last-child) {
+          margin-right: 10px; }
+        .ide .ide_bar .ide_controls .controls_group:not(:last-child) {
+          margin-right: 25px; }
+      .ide .ide_bar .ide_controls #save {
+        transition: all 0.5s ease 0s; }
+        .ide .ide_bar .ide_controls #save.saved {
+          background: #4d835f;
+          border-color: #fff;
+          color: #fff; }
+    .ide .ide_bar .ide_bar_right {
+      display: flex;
+      flex-direction: row;
+      align-items: center; }
+      .ide .ide_bar .ide_bar_right .ide_mode_switch {
+        position: relative;
+        margin-right: 40px;
+        background: #0081cc;
+        border: 1px solid #eaedf1;
+        border-radius: 6px;
+        color: #eaedf1; }
+        .ide .ide_bar .ide_bar_right .ide_mode_switch input#ide-server-mode {
+          display: none; }
+          .ide .ide_bar .ide_bar_right .ide_mode_switch input#ide-server-mode:checked + label[for="ide-server-mode"]:after {
+            left: -6px; }
+        .ide .ide_bar .ide_bar_right .ide_mode_switch label[for="ide-server-mode"] {
+          padding: 12px;
+          cursor: pointer; }
+          .ide .ide_bar .ide_bar_right .ide_mode_switch label[for="ide-server-mode"]:before {
+            content: 'Client\00a0\00a0\00a0\00a0\00a0Server';
+            display: inline-flex;
+            height: 2em;
+            flex-direction: row;
+            align-items: center; }
+          .ide .ide_bar .ide_bar_right .ide_mode_switch label[for="ide-server-mode"]:after {
+            content: '';
+            position: absolute;
+            top: -6px;
+            left: 50%;
+            height: calc(100% + 8px);
+            width: calc(50% + 8px);
+            background: #eaedf1;
+            border: 2px solid shade(#eaedf1, 50%);
+            border-radius: 12px;
+            transition: all 0.3s ease 0s; }
+      .ide .ide_bar .ide_bar_right .ide_stats {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        background: #363b40;
+        padding: 6px 12px;
+        color: #eaedf1; }
+        .ide .ide_bar .ide_bar_right .ide_stats > *:not(:last-child) {
+          margin-bottom: 5px; }
+        .ide .ide_bar .ide_bar_right .ide_stats #drawtime.warning, .ide .ide_bar .ide_bar_right .ide_stats #ticktime.warning {
+          color: red; }
+  .ide .ide_flex_view {
+    position: relative;
+    width: 100%;
+    height: calc(100vh - 75px - 60px); }
+  .ide [splitter] {
+    position: absolute;
+    background: var(--background-strong-accent-gradient);
+    border: 2px solid #151719;
+    z-index: 1000;
+    /* hack so the mouse is not leaving the splitter directly */ }
+    .ide [splitter]:after {
+      display: none;
+      content: ' ';
+      position: absolute;
+      top: -1000px;
+      left: -1000px;
+      width: calc(100% + 2000px);
+      height: calc(100% + 2000px); }
+  .ide [splitter][draging="true"]:after {
+    display: initial; }
+  .ide [splitter="vertical"] {
+    left: calc(50vw - (6px / 2));
+    top: 0;
+    height: calc(100vh - 75px - 60px);
+    width: 8px;
+    cursor: e-resize; }
+  .ide [splitter="horizontal_left"], .ide [splitter="horizontal_right"] {
+    top: calc( ( 100vh - 75px - 60px ) / 2 - (6px / 2));
+    height: 6px;
+    width: calc(50vw - (6px / 2));
+    cursor: n-resize; }
+  .ide [splitter="horizontal_left"] {
+    left: 0; }
+  .ide [splitter="horizontal_right"] {
+    left: calc(50vw + (6px / 2)); }
 
 /* only temporary: */
-/* line 206, ../compass/src/style_client.scss */
 #mobile-menu, #fixed-information-badges, #example-container {
-  display: none;
-}
+  display: none; }

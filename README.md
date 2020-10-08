@@ -56,3 +56,9 @@ Source javascript files are inside src/scripts
 All of them are concatenated and written into scripts/all.js
 Any libraries should be placed directly into scripts/lib/
 You must register any new script inside gulpfile.js
+
+
+### Gulp-Sass
+```
+npm install node-sass gulp-sass --save-dev
+```
