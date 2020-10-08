@@ -10,10 +10,6 @@ var MAP = (($)=>{
     let fakecanvas = document.createElement('canvas')
     let fakectx = fakecanvas.getContext('2d')
 
-    $(window).on('load', ()=>{
-        $('body').append(fakecanvas)
-    })
-
     const COLOR_MULTIPLIER = 0.75
 
     const MAP_ZERO_X = 16000
@@ -62,6 +58,8 @@ var MAP = (($)=>{
 
     let matches = {}
 
+    let lastMap = false
+
     function drawMap(x, y, zom){//zom from 0.1 to 50
         //matches = {}
         let currentFillStyle = CANVAS.ctx().fillStyle
@@ -74,35 +72,48 @@ var MAP = (($)=>{
             let sx = centerx / METER_PER_MAP_PIXEL - sWidth/2
             let sy = centery / METER_PER_MAP_PIXEL - sHeight/2
 
-            console.log('showing map', sx,sy, sWidth, sHeight)
+            if(!lastMap || lastMap.sWidth !== sWidth && lastMap.sHeight !== sHeight && lastMap.sx !== sx && lastMap.sy !== sy){
+                /* only if something has changed then calculate a new map */
+                lastMap = {
+                    sWidth: sWidth,
+                    sHeight: sHeight,
+                    sx: sx,
+                    sy: sy
+                }
 
-            fakecanvas.width = sWidth
-            fakecanvas.height = sHeight
-            fakectx.fillStyle = '#0000FF'
-            fakectx.fillRect(0, 0, sWidth, sHeight)
-            fakectx.drawImage($('#map').get(0), sx, sy, sWidth, sHeight, 0, 0, sWidth, sHeight)
+                fakecanvas.width = sWidth
+                fakecanvas.height = sHeight
+                fakectx.fillStyle = '#0000FF'
+                fakectx.fillRect(0, 0, sWidth, sHeight)
+                fakectx.drawImage($('#map').get(0), sx, sy, sWidth, sHeight, 0, 0, sWidth, sHeight)
 
-            let imageData = fakectx.getImageData(0, 0, fakecanvas.width, fakecanvas.height)
-            let data = imageData.data
-            for(let i = 0; i < data.length; i+=4 ){
-                let color = colors[ bestMatchColor(data[i], data[i+1], data[i+2]) ]
-                data[i] = color.r * COLOR_MULTIPLIER
-                data[i+1] = color.g * COLOR_MULTIPLIER
-                data[i+2] = color.b * COLOR_MULTIPLIER
-                data[i+3] = color.a * COLOR_MULTIPLIER
+                let imageData = fakectx.getImageData(0, 0, fakecanvas.width, fakecanvas.height)
+                let data = imageData.data
+                for(let i = 0; i < data.length; i+=4 ){
+                    let color = colors[ bestMatchColor(data[i], data[i+1], data[i+2]) ]
+                    data[i] = color.r * COLOR_MULTIPLIER
+                    data[i+1] = color.g * COLOR_MULTIPLIER
+                    data[i+2] = color.b * COLOR_MULTIPLIER
+                    data[i+3] = color.a * COLOR_MULTIPLIER
+                }
+
+                fakectx.clearRect(0, 0, fakecanvas.width, fakecanvas.height)
+                fakectx.putImageData(imageData, 0, 0, 0, 0, fakecanvas.width, fakecanvas.height)
+            } else {
+                if(DO_LOG){
+                    console.log('using cached map')
+                }
             }
-
-            fakectx.clearRect(0, 0, fakecanvas.width, fakecanvas.height)
-            fakectx.putImageData(imageData, 0, 0, 0, 0, fakecanvas.width, fakecanvas.height)
 
             CANVAS.ctx().drawImage(fakecanvas, 0, 0, fakecanvas.width, fakecanvas.height, CANVAS.left(), CANVAS.top(), CANVAS.renderWidth() - CANVAS.left()*2, CANVAS.renderHeight() - CANVAS.top()*2)
         } catch (err){
-            console.error(err)
+            console.error('error drawing map', err)
         }  
         CANVAS.ctx().fillStyle = currentFillStyle
     }
 
     function setMapColorOcean(r, g, b, a){
+        onColorHasChanged()
         colors.ocean = {
             r: r,
             g: g,
@@ -112,6 +123,7 @@ var MAP = (($)=>{
     }
 
     function setMapColorShallows(r, g, b, a){
+        onColorHasChanged()
         colors.shallows = {
             r: r,
             g: g,
@@ -121,6 +133,7 @@ var MAP = (($)=>{
     }
 
     function setMapColorLand(r, g, b, a){
+        onColorHasChanged()
         colors.land = {
             r: r,
             g: g,
@@ -130,6 +143,7 @@ var MAP = (($)=>{
     }
 
     function setMapColorGrass(r, g, b, a){
+        onColorHasChanged()
         colors.grass = {
             r: r,
             g: g,
@@ -139,6 +153,7 @@ var MAP = (($)=>{
     }
 
     function setMapColorSand(r, g, b, a){
+        onColorHasChanged()
         colors.sand = {
             r: r,
             g: g,
@@ -148,6 +163,7 @@ var MAP = (($)=>{
     }
 
     function setMapColorSnow(r, g, b, a){
+        onColorHasChanged()
         colors.snow = {
             r: r,
             g: g,
@@ -176,6 +192,10 @@ var MAP = (($)=>{
     }
 
     /* helper functions */
+
+    function onColorHasChanged(){
+        lastMap = false
+    }
 
     function bestMatchColor(r, g, b){
         if(matches[r+','+g+','+b]){
