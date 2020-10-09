@@ -24,6 +24,18 @@ $very-dark: #090b0d;
 $warning: #ac3d31;
 
 
+/* z-index */
+$z-index-documentation-arg-help: 100;
+$z-index-documentation-hint: 100;
+$z-index-autocompletion: 100;
+$z-index-moveto-choose: 100;
+$z-index-ui-builder-element-settings: 200 !important;
+$z-index-splitter: 300;
+$z-index-navigation: 400;
+$z-index-editor-fullscreen: 500;
+$z-index-ponybin: 600;
+$z-index-dialog: 700;
+
 
 /* css variables */
 

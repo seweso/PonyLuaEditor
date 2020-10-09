@@ -29,7 +29,7 @@
         left: 0;
         height: 100vh!important;
         width: 100vw!important;
-        z-index: 10000000000000;
+        z-index: $z-index-editor-fullscreen;
     }
 
     .fullscreen_toggle, .font_plus, .font_minus {

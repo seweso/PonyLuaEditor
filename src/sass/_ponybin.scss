@@ -5,7 +5,7 @@
     left: 0;
     width: 100vw;
     height: 100vh;
-    z-index: 10000;
+    z-index: $z-index-ponybin;
     background: #000c;
     display: flex;
     flex-direction: row;

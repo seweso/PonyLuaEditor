@@ -9,7 +9,7 @@ body {
     left: 0;
     height: $navigation-height;
     width: 100vw;
-    z-index: 1111111111111;
+    z-index: $z-index-navigation;
     background: $very-dark;
     display: flex;
     flex-direction: row;

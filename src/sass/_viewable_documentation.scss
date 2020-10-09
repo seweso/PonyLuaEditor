@@ -78,7 +78,7 @@
 
                         .arg_help {
                             position: absolute;
-                            z-index: 10;
+                            z-index: $z-index-documentation-arg-help;
                             top: 100%;
                             left: 0;
                             display: none;
@@ -116,7 +116,7 @@
                         position: absolute;
                         top: 100%;
                         left: 0;
-                        z-index: 10;
+                        z-index: $z-index-documentation-hint;
                         min-width: 150px;
                         padding: 6px;
                         background: $medium-dark;

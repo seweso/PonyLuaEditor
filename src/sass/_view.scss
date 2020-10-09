@@ -38,7 +38,7 @@
                 box-shadow: $box-shadow;
                 background: $light;
                 color: $dark;
-                z-index: 100;
+                z-index: $z-index-moveto-choose;
 
                 .header {
                     padding: 6px 6px;

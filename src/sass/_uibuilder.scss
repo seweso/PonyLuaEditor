@@ -55,7 +55,7 @@
             }
 
             &.settings_open {
-                z-index: 10000000000000 !important;
+                z-index: $z-index-ui-builder-element-settings;
             }
 
             &:not(.settings_open) .settings {

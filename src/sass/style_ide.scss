@@ -158,7 +158,7 @@
         position: absolute;
         background: var(--background-strong-accent-gradient);
         border: 2px solid $dark;
-        z-index: 1000;
+        z-index: $z-index-splitter;
 
         /* hack so the mouse is not leaving the splitter directly */
         &:after {

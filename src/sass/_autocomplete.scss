@@ -1,6 +1,6 @@
 .autocompletion_container {
     position: absolute;
-    z-index: 10;
+    z-index: $z-index-autocompletion;
 }
 
 .autocompletition {
