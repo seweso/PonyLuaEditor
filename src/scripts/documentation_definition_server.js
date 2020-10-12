@@ -329,7 +329,7 @@ DOCUMENTATION_DEFINITION_SERVER = (()=>{
             onSpawnMissionObject: {
                 type: TE,
                 lib: 'stormworks',
-                args: [{name: 'object_id'}, {name: 'name'}, {name: 'OBJECT_TYPE', possibleValues: invertKeysAndValues(OBJECT_TYPE)}, {name: 'playlist_name'}],
+                args: [{name: 'object_id', help: 'can also be a vehicle_id'}, {name: 'name'}, {name: 'TYPE_STRING', possibleValues: invertKeysAndValues(OBJECT_TYPE)}, {name: 'playlist_index'}],
                 description: ''
             },
             onVehicleDamaged: {
@@ -518,7 +518,7 @@ DOCUMENTATION_DEFINITION_SERVER = (()=>{
                     },
                     despawnVehicle: {
                         type: TF,
-                        args: [{name: 'vehicle_id'}, {name: 'is_instant'}],
+                        args: [{name: 'vehicle_id'}, {name: 'is_instant', help: 'true removes the vehicle right now, false removes it when area unloads (no players nearby or keep active vehicles)'}],
                         description: ''
                     },
                     getVehiclePos: {
