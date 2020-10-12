@@ -12383,7 +12383,7 @@ DOCUMENTATION_DEFINITION_SERVER = (()=>{
             onSpawnMissionObject: {
                 type: TE,
                 lib: 'stormworks',
-                args: [{name: 'object_id'}, {name: 'name'}, {name: 'OBJECT_TYPE', possibleValues: invertKeysAndValues(OBJECT_TYPE)}, {name: 'playlist_name'}],
+                args: [{name: 'object_id', help: 'can also be a vehicle_id'}, {name: 'name'}, {name: 'TYPE_STRING', possibleValues: invertKeysAndValues(OBJECT_TYPE)}, {name: 'playlist_index'}],
                 description: ''
             },
             onVehicleDamaged: {
@@ -12572,7 +12572,7 @@ DOCUMENTATION_DEFINITION_SERVER = (()=>{
                     },
                     despawnVehicle: {
                         type: TF,
-                        args: [{name: 'vehicle_id'}, {name: 'is_instant'}],
+                        args: [{name: 'vehicle_id'}, {name: 'is_instant', help: 'true removes the vehicle right now, false removes it when area unloads (no players nearby or keep active vehicles)'}],
                         description: ''
                     },
                     getVehiclePos: {
@@ -12864,32 +12864,37 @@ DOCUMENTATION_DEFINITION_SERVER = (()=>{
                     rotationX: {
                         type: TF,
                         args: [{name: 'radians'}],
+                        bugs: 'Might be as wrong as .position()',
                         returns: 'matrix',
                         description: 'Creates a rotation matrix around the x axis.'
                     },
                     rotationY: {
                         type: TF,
                         args: [{name: 'radians'}],
+                        bugs: 'Might be as wrong as .position()',
                         returns: 'matrix',
                         description: 'Creates a rotation matrix around the y axis.'
                     },
                     rotationZ: {
                         type: TF,
                         args: [{name: 'radians'}],
+                        bugs: 'Might be as wrong as .position()',
                         returns: 'matrix',
                         description: 'Creates a rotation matrix around the z axis.'
                     },
                     translation: {
                         type: TF,
                         args: [{name: 'x'}, {name: 'y'}, {name: 'z'}],
+                        bugs: 'Might be as wrong as .position()',
                         returns: 'matrix',
                         description: 'Creates a translation matrix.'
                     },
                     position: {
                         type: TF,
                         args: [{name: 'matrix'}],
-                        returns: 'x,y,z',
-                        description: 'Returns x,y,z (x,y = map coordinates, z = altitude) values of the matrix.'
+                        bugs: 'Documentation says it should return x,y,z but it actually returns ',
+                        returns: 'x,z,y',
+                        description: 'Returns x,y (map coordinates), z (altitude) values of the matrix.'
                     },
                     distance: {
                         type: TF,
