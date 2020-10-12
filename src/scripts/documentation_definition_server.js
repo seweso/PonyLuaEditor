@@ -810,32 +810,37 @@ DOCUMENTATION_DEFINITION_SERVER = (()=>{
                     rotationX: {
                         type: TF,
                         args: [{name: 'radians'}],
+                        bugs: 'Might be as wrong as .position()',
                         returns: 'matrix',
                         description: 'Creates a rotation matrix around the x axis.'
                     },
                     rotationY: {
                         type: TF,
                         args: [{name: 'radians'}],
+                        bugs: 'Might be as wrong as .position()',
                         returns: 'matrix',
                         description: 'Creates a rotation matrix around the y axis.'
                     },
                     rotationZ: {
                         type: TF,
                         args: [{name: 'radians'}],
+                        bugs: 'Might be as wrong as .position()',
                         returns: 'matrix',
                         description: 'Creates a rotation matrix around the z axis.'
                     },
                     translation: {
                         type: TF,
                         args: [{name: 'x'}, {name: 'y'}, {name: 'z'}],
+                        bugs: 'Might be as wrong as .position()',
                         returns: 'matrix',
                         description: 'Creates a translation matrix.'
                     },
                     position: {
                         type: TF,
                         args: [{name: 'matrix'}],
-                        returns: 'x,y,z',
-                        description: 'Returns x,y,z (x,y = map coordinates, z = altitude) values of the matrix.'
+                        bugs: 'Documentation says it should return x,y,z but it actually returns ',
+                        returns: 'x,z,y',
+                        description: 'Returns x,y (map coordinates), z (altitude) values of the matrix.'
                     },
                     distance: {
                         type: TF,
