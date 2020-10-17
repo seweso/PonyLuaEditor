@@ -450,20 +450,68 @@ var PAINT = (()=>{
         CANVAS.ctx().closePath()
     }
 
-    function drawCircle(x, y, r){
+    function drawCircle(x,y, r){
         log()
+
+        let lineSegments = 8
+        if(r >= 20){
+            lineSegments = 12
+        }
+        if(r >= 28){
+            lineSegments = 16
+        }
+
+        let step = Math.PI * 2 / lineSegments
+
         CANVAS.ctx().lineWidth = zoom(LINE_WIDTH)/2
         CANVAS.ctx().beginPath()
-        CANVAS.ctx().arc(CANVAS.left() + zoom(x), CANVAS.top() + zoom(y), zoom(r), 0, 2 * Math.PI, true)
+
+        for(let a=0; a < Math.PI * 2; a += step){
+            let x1 = r * Math.cos(a) + x
+            let y1 = r * Math.sin(a) + y
+
+            let x2 = r * Math.cos(a + step) + x
+            let y2 = r * Math.sin(a + step) + y
+
+            if(a === 0){
+                CANVAS.ctx().moveTo(CANVAS.left() + zoom(x1), CANVAS.top() + zoom(y1))
+            }
+            CANVAS.ctx().lineTo(CANVAS.left() + zoom(x2), CANVAS.top() + zoom(y2))        
+        }
+
         CANVAS.ctx().stroke()
         CANVAS.ctx().closePath()
     }
 
-    function drawCircleF(x, y, r){
+    function drawCircleF(x,y, r){
         log()
+        
+        let lineSegments = 8
+        if(r >= 20){
+            lineSegments = 12
+        }
+        if(r >= 28){
+            lineSegments = 16
+        }
+
+        let step = Math.PI * 2 / lineSegments
+
         CANVAS.ctx().lineWidth = zoom(LINE_WIDTH)/2
         CANVAS.ctx().beginPath()
-        CANVAS.ctx().arc(CANVAS.left() + zoom(x), CANVAS.top() + zoom(y), zoom(r), 0, 2 * Math.PI, true)
+
+        for(let a=0; a < Math.PI * 2; a += step){
+            let x1 = r * Math.cos(a) + x
+            let y1 = r * Math.sin(a) + y
+
+            let x2 = r * Math.cos(a + step) + x
+            let y2 = r * Math.sin(a + step) + y
+
+            if(a === 0){
+                CANVAS.ctx().moveTo(CANVAS.left() + zoom(x1), CANVAS.top() + zoom(y1))
+            }
+            CANVAS.ctx().lineTo(CANVAS.left() + zoom(x2), CANVAS.top() + zoom(y2))        
+        }
+
         CANVAS.ctx().fill()
         CANVAS.ctx().closePath()
     }
