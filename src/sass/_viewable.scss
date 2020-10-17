@@ -4,11 +4,11 @@
 
 
 .ide[mode="server"] {
-    [select-viewable="viewable_console"], [select-viewable="viewable_monitor"], [select-viewable="viewable_editor_uibuilder"], [select-viewable="viewable_properties"], [select-viewable="viewable_inputs"], [select-viewable="viewable_outputs"] {
+    [select-viewable="viewable_console"], [select-viewable="viewable_monitor"], [select-viewable="viewable_editor_uibuilder"], [select-viewable="viewable_editor_uibuilder_code"], [select-viewable="viewable_properties"], [select-viewable="viewable_inputs"], [select-viewable="viewable_outputs"] {
         display: none;
     }
 
-    [viewable="viewable_console"], [viewable="viewable_monitor"], [viewable="viewable_uibuilder"], [viewable="viewable_properties"], [viewable="viewable_inputs"], [viewable="viewable_outputs"] {
+    [viewable="viewable_console"], [viewable="viewable_monitor"], [viewable="viewable_uibuilder_code"], [viewable="viewable_uibuilder"], [viewable="viewable_properties"], [viewable="viewable_inputs"], [viewable="viewable_outputs"] {
         display: none;
     }
 }

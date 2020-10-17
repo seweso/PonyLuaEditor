@@ -953,10 +953,10 @@ body {
 [viewable][visible="false"] {
   display: none; }
 
-.ide[mode="server"] [select-viewable="viewable_console"], .ide[mode="server"] [select-viewable="viewable_monitor"], .ide[mode="server"] [select-viewable="viewable_editor_uibuilder"], .ide[mode="server"] [select-viewable="viewable_properties"], .ide[mode="server"] [select-viewable="viewable_inputs"], .ide[mode="server"] [select-viewable="viewable_outputs"] {
+.ide[mode="server"] [select-viewable="viewable_console"], .ide[mode="server"] [select-viewable="viewable_monitor"], .ide[mode="server"] [select-viewable="viewable_editor_uibuilder"], .ide[mode="server"] [select-viewable="viewable_editor_uibuilder_code"], .ide[mode="server"] [select-viewable="viewable_properties"], .ide[mode="server"] [select-viewable="viewable_inputs"], .ide[mode="server"] [select-viewable="viewable_outputs"] {
   display: none; }
 
-.ide[mode="server"] [viewable="viewable_console"], .ide[mode="server"] [viewable="viewable_monitor"], .ide[mode="server"] [viewable="viewable_uibuilder"], .ide[mode="server"] [viewable="viewable_properties"], .ide[mode="server"] [viewable="viewable_inputs"], .ide[mode="server"] [viewable="viewable_outputs"] {
+.ide[mode="server"] [viewable="viewable_console"], .ide[mode="server"] [viewable="viewable_monitor"], .ide[mode="server"] [viewable="viewable_uibuilder_code"], .ide[mode="server"] [viewable="viewable_uibuilder"], .ide[mode="server"] [viewable="viewable_properties"], .ide[mode="server"] [viewable="viewable_inputs"], .ide[mode="server"] [viewable="viewable_outputs"] {
   display: none; }
 
 [viewable="viewable_documentation"] {
