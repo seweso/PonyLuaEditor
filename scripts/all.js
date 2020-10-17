@@ -12463,8 +12463,8 @@ DOCUMENTATION_DEFINITION_SERVER = (()=>{
                     },
                     announce: {
                         type: TF,
-                        args: [{name: 'name'}, {name: 'message'}],
-                        description: ''
+                        args: [{name: 'name', help: 'The orange text on the left'}, {name: 'message'}, {name: 'peer_id', optional: true}],
+                        description: 'Sends a chat message. If you omit the argument peer_id, it will be sent to everyone. If it is specified, it will be sent to only the specified player'
                     },
                     whisper: {
                         type: TF,
