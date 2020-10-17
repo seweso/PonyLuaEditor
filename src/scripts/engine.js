@@ -331,6 +331,8 @@ ENGINE = (($)=>{
         checkLongExecutionTimes(average)
 
         $('#ticktime').html( Math.round(Math.min(1000/timeBetweenTicks*0.96, 1000/(average/tickTimes.length))))
+
+        CONSOLE.notifiyTickOrDrawOver()
     }
 
     function doDraw(){
@@ -369,9 +371,11 @@ ENGINE = (($)=>{
 
         $('#drawtime').html( Math.round(Math.min(drawAnimationFrame? 60 : (1000/timeBetweenDraws*0.96), 1000/(average/drawTimes.length))))
 
+        CONSOLE.notifiyTickOrDrawOver()
+
         if(drawAnimationFrame){
             window.requestAnimationFrame(doDraw)
-        }
+        }        
     }
 
     function checkLongExecutionTimes(average){        

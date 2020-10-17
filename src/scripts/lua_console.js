@@ -13,6 +13,8 @@ CONSOLE = (($)=>{
 
     let currentPrintColor = DEFAULT_PRINT_COLOR
 
+    let printCounter = 0
+    let hasShownPrintCounterWarning = false
 
     LOADER.on(LOADER.EVENT.UI_READY, init)
 
@@ -52,6 +54,12 @@ CONSOLE = (($)=>{
            let scrollHeight = Math.max(this.scrollHeight, this.clientHeight);
            this.scrollTop = scrollHeight - this.clientHeight;
         });
+
+        printCounter++
+        if(printCounter === 50 && hasShownPrintCounterWarning === false){
+            hasShownPrintCounterWarning = true
+            UTIL.hint("Warning", "You are using print() a lot, this reduces performance!")
+        }
     }
 
     function setPrintColor(r,g,b){
@@ -64,6 +72,12 @@ CONSOLE = (($)=>{
 
     function reset(){
         currentPrintColor = DEFAULT_PRINT_COLOR
+        printCounter = 0
+        hasShownPrintCounterWarning = false
+    }
+
+    function notifiyTickOrDrawOver(){
+        printCounter = 0
     }
 
 
@@ -71,6 +85,7 @@ CONSOLE = (($)=>{
         COLOR: COLOR,
         print: print,
         setPrintColor: setPrintColor,
-        reset: reset
+        reset: reset,
+        notifiyTickOrDrawOver: notifiyTickOrDrawOver
     }
 })(jQuery)
