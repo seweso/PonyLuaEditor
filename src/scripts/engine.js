@@ -91,20 +91,13 @@ ENGINE = (($)=>{
             saveCodesInStorage()
         })
 
-        let controlKeyDown = false
+        
         $(window).on('keydown', (evt)=>{
-            if(evt.originalEvent.keyCode === 17 || evt.originalEvent.keyCode === 15){
-                controlKeyDown = true
-            } else if(controlKeyDown && evt.originalEvent.key === 's'){
+            if(evt.originalEvent.key === 's' && (evt.originalEvent.ctrlKey || evt.originalEvent.metaKey)){
                 evt.preventDefault()
                 evt.stopPropagation()
 
                 saveCodesInStorage()
-            }
-        })        
-        $(window).on('keyup', (evt)=>{
-            if(evt.originalEvent.keyCode === 17 || evt.originalEvent.keyCode === 15){
-                controlKeyDown = false
             }
         })
 
