@@ -5645,18 +5645,35 @@ MINMAX = (()=>{
                 }
 
                 if($('#minify-type').val() === 'conservative-with-line-breaks' || $('#minify-type').val() === 'agressive-with-line-breaks'){
-                    let split = minified.split('"')
                     let lineBreakMinified = ''
                     let i = 0
                     let inText= false
+                    let lastType
                     while (i < minified.length){
-                        let indexOf = minified.indexOf('"', i)
-                        if(indexOf < 0){                            
+                        let indexOf
+                        let type
+
+                        if(inText){
+                            if(lastType === 'single' ){
+                                indexOf = minified.indexOf("'", i)
+                            } else if (lastType === 'double'){
+                                indexOf = minified.indexOf('"', i)
+                            }
+                            type = lastType
+                        } else {
+                            let indexOfSingleQuote = minified.indexOf("'", i)
+                            let indexOfDoubleQuote = minified.indexOf('"', i)
+
+                            type = indexOfSingleQuote < indexOfDoubleQuote ? 'single' : 'double'
+                            indexOf = type == 'single' ? indexOfSingleQuote : indexOfDoubleQuote
+                        }
+
+                        if(indexOf < 0){// no more quotes found
                             lineBreakMinified += '\n' + ident(minified.substring(i))
                             break
-                        } else {//found a ""
+                        } else {//found a quote
                             if(inText){
-                                let tmp = '"' + minified.substring(i, indexOf)
+                                let tmp = (type == 'single' ? "'" : '"') + minified.substring(i, indexOf)
                                 lineBreakMinified += tmp
                             } else {
                                 lineBreakMinified += '\n' + ident(minified.substring(i, indexOf))
@@ -5664,13 +5681,15 @@ MINMAX = (()=>{
                             let char = minified.charAt(indexOf-1)
                             if(char !== '\\'){// check for \"
                                 if(inText){
-                                    lineBreakMinified += '"'
+                                    lineBreakMinified += (type == 'single' ? "'" : '"')
                                 }
                                 inText = !inText
                             }
 
                             i = indexOf + 1
                         }
+
+                        lastType = type
                     }
                     minified = lineBreakMinified
 
