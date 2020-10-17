@@ -127,6 +127,13 @@ class Viewable extends SimpleEventor {
         }
     }
 
+    focusSelf(){
+        let currView = this.myCurrentView()
+        if(currView){
+            currView.focus(this)
+        }
+    }
+
     name(){
         return this.dom.attr('viewable')
     }

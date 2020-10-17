@@ -1524,7 +1524,7 @@ var UI_BUILDER = (($)=>{
 
             allCode = allCode.replace(/[\n]{3,}/g, '\n\n')
 
-            $('#ui-builder-code').show()
+            UI.viewables()['viewable_editor_uibuilder'].focusSelf()
             EDITORS.get('uibuilder').editor.setValue(allCode, -1)
         } catch (ex){
             console.error('Error building lua code', ex)

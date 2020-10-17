@@ -78,10 +78,7 @@ UTIL = (($)=>{
         })
         $('#hints-container').append(h)
 
-        let currView = UI.viewables()['viewable_hints'].myCurrentView()
-        if(currView){
-            currView.focus(UI.viewables()['viewable_hints'])
-        }
+        let currView = UI.viewables()['viewable_hints'].focusSelf()
     }
 
     return {

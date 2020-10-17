@@ -189,10 +189,7 @@ UTIL = (($)=>{
         })
         $('#hints-container').append(h)
 
-        let currView = UI.viewables()['viewable_hints'].myCurrentView()
-        if(currView){
-            currView.focus(UI.viewables()['viewable_hints'])
-        }
+        let currView = UI.viewables()['viewable_hints'].focusSelf()
     }
 
     return {
@@ -5652,16 +5649,12 @@ MINMAX = (()=>{
 
                 EDITORS.get('minified').editor.setValue(minified, -1)
             } catch (ex){
+                UI.viewables()['viewable_editor_minified'].focus()
                 console.trace(ex)
-                $('#minified-editor').show()
                 EDITORS.get('minified').editor.setValue('Error: ' + ex.message, -1)
             }
 
-            let viewable = UI.viewables()['viewable_editor_minified']
-            let currView = viewable.myCurrentView()
-            if(currView){
-                currView.focus(viewable)
-            }
+            let viewable = UI.viewables()['viewable_editor_minified'].focusSelf()
         })
 
         $('#minify-help').on('click', ()=>{
@@ -5735,15 +5728,13 @@ MINMAX = (()=>{
 
             EDITORS.get('unminified').editor.setValue(unminified, -1)
 
-            let viewable = UI.viewables()['viewable_editor_unminified']
-            let currView = viewable.myCurrentView()
-            if(currView){
-                currView.focus(viewable)
-            }
+            let viewable = UI.viewables()['viewable_editor_unminified'].focusSelf()
 
 
             function fail(msg){
-                $('#unminified-editor').show()
+                
+                let viewable = UI.viewables()['viewable_editor_unminified'].focusSelf()
+
                 EDITORS.get('unminified').editor.setValue('Unminification failed:\n' + msg, -1)
             }
 
@@ -7736,6 +7727,13 @@ class Viewable extends SimpleEventor {
         }
     }
 
+    focusSelf(){
+        let currView = this.myCurrentView()
+        if(currView){
+            currView.focus(this)
+        }
+    }
+
     name(){
         return this.dom.attr('viewable')
     }
@@ -9618,7 +9616,7 @@ var UI_BUILDER = (($)=>{
 
             allCode = allCode.replace(/[\n]{3,}/g, '\n\n')
 
-            $('#ui-builder-code').show()
+            UI.viewables()['viewable_editor_uibuilder'].focusSelf()
             EDITORS.get('uibuilder').editor.setValue(allCode, -1)
         } catch (ex){
             console.error('Error building lua code', ex)

@@ -147,16 +147,12 @@ MINMAX = (()=>{
 
                 EDITORS.get('minified').editor.setValue(minified, -1)
             } catch (ex){
+                UI.viewables()['viewable_editor_minified'].focus()
                 console.trace(ex)
-                $('#minified-editor').show()
                 EDITORS.get('minified').editor.setValue('Error: ' + ex.message, -1)
             }
 
-            let viewable = UI.viewables()['viewable_editor_minified']
-            let currView = viewable.myCurrentView()
-            if(currView){
-                currView.focus(viewable)
-            }
+            let viewable = UI.viewables()['viewable_editor_minified'].focusSelf()
         })
 
         $('#minify-help').on('click', ()=>{
@@ -230,15 +226,13 @@ MINMAX = (()=>{
 
             EDITORS.get('unminified').editor.setValue(unminified, -1)
 
-            let viewable = UI.viewables()['viewable_editor_unminified']
-            let currView = viewable.myCurrentView()
-            if(currView){
-                currView.focus(viewable)
-            }
+            let viewable = UI.viewables()['viewable_editor_unminified'].focusSelf()
 
 
             function fail(msg){
-                $('#unminified-editor').show()
+                
+                let viewable = UI.viewables()['viewable_editor_unminified'].focusSelf()
+
                 EDITORS.get('unminified').editor.setValue('Unminification failed:\n' + msg, -1)
             }
 
