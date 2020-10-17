@@ -160,6 +160,7 @@ UI = (($)=>{
                 $('.ide').attr('mode', 'client')            
             }
             DOCUMENTATION.refresh()
+            EDITORS.refreshCharacterCounts()
         })
 
         $('#ide-server-mode').prop('checked', STORAGE.getConfiguration('settings.servermode') || false).trigger('change')

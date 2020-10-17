@@ -7535,6 +7535,7 @@ UI = (($)=>{
                 $('.ide').attr('mode', 'client')            
             }
             DOCUMENTATION.refresh()
+            EDITORS.refreshCharacterCounts()
         })
 
         $('#ide-server-mode').prop('checked', STORAGE.getConfiguration('settings.servermode') || false).trigger('change')
@@ -10507,8 +10508,10 @@ class Editor extends DynamicSizedViewableContent {
     refreshCharacterCount(){
         let chars = this.countCharacters(this.editor.getValue())
         
-        this.viewable.dom.find('.charactercount').html(chars + '/4096')
-        if(chars >= 4096){
+        let max = STORAGE.getConfiguration('settings.servermode') ? 65536 : 4096
+
+        this.viewable.dom.find('.charactercount').html(chars + '/' + max)
+        if(chars >= max){
              this.viewable.dom.find('.charactercount').addClass('limit')
         } else {
              this.dom.find('.charactercount').removeClass('limit')
@@ -10609,8 +10612,14 @@ EDITORS = (()=>{
     }
 
     function resize(){
-        for(let e of editors){
-            e.refreshSize()
+        for(let e of Object.keys(editors)){
+            editors[e].refreshSize()
+        }
+    }
+
+    function refreshCharacterCounts(){
+        for(let e of Object.keys(editors)){
+            editors[e].refreshCharacterCount()
         }
     }
 
@@ -10620,6 +10629,7 @@ EDITORS = (()=>{
         getActiveEditor: ()=>{return editors[activeEditor]},
         get: (name)=>{return editors[name]},
         resize: resize,
+        refreshCharacterCounts: refreshCharacterCounts,
         increaseEditorFontSize: increaseEditorFontSize,
         decreaseEditorFontSize: decreaseEditorFontSize
     }
