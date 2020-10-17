@@ -24,6 +24,7 @@ UI = (($)=>{
 
     let config = {
         layout: DEFAULT_LAYOUT,
+        lastFocused: {},
         splitters: {
             vertical: 0.66,
             horizontal_left: 0.66,
@@ -49,6 +50,11 @@ UI = (($)=>{
 
             view.addListener('viewable-change', ()=>{
                 config.layout[name] = Object.keys(view.getViewables())
+                saveConfiguration()
+            })
+
+            view.addListener('viewable-focus-changed', ()=>{
+                config.lastFocused[name] = view.getSelectedViewableName()
                 saveConfiguration()
             })
         })
@@ -124,6 +130,17 @@ UI = (($)=>{
         $(window).on('resize', setSplittersFromConfig)
 
         setSplittersFromConfig()
+
+        if(conf){
+            if(conf.lastFocused && conf.lastFocused instanceof Object){
+                for(let k of Object.keys(conf.lastFocused)){
+                    let viewableToFocus = viewables[conf.lastFocused[k]]
+                    if(views[k] && viewableToFocus && views[k].isViewablePartOfThisView(viewableToFocus)){
+                        views[k].focus(viewableToFocus)
+                    }
+                }
+            }
+        }
 
 
         /* create special dynamic sized viewables that are not editors */

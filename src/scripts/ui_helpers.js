@@ -277,6 +277,7 @@ class View extends SimpleEventor {
             this.focusSelect(viewable.dom.attr('viewable'))
 
             viewable.dispatchEvent('viewable-gain-focus')
+            this.dispatchEvent('viewable-focus-changed')
         } else {
             console.warn('cannot focus viewable that is not part of this view', viewable, this)
         }
@@ -299,6 +300,13 @@ class View extends SimpleEventor {
         })
 
         return found
+    }
+
+    getSelectedViewableName(){
+        let sel = this.dom.find('[select-viewable][select="true"]')
+        if(sel.length === 1){
+            return sel.attr('select-viewable')
+        }
     }
 
     name(){
