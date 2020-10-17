@@ -436,8 +436,8 @@ var PAINT = (()=>{
         log()
         CANVAS.ctx().closePath()
         CANVAS.ctx().beginPath()
-        CANVAS.ctx().clearRect(0, 0, CANVAS.realWidth(), CANVAS.realHeight())
-        CANVAS.ctx().fillRect(0, 0, CANVAS.realWidth(), CANVAS.realHeight())
+        CANVAS.ctx().clearRect(0, 0, CANVAS.renderWidth(), CANVAS.renderHeight())
+        drawRectF(0, 0, CANVAS.width(), CANVAS.height())
     }
 
     function drawLine(x1, y1, x2, y2){ 
