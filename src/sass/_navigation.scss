@@ -30,7 +30,7 @@ body {
 
     .left, .right {
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
         justify-content: center;
         width: 25%;
         height: 70%;
@@ -38,7 +38,7 @@ body {
     }
 
     .left {
-        align-items: flex-start;
+        justify-content: flex-start;
 
         #menu-open {
             color: $stormworks-blue;
@@ -48,7 +48,7 @@ body {
     }
 
     .right {
-        align-items: flex-end;
+        justify-content: flex-end;
         
         .logo_container {
             height: 100%;

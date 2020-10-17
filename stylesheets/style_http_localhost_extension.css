@@ -77,19 +77,19 @@ body {
     display: none; }
   #navigation .left, #navigation .right {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: center;
     width: 25%;
     height: 70%;
     padding: 0 30px; }
   #navigation .left {
-    align-items: flex-start; }
+    justify-content: flex-start; }
     #navigation .left #menu-open {
       color: #0081cc;
       font-size: 45px;
       cursor: pointer; }
   #navigation .right {
-    align-items: flex-end; }
+    justify-content: flex-end; }
     #navigation .right .logo_container {
       height: 100%; }
       #navigation .right .logo_container img {
