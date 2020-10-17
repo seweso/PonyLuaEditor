@@ -90,6 +90,12 @@ var MAP = (($)=>{
                 let imageData = fakectx.getImageData(0, 0, fakecanvas.width, fakecanvas.height)
                 let data = imageData.data
                 for(let i = 0; i < data.length; i+=4 ){
+
+                    if(i == 10000){
+                        CONSOLE.print("Warning: Map drawing takes a long time, reduce zoom for better performance", CONSOLE.COLOR.WARNING)
+                    }
+
+
                     let color = colors[ bestMatchColor(data[i], data[i+1], data[i+2]) ]
                     data[i] = color.r * COLOR_MULTIPLIER
                     data[i+1] = color.g * COLOR_MULTIPLIER

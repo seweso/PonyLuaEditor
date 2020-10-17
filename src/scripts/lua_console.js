@@ -5,7 +5,8 @@ CONSOLE = (($)=>{
     const COLOR = {
         SPECIAL: '#4db4ea',
         DEBUG: '#b80a66',
-        ERROR: '#fb3636'
+        ERROR: '#fb3636',
+        WARNING: '#e19116'
     }
 
     const DEFAULT_PRINT_COLOR = '#fff'

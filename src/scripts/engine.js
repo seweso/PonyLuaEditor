@@ -17,6 +17,7 @@ ENGINE = (($)=>{
     let paused = false
     let isDoingStep = false
 
+    let ignoreLongExecutionTimes = false
 
     let totalStartsInTheSession = 0
 
@@ -217,6 +218,9 @@ ENGINE = (($)=>{
             UTIL.hint('Performace hint', 'After 50 starts you should reload the page to reset the emulator.\nPlease save ALL of your code (editor, minified and ui builder).\nThen reload the page.', {extended: true})
         }
 
+        tickTimes = [0,0,0,0,0]
+        drawTimes = [0,0,0,0,0]
+
         running = true
 
         $('#start, #start-minified, #start-generated').prop('disabled', true)
@@ -304,7 +308,7 @@ ENGINE = (($)=>{
             $('#ticktime').removeClass('warning')
         }
         if(diff > 1000){
-            CONSOLE.print('onTick() execution was longer then 1000ms!')
+            CONSOLE.print('Warning: onTick() execution was longer then 1000ms! (Stormworks would have stopped this script by now)', CONSOLE.COLOR.WARNING)
         }
         tickTimes.reverse()
         tickTimes.pop()
@@ -314,6 +318,8 @@ ENGINE = (($)=>{
         for(let t of tickTimes){
             average += t
         }
+
+        checkLongExecutionTimes(average)
 
         $('#ticktime').html( Math.round(Math.min(1000/timeBetweenTicks*0.96, 1000/(average/tickTimes.length))))
     }
@@ -339,7 +345,7 @@ ENGINE = (($)=>{
             $('#drawtime').removeClass('warning')
         }
         if(diff > 1000){
-            CONSOLE.print('onDraw() execution was longer then 1000ms!')
+            CONSOLE.print('Warning: onDraw() execution was longer then 1000ms! (Stormworks would have stopped this script by now)', CONSOLE.COLOR.WARNING)
         }
         drawTimes.reverse()
         drawTimes.pop()
@@ -350,10 +356,27 @@ ENGINE = (($)=>{
             average += t
         }
 
+        checkLongExecutionTimes(average)
+
         $('#drawtime').html( Math.round(Math.min(drawAnimationFrame? 60 : (1000/timeBetweenDraws*0.96), 1000/(average/drawTimes.length))))
 
         if(drawAnimationFrame){
             window.requestAnimationFrame(doDraw)
+        }
+    }
+
+    function checkLongExecutionTimes(average){        
+        if(average > 2000 && ignoreLongExecutionTimes === false){
+            CONSOLE.print('Error: Pony IDE stopped the script because of unusually long execution times (average > 2000ms).', CONSOLE.COLOR.ERROR)
+            
+            stop()
+            setTimeout(()=>{
+                UTIL.confirm('Script stopped because of long execution times. Do you want to ignore that in the future?').then((ret)=>{
+                    if(ret){
+                        ignoreLongExecutionTimes = true
+                    }
+                })
+            }, 100)
         }
     }
 
