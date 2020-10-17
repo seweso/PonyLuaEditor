@@ -21,6 +21,11 @@
             background: transparent;
             color: $light;
             font-size: 20px;
+            outline: none;
+
+            &::placeholder {
+                color: $medium-dark;
+            }
         }
 
         span {

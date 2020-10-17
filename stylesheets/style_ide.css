@@ -979,7 +979,10 @@ body {
       padding: 3px 4px 3px 15px;
       background: transparent;
       color: #eaedf1;
-      font-size: 20px; }
+      font-size: 20px;
+      outline: none; }
+      [viewable="viewable_documentation"] .documentation_searchbar input::placeholder {
+        color: #363b40; }
     [viewable="viewable_documentation"] .documentation_searchbar span {
       position: absolute;
       right: 15px;
