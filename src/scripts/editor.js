@@ -16,6 +16,7 @@ class Editor extends DynamicSizedViewableContent {
         
         this.editor.on('change', ()=>{
             this.refreshCharacterCount()
+            this.editor.getSession().setAnnotations([])
         })
         this.refreshCharacterCount()
 
@@ -112,6 +113,16 @@ class Editor extends DynamicSizedViewableContent {
 
     countCharacters(str){
         return typeof str === 'string' ? str.length : 0
+    }
+
+    markError(line, text){
+        this.editor.gotoLine(line, 0, true)
+        this.editor.getSession().setAnnotations([{
+          row: line-1,
+          column: 0,
+          text: text, 
+          type: "error"
+        }])
     }
 }
 

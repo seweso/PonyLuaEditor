@@ -351,8 +351,20 @@ var LUA_EMULATOR = (($)=>{
 
     function bluescreenError(l, message, luaObject){
         ENGINE.errorStop()
-        console.error('LUA_EMULATOR.bluescreenError()', message, luaToString(luaObject), convertLuaValue(l.stack[l.top-1]))
-        CONSOLE.print(message + ' ' + luaToString(luaObject), CONSOLE.COLOR.ERROR)
+
+        let err = luaToString(luaObject)
+
+        let match = err.match(/^[^\:]*\:([\d]*)\:(.*)$/)
+        if(match[1]){
+            let line = parseInt(match[1])
+            if(!isNaN(line)){
+                EDITORS.getActiveEditor().markError(line, err)
+            }
+        }
+
+
+        console.error('LUA_EMULATOR.bluescreenError()', message, err, convertLuaValue(l.stack[l.top-1]))
+        CONSOLE.print(message + ' ' + err, CONSOLE.COLOR.ERROR)
         setTimeout(()=>{
             console.log('paint bluescreen error')
             PAINT.setColor(0,0,255, 255)
