@@ -166,7 +166,7 @@ MINMAX = (()=>{
 
                 EDITORS.get('minified').editor.setValue(minified, -1)
             } catch (ex){
-                UI.viewables()['viewable_editor_minified'].focus()
+                UI.viewables()['viewable_editor_minified'].focusSelf()
                 console.trace(ex)
                 EDITORS.get('minified').editor.setValue('Error: ' + ex.message, -1)
             }
