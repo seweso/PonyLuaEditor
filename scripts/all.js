@@ -7618,6 +7618,15 @@ UI = (($)=>{
             })
         }
 
+        /* add special tracking of learn and examples */
+        viewables['viewable_examples'].onGainFocus(()=>{
+            REPORTER.report(REPORTER.REPORT_TYPE_IDS.openLearnAndExamples)
+        })
+        viewables['viewable_learn'].onGainFocus(()=>{
+            REPORTER.report(REPORTER.REPORT_TYPE_IDS.openLearnAndExamples)
+        })
+
+
         
         $('#ide-server-mode').on('change', ()=>{
 
@@ -13448,6 +13457,9 @@ YYY = (($)=>{
             }
         })
 
+        $('#download-offline').on('click', ()=>{
+            REPORTER.report(REPORTER.REPORT_TYPE_IDS.downloadOffline)
+        })
 
         ENGINE.refresh()
         

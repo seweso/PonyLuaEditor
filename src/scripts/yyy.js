@@ -31,6 +31,9 @@ YYY = (($)=>{
             }
         })
 
+        $('#download-offline').on('click', ()=>{
+            REPORTER.report(REPORTER.REPORT_TYPE_IDS.downloadOffline)
+        })
 
         ENGINE.refresh()
         
