@@ -647,6 +647,9 @@ var UI_BUILDER = (($)=>{
     class Line extends Element {
 
         beforeBuild(){
+            this.minWidth = 1
+            this.minHeight = 1
+
             this.settings = {
                 background: {
                     type: 'color',
@@ -1524,7 +1527,7 @@ var UI_BUILDER = (($)=>{
 
             allCode = allCode.replace(/[\n]{3,}/g, '\n\n')
 
-            UI.viewables()['viewable_editor_uibuilder'].focusSelf()
+            UI.viewables()['viewable_editor_uibuilder_code'].focusSelf()
             EDITORS.get('uibuilder').editor.setValue(allCode, -1)
         } catch (ex){
             console.error('Error building lua code', ex)

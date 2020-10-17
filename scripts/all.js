@@ -226,6 +226,7 @@ TRANSLATE = (()=>{
         "viewable_editor_minified": {en: "Minifier"},
         "viewable_editor_unminified": {en: "Unminifier"},
         "viewable_editor_uibuilder": {en: "UI Builder"},
+        "viewable_editor_uibuilder_code": {en: "UI Generated Code"},
         /* views */
         "top_left": {en: "Top Left"},
         "top_right": {en: "Top Right"},
@@ -7382,7 +7383,7 @@ UI = (($)=>{
     const MY_CONFIGURATION_NAME = 'ui'
 
     const DEFAULT_LAYOUT = {
-        top_left: ['viewable_editor_normal', 'viewable_editor_minified', 'viewable_editor_unminified', 'viewable_editor_uibuilder'],
+        top_left: ['viewable_editor_normal', 'viewable_editor_minified', 'viewable_editor_unminified', 'viewable_editor_uibuilder', 'viewable_editor_uibuilder_code'],
         top_right: ['viewable_documentation', 'viewable_properties', 'viewable_inputs', 'viewable_outputs', 'viewable_examples', 'viewable_learn', 'viewable_official_manuals'],
         bottom_left: ['viewable_console', 'viewable_hints'],
         bottom_right: ['viewable_monitor', 'viewable_settings']
@@ -8739,6 +8740,9 @@ var UI_BUILDER = (($)=>{
     class Line extends Element {
 
         beforeBuild(){
+            this.minWidth = 1
+            this.minHeight = 1
+
             this.settings = {
                 background: {
                     type: 'color',
@@ -9616,7 +9620,7 @@ var UI_BUILDER = (($)=>{
 
             allCode = allCode.replace(/[\n]{3,}/g, '\n\n')
 
-            UI.viewables()['viewable_editor_uibuilder'].focusSelf()
+            UI.viewables()['viewable_editor_uibuilder_code'].focusSelf()
             EDITORS.get('uibuilder').editor.setValue(allCode, -1)
         } catch (ex){
             console.error('Error building lua code', ex)

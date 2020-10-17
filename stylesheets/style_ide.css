@@ -185,7 +185,6 @@ a:hover {
   right: 75px; }
 
 #ui-builder {
-  background: #000d;
   border-radius: 3px;
   color: #fff;
   padding: 10px;
@@ -200,18 +199,20 @@ a:hover {
 #ui-builder-container {
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
   margin-bottom: 20px; }
   #ui-builder-container > * {
-    margin-right: 10px;
     user-select: none; }
+  #ui-builder-container > *:not(:last-child) {
+    margin-right: 20px; }
   #ui-builder-container .element_list, #ui-builder-container .element_layer_list {
     max-height: 300px;
     overflow-y: scroll;
-    background: #000a; }
+    background: #151719; }
   #ui-builder-container .element_list .element {
     cursor: pointer;
     margin-bottom: 3px;
-    padding: 3px; }
+    padding: 7px; }
   #ui-builder-container .element_list .element:hover {
     color: #bf5421; }
   #ui-builder-container .canvas_container {
@@ -288,15 +289,18 @@ a:hover {
   #ui-builder-container .controls {
     display: flex;
     flex-direction: column;
-    align-items: flex-start; }
+    align-items: flex-start;
+    background: #151719;
+    padding: 10px; }
     #ui-builder-container .controls .control {
       cursor: pointer;
       display: flex;
       flex-direction: row;
       justify-content: flex-start;
       align-items: center;
-      margin-bottom: 10px;
       transition: color 0.2s ease 0s; }
+      #ui-builder-container .controls .control:not(:last-child) {
+        margin-bottom: 20px; }
       #ui-builder-container .controls .control:hover {
         color: #bf5421; }
       #ui-builder-container .controls .control > span {
@@ -314,7 +318,8 @@ a:hover {
   #ui-builder-container .element_layer_list {
     display: flex;
     flex-direction: column-reverse;
-    justify-content: flex-end; }
+    justify-content: flex-end;
+    min-width: 100px; }
     #ui-builder-container .element_layer_list .layer_list_entry {
       display: flex;
       flex-direction: row;
