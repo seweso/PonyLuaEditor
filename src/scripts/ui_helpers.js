@@ -134,6 +134,13 @@ class Viewable extends SimpleEventor {
         }
     }
 
+    getSelectDom(){
+        let currView = this.myCurrentView()
+        if(currView){
+            return currView.dom.find('[select-viewable="' + this.name() + '"]')
+        }
+    }
+
     name(){
         return this.dom.attr('viewable')
     }

@@ -154,6 +154,12 @@ a:hover {
   .code_container .charactercount.limit {
     background: #ae0000; }
 
+[select-viewable].is_executing_code {
+  background: #F0C53E !important; }
+  [select-viewable].is_executing_code:after {
+    content: '\ea15';
+    font-family: 'Iconfont' !important; }
+
 /* editor fullscreen */
 .ace_editor.fullscreen {
   position: fixed;

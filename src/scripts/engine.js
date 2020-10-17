@@ -194,6 +194,13 @@ ENGINE = (($)=>{
 
         let code = EDITORS.getActiveEditor().editor.getValue()
 
+        let ae = EDITORS.getActiveEditor()
+        let selDom = ae.viewable.getSelectDom()
+        if(selDom){
+            selDom.addClass('is_executing_code')
+        }
+        console.log(selDom)
+
         startCode(code)
 
         setTimeout(()=>{
@@ -257,6 +264,8 @@ ENGINE = (($)=>{
             unlockUI()
             $('#start').prop('disabled', false)
         })
+
+        $('.is_executing_code').removeClass('is_executing_code')
 
         running = false
         paused = false

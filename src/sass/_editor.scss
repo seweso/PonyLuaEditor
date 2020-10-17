@@ -20,7 +20,14 @@
 	}
 }
 
+[select-viewable].is_executing_code {
+    background: $hightlight !important;
 
+    &:after {
+        content: '\ea15';
+        font-family: 'Iconfont' !important;    
+    }
+}
 /* editor fullscreen */
 .ace_editor {
     &.fullscreen {

@@ -7559,6 +7559,8 @@ UI = (($)=>{
         setSplittersFromConfig()
 
 
+        /* create special dynamic sized viewables that are not editors */
+
         new DynamicSizedViewableContent($('#console').get(0), viewables['viewable_console'])
 
         for(let v of Object.keys(viewables)){
@@ -7798,6 +7800,13 @@ class Viewable extends SimpleEventor {
         let currView = this.myCurrentView()
         if(currView){
             currView.focus(this)
+        }
+    }
+
+    getSelectDom(){
+        let currView = this.myCurrentView()
+        if(currView){
+            return currView.dom.find('[select-viewable="' + this.name() + '"]')
         }
     }
 
@@ -13609,6 +13618,13 @@ ENGINE = (($)=>{
 
         let code = EDITORS.getActiveEditor().editor.getValue()
 
+        let ae = EDITORS.getActiveEditor()
+        let selDom = ae.viewable.getSelectDom()
+        if(selDom){
+            selDom.addClass('is_executing_code')
+        }
+        console.log(selDom)
+
         startCode(code)
 
         setTimeout(()=>{
@@ -13672,6 +13688,8 @@ ENGINE = (($)=>{
             unlockUI()
             $('#start').prop('disabled', false)
         })
+
+        $('.is_executing_code').removeClass('is_executing_code')
 
         running = false
         paused = false

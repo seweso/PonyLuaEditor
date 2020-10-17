@@ -126,6 +126,8 @@ UI = (($)=>{
         setSplittersFromConfig()
 
 
+        /* create special dynamic sized viewables that are not editors */
+
         new DynamicSizedViewableContent($('#console').get(0), viewables['viewable_console'])
 
         for(let v of Object.keys(viewables)){
