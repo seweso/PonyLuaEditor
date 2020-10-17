@@ -6254,7 +6254,7 @@ var LUA_EMULATOR = (($)=>{
         let err = luaToString(luaObject)
 
         let match = err.match(/^[^\:]*\:([\d]*)\:(.*)$/)
-        if(match[1]){
+        if(match && match[1]){
             let line = parseInt(match[1])
             if(!isNaN(line)){
                 EDITORS.getActiveEditor().markError(line, err)
@@ -14602,13 +14602,7 @@ var OUTPUT = ((global, $)=>{
 
         inputBools = {}
         inputNumbers = {}
-    }
 
-    function refresh(){
-        bools = inputBools
-        numbers = inputNumbers
-        inputBools = {}
-        inputNumbers = {}
 
         dom_bools.find('.bool').remove()
         dom_numbers.find('.number').remove()
@@ -14629,13 +14623,24 @@ var OUTPUT = ((global, $)=>{
         }
     }
 
+    function refresh(){
+        for(let k of Object.keys(bools)){
+            bools[k].html(inputBools[k] === true ? 'true' : 'false')
+        }
+        for(let k of Object.keys(numbers)){
+            numbers[k].html(inputNumbers[k])
+        }
+    }
+
     function addNewBool(label, val){
         let bool = addNew('bool', label, val === true ? 'true' : 'false')
+        bools[label] = bool.find('.result')
         dom_bools.append(bool) 
     }
 
     function addNewNumber(label, val){
         let number = addNew('number', label, val)
+        numbers[label] = number.find('.result')
         dom_numbers.append(number)
     }
 
@@ -14651,6 +14656,11 @@ var OUTPUT = ((global, $)=>{
         if(typeof val !== 'boolean'){
             throw new Error('second argument must be a boolean!')
         }
+
+        if(! bools[index]){
+            addNewBool(index, val)
+        }
+
         inputBools[index] = val
     }
 
@@ -14661,6 +14671,11 @@ var OUTPUT = ((global, $)=>{
         if(typeof val !== 'number'){
             throw new Error('second argument must be a number!')
         }
+
+        if(! numbers[index]){
+            addNewNumber(index, val)
+        }
+
         inputNumbers[index] = val
     }
     

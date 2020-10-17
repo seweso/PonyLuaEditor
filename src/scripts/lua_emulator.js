@@ -355,7 +355,7 @@ var LUA_EMULATOR = (($)=>{
         let err = luaToString(luaObject)
 
         let match = err.match(/^[^\:]*\:([\d]*)\:(.*)$/)
-        if(match[1]){
+        if(match && match[1]){
             let line = parseInt(match[1])
             if(!isNaN(line)){
                 EDITORS.getActiveEditor().markError(line, err)
