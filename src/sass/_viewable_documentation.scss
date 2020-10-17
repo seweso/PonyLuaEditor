@@ -1,7 +1,37 @@
 [viewable="viewable_documentation"] {
-
-    padding: 5px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 55px 5px 5px 5px;
     
+    .documentation_searchbar {
+        position: absolute;
+        top: 5px;
+        left: 5px;
+        height: 40px;
+        border-radius: 10000px;
+        background: $stormworks-blue;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        input {
+            border: none;
+            padding: 3px 4px 3px 15px;
+            background: transparent;
+            color: $light;
+            font-size: 20px;
+        }
+
+        span {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+    }
+
     .node {
         display: flex;
         flex-direction: column;
@@ -19,6 +49,10 @@
             .bottom, .children {
                 display: none;
             }
+        }
+
+        &.fuze_hidden {
+            display: none;
         }
 
         .top {
@@ -191,6 +225,8 @@
 
         .children {
             padding-left: 10px;
+            display: flex;
+            flex-direction: column;
         }
 
         &[lib="stormworks"] {

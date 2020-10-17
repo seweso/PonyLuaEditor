@@ -22,6 +22,7 @@ var DOCUMENTATION = ((global, $)=>{
     
     let PARSED
 
+    let fuse
 
     LOADER.on(LOADER.EVENT.UI_READY, init)
 
@@ -48,6 +49,23 @@ var DOCUMENTATION = ((global, $)=>{
             parseDefinition()
 
             buildDocumentation()
+
+            let fuseList = generateFuseList()
+
+            fuse = new Fuse(fuseList, {
+                includeScore: true,
+                minMatchCharLength: 2,
+                ignoreLocation: true,
+                shouldSort: true,
+                threshold: 0.2,
+                keys: [{
+                    name: 'name',
+                    weight: 0.7
+                },{
+                    name: 'description',
+                    weight: 0.3
+                }]
+            })
         } else {
             throw 'unable to load DOCUMENTATION_DEFINITION'
         }
@@ -215,15 +233,28 @@ var DOCUMENTATION = ((global, $)=>{
     }
 
     function buildDocumentation(){
-        $('#documentation').html('')
+        let container = $('#documentation')
+        container.html('<div class="documentation_searchbar"><input type="text" placeholder="search"><span class="icon-cross"></span></div>')
+
+        container.find('.documentation_searchbar span').on('click', ()=>{
+            container.find('.documentation_searchbar input').val('').trigger('change')
+        })
+
+        container.find('.documentation_searchbar input').on('change', ()=>{
+            searchDocumenation(container.find('.documentation_searchbar input').val())
+        })
+
+
+
+
         for(let name of getSortedKeysForDocsChildren(PARSED.children)){
             let child = PARSED.children[name]
-            printNode($('#documentation'), child, name, true)
+            printNode(container, child, name, '', true)
         }
     }
 
-    function printNode(container, node, name, topNode){
-        let me = $('<div class="node" ntype="' + node.type + '" ' + (node.lib ? 'lib="' + node.lib + '"' : '') + '>')
+    function printNode(container, node, name, prefix, topNode){
+        let me = $('<div class="node" ntype="' + node.type + '" ' + (node.lib ? 'lib="' + node.lib + '"' : '') + ' fusename="' + (prefix ? prefix + '.' + name : name).replace('..', '.') + '">')
         container.append(me)
 
         let top = $('<div class="top">')
@@ -306,9 +337,9 @@ var DOCUMENTATION = ((global, $)=>{
             let childcontainer = $('<div class="children"></div>')
             me.append(childcontainer)
 
-            for(let name of getSortedKeysForDocsChildren(node.children)){
-                let child = node.children[name]
-                printNode(childcontainer, child, '.' + name)
+            for(let _name of getSortedKeysForDocsChildren(node.children)){
+                let child = node.children[_name]
+                printNode(childcontainer, child, '.' + _name, (prefix ? prefix + '.' + name : name).replace('..', '.'))
             }
         }
     }
@@ -341,6 +372,73 @@ var DOCUMENTATION = ((global, $)=>{
         return sortedKeys
     }
 
+    function generateFuseList(){
+        let entries = []
+
+        processNode(PARSED, '')
+
+        function processNode(node, prefix, name){
+            if(name){
+                entries.push({
+                    description: node.description,
+                    name: name,
+                    fusename: prefix
+                })
+            }
+
+            if(node.children){
+                for(let k of Object.keys(node.children)){
+                    processNode(node.children[k], (prefix ? prefix + '.' : '') + k, k)
+                }
+            }
+        }
+
+        return entries
+    }
+
+    function searchDocumenation(searchString){
+        if(searchString === ''){
+            $('#documentation .node').removeClass('fuze_hidden').addClass('contracted').css('order', '')
+            return
+        } else {
+
+            $('#documentation .node').addClass('fuze_hidden')
+
+            let res = fuse.search(searchString)
+            console.log('search results', res)
+
+            /*res.sort((a,b)=>{
+                if(a.score > b.score){
+                    return -1
+                }
+                if (a.score < b.score) {
+                    return 1
+                }
+                return 0
+            })*/
+
+            let partOrders = {}
+
+            let count = 1
+            for(let r of res){
+                let parts = r.item.fusename.split('.')
+                for(let p of parts){
+                    if(typeof partOrders[p] !== 'number'){
+                        partOrders[p] = count
+                    }
+                    if(partOrders[p] > count){
+                        partOrders[p] = count
+                    }
+
+                    $('#documentation .node[fusename="' + p + '"]').removeClass('fuze_hidden contracted').css('order', partOrders[p])
+                }
+
+                $('#documentation .node[fusename="' + r.item.fusename + '"]').removeClass('fuze_hidden contracted').css('order', count)
+
+                count++
+            }
+        }
+    }
 
     return {
         TO: TO,

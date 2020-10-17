@@ -960,7 +960,32 @@ body {
   display: none; }
 
 [viewable="viewable_documentation"] {
-  padding: 5px; }
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 55px 5px 5px 5px; }
+  [viewable="viewable_documentation"] .documentation_searchbar {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    height: 40px;
+    border-radius: 10000px;
+    background: #0081cc;
+    display: flex;
+    flex-direction: row;
+    align-items: center; }
+    [viewable="viewable_documentation"] .documentation_searchbar input {
+      border: none;
+      padding: 3px 4px 3px 15px;
+      background: transparent;
+      color: #eaedf1;
+      font-size: 20px; }
+    [viewable="viewable_documentation"] .documentation_searchbar span {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer; }
   [viewable="viewable_documentation"] .node {
     display: flex;
     flex-direction: column;
@@ -971,6 +996,8 @@ body {
     [viewable="viewable_documentation"] .node:not(:last-child) {
       margin-bottom: 5px; }
     [viewable="viewable_documentation"] .node.contracted .bottom, [viewable="viewable_documentation"] .node.contracted .children {
+      display: none; }
+    [viewable="viewable_documentation"] .node.fuze_hidden {
       display: none; }
     [viewable="viewable_documentation"] .node .top {
       display: flex;
@@ -1073,7 +1100,9 @@ body {
           margin-top: 10px;
           padding: 5px; }
     [viewable="viewable_documentation"] .node .children {
-      padding-left: 10px; }
+      padding-left: 10px;
+      display: flex;
+      flex-direction: column; }
     [viewable="viewable_documentation"] .node[lib="stormworks"] .lib {
       color: #0081cc;
       border-color: #0081cc; }
