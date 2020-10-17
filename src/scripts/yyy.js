@@ -1,7 +1,7 @@
 YYY = (($)=>{
     "use strict";
 
-    let noExitConfirm = true /* TODO remove before production */
+    let noExitConfirm = false
 
     let isCustomMinifiedCode = false
 
