@@ -8,19 +8,14 @@
         border-radius: 6px;
 
         & > * {
-            background: #d7d7d7;
+            background: $medium-darker;
+            color: $light;
             border-radius: 3px;
             margin-bottom: 10px;
             
             &:last-of-type {
                 margin-bottom: 5px;
             }
-        }
-
-        & > .head {
-            font-weight: bold;
-            background: #000!important;
-            color: #bf5421;
         }
 
         .head {
@@ -30,17 +25,7 @@
             background: var(--background-accent-gradient);
             border-top-left-radius: 3px;
             border-top-right-radius: 3px;
-        
-            button {
-                background: #000;
-                border: 1px solid #000;
-                color:  #bf5421;
-            
-                &:hover {
-                    background: #cb764d;
-                    color: #000;
-                }
-            }
+            font-weight: bold;
 
             .add {
                 display: flex;
@@ -51,24 +36,41 @@
                     width: calc(100% - 23px);
                     margin: 0 5px;
                 }
+
+                button {
+                    background: $light;
+                    color: $dark;
+                    padding: 0px 3px 3px 3px;
+
+                    &:hover {
+                        background: $stormworks-blue;
+                    }
+                }
             }
-        }
+        }        
 
         button {
             margin: 0 0 0 auto;
-            padding: 0 2px 2px 2px;
-            font-size: 12px;
-            font-weight: bold;
+            padding: 3px;
             line-height: 0;
             height: 20px;
             width: 20px;
+            background: $dark;
+            border: 1px solid $dark;
+            color:  $stormworks-blue;
+            font-size: 18px;
+
+            &:hover {
+                color: $light;
+            }
 
             &:not(:last-of-type) {
                 margin-right: 3px;
             }
 
             & + button {
-                margin-left: 0;
+                margin-left: 3px;
+                padding: 0 3px 3px 3px;
             }
         }
 
@@ -80,8 +82,8 @@
             align-items: center;
         }
 
-        .number .channel {
-            border: 1px solid #000;
+        .bool .channel, .number .channel {
+            border: 1px solid $light;
             border-radius: 10000px;
             padding: 2px;
             min-width: 1.5em;
@@ -127,7 +129,8 @@
         }
 
         .bool input, .number input, .text input {
-            margin: 0 5px 0 5px;
+            margin: 0 7px 0 7px;
+            outline: none;
         }
 
         .number .change input[type="number"], .number .change input[type="text"]{
@@ -136,6 +139,7 @@
 
         .number .settings input[type="number"], .number .settings input[type="text"], .text input[type="text"] {
             width: calc(100% - 70px);
+            max-width: 150px;
         }
 
         .bool .result, .number .result, .text .result {
@@ -148,11 +152,13 @@
 
             .user_label {
                 background: transparent;
-                border: none;
-                padding: 3px 4px 3px 23px;
+                border: 1px solid transparent;
+                border-radius: 3px;
+                padding: 3px 4px 3px 27px;
                 cursor: text;
                 transition: all 0.2s ease 0s;
                 width: calc(100% - 5px)!important;
+                color: $light;
             }
 
             &:after {
@@ -165,11 +171,11 @@
 
             &:hover {
                 &:after {
-                    color: #c36724;
+                    color: $stormworks-blue;
                 }
 
                 .user_label {
-                    background: #fff;
+                    border-color: $light;
                 }
             }
         }

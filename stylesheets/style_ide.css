@@ -656,29 +656,20 @@ body {
   margin-bottom: 10px;
   border-radius: 6px; }
   .ide .value_list > * {
-    background: #d7d7d7;
+    background: #1c3146;
+    color: #eaedf1;
     border-radius: 3px;
     margin-bottom: 10px; }
     .ide .value_list > *:last-of-type {
       margin-bottom: 5px; }
-  .ide .value_list > .head {
-    font-weight: bold;
-    background: #000 !important;
-    color: #bf5421; }
   .ide .value_list .head {
     display: flex;
     flex-direction: row;
     padding: 5px;
     background: var(--background-accent-gradient);
     border-top-left-radius: 3px;
-    border-top-right-radius: 3px; }
-    .ide .value_list .head button {
-      background: #000;
-      border: 1px solid #000;
-      color: #bf5421; }
-      .ide .value_list .head button:hover {
-        background: #cb764d;
-        color: #000; }
+    border-top-right-radius: 3px;
+    font-weight: bold; }
     .ide .value_list .head .add {
       display: flex;
       flex-direction: row;
@@ -686,25 +677,36 @@ body {
       .ide .value_list .head .add input {
         width: calc(100% - 23px);
         margin: 0 5px; }
+      .ide .value_list .head .add button {
+        background: #eaedf1;
+        color: #151719;
+        padding: 0px 3px 3px 3px; }
+        .ide .value_list .head .add button:hover {
+          background: #0081cc; }
   .ide .value_list button {
     margin: 0 0 0 auto;
-    padding: 0 2px 2px 2px;
-    font-size: 12px;
-    font-weight: bold;
+    padding: 3px;
     line-height: 0;
     height: 20px;
-    width: 20px; }
+    width: 20px;
+    background: #151719;
+    border: 1px solid #151719;
+    color: #0081cc;
+    font-size: 18px; }
+    .ide .value_list button:hover {
+      color: #eaedf1; }
     .ide .value_list button:not(:last-of-type) {
       margin-right: 3px; }
     .ide .value_list button + button {
-      margin-left: 0; }
+      margin-left: 3px;
+      padding: 0 3px 3px 3px; }
   .ide .value_list .bool .change, .ide .value_list .number .change, .ide .value_list .text .change {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
     align-items: center; }
-  .ide .value_list .number .channel {
-    border: 1px solid #000;
+  .ide .value_list .bool .channel, .ide .value_list .number .channel {
+    border: 1px solid #eaedf1;
     border-radius: 10000px;
     padding: 2px;
     min-width: 1.5em;
@@ -730,11 +732,13 @@ body {
   .ide .value_list .number.isslider .change input[type="number"] {
     display: none; }
   .ide .value_list .bool input, .ide .value_list .number input, .ide .value_list .text input {
-    margin: 0 5px 0 5px; }
+    margin: 0 7px 0 7px;
+    outline: none; }
   .ide .value_list .number .change input[type="number"], .ide .value_list .number .change input[type="text"] {
     width: calc(50% - 70px); }
   .ide .value_list .number .settings input[type="number"], .ide .value_list .number .settings input[type="text"], .ide .value_list .text input[type="text"] {
-    width: calc(100% - 70px); }
+    width: calc(100% - 70px);
+    max-width: 150px; }
   .ide .value_list .bool .result, .ide .value_list .number .result, .ide .value_list .text .result {
     margin: 0 0 0 auto; }
   .ide .value_list .user_label_container {
@@ -742,11 +746,13 @@ body {
     position: relative; }
     .ide .value_list .user_label_container .user_label {
       background: transparent;
-      border: none;
-      padding: 3px 4px 3px 23px;
+      border: 1px solid transparent;
+      border-radius: 3px;
+      padding: 3px 4px 3px 27px;
       cursor: text;
       transition: all 0.2s ease 0s;
-      width: calc(100% - 5px) !important; }
+      width: calc(100% - 5px) !important;
+      color: #eaedf1; }
     .ide .value_list .user_label_container:after {
       content: '\e905';
       font-family: iconfont;
@@ -754,9 +760,9 @@ body {
       left: 8px;
       cursor: text; }
     .ide .value_list .user_label_container:hover:after {
-      color: #c36724; }
+      color: #0081cc; }
     .ide .value_list .user_label_container:hover .user_label {
-      background: #fff; }
+      border-color: #eaedf1; }
 
 .ide #property.value_list .bool, .ide #property.value_list .number, .ide #property.value_list .text {
   display: flex;
