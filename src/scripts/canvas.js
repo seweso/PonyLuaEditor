@@ -487,6 +487,7 @@ var CANVAS = ((global, $)=>{
 
             ctx.scale(1/RENDER_SCALING_FACTOR,1/RENDER_SCALING_FACTOR)          
         }
+        ctx.imageSmoothingEnabled = false
         ctx.drawImage(renderCanvas,0,0)
 
         let showOverflow = $('#show-overflow').prop('checked')
