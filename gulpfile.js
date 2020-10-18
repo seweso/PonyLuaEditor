@@ -51,6 +51,8 @@ function buildStylesheets(){
 /* Watch for file changes */
 
 gulp.task('watch', function () {
+    buildStylesheets()
+    buildScripts()
   gulp.watch('./src/sass/*.scss', buildStylesheets)
   gulp.watch('./src/scripts/*.js', buildScripts)
 })
