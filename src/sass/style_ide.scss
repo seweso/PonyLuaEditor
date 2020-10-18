@@ -16,6 +16,7 @@
 
 
 .ide {
+    position: relative;
     width: 100%;
     height: calc(100vh - #{$navigation_height});
     overflow: hidden;
@@ -26,6 +27,26 @@
         
         .engine_controls {
             display: none!important;
+        }
+    }
+
+
+    &.deactivated {
+        &:after {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            content: 'Loading ...';
+            font-size: 40px;
+            color: $light;
+            background: #000e;
+            z-index: $z-index-ide-deactivated;
         }
     }
 

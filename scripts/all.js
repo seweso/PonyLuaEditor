@@ -39,6 +39,8 @@ LOADER = (($)=>{
         CANVAS_READY: 'Canvas'
     }
 
+    const EVENT_ALL_DONE = 'all_done'
+
     function on(event, callback){
         if(typeof event !== 'string'){
             throw 'event must be a string'
@@ -84,10 +86,16 @@ LOADER = (($)=>{
                     }
                 }
             }
+            if( allEventsDone() ){
+                done(EVENT_ALL_DONE)
+            }
         }, 1)
     }
 
     function eventExists(event){
+        if(event === EVENT_ALL_DONE){
+            return true
+        }
         for(let e in EVENT){
             if(EVENT[e] === event){
                 return true
@@ -104,6 +112,7 @@ LOADER = (($)=>{
         on: on,
         done: done,
         EVENT: EVENT,
+        onAllDone: (cb)=>{ on(EVENT_ALL_DONE, cb) },
         getDoneEvents: ()=>{ return doneEvents },
         allEventsDone: allEventsDone
     }
@@ -7564,6 +7573,14 @@ UI = (($)=>{
             horizontal_right: 0.5
         }
     }
+
+    LOADER.on(LOADER.EVENT.PAGE_READY, ()=>{
+        $('.ide').addClass('deactivated')
+    })
+
+    LOADER.onAllDone(()=>{
+        $('.ide').removeClass('deactivated')
+    })
 
     LOADER.on(LOADER.EVENT.SHARE_READY, init)
 

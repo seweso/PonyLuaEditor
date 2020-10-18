@@ -32,6 +32,14 @@ UI = (($)=>{
         }
     }
 
+    LOADER.on(LOADER.EVENT.PAGE_READY, ()=>{
+        $('.ide').addClass('deactivated')
+    })
+
+    LOADER.onAllDone(()=>{
+        $('.ide').removeClass('deactivated')
+    })
+
     LOADER.on(LOADER.EVENT.SHARE_READY, init)
 
     function init(){

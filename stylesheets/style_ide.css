@@ -1353,6 +1353,7 @@ body {
     opacity: 1; } }
 
 .ide {
+  position: relative;
   width: 100%;
   height: calc(100vh - 75px);
   overflow: hidden;
@@ -1360,6 +1361,21 @@ body {
   flex-direction: column; }
   .ide[mode="server"] .engine_controls {
     display: none !important; }
+  .ide.deactivated:after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    content: 'Loading ...';
+    font-size: 40px;
+    color: #eaedf1;
+    background: #000e;
+    z-index: 10000; }
   .ide .ide_bar {
     background: grey;
     display: flex;
