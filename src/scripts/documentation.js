@@ -50,6 +50,7 @@ var DOCUMENTATION = ((global, $)=>{
 
             buildDocumentation()
 
+
             let fuseList = generateFuseList()
 
             fuse = new Fuse(fuseList, {
@@ -66,6 +67,8 @@ var DOCUMENTATION = ((global, $)=>{
                     weight: 0.3
                 }]
             })
+            
+            MINMAX.refresh()
         } else {
             throw 'unable to load DOCUMENTATION_DEFINITION'
         }
