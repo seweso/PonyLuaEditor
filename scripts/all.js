@@ -722,6 +722,8 @@ var MAP = (($)=>{
 
     let lastMap = false
 
+    let colors = {}
+
     function drawMap(x, y, zom){//zom from 0.1 to 50
         //matches = {}
         let currentFillStyle = CANVAS.ctx().fillStyle
@@ -860,7 +862,19 @@ var MAP = (($)=>{
 
     function reset(){
         shownMapWarning = true
-        colors = $.extend({}, DEFAULT_COLORS)
+        colors = {}
+
+        for(let k of Object.keys(DEFAULT_COLORS)){
+            colors[k] = {
+                r: DEFAULT_COLORS[k].r,
+                g: DEFAULT_COLORS[k].g,
+                b: DEFAULT_COLORS[k].b,
+                a: DEFAULT_COLORS[k].a
+            }
+        }
+        onColorHasChanged()
+
+        matches = {}
     }
 
     /* helper functions */
