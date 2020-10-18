@@ -78,6 +78,11 @@ UTIL = (($)=>{
         })
         $('#hints-container').append(h)
 
+        /* automatically remove hints after 1 minute */
+        setTimeout(()=>{
+            h.remove()
+        }, 1000 * 60)
+
         let currView = UI.viewables()['viewable_hints'].focusSelf()
     }
 
