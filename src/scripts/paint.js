@@ -227,7 +227,7 @@ var PAINT = (()=>{
     /* helper functions */
 
     function zoom(val){
-        return Math.round(val) * zoomFactor * CANVAS.RENDER_SCALING_FACTOR
+        return Math.round(val) * CANVAS.RENDER_SCALING_FACTOR
     }
 
     function log(){
@@ -249,10 +249,6 @@ var PAINT = (()=>{
         }
     }
 
-    function setZoomFactor(_zoomFactor){
-        zoomFactor = _zoomFactor
-    }
-
     return {
         setColor: setColor,
         drawClear: drawClear,
@@ -265,7 +261,6 @@ var PAINT = (()=>{
         drawTriangleF: drawTriangleF,
         drawText: drawText,
         drawTextBox: drawTextBox,
-        setZoomFactor: setZoomFactor,
         _reset: _reset,
         _restoreLastColorUsed: _restoreLastColorUsed
     }

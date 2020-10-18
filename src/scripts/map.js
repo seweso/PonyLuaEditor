@@ -5,8 +5,6 @@ var MAP = (($)=>{
     const FONT_SIZE = 6
     const FONT = 'px "Lucida Console", Monaco, monospace'
 
-    let zoomFactor = 1
-
     let fakecanvas = document.createElement('canvas')
     let fakectx = fakecanvas.getContext('2d')
 
@@ -234,10 +232,6 @@ var MAP = (($)=>{
         return bestMatch
     }
 
-    function zoom(val){
-        return val * zoomFactor
-    }
-
     function log(){
         if(!DO_LOG){
             return
@@ -257,10 +251,6 @@ var MAP = (($)=>{
         }
     }
 
-    function setZoomFactor(_zoomFactor){
-        zoomFactor = _zoomFactor
-    }
-
     return {
         drawMap: drawMap,
         setMapColorOcean: setMapColorOcean,
@@ -271,7 +261,6 @@ var MAP = (($)=>{
         setMapColorSnow: setMapColorSnow,
         screenToMap: screenToMap,
         mapToScreen: mapToScreen,
-        setZoomFactor: setZoomFactor,
         reset: reset
     }
 

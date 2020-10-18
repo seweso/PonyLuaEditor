@@ -1176,7 +1176,7 @@ body {
       padding: 10px;
       color: #eaedf1; }
 
-[viewable="viewable_monitor"] #render-canvas {
+[viewable="viewable_monitor"] #render-canvas, [viewable="viewable_monitor"] #unzoomed-canvas {
   display: none; }
 
 [viewable="viewable_monitor"] #monitor {

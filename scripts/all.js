@@ -621,7 +621,7 @@ var PAINT = (()=>{
     /* helper functions */
 
     function zoom(val){
-        return Math.round(val) * zoomFactor * CANVAS.RENDER_SCALING_FACTOR
+        return Math.round(val) * CANVAS.RENDER_SCALING_FACTOR
     }
 
     function log(){
@@ -643,10 +643,6 @@ var PAINT = (()=>{
         }
     }
 
-    function setZoomFactor(_zoomFactor){
-        zoomFactor = _zoomFactor
-    }
-
     return {
         setColor: setColor,
         drawClear: drawClear,
@@ -659,7 +655,6 @@ var PAINT = (()=>{
         drawTriangleF: drawTriangleF,
         drawText: drawText,
         drawTextBox: drawTextBox,
-        setZoomFactor: setZoomFactor,
         _reset: _reset,
         _restoreLastColorUsed: _restoreLastColorUsed
     }
@@ -673,8 +668,6 @@ var MAP = (($)=>{
 
     const FONT_SIZE = 6
     const FONT = 'px "Lucida Console", Monaco, monospace'
-
-    let zoomFactor = 1
 
     let fakecanvas = document.createElement('canvas')
     let fakectx = fakecanvas.getContext('2d')
@@ -903,10 +896,6 @@ var MAP = (($)=>{
         return bestMatch
     }
 
-    function zoom(val){
-        return val * zoomFactor
-    }
-
     function log(){
         if(!DO_LOG){
             return
@@ -926,10 +915,6 @@ var MAP = (($)=>{
         }
     }
 
-    function setZoomFactor(_zoomFactor){
-        zoomFactor = _zoomFactor
-    }
-
     return {
         drawMap: drawMap,
         setMapColorOcean: setMapColorOcean,
@@ -940,7 +925,6 @@ var MAP = (($)=>{
         setMapColorSnow: setMapColorSnow,
         screenToMap: screenToMap,
         mapToScreen: mapToScreen,
-        setZoomFactor: setZoomFactor,
         reset: reset
     }
 
@@ -15132,6 +15116,10 @@ var CANVAS = ((global, $)=>{
     let renderCanvas
     let renderCtx
 
+    let $zoomedCanvas
+    let zoomedCanvas
+    let zoomedCtx
+
     const RENDER_SCALING_FACTOR = 2
 
     let top = 0
@@ -15154,12 +15142,6 @@ var CANVAS = ((global, $)=>{
     function init(){
 
         $('#monitor-size, #show-overflow').on('change', (e)=>{
-            /* limit zoom to not exceed canvas size limits */
-            let val = $('#zoomfactor').val()
-            if($('#monitor-size').val() === '9x5' && val > 2){
-                $('#zoomfactor').val(2).trigger('change')
-            }
-
             recalculateCanvas()
         })
 
@@ -15174,15 +15156,8 @@ var CANVAS = ((global, $)=>{
         $('#zoomfactor').on('change', ()=>{
             let val = $('#zoomfactor').val()
 
-            /* limit zoom to not exceed canvas size limits */
-            if($('#monitor-size').val() === '9x5' && val > 2){
-                val = 2
-            }
-            $('#zoomfactor').val(val)
+            setZoomFactor(val)
 
-            CANVAS.setZoomFactor(val)
-            PAINT.setZoomFactor(val)
-            MAP.setZoomFactor(val)
             $('.monitor_info .zoom').html(val+'x')
             
             STORAGE.setConfiguration('settings.zoomfactor', val)
@@ -15475,7 +15450,7 @@ var CANVAS = ((global, $)=>{
     }
 
     function refresh(){
-        $canvas = $('#canvas')
+        $canvas = $('#unzoomed-canvas')
         canvas = $canvas.get(0)
         ctx  = canvas.getContext('2d')
 
@@ -15483,6 +15458,10 @@ var CANVAS = ((global, $)=>{
         $renderCanvas = $('#render-canvas')
         renderCanvas = $renderCanvas.get(0)
         renderCtx  = renderCanvas.getContext('2d')
+
+        $zoomedCanvas = $('#canvas')
+        zoomedCanvas = $zoomedCanvas.get(0)
+        zoomedCtx  = zoomedCanvas.getContext('2d')
 
         recalculateCanvas()        
     }
@@ -15499,24 +15478,34 @@ var CANVAS = ((global, $)=>{
         $('.monitor_info .width').html(width)
         $('.monitor_info .height').html(height)
 
-        top = showOverflow ? 32 : 0
-        left = showOverflow ? 32 : 0
+        let overflowSize = (showOverflow ? 32 : 0)
 
-        let canvasWidth = dim.width + (showOverflow ? 64 : 0)
-        let canvasHeight = dim.height + (showOverflow ? 64 : 0)
+        top = overflowSize
+        left = overflowSize
+
+        let unZoomedWidth = width + overflowSize * 2
+        let unZoomedHeight = height + overflowSize * 2
+
+        let zoomedWidth = dim.width + overflowSize * 2
+        let zoomedHeight = dim.height + overflowSize * 2
 
         ctx.save()
-        $canvas.get(0).width = canvasWidth
-        $canvas.get(0).height = canvasHeight
+        $canvas.get(0).width = unZoomedWidth
+        $canvas.get(0).height = zoomedHeight
         ctx.restore()
 
         renderCtx.save()
-        renderCanvas.width = canvasWidth * RENDER_SCALING_FACTOR
-        renderCanvas.height = canvasHeight * RENDER_SCALING_FACTOR
+        renderCanvas.width = unZoomedWidth * RENDER_SCALING_FACTOR
+        renderCanvas.height = unZoomedHeight * RENDER_SCALING_FACTOR
         contextScaled = false
         renderCtx.restore()
 
-        $('#monitor').css({width: canvasWidth, height: canvasHeight})
+        zoomedCtx.save()
+        zoomedCanvas.width = zoomedWidth
+        zoomedCanvas.height = zoomedHeight
+        zoomedCtx.restore()
+
+        $('#monitor').css({width: zoomedWidth, height: zoomedHeight})
         
         $('#overflow').css('display', showOverflow ? '' : 'none')
         PAINT._restoreLastColorUsed()
@@ -15534,6 +15523,14 @@ var CANVAS = ((global, $)=>{
         renderCtx.clearRect(0, 0, renderCanvas.width, renderCanvas.height)
         renderCtx.fillRect(0, 0, renderCanvas.width, renderCanvas.height)
         renderCtx.restore()
+
+        zoomedCtx.save()
+        zoomedCtx.fillStyle = '#000f'
+        zoomedCtx.closePath()
+        zoomedCtx.beginPath()
+        zoomedCtx.clearRect(0, 0, zoomedCanvas.width, zoomedCanvas.height)
+        zoomedCtx.fillRect(0, 0, zoomedCanvas.width, zoomedCanvas.height)
+        zoomedCtx.restore()
     }
 
     function resetTouchpoints(){        
@@ -15586,6 +15583,16 @@ var CANVAS = ((global, $)=>{
             ctx.scale(1/RENDER_SCALING_FACTOR,1/RENDER_SCALING_FACTOR)          
         }
         ctx.drawImage(renderCanvas,0,0)
+
+        let showOverflow = $('#show-overflow').prop('checked')
+        let overflowSize = (showOverflow ? 32 : 0)
+
+        let dx = overflowSize - zoom(overflowSize)
+        let dy = overflowSize - zoom(overflowSize)
+        
+
+        zoomedCtx.imageSmoothingEnabled = false
+        zoomedCtx.drawImage(canvas, 0,0,canvas.width,canvas.height, dx,dy,zoom(canvas.width),zoom(canvas.height))
     }
 
     return {
@@ -15610,7 +15617,6 @@ var CANVAS = ((global, $)=>{
         reset: reset,
         refresh: refresh,
         resetTouchpoints: resetTouchpoints,
-        setZoomFactor: setZoomFactor,
         finalizeFrame: finalizeFrame
     }
 
