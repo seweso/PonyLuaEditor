@@ -951,7 +951,7 @@ body {
     padding: 4px; }
 
 [viewable][visible="false"] {
-  display: none; }
+  display: none !important; }
 
 .ide[mode="server"] [select-viewable="viewable_console"], .ide[mode="server"] [select-viewable="viewable_monitor"], .ide[mode="server"] [select-viewable="viewable_editor_uibuilder"], .ide[mode="server"] [select-viewable="viewable_editor_uibuilder_code"], .ide[mode="server"] [select-viewable="viewable_properties"], .ide[mode="server"] [select-viewable="viewable_inputs"], .ide[mode="server"] [select-viewable="viewable_outputs"] {
   display: none; }
