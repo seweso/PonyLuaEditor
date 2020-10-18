@@ -5,7 +5,18 @@ LOADER = (($)=>{
 
     let doneEvents = []
 
+    const LOADING_TEXTS = [
+        'Saddling ponies ...',
+        'Feeding ponies ...',
+        'Buying carrots for the ponies ...',
+        'Cleaning pony stable ...'
+    ]
+
     $(window).on('load', ()=>{
+        let rand = Math.floor(Math.random() * LOADING_TEXTS.length)
+
+        $('.ide').attr('loading-text', LOADING_TEXTS[rand])
+
         done(EVENT.PAGE_READY)
     })
 

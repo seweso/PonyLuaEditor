@@ -1371,7 +1371,7 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    content: 'Loading ...';
+    content: attr(loading-text);
     font-size: 40px;
     color: #eaedf1;
     background: #000e;

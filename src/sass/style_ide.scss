@@ -42,7 +42,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            content: 'Loading ...';
+            content: attr(loading-text);
             font-size: 40px;
             color: $light;
             background: #000e;
