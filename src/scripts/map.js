@@ -1,6 +1,6 @@
 var MAP = (($)=>{
 
-    const DO_LOG = false
+    const DO_LOG = true
 
     const FONT_SIZE = 6
     const FONT = 'px "Lucida Console", Monaco, monospace'
@@ -8,46 +8,46 @@ var MAP = (($)=>{
     let fakecanvas = document.createElement('canvas')
     let fakectx = fakecanvas.getContext('2d')
 
-    const COLOR_MULTIPLIER = 0.75
+    let shownMapWarning = true
 
     const MAP_ZERO_X = 16000
     const MAP_ZERO_Y = -4000
 
     const DEFAULT_COLORS = {
         ocean: {
-            r: 0,
-            g: 0,
-            b: 205,
+            r: 16,
+            g: 40,
+            b: 44,
             a: 255
         },
         shallows: {
-            r: 0,
-            g: 98,
-            b: 205,
+            r: 33,
+            g: 74,
+            b: 83,
             a: 255
         },
         land: {
-            r: 14,
-            g: 14,
-            b: 14,
+            r: 83,
+            g: 83,
+            b: 79,
             a: 255
         },
         grass: {
-            r: 27,
-            g: 103,
-            b: 5,
+            r: 65,
+            g: 74,
+            b: 47,
             a: 255
         },
         sand: {
-            r: 154,
-            g: 97,
-            b: 17,
+            r: 91,
+            g: 83,
+            b: 56,
             a: 255
         },
         snow: {
-            r: 205,
-            g: 205,
-            b: 205,
+            r: 102,
+            g: 102,
+            b: 102,
             a: 255
         }
     }
@@ -89,7 +89,8 @@ var MAP = (($)=>{
                 let data = imageData.data
                 for(let i = 0; i < data.length; i+=4 ){
 
-                    if(i == 50000){
+                    if(i == 50000 && shownMapWarning){
+                        shownMapWarning = false
                         setTimeout(()=>{
                             UTIL.hint("Warning", "Map drawing takes a long time, reduce zoom for better performance")
                         }, 1)
@@ -97,10 +98,10 @@ var MAP = (($)=>{
 
 
                     let color = colors[ bestMatchColor(data[i], data[i+1], data[i+2]) ]
-                    data[i] = color.r * COLOR_MULTIPLIER
-                    data[i+1] = color.g * COLOR_MULTIPLIER
-                    data[i+2] = color.b * COLOR_MULTIPLIER
-                    data[i+3] = color.a * COLOR_MULTIPLIER
+                    data[i] = color.r
+                    data[i+1] = color.g
+                    data[i+2] = color.b
+                    data[i+3] = color.a
                 }
 
                 fakectx.clearRect(0, 0, fakecanvas.width, fakecanvas.height)
@@ -194,6 +195,7 @@ var MAP = (($)=>{
     }
 
     function reset(){
+        shownMapWarning = true
         colors = $.extend({}, DEFAULT_COLORS)
     }
 
