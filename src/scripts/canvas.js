@@ -21,7 +21,7 @@ var CANVAS = ((global, $)=>{
     let renderCanvas
     let renderCtx
 
-    const RENDER_SCALING_FACTOR = 16 // if you increase the value, you need to adjust canvas limits (see #226)
+    const RENDER_SCALING_FACTOR = 2
 
     let top = 0
     let left = 0
@@ -121,8 +121,6 @@ var CANVAS = ((global, $)=>{
             $('#zoomfactor').attr('max', '20')
             $('.ide').before($('#monitor'))
         }
-
-        $renderCanvas = $('#render-canvas')
         
         refresh()
 

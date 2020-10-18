@@ -9,6 +9,8 @@ var PAINT = (()=>{
 
     let zoomFactor = 1
 
+    let offset = 0.5
+
     let lastColorUsed = false
 
     function setColor(r, g, b, a){
@@ -113,9 +115,9 @@ var PAINT = (()=>{
             let y2 = r * Math.sin(a + step) + y
 
             if(a === 0){
-                CANVAS.ctx().moveTo(CANVAS.left() + zoom(x1), CANVAS.top() + zoom(y1))
+                CANVAS.ctx().moveTo(CANVAS.left() + zoom(x1) + offset, CANVAS.top() + zoom(y1) + offset)
             }
-            CANVAS.ctx().lineTo(CANVAS.left() + zoom(x2), CANVAS.top() + zoom(y2))        
+            CANVAS.ctx().lineTo(CANVAS.left() + zoom(x2) + offset, CANVAS.top() + zoom(y2) + offset)        
         }
 
         CANVAS.ctx().fill()
@@ -125,23 +127,23 @@ var PAINT = (()=>{
     function drawRect(x, y, w, h){
         log()
         CANVAS.ctx().lineWidth = zoom(LINE_WIDTH)/2
-        CANVAS.ctx().strokeRect(CANVAS.left() + zoom(x), CANVAS.top() + zoom(y), zoom(w), zoom(h))
+        CANVAS.ctx().strokeRect(CANVAS.left() + zoom(x) + offset, CANVAS.top() + zoom(y) + offset, zoom(w), zoom(h))
     }
 
     function drawRectF(x, y, w, h){
         log()
         CANVAS.ctx().lineWidth = zoom(LINE_WIDTH)/2
-        CANVAS.ctx().fillRect(CANVAS.left() + zoom(x), CANVAS.top() + zoom(y), zoom(w), zoom(h))
+        CANVAS.ctx().fillRect(CANVAS.left() + zoom(x) + offset, CANVAS.top() + zoom(y) + offset, zoom(w), zoom(h))
     }
 
     function drawTriangle(x1, y1, x2, y2, x3, y3){
         log()
         CANVAS.ctx().lineWidth = zoom(LINE_WIDTH)/3
         CANVAS.ctx().beginPath()
-        CANVAS.ctx().moveTo(CANVAS.left() + zoom(x1), CANVAS.top() + zoom(y1))
-        CANVAS.ctx().lineTo(CANVAS.left() + zoom(x2), CANVAS.top() + zoom(y2))
-        CANVAS.ctx().lineTo(CANVAS.left() + zoom(x3), CANVAS.top() + zoom(y3))
-        CANVAS.ctx().lineTo(CANVAS.left() + zoom(x1), CANVAS.top() + zoom(y1))
+        CANVAS.ctx().moveTo(CANVAS.left() + zoom(x1) + offset, CANVAS.top() + zoom(y1) + offset)
+        CANVAS.ctx().lineTo(CANVAS.left() + zoom(x2) + offset, CANVAS.top() + zoom(y2) + offset)
+        CANVAS.ctx().lineTo(CANVAS.left() + zoom(x3) + offset, CANVAS.top() + zoom(y3) + offset)
+        CANVAS.ctx().lineTo(CANVAS.left() + zoom(x1) + offset, CANVAS.top() + zoom(y1) + offset)
         CANVAS.ctx().stroke()
         CANVAS.ctx().closePath()
 
@@ -151,10 +153,10 @@ var PAINT = (()=>{
         log()
         CANVAS.ctx().lineWidth = zoom(LINE_WIDTH)/3
         CANVAS.ctx().beginPath()
-        CANVAS.ctx().moveTo(CANVAS.left() + zoom(x1), CANVAS.top() + zoom(y1))
-        CANVAS.ctx().lineTo(CANVAS.left() + zoom(x2), CANVAS.top() + zoom(y2))
-        CANVAS.ctx().lineTo(CANVAS.left() + zoom(x3), CANVAS.top() + zoom(y3))
-        CANVAS.ctx().lineTo(CANVAS.left() + zoom(x1), CANVAS.top() + zoom(y1))
+        CANVAS.ctx().moveTo(CANVAS.left() + zoom(x1) + offset, CANVAS.top() + zoom(y1) + offset)
+        CANVAS.ctx().lineTo(CANVAS.left() + zoom(x2) + offset, CANVAS.top() + zoom(y2) + offset)
+        CANVAS.ctx().lineTo(CANVAS.left() + zoom(x3) + offset, CANVAS.top() + zoom(y3) + offset)
+        CANVAS.ctx().lineTo(CANVAS.left() + zoom(x1) + offset, CANVAS.top() + zoom(y1) + offset)
         CANVAS.ctx().fill()
         CANVAS.ctx().closePath()
     }
