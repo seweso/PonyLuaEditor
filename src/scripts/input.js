@@ -14,7 +14,7 @@ var INPUT = (($)=>{
 
     const SUPPORTED_INPUT_KEYS = ['e', 'q', 1, 2, 3, 4, 5, 6, 7, 8, 9, 'a', 'b', 'c', 'd', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
 
-    LOADER.on(LOADER.EVENT.ENGINE_READY, init)
+    LOADER.on(LOADER.EVENT.CANVAS_READY, init)
 
     function init(){
 

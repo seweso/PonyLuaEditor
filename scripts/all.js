@@ -14165,7 +14165,7 @@ var INPUT = (($)=>{
 
     const SUPPORTED_INPUT_KEYS = ['e', 'q', 1, 2, 3, 4, 5, 6, 7, 8, 9, 'a', 'b', 'c', 'd', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
 
-    LOADER.on(LOADER.EVENT.ENGINE_READY, init)
+    LOADER.on(LOADER.EVENT.CANVAS_READY, init)
 
     function init(){
 
@@ -15320,10 +15320,7 @@ var CANVAS = ((global, $)=>{
         } else if (ENGINE.isRunning() && !enableTouchscreenHintShown){
             enableTouchscreenHintShown = true
 
-            $('#enable-touchscreen-container').addClass('show_hint')
-            setTimeout(()=>{
-                $('#enable-touchscreen-container').removeClass('show_hint')
-            }, 2000)
+            UTIL.hint("Touchscreen not enabled", "In order to use the touchscreen functionality, enable the touchscreen in the settings tab.")
         }
     }
 

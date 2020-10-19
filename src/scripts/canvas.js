@@ -165,10 +165,7 @@ var CANVAS = ((global, $)=>{
         } else if (ENGINE.isRunning() && !enableTouchscreenHintShown){
             enableTouchscreenHintShown = true
 
-            $('#enable-touchscreen-container').addClass('show_hint')
-            setTimeout(()=>{
-                $('#enable-touchscreen-container').removeClass('show_hint')
-            }, 2000)
+            UTIL.hint("Touchscreen not enabled", "In order to use the touchscreen functionality, enable the touchscreen in the settings tab.")
         }
     }
 
