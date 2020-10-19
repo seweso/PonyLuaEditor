@@ -32,7 +32,7 @@ var LUA_EMULATOR = (($)=>{
 
 
         /* remove unsupported libraries */
-        for(let n of ["assert","collectcarbarge","dofile","error","_G","getmetatable","load","loadfile","pcall","rawequal","rawget","rawlen","rawset","select","setmetatable","type","_VERSION","xpcall",
+        for(let n of ["assert","collectgarbage","fengari","js","dofile","error","_G","getmetatable","load","loadfile","pcall","rawequal","rawget","rawlen","rawset","select","setmetatable","_VERSION","xpcall",
             "coroutine","require","package","utf8","io","os","debug"]){
             deleteGlobalVariable(n)
         }
