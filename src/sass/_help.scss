@@ -20,11 +20,12 @@
 		position: relative;
 		height: 95vh;
 		width: 95vw;
-		max-height: 600px;
+		max-height: 800px;
 		max-width: 1200px;
+		overflow-y: auto;
 		background: $light;
 		border-radius: 6px;
-		padding: 40px 40px 80px 40px;		
+		padding: 70px 40px 80px 40px;		
 
 		h2 {
 			text-align: center;
@@ -42,9 +43,24 @@
 			}
 		}		
 
+		ul {
+			list-style: none;
+			padding-left: 15px;
+
+			li {
+				margin-bottom: 5px;
+
+				.time {
+					color: $stormworks-blue;
+					font-weight: bold;
+					margin-right: 10px;
+				}
+			}
+		}
+
 		.close {
 			position: absolute;
-			bottom: 20px;
+			top: 20px;
 			left: 50%;
 			transform: translateX(-50%);
 			border: 1px solid $medium-dark;
