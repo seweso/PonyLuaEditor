@@ -7355,18 +7355,19 @@ STORAGE = (()=>{
     }
 
     function setFromShare(key, confJSON){
+
+        let parsedSettings = parseOrUndefined(confJSON.settings)
+        
         if(confJSON.version){
             if(confJSON.version === VERSION){
-                processStorage(confJSON.settings)
+                processStorage(parsedSettings)
             } else {
                 console.info('Storage: found old configuration, updating ...')
-                let updated = updateConfiguration(confJSON.settings, confJSON.version)
+                let updated = updateConfiguration(parsedSettings, confJSON.version)
                 processStorage(updated)
             }
         } else {
-            /* old shared information */    
-
-            let parsedSettings = parseOrUndefined(confJSON.settings)        
+            /* old shared information */
 
             setFromShare(key, {
                 version: '1',
