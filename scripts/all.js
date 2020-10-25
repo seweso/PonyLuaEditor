@@ -214,7 +214,7 @@ UTIL = (($)=>{
             h.remove()
         }, 1000 * 60)
 
-        let currView = UI.viewables()['viewable_hints'].focusSelf()
+        UI.viewables()['viewable_hints'].focusSelf()
     }
 
     return {
@@ -13956,6 +13956,7 @@ ENGINE = (($)=>{
         MAP.reset()
         PAINT._reset()
         EDITORS.resetErrorMarkers()
+        UI.viewables()['viewable_console'].focusSelf()
         console.log('running code...')
         try {
             let feng = fengari.load(code, null, LUA_EMULATOR.l())

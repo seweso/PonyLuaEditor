@@ -83,7 +83,7 @@ UTIL = (($)=>{
             h.remove()
         }, 1000 * 60)
 
-        let currView = UI.viewables()['viewable_hints'].focusSelf()
+        UI.viewables()['viewable_hints'].focusSelf()
     }
 
     return {

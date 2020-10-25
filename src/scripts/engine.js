@@ -238,6 +238,7 @@ ENGINE = (($)=>{
         MAP.reset()
         PAINT._reset()
         EDITORS.resetErrorMarkers()
+        UI.viewables()['viewable_console'].focusSelf()
         console.log('running code...')
         try {
             let feng = fengari.load(code, null, LUA_EMULATOR.l())
