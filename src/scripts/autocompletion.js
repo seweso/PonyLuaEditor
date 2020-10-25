@@ -37,7 +37,7 @@ class Autocomplete {
     getWordInFrontOfPosition(row, column){
         let line = this.editor.session.getLine(row)
         let lineUntilPosition = line.substring(0, column)
-        let matches = lineUntilPosition.match(/(.*[\s;\),\(\+\-\*\/\%\=])?([^\s\(]*)/)
+        let matches = lineUntilPosition.match(/(.*[\s;\),\(\+\-\*\/\%\=\[\]#])?([^\s\(]*)/)
         if(matches instanceof Array === false || matches.length !== 3){
             return ''
         }
