@@ -7487,6 +7487,8 @@ var SHARE = (($)=>{
     }
 
     function doCreate(){
+        ENGINE.saveCodesInStorage()
+
         REPORTER.report(REPORTER.REPORT_TYPE_IDS.shareCode)
 
         console.log('creating new share')
@@ -14151,7 +14153,8 @@ ENGINE = (($)=>{
         errorStop: errorStop,
         stop: stop,
         isRunning: ()=>{ return running },
-        pauseScript: pauseScript
+        pauseScript: pauseScript,
+        saveCodesInStorage: saveCodesInStorage
     }
 
 })(jQuery)

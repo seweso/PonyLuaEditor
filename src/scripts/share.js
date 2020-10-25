@@ -70,6 +70,8 @@ var SHARE = (($)=>{
     }
 
     function doCreate(){
+        ENGINE.saveCodesInStorage()
+
         REPORTER.report(REPORTER.REPORT_TYPE_IDS.shareCode)
 
         console.log('creating new share')

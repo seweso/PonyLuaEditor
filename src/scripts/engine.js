@@ -433,7 +433,8 @@ ENGINE = (($)=>{
         errorStop: errorStop,
         stop: stop,
         isRunning: ()=>{ return running },
-        pauseScript: pauseScript
+        pauseScript: pauseScript,
+        saveCodesInStorage: saveCodesInStorage
     }
 
 })(jQuery)
