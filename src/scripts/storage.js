@@ -172,10 +172,10 @@ STORAGE = (()=>{
 
         if(confJSON && confJSON.version){
             if(confJSON.version === VERSION){
-                processStorage(parsedSettings)
+                processStorage(confJSON)
             } else {
                 console.info('Storage: found old configuration, updating ...')
-                let updated = updateConfiguration(parsedSettings, confJSON.version)
+                let updated = updateConfiguration(confJSON, confJSON.version)
                 processStorage(updated)
             }
         } else {
