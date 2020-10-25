@@ -7385,7 +7385,7 @@ STORAGE = (()=>{
                 },
                 uibuilder: parseOrUndefined(confJSON.ui_builder),
                 editorFontSize: confJSON['editor-font-size'],
-                settings: {
+                settings: JSON.stringify({
                     timeBetweenTicks: parsedSettings && parsedSettings.general ? parsedSettings.general.timeBetweenTicks : undefined,
                     timeBetweenDraws: parsedSettings && parsedSettings.general ? parsedSettings.general.timeBetweenDraws : undefined,
                     zoomfactor: parsedSettings && parsedSettings.general ? parsedSettings.general.zoomfactor : undefined,
@@ -7394,7 +7394,7 @@ STORAGE = (()=>{
                     touchscreenEnabled: parsedSettings && parsedSettings.general ? parsedSettings.general.touchscreenEnabled : undefined,
                     touchscreenSecondaryEnabled: undefined,
                     layout: undefined
-                }
+                })
             })
         }
 
