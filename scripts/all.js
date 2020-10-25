@@ -7357,10 +7357,10 @@ STORAGE = (()=>{
     function setFromShare(key, confJSON){
         if(confJSON.version){
             if(confJSON.version === VERSION){
-                processStorage(confJSON)
+                processStorage(confJSON.settings)
             } else {
                 console.info('Storage: found old configuration, updating ...')
-                let updated = updateConfiguration(confJSON, confJSON.version)
+                let updated = updateConfiguration(confJSON.settings, confJSON.version)
                 processStorage(updated)
             }
         } else {
