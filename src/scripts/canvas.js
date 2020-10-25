@@ -426,6 +426,14 @@ var CANVAS = ((global, $)=>{
         renderCtx.fillRect(0, 0, renderCanvas.width, renderCanvas.height)
         renderCtx.restore()
 
+        ctx.save()        
+        ctx.fillStyle = '#000f'
+        ctx.closePath()
+        ctx.beginPath()
+        ctx.clearRect(0, 0, canvas.width, canvas.height)
+        ctx.fillRect(0, 0, canvas.width, canvas.height)
+        ctx.restore()
+
         zoomedCtx.save()
         zoomedCtx.fillStyle = '#000f'
         zoomedCtx.closePath()
