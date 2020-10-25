@@ -7357,8 +7357,8 @@ STORAGE = (()=>{
     function setFromShare(key, confJSON){
 
         let parsedSettings = parseOrUndefined(confJSON.settings)
-        
-        if(parsedSettings.version){
+
+        if(parsedSettings && parsedSettings.version){
             if(parsedSettings.version === VERSION){
                 processStorage(parsedSettings)
             } else {
