@@ -7255,7 +7255,7 @@ STORAGE = (()=>{
             },            
             uibuilder: localStorage.getItem('ui'),
             editorFontSize: localStorage.getItem('editor-font-size'),
-            settings: {
+            settings: JSON.stringify({
                 timeBetweenTicks: general.timeBetweenTicks,
                 timeBetweenDraws: general.timeBetweenDraws,
                 zoomfactor: general.zoomfactor,
@@ -7264,7 +7264,7 @@ STORAGE = (()=>{
                 touchscreenEnabled: general.touchscreenEnabled,
                 touchscreenSecondaryEnabled: undefined,
                 layout: undefined
-            }
+            })
         }
     }
 
