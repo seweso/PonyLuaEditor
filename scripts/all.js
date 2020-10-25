@@ -7358,12 +7358,12 @@ STORAGE = (()=>{
 
         let parsedSettings = parseOrUndefined(confJSON.settings)
         
-        if(confJSON.version){
-            if(confJSON.version === VERSION){
+        if(parsedSettings.version){
+            if(parsedSettings.version === VERSION){
                 processStorage(parsedSettings)
             } else {
                 console.info('Storage: found old configuration, updating ...')
-                let updated = updateConfiguration(parsedSettings, confJSON.version)
+                let updated = updateConfiguration(parsedSettings, parsedSettings.version)
                 processStorage(updated)
             }
         } else {
