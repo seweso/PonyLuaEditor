@@ -237,6 +237,7 @@ ENGINE = (($)=>{
         CANVAS.resetTouchpoints()
         MAP.reset()
         PAINT._reset()
+        EDITORS.resetErrorMarkers()
         console.log('running code...')
         try {
             let feng = fengari.load(code, null, LUA_EMULATOR.l())

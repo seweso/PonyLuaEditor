@@ -10802,6 +10802,10 @@ class Editor extends DynamicSizedViewableContent {
           type: "error"
         }])
     }
+
+    unmarkError(){
+        this.editor.getSession().setAnnotations([])
+    }
 }
 
 EDITORS = (()=>{
@@ -10897,6 +10901,12 @@ EDITORS = (()=>{
         }
     }
 
+    function resetErrorMarkers(){
+        for(let e of Object.keys(editors)){
+            editors[e].unmarkError()
+        }
+    }
+
     return {
         registerEditor: registerEditor,
         setActiveEditor: setActiveEditor,
@@ -10905,7 +10915,8 @@ EDITORS = (()=>{
         resize: resize,
         refreshCharacterCounts: refreshCharacterCounts,
         increaseEditorFontSize: increaseEditorFontSize,
-        decreaseEditorFontSize: decreaseEditorFontSize
+        decreaseEditorFontSize: decreaseEditorFontSize,
+        resetErrorMarkers: resetErrorMarkers
     }
 })()
 
@@ -13944,6 +13955,7 @@ ENGINE = (($)=>{
         CANVAS.resetTouchpoints()
         MAP.reset()
         PAINT._reset()
+        EDITORS.resetErrorMarkers()
         console.log('running code...')
         try {
             let feng = fengari.load(code, null, LUA_EMULATOR.l())
