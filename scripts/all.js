@@ -11021,7 +11021,7 @@ class Autocomplete {
 
         let code = this.editor.getValue()
         if(typeof code === 'string'){
-            let vars = [...code.matchAll(/[\s;]?([a-zA-Z0-9\.]+)[\s]*?=/g)]
+            let vars = [...code.matchAll(/[\s;]?([a-zA-Z0-9\._]+)[\s]*?=/g)]
             let functionHeads = [...code.matchAll(/function [\w]+[\s]*\([\s]*([^\)]+)[\s]*\)/g)]
             let functionArguments = []
             for(let fh of functionHeads){
