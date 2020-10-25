@@ -57,13 +57,13 @@ a:hover {
   color: tint(#0081cc, 10%); }
 
 body {
-  padding-top: 75px; }
+  padding-top: 60px; }
 
 #navigation {
   position: absolute;
   top: 0;
   left: 0;
-  height: 75px;
+  height: 60px;
   width: 100vw;
   z-index: 400;
   background: #090b0d;

@@ -546,13 +546,13 @@ a:hover {
     left: -99999999px; }
 
 body {
-  padding-top: 75px; }
+  padding-top: 60px; }
 
 #navigation {
   position: absolute;
   top: 0;
   left: 0;
-  height: 75px;
+  height: 60px;
   width: 100vw;
   z-index: 400;
   background: #090b0d;
@@ -877,7 +877,7 @@ body {
   display: flex;
   flex-direction: column;
   width: 50vw;
-  height: calc( ( 100vh - 75px - 60px ) / 2);
+  height: calc( ( 100vh - 60px - 40px ) / 2);
   background: #151719;
   color: #eaedf1;
   padding: 6px; }
@@ -1365,7 +1365,7 @@ body {
 .ide {
   position: relative;
   width: 100%;
-  height: calc(100vh - 75px);
+  height: calc(100vh - 60px);
   overflow: hidden;
   display: flex;
   flex-direction: column; }
@@ -1392,7 +1392,7 @@ body {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    height: 60px; }
+    height: 40px; }
     .ide .ide_bar .ide_controls {
       display: flex;
       flex-direction: row;
@@ -1408,7 +1408,8 @@ body {
           padding-right: 25px; }
         .ide .ide_bar .ide_controls .controls_group button {
           margin: 0;
-          padding: 6px 10px; }
+          padding: 6px 10px;
+          font-size: 14px; }
         .ide .ide_bar .ide_controls .controls_group button:not(:last-child) {
           margin-right: 10px; }
         .ide .ide_bar .ide_controls .controls_group:not(:last-child) {
@@ -1435,7 +1436,8 @@ body {
           .ide .ide_bar .ide_bar_right .ide_mode_switch input#ide-server-mode:checked + label[for="ide-server-mode"]:after {
             left: -6px; }
         .ide .ide_bar .ide_bar_right .ide_mode_switch label[for="ide-server-mode"] {
-          padding: 12px;
+          padding: 8px;
+          font-size: 12px;
           cursor: pointer; }
           .ide .ide_bar .ide_bar_right .ide_mode_switch label[for="ide-server-mode"]:before {
             content: 'Client\00a0\00a0\00a0\00a0\00a0Server';
@@ -1446,13 +1448,13 @@ body {
           .ide .ide_bar .ide_bar_right .ide_mode_switch label[for="ide-server-mode"]:after {
             content: '';
             position: absolute;
-            top: -6px;
+            top: -4px;
             left: 50%;
-            height: calc(100% + 8px);
-            width: calc(50% + 8px);
+            height: calc(100% + 4px);
+            width: calc(50% + 4px);
             background: #eaedf1;
-            border: 2px solid shade(#eaedf1, 50%);
-            border-radius: 12px;
+            border: 2px solid #757779;
+            border-radius: 6px;
             transition: all 0.3s ease 0s; }
       .ide .ide_bar .ide_bar_right .ide_stats {
         display: flex;
@@ -1462,7 +1464,8 @@ body {
         height: 100%;
         background: #363b40;
         padding: 6px 12px;
-        color: #eaedf1; }
+        color: #eaedf1;
+        font-size: 12px; }
         .ide .ide_bar .ide_bar_right .ide_stats > *:not(:last-child) {
           margin-bottom: 5px; }
         .ide .ide_bar .ide_bar_right .ide_stats #drawtime.warning, .ide .ide_bar .ide_bar_right .ide_stats #ticktime.warning {
@@ -1470,7 +1473,7 @@ body {
   .ide .ide_flex_view {
     position: relative;
     width: 100%;
-    height: calc(100vh - 75px - 60px); }
+    height: calc(100vh - 60px - 40px); }
   .ide [splitter] {
     position: absolute;
     background: var(--background-strong-accent-gradient);
@@ -1490,11 +1493,11 @@ body {
   .ide [splitter="vertical"] {
     left: calc(50vw - (6px / 2));
     top: 0;
-    height: calc(100vh - 75px - 60px);
+    height: calc(100vh - 60px - 40px);
     width: 8px;
     cursor: e-resize; }
   .ide [splitter="horizontal_left"], .ide [splitter="horizontal_right"] {
-    top: calc( ( 100vh - 75px - 60px ) / 2 - (6px / 2));
+    top: calc( ( 100vh - 60px - 40px ) / 2 - (6px / 2));
     height: 6px;
     width: calc(50vw - (6px / 2));
     cursor: n-resize; }

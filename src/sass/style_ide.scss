@@ -78,6 +78,7 @@
                 button {
                     margin: 0;
                     padding: 6px 10px;
+                    font-size: 14px;
                 }
 
                 button:not(:last-child) {
@@ -123,7 +124,8 @@
                 }
 
                 label[for="ide-server-mode"] {
-                    padding: 12px;
+                    padding: 8px;
+                    font-size: 12px;
                     cursor: pointer;
 
                     &:before {
@@ -137,13 +139,13 @@
                     &:after {
                         content: '';
                         position: absolute;
-                        top: -6px;
+                        top: -4px;
                         left: 50%;
-                        height: calc(100% + 8px);
-                        width: calc(50% + 8px);
+                        height: calc(100% + 4px);
+                        width: calc(50% + 4px);
                         background: $light;
-                        border: 2px solid shade($light, 50%);
-                        border-radius: 12px;
+                        border: 2px solid mix(black, $light, 50%);
+                        border-radius: 6px;
                         transition: all 0.3s ease 0s;
                     }
                 }
@@ -158,6 +160,7 @@
                 background: $medium-dark;
                 padding: 6px 12px;
                 color: $light;
+                font-size: 12px;
 
                 & > *:not(:last-child) {
                     margin-bottom: 5px;
