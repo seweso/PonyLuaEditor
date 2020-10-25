@@ -11212,7 +11212,7 @@ function AutocompletitionElement(completions, part, autocomplete){
             if(this.$list.find('.entry.selected').get(0)){
                 this.insertAutoCompletition( this.$list.find('.entry.selected').get(0).completition )
             } else {
-                this.closeAutocomplete()                
+                this.autocomplete.closeAutocomplete()                
             }
         } else {
             this.preventFocusOut = true
