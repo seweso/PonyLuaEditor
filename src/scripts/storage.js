@@ -67,7 +67,7 @@ STORAGE = (()=>{
             },            
             uibuilder: localStorage.getItem('ui'),
             editorFontSize: localStorage.getItem('editor-font-size'),
-            settings: JSON.stringify({
+            settings: {
                 timeBetweenTicks: general.timeBetweenTicks,
                 timeBetweenDraws: general.timeBetweenDraws,
                 zoomfactor: general.zoomfactor,
@@ -76,7 +76,7 @@ STORAGE = (()=>{
                 touchscreenEnabled: general.touchscreenEnabled,
                 touchscreenSecondaryEnabled: undefined,
                 layout: undefined
-            })
+            }
         }
     }
 
@@ -169,7 +169,7 @@ STORAGE = (()=>{
     function setFromShare(key, confJSON){
         let parsedSettings = parseOrUndefined(confJSON.settings)
 
-        if(parsedSettings && typeof parsedSettings.version === 'string'){
+        if(confJSON.version){
             if(parsedSettings.version === VERSION){
                 processStorage(parsedSettings)
             } else {
@@ -197,7 +197,7 @@ STORAGE = (()=>{
                 },
                 uibuilder: parseOrUndefined(confJSON.ui_builder),
                 editorFontSize: confJSON['editor-font-size'],
-                settings: JSON.stringify({
+                settings: {
                     timeBetweenTicks: parsedSettings && parsedSettings.general ? parsedSettings.general.timeBetweenTicks : undefined,
                     timeBetweenDraws: parsedSettings && parsedSettings.general ? parsedSettings.general.timeBetweenDraws : undefined,
                     zoomfactor: parsedSettings && parsedSettings.general ? parsedSettings.general.zoomfactor : undefined,
@@ -206,7 +206,7 @@ STORAGE = (()=>{
                     touchscreenEnabled: parsedSettings && parsedSettings.general ? parsedSettings.general.touchscreenEnabled : undefined,
                     touchscreenSecondaryEnabled: undefined,
                     layout: undefined
-                })
+                }
             })
         }
 
