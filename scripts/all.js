@@ -12841,12 +12841,6 @@ DOCUMENTATION_DEFINITION_SERVER = (()=>{
                         args: [{name: 'name', help: 'The orange text on the left'}, {name: 'message'}, {name: 'peer_id', optional: true}],
                         description: 'Sends a chat message. If you omit the argument peer_id, it will be sent to everyone. If it is specified, it will be sent to only the specified player'
                     },
-                    whisper: {
-                        type: TF,
-                        bugs: 'peer_id -1 is not working (even though it should send it to all)',
-                        args: [{name: 'peer_id'}, {name: 'message'}],
-                        description: 'Sends a chat message to only a specific player.'
-                    },
 
 
 
