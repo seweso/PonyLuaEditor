@@ -7370,7 +7370,7 @@ STORAGE = (()=>{
             /* old shared information */
 
             setFromShare(key, {
-                settings: {
+                settings: JSON.stringify({
                     version: '1',
                     editors: {
                         normal: confJSON.code,
@@ -7397,7 +7397,7 @@ STORAGE = (()=>{
                         touchscreenSecondaryEnabled: undefined,
                         layout: undefined
                     }
-                }
+                })
             })
         }
 
