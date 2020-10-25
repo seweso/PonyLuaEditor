@@ -170,43 +170,45 @@ STORAGE = (()=>{
 
         let parsedSettings = parseOrUndefined(confJSON.settings)
 
-        if(confJSON && confJSON.version){
-            if(confJSON.version === VERSION){
-                processStorage(confJSON)
+        if(parsedSettings && parsedSettings.version){
+            if(parsedSettings.version === VERSION){
+                processStorage(parsedSettings)
             } else {
                 console.info('Storage: found old configuration, updating ...')
-                let updated = updateConfiguration(confJSON, confJSON.version)
+                let updated = updateConfiguration(parsedSettings, parsedSettings.version)
                 processStorage(updated)
             }
         } else {
             /* old shared information */
 
             setFromShare(key, {
-                version: '1',
-                editors: {
-                    normal: confJSON.code,
-                    minified: confJSON.minified_code || ''
-                },
-                inputs: {
-                    bools: parsedSettings && parsedSettings.input ? parsedSettings.input.bools : undefined,
-                    numbers: parsedSettings && parsedSettings.input ? parsedSettings.input.numbers : undefined
-                },
-                properties: {
-                    bools: parsedSettings && parsedSettings.property ? parsedSettings.property.bools : undefined,
-                    numbers: parsedSettings && parsedSettings.property ? parsedSettings.property.numbers : undefined,
-                    texts: parsedSettings && parsedSettings.property ? parsedSettings.property.texts : undefined
-                },
-                uibuilder: parseOrUndefined(confJSON.ui_builder),
-                editorFontSize: confJSON['editor-font-size'],
                 settings: {
-                    timeBetweenTicks: parsedSettings && parsedSettings.general ? parsedSettings.general.timeBetweenTicks : undefined,
-                    timeBetweenDraws: parsedSettings && parsedSettings.general ? parsedSettings.general.timeBetweenDraws : undefined,
-                    zoomfactor: parsedSettings && parsedSettings.general ? parsedSettings.general.zoomfactor : undefined,
-                    monitorSize: parsedSettings && parsedSettings.general ? parsedSettings.general.monitorSize : undefined,
-                    showOverflow: parsedSettings && parsedSettings.general ? parsedSettings.general.showOverflow : undefined,
-                    touchscreenEnabled: parsedSettings && parsedSettings.general ? parsedSettings.general.touchscreenEnabled : undefined,
-                    touchscreenSecondaryEnabled: undefined,
-                    layout: undefined
+                    version: '1',
+                    editors: {
+                        normal: confJSON.code,
+                        minified: confJSON.minified_code || ''
+                    },
+                    inputs: {
+                        bools: parsedSettings && parsedSettings.input ? parsedSettings.input.bools : undefined,
+                        numbers: parsedSettings && parsedSettings.input ? parsedSettings.input.numbers : undefined
+                    },
+                    properties: {
+                        bools: parsedSettings && parsedSettings.property ? parsedSettings.property.bools : undefined,
+                        numbers: parsedSettings && parsedSettings.property ? parsedSettings.property.numbers : undefined,
+                        texts: parsedSettings && parsedSettings.property ? parsedSettings.property.texts : undefined
+                    },
+                    uibuilder: parseOrUndefined(confJSON.ui_builder),
+                    editorFontSize: confJSON['editor-font-size'],
+                    settings: {
+                        timeBetweenTicks: parsedSettings && parsedSettings.general ? parsedSettings.general.timeBetweenTicks : undefined,
+                        timeBetweenDraws: parsedSettings && parsedSettings.general ? parsedSettings.general.timeBetweenDraws : undefined,
+                        zoomfactor: parsedSettings && parsedSettings.general ? parsedSettings.general.zoomfactor : undefined,
+                        monitorSize: parsedSettings && parsedSettings.general ? parsedSettings.general.monitorSize : undefined,
+                        showOverflow: parsedSettings && parsedSettings.general ? parsedSettings.general.showOverflow : undefined,
+                        touchscreenEnabled: parsedSettings && parsedSettings.general ? parsedSettings.general.touchscreenEnabled : undefined,
+                        touchscreenSecondaryEnabled: undefined,
+                        layout: undefined
+                    }
                 }
             })
         }
