@@ -463,16 +463,16 @@ var PAINT = (()=>{
         log()
         CANVAS.ctx().closePath()
         CANVAS.ctx().beginPath()
-        CANVAS.ctx().clearRect(0, 0, CANVAS.renderWidth(), CANVAS.renderHeight())
-        drawRectF(0, 0, CANVAS.width(), CANVAS.height())
+        CANVAS.ctx().clearRect(0, 0, CANVAS.realWidth(), CANVAS.realHeight())
+        CANVAS.ctx().fillRect(0, 0, CANVAS.realWidth(), CANVAS.realHeight())
     }
 
     function drawLine(x1, y1, x2, y2){ 
         log()
         CANVAS.ctx().lineWidth = zoom(LINE_WIDTH)/2
         CANVAS.ctx().beginPath()
-        CANVAS.ctx().moveTo(CANVAS.left() + zoom(x1), CANVAS.top() + zoom(y1))
-        CANVAS.ctx().lineTo(CANVAS.left() + zoom(x2), CANVAS.top() + zoom(y2))
+        CANVAS.ctx().moveTo(CANVAS.left() + zoom(x1) - offset, CANVAS.top() + zoom(y1) - offset)
+        CANVAS.ctx().lineTo(CANVAS.left() + zoom(x2) - offset, CANVAS.top() + zoom(y2) - offset)
         CANVAS.ctx().stroke()
         CANVAS.ctx().closePath()
     }
@@ -501,9 +501,9 @@ var PAINT = (()=>{
             let y2 = r * Math.sin(a + step) + y
 
             if(a === 0){
-                CANVAS.ctx().moveTo(CANVAS.left() + zoom(x1), CANVAS.top() + zoom(y1))
+                CANVAS.ctx().moveTo(CANVAS.left() + zoom(x1) - offset, CANVAS.top() + zoom(y1) - offset)
             }
-            CANVAS.ctx().lineTo(CANVAS.left() + zoom(x2), CANVAS.top() + zoom(y2))        
+            CANVAS.ctx().lineTo(CANVAS.left() + zoom(x2) - offset, CANVAS.top() + zoom(y2) - offset)        
         }
 
         CANVAS.ctx().stroke()
@@ -534,9 +534,9 @@ var PAINT = (()=>{
             let y2 = r * Math.sin(a + step) + y
 
             if(a === 0){
-                CANVAS.ctx().moveTo(CANVAS.left() + zoom(x1) + offset, CANVAS.top() + zoom(y1) + offset)
+                CANVAS.ctx().moveTo(CANVAS.left() + zoom(x1) - offset, CANVAS.top() + zoom(y1) - offset)
             }
-            CANVAS.ctx().lineTo(CANVAS.left() + zoom(x2) + offset, CANVAS.top() + zoom(y2) + offset)        
+            CANVAS.ctx().lineTo(CANVAS.left() + zoom(x2) - offset, CANVAS.top() + zoom(y2) - offset)
         }
 
         CANVAS.ctx().fill()
@@ -546,23 +546,23 @@ var PAINT = (()=>{
     function drawRect(x, y, w, h){
         log()
         CANVAS.ctx().lineWidth = zoom(LINE_WIDTH)/2
-        CANVAS.ctx().strokeRect(CANVAS.left() + zoom(x) + offset, CANVAS.top() + zoom(y) + offset, zoom(w), zoom(h))
+        CANVAS.ctx().strokeRect(CANVAS.left() + zoom(x) - offset, CANVAS.top() + zoom(y) - offset, zoom(w), zoom(h))
     }
 
     function drawRectF(x, y, w, h){
         log()
         CANVAS.ctx().lineWidth = zoom(LINE_WIDTH)/2
-        CANVAS.ctx().fillRect(CANVAS.left() + zoom(x) + offset, CANVAS.top() + zoom(y) + offset, zoom(w), zoom(h))
+        CANVAS.ctx().fillRect(CANVAS.left() + zoom(x) - offset, CANVAS.top() + zoom(y) - offset, zoom(w), zoom(h))
     }
 
     function drawTriangle(x1, y1, x2, y2, x3, y3){
         log()
         CANVAS.ctx().lineWidth = zoom(LINE_WIDTH)/3
         CANVAS.ctx().beginPath()
-        CANVAS.ctx().moveTo(CANVAS.left() + zoom(x1) + offset, CANVAS.top() + zoom(y1) + offset)
-        CANVAS.ctx().lineTo(CANVAS.left() + zoom(x2) + offset, CANVAS.top() + zoom(y2) + offset)
-        CANVAS.ctx().lineTo(CANVAS.left() + zoom(x3) + offset, CANVAS.top() + zoom(y3) + offset)
-        CANVAS.ctx().lineTo(CANVAS.left() + zoom(x1) + offset, CANVAS.top() + zoom(y1) + offset)
+        CANVAS.ctx().moveTo(CANVAS.left() + zoom(x1) - offset, CANVAS.top() + zoom(y1) - offset)
+        CANVAS.ctx().lineTo(CANVAS.left() + zoom(x2) - offset, CANVAS.top() + zoom(y2) - offset)
+        CANVAS.ctx().lineTo(CANVAS.left() + zoom(x3) - offset, CANVAS.top() + zoom(y3) - offset)
+        CANVAS.ctx().lineTo(CANVAS.left() + zoom(x1) - offset, CANVAS.top() + zoom(y1) - offset)
         CANVAS.ctx().stroke()
         CANVAS.ctx().closePath()
 
@@ -572,10 +572,10 @@ var PAINT = (()=>{
         log()
         CANVAS.ctx().lineWidth = zoom(LINE_WIDTH)/3
         CANVAS.ctx().beginPath()
-        CANVAS.ctx().moveTo(CANVAS.left() + zoom(x1) + offset, CANVAS.top() + zoom(y1) + offset)
-        CANVAS.ctx().lineTo(CANVAS.left() + zoom(x2) + offset, CANVAS.top() + zoom(y2) + offset)
-        CANVAS.ctx().lineTo(CANVAS.left() + zoom(x3) + offset, CANVAS.top() + zoom(y3) + offset)
-        CANVAS.ctx().lineTo(CANVAS.left() + zoom(x1) + offset, CANVAS.top() + zoom(y1) + offset)
+        CANVAS.ctx().moveTo(CANVAS.left() + zoom(x1) - offset, CANVAS.top() + zoom(y1) - offset)
+        CANVAS.ctx().lineTo(CANVAS.left() + zoom(x2) - offset, CANVAS.top() + zoom(y2) - offset)
+        CANVAS.ctx().lineTo(CANVAS.left() + zoom(x3) - offset, CANVAS.top() + zoom(y3) - offset)
+        CANVAS.ctx().lineTo(CANVAS.left() + zoom(x1) - offset, CANVAS.top() + zoom(y1) - offset)
         CANVAS.ctx().fill()
         CANVAS.ctx().closePath()
     }
@@ -646,7 +646,7 @@ var PAINT = (()=>{
     /* helper functions */
 
     function zoom(val){
-        return Math.round(val) * CANVAS.RENDER_SCALING_FACTOR
+        return Math.round(val) * zoomFactor
     }
 
     function log(){
@@ -667,6 +667,10 @@ var PAINT = (()=>{
             console.log.apply(console, myargs)
         }
     }
+    
+    function setZoomFactor(_zoomFactor){
+        zoomFactor = _zoomFactor
+    }
 
     return {
         setColor: setColor,
@@ -680,6 +684,7 @@ var PAINT = (()=>{
         drawTriangleF: drawTriangleF,
         drawText: drawText,
         drawTextBox: drawTextBox,
+        setZoomFactor: setZoomFactor,
         _reset: _reset,
         _restoreLastColorUsed: _restoreLastColorUsed
     }
@@ -14071,7 +14076,6 @@ ENGINE = (($)=>{
 
         CANVAS.reset()
         LUA_EMULATOR.draw()
-        CANVAS.finalizeFrame()
 
         let end = new Date().getTime()
         let diff = end-begin
@@ -15181,19 +15185,7 @@ var CANVAS = ((global, $)=>{
     let enableTouchscreenHintShown = false
 
     let $canvas
-    let canvas
     let ctx
-    let contextScaled = false
-
-    let $renderCanvas
-    let renderCanvas
-    let renderCtx
-
-    let $zoomedCanvas
-    let zoomedCanvas
-    let zoomedCtx
-
-    const RENDER_SCALING_FACTOR = 1 // because of many problems!
 
     let top = 0
     let left = 0
@@ -15229,6 +15221,7 @@ var CANVAS = ((global, $)=>{
         $('#zoomfactor').on('change', ()=>{
             let val = $('#zoomfactor').val()
 
+            PAINT.setZoomFactor(val)
             setZoomFactor(val)
 
             $('.monitor_info .zoom').html(val+'x')
@@ -15520,19 +15513,8 @@ var CANVAS = ((global, $)=>{
     }
 
     function refresh(){
-        $canvas = $('#unzoomed-canvas')
-        canvas = $canvas.get(0)
-        ctx  = canvas.getContext('2d')
-
-
-        $renderCanvas = $('#render-canvas')
-        renderCanvas = $renderCanvas.get(0)
-        renderCtx  = renderCanvas.getContext('2d')
-
-        $zoomedCanvas = $('#canvas')
-        zoomedCanvas = $zoomedCanvas.get(0)
-        zoomedCtx  = zoomedCanvas.getContext('2d')
-
+        $canvas = $('#canvas')
+        ctx = $canvas.get(0).getContext('2d')
         recalculateCanvas()        
     }
 
@@ -15553,29 +15535,15 @@ var CANVAS = ((global, $)=>{
         top = overflowSize
         left = overflowSize
 
-        let unZoomedWidth = width + overflowSize * 2
-        let unZoomedHeight = height + overflowSize * 2
-
-        let zoomedWidth = dim.width + overflowSize * 2
-        let zoomedHeight = dim.height + overflowSize * 2
+        let canvasWidth = dim.width + overflowSize * 2
+        let canvasHeight = dim.height + overflowSize * 2
 
         ctx.save()
-        $canvas.get(0).width = unZoomedWidth
-        $canvas.get(0).height = unZoomedHeight
+        $canvas.get(0).width = canvasWidth
+        $canvas.get(0).height = canvasHeight
         ctx.restore()
 
-        renderCtx.save()
-        renderCanvas.width = unZoomedWidth * RENDER_SCALING_FACTOR
-        renderCanvas.height = unZoomedHeight * RENDER_SCALING_FACTOR
-        contextScaled = false
-        renderCtx.restore()
-
-        zoomedCtx.save()
-        zoomedCanvas.width = zoomedWidth
-        zoomedCanvas.height = zoomedHeight
-        zoomedCtx.restore()
-
-        $('#monitor').css({width: zoomedWidth, height: zoomedHeight})
+        $('#monitor').css({width: canvasWidth, height: canvasHeight})
         
         $('#overflow').css('display', showOverflow ? '' : 'none')
         PAINT._restoreLastColorUsed()
@@ -15585,30 +15553,8 @@ var CANVAS = ((global, $)=>{
         if(DO_LOG){
             console.log('resetting canvas')
         }
-        
-        renderCtx.save()
-        renderCtx.fillStyle = '#000f'
-        renderCtx.closePath()
-        renderCtx.beginPath()
-        renderCtx.clearRect(0, 0, renderCanvas.width, renderCanvas.height)
-        renderCtx.fillRect(0, 0, renderCanvas.width, renderCanvas.height)
-        renderCtx.restore()
 
-        ctx.save()        
-        ctx.fillStyle = '#000f'
-        ctx.closePath()
-        ctx.beginPath()
-        ctx.clearRect(0, 0, canvas.width, canvas.height)
-        ctx.fillRect(0, 0, canvas.width, canvas.height)
-        ctx.restore()
-
-        zoomedCtx.save()
-        zoomedCtx.fillStyle = '#000f'
-        zoomedCtx.closePath()
-        zoomedCtx.beginPath()
-        zoomedCtx.clearRect(0, 0, zoomedCanvas.width, zoomedCanvas.height)
-        zoomedCtx.fillRect(0, 0, zoomedCanvas.width, zoomedCanvas.height)
-        zoomedCtx.restore()
+        ctx.clearRect(0, 0, $canvas.get(0).width, $canvas.get(0).height)
     }
 
     function resetTouchpoints(){        
@@ -15654,30 +15600,11 @@ var CANVAS = ((global, $)=>{
         recalculateCanvas()
     }
 
-    function finalizeFrame(){        
-        if(!contextScaled){
-            contextScaled = true  
-
-            ctx.scale(1/RENDER_SCALING_FACTOR,1/RENDER_SCALING_FACTOR)          
-        }
-        ctx.imageSmoothingEnabled = false
-        ctx.drawImage(renderCanvas,0,0)
-
-        let showOverflow = $('#show-overflow').prop('checked')
-        let overflowSize = (showOverflow ? 32 : 0)
-
-        let dx = overflowSize - zoom(overflowSize)
-        let dy = overflowSize - zoom(overflowSize)
-        
-
-        zoomedCtx.imageSmoothingEnabled = false
-        zoomedCtx.drawImage(canvas, 0,0,canvas.width,canvas.height, dx,dy,zoom(canvas.width),zoom(canvas.height))
-    }
 
     return {
-        ctx: ()=>{return renderCtx},
-        top: ()=>{return top * RENDER_SCALING_FACTOR},
-        left: ()=>{return left * RENDER_SCALING_FACTOR},
+        ctx: ()=>{return ctx},
+        top: ()=>{return top},
+        left: ()=>{return left},
         width: ()=>{return width},
         height: ()=>{return height},
         realWidth: ()=>{
@@ -15686,17 +15613,9 @@ var CANVAS = ((global, $)=>{
         realHeight: ()=>{
             return $canvas.get(0).height
         },
-        renderWidth: ()=>{
-            return renderCanvas.width
-        },
-        renderHeight: ()=>{
-            return renderCanvas.height
-        },
-        RENDER_SCALING_FACTOR: RENDER_SCALING_FACTOR,
         reset: reset,
         refresh: refresh,
-        resetTouchpoints: resetTouchpoints,
-        finalizeFrame: finalizeFrame
+        resetTouchpoints: resetTouchpoints
     }
 
 })(window, jQuery)
