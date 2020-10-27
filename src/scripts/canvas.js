@@ -393,7 +393,7 @@ var CANVAS = ((global, $)=>{
 
         ctx.save()
         $canvas.get(0).width = unZoomedWidth
-        $canvas.get(0).height = zoomedHeight
+        $canvas.get(0).height = unZoomedHeight
         ctx.restore()
 
         renderCtx.save()
