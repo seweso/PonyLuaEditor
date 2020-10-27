@@ -25,7 +25,7 @@ var CANVAS = ((global, $)=>{
     let zoomedCanvas
     let zoomedCtx
 
-    const RENDER_SCALING_FACTOR = 2
+    const RENDER_SCALING_FACTOR = 1 // because of many problems!
 
     let top = 0
     let left = 0
