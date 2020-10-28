@@ -698,6 +698,8 @@ var MAP = (($)=>{
 
     const FONT_SIZE = 6
     const FONT = 'px "Lucida Console", Monaco, monospace'
+    
+    let zoomFactor = 1
 
     let fakecanvas = document.createElement('canvas')
     let fakectx = fakecanvas.getContext('2d')
@@ -808,7 +810,7 @@ var MAP = (($)=>{
                 }
             }
 
-            CANVAS.ctx().drawImage(fakecanvas, 0, 0, fakecanvas.width, fakecanvas.height, CANVAS.left(), CANVAS.top(), CANVAS.renderWidth() - CANVAS.left()*2, CANVAS.renderHeight() - CANVAS.top()*2)
+            CANVAS.ctx().drawImage(fakecanvas, 0, 0, fakecanvas.width, fakecanvas.height, CANVAS.left(), CANVAS.top(), zoom(CANVAS.width()), zoom(CANVAS.height()))
         } catch (err){
             console.error('error drawing map', err)
         }  
@@ -942,6 +944,14 @@ var MAP = (($)=>{
         return bestMatch
     }
 
+    function zoom(val){
+        return val * zoomFactor
+    }
+
+    function setZoomFactor(_zoomFactor){
+        zoomFactor = _zoomFactor
+    }
+
     function log(){
         if(!DO_LOG){
             return
@@ -971,6 +981,7 @@ var MAP = (($)=>{
         setMapColorSnow: setMapColorSnow,
         screenToMap: screenToMap,
         mapToScreen: mapToScreen,
+        setZoomFactor: setZoomFactor,
         reset: reset
     }
 
@@ -15224,6 +15235,7 @@ var CANVAS = ((global, $)=>{
             let val = $('#zoomfactor').val()
 
             PAINT.setZoomFactor(val)
+            MAP.setZoomFactor(val)
             setZoomFactor(val)
 
             $('.monitor_info .zoom').html(val+'x')

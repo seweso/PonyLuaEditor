@@ -50,6 +50,7 @@ var CANVAS = ((global, $)=>{
             let val = $('#zoomfactor').val()
 
             PAINT.setZoomFactor(val)
+            MAP.setZoomFactor(val)
             setZoomFactor(val)
 
             $('.monitor_info .zoom').html(val+'x')
