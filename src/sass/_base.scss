@@ -20,7 +20,7 @@ button {
     background: var(--color-accent-gradient);
     border: 1px solid var(--color-accent-gradient);
     border-radius: 3px;
-    color: var(--color-text-light);
+    color: var(--color-text-light-foreground);
     padding: 6px 18px;
     cursor: pointer;
     margin-bottom: 30px;
@@ -28,8 +28,8 @@ button {
     transition: all 0.2s ease 0s;
 
     &.special_button {
-        background: var(--color-special-1-gradient);
-        border: 1px solid var(--color-special-1);
+        background: var(--color-special-gradient);
+        border: 1px solid var(--color-special);
     }
 }
 
@@ -37,7 +37,7 @@ button:hover {
     background: var(--color-accent-gradient-hover);
 
     &.special_button {
-        background: var(--color-special-1-gradient-hover);
+        background: var(--color-special-gradient-hover);
     }
 }
 
@@ -45,10 +45,10 @@ button[disabled] {
     border-color: #dbdbdb;
     color: var(--color-text-disabled);
     cursor: not-allowed;
-    background: var(--color-disabled);
+    background: var(--color-accent-disabled);
 
     &.special_button {
-        background: var(--color-disabled-special);
+        background: var(--color-special-disabled);
     }
 }
 

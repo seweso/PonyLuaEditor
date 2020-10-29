@@ -19,12 +19,12 @@
             border: none;
             padding: 3px 4px 3px 15px;
             background: transparent;
-            color: var(--color-text-light);
+            color: var(--color-text-light-foreground);
             font-size: 20px;
             outline: none;
 
             &::placeholder {
-                color: var(--color-text-dark);
+                color: var(--color-text-dark-foreground);
             }
         }
 
@@ -43,7 +43,7 @@
         width: 100%;
         border-radius: 3px;
         background: var(--color-text-light-background);
-        color: var(--color-text-light);
+        color: var(--color-text-light-foreground);
 
         &:not(:last-child) {
             margin-bottom: 5px;
@@ -112,7 +112,7 @@
 
                         .arg_help_open {
                             margin-left: 6px;
-                            color: var(--color-text-light);
+                            color: var(--color-text-light-foreground);
                         }
 
                         .arg_help {
@@ -122,7 +122,7 @@
                             left: 0;
                             display: none;
                             background: var(--color-text-light-background);
-                            color: var(--color-text-light);
+                            color: var(--color-text-light-foreground);
                             padding: 6px;
                             min-width: 150px;
 
@@ -160,7 +160,7 @@
                         min-width: 150px;
                         padding: 6px;
                         background: var(--color-text-light-background);
-                        color: var(--color-text-light);
+                        color: var(--color-text-light-foreground);
                         font-size: 16px;
                     }
 

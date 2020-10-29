@@ -1,7 +1,7 @@
 .autocompletion_container {
     position: absolute;
     z-index: $z-index-autocompletion;
-    color: var(--color-text-light);
+    color: var(--color-text-light-foreground);
 }
 
 .autocompletition {

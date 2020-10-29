@@ -2,14 +2,14 @@
 .ide { 
     .value_list {
         min-width: 200px;
-        color: var(--color-text-dark);
+        color: var(--color-text-dark-foreground);
         padding: 5px 5px 0 5px;
         margin-bottom: 10px;
         border-radius: 6px;
 
         & > * {
             background: var(--color-text-light-background);
-            color: var(--color-text-light);
+            color: var(--color-text-light-foreground);
             border-radius: 3px;
             margin-bottom: 10px;
             
@@ -22,7 +22,6 @@
             display: flex;
             flex-direction: row;
             padding: 5px;
-            background: var(--background-accent-gradient);
             border-top-left-radius: 3px;
             border-top-right-radius: 3px;
             font-weight: bold;
@@ -39,7 +38,7 @@
 
                 button {
                     background: var(--color-text-dark-background);
-                    color: var(--color-text-dark);
+                    color: var(--color-text-dark-foreground);
                     padding: 0px 3px 3px 3px;
 
                     &:hover {
@@ -61,7 +60,7 @@
             font-size: 18px;
 
             &:hover {
-                color: var(--color-text-light);
+                color: var(--color-text-light-foreground);
             }
 
             &:not(:last-of-type) {
@@ -158,7 +157,7 @@
                 cursor: text;
                 transition: all 0.2s ease 0s;
                 width: calc(100% - 5px)!important;
-                color: var(--color-text-light);
+                color: var(--color-text-light-foreground);
             }
 
             &:after {
@@ -175,7 +174,7 @@
                 }
 
                 .user_label {
-                    border-color: var(--color-text-light);
+                    border-color: var(--color-text-light-foreground);
                 }
             }
         }

@@ -17,7 +17,7 @@
             border-top-left-radius: 3px;
             border-top-right-radius: 3px;
             background: var(--color-accent-gradient);
-            color: var(--color-text-light);
+            color: var(--color-text-light-foreground);
             cursor: pointer;
             padding: 5px;
             position: relative;
@@ -60,7 +60,7 @@
                 position: relative;
                 border-top-left-radius: 3px;
                 border-top-right-radius: 3px;
-                background: var(--color-special-1-gradient);
+                background: var(--color-special-gradient);
                 cursor: pointer;
                 padding: 5px;
             
@@ -98,7 +98,7 @@
     }
 
     .part_text {
-        color: var(--color-text-dark);
+        color: var(--color-text-dark-foreground);
     }
 
     .part_code {

@@ -6,7 +6,7 @@
     height: calc( ( 100vh - #{$navigation_height} - #{$ide_bar_height} ) / 2);
 
     background: var(--color-text-light-background);
-    color: var(--color-text-light);
+    color: var(--color-text-light-foreground);
     padding: 6px;
 
     .select {
@@ -15,12 +15,12 @@
         flex-wrap: wrap;
         width: calc(100% + 4px);
         background: var(--color-text-light-background);
-        color: var(--color-text-light);
+        color: var(--color-text-light-foreground);
         margin: -2px -2px 4px -2px;
 
         [select-viewable] {
             background: var(--color-accent-dark);
-            color: var(--color-text-lighter);
+            color: var(--color-text-lighter-foreground);
             cursor: pointer;
             padding: 0.25em 0.5em;
             margin: 4px;
@@ -43,13 +43,13 @@
             .moveto_choose {
                 box-shadow: $box-shadow;
                 background: var(--color-text-dark-background);
-                color: var(--color-text-dark);
+                color: var(--color-text-dark-foreground);
                 z-index: $z-index-moveto-choose;
 
                 .header {
                     padding: 6px 6px;
                     background: var(--color-text-light-background);
-                    color: var(--color-text-light);
+                    color: var(--color-text-light-foreground);
                     font-weight: bold;
                 }
 
@@ -62,7 +62,7 @@
                     }
 
                     &:not(:last-child) {
-                        border-bottom: 1px solid var(--color-text-dark);
+                        border-bottom: 1px solid var(--color-text-dark-foreground);
                     }
                 }
             }
@@ -74,7 +74,7 @@
 
         [select-viewable][select="true"] {
             background: var(--color-text-dark-background);
-            color: var(--color-text-dark);
+            color: var(--color-text-dark-foreground);
         }
     }
 

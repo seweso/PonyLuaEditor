@@ -44,7 +44,7 @@
             align-items: center;
             content: attr(loading-text);
             font-size: 40px;
-            color: var(--color-text-light);
+            color: var(--color-text-light-foreground);
             background: var(--color-text-light-background);
             z-index: $z-index-ide-deactivated;
         }
@@ -70,7 +70,7 @@
                 display: inline-block;
 
                 &:not(:last-child) {
-                    border-right: 1px solid var(--color-text-light);
+                    border-right: 1px solid var(--color-text-light-foreground);
                     padding-right: 25px;
                 }
 
@@ -112,7 +112,7 @@
                 background: var(--color-accent);
                 border: 1px solid;
                 border-radius: 6px;
-                color: var(--color-text-light);
+                color: var(--color-text-light-foreground);
 
                 input#ide-server-mode {
                     display: none;
@@ -142,7 +142,7 @@
                         left: 50%;
                         height: calc(100% + 4px);
                         width: calc(50% + 4px);
-                        background: var(--color-text-light);
+                        background: var(--color-text-light-foreground);
                         border: 2px solid var(--color-text-medium);
                         border-radius: 6px;
                         transition: all 0.3s ease 0s;
@@ -158,7 +158,7 @@
                 height: 100%;
                 background: var(--color-text-light-background);
                 padding: 6px 12px;
-                color: var(--color-text-light);
+                color: var(--color-text-light-foreground);
                 font-size: 12px;
 
                 & > *:not(:last-child) {

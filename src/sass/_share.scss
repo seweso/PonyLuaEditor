@@ -32,7 +32,7 @@
 
     .copy_share_to_clipboard {
         background: var(--color-text-light-background);
-        color: var(--color-text-light);
+        color: var(--color-text-light-foreground);
         padding: 5px 10px;
         border-radius: 3px;
         transition: all 0.2s ease 0s;
@@ -40,7 +40,7 @@
     
         &:hover {
             background: var(--color-text-dark-background);
-            color: var(--color-text-dark);
+            color: var(--color-text-dark-foreground);
         }
     }
 
@@ -48,7 +48,7 @@
         background: var(--color-text-light-background);
         border-radius: 3px;
         border: none;
-        color: var(--color-text-light);
+        color: var(--color-text-light-foreground);
         font-size: 12px;
         line-height: 16px;
         padding: 6px 6px;

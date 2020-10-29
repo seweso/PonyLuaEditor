@@ -84,7 +84,7 @@ body {
             }
 
             path#fill {
-                fill: #1c3146;
+                fill: var(--color-accent-dark);
             }
         }
 
@@ -99,7 +99,7 @@ body {
             height: 100%;
 
             span {
-                color: var(--color-text-light);
+                color: var(--color-text-light-foreground);
                 font-family: "Lucida Console", Monaco, monospace;
                 font-size: 40px;
                 font-weight: bold;
@@ -136,7 +136,7 @@ body {
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            color: var(--color-text-light);
+            color: var(--color-text-light-foreground);
             font-size: 20px;
 
             a {

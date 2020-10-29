@@ -7,23 +7,6 @@ $splitter_width: 6px;
 
 $box-shadow: 1px 1px 2px 2px #4b4b4b;
 
-
-
-/* colors 
-$red: #952424;
-
-$light: #eaedf1;
-$light-dark: #7e7e7e;
-
-$medium-dark: #363b40;
-$medium-darker: #1c3146;
-$dark: #151719;
-$very-dark: #090b0d;
-
-$warning: #ac3d31;
-*/
-
-
 /* z-index */
 $z-index-documentation-arg-help: 100;
 $z-index-documentation-hint: 100;
@@ -46,36 +29,30 @@ $z-index-ide-deactivated: 10000;
     --color-accent: #0081cc;
     --color-accent-light: #329ad6;
     --color-accent-dark: #1c3146;
+    --color-accent-disabled: #8297ac;
+    --color-accent-gradient: linear-gradient(13deg, #005282 0%, #287bab 100%);
+    --color-accent-gradient-hover: linear-gradient(13deg, #0067a3 0%, #329ad6 100%);
 
-    --color-special-1: #b80a66;
+    --color-special: #b80a66;
+    --color-special-disabled: #db84b2;
+    --color-special-gradient: linear-gradient(13deg, #930851 0%, #c63a84 100%);
+    --color-special-gradient-hover: linear-gradient(13deg, #490428 0%, #930851 100%);
 
     --color-highlight: #F0C53E;
 
-    --color-accent-gradient: linear-gradient(10deg, #005282 0%, #287bab 100%);
-    --color-accent-gradient-hover: linear-gradient(10deg, #0067a3 0%, #329ad6 100%);
-
-    --color-special-1-gradient: linear-gradient(13deg, #930851 0%, #c63a84 100%);
-    --color-special-1-gradient-hover: linear-gradient(13deg, #490428 0%, #930851 100%);
-
-    --color-special-2-gradient: linear-gradient(15deg, #002c43 0%, #325668 100%);
-
-    --color-text-lighter: #fff;
+    --color-text-lighter-foreground: #fff;
     --color-text-lighter-background: #363b40;
 
-    --color-text-light: #eee;
+    --color-text-light-foreground: #eee;
     --color-text-light-background: #151719;
 
     --color-text-medium: #999;
 
-    --color-text-dark: #222;
+    --color-text-dark-foreground: #222;
     --color-text-dark-background: #fff;
 
-    --color-text-darker: #090b0d;
+    --color-text-darker-foreground: #090b0d;
     --color-text-darker-background: #eee;
 
-    --color-disabled: #8297ac;
-    --color-disabled-special: #db84b2;
     --color-text-disabled: #898989;
-
-    --color-background-light: #7f95a1;
 }

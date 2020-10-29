@@ -24,7 +24,7 @@
 		max-width: 1200px;
 		overflow-y: auto;
 		background: var(--color-text-dark-background);
-		color: var(--color-text-dark);
+		color: var(--color-text-dark-foreground);
 		border-radius: 6px;
 		padding: 70px 40px 80px 40px;		
 
@@ -64,11 +64,11 @@
 			top: 20px;
 			left: 50%;
 			transform: translateX(-50%);
-			border: 1px solid var(--color-text-dark);
+			border: 1px solid var(--color-text-dark-foreground);
 			background: var(--color-text-dark-background);
 			border-radius: 10000px;
 			padding: 10px 20px;
-			color: var(--color-text-dark);
+			color: var(--color-text-dark-foreground);
 			cursor: pointer;
 			transition: all 0.2s ease 0s;
 
@@ -88,7 +88,7 @@
 	padding: 10px;
 	border-radius: 100000px;
 	background: var(--color-text-dark-background);
-	color: var(--color-text-dark);
+	color: var(--color-text-dark-foreground);
 	cursor: pointer;
 	transition: all 0.2s ease 0s;
 	margin-right: 20px;

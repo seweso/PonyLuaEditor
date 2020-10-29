@@ -8,7 +8,7 @@
     .hint {
         position: relative;
         background: var(--color-text-light-background);
-        color: var(--color-text-light);
+        color: var(--color-text-light-foreground);
         border-radius: 3px;
         width: 100%;
 
@@ -21,7 +21,7 @@
             padding: 6px 12px;
             margin: 0;
             background: #ac3d31;
-            color: var(--color-text-light);
+            color: var(--color-text-light-foreground);
             font-weight: bold;
             border-top-left-radius: 3px;
             border-top-right-radius: 3px;
@@ -33,7 +33,7 @@
             right: 5px;
             cursor: pointer;
             border-radius: 10000px;
-            color: var(--color-text-light);
+            color: var(--color-text-light-foreground);
             transition: all 0.3s ease 0s;
 
             &:hover {
@@ -43,7 +43,7 @@
 
         > div {
             padding: 10px;
-            color: var(--color-text-light);
+            color: var(--color-text-light-foreground);
         }
     }
 }
