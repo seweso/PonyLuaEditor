@@ -74,7 +74,7 @@ var MAP = (($)=>{
             let sx = centerx / METER_PER_MAP_PIXEL - sWidth/2
             let sy = centery / METER_PER_MAP_PIXEL - sHeight/2
 
-            if(!lastMap || lastMap.sWidth !== sWidth && lastMap.sHeight !== sHeight && lastMap.sx !== sx && lastMap.sy !== sy){
+            if(!lastMap || lastMap.sWidth !== sWidth || lastMap.sHeight !== sHeight || lastMap.sx !== sx || lastMap.sy !== sy){
                 /* only if something has changed then calculate a new map */
                 lastMap = {
                     sWidth: sWidth,
