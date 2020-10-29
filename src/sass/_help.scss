@@ -23,13 +23,14 @@
 		max-height: 800px;
 		max-width: 1200px;
 		overflow-y: auto;
-		background: $light;
+		background: var(--color-text-dark-background);
+		color: var(--color-text-dark);
 		border-radius: 6px;
 		padding: 70px 40px 80px 40px;		
 
 		h2 {
 			text-align: center;
-			color: $stormworks-blue;
+			color: var(--color-accent);
 			font-size: 25px;
 		}
 
@@ -51,7 +52,7 @@
 				margin-bottom: 5px;
 
 				.time {
-					color: $stormworks-blue;
+					color: var(--color-accent);
 					font-weight: bold;
 					margin-right: 10px;
 				}
@@ -63,15 +64,16 @@
 			top: 20px;
 			left: 50%;
 			transform: translateX(-50%);
-			border: 1px solid $medium-dark;
+			border: 1px solid var(--color-text-dark);
+			background: var(--color-text-dark-background);
 			border-radius: 10000px;
 			padding: 10px 20px;
-			color: $medium-dark;
+			color: var(--color-text-dark);
 			cursor: pointer;
 			transition: all 0.2s ease 0s;
 
 			&:hover {
-				background: $light-dark;
+				background: var(--color-text-darker-background);
 			}
 		}
 	}
@@ -85,8 +87,8 @@
 	height: 100%;
 	padding: 10px;
 	border-radius: 100000px;
-	background: $light;
-	color: $dark;
+	background: var(--color-text-dark-background);
+	color: var(--color-text-dark);
 	cursor: pointer;
 	transition: all 0.2s ease 0s;
 	margin-right: 20px;
@@ -102,6 +104,6 @@
 	}
 
 	&:hover {
-		background: $light-dark;
+		background: var(--color-text-darker-background);
 	}
 }

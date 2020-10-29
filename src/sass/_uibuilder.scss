@@ -1,17 +1,10 @@
 
 #ui-builder {
     border-radius: 3px;
-    color: #fff;
+    color: var(--color-text-light);
     padding: 10px;
     margin: 20px;
     position: relative;
-
-    h2 {
-        color: #bf5421;
-        margin: 0 0 20px 0;
-        padding-bottom: 10px;
-        border-bottom: 1px solid #444444;
-    }
 }
 
 #ui-builder-container {
@@ -31,7 +24,7 @@
     .element_list, .element_layer_list {
         max-height: 300px;
         overflow-y: scroll;
-        background: $dark;
+        background: var(--color-text-light-background);
     }
 
     .element_list .element {
@@ -41,7 +34,7 @@
     }
 
     .element_list .element:hover {
-        color: #bf5421;
+        color: var(--color-accent);
     }
 
     .canvas_container {
@@ -84,8 +77,8 @@
                 top: calc(100% + 5px);
                 display: flex;
                 flex-direction: column;
-                background: #fff;
-                color: #000;
+                background: var(--color-text-dark-background);
+                color: var(--color-text-dark);
                 font: 12px 'Helvetica', 'Arial', 'sans-serif';
                 border-radius: 3px;
                 padding-top: 10px;
@@ -96,8 +89,8 @@
                     right: 0;
                     line-height: 0;
                     padding: 7px 5px;
-                    background: #000;
-                    color: #fff;
+                    background: var(--color-text-light-background);
+                    color: var(--color-text-light);
                     border-bottom-left-radius: 5px;
                 }
 
@@ -152,7 +145,8 @@
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-        background: $dark;
+        background: var(--color-text-light-background);
+        color: var(--color-text-light);
         padding: 10px;
     
         .control {
@@ -168,7 +162,7 @@
             }
 
             &:hover {
-                color: #bf5421;
+                color: var(--color-accent);
             }
 
             > span {
@@ -177,23 +171,23 @@
         }
 
         &[mode="move"] .control.move {
-            color: #bf5421;
+            color: var(--color-accent);
         }
 
         &[mode="resize"] .control.resize {
-            color: #bf5421;
+            color: var(--color-accent);
         }
 
         &[mode="settings"] .control.settings {
-            color: #bf5421;
+            color: var(--color-accent);
         }
 
         &[mode="delete"] .control.delete {
-            color: #bf5421;
+            color: var(--color-accent);
         }
 
         &[mode="zindex"] .control.zindex {
-            color: #bf5421;
+            color: var(--color-accent);
         }
     }
 
@@ -209,7 +203,8 @@
             justify-content: space-between;
             margin: 3px;
             padding: 3px;
-            background: #222;
+            background: var(--color-text-light-background);
+            color: var(--color-text-light);
             border-radius: 3px;
             transition: background 0.5s ease 0s;
             
@@ -219,7 +214,7 @@
 
 
             &.light_up {
-                background: #888;
+                background: var(--color-text-dark-background);
             }
 
             .lcontrols {
@@ -254,10 +249,6 @@
             }
         }
     }
-}
-
-#ui-builder-code {
-    height: 300px;
 }
 
 #ui-builder-controls {

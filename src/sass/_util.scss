@@ -1,8 +1,8 @@
 .highlighted {
-    border: 1px solid red !important;
+    border: 1px solid var(--color-special-1) !important;
 }
 
 [view].highlighted {
     border: none !important;
-    background: red !important;
+    background: var(--color-special-1) !important;
 }

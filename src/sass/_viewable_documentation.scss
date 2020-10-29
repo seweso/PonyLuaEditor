@@ -10,7 +10,7 @@
         left: 5px;
         height: 40px;
         border-radius: 10000px;
-        background: $stormworks-blue;
+        background: var(--color-accent);
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -19,12 +19,12 @@
             border: none;
             padding: 3px 4px 3px 15px;
             background: transparent;
-            color: $light;
+            color: var(--color-text-light);
             font-size: 20px;
             outline: none;
 
             &::placeholder {
-                color: $medium-dark;
+                color: var(--color-text-dark);
             }
         }
 
@@ -42,8 +42,8 @@
         flex-direction: column;
         width: 100%;
         border-radius: 3px;
-        background: $dark;
-        color: $light;
+        background: var(--color-text-light-background);
+        color: var(--color-text-light);
 
         &:not(:last-child) {
             margin-bottom: 5px;
@@ -112,7 +112,7 @@
 
                         .arg_help_open {
                             margin-left: 6px;
-                            color: #fff;
+                            color: var(--color-text-light);
                         }
 
                         .arg_help {
@@ -121,7 +121,8 @@
                             top: 100%;
                             left: 0;
                             display: none;
-                            background: $medium-dark;
+                            background: var(--color-text-light-background);
+                            color: var(--color-text-light);
                             padding: 6px;
                             min-width: 150px;
 
@@ -158,7 +159,8 @@
                         z-index: $z-index-documentation-hint;
                         min-width: 150px;
                         padding: 6px;
-                        background: $medium-dark;
+                        background: var(--color-text-light-background);
+                        color: var(--color-text-light);
                         font-size: 16px;
                     }
 
@@ -193,7 +195,7 @@
 
             .returns {
                 font-weight: bold;
-                color: $light-dark;
+                color: var(--color-text-medium);
                 margin-bottom: 8px;
 
                 span {
@@ -207,14 +209,14 @@
 
             .bugs {
                 margin-top: 10px;
-                background: $red;
+                background: #952424;
                 color: #fff;
                 padding: 6px;
                 border-radius: 3px;
 
                 .heading {
                     background: #fff;
-                    color: $red;
+                    color: #952424;
                     padding: 3px 10px;
                     border-radius: 100000px;
                     font-weight: bold;
@@ -237,8 +239,8 @@
         &[lib="stormworks"] {
 
             .lib {
-                color: $stormworks-blue;
-                border-color: $stormworks-blue;
+                color: var(--color-accent);
+                border-color: var(--color-accent);
             }
         }
 

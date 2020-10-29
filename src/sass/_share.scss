@@ -31,24 +31,24 @@
     }
 
     .copy_share_to_clipboard {
-        background: #0004;
-        color: #fff;
+        background: var(--color-text-light-background);
+        color: var(--color-text-light);
         padding: 5px 10px;
         border-radius: 3px;
         transition: all 0.2s ease 0s;
         font-size: 16px;
     
         &:hover {
-            background: #fff4;
-            color: #000;
+            background: var(--color-text-lighter-background);
+            color: var(--color-text-lighter);
         }
     }
 
     .currentshare {
-        background: #000a;
+        background: var(--color-text-light-background);
         border-radius: 3px;
         border: none;
-        color: #fff;
+        color: var(--color-text-light);
         font-size: 12px;
         line-height: 16px;
         padding: 6px 6px;

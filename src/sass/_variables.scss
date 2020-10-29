@@ -9,9 +9,8 @@ $box-shadow: 1px 1px 2px 2px #4b4b4b;
 
 
 
-/* colors */
+/* colors 
 $red: #952424;
-$stormworks-blue: #0081cc;
 
 $light: #eaedf1;
 $light-dark: #7e7e7e;
@@ -22,8 +21,7 @@ $dark: #151719;
 $very-dark: #090b0d;
 
 $warning: #ac3d31;
-
-$hightlight: #F0C53E;
+*/
 
 
 /* z-index */
@@ -45,7 +43,40 @@ $z-index-ide-deactivated: 10000;
 /* css variables */
 
 :root {
-    --background-accent-gradient: linear-gradient(10deg, #2b4a6a 0%, #446483 100%);
-    --background-strong-accent-gradient: linear-gradient(10deg, #2b5a88 0%, #5e8dbb 100%);
-    --background-grey-gradient: linear-gradient(10deg, #666 0%, #888 100%);
+    --color-accent: #0081cc;
+    --color-accent-light: #329ad6;
+    --color-accent-dark: #1c3146;
+
+    --color-special-1: #b80a66;
+
+    --color-highlight: #F0C53E;
+
+
+    --color-accent-gradient: linear-gradient(10deg, #0067a3 0%, #329ad6 100%);
+    --color-accent-gradient-hover: linear-gradient(15deg, #66b3e0 0%, #0081cc 100%);
+
+    --color-special-1-gradient: linear-gradient(13deg, #930851 0%, #c63a84 100%);
+    --color-special-1-gradient-hover: linear-gradient(13deg, #490428 0%, #930851 100%);
+
+    --color-special-2-gradient: linear-gradient(15deg, #002c43 0%, #325668 100%);
+
+    --color-text-lighter: #fff;
+    --color-text-lighter-background: #363b40;
+
+    --color-text-light: #eee;
+    --color-text-light-background: #151719;
+
+    --color-text-medium: #aaa;
+
+    --color-text-dark: #222;
+    --color-text-dark-background: #fff;
+
+    --color-text-darker: #090b0d;
+    --color-text-darker-background: #eee;
+
+    --color-disabled: #8297ac;
+    --color-disabled-special: #db84b2;
+    --color-text-disabled: #898989;
+
+    --color-background-light: #7f95a1;
 }

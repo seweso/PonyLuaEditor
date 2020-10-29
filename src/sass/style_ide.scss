@@ -44,14 +44,14 @@
             align-items: center;
             content: attr(loading-text);
             font-size: 40px;
-            color: $light;
-            background: #000e;
+            color: var(--color-text-light);
+            background: var(--color-text-light-background);
             z-index: $z-index-ide-deactivated;
         }
     }
 
     .ide_bar {
-        background: grey;
+        background: var(--color-text-lighter-background);
         display: flex;
         flex-direction: row;
         justify-content: space-between;
@@ -68,10 +68,9 @@
             .controls_group {
                 padding: 5px;
                 display: inline-block;
-                color: $light;
 
                 &:not(:last-child) {
-                    border-right: 1px solid $light;
+                    border-right: 1px solid var(--color-text-light);
                     padding-right: 25px;
                 }
 
@@ -110,10 +109,10 @@
             .ide_mode_switch {
                 position: relative;
                 margin-right: 40px;
-                background: $stormworks-blue;
-                border: 1px solid $light;
+                background: var(--color-accent);
+                border: 1px solid;
                 border-radius: 6px;
-                color: $light;
+                color: var(--color-text-light);
 
                 input#ide-server-mode {
                     display: none;
@@ -143,8 +142,8 @@
                         left: 50%;
                         height: calc(100% + 4px);
                         width: calc(50% + 4px);
-                        background: $light;
-                        border: 2px solid mix(black, $light, 50%);
+                        background: var(--color-text-light);
+                        border: 2px solid var(--color-text-medium);
                         border-radius: 6px;
                         transition: all 0.3s ease 0s;
                     }
@@ -157,9 +156,9 @@
                 justify-content: center;
                 align-items: center;
                 height: 100%;
-                background: $medium-dark;
+                background: var(--color-text-light-background);
                 padding: 6px 12px;
-                color: $light;
+                color: var(--color-text-light);
                 font-size: 12px;
 
                 & > *:not(:last-child) {
@@ -181,9 +180,13 @@
 
     [splitter] {
         position: absolute;
-        background: var(--background-strong-accent-gradient);
-        border: 2px solid $dark;
+        background: var(--color-accent-gradient);
+        border: 2px solid #000;
         z-index: $z-index-splitter;
+
+        &:hover {
+            background: var(--color-accent-gradient-hover);            
+        }
 
         /* hack so the mouse is not leaving the splitter directly */
         &:after {

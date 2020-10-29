@@ -2,14 +2,14 @@
 .ide { 
     .value_list {
         min-width: 200px;
-        color: $dark;
+        color: var(--color-text-dark);
         padding: 5px 5px 0 5px;
         margin-bottom: 10px;
         border-radius: 6px;
 
         & > * {
-            background: $medium-darker;
-            color: $light;
+            background: var(--color-text-light-background);
+            color: var(--color-text-light);
             border-radius: 3px;
             margin-bottom: 10px;
             
@@ -38,12 +38,12 @@
                 }
 
                 button {
-                    background: $light;
-                    color: $dark;
+                    background: var(--color-text-dark-background);
+                    color: var(--color-text-dark);
                     padding: 0px 3px 3px 3px;
 
                     &:hover {
-                        background: $stormworks-blue;
+                        background: var(--color-accent);
                     }
                 }
             }
@@ -55,13 +55,13 @@
             line-height: 0;
             height: 20px;
             width: 20px;
-            background: $dark;
-            border: 1px solid $dark;
-            color:  $stormworks-blue;
+            background: var(--color-text-light-background);
+            border: 1px solid var(--color-text-light-background);
+            color:  var(--color-accent);
             font-size: 18px;
 
             &:hover {
-                color: $light;
+                color: var(--color-text-light);
             }
 
             &:not(:last-of-type) {
@@ -83,7 +83,7 @@
         }
 
         .bool .channel, .number .channel {
-            border: 1px solid $light;
+            border: 1px solid;
             border-radius: 10000px;
             padding: 2px;
             min-width: 1.5em;
@@ -158,7 +158,7 @@
                 cursor: text;
                 transition: all 0.2s ease 0s;
                 width: calc(100% - 5px)!important;
-                color: $light;
+                color: var(--color-text-light);
             }
 
             &:after {
@@ -171,11 +171,11 @@
 
             &:hover {
                 &:after {
-                    color: $stormworks-blue;
+                    color: var(--color-accent);
                 }
 
                 .user_label {
-                    border-color: $light;
+                    border-color: var(--color-text-light);
                 }
             }
         }

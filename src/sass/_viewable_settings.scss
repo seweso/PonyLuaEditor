@@ -4,7 +4,8 @@
 
     .setting {
     	margin-bottom: 5px;
-		background: #222;
+		background: var(--color-text-light-background);
+        color: var(--color-text-light);
 		padding: 6px;
 		border-radius: 3px;
 		display: flex;

@@ -14,7 +14,8 @@
     .inner {
         display: flex;
         flex-direction: column;
-        background: #e3e3e3;
+        background: var(--color-text-dark-background);
+        color: var(--color-text-dark);
         padding: 20px;
         border-radius: 3px;
         box-shadow: 2px 2px 3px #555;
@@ -22,7 +23,7 @@
 
     .title {
         margin: 0;
-        color: $stormworks-blue;
+        color: var(--color-accent);
         font-weight: bold;
         text-align: center;
     }

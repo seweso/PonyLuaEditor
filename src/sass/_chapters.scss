@@ -16,8 +16,8 @@
         .chapter_head {
             border-top-left-radius: 3px;
             border-top-right-radius: 3px;
-            background: linear-gradient(15deg, #002c43 0%, #325668 100%);
-            color: #fff;
+            background: var(--color-accent-gradient);
+            color: var(--color-text-light);
             cursor: pointer;
             padding: 5px;
             position: relative;
@@ -46,7 +46,6 @@
 
         &:not(.open) .chapter_body {
             display: none;
-            background: #7f95a1;
         }
 
         .section {
@@ -61,7 +60,7 @@
                 position: relative;
                 border-top-left-radius: 3px;
                 border-top-right-radius: 3px;
-                background: linear-gradient(15deg, #2150bf 0%, #3073a4 100%);
+                background: var(--color-special-1-gradient);
                 cursor: pointer;
                 padding: 5px;
             
@@ -85,7 +84,7 @@
                 display: flex;
                 flex-direction: column;
                 padding: 5px;
-                background: $light;
+                background: var(--color-text-dark-background);
 
                 & > * {
                     margin-bottom: 10px;
@@ -99,7 +98,7 @@
     }
 
     .part_text {
-        color: #222;
+        color: var(--color-text-dark);
     }
 
     .part_code {
