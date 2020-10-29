@@ -10,7 +10,7 @@ body {
     height: $navigation-height;
     width: 100vw;
     z-index: $z-index-navigation;
-    background: #222;
+    background: #090b0d;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -84,7 +84,7 @@ body {
             }
 
             path#fill {
-                fill: #222;
+                fill: #1c3146;
             }
         }
 

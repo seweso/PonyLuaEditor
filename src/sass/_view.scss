@@ -24,6 +24,7 @@
             cursor: pointer;
             padding: 0.25em 0.5em;
             margin: 4px;
+            transition: all 0.2s ease 0s;
 
             .moveto {
                 margin-left: 10px;
@@ -31,8 +32,12 @@
                 transition: all 0.2s ease 0s;
             }
 
-            &:hover .moveto {
-                opacity: 1;
+            &:hover {
+                background: var(--color-accent);
+
+                .moveto {
+                    opacity: 1;
+                }
             }
 
             .moveto_choose {

@@ -20,8 +20,8 @@ $warning: #ac3d31;
   --color-accent-dark: #1c3146;
   --color-special-1: #b80a66;
   --color-highlight: #F0C53E;
-  --color-accent-gradient: linear-gradient(10deg, #0067a3 0%, #329ad6 100%);
-  --color-accent-gradient-hover: linear-gradient(15deg, #66b3e0 0%, #0081cc 100%);
+  --color-accent-gradient: linear-gradient(10deg, #005282 0%, #287bab 100%);
+  --color-accent-gradient-hover: linear-gradient(10deg, #0067a3 0%, #329ad6 100%);
   --color-special-1-gradient: linear-gradient(13deg, #930851 0%, #c63a84 100%);
   --color-special-1-gradient-hover: linear-gradient(13deg, #490428 0%, #930851 100%);
   --color-special-2-gradient: linear-gradient(15deg, #002c43 0%, #325668 100%);
@@ -29,7 +29,7 @@ $warning: #ac3d31;
   --color-text-lighter-background: #363b40;
   --color-text-light: #eee;
   --color-text-light-background: #151719;
-  --color-text-medium: #aaa;
+  --color-text-medium: #999;
   --color-text-dark: #222;
   --color-text-dark-background: #fff;
   --color-text-darker: #090b0d;
@@ -98,7 +98,7 @@ body {
   height: 60px;
   width: 100vw;
   z-index: 400;
-  background: #222;
+  background: #090b0d;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -147,7 +147,7 @@ body {
         stroke-linejoin: miter;
         stroke-opacity: 1; }
       #navigation .center svg path#fill {
-        fill: #222; }
+        fill: #1c3146; }
     #navigation .center .content {
       z-index: 2;
       position: relative;
