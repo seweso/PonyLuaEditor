@@ -87,12 +87,12 @@ var INPUT = (($)=>{
     }
 
     function handleKeyDown(evt){
-        if(ENGINE.isRunning()){
+        if(ENGINE.isRunning() && CANVAS.mouseIsOverMonitor()){
             for(let k of Object.keys(bools)){
                 let b = bools[k]
                 if(evt.originalEvent.key === b.key){
-                    evt.preventDefault()
-                    evt.stopImmediatePropagation()
+                    //evt.preventDefault()
+                    //evt.stopImmediatePropagation()
 
                     if(b.type === 'push'){ /* push */
                         doSetBool(k, true)
@@ -103,12 +103,12 @@ var INPUT = (($)=>{
     }
 
     function handleKeyUp(evt){
-        if(ENGINE.isRunning()){
+        if(ENGINE.isRunning() && CANVAS.mouseIsOverMonitor()){
             for(let k of Object.keys(bools)){
                 let b = bools[k]
                 if(evt.originalEvent.key === b.key){
-                    evt.preventDefault()
-                    evt.stopImmediatePropagation()
+                    //evt.preventDefault()
+                    //evt.stopImmediatePropagation()
 
                     if(b.type === 'push'){ /* push */
                         doSetBool(k, false)
@@ -219,7 +219,7 @@ var INPUT = (($)=>{
             saveToStorage()
         })
 
-        keySelect = $('<div class="group"><span>Key</span><select></select></div>')
+        keySelect = $('<div class="group"><span>Key (must hover over monitor)</span><select></select></div>')
         for(let k of SUPPORTED_INPUT_KEYS){
             keySelect.find('select').append('<option value="' + k + '">' + k + '</option>')
         }

@@ -57,6 +57,20 @@ var CANVAS = ((global, $)=>{
             
             STORAGE.setConfiguration('settings.zoomfactor', val)
         })
+
+        $('#monitor-container').on('mouseenter', ()=>{
+            /* force focus away from the editors */
+            if(ENGINE.isRunning()){
+                EDITORS.getActiveEditor().editor.blur()
+            }
+        })
+
+        $('#monitor-container').on('mouseleave', ()=>{
+            /* force focus away from the editors */
+            if(ENGINE.isRunning()){
+                EDITORS.getActiveEditor().editor.focus()
+            }
+        })
         
         /* touchscreen */
         $('#monitor').on('mouseenter', ()=>{
@@ -95,7 +109,6 @@ var CANVAS = ((global, $)=>{
         $(window).on('keydown mousedown', handleKeyDown)
         $(window).on('keyup mouseup', handleKeyUp)
 
-
         let params = new URLSearchParams( document.location.search)
         let paramBigmonitor = params.get('bigmonitor')
         if(paramBigmonitor === 'true'){
@@ -131,31 +144,33 @@ var CANVAS = ((global, $)=>{
     }
 
     function handleKeyDown(evt){
-        if(ENGINE.isRunning() && $('#enable-touchscreen').prop('checked')){
-            if(evt.originalEvent.button === 0 && mouseIsOverMonitor){
-                evt.originalEvent.key = 'e'
-            }
-            if(evt.originalEvent.key === 'q' || evt.originalEvent.key === 'e'){
-                evt.preventDefault()
-                evt.stopImmediatePropagation()
-                if(touchpoints[0] && touchpoints[0].key === evt.originalEvent.key || touchpoints[1] && touchpoints[1].key === evt.originalEvent.key){
-                    return
+        if(mouseIsOverMonitor){
+            if(ENGINE.isRunning() && $('#enable-touchscreen').prop('checked')){
+                if(evt.originalEvent.button === 0){
+                    evt.originalEvent.key = 'e'
                 }
-                let pX = unzoom(mouseX - $('#monitor').offset().left - left)
-                let pY = unzoom(mouseY - $('#monitor').offset().top - top)
-                if(pX > 0 && pX < width && pY > 0 && pY < height){
-                    touchpoints.push({
-                        key: evt.originalEvent.key,
-                        x: pX,
-                        y: pY
-                    })
+                if(evt.originalEvent.key === 'q' || evt.originalEvent.key === 'e'){
+                    evt.preventDefault()
+                    evt.stopImmediatePropagation()
+                    if(touchpoints[0] && touchpoints[0].key === evt.originalEvent.key || touchpoints[1] && touchpoints[1].key === evt.originalEvent.key){
+                        return
+                    }
+                    let pX = unzoom(mouseX - $('#monitor').offset().left - left)
+                    let pY = unzoom(mouseY - $('#monitor').offset().top - top)
+                    if(pX > 0 && pX < width && pY > 0 && pY < height){
+                        touchpoints.push({
+                            key: evt.originalEvent.key,
+                            x: pX,
+                            y: pY
+                        })
+                    }
                 }
-            }
-            calculateTouchscreenInput()
-        } else if (ENGINE.isRunning() && !enableTouchscreenHintShown){
-            enableTouchscreenHintShown = true
+                calculateTouchscreenInput()
+            } else if (ENGINE.isRunning() && !enableTouchscreenHintShown){
+                enableTouchscreenHintShown = true
 
-            UTIL.hint("Touchscreen not enabled", "In order to use the touchscreen functionality, enable the touchscreen in the settings tab.")
+                UTIL.hint("Touchscreen not enabled", "In order to use the touchscreen functionality, enable the touchscreen in the settings tab.")
+            }
         }
     }
 
@@ -444,7 +459,10 @@ var CANVAS = ((global, $)=>{
         },
         reset: reset,
         refresh: refresh,
-        resetTouchpoints: resetTouchpoints
+        resetTouchpoints: resetTouchpoints,
+        mouseIsOverMonitor: ()=>{
+            return mouseIsOverMonitor
+        }
     }
 
 })(window, jQuery)
