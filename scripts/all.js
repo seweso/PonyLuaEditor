@@ -6077,7 +6077,7 @@ var LUA_EMULATOR = (($)=>{
         console.log.apply(console, ['LUA output:'].concat(args))
         let text = ''
         for(let arg of args){
-            text += luaToString(arg) + ' '
+            text += luaToString(arg, 3) + ' '
         }
         CONSOLE.print(text)
     }
@@ -6313,7 +6313,7 @@ var LUA_EMULATOR = (($)=>{
         }
     }
 
-    function luaToString(ob){//can we instead use fengari.lua.lua_tostring ???
+    function luaToString(ob, depth){//can we instead use fengari.lua.lua_tostring ???
         if(typeof ob === 'number'){
             return ob.toString()
         } else if(typeof ob === 'string'){
@@ -6333,15 +6333,15 @@ var LUA_EMULATOR = (($)=>{
                 }
                 let str = '{'
                 for(let k of Object.keys(ob)){
-                    str += luaToString(ob[k]) + ', '
+                    str += luaToString(ob[k], depth ? depth - 1 : 0) + ', '
                 }
                 return str.substring(0, str.length-2) + '}'
             } else {
                 let clean = {}
                 for(let k of Object.keys(ob)){
-                    clean[k] = ob[k].toString()//TODO this is not correct! but if not doing this we got infitine recursion (cycling)
+                    clean[k] = depth && depth > 0 ? luaToString(ob[k], depth - 1) : ob[k].toString()//TODO this is not correct! but if not doing this we got infitine recursion (cycling)
                 }
-                return JSON.stringify(clean, null, " ").replace(/\n/g, '').replace(/\s\s/g, ' ')
+                return JSON.stringify(clean, null, " ").replace(/\n/g, '').replace(/\s\s/g, ' ').replace(/\\"/g, '"')
             }      
         } else if (ob === null) {
             return 'nil'
