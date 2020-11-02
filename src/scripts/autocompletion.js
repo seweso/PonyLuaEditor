@@ -121,7 +121,7 @@ class Autocomplete {
                     })
                 }
             }
-            let functions = [...code.matchAll(/function[\s]+([a-zA-Z0-9\.]+)\(/g)]
+            let functions = [...code.matchAll(/function[\s]+([a-zA-Z0-9\.]+)\(([^\)]*)\)/g)]
 
             let that = this
 
@@ -133,6 +133,16 @@ class Autocomplete {
 
                 for(let m of matches){
                     let parts = m[1].split('.').reverse()
+
+                    let args = []
+
+                    if(typeof m[2] === 'string' && m[2] !== ''){
+                        let argMatches = m[2].split(',')
+                    
+                        for(let am of argMatches){
+                            args.push({name: am.trim()})
+                        }
+                    }
 
                     let documentPosition = that.editor.session.getDocument().indexToPosition(m.index+1, 0)
 
@@ -154,6 +164,9 @@ class Autocomplete {
                                     type: type,
                                     lib: 'user',
                                     description: 'Defined on LINE ' + (1 + documentPosition.row)
+                                }
+                                if(type == DOCUMENTATION.TF){
+                                    node[p].args = args
                                 }
                                 node = node[p]
                             }
