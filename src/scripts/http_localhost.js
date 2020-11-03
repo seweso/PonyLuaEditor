@@ -54,7 +54,7 @@ var HttpLocalhost = (($)=>{
 
 	function processResult(req, res){
 		if(typeof LUA_EMULATOR.getGlobalVariable('httpReply') === 'function'){
-			LUA_EMULATOR.callLuaFunction('httpReply', [req.port, req.url, res])	
+			LUA_EMULATOR.callLuaFunction('httpReply', [req.port, req.url, typeof res === 'string' ? res : JSON.stringify(res)])	
         }
 	}
 
