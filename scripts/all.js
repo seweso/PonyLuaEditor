@@ -5603,7 +5603,7 @@ var MAP = (($)=>{
 MINMAX = (()=>{
     "use strict";
 
-    const IDENTIFIERS_NOT_ALLOWED_TO_MINIFY = ['onTick', 'onDraw']
+    const IDENTIFIERS_NOT_ALLOWED_TO_MINIFY = ['onTick', 'onDraw', 'httpReply']
 
     let libraryIdentifiers = []
 
