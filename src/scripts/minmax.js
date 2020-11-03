@@ -125,7 +125,7 @@ MINMAX = (()=>{
                         let indexOfSingleQuote = minified.indexOf("'", i)
                         let indexOfDoubleQuote = minified.indexOf('"', i)
 
-                        type = indexOfSingleQuote < indexOfDoubleQuote ? 'single' : 'double'
+                        type = (indexOfSingleQuote > 0 && indexOfSingleQuote < indexOfDoubleQuote) ? 'single' : 'double'
                         indexOf = type == 'single' ? indexOfSingleQuote : indexOfDoubleQuote
                     }
 
@@ -139,12 +139,15 @@ MINMAX = (()=>{
                         } else {
                             lineBreakMinified += '\n' + ident(minified.substring(i, indexOf))
                         }
-                        let char = minified.charAt(indexOf-1)
-                        if(char !== '\\'){// check for \"
-                            if(inText){
-                                lineBreakMinified += (type == 'single' ? "'" : '"')
+
+                        if(inText){
+                            let char = minified.charAt(indexOf)
+                            if(char != '\\'){// check for \" and \'
+                                inText = false
                             }
-                            inText = !inText
+                            lineBreakMinified += (type == 'single' ? "'" : '"')
+                        } else {
+                            inText = true
                         }
 
                         i = indexOf + 1
