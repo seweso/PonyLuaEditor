@@ -37,7 +37,7 @@ var HttpLocalhost = (($)=>{
 	}
 
 	function makeRequest(req){
-		$.get(makeUrl(req)).done((res)=>{
+		$.get(makeUrl(req),{timeout: 1000 * 35}).done((res)=>{
 			processResult(req, res)
 		}).fail((xhr, res)=>{
 			if(xhr.status === 0){
