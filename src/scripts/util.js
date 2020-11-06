@@ -76,7 +76,7 @@ UTIL = (($)=>{
         h.find('.close').on('click', ()=>{
             h.remove()
         })
-        $('#hints-container').append(h)
+        $('#hints-container').prepend(h)
 
         /* automatically remove hints after 1 minute */
         setTimeout(()=>{
