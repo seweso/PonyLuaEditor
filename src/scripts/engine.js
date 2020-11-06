@@ -99,6 +99,29 @@ ENGINE = (($)=>{
                 evt.stopPropagation()
 
                 saveCodesInStorage()
+            } else if( evt.originalEvent.key === 'e' && (evt.originalEvent.ctrlKey || evt.originalEvent.metaKey)){
+                evt.preventDefault()
+                evt.stopPropagation()
+
+                if( ! running){
+                	start()
+                } else {
+                	if (paused){
+	                	unpauseScript()
+	                } else {
+	                	stop()
+	                }
+	            }
+            } else if( running && paused && evt.originalEvent.key === 'ArrowRight' && (evt.originalEvent.ctrlKey || evt.originalEvent.metaKey)){
+                evt.preventDefault()
+                evt.stopPropagation()
+
+                doStep()
+            } else if( running && ! paused && (evt.originalEvent.key === 'Pause' || evt.originalEvent.key === 'Cancel') && (evt.originalEvent.ctrlKey || evt.originalEvent.metaKey)){
+                evt.preventDefault()
+                evt.stopPropagation()
+
+                pauseScript()
             }
         })
 
