@@ -197,7 +197,8 @@ UTIL = (($)=>{
         })
     }
 
-    function hint(title, text){
+    /* custom_remove_time is optional (time in milliseconds) */
+    function hint(title, text, custom_remove_time){
         let h = $('<div class="hint"><span class="close icon-cancel-circle"></span><h4>'+title+'</h4><div>'+(text+'').replace('\n', '<br>')+'</div></div>')
         
         h.find('h4').on('click', ()=>{
@@ -209,10 +210,14 @@ UTIL = (($)=>{
         })
         $('#hints-container').prepend(h)
 
-        /* automatically remove hints after 1 minute */
+        if(typeof custom_remove_time !== 'number'){
+            /* remove hints after 30 seconds */
+            custom_remove_time = 1000 * 30
+        }
+
         setTimeout(()=>{
             h.remove()
-        }, 1000 * 60)
+        }, custom_remove_time)
 
         UI.viewables()['viewable_hints'].focusSelf()
     }
@@ -787,10 +792,10 @@ var MAP = (($)=>{
                 let data = imageData.data
                 for(let i = 0; i < data.length; i+=4 ){
 
-                    if(i == 50000 && shownMapWarning){
+                    if(i == 300000 && shownMapWarning){
                         shownMapWarning = false
                         setTimeout(()=>{
-                            UTIL.hint("Warning", "Map drawing takes a long time, reduce zoom for better performance")
+                            UTIL.hint("Warning", "Map drawing takes a long time, reduce zoom for better performance", 10 * 1000)
                         }, 1)
                     }
 

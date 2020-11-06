@@ -93,10 +93,10 @@ var MAP = (($)=>{
                 let data = imageData.data
                 for(let i = 0; i < data.length; i+=4 ){
 
-                    if(i == 50000 && shownMapWarning){
+                    if(i == 300000 && shownMapWarning){
                         shownMapWarning = false
                         setTimeout(()=>{
-                            UTIL.hint("Warning", "Map drawing takes a long time, reduce zoom for better performance")
+                            UTIL.hint("Warning", "Map drawing takes a long time, reduce zoom for better performance", 10 * 1000)
                         }, 1)
                     }
 
