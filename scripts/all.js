@@ -13875,11 +13875,15 @@ ENGINE = (($)=>{
                 evt.stopPropagation()
 
                 doStep()
-            } else if( running && ! paused && (evt.originalEvent.key === 'Pause' || evt.originalEvent.key === 'Cancel') && (evt.originalEvent.ctrlKey || evt.originalEvent.metaKey)){
+            } else if( running && (evt.originalEvent.key === 'p') && (evt.originalEvent.ctrlKey || evt.originalEvent.metaKey)){
                 evt.preventDefault()
                 evt.stopPropagation()
 
-                pauseScript()
+                if(paused){
+                	unpauseScript()
+                } else {
+                	pauseScript()
+                }
             }
         })
 
