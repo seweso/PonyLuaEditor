@@ -517,7 +517,7 @@ var PAINT = (()=>{
 
     function drawCircleF(x,y, r){
         log()
-        
+
         let lineSegments = 8
         if(r >= 20){
             lineSegments = 12
@@ -714,6 +714,9 @@ var MAP = (($)=>{
     const MAP_ZERO_X = 16000
     const MAP_ZERO_Y = -4000
 
+    const ZOOM_MIN = 0.1
+    const ZOOM_MAX = 50
+
     const DEFAULT_COLORS = {
         ocean: {
             r: 16,
@@ -883,18 +886,21 @@ var MAP = (($)=>{
     }
 
     function screenToMap(mapX, mapY, zoom, screenW, screenH, pixelX, pixelY){
-        let screenCenterX = screenW/2
-        let screenCenterY = screenH/2
-        let deltaPixelX = (pixelX - screenCenterX) / zoom
-        let deltaPixelY = (pixelY - screenCenterY) / zoom
-        return {emulatorUnpack: true, 0: METER_PER_MAP_PIXEL * deltaPixelX + mapX, 1: METER_PER_MAP_PIXEL * deltaPixelY + mapY}
+        let z = clamp(zoom, ZOOM_MIN, ZOOM_MAX) * 1000 / screenW * 2
+        
+        let worldX = (pixelX - screenW / 2) * z + mapX
+        let worldY = (- pixelY + screenH / 2 ) * z + mapY
+
+        return {emulatorUnpack: true, 0: worldX, 1: worldY}
     }
 
     function mapToScreen(mapX, mapY, zoom, screenW, screenH, worldX, worldY){
-        let pixelX = (worldX - mapX) * zoom / METER_PER_MAP_PIXEL + screenW/2
-        let pixelY = (worldY - mapY) * zoom / METER_PER_MAP_PIXEL + screenH/2
+        let z = clamp(zoom, ZOOM_MIN, ZOOM_MAX) * 1000 / screenW * 2
 
-        return {emulatorUnpack: true, 0: pixelX, 1: pixelY}
+        let screenX = (worldX - mapX) / z + screenW / 2
+        let screenY = - (worldY - mapY) / z + screenH / 2
+
+        return {emulatorUnpack: true, 0: screenX, 1: screenY}
     }
 
     function reset(){
@@ -947,6 +953,10 @@ var MAP = (($)=>{
             console.log('bestMatch for ', r, g, b, 'is', bestMatch)
         }
         return bestMatch
+    }
+
+    function clamp(v, min, max){
+        return  Math.min(Math.max(v, min), max)
     }
 
     function zoom(val){

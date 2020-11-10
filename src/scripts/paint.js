@@ -93,7 +93,7 @@ var PAINT = (()=>{
 
     function drawCircleF(x,y, r){
         log()
-        
+
         let lineSegments = 8
         if(r >= 20){
             lineSegments = 12
