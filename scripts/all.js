@@ -10801,13 +10801,13 @@ class Editor extends DynamicSizedViewableContent {
     refreshCharacterCount(){
         let chars = this.countCharacters(this.editor.getValue())
         
-        let max = STORAGE.getConfiguration('settings.servermode') ? 65536 : 4096
+        let max = STORAGE.getConfiguration('settings.servermode') ? 131072 : 4096
 
         this.viewable.dom.find('.charactercount').html(chars + '/' + max)
         if(chars >= max){
              this.viewable.dom.find('.charactercount').addClass('limit')
         } else {
-             this.dom.find('.charactercount').removeClass('limit')
+             this.viewable.dom.find('.charactercount').removeClass('limit')
         }
     }
 
