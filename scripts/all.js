@@ -13898,8 +13898,17 @@ YYY = (($)=>{
 
         ENGINE.refresh()
 
-        UTIL.hint('Important Change Notification', 'Due to weird drawing on Chrome (and other webkit browsers), i reverted the drawing algorithm back to the one you know from the old, orange Lua IDE. Sorry you Firefox users, you loose the new accuracy after just a few days :(')
-        UTIL.hint('New feature', 'More hotkeys (see help, top right, scroll down)')
+        UTIL.hint('Latest Changes', makeListText([
+            'detect infinite loops',
+            'offline version know checks for updates and notifies user',
+            'offline version can now use the share feature (if online and up to date)',
+            'input numbers can not only oszilate, but also rotate now',
+            'unminifier does not remove the "#" symbol'
+        ]))
+
+        function makeListText(entries){
+            return '<ul><li>' + entries.join('</li><li>') + '</li></ul>'
+        }
         
         LOADER.done(LOADER.EVENT.OTHERS_READY)
     }
