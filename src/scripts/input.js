@@ -287,6 +287,8 @@ var INPUT = (($)=>{
         let sliderstep
 
         let oscilatecheck
+        let rotatecheck
+        let directioncheck
 
         if(!config){
             let lastNumber = dom_numbers.find('.number').last()
@@ -300,7 +302,9 @@ var INPUT = (($)=>{
                 slidermin: lastNumber ? parseFloat(lastNumber.find('.slider_min').val().replace(',','.')) : -1,
                 slidermax: lastNumber ? parseFloat(lastNumber.find('.slider_max').val().replace(',','.')) : 1,
                 sliderstep: lastNumber ? parseFloat(lastNumber.find('.slider_step').val().replace(',','.')) : 0.01,
-                oscilatecheck: lastNumber ? lastNumber.find('.oscilate_check').prop('checked') : (typeof val === 'number' ? false : true)
+                oscilatecheck: lastNumber ? lastNumber.find('.oscilate_check').prop('checked') : (typeof val === 'number' ? false : true),
+                rotatecheck: lastNumber ? lastNumber.find('.rotate_check').prop('checked') : (typeof val === 'number' ? false : true),
+                directioncheck: lastNumber ? lastNumber.find('.direction_check').prop('checked') : (typeof val === 'number' ? false : true)
             }
         } else {
             /* backwards compatibility */
@@ -310,7 +314,7 @@ var INPUT = (($)=>{
                 }
             }
 
-            for(let x of ['slidercheck', 'oscilatecheck']){
+            for(let x of ['slidercheck', 'oscilatecheck', 'rotatecheck', 'directioncheck']){
                 if(typeof config[x] !== 'boolean'){
                     config[x] = $(config[x]).prop('checked')
                 }
@@ -340,7 +344,9 @@ var INPUT = (($)=>{
                 slidermin: parseFloat(slidermin.val().replace(',','.')),
                 slidermax: parseFloat(slidermax.val().replace(',','.')),
                 sliderstep: parseFloat(sliderstep.val().replace(',','.')),
-                oscilatecheck: oscilatecheck.prop('checked')
+                oscilatecheck: oscilatecheck.prop('checked'),
+                rotatecheck: rotatecheck.prop('checked'),
+                directioncheck: directioncheck.prop('checked')
             }
             number.find('.change input[type="range"], .change input[type="number"]').val(n).attr('step', numbers[label].sliderstep)
             number.find('.slidervalue').html(n)
@@ -412,12 +418,13 @@ var INPUT = (($)=>{
             }
         })
 
-        let oscilate = $('<div class="group"><div><input type="checkbox" class="oscilate_check"/><label>Use oscilate</label></div></div>')
+        let oscilate = $('<div class="group"><div><input type="checkbox" class="oscilate_check"/><label>Oscilate Value</label></div></div>')
         settings.append(oscilate)
         oscilatecheck = oscilate.find('.oscilate_check')
         oscilatecheck.on('input', ()=>{
             if(oscilatecheck.prop('checked')){
                 number.addClass('isoscilate')
+                rotatecheck.prop('checked', false).trigger('change')
             } else {
                 number.removeClass('isoscilate')
             }
@@ -425,15 +432,62 @@ var INPUT = (($)=>{
             saveToStorage()
         })
 
+        let rotate = $('<div class="group"><div><input type="checkbox" class="rotate_check"/><label>Rotate Value</label></div></div>')
+        settings.append(rotate)
+        rotatecheck = rotate.find('.rotate_check')
+        rotatecheck.on('input', ()=>{
+            if(rotatecheck.prop('checked')){
+                number.addClass('isrotate')
+                oscilatecheck.prop('checked', false).trigger('change')
+            } else {
+                number.removeClass('isrotate')
+            }
+            numbers[label].rotatecheck = rotatecheck.prop('checked')
+            saveToStorage()
+        })
+
+        let direction = $('<div class="group"><div><input type="checkbox" class="direction_check"/><label>Direction (positive)</label></div></div>')
+        settings.append(direction)
+        directioncheck = direction.find('.direction_check')
+        directioncheck.on('input', ()=>{
+            numbers[label].directioncheck = directioncheck.prop('checked')
+            saveToStorage()
+        })
+
+
 
         slidermin.val(config.slidermin).trigger('input')
         slidermax.val(config.slidermax).trigger('input')
         sliderstep.val(config.sliderstep).trigger('input')
         oscilatecheck.prop('checked', config.oscilatecheck).trigger('input')
+        rotatecheck.prop('checked', config.rotatecheck).trigger('input')
+        directioncheck.prop('checked', config.directioncheck).trigger('input')
 
-        let myOscilateDirection = true
+        number.append(settings)
 
-        $(window).on('lua_tick', ()=>{
+        dom_numbers.append(number)
+        refreshNumbersAddSelect()
+        sortNumbers()
+    }
+
+
+    $(window).on('lua_tick', doTick)
+
+    function doTick(){
+        dom_numbers.find('.number').each((i,el)=>{
+            let number = $(el)
+
+            let label = parseInt(number.attr('sort'))
+
+            let slidercheck = number.find('.slider_check')
+            let slidermin = number.find('.slider_min')
+            let slidermax = number.find('.slider_max')
+            let sliderstep = number.find('.slider_step')
+
+            let oscilatecheck = number.find('.oscilate_check')
+            let rotatecheck = number.find('.rotate_check')
+            let directioncheck = number.find('.direction_check')
+
             if(oscilatecheck.prop('checked')){
                 let val = number.find('.change input[type="number"]').val()
                 val = parseFloat(val)
@@ -447,15 +501,42 @@ var INPUT = (($)=>{
                     return
                 }
 
-                val = precise(myOscilateDirection ? val + step : val - step, step.toString().length - step.toString().indexOf('.'))
+                val = precise(directioncheck.prop('checked') ? val + step : val - step, step.toString().length - step.toString().indexOf('.'))
 
 
                 if(val >= slidermax.val()){
-                    myOscilateDirection = false
+                    directioncheck.prop('checked', false)
                     val = parseFloat(slidermax.val())
                 } else if (val <= slidermin.val()){
-                    myOscilateDirection = true
+                    directioncheck.prop('checked', true)
                     val = parseFloat(slidermin.val())
+                }
+                if(numbers[label]){
+                    numbers[label].val = val
+                }
+                number.find('.change input:not(.user_label)').val(val)
+                number.find('.slidervalue').html(val)
+                refreshNumbersAddSelect()
+            } else if(rotatecheck.prop('checked')){
+                let val = number.find('.change input[type="number"]').val()
+                val = parseFloat(val)
+                if(isNaN(val)){
+                    return
+                }
+
+                let step = sliderstep.val()
+                step = parseFloat(step)
+                if(isNaN(step)){
+                    return
+                }
+
+                val = precise(directioncheck.prop('checked') ? val + step : val - step, step.toString().length - step.toString().indexOf('.'))
+
+
+                if(val >= slidermax.val()){
+                    val = parseFloat(slidermin.val())
+                } else if (val <= slidermin.val()){
+                    val = parseFloat(slidermax.val())
                 }
                 if(numbers[label]){
                     numbers[label].val = val
@@ -465,13 +546,6 @@ var INPUT = (($)=>{
                 refreshNumbersAddSelect()
             }
         })
-
-
-        number.append(settings)
-
-        dom_numbers.append(number)
-        refreshNumbersAddSelect()
-        sortNumbers()
     }
 
     function precise(float, precision){
