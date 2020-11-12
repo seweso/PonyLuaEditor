@@ -33,7 +33,7 @@ var LUA_EMULATOR = (($)=>{
         })
 
 
-        fengari.lua.lua_sethook(l, onLuaFunctionCall, fengari.lua.LUA_MASKCALL | fengari.lua.LUA_MASKCOUNT, 1000)
+        fengari.lua.lua_sethook(l, onLuaFunctionCall, fengari.lua.LUA_MASKCOUNT, 1000)
 
 
         /* remove unsupported libraries */
