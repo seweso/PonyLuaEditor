@@ -6177,7 +6177,9 @@ var LUA_EMULATOR = (($)=>{
 
     let isInTick = false
     let isInDraw = false
-
+    let luaFunctionCalls = 0
+    let startTime = 0
+    
     let timer
 
     let stepCount = 0
@@ -6195,6 +6197,9 @@ var LUA_EMULATOR = (($)=>{
         makeFunctionAvailableInLua(function pause(){
             ENGINE.pauseScript()
         })
+
+
+        fengari.lua.lua_sethook(l, onLuaFunctionCall, fengari.lua.LUA_MASKCALL | fengari.lua.LUA_MASKCOUNT, 1000)
 
 
         /* remove unsupported libraries */
@@ -6528,9 +6533,10 @@ var LUA_EMULATOR = (($)=>{
             }
         }
 
+        let lastStackValue = convertLuaValue(l.stack[l.top-1])
 
-        console.error('LUA_EMULATOR.bluescreenError()', message, err, convertLuaValue(l.stack[l.top-1]))
-        CONSOLE.print(message + ' ' + err, CONSOLE.COLOR.ERROR)
+        console.error('LUA_EMULATOR.bluescreenError()', message, err, lastStackValue)
+        CONSOLE.print(message + ' ' + (err == 'nil' ? lastStackValue : err), CONSOLE.COLOR.ERROR)
         setTimeout(()=>{
             console.log('paint bluescreen error')
             PAINT.setColor(0,0,255, 255)
@@ -6551,7 +6557,7 @@ var LUA_EMULATOR = (($)=>{
 
             stepCount = 0
             
-            try {       
+            try {
                 l = fengari.lauxlib.luaL_newstate()
                 fengari.lua.lua_settop(l, 0)
 
@@ -6563,7 +6569,7 @@ var LUA_EMULATOR = (($)=>{
                 init()
 
                 fresh = true
-                fulfill() 
+                fulfill()
                 console.log('reseted lua vm', LUA_EMULATOR.getGlobalVariable('screen'))
             } catch (err){
                 console.error('error reseting lua vm', err)
@@ -6576,6 +6582,8 @@ var LUA_EMULATOR = (($)=>{
 
     function tick(){
         isInTick = true
+        luaFunctionCalls = 0
+        startTime = new Date().getTime()
         if(typeof getGlobalVariable('onTick') === 'function'){
           callLuaFunction('onTick')
         }
@@ -6583,11 +6591,22 @@ var LUA_EMULATOR = (($)=>{
     }
 
     function draw(){
-        isInDraw = true      
+        isInDraw = true
+        luaFunctionCalls = 0
+        startTime = new Date().getTime()
         if(typeof getGlobalVariable('onDraw') === 'function'){
           callLuaFunction('onDraw')
         }
         isInDraw = false
+    }
+
+    function onLuaFunctionCall(){
+        luaFunctionCalls ++
+        if(luaFunctionCalls > 100){
+            throw new Error('infinite loop')
+        } else if (startTime > 0 && new Date().getTime() - startTime > 1000){
+            throw new Error('execution time of 1000ms exceeded')
+        }
     }
 
     return {
