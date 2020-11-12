@@ -15,6 +15,16 @@ Generated with https://realfavicongenerator.net/
 
 ## Build Tools
 
+### git hooks for versioning
+
+after you cloned this repository, run
+```sh setup_git_hook.sh```
+
+This will enable the git hooks, so it sets the content of version.js to the current commit hash.
+
+You can always enfore it by doing a checkout on the current select branch (e.g. `git checkout master`)
+
+
 ### Gulp
 
 install gulp
