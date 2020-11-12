@@ -11346,7 +11346,7 @@ class Autocomplete {
 
         let top = cursor.top - containerpos.top
         let left = cursor.left - containerpos.left
-        if(left + $c.width() > $(window).width()){
+        if(left + $c.width() > this.codeField.width()){
             left = left - $c.width()
         }
 
@@ -11498,26 +11498,34 @@ AutocompletitionElement.prototype.select = function(index, scroll) {
         this.$descriptions.find('.description').hide()
         $('.description[aid="' + index + '"]').show()
 
-        $('.descriptions').css({
+        this.$descriptions.css({
             left: '100%',
             top: 0,
         })
 
-        let length = Math.max(this.$descriptions.find('.description[aid="' + index + '"] .text').html().length * 2, (this.$descriptions.find('.description[aid="' + index + '"] .name').html().length + 1 + this.$descriptions.find('.description[aid="' + index + '"] .args').html().length) * 3, this.$descriptions.find('.description[aid="' + index + '"] .lib_title').html().length * 3)
-        let width = length
-        if(width > 50){
-            width = $('body').width() * 0.9 - this.$list.get(0).getBoundingClientRect().right
-        }
+        let maxTotalWidth = this.autocomplete.codeField.get(0).getBoundingClientRect().right - this.$list.get(0).getBoundingClientRect().right - 20
+        let maxTotalHeight = this.autocomplete.codeField.get(0).getBoundingClientRect().bottom - this.$list.get(0).getBoundingClientRect().bottom - 20
 
-        if(width < this.$list.width() && length > 50){
-            width = this.$list.width()
+        if(maxTotalWidth < 200){
+            /* draw descriptions below list */
             this.$descriptions.css({
                 left: 0,
                 top: this.$list.height(),
+                width: this.$list.width(),
+                'max-width': this.$list.width(),
+                'max-height': maxTotalHeight
+
+            })
+        } else {
+            /* draw on the right */            
+            this.$descriptions.css({
+                width: maxTotalWidth,
+                'max-width': maxTotalWidth,
+                'max-height': maxTotalHeight
             })
         }
-        this.$descriptions.css('width', width)
     }
+
     if(scroll){
         let top = $('.entry[aid="0"]').outerHeight() * this.selected
         this.blockMouseEnter = true
