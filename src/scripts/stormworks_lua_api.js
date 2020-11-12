@@ -583,6 +583,10 @@ STORMWORKS_LUA_API = (($)=>{
                 fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 1, 'expected number')
                 return
             }
+            if(i%1 !== 0){
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 1, 'expected integer')
+                return
+            }
             return INPUT.getBool(i)
         }
         LUA_EMULATOR.makeFunctionAvailableInLua(getBool, 'input')
@@ -594,6 +598,10 @@ STORMWORKS_LUA_API = (($)=>{
             }
             if(typeof i !== 'number'){
                 fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 1, 'expected number')
+                return
+            }
+            if(i%1 !== 0){
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 1, 'expected integer')
                 return
             }
             return INPUT.getNumber(i)
@@ -612,6 +620,10 @@ STORMWORKS_LUA_API = (($)=>{
                 fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 1, 'expected number')
                 return
             }
+            if(i%1 !== 0){
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 1, 'expected integer')
+                return
+            }
             if(typeof val !== 'boolean'){
                 val = false
             }
@@ -626,6 +638,10 @@ STORMWORKS_LUA_API = (($)=>{
             }
             if(typeof i !== 'number'){
                 fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 1, 'expected number')
+                return
+            }
+            if(i%1 !== 0){
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 1, 'expected integer')
                 return
             }
             if(typeof val !== 'number'){
@@ -647,6 +663,10 @@ STORMWORKS_LUA_API = (($)=>{
                 fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 1, 'expected number')
                 return
             }
+            if(i%1 !== 0){
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 1, 'expected integer')
+                return
+            }
             if(typeof val !== 'boolean'){
                 val =  false
             }
@@ -661,6 +681,10 @@ STORMWORKS_LUA_API = (($)=>{
             }
             if(typeof i !== 'number'){
                 fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 1, 'expected number')
+                return
+            }
+            if(i%1 !== 0){
+                fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 1, 'expected integer')
                 return
             }
             if(typeof val !== 'number'){
