@@ -1,5 +1,5 @@
-.share {
-    display: inline-flex!important;
+.ide .ide_controls #share {
+    display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
@@ -9,15 +9,19 @@
         color: #fff;
         border-radius: 3px;
         cursor: pointer;
-        font-size: 20px;
         display: flex;
-        flex-direction: revert;
+        flex-direction: row;
         justify-content: center;
         align-items: center;
-    }    
+    }
+
+    .docreate {
+        font-size: 15px;
+    }
 
     .currentshare_container {
-        padding: 8px;    
+        padding: 8px;
+        font-size: 20px;
     }
 
     .currentshare {

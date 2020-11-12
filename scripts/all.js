@@ -5985,7 +5985,7 @@ VERSION_KEEPER = (()=>{
                 if(matches){
                     let onlineVersion = matches[1]
                 
-                    if(onlineData.version !== myVersion){
+                    if(onlineVersion !== myVersion){
                         onOutdated()
                     } else {
                         onUpToDate()
@@ -6002,6 +6002,8 @@ VERSION_KEEPER = (()=>{
     function onUnableToCheck(){
         UTIL.addNavigationHint('Unable to check version', 'warning')
         setState('Offline', '#000', '#fff')
+
+        $('#share').hide()
     }
 
     function onUpToDate(){
@@ -6012,6 +6014,8 @@ VERSION_KEEPER = (()=>{
     function onOutdated(){        
         UTIL.addNavigationHint('Version outdated. <a href="https://gitlab.com/stormworks-tools/editor/-/archive/master/editor-master.zip" download style="color: #fff; font-weight: bold">Download latest version here</a>', 'error')
         setState('Outdated', '#EA5151', '#fff')
+
+        $('#share').hide()
     }
 
     function setState(text, color_fill, color_text){

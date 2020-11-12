@@ -176,40 +176,42 @@ a:hover {
   border: none !important;
   background: var(--color-special) !important; }
 
-.share {
-  display: inline-flex !important;
+.ide .ide_controls #share {
+  display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   position: relative; }
-  .share .docreate, .share .currentshare_container {
+  .ide .ide_controls #share .docreate, .ide .ide_controls #share .currentshare_container {
     color: #fff;
     border-radius: 3px;
     cursor: pointer;
-    font-size: 20px;
     display: flex;
-    flex-direction: revert;
+    flex-direction: row;
     justify-content: center;
     align-items: center; }
-  .share .currentshare_container {
-    padding: 8px; }
-  .share .currentshare {
+  .ide .ide_controls #share .docreate {
+    font-size: 15px; }
+  .ide .ide_controls #share .currentshare_container {
+    padding: 8px;
+    font-size: 20px; }
+  .ide .ide_controls #share .currentshare {
     font-family: "Monaco", "Menlo", "Ubuntu Mono", "Consolas", "souce-code-pro", monospace; }
-  .share .more {
+  .ide .ide_controls #share .more {
     display: flex;
     flex-direction: row;
     overflow: hidden; }
-  .share .copy_share_to_clipboard {
+  .ide .ide_controls #share .copy_share_to_clipboard {
     background: var(--color-text-light-background);
     color: var(--color-text-light-foreground);
     padding: 5px 10px;
     border-radius: 3px;
     transition: all 0.2s ease 0s;
     font-size: 16px; }
-    .share .copy_share_to_clipboard:hover {
+    .ide .ide_controls #share .copy_share_to_clipboard:hover {
       background: var(--color-text-dark-background);
       color: var(--color-text-dark-foreground); }
-  .share .currentshare {
+  .ide .ide_controls #share .currentshare {
     background: var(--color-text-light-background);
     border-radius: 3px;
     border: none;
