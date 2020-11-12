@@ -211,15 +211,62 @@ UTIL = (($)=>{
         $('#hints-container').prepend(h)
 
         if(typeof custom_remove_time !== 'number'){
-            /* remove hints after 30 seconds */
+            /* remove hint after 30 seconds */
             custom_remove_time = 1000 * 30
         }
 
         setTimeout(()=>{
-            h.remove()
+            h.fadeOut(()=>{
+                h.remove()
+            })
         }, custom_remove_time)
 
         UI.viewables()['viewable_hints'].focusSelf()
+    }
+
+    /*
+        type defines the color
+    */
+    function addNavigationHint(text, type, custom_remove_time){
+        const TYPE_COLORS = {
+            error: {
+                fill: '#EA5151',
+                text: '#fff'
+            },
+            warning: {
+                fill: '#F2E132',
+                text: '#222'
+            },
+            success: {
+                fill: '#46C948',
+                text: '#fff'
+            },
+            neutral: {
+                fill: '#ddd',
+                text: '#222'
+            }
+        }
+
+        if(! TYPE_COLORS[type]){
+            console.error('invalid navigation hint type', type)
+            return
+        }
+
+        let h = $('<div class="navigation_hint" style="background-color: ' + TYPE_COLORS[type].fill + '; color: ' + TYPE_COLORS[type].text + '"></div>').html(text)
+
+        $('.navigation_hints').html('')
+        $('.navigation_hints').append(h)
+
+        if(typeof custom_remove_time !== 'number'){
+            /* remove hint after 10 seconds */
+            custom_remove_time = 1000 * 10
+        }
+
+        setTimeout(()=>{
+            h.fadeOut(()=>{
+                h.remove()
+            })
+        }, custom_remove_time)
     }
 
     return {
@@ -228,7 +275,8 @@ UTIL = (($)=>{
         message: message,
         confirm: confirm,
         alert: alert,
-        hint: hint
+        hint: hint,
+        addNavigationHint: addNavigationHint
     }
 })(jQuery)
 ;
@@ -5902,6 +5950,78 @@ MINMAX = (()=>{
         refresh: refresh
     }
 })()
+;
+VERSION_KEEPER = (()=>{
+    
+    let BASE_URL = 'https://lua.flaffipony.rocks'
+
+    LOADER.on(LOADER.EVENT.UI_READY, init)
+
+    function init(){
+        let isBeta = document.location.pathname.indexOf('/beta') === 0
+        let isOffline = document.location.host === 'lvh.me' || document.location.host === 'localhost' || document.location.protocol === 'file:'
+        let isOriginal = document.location.host === 'lua.flaffipony.rocks'
+
+        if(isOffline){
+            let s = document.createElement('script')
+            s.onload = checkVersion
+            s.onerror = onUnableToCheck
+            s.src = 'version.js'
+            document.body.appendChild(s)
+        } else if(isBeta){
+            setState('Beta', '#408DE3', '#fff')
+        } else if(!isOriginal){
+            setState('Weird domain ;)', '#F021D2', '#fff')
+        }
+    }
+
+    function checkVersion(){
+        $.get(BASE_URL + '/version.js').done((onlineData)=>{
+            if(typeof onlineData === 'string'){
+
+                let myVersion = window.PONY_IDE_VERSION
+
+                let matches = onlineData.match(/PONY_IDE_VERSION = "([^"]*)"/)
+                if(matches){
+                    let onlineVersion = matches[1]
+                
+                    if(onlineData.version !== myVersion){
+                        onOutdated()
+                    } else {
+                        onUpToDate()
+                    }
+                } else {
+                    onUnableToCheck()
+                }
+            } else {
+                onUnableToCheck()
+            }
+        }).fail(onUnableToCheck)
+    }
+
+    function onUnableToCheck(){
+        UTIL.addNavigationHint('Unable to check version', 'warning')
+        setState('Offline', '#000', '#fff')
+    }
+
+    function onUpToDate(){
+        UTIL.addNavigationHint('Version up to date', 'success')
+        setState('Online', '#46C948', '#fff')
+    }
+
+    function onOutdated(){        
+        UTIL.addNavigationHint('Version outdated. <a href="https://gitlab.com/stormworks-tools/editor/-/archive/master/editor-master.zip" download style="color: #fff; font-weight: bold">Download latest version here</a>', 'error')
+        setState('Outdated', '#EA5151', '#fff')
+    }
+
+    function setState(text, color_fill, color_text){
+        $('.version_state').html(text).css({
+            color: color_text,
+            'background-color': color_fill
+        }).show()
+    }
+})()
+
 ;
 HELP = (($)=>{
     "use strict";
@@ -13733,13 +13853,6 @@ YYY = (($)=>{
     LOADER.on(LOADER.EVENT.UI_READY, init)
 
     function init(){
-
-
-        if(!document.location.href || document.location.href.indexOf('file') >= 0 ||  document.location.href.indexOf('localhost') >= 0){
-            
-        }
-
-
         /* navigation menu */
         $('#menu-open, #navigation .center').on('click', ()=>{
             if($('#navigation').hasClass('open')){

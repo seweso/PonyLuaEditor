@@ -104,7 +104,18 @@ body {
     #navigation .left #menu-open {
       color: var(--color-accent);
       font-size: 45px;
-      cursor: pointer; }
+      cursor: pointer;
+      line-height: 41px; }
+    #navigation .left .version_state {
+      margin-left: 30px;
+      border-radius: 10000px;
+      border: 2px solid;
+      font-weight: bold;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      padding: 5px 15px; }
   #navigation .right {
     justify-content: flex-end; }
     #navigation .right .logo_container {
@@ -185,6 +196,36 @@ body {
         transform: translateY(-50%);
         background: var(--color-accent);
         border-radius: 100000px; }
+  #navigation .navigation_hints {
+    position: absolute;
+    top: 0;
+    left: 10vw;
+    height: 60px;
+    width: 80vw;
+    z-index: 2;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center; }
+    #navigation .navigation_hints .navigation_hint {
+      position: relative;
+      height: 90%;
+      max-width: 500px;
+      overflow-y: auto;
+      border: 2px solid #fff;
+      border-radius: 10000px;
+      padding: 8px 25px 8px 45px;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center; }
+      #navigation .navigation_hints .navigation_hint:before {
+        content: '\e91a';
+        font-family: 'Iconfont';
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%); }
 
 .http_extension_manual {
   background: #363b40;

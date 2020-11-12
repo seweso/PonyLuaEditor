@@ -44,6 +44,21 @@ body {
             color: var(--color-accent);
             font-size: 45px;
             cursor: pointer;
+
+            line-height: 41px;
+        }
+
+        .version_state {
+            margin-left: 30px;
+            border-radius: 10000px;
+            border: 2px solid;
+            font-weight: bold;
+
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            padding: 5px 15px;
         }
     }
 
@@ -157,6 +172,45 @@ body {
                 transform: translateY(-50%);
                 background: var(--color-accent);
                 border-radius: 100000px;
+            }
+        }
+    }
+
+    .navigation_hints {
+        position: absolute;
+        top: 0;
+        left: 10vw;
+        height: $navigation-height;
+        width: 80vw;
+        z-index: 2;
+
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+
+        .navigation_hint {
+            position: relative;
+            height: 90%;
+            max-width: 500px;
+            overflow-y: auto;
+
+            border: 2px solid #fff;
+            border-radius: 10000px;
+            padding: 8px 25px 8px 45px;
+            
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+
+            &:before {
+                content: '\e91a';
+                font-family: 'Iconfont';
+                position: absolute;
+                left: 15px;
+                top: 50%;
+                transform: translateY(-50%);
             }
         }
     }

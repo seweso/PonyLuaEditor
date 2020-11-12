@@ -80,15 +80,62 @@ UTIL = (($)=>{
         $('#hints-container').prepend(h)
 
         if(typeof custom_remove_time !== 'number'){
-            /* remove hints after 30 seconds */
+            /* remove hint after 30 seconds */
             custom_remove_time = 1000 * 30
         }
 
         setTimeout(()=>{
-            h.remove()
+            h.fadeOut(()=>{
+                h.remove()
+            })
         }, custom_remove_time)
 
         UI.viewables()['viewable_hints'].focusSelf()
+    }
+
+    /*
+        type defines the color
+    */
+    function addNavigationHint(text, type, custom_remove_time){
+        const TYPE_COLORS = {
+            error: {
+                fill: '#EA5151',
+                text: '#fff'
+            },
+            warning: {
+                fill: '#F2E132',
+                text: '#222'
+            },
+            success: {
+                fill: '#46C948',
+                text: '#fff'
+            },
+            neutral: {
+                fill: '#ddd',
+                text: '#222'
+            }
+        }
+
+        if(! TYPE_COLORS[type]){
+            console.error('invalid navigation hint type', type)
+            return
+        }
+
+        let h = $('<div class="navigation_hint" style="background-color: ' + TYPE_COLORS[type].fill + '; color: ' + TYPE_COLORS[type].text + '"></div>').html(text)
+
+        $('.navigation_hints').html('')
+        $('.navigation_hints').append(h)
+
+        if(typeof custom_remove_time !== 'number'){
+            /* remove hint after 10 seconds */
+            custom_remove_time = 1000 * 10
+        }
+
+        setTimeout(()=>{
+            h.fadeOut(()=>{
+                h.remove()
+            })
+        }, custom_remove_time)
     }
 
     return {
@@ -97,6 +144,7 @@ UTIL = (($)=>{
         message: message,
         confirm: confirm,
         alert: alert,
-        hint: hint
+        hint: hint,
+        addNavigationHint: addNavigationHint
     }
 })(jQuery)

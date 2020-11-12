@@ -8,13 +8,6 @@ YYY = (($)=>{
     LOADER.on(LOADER.EVENT.UI_READY, init)
 
     function init(){
-
-
-        if(!document.location.href || document.location.href.indexOf('file') >= 0 ||  document.location.href.indexOf('localhost') >= 0){
-            
-        }
-
-
         /* navigation menu */
         $('#menu-open, #navigation .center').on('click', ()=>{
             if($('#navigation').hasClass('open')){
