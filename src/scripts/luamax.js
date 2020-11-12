@@ -260,7 +260,7 @@
             operator = expression.operator;
             currentPrecedence = PRECEDENCE['unary' + operator];
 
-            result += formatExpression(expression.argument, {
+            result += operator + formatExpression(expression.argument, {
                     'precedence': currentPrecedence
                 })
 
