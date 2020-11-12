@@ -1514,7 +1514,7 @@ body {
           font-size: 12px;
           cursor: pointer; }
           .ide .ide_bar .ide_bar_right .ide_mode_switch label[for="ide-server-mode"]:before {
-            content: 'Client\00a0\00a0\00a0\00a0\00a0Server';
+            content: 'Vehicle\00a0\00a0\00a0\00a0\00a0Mission';
             display: inline-flex;
             height: 2em;
             flex-direction: row;
