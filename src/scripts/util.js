@@ -127,8 +127,8 @@ UTIL = (($)=>{
         $('.navigation_hints').append(h)
 
         if(typeof custom_remove_time !== 'number'){
-            /* remove hint after 10 seconds */
-            custom_remove_time = 1000 * 10
+            /* remove hint after 3 seconds */
+            custom_remove_time = 1000 * 3
         }
 
         setTimeout(()=>{
