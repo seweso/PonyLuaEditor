@@ -3,7 +3,7 @@ var SHARE = (($)=>{
     
     let currentShare
 
-    let BASE_URL = document.location.protocol + '//' + document.location.host
+    let BASE_URL = 'https://lua.flaffipony.rocks'
     
     LOADER.on(LOADER.EVENT.STORAGE_READY, init)
 

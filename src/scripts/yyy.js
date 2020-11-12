@@ -11,7 +11,7 @@ YYY = (($)=>{
 
 
         if(!document.location.href || document.location.href.indexOf('file') >= 0 ||  document.location.href.indexOf('localhost') >= 0){
-            $('#share').attr('style', 'display: none!important')
+            
         }
 
 

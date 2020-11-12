@@ -3,6 +3,8 @@ var GIVEAWAY = (($)=>{
 
     let currentGiveaway
 
+    let BASE_URL = 'https://lua.flaffipony.rocks'
+
     LOADER.on(LOADER.EVENT.PAGE_READY, init)
 
     function init(){
@@ -14,7 +16,7 @@ var GIVEAWAY = (($)=>{
             document.location.reload()
         })
 
-        $.getJSON('/api/has-giveaway').done((data)=>{
+        $.getJSON(BASE_URL + '/api/has-giveaway').done((data)=>{
             if(data.giveaway && data.giveaway.id && data.giveaway.message){
                 currentGiveaway = data.giveaway
                 $('#giveaway-container').find('.message').html(data.giveaway.message)
@@ -38,7 +40,7 @@ var GIVEAWAY = (($)=>{
                 $('#giveaway-container').find('.cancel, .send').hide()
                 $('#giveaway-container').find('.error').hide()
                 $('#giveaway-container').find('.progress').show()
-                $.post('/api/claim-giveaway', {
+                $.post(BASE_URL + '/api/claim-giveaway', {
                     id: currentGiveaway.id,
                     claimed_by: claimed_by
                 }).done(()=>{
