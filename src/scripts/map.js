@@ -72,7 +72,7 @@ var MAP = (($)=>{
             let centerx = MAP_ZERO_X + x
             let centery = - MAP_ZERO_Y - y
 
-            let z = clamp(zom, ZOOM_MIN, ZOOM_MAX) / 2
+            let z = clamp(zom, ZOOM_MIN, ZOOM_MAX)
             let sWidth = Math.max(CANVAS.width() * z, 1)
             let sHeight = Math.max(CANVAS.height() * z, 1)
             let sx = centerx / METER_PER_MAP_PIXEL - sWidth/2
@@ -188,7 +188,7 @@ var MAP = (($)=>{
     }
 
     function screenToMap(mapX, mapY, zoom, screenW, screenH, pixelX, pixelY){
-        let z = clamp(zoom, ZOOM_MIN, ZOOM_MAX) * 1000 / screenW * 2
+        let z = clamp(zoom, ZOOM_MIN, ZOOM_MAX) * 1000 / screenW
         
         let worldX = (pixelX - screenW / 2) * z + mapX
         let worldY = (- pixelY + screenH / 2 ) * z + mapY
@@ -197,7 +197,7 @@ var MAP = (($)=>{
     }
 
     function mapToScreen(mapX, mapY, zoom, screenW, screenH, worldX, worldY){
-        let z = clamp(zoom, ZOOM_MIN, ZOOM_MAX) * 1000 / screenW * 2
+        let z = clamp(zoom, ZOOM_MIN, ZOOM_MAX) * 1000 / screenW
 
         let screenX = (worldX - mapX) / z + screenW / 2
         let screenY = - (worldY - mapY) / z + screenH / 2
