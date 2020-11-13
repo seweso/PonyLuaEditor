@@ -72,8 +72,9 @@ var MAP = (($)=>{
             let centerx = MAP_ZERO_X + x
             let centery = - MAP_ZERO_Y - y
 
-            let sWidth = Math.max(CANVAS.width() * zom, 1)
-            let sHeight = Math.max(CANVAS.height() * zom, 1)
+            let z = clamp(zom, ZOOM_MIN, ZOOM_MAX) / 2
+            let sWidth = Math.max(CANVAS.width() * z, 1)
+            let sHeight = Math.max(CANVAS.height() * z, 1)
             let sx = centerx / METER_PER_MAP_PIXEL - sWidth/2
             let sy = centery / METER_PER_MAP_PIXEL - sHeight/2
 
