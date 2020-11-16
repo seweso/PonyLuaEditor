@@ -12682,13 +12682,13 @@ DOCUMENTATION_DEFINITION_CLIENT = (()=>{
                 children: {
                     setBool: {
                         type: TF,
-                        args: [{name: 'index'}],
-                        description: 'Sets the boolean value of the output composite on index to value. Index ranges from 1 - 32.'                        
+                        args: [{name: 'index'}, {name: 'val'}],
+                        description: 'Sets the boolean value of the output composite on index to value. Index ranges from 1 - 32. Val must be a boolean'
                     },
                     setNumber: {
                         type: TF,
-                        args: [{name: 'index'}],
-                        description: 'Sets the number value of the output composite on index to value. Index ranges from 1 - 32.'                        
+                        args: [{name: 'index'}, {name: 'val'}],
+                        description: 'Sets the number value of the output composite on index to value. Index ranges from 1 - 32. Val must be a number'
                     }
                 }
             },
