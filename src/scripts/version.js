@@ -23,7 +23,9 @@ VERSION_KEEPER = (()=>{
     }
 
     function checkVersion(){
-        $.get(BASE_URL + '/version.js').done((onlineData)=>{
+        $.get({
+            url: BASE_URL + '/version.js',
+            cache: false}).done((onlineData)=>{
             if(typeof onlineData === 'string'){
 
                 let myVersion = window.PONY_IDE_VERSION
