@@ -1,112 +1,7 @@
 var EXAMPLES = (($)=>{
   "use strict";
 
-	const CHAPTERS_EXAMPLE = [{
-		title: 'Touchscreen',
-		sections: [{
-			title: 'Draw circle where player klicks',
-			contents: [{
-				type: 'text',
-				content: 'A monitor has a composite output. When you connect that output to the lua script input you can read out interactions from the user.'
-			},{
-				type: 'code',
-				content: 'function onTick()\n	isPressed1 = input.getBool(1)\n	isPressed2 = input.getBool(2)\n	\n	screenWidth = input.getNumber(1)\n	screenHeight = input.getNumber(2)\n	\n	input1X = input.getNumber(3)\n	input1Y = input.getNumber(4)\n	input2X = input.getNumber(5)\n	input2Y = input.getNumber(6)\nend    \n	    \nfunction onDraw()\n	if isPressed1 then\n	    screen.setColor(0, 255, 0)\n	    screen.drawCircleF(input1X, input1Y, 4)\n	end\n	\n	if isPressed2 then\n	    screen.setColor(255, 0, 0)\n	    screen.drawCircleF(input2X, input2Y, 4)\n	end\n	\n	if isPressed1 and isPressed2 then\n	    screen.setColor(0, 0, 255)\n	    screen.drawLine(input1X, input1Y, input2X, input2Y)\n	end\nend\n'
-			},{
-				type: 'text',
-				content: 'It will draw a green circle at the position of the first press and a red circle at the position of the second press.\nIf both keys are pressed it will also draw a line between the red and green circle.'
-			}]
-		},{
-			title: 'Button Push and Toggle',
-			contents: [{
-				type: 'text',
-				content: 'A monitor has a composite output. When you connect that output to the lua script input you can read out interactions from the user.'
-			},{
-				type: 'text',
-				content: 'We need to define a hitbox and check if the player press is in that hitbox. Then we can set the buttons state. In the draw function we colorize the button depending on its state.\nIf the player now clicks on that hitbox (either with q or with e) it will push the button.'
-			},{
-				type: 'code',
-				content: 'buttonX = 0\nbuttonY = 0\nbuttonWidth = 12\nbuttonHeight = 6\nbuttonActive = false\n\n\nfunction onTick()\n	isPressed1 = input.getBool(1)\n	isPressed2 = input.getBool(2)\n	\n	screenWidth = input.getNumber(1)\n	screenHeight = input.getNumber(2)\n	\n	input1X = input.getNumber(3)\n	input1Y = input.getNumber(4)\n	input2X = input.getNumber(5)\n	input2Y = input.getNumber(6)\n	\n	if isPressed1 and input1X >= buttonX and input1X <= buttonX + buttonWidth and input1Y >= buttonY and input1Y <= buttonY + buttonHeight then\n	    buttonActive = true\n	elseif isPressed2 and input2X >= buttonX and input2X <= buttonX + buttonWidth and input2Y >= buttonY and input2Y <= buttonY + buttonHeight then\n	    buttonActive = true\n	else\n	    buttonActive = false\n	end\n	\n	output.setBool(1, buttonActive)\nend    \n	    \nfunction onDraw()\n	if buttonActive then\n	   screen.setColor(0,150,0) \n	else\n	   screen.setColor(10,10,10) \n	end\n	screen.drawRectF(buttonX, buttonY, buttonWidth, buttonHeight)\nend\n'
-			},{
-				type: 'text',
-				content: 'The button will light up green and the output channel 1 will be true when its active.'
-			},{
-				type: 'text',
-				content: 'A toggle button (supporting e and q) is a little bit different:'
-			},{
-				type: 'code',
-				content: 'buttonX = 0\nbuttonY = 0\nbuttonWidth = 12\nbuttonHeight = 6\nbuttonActive = false\n\nwasButton1Pressed = false\nwasButton2Pressed = false\n\nfunction onTick()\n	isPressed1 = input.getBool(1)\n	isPressed2 = input.getBool(2)\n	\n	screenWidth = input.getNumber(1)\n	screenHeight = input.getNumber(2)\n	\n	input1X = input.getNumber(3)\n	input1Y = input.getNumber(4)\n	input2X = input.getNumber(5)\n	input2Y = input.getNumber(6)\n	\n	if isPressed1 and input1X >= buttonX and input1X <= buttonX + buttonWidth and input1Y >= buttonY and input1Y <= buttonY + buttonHeight then\n	    wasButton1Pressed = true\n	elseif isPressed2 and input2X >= buttonX and input2X <= buttonX + buttonWidth and input2Y >= buttonY and input2Y <= buttonY + buttonHeight then\n	    wasButton2Pressed = true\n	end\n	\n	if not isPressed1 and wasButton1Pressed then\n	    wasButton1Pressed = false\n	    buttonActive = not buttonActive\n	end\n	\n	if not isPressed2 and wasButton2Pressed then\n	    wasButton2Pressed = false\n	    buttonActive = not buttonActive\n	end\n	\n	output.setBool(1, buttonActive)\nend    \n	    \nfunction onDraw()\n	if buttonActive then\n	   screen.setColor(0,150,0) \n	else\n	   screen.setColor(10,10,10) \n	end\n	screen.drawRectF(buttonX, buttonY, buttonWidth, buttonHeight)\nend\n'
-			}]
-		}]
-	},{
-		title: 'Instruments',
-		sections: [{
-			title: 'Flying - Altimeter',
-			contents: [{
-				type: 'text',
-				content: 'An instrument showing the altitude (meter or feet).'
-			},{
-				type: 'text',
-				content: 'The most important function is "rotatePoint()". It rotates an xy coordinate around another coordinate.'
-			},{
-				type: 'code',
-				content: 'height = 0\nwidth = 0\ncenterX = 0\ncenterY = 0\n\naltitude = 0\n\nunitAsFeet = false -- set to true to have units in feet\n\nfunction onTick()\n	altitude = input.getNumber(1)\n	if unitAsFeet then\n		altitude = altitude * 3.28084\n	end\nend\n\nfunction onDraw()\n	height = screen.getHeight()\n	width = screen.getWidth()\n	\n	min = math.min(height, width)\n	centerX = min/2\n	centerY = min/2\n	height = min - 2\n	width = min - 2\n	\n	-- draw lines grey\n	screen.setColor(30, 30, 30)\n	for i=0, math.pi*2, math.pi/15 do\n		p1 = rotatePoint(centerX, centerY, i, centerX, centerY+height/2)\n		p2 = rotatePoint(centerX, centerY, i, centerX, centerY+height/2.2)\n		screen.drawLine(p1.x, p1.y, p2.x, p2.y)\n	end\n	\n	-- draw lines white\n	screen.setColor(255, 255, 255)\n	for i=math.pi+0.01, math.pi*3, math.pi/5 do\n		p1 = rotatePoint(centerX, centerY, i, centerX, centerY+height/2)\n		p2 = rotatePoint(centerX, centerY, i, centerX, centerY+height/2.2)\n		screen.drawLine(p1.x, p1.y, p2.x, p2.y) \n	end\n	\n	-- draw numbers\n	counter = 0\n	for i=math.pi+0.01, math.pi*3, math.pi/5 do\n		p = rotatePoint(centerX, centerY, i, centerX, centerY+height/2.9)\n		screen.drawText(p.x-2, p.y-3, counter)\n		counter = counter+1\n	end\n	\n	-- draw inner circle\n	screen.drawCircle(centerX, centerY, width/4.5)\n	\n	-- draw 10.000m pointer\n	p10000 = altitude/10000\n	p = rotatePoint(centerX, centerY, math.pi + math.pi/5 * p10000, centerX, centerY+height/2.1)\n	screen.setColor(255,0,0)\n	screen.drawLine(centerX, centerY, p.x, p.y)\n	\n	-- draw 1000m pointer\n	p1000 = (altitude%10000)/1000\n	p = rotatePoint(centerX, centerY, math.pi + math.pi/5 * p1000, centerX, centerY+height/4.8)\n	screen.setColor(0,255,0)\n	screen.drawLine(centerX, centerY, p.x, p.y)\n	\n	-- draw 100m pointer\n	p100 = (altitude%1000)/100\n	p = rotatePoint(centerX, centerY, math.pi + math.pi/5 * p100, centerX, centerY+height/3)\n	screen.setColor(0,0,255)\n	screen.drawLine(centerX, centerY, p.x, p.y)\nend\n\nfunction rotatePoint(cx, cy, angle, px, py)\n	s = math.sin(angle);\n	c = math.cos(angle);\n\n	--translate point back to origin:\n	px = px - cx;\n	py = py - cy;\n\n	-- rotate point\n	xnew = px * c - py * s;\n	ynew = px * s + py * c;\n\n	-- translate point back:\n	px = xnew + cx;\n	py = ynew + cy;\n	return {x=px, y=py}\nend\n'
-			},{
-				type: 'text',
-				content: 'The red line is the x10000 meter/feet value, the green line is the x1000 meter/feet value, the blue line is the x100 meter/feet value.\nHow to read the current altitude:\nred value x 10000 + green value x 1000 + blue value x 100'
-			}]
-		},{
-			title: 'Flying - Airspeed',
-			contents: [{
-				type: 'text',
-				content: 'An instrument showing the speed (m/s, km/h or mph).'
-			},{
-				type: 'text',
-				content: 'The function "rotatePoint()" rotates an xy coordinate around another coordinate.\nThe function "clear" draws black triangles to create the arcs.'
-			},{
-				type: 'code',
-				content: 'height = 0\nwidth = 0\ncenterX = 0\ncenterY = 0\n\nspeed = 0\n\nflapsDownStallSpeed = 40 -- bottom of white arc\nflapsUpStallSpeed = 50 -- bottom of green arc\nmaxFlapsExtendSpeed = 80 -- top of white arc\nmaxStructuralCruisingSpeed = 130 -- top of green arc\nneverExceedSpeed = 160 -- top of yellow arc\n\nspeedForWholeCircle = 250\n\nunit = "m/s" -- set to "m/s", "km/h" or "mph"\n\nfunction onTick()\n	speed = input.getNumber(1)\n	if unit == "km/h" then\n		speed = speed * 3.6\n	elseif unit == "mph" then\n		speed = speed * 2.23694\n	end\nend\n\nfunction onDraw()\n	height = screen.getHeight()\n	width = screen.getWidth()\n	\n	min = math.min(height, width)\n	centerX = min/2\n	centerY = min/2\n	height = min - 2\n	width = min - 2\n	\n	\n	-- draw white arc\n	screen.setColor(255,255,255)\n	screen.drawCircleF(centerX, centerY, width/2.2)\n	screen.setColor(0,0,0)\n	screen.drawCircleF(centerX, centerY, width/2.4)\n	\n	clear(math.pi + (maxFlapsExtendSpeed/speedForWholeCircle)*math.pi*2, math.pi + (flapsDownStallSpeed/speedForWholeCircle)*math.pi*2, width)\n	\n	-- draw green arc\n	screen.setColor(0,200,0)\n	screen.drawCircleF(centerX, centerY, width/2.4)\n	screen.setColor(0,0,0)\n	screen.drawCircleF(centerX, centerY, width/2.6)\n	\n	clear(math.pi + (maxStructuralCruisingSpeed/speedForWholeCircle)*math.pi*2, math.pi + (flapsUpStallSpeed/speedForWholeCircle)*math.pi*2, width/1.068) -- for 2x2 screens use width/1.068, for 1x1 screens use width/1.04\n	\n	-- draw yellow arc\n	screen.setColor(200,200,0)\n	screen.drawCircleF(centerX, centerY, width/2.6)\n	screen.setColor(0,0,0)\n	screen.drawCircleF(centerX, centerY, width/2.8)\n	\n	clear(math.pi + (neverExceedSpeed/speedForWholeCircle)*math.pi*2, math.pi + (maxStructuralCruisingSpeed/speedForWholeCircle)*math.pi*2, width/1.105) -- for 2x2 screens use width/1.105, for 1x1 screens use width/1.08\n	\n	\n	-- draw grey lines\n	screen.setColor(50, 50, 50)\n	for i=flapsDownStallSpeed, speedForWholeCircle-flapsDownStallSpeed, speedForWholeCircle/20 do\n		p1 = rotatePoint(centerX, centerY, math.pi + i/speedForWholeCircle * math.pi * 2, centerX, centerY+height/2.5)\n		p2 = rotatePoint(centerX, centerY, math.pi + i/speedForWholeCircle * math.pi * 2, centerX, centerY+height/2.1)\n		screen.drawLine(p1.x, p1.y, p2.x, p2.y)\n	end\n	\n	-- draw numbers\n	screen.setColor(255, 255, 255)\n	for i=flapsDownStallSpeed, speedForWholeCircle-flapsDownStallSpeed, speedForWholeCircle/10 do\n		label = math.floor(i)\n		p = rotatePoint(centerX, centerY, math.pi + i/speedForWholeCircle * math.pi * 2, centerX, centerY+height/3.4)\n		screen.drawText(p.x - string.len(label)*1.5, p.y-4, label)\n		\n		-- draw white line\n		p1 = rotatePoint(centerX, centerY, math.pi + i/speedForWholeCircle * math.pi * 2, centerX, centerY+height/2.6)\n		p2 = rotatePoint(centerX, centerY, math.pi + i/speedForWholeCircle * math.pi * 2, centerX, centerY+height/2.1)\n		screen.drawLine(p1.x, p1.y, p2.x, p2.y)\n	end\n	\n	\n	screen.setColor(255,255,255)\n	screen.drawTextBox(centerX - width/2, centerY - height/2, width, height/4, "Airspeed", 0, 0)\n	\n	-- draw pointer\n	p = rotatePoint(centerX, centerY, math.pi + speed / speedForWholeCircle * math.pi *2, centerX, centerY+height/2.1)\n	screen.setColor(255,255,255)\n	screen.drawLine(centerX, centerY, p.x, p.y)\nend\n\nstep = math.pi/18\nfunction clear(fromAngle, toAngle, y)\n	print("clear", fromAngle, toAngle,y)\n	fromAngle = fromAngle % (math.pi*2)\n	toAngle = toAngle % (math.pi*2)\n	print("clear", fromAngle, toAngle,y)\n	angle = fromAngle\n	while angle < toAngle-step or angle > toAngle do\n		p1 = rotatePoint(centerX, centerY, angle-step/10, centerX, y)\n		p2 = rotatePoint(centerX, centerY, angle+step+step/10, centerX, y)\n		screen.setColor(0,0,0)\n		screen.drawTriangleF(centerX, centerY, p1.x, p1.y, p2.x, p2.y)\n		\n		angle = angle + step\n		if angle >= math.pi*2 then\n			angle = 0\n		end\n	end\nend\n\nfunction rotatePoint(cx, cy, angle, px, py)\n	s = math.sin(angle);\n	c = math.cos(angle);\n\n	--translate point back to origin:\n	px = px - cx;\n	py = py - cy;\n\n	-- rotate point\n	xnew = px * c - py * s;\n	ynew = px * s + py * c;\n\n	-- translate point back:\n	px = xnew + cx;\n	py = ynew + cy;\n	return {x=px, y=py}\nend\n'
-			},{
-				type: 'text',
-				content: 'The white area is the speed you can fly with flaps down.\nThe green area is the speed you can fly with flaps up.\nThe yellow area is emergency speed, exceeding this speed will result in structural damage of the plane.\n\nAll the speeds for these areas can be set in the code.'
-			}]
-		},{
-			title: 'Flying - Heading Overlay',
-			contents: [{
-				type: 'text',
-				content: 'Overlays directions, similar to a compass. You can show a special direction marker (e.g. the direction to a waypoint).'
-			},{
-				type: 'text',
-				content: '<span style="color: red">deg90InPixels</span>(line 30) defines how many degrees the whole monitor covers horizontally. By default it\'s 180°. This value depends on the zoom/fov of the camera.'
-			},{
-				type: 'code',
-				content: 'y = 10\nty = 30\nw = 3\nh = 10\n\nhw = 1\nhh = 5\n\n\nscrWi = 0\nscrHe = 0\n\npixelOffset = 0\ndeg90InPixels = 0\n\ndir = 0\nmarkerdir = 0\nhasMarker = false\n\nfunction onTick()\n	dir = input.getNumber(1)-- -0.5 to 0.5\n	markerdir = input.getNumber(2)-- -0.5 to 0.5\n	hasMarker = input.getBool(2)\nend\n\nfunction onDraw()\n	scrWi = screen.getWidth()\n	scrHe = screen.getHeight()\n	pixelOffset = scrWi/2\n	deg90InPixels = scrWi/2-2-- means 90° equals half of the monitors width\n	printHeadingOverlay()\nend\n\nfunction printHeadingOverlay()\n	N = -4 * dir\n	NE = N + 0.5\n	E = N + 1\n	SE = N + 1.5\n	S = N + 2\n	SW = N + 2.5\n	W = N + 3\n	NW = N + 3.5\n\n	M = -4 * markerdir\n\n	N = normalize(N)\n	NE = normalize(NE)\n	E = normalize(E)\n	SE = normalize(SE)\n	S = normalize(S)\n	SW = normalize(SW)\n	W = normalize(W)\n	NW = normalize(NW)\n\n	M = normalize(M)\n	\n	Nx = math.floor(deg90InPixels * N) + pixelOffset\n	NEx = math.floor(deg90InPixels * NE) + pixelOffset\n	Ex = math.floor(deg90InPixels * E) + pixelOffset\n	SEx = math.floor(deg90InPixels * SE) + pixelOffset\n	Sx = math.floor(deg90InPixels * S) + pixelOffset\n	SWx = math.floor(deg90InPixels * SW) + pixelOffset\n	Wx = math.floor(deg90InPixels * W) + pixelOffset\n	NWx = math.floor(deg90InPixels * NW) + pixelOffset\n\n	Mx = math.floor(deg90InPixels * M) + pixelOffset\n	\n	setColor(255,0,0)\n	drawRect(Nx, y, w, h)\n	drawText("N", Nx-2, ty)\n	setColor(37,255,0)\n	drawRect(Ex, y, w, h)\n	drawText("E", Ex-2, ty)\n	drawRect(Sx, y, w, h)\n	drawText("S", Sx-2, ty)\n	drawRect(Wx, y, w, h)\n	drawText("W", Wx-2, ty)\n\n	setColor(37,255,0)\n	drawRect(NEx, y, hw, hh)\n	drawRect(SEx, y, hw, hh)\n	drawRect(SWx, y, hw, hh)\n	drawRect(NWx, y, hw, hh)\n\n	if hasMarker then\n		setColor(251,1,253)\n		drawRect(Mx, y, w, h)\n		drawText("M", Mx-2, ty)\n	end\nend\n\nfunction normalize(xIndex)\n	if xIndex > 2 or xIndex < -2 then\n		 return xIndex % 3  - math.floor(xIndex/3)\n	else\n		return xIndex\n	end\nend\n\nfunction setColor(r,g,b)\n	screen.setColor(r, g, b)\nend\n\nfunction drawRect(x, y, w, h)\n	screen.drawRectF(x, y, w, h)   \nend\n\nfunction drawText(txt, x, y)\n	if y > scrHe or y+h < 0 or x > scrWi or x < 0 then\n		return\n	end\n	screen.drawText(x, y, txt)\nend   '
-			}]
-		},{
-			title: 'General Instruments (made by Tajin)',
-			contents: [{
-				type: 'text',
-				content: 'Configurable Instruments with automatic resizing to fit monitor.'
-			},{
-				type: 'code',
-				content: '-- Shorthands\nM=math\nsi=M.sin\nco=M.cos\npi=M.pi\npi2=pi*2\nS=screen\nI=input\nO=output\nC=S.setColor\nF=string.format\n\n-- Functions\nfunction clamp(a,b,c)\n	return M.min(M.max(a,b),c)\n	end\n\nfunction drawDial(x,y,r,inp,low,high,subs,title)\n	C(99,99,99) -- Set color\n	S.drawCircleF(x,y,r) -- draw filled circle as background\n	C(22,22,22)\n	S.drawCircle(x,y,r) -- draw outline\n	S.drawCircle(x,y,r*0.95) -- draw second outline, slightly smaller\n	\n	span = 0.75 -- use 3/4 of the circle for the dial\n	range = high - low -- get difference between max and min\n	\n	-- loop to draw subdivisions:\n	for i=0,1,1/subs do -- 10 is the number of lines on the dial\n		a = i*span-span/2 -- angle for the current subdivision\n		a = pi2*a -- to radians\n		r1 = r*0.8\n		r2 = r*0.95\n		S.drawLine(x+si(a)*r1,y-co(a)*r1,x+si(a)*r2,y-co(a)*r2)\n	end\n	\n	val = clamp(inp,low,high)\n	val = (val-low)/range -- convert into a 0-1 value\n	a = pi2*(val*span-span/2) -- angle of the needle\n	a1 = a+pi/2 -- +90° so i can draw the needle as a triangle\n	r1 = r*0.9 -- length of the needle\n	r2 = r*0.08 -- half width of the needle\n	C(66,0,0) -- Needle & Text color\n	S.drawTriangleF(x+si(a)*r1,y-co(a)*r1, x+si(a1)*r2,y-co(a1)*r2, x+si(a1)*-r2,y-co(a1)*-r2)\n	S.drawTextBox(x-r,y+r*0.3,r+r,20,F("%.1f",inp),0,0)\n	S.drawTextBox(x-r,y+r,r+r,20,title,0,0)\n	\n	C(22,22,22) S.drawCircleF(x,y,r*0.1) -- draw dot in the middle\n	end\n\n-- Main\nfunction onTick()\n	val1 = input.getNumber(1)\n	val2 = input.getNumber(2)\n	val3 = input.getNumber(3)\n	end\n\nfunction onDraw()\n	w,h=S.getWidth(),S.getHeight()\n	C(0,0,0) S.drawClear() -- fill screen black\n	\n	-- drawDial( xpos, ypos, radius, input, minimum, maximum, subdivisions, title )\n	drawDial(w/6*1, h/2 ,w/7, val1, 0, 100, 10, "Weight") -- left dial\n	drawDial(w/6*3, h/2 ,w/7, val2, 50, 100, 6, "Pressure") -- middle dial\n	drawDial(w/6*5, h/2 ,w/7, val3, -100, 100, 8, "Temp") -- right dial\n	end'
-			},{
-				type: 'text',
-				content: 'In the last few lines of this code, you can configure sizes, min and max (and more) for each dial.'
-			}]
-		}]
-	},{
-		title: 'Frameworks (Collections of helpfull functions)',
-		sections: [{
-				title: 'Tajins Lua Framework',
-				contents: [{
-					type: 'text',
-					content: 'This is a collection of helpfull functions (all in one place). Copy only what you need (e.g. 3d rotation)\n\nSource: <a href="http://rising.at/Stormworks/lua/framework.lua">rising.at/Stormworks/lua/framework.lua</a>'
-				},{
-					type: 'code',
-					content: '-- shorcuts (remove what you don\'t need)\nM=math\nsi=M.sin\nco=M.cos\npi=M.pi\npi2=pi*2\n\nS=screen\ndL=S.drawLine\ndC=S.drawCircle\ndCF=S.drawCircleF\ndR=S.drawRect\ndRF=S.drawRectF\ndT=S.drawTriangle\ndTF=S.drawTriangleF\ndTx=S.drawText\ndTxB=S.drawTextBox\n\nC=S.setColor\n\nMS=map.mapToScreen\nSM=map.screenToMap\n\nI=input\nO=output\nP=property\nprB=P.getBool\nprN=P.getNumber\nprT=P.getText\n\ntU=table.unpack\n\n\n-- useful functions (remove what you don\'t need)\nfunction getN(...)local a={}for b,c in ipairs({...})do a[b]=I.getNumber(c)end;return tU(a)end\n-- get a list of input numbers\nfunction outN(o, ...) for i,v in ipairs({...}) do O.setNumber(o+i-1,v) end end\n-- set a list of number outputs\nfunction getB(...)local a={}for b,c in ipairs({...})do a[b]=I.getBool(c)end;return tU(a)end\n-- get a list of input booleans\nfunction outB(o, ...) for i,v in ipairs({...}) do O.setBool(o+i-1,v) end end\n-- set a list of boolean outputs\nfunction round(x,...)local a=10^(... or 0)return M.floor(a*x+0.5)/a end\n-- round(x) or round(x,a) where a is the number of decimals\nfunction clamp(a,b,c) return M.min(M.max(a,b),c) end\n-- limit a between b and c\nfunction inRect(x,y,a,b,w,h) return x>a and y>b and x<a+w and y<b+h end\n-- check if x,y is inside the rectangle a,b,w,h\nfunction rot3D(x,y,z,a,b,c) return {(co(b)*co(c)*x)+(-co(a)*si(c)+si(a)*si(b)*co(z))*y+(si(a)*si(c)+co(a)*si(b)*co(c))*z,(co(b)*si(c)*x)+(co(a)*co(c)+si(a)*si(b)*si(c))*y+(-si(a)*co(c)+co(a)*si(b)*si(c))*z,-si(b)*x+si(a)*co(b)*y+co(a)*co(b)*z} end\n-- rotate point x,y,z around by a,b,c and return the resulting position\n\n-- touch handling (remove if you don\'t need it)\nTOUCH = {\n	{5,5,30,10,"1"}, --Button1\n	{5,20,30,10,"2"}, --Button2\n	{5,35,30,10,"text",0,0}, --Button3\n}\nact = {}\nbtn = {}\n\ntest = 0\nact[3] = function(i) -- function for button 3, executed on click\ntest = test+1\nend\n --\n\nfunction onTick()\n	myNumVar,myOtherNum = getN(10,15)\n	myBoolVar,myOtherBool = getB(5,9)\n\n	-- touch handling (remove if you don\'t need it)\n	w,h,tx,ty=getN(1,2,3,4,5,6);t1,t2=getB(1,2)\n\n	for i,t in ipairs(TOUCH) do\n		b = btn[i] or {}\n		if inRect(tx,ty,t[1],t[2],t[3],t[4]) then\n			b.click = t1 and not b.hold\n			b.hold = t1\n			if b.click then\n				b.toggle = not b.toggle\n				if act[i] then act[i](i) end\n			end\n		else\n				b.hold = false\n		end\n		btn[i] = b\n	end\n--\n\noutN(11, myNumVar,myOtherNum) -- output to 11 and 12\noutB(1, true,false)\nend\n\nfunction onDraw()\n	if t1==nil then return true end -- safety check to make sure variables are set\n	w = S.getWidth()\n	h = S.getHeight()\n	cx,cy = w/2,h/2 -- coordinates of the screen center (always useful)\n\n	for i,t in ipairs(TOUCH) do -- loop through defined buttons and render them\n		C(20,20,20)\n		if btn[i].hold then C(80,80,80) end -- color while holding the button\n		dRF(tU(t,1,4)) -- draw button background (tU outputs the first 4 values from the button as parameters here)\n		C(255,0,0)\n		if btn[i].toggle then C(0,255,0) end -- text green if button is toggled on\n		dTxB(tU(t)) -- draw textbox with the button text\n	end\n\n	C(255,255,255)\n	dTx(cx,cy,test) -- test output for the function of button 3\nend'
-				}]
-			}]
-	}]
+  	let CHAPTERS_EXAMPLE
 
 	const CHAPTERS_LEARN = [{
 		title: 'Lua Basics (Learn)',
@@ -423,6 +318,18 @@ var EXAMPLES = (($)=>{
 				content: 'Since the inputs and outputs of logic components are still synchronized and calculated on the server, some parts of your vehicle may be totally in sync (e.g. the length of a winch) but your screens may look different.\nThis is also the case for camera signals shown on monitors.'
 			}]
 		}]
+	},{
+		title: 'Mission Lua',
+		sections: [{
+			title: 'Community Documentation',
+			contents: [{
+				type: 'text',
+				content: 'This is a WIP documentation of the mission lua, since the official documentation is missing a lot of information.'
+			},{
+				type: 'text',
+				content: '<a href="https://docs.google.com/spreadsheets/d/1DkjUjX6DwCBt8IhA43NoYhtxk42_f6JXb-dfxOX9lgg/edit#gid=0">Google Spreadsheet</a>'
+			}]
+		}]
 	}]
 
 
@@ -442,16 +349,28 @@ var EXAMPLES = (($)=>{
 
 		UI.viewables()['viewable_learn'].onViewableResize(resizeCodeBlocks)
 
+		refresh()
+
+		LOADER.done(LOADER.EVENT.EXAMPLES_READY)
+	}
+
+	function refresh(){
+		if(UI.isServerMode()){
+            CHAPTERS_EXAMPLE = EXAMPLES_DEFINITION_SERVER
+        } else {
+            CHAPTERS_EXAMPLE = EXAMPLES_DEFINITION_CLIENT
+        }
+
 		build(CHAPTERS_EXAMPLE, $('#examples'))
 
 		build(CHAPTERS_LEARN, $('#learn'))
 
 		resizeCodeBlocks()
-
-		LOADER.done(LOADER.EVENT.EXAMPLES_READY)
 	}
 
 	function build(chapters, container){
+		container.html('')
+		
 		for(let ch of chapters){
 			let chapter = $('<div class="chapter"><div class="chapter_head"><div class="chapter_title">' + ch.title + '</div></div><div class="chapter_body"></div></div>')
 			for(let ex of ch.sections){
@@ -519,6 +438,7 @@ var EXAMPLES = (($)=>{
 	}
 
 	return {
+		refresh: refresh
 	}
 
 })(jQuery)

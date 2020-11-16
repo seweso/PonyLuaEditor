@@ -196,6 +196,7 @@ UI = (($)=>{
                 $('.ide').attr('mode', 'client')            
             }
             DOCUMENTATION.refresh()
+            EXAMPLES.refresh()
             EDITORS.refreshCharacterCounts()
         })
 

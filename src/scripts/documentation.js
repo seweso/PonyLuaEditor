@@ -41,7 +41,6 @@ var DOCUMENTATION = ((global, $)=>{
             DEFINITION = DOCUMENTATION_DEFINITION_SERVER
         } else {
             DEFINITION = DOCUMENTATION_DEFINITION_CLIENT
-            $('.ide').attr('mode', 'client')
         }
 
         if(DEFINITION && DEFINITION instanceof Object){
