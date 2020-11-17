@@ -14266,6 +14266,9 @@ YYY = (($)=>{
             return '<ul><li>' + entries.join('</li><li>') + '</li></ul>'
         }
         
+        UTIL.hint('New Feature', 'History of your recent codes and opened shared codes')
+        UTIL.hint('New Feature', 'Edit your own shared codes and publish updates')
+
         LOADER.done(LOADER.EVENT.OTHERS_READY)
     }
 
