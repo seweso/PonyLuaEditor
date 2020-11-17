@@ -6532,7 +6532,7 @@ var LUA_EMULATOR = (($)=>{
         if(match && match[1]){
             let line = parseInt(match[1])
             if(!isNaN(line)){
-                EDITORS.getActiveEditor().markError(line, err)
+                EDITORS.getActiveEditor().markError(line, err, true)
             }
         }
 
@@ -10957,12 +10957,28 @@ class Editor extends DynamicSizedViewableContent {
         this.autocomplete = new Autocomplete(this.editor, this.dom)
 
         this.oldHeight = 0
+
+        this.lastEditorChange = new Date().getTime()
+        this.lastEditorChangeChecked = false
         
         this.editor.on('change', ()=>{
             this.refreshCharacterCount()
             this.editor.getSession().setAnnotations([])
+
+            this.lastEditorChange = new Date().getTime()
+            this.lastEditorChangeChecked = false
         })
         this.refreshCharacterCount()
+
+        let that = this
+        this.syntaxCheckInterval = setInterval(()=>{
+            let now = new Date().getTime()
+            if(now - that.lastEditorChange > 2000 && that.lastEditorChangeChecked === false){
+                that.lastEditorChangeChecked = true
+
+                that.performSyntaxCheck()
+            }
+        }, 1000)
 
         this.editor.selection.on('changeCursor', ()=>{
             this.refreshPositionHint()
@@ -11059,18 +11075,29 @@ class Editor extends DynamicSizedViewableContent {
         return typeof str === 'string' ? str.length : 0
     }
 
-    markError(line, text){
-        this.editor.gotoLine(line, 0, true)
+    markError(line, text, goto){
         this.editor.getSession().setAnnotations([{
           row: line-1,
           column: 0,
           text: text, 
           type: "error"
         }])
+        if(goto){
+            this.editor.gotoLine(line, 0, true)
+        }
     }
 
     unmarkError(){
         this.editor.getSession().setAnnotations([])
+    }    
+
+    performSyntaxCheck(){
+        try {
+            let ast = luaparse.parse(this.editor.getValue())
+            this.unmarkError()
+        } catch (ex) {
+            this.markError(ex.line, ex.message)
+        }
     }
 }
 
