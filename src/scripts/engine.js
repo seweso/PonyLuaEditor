@@ -89,6 +89,8 @@ ENGINE = (($)=>{
             UTIL.confirm('Remove all current settings and code, but keep history?').then((res)=>{
                 if(res){
                     STORAGE.set()
+                    // TODO rework this to not use page reload
+                    document.location.reload
                 }
             })
         })

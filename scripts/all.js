@@ -7670,7 +7670,7 @@ HISTORY = (()=>{
 
         let relatedId = STORAGE.getConfiguration('related-history-entry')
         markRelatedHistoryEntry( relatedId )
-        
+
         $('#code-title').val(STORAGE.getConfiguration('title'))
 
         LOADER.done(LOADER.EVENT.HISTORY_READY)
@@ -7690,8 +7690,11 @@ HISTORY = (()=>{
         let updateButton = $('<button class="special_button">Update</button>').on('click', ()=>{
             updateHistoryEntry(e)
         })
+        let deleteButton = $('<button><span class="icon-bin"></span></button>').on('click', ()=>{
+            deleteHistoryEntry(e)
+        })
         entry.append(
-            $('<div class="buttons"></div>').append(loadButton).append(updateButton)
+            $('<div class="buttons"></div>').append(loadButton).append(updateButton).append(deleteButton)
         )
         dom.prepend(entry)
         updateDomHistory(e)
@@ -7768,8 +7771,6 @@ HISTORY = (()=>{
     }
 
     function updateHistoryEntry(e){
-        console.log('updating entry', e)
-
         let text
         if(e.type === "sharekey"){
             if(!e.content.token){
@@ -7785,6 +7786,8 @@ HISTORY = (()=>{
 
         UTIL.confirm(text).then((res)=>{
             if(res){
+                console.log('updating entry', e)
+
                 ENGINE.saveCodesInStorage()
                 if(e.type === "sharekey"){
                     SHARE.updateSharedCode(e.content.id, e.content.token, ()=>{
@@ -7807,6 +7810,36 @@ HISTORY = (()=>{
                     markRelatedHistoryEntry(e.id)
                 } else {
                     throw new Error('unexpected history entry type "' + e.type + '"')
+                }
+            }
+        })
+    }
+
+    function deleteHistoryEntry(e){
+        let text
+        if(e.type === "sharekey"){
+            if(e.content.token){
+                text = 'You will loose access to this shared code, you will not be able to update it anymore!'
+            } else {
+                text = 'Do you want to remove the reference for this shared code? The code itself stays online!'
+            }
+        } else if (e.type === "code"){
+            text = 'Do you want to remove this historical code? This action cannot be undone!'
+        } else {
+            throw new Error('unexpected history entry type "' + e.type + '"')
+        }
+
+        UTIL.confirm(text).then((res)=>{
+            if(res){
+                console.log('deleting entry', e)
+
+                for(let i in history.entries){
+                    if(history.entries[i].id === e.id){
+                        history.entries.splice(i,1)
+                        dom.find('.history_entry[entry-id="' + e.id + '"]').remove()
+                        updateLocalStorage()
+                        return
+                    }
                 }
             }
         })
@@ -14358,6 +14391,8 @@ ENGINE = (($)=>{
             UTIL.confirm('Remove all current settings and code, but keep history?').then((res)=>{
                 if(res){
                     STORAGE.set()
+                    // TODO rework this to not use page reload
+                    document.location.reload
                 }
             })
         })
