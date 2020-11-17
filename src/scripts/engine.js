@@ -55,18 +55,6 @@ ENGINE = (($)=>{
         $('#step').on('click', doStep)
 
         $('#stop').prop('disabled', true).on('click', stop)
-        $('#reset').on('click', ()=>{
-            UTIL.confirm('Are you sure? This will also remove the code in the editor!').then((result)=>{
-                if(result === true){
-                    localStorage.clear()
-                    YYY.makeNoExitConfirm()
-                    document.location = document.location.href.split('?')[0]
-                }
-            }).catch(()=>{
-                /* do nothing */
-            })
-        })
-
 
         $('#timeBetweenTicks').on('input', ()=>{
             refreshTimeBetweenTicks()
@@ -90,6 +78,23 @@ ENGINE = (($)=>{
 
         $('#save').on('click', ()=>{
             saveCodesInStorage()
+        })
+
+        $('#save-to-history').on('click', ()=>{
+            saveCodesInStorage()
+            HISTORY.addCurrentCode()
+        })
+
+        $('#reset').on('click', ()=>{
+            UTIL.confirm('Remove all current settings and code, but keep history?').then((res)=>{
+                if(res){
+                    STORAGE.set()
+                }
+            })
+        })
+
+        $('#code-title').on('change', ()=>{
+            STORAGE.setConfiguration('title', $('#code-title').val())
         })
 
         

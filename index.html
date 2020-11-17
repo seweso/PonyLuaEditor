@@ -134,6 +134,8 @@ You can also minify code, find tutorials and examples or use the ui builder to c
             <div class="ide_controls">
                 <div class="controls_group">
                     <button id="save" title="Save"><span class="icon-floppy-disk"></span></button> 
+                    <input type="text" name="code-title" id="code-title" placeholder="Title of your code">
+                    <button id="save-to-history" title="Save to history">Save to history</button>
                     <button id="reset" title="Reset">Reset</button>
                 </div>
                 <div class="controls_group engine_controls">
@@ -246,6 +248,10 @@ You can also minify code, find tutorials and examples or use the ui builder to c
                     <input type="range" min="16" max="250" value="16" id="timeBetweenDraws">
                 </div>
             </div>
+        </div>
+
+        <div viewable="viewable_history">
+
         </div>
 
         <div id="out" viewable="viewable_console">

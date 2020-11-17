@@ -13,7 +13,8 @@ REPORTER = (()=>{
         'shareCode': 10,
         'receiveShareCode': 11,
         'generateUIBuilderCode': 12,
-        'pauseScript': 15
+        'pauseScript': 15,
+        'updateCode': 17,
     }
 
     function report(typeID, data){

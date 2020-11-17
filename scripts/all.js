@@ -24,6 +24,7 @@ LOADER = (($)=>{
         PAGE_READY: 'Page Loaded',
 
         STORAGE_READY: 'Storage',
+        HISTORY_READY: 'History',
 
         SHARE_READY: 'Share',
 
@@ -97,7 +98,7 @@ LOADER = (($)=>{
                     }
                 }
             }
-            if( allEventsDone() ){
+            if( allEventsDone() && doneEvents.indexOf(EVENT_ALL_DONE) === -1 ){
                 done(EVENT_ALL_DONE)
             }
         }, 1)
@@ -116,7 +117,7 @@ LOADER = (($)=>{
     }
 
     function allEventsDone(){
-        return doneEvents.length === Object.keys(EVENT).length
+        return doneEvents.length === Object.keys(EVENT).length || doneEvents.indexOf(EVENT_ALL_DONE) >= 0
     }
 
     return {
@@ -291,6 +292,7 @@ TRANSLATE = (()=>{
     const TRANSLATIONS = {
         "viewable_monitor": {en: "Monitor"},
         "viewable_settings": {en: "Settings"},
+        "viewable_history": {en: "History"},
         "viewable_console": {en: "Console"},
         "viewable_hints": {en: "Hints"},
         "viewable_properties": {en: "Properties"},
@@ -305,6 +307,7 @@ TRANSLATE = (()=>{
         "viewable_editor_unminified": {en: "Unminifier"},
         "viewable_editor_uibuilder": {en: "UI Builder"},
         "viewable_editor_uibuilder_code": {en: "UI Generated Code"},
+        
         /* views */
         "top_left": {en: "Top Left"},
         "top_right": {en: "Top Right"},
@@ -384,7 +387,8 @@ REPORTER = (()=>{
         'shareCode': 10,
         'receiveShareCode': 11,
         'generateUIBuilderCode': 12,
-        'pauseScript': 15
+        'pauseScript': 15,
+        'updateCode': 17,
     }
 
     function report(typeID, data){
@@ -7408,27 +7412,12 @@ STORAGE = (()=>{
     function init(){
         let y = localStorage.getItem('yyy')
         if(y){
-            try {
-                let parsed = JSON.parse(y)
-
-                if(parsed.version === VERSION){
-                    processStorage(parsed)
-                } else {
-                    console.info('Storage: found old configuration, updating ...')
-                    let updated = updateConfiguration(parsed, parsed.version)
-                    processStorage(updated)
-                }
-            } catch (ex){
-                console.warn('Storage: invalid configuration, using default configuration')
-                processStorage()
-            }
+            set(y)
         } else if (localStorage.getItem('general')) {
             console.info('Storage: found outdated configuration, converting ...')
-            localStorage.clear()
-            let converted = convertOldConfiguration()
-            processStorage(converted)
-        } else {            
-            processStorage()
+            set( convertOldConfiguration() )
+        } else {
+            set()
         }
     }
 
@@ -7556,22 +7545,41 @@ STORAGE = (()=>{
         return currentNode[keyParts[0]]
     }
 
-    function asString(){
+    function configurationAsString(){
         return localStorage.getItem('yyy')
+    }
+
+    /* conf must be a json string or parsed json string */
+    function set(conf){
+        if(!conf){
+            console.warn('Storage: invalid configuration, using default configuration')
+            processStorage()
+            return
+        }
+        try {
+            if(typeof conf === 'string'){
+                conf = JSON.parse(conf)
+            }
+
+            if(conf.version === VERSION){
+                processStorage(conf)
+            } else {
+                console.info('Storage: found old configuration, updating ...')
+                let updated = updateConfiguration(conf, conf.version)
+                processStorage(updated)
+            }
+        } catch(ex) {
+            console.warn('Storage: invalid configuration, using default configuration')
+            processStorage()
+        }
     }
 
     function setFromShare(key, confJSON){
 
         let parsedSettings = parseOrUndefined(confJSON.settings)
 
-        if(parsedSettings && parsedSettings.version){
-            if(parsedSettings.version === VERSION){
-                processStorage(parsedSettings)
-            } else {
-                console.info('Storage: found old configuration, updating ...')
-                let updated = updateConfiguration(parsedSettings, parsedSettings.version)
-                processStorage(updated)
-            }
+        if(parsedSettings){
+            set(parsedSettings)
         } else {
             /* old shared information */
 
@@ -7619,8 +7627,187 @@ STORAGE = (()=>{
     return {
         setConfiguration: setConfiguration,
         getConfiguration: getConfiguration,
-        asString: asString,
-        setFromShare: setFromShare
+        configurationAsString: configurationAsString,
+        setFromShare: setFromShare,
+        set: set
+    } 
+})()
+;
+HISTORY = (()=>{
+    "use strict";
+   
+    /* configuration might be an empty object, contain parts of a full configuration, or a complete configuration */
+    let history = {
+        entries: []
+    }
+
+    let dom
+
+    LOADER.on(LOADER.EVENT.PAGE_READY, init)
+
+    function init(){
+        let y = localStorage.getItem('yyy_history')
+        if(y){
+            try {
+                let parsed = JSON.parse(y)
+                if(parsed && parsed instanceof Object){
+                    history = parsed
+                } else {
+                    throw new Error('invalid history format')
+                }
+            } catch (ex){
+                console.warn('History: invalid history')
+            }
+        }
+
+
+        // build UI
+        dom = $('[viewable="viewable_history"]')
+
+        for(let e of history.entries){
+            makeDomHistory(e)
+        }
+
+        let relatedId = STORAGE.getConfiguration('related-history-entry')
+        markRelatedHistoryEntry( relatedId )
+
+        LOADER.done(LOADER.EVENT.HISTORY_READY)
+    }
+
+    function makeDomHistory(e){
+        let entry = $('<div class="history_entry" type="' + e.type + '" entry-id="' + e.id + '"></div>')
+        entry.append(
+            $('<div class="title">' + (e.title || '<i>untitled</i>') + '</div>')
+        )
+        entry.append(
+            $('<div class="time">' + (new Date(e.time).toLocaleString()) + '</div>')
+        )
+        let loadButton = $('<button>Load</button>').on('click', ()=>{
+            loadHistoryEntry(e)
+        })
+        let updateButton = $('<button>Update</button>').on('click', ()=>{
+            updateHistoryEntry(e)
+        })
+        entry.append(
+            $('<div class="buttons"></div>').append(loadButton).append(updateButton)
+        )
+        dom.prepend(entry)
+    }
+
+    function updateDomHistory(e){
+        let entry = dom.find('.history_entry[entry-id="' + e.id + '"]')
+        entry.find('.title').text( (e.title || '<i>untitled</i>') )
+        entry.find('.time').text( new Date(e.time).toLocaleString() )
+    }
+
+    function loadHistoryEntry(entry){
+        UTIL.confirm('Discard current code and settings and load historical code?').then((res)=>{
+            if(res){
+                console.log('loading history entry', entry)
+                if(entry.type === 'code'){
+                    STORAGE.set(entry.content)
+                } else if(entry.type === 'sharekey'){
+                    SHARE.doReceive(entry.content.id, ()=>{
+                        entry.title = STORAGE.getConfiguration('title')
+                    })
+                }
+                STORAGE.setConfiguration('related-history-entry', entry.id)
+
+                markRelatedHistoryEntry(entry.id)
+
+                //TODO reinit everything
+                YYY.makeNoExitConfirm()
+                document.location.reload()
+            }
+        })
+    }
+
+    function updateLocalStorage(){
+        localStorage.setItem('yyy_history', JSON.stringify(history))
+    }
+
+    function markRelatedHistoryEntry(id){
+        dom.find('.history_entry.related').removeClass('related')
+        if(id){
+            dom.find('.history_entry[entry-id="' + id + '"]').addClass('related')
+        }
+    }
+
+    function addShareKey(sharekey, token){
+        createNewEntry('sharekey', {id: sharekey, token: token}, STORAGE.getConfiguration('title'))
+    }
+
+    function addCurrentCode(){
+        createNewEntry('code', STORAGE.configurationAsString(), STORAGE.getConfiguration('title'))
+    }
+
+    function createNewEntry(type, content, title){
+        const id = new Date().getTime()
+        let entry = {
+            id: id,
+            type: type,
+            content: content,
+            title: title,
+            time: new Date().getTime()
+        }
+        history.entries.push(entry)
+
+        makeDomHistory(entry)
+
+        STORAGE.setConfiguration('related-history-entry', id)
+        markRelatedHistoryEntry(id)
+
+        updateLocalStorage()
+    }
+
+    function updateHistoryEntry(e){
+        console.log('updating entry', e)
+
+        let text
+        if(e.type === "sharekey"){
+            if(!e.content.token){
+                UTIL.alert('You cannot update a shared code of someone else!')
+                return
+            }
+            text = 'Do you want to update the shared code? This will update it for everyone and cannot be undone!'
+        } else if (e.type === "code"){
+            text = 'Do you want to update the historical code? This action cannot be undone!'
+        } else {
+            throw new Error('unexpected history entry type "' + e.type + '"')
+        }
+
+        UTIL.confirm(text).then((res)=>{
+            if(res){
+                ENGINE.saveCodesInStorage()
+                if(e.type === "sharekey"){
+                    SHARE.updateSharedCode(e.content.id, e.content.token, ()=>{
+                        UTIL.message('Success', 'Shared code updated successfully')
+                        e.content = STORAGE.configurationAsString()
+                        e.title = STORAGE.getConfiguration('title')
+                        e.time = new Date().getTime()
+                        updateDomHistory(e)
+                        updateLocalStorage()
+
+                        markRelatedHistoryEntry(e.id)
+                    })
+                } else if (e.type === "code"){
+                    e.content = STORAGE.configurationAsString()
+                    e.title = STORAGE.getConfiguration('title')
+                    e.time = new Date().getTime()
+                    updateDomHistory(e)
+                    updateLocalStorage()
+
+                    markRelatedHistoryEntry(e.id)
+                } else {
+                    throw new Error('unexpected history entry type "' + e.type + '"')
+                }
+            }
+        })
+    }
+
+    return {
+        addShareKey: addShareKey,
+        addCurrentCode: addCurrentCode
     } 
 })()
 ;
@@ -7679,10 +7866,11 @@ var SHARE = (($)=>{
         let paramid = params.get('id')
         if(paramid){
             setCurrentShare(paramid)
-            setTimeout(doReceive, 1000)
-        } else {
-            LOADER.done(LOADER.EVENT.SHARE_READY)
+            setTimeout(()=>{
+                doReceive(currentShare)
+            }, 1000)
         }
+        LOADER.done(LOADER.EVENT.SHARE_READY)
     }
 
     function setCurrentShare(id){
@@ -7702,7 +7890,6 @@ var SHARE = (($)=>{
 
         console.log('creating new share')
 
-
         let code = EDITORS.get('normal').editor.getValue()
         if(typeof code !== 'string' || code.length === 0){
             UTIL.alert('Cannot share empty code!')
@@ -7713,7 +7900,7 @@ var SHARE = (($)=>{
 
         let data = {
             code: 'v2',
-            settings: STORAGE.asString()
+            settings: STORAGE.configurationAsString()
         }
 
         $.post(BASE_URL + '/api/create', data).done((data)=>{
@@ -7721,6 +7908,8 @@ var SHARE = (($)=>{
                 let json = JSON.parse(data)
                 let id = json.key
                 setCurrentShare(id)
+
+                HISTORY.addShareKey(id, json.token)
             } catch (e){
                 console.error(e)
                 UTIL.alert('Cannot share via ponybin. Please contact me.')
@@ -7733,24 +7922,54 @@ var SHARE = (($)=>{
         })
     }
 
-    function doReceive(){
-        if(!currentShare){
+    function updateSharedCode(sharekey, token, successCallback){
+        ENGINE.saveCodesInStorage()
+
+        REPORTER.report(REPORTER.REPORT_TYPE_IDS.updateCode)
+
+        console.log('updating share')
+       
+        $('#ponybin-create-overlay').show()
+
+        let data = {
+            settings: STORAGE.configurationAsString(),
+            id: sharekey,
+            token: token
+        }
+
+        $.post(BASE_URL + '/api/update', data).done((data)=>{
+            if(typeof successCallback === 'function'){
+                successCallback()
+            }
+        }).fail((e)=>{
+            console.error(e)
+            UTIL.alert('Cannot update via ponybin. Please contact me!')
+        }).always(()=>{
+            $('#ponybin-create-overlay').hide()
+        })
+    }
+
+    function doReceive(sharekey, successCallback){
+        if(!sharekey){
             UTIL.alert('Cannot get data from ponybin. Please contact me.')
             return
         }
         REPORTER.report(REPORTER.REPORT_TYPE_IDS.receiveShareCode)
-        
-        console.log('receiving share', currentShare)
+
+        console.log('receiving share', sharekey)
         $('#ponybin-receive-overlay').show()
 
         $.post(BASE_URL + '/api/get', {
-            key: currentShare
+            key: sharekey
         }).done((data)=>{
             try {
                 let json = JSON.parse(data)
 
                 if(typeof json.luabin === 'object'){
-                    STORAGE.setFromShare(currentShare, json.luabin)
+                    STORAGE.setFromShare(sharekey, json.luabin)
+                    if(typeof successCallback === 'function'){
+                        successCallback()
+                    }
                 } else {
                     throw 'invalid luabin format'
                 }
@@ -7763,8 +7982,12 @@ var SHARE = (($)=>{
             UTIL.alert('Cannot get data from ponybin. Is the share key correct?')
         }).always(()=>{
             $('#ponybin-receive-overlay').hide()
-            LOADER.done(LOADER.EVENT.SHARE_READY)
         })
+    }
+
+    return {
+        doReceive: doReceive,
+        updateSharedCode: updateSharedCode
     }
 
 })(jQuery)
@@ -7791,7 +8014,7 @@ UI = (($)=>{
         top_left: ['viewable_editor_normal', 'viewable_editor_minified', 'viewable_editor_unminified', 'viewable_editor_uibuilder', 'viewable_editor_uibuilder_code'],
         top_right: ['viewable_documentation', 'viewable_properties', 'viewable_inputs', 'viewable_outputs', 'viewable_examples', 'viewable_learn', 'viewable_official_manuals'],
         bottom_left: ['viewable_console', 'viewable_hints'],
-        bottom_right: ['viewable_monitor', 'viewable_settings']
+        bottom_right: ['viewable_monitor', 'viewable_settings', 'viewable_history']
     }
 
     let config = {
@@ -14007,7 +14230,9 @@ YYY = (($)=>{
     }
 
     return {
-        noExitConfirm: noExitConfirm,
+        noExitConfirm: ()=>{
+            return noExitConfirm
+        },
         makeNoExitConfirm: ()=>{
             noExitConfirm = true
         },
@@ -14020,7 +14245,7 @@ YYY = (($)=>{
 
 
 window.onbeforeunload = function (e) {
-    if(YYY.noExitConfirm){
+    if(YYY.noExitConfirm()){
         return
     }
     e = e || window.event;
@@ -14092,18 +14317,6 @@ ENGINE = (($)=>{
         $('#step').on('click', doStep)
 
         $('#stop').prop('disabled', true).on('click', stop)
-        $('#reset').on('click', ()=>{
-            UTIL.confirm('Are you sure? This will also remove the code in the editor!').then((result)=>{
-                if(result === true){
-                    localStorage.clear()
-                    YYY.makeNoExitConfirm()
-                    document.location = document.location.href.split('?')[0]
-                }
-            }).catch(()=>{
-                /* do nothing */
-            })
-        })
-
 
         $('#timeBetweenTicks').on('input', ()=>{
             refreshTimeBetweenTicks()
@@ -14127,6 +14340,23 @@ ENGINE = (($)=>{
 
         $('#save').on('click', ()=>{
             saveCodesInStorage()
+        })
+
+        $('#save-to-history').on('click', ()=>{
+            saveCodesInStorage()
+            HISTORY.addCurrentCode()
+        })
+
+        $('#reset').on('click', ()=>{
+            UTIL.confirm('Remove all current settings and code, but keep history?').then((res)=>{
+                if(res){
+                    STORAGE.set()
+                }
+            })
+        })
+
+        $('#code-title').on('change', ()=>{
+            STORAGE.setConfiguration('title', $('#code-title').val())
         })
 
         

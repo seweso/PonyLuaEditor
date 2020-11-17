@@ -1269,6 +1269,16 @@ body {
       padding: 10px;
       color: var(--color-text-light-foreground); }
 
+[viewable="viewable_history"] {
+  position: relative;
+  display: flex;
+  flex-direction: column; }
+  [viewable="viewable_history"] .history_entry {
+    display: flex;
+    flex-direction: row; }
+    [viewable="viewable_history"] .history_entry.related {
+      border: 1px solid red; }
+
 [viewable="viewable_monitor"] #render-canvas, [viewable="viewable_monitor"] #unzoomed-canvas {
   display: none; }
 
@@ -1496,6 +1506,14 @@ body {
           background: #4d835f;
           border-color: #fff;
           color: #fff; }
+      .ide .ide_bar .ide_controls #code-title {
+        padding: 4px 6px;
+        font-size: 14px;
+        margin-right: 10px;
+        background: transparent;
+        border: 1px solid #fff;
+        border-radius: 4px;
+        color: #fff; }
     .ide .ide_bar .ide_bar_right {
       display: flex;
       flex-direction: row;

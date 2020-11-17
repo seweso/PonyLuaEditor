@@ -24,6 +24,7 @@ LOADER = (($)=>{
         PAGE_READY: 'Page Loaded',
 
         STORAGE_READY: 'Storage',
+        HISTORY_READY: 'History',
 
         SHARE_READY: 'Share',
 
@@ -97,7 +98,7 @@ LOADER = (($)=>{
                     }
                 }
             }
-            if( allEventsDone() ){
+            if( allEventsDone() && doneEvents.indexOf(EVENT_ALL_DONE) === -1 ){
                 done(EVENT_ALL_DONE)
             }
         }, 1)
@@ -116,7 +117,7 @@ LOADER = (($)=>{
     }
 
     function allEventsDone(){
-        return doneEvents.length === Object.keys(EVENT).length
+        return doneEvents.length === Object.keys(EVENT).length || doneEvents.indexOf(EVENT_ALL_DONE) >= 0
     }
 
     return {

@@ -1,0 +1,28 @@
+[viewable="viewable_history"] {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+
+    .history_entry {
+        display: flex;
+        flex-direction: row;
+
+        &.related {
+            border: 1px solid red;
+
+        }
+
+        .title {
+
+        }
+
+        .time {
+
+        }
+
+        .buttons {
+
+        }
+    }
+}
+

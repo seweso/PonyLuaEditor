@@ -47,7 +47,9 @@ YYY = (($)=>{
     }
 
     return {
-        noExitConfirm: noExitConfirm,
+        noExitConfirm: ()=>{
+            return noExitConfirm
+        },
         makeNoExitConfirm: ()=>{
             noExitConfirm = true
         },
@@ -60,7 +62,7 @@ YYY = (($)=>{
 
 
 window.onbeforeunload = function (e) {
-    if(YYY.noExitConfirm){
+    if(YYY.noExitConfirm()){
         return
     }
     e = e || window.event;

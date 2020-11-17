@@ -14,27 +14,12 @@ STORAGE = (()=>{
     function init(){
         let y = localStorage.getItem('yyy')
         if(y){
-            try {
-                let parsed = JSON.parse(y)
-
-                if(parsed.version === VERSION){
-                    processStorage(parsed)
-                } else {
-                    console.info('Storage: found old configuration, updating ...')
-                    let updated = updateConfiguration(parsed, parsed.version)
-                    processStorage(updated)
-                }
-            } catch (ex){
-                console.warn('Storage: invalid configuration, using default configuration')
-                processStorage()
-            }
+            set(y)
         } else if (localStorage.getItem('general')) {
             console.info('Storage: found outdated configuration, converting ...')
-            localStorage.clear()
-            let converted = convertOldConfiguration()
-            processStorage(converted)
-        } else {            
-            processStorage()
+            set( convertOldConfiguration() )
+        } else {
+            set()
         }
     }
 
@@ -162,22 +147,41 @@ STORAGE = (()=>{
         return currentNode[keyParts[0]]
     }
 
-    function asString(){
+    function configurationAsString(){
         return localStorage.getItem('yyy')
+    }
+
+    /* conf must be a json string or parsed json string */
+    function set(conf){
+        if(!conf){
+            console.warn('Storage: invalid configuration, using default configuration')
+            processStorage()
+            return
+        }
+        try {
+            if(typeof conf === 'string'){
+                conf = JSON.parse(conf)
+            }
+
+            if(conf.version === VERSION){
+                processStorage(conf)
+            } else {
+                console.info('Storage: found old configuration, updating ...')
+                let updated = updateConfiguration(conf, conf.version)
+                processStorage(updated)
+            }
+        } catch(ex) {
+            console.warn('Storage: invalid configuration, using default configuration')
+            processStorage()
+        }
     }
 
     function setFromShare(key, confJSON){
 
         let parsedSettings = parseOrUndefined(confJSON.settings)
 
-        if(parsedSettings && parsedSettings.version){
-            if(parsedSettings.version === VERSION){
-                processStorage(parsedSettings)
-            } else {
-                console.info('Storage: found old configuration, updating ...')
-                let updated = updateConfiguration(parsedSettings, parsedSettings.version)
-                processStorage(updated)
-            }
+        if(parsedSettings){
+            set(parsedSettings)
         } else {
             /* old shared information */
 
@@ -225,7 +229,8 @@ STORAGE = (()=>{
     return {
         setConfiguration: setConfiguration,
         getConfiguration: getConfiguration,
-        asString: asString,
-        setFromShare: setFromShare
+        configurationAsString: configurationAsString,
+        setFromShare: setFromShare,
+        set: set
     } 
 })()
