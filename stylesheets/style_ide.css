@@ -1271,13 +1271,51 @@ body {
 
 [viewable="viewable_history"] {
   position: relative;
-  display: flex;
-  flex-direction: column; }
+  padding: 10px;
+  display: grid;
+  grid-template-columns: auto 80px 100px;
+  row-gap: 10px;
+  column-gap: 5px;
+  max-height: 100%;
+  overflow-y: auto; }
   [viewable="viewable_history"] .history_entry {
-    display: flex;
-    flex-direction: row; }
-    [viewable="viewable_history"] .history_entry.related {
-      border: 1px solid red; }
+    display: contents;
+    height: 2em;
+    overflow: hidden; }
+    [viewable="viewable_history"] .history_entry > * {
+      padding: 2px 6px;
+      color: var(--color-text-light-foreground);
+      background: var(--color-text-light-background);
+      transition: all 0.2s ease 0s; }
+    [viewable="viewable_history"] .history_entry.related > * {
+      color: var(--color-text-dark-foreground);
+      background: var(--color-text-dark-background); }
+    [viewable="viewable_history"] .history_entry:hover > * {
+      color: var(--color-text-darker-foreground);
+      background: var(--color-text-darker-background); }
+    [viewable="viewable_history"] .history_entry .title {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      border-top-left-radius: 3px;
+      border-bottom-left-radius: 3px; }
+    [viewable="viewable_history"] .history_entry .time {
+      display: flex;
+      flex-direction: column;
+      font-size: 12px; }
+    [viewable="viewable_history"] .history_entry .buttons {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      border-top-right-radius: 3px;
+      border-bottom-right-radius: 3px; }
+      [viewable="viewable_history"] .history_entry .buttons button {
+        margin: 0;
+        font-size: 12px;
+        padding: 2px 4px; }
+        [viewable="viewable_history"] .history_entry .buttons button:not(:last-child) {
+          margin-right: 5px; }
 
 [viewable="viewable_monitor"] #render-canvas, [viewable="viewable_monitor"] #unzoomed-canvas {
   display: none; }

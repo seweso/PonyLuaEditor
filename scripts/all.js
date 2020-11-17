@@ -7670,6 +7670,8 @@ HISTORY = (()=>{
 
         let relatedId = STORAGE.getConfiguration('related-history-entry')
         markRelatedHistoryEntry( relatedId )
+        
+        $('#code-title').val(STORAGE.getConfiguration('title'))
 
         LOADER.done(LOADER.EVENT.HISTORY_READY)
     }
@@ -7677,27 +7679,32 @@ HISTORY = (()=>{
     function makeDomHistory(e){
         let entry = $('<div class="history_entry" type="' + e.type + '" entry-id="' + e.id + '"></div>')
         entry.append(
-            $('<div class="title">' + (e.title || '<i>untitled</i>') + '</div>')
+            $('<div class="title"></div>')
         )
         entry.append(
-            $('<div class="time">' + (new Date(e.time).toLocaleString()) + '</div>')
+            $('<div class="time"></div>')
         )
         let loadButton = $('<button>Load</button>').on('click', ()=>{
             loadHistoryEntry(e)
         })
-        let updateButton = $('<button>Update</button>').on('click', ()=>{
+        let updateButton = $('<button class="special_button">Update</button>').on('click', ()=>{
             updateHistoryEntry(e)
         })
         entry.append(
             $('<div class="buttons"></div>').append(loadButton).append(updateButton)
         )
         dom.prepend(entry)
+        updateDomHistory(e)
     }
 
     function updateDomHistory(e){
         let entry = dom.find('.history_entry[entry-id="' + e.id + '"]')
         entry.find('.title').text( (e.title || '<i>untitled</i>') )
-        entry.find('.time').text( new Date(e.time).toLocaleString() )
+
+        let d = new Date(e.time)
+        entry.find('.time').html('').append(
+            $('<span>' + d.toLocaleDateString() + '</span><span>' + d.toLocaleTimeString() + '</span>')
+        )
     }
 
     function loadHistoryEntry(entry){
