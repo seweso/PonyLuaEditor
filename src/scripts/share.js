@@ -109,7 +109,11 @@ var SHARE = (($)=>{
         })
     }
 
-    function updateSharedCode(sharekey, token, successCallback){
+    function updateSharedCode(sharekey, token, callback){
+        if(typeof callback !== 'function'){
+            throw new Error('updateSharedCode expects callback function')
+        }
+
         ENGINE.saveCodesInStorage()
 
         REPORTER.report(REPORTER.REPORT_TYPE_IDS.updateCode)
@@ -119,14 +123,20 @@ var SHARE = (($)=>{
         $('#ponybin-create-overlay').show()
 
         let data = {
+            code: 'v2',
             settings: STORAGE.configurationAsString(),
-            id: sharekey,
+            key: sharekey,
             token: token
         }
 
         $.post(BASE_URL + '/api/update', data).done((data)=>{
-            if(typeof successCallback === 'function'){
-                successCallback()
+            try {
+                let json = JSON.parse(data)
+                if(json.status === 'ok'){
+                    callback(true, json.luabin)
+                }
+            } catch(ex) {
+                callback(false, ex)
             }
         }).fail((e)=>{
             console.error(e)

@@ -65,6 +65,8 @@ VERSION_KEEPER = (()=>{
         setState('Outdated', '#EA5151', '#fff')
 
         $('#share').hide()
+
+        $('.history_entry[type="sharekey"] .buttons').find('.load, .update').hide()
     }
 
     function setState(text, color_fill, color_text){

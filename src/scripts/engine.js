@@ -90,7 +90,8 @@ ENGINE = (($)=>{
                 if(res){
                     STORAGE.set()
                     // TODO rework this to not use page reload
-                    document.location.reload
+                    YYY.makeNoExitConfirm()
+                    document.location.reload()
                 }
             })
         })

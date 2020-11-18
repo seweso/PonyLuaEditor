@@ -85,6 +85,8 @@ STORAGE = (()=>{
             loaderNotified = true
             LOADER.done(LOADER.EVENT.STORAGE_READY)
         }
+
+        saveConfiguration()
     }
 
     function saveConfiguration(){

@@ -134,6 +134,10 @@ UTIL = (($)=>{
     "use strict";
 
     window.onerror = (errorMsg, url, lineNumber)=>{
+        if(typeof errorMsg === 'string' && errorMsg.indexOf('NS_BINDING_ABORTED') >= 0){
+            /* debug error */
+            return false
+        }
         alert("Unexpected error occured:<br>Please contact me!<br><br>" + url + '<br><br>' + lineNumber + '<br><br>' + errorMsg)
         return false;
     }
@@ -6023,6 +6027,8 @@ VERSION_KEEPER = (()=>{
         setState('Outdated', '#EA5151', '#fff')
 
         $('#share').hide()
+
+        $('.history_entry[type="sharekey"] .buttons').find('.load, .update').hide()
     }
 
     function setState(text, color_fill, color_text){
@@ -7483,6 +7489,8 @@ STORAGE = (()=>{
             loaderNotified = true
             LOADER.done(LOADER.EVENT.STORAGE_READY)
         }
+
+        saveConfiguration()
     }
 
     function saveConfiguration(){
@@ -7681,16 +7689,27 @@ HISTORY = (()=>{
         entry.append(
             $('<div class="title"></div>')
         )
+        let type = $('<div class="type"></div>')
+        if(e.type === 'sharekey'){
+            type.text(e.content.id).append(
+                $('<button class="share_link_open"><span class="icon-share2"></span></button>').on('click', ()=>{
+                    window.open('https://lua.flaffipony.rocks?id=' + e.content.id)
+                }).attr('title', 'https://lua.flaffipony.rocks?id=' + e.content.id)
+            )
+        } else {
+            type.text('Local')
+        }
+        entry.append(type)
         entry.append(
             $('<div class="time"></div>')
         )
-        let loadButton = $('<button>Load</button>').on('click', ()=>{
+        let loadButton = $('<button class="load">Load</button>').on('click', ()=>{
             loadHistoryEntry(e)
         })
-        let updateButton = $('<button class="special_button">Update</button>').on('click', ()=>{
+        let updateButton = $('<button class="special_button update">Update</button>').on('click', ()=>{
             updateHistoryEntry(e)
         })
-        let deleteButton = $('<button><span class="icon-bin"></span></button>').on('click', ()=>{
+        let deleteButton = $('<button><span class="icon-bin delete"></span></button>').on('click', ()=>{
             deleteHistoryEntry(e)
         })
         entry.append(
@@ -7702,7 +7721,7 @@ HISTORY = (()=>{
 
     function updateDomHistory(e){
         let entry = dom.find('.history_entry[entry-id="' + e.id + '"]')
-        entry.find('.title').text( (e.title || '<i>untitled</i>') )
+        entry.find('.title').text( (e.title || 'untitled') )
 
         let d = new Date(e.time)
         entry.find('.time').html('').append(
@@ -7716,18 +7735,29 @@ HISTORY = (()=>{
                 console.log('loading history entry', entry)
                 if(entry.type === 'code'){
                     STORAGE.set(entry.content)
+
+                    STORAGE.setConfiguration('related-history-entry', entry.id)
+
+                    markRelatedHistoryEntry(entry.id)
+
+                    // TODO rework this to not use page reload
+                    YYY.makeNoExitConfirm()
+                    document.location.reload()
                 } else if(entry.type === 'sharekey'){
                     SHARE.doReceive(entry.content.id, ()=>{
                         entry.title = STORAGE.getConfiguration('title')
+                        updateDomHistory(entry)
+                        updateLocalStorage()
+
+                        STORAGE.setConfiguration('related-history-entry', entry.id)
+
+                        markRelatedHistoryEntry(entry.id)
+
+                        // TODO rework this to not use page reload
+                        YYY.makeNoExitConfirm()
+                        document.location.reload()
                     })
                 }
-                STORAGE.setConfiguration('related-history-entry', entry.id)
-
-                markRelatedHistoryEntry(entry.id)
-
-                //TODO reinit everything
-                YYY.makeNoExitConfirm()
-                document.location.reload()
             }
         })
     }
@@ -7790,18 +7820,22 @@ HISTORY = (()=>{
 
                 ENGINE.saveCodesInStorage()
                 if(e.type === "sharekey"){
-                    SHARE.updateSharedCode(e.content.id, e.content.token, ()=>{
-                        UTIL.message('Success', 'Shared code updated successfully')
-                        e.content = STORAGE.configurationAsString()
-                        e.title = STORAGE.getConfiguration('title')
-                        e.time = new Date().getTime()
-                        updateDomHistory(e)
-                        updateLocalStorage()
+                    SHARE.updateSharedCode(e.content.id, e.content.token, (success, res)=>{
+                        if(success){
+                            UTIL.message('Success', 'Shared code updated successful.')
+                            e.content = {id: res.key, token: res.token}
+                            e.title = STORAGE.getConfiguration('title')
+                            e.time = new Date().getTime()
+                            updateDomHistory(e)
+                            updateLocalStorage()
 
-                        markRelatedHistoryEntry(e.id)
+                            markRelatedHistoryEntry(e.id)
+                        } else {
+                            UTIL.message('Failed', 'Shared code was not updated, please try again later.')
+                        }
                     })
                 } else if (e.type === "code"){
-                    e.content = STORAGE.configurationAsString()
+                    e.content = JSON.parse(STORAGE.configurationAsString())
                     e.title = STORAGE.getConfiguration('title')
                     e.time = new Date().getTime()
                     updateDomHistory(e)
@@ -7962,7 +7996,11 @@ var SHARE = (($)=>{
         })
     }
 
-    function updateSharedCode(sharekey, token, successCallback){
+    function updateSharedCode(sharekey, token, callback){
+        if(typeof callback !== 'function'){
+            throw new Error('updateSharedCode expects callback function')
+        }
+
         ENGINE.saveCodesInStorage()
 
         REPORTER.report(REPORTER.REPORT_TYPE_IDS.updateCode)
@@ -7972,14 +8010,20 @@ var SHARE = (($)=>{
         $('#ponybin-create-overlay').show()
 
         let data = {
+            code: 'v2',
             settings: STORAGE.configurationAsString(),
-            id: sharekey,
+            key: sharekey,
             token: token
         }
 
         $.post(BASE_URL + '/api/update', data).done((data)=>{
-            if(typeof successCallback === 'function'){
-                successCallback()
+            try {
+                let json = JSON.parse(data)
+                if(json.status === 'ok'){
+                    callback(true, json.luabin)
+                }
+            } catch(ex) {
+                callback(false, ex)
             }
         }).fail((e)=>{
             console.error(e)
@@ -14395,7 +14439,8 @@ ENGINE = (($)=>{
                 if(res){
                     STORAGE.set()
                     // TODO rework this to not use page reload
-                    document.location.reload
+                    YYY.makeNoExitConfirm()
+                    document.location.reload()
                 }
             })
         })

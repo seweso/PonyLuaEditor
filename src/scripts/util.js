@@ -2,6 +2,10 @@ UTIL = (($)=>{
     "use strict";
 
     window.onerror = (errorMsg, url, lineNumber)=>{
+        if(typeof errorMsg === 'string' && errorMsg.indexOf('NS_BINDING_ABORTED') >= 0){
+            /* debug error */
+            return false
+        }
         alert("Unexpected error occured:<br>Please contact me!<br><br>" + url + '<br><br>' + lineNumber + '<br><br>' + errorMsg)
         return false;
     }

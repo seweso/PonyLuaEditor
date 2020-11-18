@@ -2,7 +2,7 @@
     position: relative;
     padding: 10px;
     display: grid;
-    grid-template-columns: auto 80px 130px;
+    grid-template-columns: auto 125px 80px 130px;
     row-gap: 10px;
     column-gap: 5px;
     max-height: 100%;
@@ -36,6 +36,18 @@
             align-items: center;
             border-top-left-radius: 3px;
             border-bottom-left-radius: 3px;
+        }
+
+        .type {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+
+            .share_link_open {
+                padding: 2px 4px;
+                margin: 0 0 0 5px;
+            }
         }
 
         .time {
