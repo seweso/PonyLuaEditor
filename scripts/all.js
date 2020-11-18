@@ -7681,6 +7681,8 @@ HISTORY = (()=>{
 
         $('#code-title').val(STORAGE.getConfiguration('title'))
 
+        calculateStorageSize()
+
         LOADER.done(LOADER.EVENT.HISTORY_READY)
     }
 
@@ -7715,7 +7717,7 @@ HISTORY = (()=>{
         entry.append(
             $('<div class="buttons"></div>').append(loadButton).append(updateButton).append(deleteButton)
         )
-        dom.prepend(entry)
+        dom.find('.entries').prepend(entry)
         updateDomHistory(e)
     }
 
@@ -7764,6 +7766,28 @@ HISTORY = (()=>{
 
     function updateLocalStorage(){
         localStorage.setItem('yyy_history', JSON.stringify(history))
+
+        calculateStorageSize()
+    }
+
+    function calculateStorageSize(){
+        let localStorageSize = 0
+        for(let k in localStorage){
+            if(localStorage.hasOwnProperty(k)){
+                localStorageSize += localStorage[k].length
+            }
+        }
+
+        let usedPercent = Math.floor(localStorageSize/5000000 * 100)
+
+        $('#storage-used').text( usedPercent + ' %' )
+
+        if(usedPercent > 90){
+            $('#storage-used').addClass('warning')
+            UTIL.message('Storage Warning', 'Please remove some of your old codes in the history, your storage is almost full!')
+        } else {
+            $('#storage-used').removeClass('warning')
+        }
     }
 
     function markRelatedHistoryEntry(id){
