@@ -83,6 +83,7 @@ UTIL = (($)=>{
         }
 
         let dialog = $('<div class="dialog ' + type + '"/>').css('z-index', 800 + dialogCounter)
+        $(window).on('keydown keyup keypress', dialogPrevent)
         let inner = $('<div class="inner"/>')
         dialog.append(inner)
 
@@ -100,6 +101,7 @@ UTIL = (($)=>{
             btns.append(
                 $('<button btn-key="' + k + '">').text(buttons[k]).on('click', ()=>{
                     dialog.remove()
+                    $(window).off('keydown keyup keypress', dialogPrevent)
                     callback(k)
                 })
             )
@@ -109,6 +111,27 @@ UTIL = (($)=>{
         dialog.appendTo(document.body)
 
         dialogCounter++
+
+        function dialogPrevent(evt){
+            if((evt.originalEvent.ctrlKey || evt.originalEvent.metaKey) && evt.originalEvent.key === 'r' || evt.originalEvent.key === 'F5'){
+                /* allow page reload */
+            } else {
+                evt.originalEvent.preventDefault()
+                evt.originalEvent.stopPropagation()
+            }
+
+            if(evt.originalEvent.key == 'Enter'){
+                if(buttons['ok']){
+                    dialog.remove()
+                    $(window).off('keydown keyup keypress', dialogPrevent)
+                    callback('ok')
+                } else if (buttons['yes']){
+                    dialog.remove()
+                    $(window).off('keydown keyup keypress', dialogPrevent)
+                    callback('yes')
+                }
+            }
+        }
     }
 
     /* custom_remove_time is optional (time in milliseconds) */
