@@ -7968,7 +7968,7 @@ var SHARE = (($)=>{
         let paramid = params.get('id')
         if(paramid){
             setTimeout(()=>{
-                UTIL.confirm('Do you want to add the current code to history? Otherwise it will be discarded!').then((res)=>{
+                UTIL.confirm('Do you want to add your previous code to the history? The shared code will overwrite any previous code/settings. Pressing NO will result in you losing your previous code.').then((res)=>{
                     if(res){
                         HISTORY.addCurrentCode()
                     }
