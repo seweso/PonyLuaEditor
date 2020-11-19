@@ -241,6 +241,14 @@ a:hover {
     padding: 20px;
     border-radius: 3px;
     box-shadow: 2px 2px 3px #555; }
+  .dialog#confirm .inner {
+    border: 3px solid #f95454; }
+  .dialog#confirm .title {
+    color: #f95454; }
+  .dialog#confirm .buttons button {
+    background: #f95454; }
+    .dialog#confirm .buttons button:hover {
+      background: #fa7676; }
   .dialog .title {
     margin: 0;
     color: var(--color-accent);
