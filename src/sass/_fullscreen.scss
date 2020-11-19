@@ -1,0 +1,26 @@
+#fullscreen-offer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: $navigation-height;
+    width: 100vw;
+    background: #000;    
+    z-index: $z-index-fullscreen-offer;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    button {
+        font-size: 30px;
+        font-weight: bold;
+        background: transparent;
+        border: 2px solid #fff;
+        border-radius: 1000px;
+        margin: 0;
+
+        span {
+            margin-right: 10px;
+        }
+    }
+}

@@ -8336,6 +8336,20 @@ UI = (($)=>{
         $('#ide-server-mode').prop('checked', STORAGE.getConfiguration('settings.servermode') || false).trigger('change')
 
 
+
+        function checkOfferFullscreenMode(){
+            if($(window).width() < 768){
+                $('#fullscreen-offer').show()
+
+                setTimeout(()=>{
+                    $('#fullscreen-offer').hide()
+                }, 1000 * 10)
+            }
+        }
+
+        $(window).on('resize', checkOfferFullscreenMode)
+        checkOfferFullscreenMode()
+
         LOADER.done(LOADER.EVENT.UI_READY)
     }
 
