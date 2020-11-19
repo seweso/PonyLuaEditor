@@ -446,6 +446,7 @@ ENGINE = (($)=>{
         }
 
         STORAGE.setConfiguration('editors', codes)
+        SHARE.removeIdFromURL()
 
         UI_BUILDER.save()
     }

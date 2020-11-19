@@ -23,6 +23,18 @@
     display: flex;
     flex-direction: column;
 
+    &[offline]{
+        #share {
+            display: none !important;
+        }
+
+        .history_entry[type="sharekey"] .buttons {
+            .load, .update {
+                display: none !important;
+            }
+        }
+    }
+
     &[mode="server"] {
         
         .engine_controls {
@@ -68,10 +80,11 @@
             .controls_group {
                 padding: 5px;
                 display: inline-block;
+                color: var(--color-text-light-foreground);
 
                 &:not(:last-child) {
-                    border-right: 1px solid var(--color-text-light-foreground);
-                    padding-right: 25px;
+                    border-right: 3px solid var(--color-accent);
+                    padding-right: 10px;
                 }
 
                 button {
@@ -85,7 +98,7 @@
                 }
 
                 &:not(:last-child) {
-                    margin-right: 25px;
+                    margin-right: 10px;
                 }
             }
 
@@ -94,8 +107,8 @@
 
                 &.saved {
                     background: #4d835f;
-                    border-color: #fff;
-                    color: #fff;
+                    border-color: var(--color-text-light-foreground);
+                    color: var(--color-text-light-foreground);
                 }
             }
 
@@ -104,9 +117,10 @@
                 font-size: 14px;
                 margin-right: 10px;
                 background: transparent;
-                border: 1px solid #fff;
+                border: 1px solid var(--color-text-light-foreground);
                 border-radius: 4px;
-                color: #fff;
+                color: var(--color-text-light-foreground);
+                width: 160px;
             }
         }
 

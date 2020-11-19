@@ -8,7 +8,7 @@ HISTORY = (()=>{
 
     let dom
 
-    LOADER.on(LOADER.EVENT.PAGE_READY, init)
+    LOADER.on(LOADER.EVENT.UI_READY, init)
 
     function init(){
         let y = localStorage.getItem('yyy_history')
@@ -32,6 +32,7 @@ HISTORY = (()=>{
         for(let e of history.entries){
             makeDomHistory(e)
         }
+        sortDomHistory()
 
         let relatedId = STORAGE.getConfiguration('related-history-entry')
         markRelatedHistoryEntry( relatedId )
@@ -68,30 +69,66 @@ HISTORY = (()=>{
         let updateButton = $('<button class="special_button update">Update</button>').on('click', ()=>{
             updateHistoryEntry(e)
         })
-        let deleteButton = $('<button><span class="icon-bin delete"></span></button>').on('click', ()=>{
+        let deleteButton = $('<button class="special_button delete"><span class="icon-bin delete"></span></button>').on('click', ()=>{
             deleteHistoryEntry(e)
         })
+
+        if(e.type === 'sharekey' && ! e.content.token){
+            updateButton.hide()
+            deleteButton.append('&nbsp;Ref')
+        }
+
         entry.append(
             $('<div class="buttons"></div>').append(loadButton).append(updateButton).append(deleteButton)
         )
         dom.find('.entries').prepend(entry)
-        updateDomHistory(e)
+        updateDomHistory(e, true)
     }
 
-    function updateDomHistory(e){
+    function updateDomHistory(e, dontSort){
         let entry = dom.find('.history_entry[entry-id="' + e.id + '"]')
+
         entry.find('.title').text( (e.title || 'untitled') )
 
         let d = new Date(e.time)
         entry.find('.time').html('').append(
             $('<span>' + d.toLocaleDateString() + '</span><span>' + d.toLocaleTimeString() + '</span>')
         )
+
+        if(dontSort !== true){
+            sortDomHistory()
+        }
     }
+
+    function sortDomHistory(){
+        history.entries.sort((a,b)=>{
+            if(a.time > b.time){
+                return -1
+            }
+
+            if(a.time < b.time){
+                return 1
+            }
+
+            return 0
+        })
+
+        console.log('sorted', history.entries)
+
+        let rowCounter = 1
+        for(let e of history.entries){
+            let entry = dom.find('.history_entry[entry-id="' + e.id + '"]')
+            entry.children().attr('style', 'grid-row: ' + rowCounter + ' / ' + rowCounter)
+            rowCounter++
+        }
+    }
+
 
     function loadHistoryEntry(entry){
         UTIL.confirm('Discard current code and settings and load historical code?').then((res)=>{
             if(res){
                 console.log('loading history entry', entry)
+                SHARE.removeIdFromURL()
                 if(entry.type === 'code'){
                     STORAGE.set(entry.content)
 
@@ -103,18 +140,28 @@ HISTORY = (()=>{
                     YYY.makeNoExitConfirm()
                     document.location.reload()
                 } else if(entry.type === 'sharekey'){
-                    SHARE.doReceive(entry.content.id, ()=>{
-                        entry.title = STORAGE.getConfiguration('title')
-                        updateDomHistory(entry)
-                        updateLocalStorage()
+                    SHARE.doReceive(entry.content.id, (success)=>{
+                        if(success){
+                            entry.title = STORAGE.getConfiguration('title')
+                            updateDomHistory(entry)
+                            updateLocalStorage()
 
-                        STORAGE.setConfiguration('related-history-entry', entry.id)
+                            STORAGE.setConfiguration('related-history-entry', entry.id)
 
-                        markRelatedHistoryEntry(entry.id)
+                            markRelatedHistoryEntry(entry.id)
 
-                        // TODO rework this to not use page reload
-                        YYY.makeNoExitConfirm()
-                        document.location.reload()
+                            // TODO rework this to not use page reload
+                            YYY.makeNoExitConfirm()
+                            document.location.reload()
+                        } else {
+                            entry.title = 'invalid key'
+                            updateDomHistory(entry)
+                            updateLocalStorage()
+
+                            STORAGE.setConfiguration('related-history-entry', entry.id)
+
+                            markRelatedHistoryEntry(entry.id)
+                        }
                     })
                 }
             }
@@ -154,7 +201,11 @@ HISTORY = (()=>{
         }
     }
 
-    function addShareKey(sharekey, token){
+    function addOthersShareKey(sharekey, title){
+        createNewEntry('sharekey', {id: sharekey}, title)
+    }
+
+    function addMyShareKey(sharekey, token){
         createNewEntry('sharekey', {id: sharekey, token: token}, STORAGE.getConfiguration('title'))
     }
 
@@ -179,6 +230,8 @@ HISTORY = (()=>{
         markRelatedHistoryEntry(id)
 
         updateLocalStorage()
+
+        UI.viewables()['viewable_history'].focusSelf()
     }
 
     function updateHistoryEntry(e){
@@ -234,7 +287,7 @@ HISTORY = (()=>{
         let text
         if(e.type === "sharekey"){
             if(e.content.token){
-                text = 'You will loose access to this shared code, you will not be able to update it anymore!'
+                text = 'You will lose access to this shared code, you will not be able to update it anymore!'
             } else {
                 text = 'Do you want to remove the reference for this shared code? The code itself stays online!'
             }
@@ -261,7 +314,8 @@ HISTORY = (()=>{
     }
 
     return {
-        addShareKey: addShareKey,
+        addOthersShareKey: addOthersShareKey,
+        addMyShareKey: addMyShareKey,
         addCurrentCode: addCurrentCode
     } 
 })()

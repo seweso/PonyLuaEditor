@@ -186,7 +186,7 @@ STORAGE = (()=>{
             set(parsedSettings)
         } else {
             /* old shared information */
-
+            console.info('share is old version, updating...')
             setFromShare(key, {
                 settings: JSON.stringify({
                     version: '1',

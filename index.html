@@ -134,8 +134,6 @@ You can also minify code, find tutorials and examples or use the ui builder to c
             <div class="ide_controls">
                 <div class="controls_group">
                     <button id="save" title="Save"><span class="icon-floppy-disk"></span></button> 
-                    <input type="text" name="code-title" id="code-title" placeholder="Title of your code">
-                    <button id="save-to-history" title="Save to history">Save to history</button>
                     <button id="reset" title="Reset">Reset</button>
                 </div>
                 <div class="controls_group engine_controls">
@@ -144,14 +142,19 @@ You can also minify code, find tutorials and examples or use the ui builder to c
                     <button id="step" class="special_button" title="Step forward"><span class="icon-next2"></span></button>
                     <button id="stop" title="Stop"><span class="icon-stop2"></span></button>   
                 </div>
-                <div class="controls_group share" id="share">
-                    <button class="docreate special_button">
-                        Share
-                    </button>
-                    <div class="more">
-                        <div class="currentshare_container">
-                            <input type="text" class="currentshare" name="currentshare"/>
-                            <span class="copy_share_to_clipboard">Copy</span>
+                <div class="controls_group">
+                    <label for="code-title">Name:</label>
+                    <input type="text" name="code-title" id="code-title" placeholder="e.g. Fuel Display">
+                    <button id="save-to-history" title="Add to history">Add to history</button>
+                    <div id="share">
+                        <button class="docreate special_button">
+                            Share
+                        </button>
+                        <div class="more">
+                            <div class="currentshare_container">
+                                <input type="text" class="currentshare" name="currentshare"/>
+                                <span class="copy_share_to_clipboard">Copy</span>
+                            </div>
                         </div>
                     </div>
                 </div>

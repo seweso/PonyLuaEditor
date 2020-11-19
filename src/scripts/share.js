@@ -52,9 +52,21 @@ var SHARE = (($)=>{
         let params = new URLSearchParams( document.location.search)
         let paramid = params.get('id')
         if(paramid){
-            setCurrentShare(paramid)
             setTimeout(()=>{
-                doReceive(currentShare)
+                UTIL.confirm('Do you want to add the current code to history? Otherwise it will be discarded!').then((res)=>{
+                    if(res){
+                        HISTORY.addCurrentCode()
+                    }
+
+                    setCurrentShare(paramid)
+                    doReceive(currentShare, (success)=>{
+                        if(success){
+                            HISTORY.addOthersShareKey(paramid, STORAGE.getConfiguration('title'))
+                        } else {
+                            HISTORY.addOthersShareKey(paramid, 'invalid key')
+                        }
+                    })
+                })
             }, 1000)
         }
         LOADER.done(LOADER.EVENT.SHARE_READY)
@@ -96,7 +108,7 @@ var SHARE = (($)=>{
                 let id = json.key
                 setCurrentShare(id)
 
-                HISTORY.addShareKey(id, json.token)
+                HISTORY.addMyShareKey(id, json.token)
             } catch (e){
                 console.error(e)
                 UTIL.alert('Cannot share via ponybin. Please contact me.')
@@ -136,9 +148,10 @@ var SHARE = (($)=>{
                     callback(true, json.luabin)
                 }
             } catch(ex) {
-                callback(false, ex)
+                callback(false)
             }
         }).fail((e)=>{
+            callback(false)
             console.error(e)
             UTIL.alert('Cannot update via ponybin. Please contact me!')
         }).always(()=>{
@@ -146,7 +159,7 @@ var SHARE = (($)=>{
         })
     }
 
-    function doReceive(sharekey, successCallback){
+    function doReceive(sharekey, callback){
         if(!sharekey){
             UTIL.alert('Cannot get data from ponybin. Please contact me.')
             return
@@ -164,17 +177,23 @@ var SHARE = (($)=>{
 
                 if(typeof json.luabin === 'object'){
                     STORAGE.setFromShare(sharekey, json.luabin)
-                    if(typeof successCallback === 'function'){
-                        successCallback()
+                    if(typeof callback === 'function'){
+                        callback(true)
                     }
                 } else {
                     throw 'invalid luabin format'
                 }
             } catch (e){
+                if(typeof callback === 'function'){
+                    callback(false)
+                }
                 console.error(e)
                 UTIL.alert('Cannot get data from ponybin. Please contact me!')
             }
         }).fail((e)=>{
+            if(typeof callback === 'function'){
+                callback(false)
+            }
             console.error(e)
             UTIL.alert('Cannot get data from ponybin. Is the share key correct?')
         }).always(()=>{
@@ -182,9 +201,17 @@ var SHARE = (($)=>{
         })
     }
 
+    function removeIdFromURL(){
+        let params = new URLSearchParams( document.location.search)
+        params.delete('id')
+        let query = params.toString()
+        window.history.pushState(null, document.title, document.location.pathname + (query.length > 0 ? '?' + query : ''))
+    }
+
     return {
         doReceive: doReceive,
-        updateSharedCode: updateSharedCode
+        updateSharedCode: updateSharedCode,
+        removeIdFromURL: removeIdFromURL
     }
 
 })(jQuery)

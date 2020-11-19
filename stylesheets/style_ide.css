@@ -177,7 +177,7 @@ a:hover {
   background: var(--color-special) !important; }
 
 .ide .ide_controls #share {
-  display: flex;
+  display: inline-flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
@@ -1281,7 +1281,7 @@ body {
   position: relative;
   padding: 10px;
   display: grid;
-  grid-template-columns: auto 125px 80px 130px;
+  grid-template-columns: auto 125px 80px 150px;
   row-gap: 10px;
   column-gap: 5px;
   max-height: 100%;
@@ -1510,6 +1510,10 @@ body {
   overflow: hidden;
   display: flex;
   flex-direction: column; }
+  .ide[offline] #share {
+    display: none !important; }
+  .ide[offline] .history_entry[type="sharekey"] .buttons .load, .ide[offline] .history_entry[type="sharekey"] .buttons .update {
+    display: none !important; }
   .ide[mode="server"] .engine_controls {
     display: none !important; }
   .ide.deactivated:after {
@@ -1542,10 +1546,11 @@ body {
       flex-wrap: wrap; }
       .ide .ide_bar .ide_controls .controls_group {
         padding: 5px;
-        display: inline-block; }
+        display: inline-block;
+        color: var(--color-text-light-foreground); }
         .ide .ide_bar .ide_controls .controls_group:not(:last-child) {
-          border-right: 1px solid var(--color-text-light-foreground);
-          padding-right: 25px; }
+          border-right: 3px solid var(--color-accent);
+          padding-right: 10px; }
         .ide .ide_bar .ide_controls .controls_group button {
           margin: 0;
           padding: 6px 10px;
@@ -1553,21 +1558,22 @@ body {
         .ide .ide_bar .ide_controls .controls_group button:not(:last-child) {
           margin-right: 10px; }
         .ide .ide_bar .ide_controls .controls_group:not(:last-child) {
-          margin-right: 25px; }
+          margin-right: 10px; }
       .ide .ide_bar .ide_controls #save {
         transition: all 0.5s ease 0s; }
         .ide .ide_bar .ide_controls #save.saved {
           background: #4d835f;
-          border-color: #fff;
-          color: #fff; }
+          border-color: var(--color-text-light-foreground);
+          color: var(--color-text-light-foreground); }
       .ide .ide_bar .ide_controls #code-title {
         padding: 4px 6px;
         font-size: 14px;
         margin-right: 10px;
         background: transparent;
-        border: 1px solid #fff;
+        border: 1px solid var(--color-text-light-foreground);
         border-radius: 4px;
-        color: #fff; }
+        color: var(--color-text-light-foreground);
+        width: 160px; }
     .ide .ide_bar .ide_bar_right {
       display: flex;
       flex-direction: row;
