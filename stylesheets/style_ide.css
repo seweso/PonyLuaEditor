@@ -242,13 +242,41 @@ a:hover {
     border-radius: 3px;
     box-shadow: 2px 2px 3px #555; }
   .dialog#confirm .inner {
-    border: 3px solid #f95454; }
+    border: 3px solid #b80a66; }
   .dialog#confirm .title {
-    color: #f95454; }
+    color: #b80a66; }
   .dialog#confirm .buttons button {
-    background: #f95454; }
+    background: #b80a66;
+    color: #fff; }
     .dialog#confirm .buttons button:hover {
-      background: #fa7676; }
+      background: #c63a84; }
+  .dialog#success .inner {
+    border: 3px solid #6FBA34; }
+  .dialog#success .title {
+    color: #6FBA34; }
+  .dialog#success .buttons button {
+    background: #6FBA34;
+    color: #fff; }
+    .dialog#success .buttons button:hover {
+      background: #8bc75c; }
+  .dialog#fail .inner {
+    border: 3px solid #DF0000; }
+  .dialog#fail .title {
+    color: #DF0000; }
+  .dialog#fail .buttons button {
+    background: #DF0000;
+    color: #fff; }
+    .dialog#fail .buttons button:hover {
+      background: #e53232; }
+  .dialog#alert .inner {
+    border: 3px solid #E5CE44; }
+  .dialog#alert .title {
+    color: #E5CE44; }
+  .dialog#alert .buttons button {
+    background: #E5CE44;
+    color: #fff; }
+    .dialog#alert .buttons button:hover {
+      background: #ead769; }
   .dialog .title {
     margin: 0;
     color: var(--color-accent);
@@ -972,7 +1000,18 @@ body {
       cursor: pointer;
       padding: 0.25em 0.5em;
       margin: 4px;
-      transition: all 0.2s ease 0s; }
+      transition: all 0.2s ease 0s;
+      display: inline-flex;
+      flex-direction: row;
+      align-items: center; }
+      [view] .select [select-viewable] .notifications_counter {
+        background: var(--color-warning-red-background);
+        color: var(--color-warning-red-foreground);
+        border-radius: 10000px;
+        font-size: 12px;
+        line-height: 12px;
+        padding: 2px 4px;
+        margin-left: 5px; }
       [view] .select [select-viewable] .moveto {
         margin-left: 10px;
         opacity: 0;

@@ -203,7 +203,7 @@ HISTORY = (()=>{
 
         if(usedPercent > 90){
             $('#storage-used').addClass('warning')
-            UTIL.message('Storage Warning', 'Please remove some of your old codes in the history, your storage is almost full!')
+            UTIL.alert('Please remove some of your old codes in the history, your storage is almost full!', 'Storage Warning')
         } else {
             $('#storage-used').removeClass('warning')
         }
@@ -218,14 +218,20 @@ HISTORY = (()=>{
 
     function addOthersShareKey(sharekey, title){
         createNewEntry('sharekey', {id: sharekey}, title)
+
+        UI.viewables()['viewable_history'].addNotification()
     }
 
     function addMyShareKey(sharekey, token, title){
         createNewEntry('sharekey', {id: sharekey, token: token}, title)
+
+        UI.viewables()['viewable_history'].addNotification()
     }
 
     function addCurrentCode(){
         createNewEntry('code', STORAGE.configurationAsString(), STORAGE.getConfiguration('title'))
+
+        UI.viewables()['viewable_history'].focusSelf()
     }
 
     function createNewEntry(type, content, title){
@@ -245,8 +251,6 @@ HISTORY = (()=>{
         markRelatedHistoryEntry(id)
 
         updateLocalStorage()
-
-        UI.viewables()['viewable_history'].focusSelf()
     }
 
     function updateHistoryEntry(e){
@@ -271,7 +275,7 @@ HISTORY = (()=>{
                 if(e.type === "sharekey"){
                     SHARE.updateSharedCode(e.content.id, e.content.token, (success, res)=>{
                         if(success){
-                            UTIL.message('Success', 'Shared code updated successful.')
+                            UTIL.success('Shared code updated successful.')
                             e.content = {id: res.key, token: res.token}
                             e.title = STORAGE.getConfiguration('title')
                             e.time = new Date().getTime()
@@ -280,7 +284,7 @@ HISTORY = (()=>{
 
                             markRelatedHistoryEntry(e.id)
                         } else {
-                            UTIL.message('Failed', 'Shared code was not updated, please try again later.')
+                            UTIL.fail('Shared code was not updated, please try again later.')
                         }
                     })
                 } else if (e.type === "code"){
@@ -385,7 +389,7 @@ HISTORY = (()=>{
                                     count++
                                 }
                             }
-                            UTIL.message('Import successful', 'Added ' + count + ' keys to history.')
+                            UTIL.success('Added ' + count + ' keys to history.', 'Import successful')
                         }
                     } catch (ex){
                         console.error(ex)

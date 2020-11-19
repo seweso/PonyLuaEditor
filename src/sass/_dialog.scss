@@ -23,18 +23,76 @@
 
     &#confirm {
         .inner {
-            border: 3px solid #f95454;
+            border: 3px solid #b80a66;
         }
 
         .title {
-            color: #f95454;
+            color: #b80a66;
         }
 
         .buttons button {
-            background: #f95454;
+            background: #b80a66;
+            color: #fff;
 
             &:hover {
-                background: #fa7676;
+                background: #c63a84;
+            }
+        }
+    }
+
+    &#success {
+        .inner {
+            border: 3px solid #6FBA34;
+        }
+
+        .title {
+            color: #6FBA34;
+        }
+
+        .buttons button {
+            background: #6FBA34;
+            color: #fff;
+
+            &:hover {
+                background: #8bc75c;
+            }
+        }
+    }
+
+    &#fail {
+        .inner {
+            border: 3px solid #DF0000;
+        }
+
+        .title {
+            color: #DF0000;
+        }
+
+        .buttons button {
+            background: #DF0000;
+            color: #fff;
+
+            &:hover {
+                background: #e53232;
+            }
+        }
+    }
+
+    &#alert {
+        .inner {
+            border: 3px solid #E5CE44;
+        }
+
+        .title {
+            color: #E5CE44;
+        }
+
+        .buttons button {
+            background: #E5CE44;
+            color: #fff;
+
+            &:hover {
+                background: #ead769;
             }
         }
     }

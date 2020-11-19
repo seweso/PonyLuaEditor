@@ -25,6 +25,19 @@
             padding: 0.25em 0.5em;
             margin: 4px;
             transition: all 0.2s ease 0s;
+            display: inline-flex;
+            flex-direction: row;
+            align-items: center;
+
+            .notifications_counter {
+                background: var(--color-warning-red-background);
+                color: var(--color-warning-red-foreground);
+                border-radius: 10000px;
+                font-size: 12px;
+                line-height: 12px;
+                padding: 2px 4px;
+                margin-left: 5px;
+            }
 
             .moveto {
                 margin-left: 10px;

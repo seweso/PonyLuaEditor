@@ -1,6 +1,13 @@
 UTIL = (($)=>{
     "use strict";
 
+    LOADER.on(LOADER.EVENT.UI_READY, init)
+
+    function init(){
+
+        LOADER.done(LOADER.EVENT.UTIL_READY, init)
+    }
+
     window.onerror = (errorMsg, url, lineNumber)=>{
         if(typeof errorMsg === 'string' && errorMsg.indexOf('NS_BINDING_ABORTED') >= 0){
             /* debug error */
@@ -41,7 +48,33 @@ UTIL = (($)=>{
         })
     }
 
-     function confirm(text){
+    function fail(text, customTitle){
+        return new Promise((fulfill, reject)=>{
+            $('#fail .title').html(customTitle ? customTitle : 'Failed:')
+            $('#fail .message').html(text)
+            $('#fail').show()
+            $('#fail .ok').on('click', ()=>{
+                $('#fail .ok').off('click')
+                $('#fail').hide()
+                fulfill(true)
+            })
+        })
+    }
+
+    function success(text, customTitle){
+        return new Promise((fulfill, reject)=>{
+            $('#success .title').html(customTitle ? customTitle : 'Success:')
+            $('#success .message').html(text)
+            $('#success').show()
+            $('#success .ok').on('click', ()=>{
+                $('#success .ok').off('click')
+                $('#success').hide()
+                fulfill(true)
+            })
+        })
+    }
+
+    function confirm(text){
         return new Promise((fulfill, reject)=>{
             $('#confirm .message').html(text)
             $('#confirm').show()
@@ -58,8 +91,9 @@ UTIL = (($)=>{
         })
     }    
 
-    function alert(text){
+    function alert(text, customTitle){
         return new Promise((fulfill, reject)=>{
+            $('#alert .title').html(customTitle ? customTitle : 'Alert:')
             $('#alert .message').html(text)
             $('#alert').show()
             $('#alert .ok').on('click', ()=>{
@@ -92,9 +126,10 @@ UTIL = (($)=>{
             h.fadeOut(()=>{
                 h.remove()
             })
+            UI.viewables()['viewable_hints'].removeNotification(not)
         }, custom_remove_time)
 
-        UI.viewables()['viewable_hints'].focusSelf()
+        let not = UI.viewables()['viewable_hints'].addNotification()
     }
 
     /*
@@ -140,12 +175,14 @@ UTIL = (($)=>{
                 h.remove()
             })
         }, custom_remove_time)
-    }
+    }    
 
     return {
         highlight: highlight,
         unHighlight: unHighlight,
         message: message,
+        fail: fail,
+        success: success,
         confirm: confirm,
         alert: alert,
         hint: hint,

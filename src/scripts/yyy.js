@@ -5,7 +5,7 @@ YYY = (($)=>{
 
     let isCustomMinifiedCode = false
 
-    LOADER.on(LOADER.EVENT.UI_READY, init)
+    LOADER.on(LOADER.EVENT.UTIL_READY, init)
 
     function init(){
         /* navigation menu */

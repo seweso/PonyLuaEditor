@@ -32,6 +32,8 @@ LOADER = (($)=>{
         GIVEAWAY_READY: 'Giveaway',
         LUA_EMULATOR_READY: 'Lua Emulator',
 
+        UTIL_READY: 'Util',
+
         STORMWORKS_LUA_API_READY: 'Stormworks Lua API',
 
         UI_BUILDER_READY: 'UI Builder',
