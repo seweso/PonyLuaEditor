@@ -51,8 +51,7 @@ VERSION_KEEPER = (()=>{
     function onUnableToCheck(){
         UTIL.addNavigationHint('Unable to check version', 'warning')
         setState('Offline', '#000', '#fff')
-
-        $('#share').hide()
+        $('.ide').attr('offline', true)
     }
 
     function onUpToDate(){
@@ -64,7 +63,7 @@ VERSION_KEEPER = (()=>{
         UTIL.addNavigationHint('Version outdated. <a href="https://gitlab.com/stormworks-tools/editor/-/archive/master/editor-master.zip" download style="color: #fff; font-weight: bold">Download latest version here</a>', 'error')
         setState('Outdated', '#EA5151', '#fff')
 
-        $('#share').hide()
+        $('.ide').attr('offline', true)
     }
 
     function setState(text, color_fill, color_text){

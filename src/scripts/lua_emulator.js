@@ -363,7 +363,7 @@ var LUA_EMULATOR = (($)=>{
         if(match && match[1]){
             let line = parseInt(match[1])
             if(!isNaN(line)){
-                EDITORS.getActiveEditor().markError(line, err)
+                EDITORS.getActiveEditor().markError(line, err, true)
             }
         }
 

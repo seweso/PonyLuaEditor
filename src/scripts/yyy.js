@@ -5,7 +5,7 @@ YYY = (($)=>{
 
     let isCustomMinifiedCode = false
 
-    LOADER.on(LOADER.EVENT.UI_READY, init)
+    LOADER.on(LOADER.EVENT.UTIL_READY, init)
 
     function init(){
         /* navigation menu */
@@ -31,10 +31,11 @@ YYY = (($)=>{
         ENGINE.refresh()
 
         UTIL.hint('Latest Changes', makeListText([
+            'syntax check while coding',
             'detect infinite loops',
             'offline version know checks for updates and notifies user',
             'offline version can now use the share feature (if online and up to date)',
-            'input numbers can not only oszilate, but also rotate now',
+            'input numbers can not only oscilate, but also rotate now',
             'unminifier does not remove the "#" symbol'
         ]))
 
@@ -42,11 +43,16 @@ YYY = (($)=>{
             return '<ul><li>' + entries.join('</li><li>') + '</li></ul>'
         }
         
+        UTIL.hint('New Feature', 'History of your recent codes and opened shared codes')
+        UTIL.hint('New Feature', 'Edit your own shared codes and publish updates')
+
         LOADER.done(LOADER.EVENT.OTHERS_READY)
     }
 
     return {
-        noExitConfirm: noExitConfirm,
+        noExitConfirm: ()=>{
+            return noExitConfirm
+        },
         makeNoExitConfirm: ()=>{
             noExitConfirm = true
         },
@@ -59,7 +65,7 @@ YYY = (($)=>{
 
 
 window.onbeforeunload = function (e) {
-    if(YYY.noExitConfirm){
+    if(YYY.noExitConfirm()){
         return
     }
     e = e || window.event;

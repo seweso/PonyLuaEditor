@@ -106,8 +106,15 @@ body {
       font-size: 45px;
       cursor: pointer;
       line-height: 41px; }
-    #navigation .left .version_state {
-      margin-left: 30px;
+  #navigation .right {
+    justify-content: flex-end; }
+    #navigation .right .logo_container {
+      height: 100%; }
+      #navigation .right .logo_container img {
+        height: 100%;
+        width: auto; }
+    #navigation .right .version_state {
+      margin-right: 30px;
       border-radius: 10000px;
       border: 2px solid;
       font-weight: bold;
@@ -116,18 +123,12 @@ body {
       justify-content: center;
       align-items: center;
       padding: 5px 15px; }
-  #navigation .right {
-    justify-content: flex-end; }
-    #navigation .right .logo_container {
-      height: 100%; }
-      #navigation .right .logo_container img {
-        height: 100%;
-        width: auto; }
   #navigation .center {
     position: relative;
     width: 50%;
     height: 100%;
-    cursor: pointer; }
+    cursor: pointer;
+    z-index: 3; }
     #navigation .center svg {
       position: absolute;
       top: 0;

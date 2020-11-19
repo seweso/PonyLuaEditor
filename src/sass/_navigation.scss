@@ -47,19 +47,6 @@ body {
 
             line-height: 41px;
         }
-
-        .version_state {
-            margin-left: 30px;
-            border-radius: 10000px;
-            border: 2px solid;
-            font-weight: bold;
-
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            align-items: center;
-            padding: 5px 15px;
-        }
     }
 
     .right {
@@ -73,6 +60,19 @@ body {
                 width: auto;
             }
         }
+
+        .version_state {
+            margin-right: 30px;
+            border-radius: 10000px;
+            border: 2px solid;
+            font-weight: bold;
+
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            padding: 5px 15px;
+        }
     }
 
     .center {
@@ -80,6 +80,7 @@ body {
         width: 50%;
         height: 100%;
         cursor: pointer;
+        z-index: 3;
 
         svg {
             position: absolute;

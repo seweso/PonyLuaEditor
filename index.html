@@ -22,15 +22,7 @@ You can also minify code, find tutorials and examples or use the ui builder to c
 
 
 
-
-
-    <meta property="og:title" content="Pony IDE" />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://lua.flaffipony.rocks/" />
-    <meta property="og:image" content="https://lua.flaffipony.rocks/images/og.png" />
-    <meta property="og:description" content="Create, Run and Share your lua scripts for Stormworks: Build and Rescue! 
-You can also minify code, find tutorials and examples or use the ui builder to create lua scripts without any programming skills." />
-
+    <!-- OG SECTION -->
 
 
     <link rel="stylesheet" type="text/css" href="stylesheets/style_ide.css">
@@ -54,7 +46,10 @@ You can also minify code, find tutorials and examples or use the ui builder to c
     <div id="navigation">
         <div class="left">
             <span class="icon-menu" id="menu-open"></span>
-            <div class="version_state"></div>
+            <div id="help-button">
+                <img src="images/help.png">
+                <span>Help</span>
+            </div>
         </div>
         <div class="center">
             <svg
@@ -99,10 +94,7 @@ You can also minify code, find tutorials and examples or use the ui builder to c
             </div>
         </div>
         <div class="right">
-            <div id="help-button">
-                <img src="images/help.png">
-                <span>Help</span>
-            </div>
+            <div class="version_state"></div>
             <div class="logo_container">
                 <img src="images/logo.png"/>
             </div>
@@ -141,14 +133,19 @@ You can also minify code, find tutorials and examples or use the ui builder to c
                     <button id="step" class="special_button" title="Step forward"><span class="icon-next2"></span></button>
                     <button id="stop" title="Stop"><span class="icon-stop2"></span></button>   
                 </div>
-                <div class="controls_group share" id="share">
-                    <button class="docreate special_button">
-                        Share
-                    </button>
-                    <div class="more">
-                        <div class="currentshare_container">
-                            <input type="text" class="currentshare" name="currentshare"/>
-                            <span class="copy_share_to_clipboard">Copy</span>
+                <div class="controls_group">
+                    <label for="code-title">Name:</label>
+                    <input type="text" name="code-title" id="code-title" placeholder="e.g. Fuel Display">
+                    <button id="save-to-history" title="Add to history">Add to history<span id="history-help-controls" class="icon-question"></span></button>
+                    <div id="share">
+                        <button class="docreate special_button">
+                            Share
+                        </button>
+                        <div class="more">
+                            <div class="currentshare_container">
+                                <input type="text" class="currentshare" name="currentshare"/>
+                                <span class="copy_share_to_clipboard">Copy</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -244,6 +241,22 @@ You can also minify code, find tutorials and examples or use the ui builder to c
                     <span id="timeBetweenDrawsVal">50</span>
                     <input type="range" min="16" max="250" value="16" id="timeBetweenDraws">
                 </div>
+            </div>
+        </div>
+
+        <div viewable="viewable_history">
+            <div class="heading">
+                <div>
+                    <div id="history-help">Help <span class="icon-question"></span></div>
+                    <button id="history-export">Export My Shared Keys</button>
+                    <button id="history-import">Import My Shared Keys</button>
+                </div>
+                <div class="storage">
+                    Storage used: <span id="storage-used">?</span>
+                </div>
+            </div>
+            <div class="entries">
+                
             </div>
         </div>
 
@@ -423,40 +436,6 @@ end
         </div>
     </div>
 
-    <div style="display: none" id="message" class="dialog">
-        <div class="inner">
-            <h3 class="title"></h3>
-            <div class="message">
-            </div>
-            <div class="buttons">
-                <button class="ok">Ok</button>
-            </div>
-        </div>
-    </div>
-
-    <div style="display: none" id="confirm" class="dialog">
-        <div class="inner">
-            <h3 class="title">Confirm action:</h3>
-            <div class="message">
-            </div>
-            <div class="buttons">
-                <button class="yes">Yes</button>
-                <button class="no">No</button>
-            </div>
-        </div>
-    </div>
-
-    <div style="display: none" id="alert" class="dialog">
-        <div class="inner">
-            <h3 class="title">Alert:</h3>
-            <div class="message">
-            </div>
-            <div class="buttons">
-                <button class="ok">Ok</button>
-            </div>
-        </div>
-    </div>
-
     <div style="display: none;" id="giveaway-container" class="dialog">
         <div class="inner">
             <h3 class="title">Pony has a giveaway for you!</h3>
@@ -530,6 +509,9 @@ end
     </div>
 
 
+    <div id="fullscreen-offer" style="display: none">
+        <button onclick="document.body.requestFullscreen()"><span class="icon-enlarge"></span>Enter Fullscreen</button>
+    </div>
 
 <!--
     <script type="text/javascript" src="https://stormworks.flaffipony.rocks/embed_overview.js"></script>

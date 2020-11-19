@@ -24,12 +24,15 @@ LOADER = (($)=>{
         PAGE_READY: 'Page Loaded',
 
         STORAGE_READY: 'Storage',
+        HISTORY_READY: 'History',
 
         SHARE_READY: 'Share',
 
         UI_READY: 'User Interface',
         GIVEAWAY_READY: 'Giveaway',
         LUA_EMULATOR_READY: 'Lua Emulator',
+
+        UTIL_READY: 'Util',
 
         STORMWORKS_LUA_API_READY: 'Stormworks Lua API',
 
@@ -97,7 +100,7 @@ LOADER = (($)=>{
                     }
                 }
             }
-            if( allEventsDone() ){
+            if( allEventsDone() && doneEvents.indexOf(EVENT_ALL_DONE) === -1 ){
                 done(EVENT_ALL_DONE)
             }
         }, 1)
@@ -116,7 +119,7 @@ LOADER = (($)=>{
     }
 
     function allEventsDone(){
-        return doneEvents.length === Object.keys(EVENT).length
+        return doneEvents.length === Object.keys(EVENT).length || doneEvents.indexOf(EVENT_ALL_DONE) >= 0
     }
 
     return {

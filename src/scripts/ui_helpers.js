@@ -103,8 +103,55 @@ class Viewable extends SimpleEventor {
         this.dom = $(domElement)
 
         this.DEBUG_NAME = this.name()
+
+        this.notifications = {}
+        this.notificationsNextId = 1
+
+        this.onGainFocus(()=>{
+            this.resetNotifications()
+        })
+        this.onViewChange(()=>{
+            this.notificationsDom = $('<span class="notifications_counter"/>').hide()
+            let selectDom = this.getSelectDom()
+            if(selectDom){
+                selectDom.append(this.notificationsDom)
+            }
+        })
     }
 
+    updateNofificationsCounter(){
+        if(this.notificationsDom){
+            let count = Object.keys(this.notifications).length
+            this.notificationsDom.text(count)
+            if(count == 0){
+                this.notificationsDom.hide()
+            } else {
+                this.notificationsDom.show()
+            }
+        }
+    }
+
+    resetNotifications(){
+        this.notifications = {}
+        this.updateNofificationsCounter()
+    }
+
+    /* returns notificationId that you need to remove the notification again */
+    addNotification(){
+        if(this.isFocused()){
+            return 0
+        }
+        let id = this.notificationsNextId
+        this.notifications[id] = true
+        this.notificationsNextId++
+        this.updateNofificationsCounter()
+        return id
+    }
+
+    removeNotification(notificationId){
+        delete this.notifications[notificationId]
+        this.updateNofificationsCounter()
+    }
 
     moveToView(view, dontFocus){
         let curView = this.myCurrentView()
@@ -139,6 +186,11 @@ class Viewable extends SimpleEventor {
         if(currView){
             return currView.dom.find('[select-viewable="' + this.name() + '"]')
         }
+    }
+
+    isFocused(){
+        let currView = this.myCurrentView()
+        return currView && currView.getSelectedViewableName() == this.name()
     }
 
     name(){

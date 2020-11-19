@@ -53,7 +53,7 @@ var CANVAS = ((global, $)=>{
             MAP.setZoomFactor(val)
             setZoomFactor(val)
 
-            $('.monitor_info .zoom').html(val+'x')
+            $('.monitor_info .zoom').text(val+'x')
             
             STORAGE.setConfiguration('settings.zoomfactor', val)
         })
@@ -169,7 +169,7 @@ var CANVAS = ((global, $)=>{
             } else if (ENGINE.isRunning() && !enableTouchscreenHintShown){
                 enableTouchscreenHintShown = true
 
-                UTIL.hint("Touchscreen not enabled", "In order to use the touchscreen functionality, enable the touchscreen in the settings tab.")
+                UTIL.hintImportant("Touchscreen not enabled", "In order to use the touchscreen functionality, enable the touchscreen in the settings tab.")
             }
         }
     }
@@ -371,8 +371,8 @@ var CANVAS = ((global, $)=>{
         width = unzoom(dim.width)
         height = unzoom(dim.height)
 
-        $('.monitor_info .width').html(width)
-        $('.monitor_info .height').html(height)
+        $('.monitor_info .width').text(width)
+        $('.monitor_info .height').text(height)
 
         let overflowSize = (showOverflow ? 32 : 0)
 

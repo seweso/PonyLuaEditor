@@ -1,3 +1,6 @@
+##
+Always update the LATEST_CHANGES.txt since that is used for Open Graph
+
 ## Code Editor
 
 https://ace.c9.io/

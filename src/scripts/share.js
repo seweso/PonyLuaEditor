@@ -32,7 +32,7 @@ var SHARE = (($)=>{
                 'margin-right': '10px'
             }, 200)
         
-            $('#share .docreate').html('Share again')
+            $('#share .docreate').text('Share again')
 
             setTimeout(()=>{
                 $('#share .more').css('overflow', 'visible')
@@ -52,11 +52,24 @@ var SHARE = (($)=>{
         let params = new URLSearchParams( document.location.search)
         let paramid = params.get('id')
         if(paramid){
-            setCurrentShare(paramid)
-            setTimeout(doReceive, 1000)
-        } else {
-            LOADER.done(LOADER.EVENT.SHARE_READY)
+            setTimeout(()=>{
+                UTIL.confirm('Do you want to add your previous code to the history? The shared code will overwrite any previous code/settings. Pressing NO will result in you losing your previous code.').then((res)=>{
+                    if(res){
+                        HISTORY.addCurrentCode()
+                    }
+
+                    setCurrentShare(paramid)
+                    doReceive(currentShare, (success)=>{
+                        if(success){
+                            HISTORY.addOthersShareKey(paramid, STORAGE.getConfiguration('title'))
+                        } else {
+                            HISTORY.addOthersShareKey(paramid, 'invalid key')
+                        }
+                    })
+                })
+            }, 1000)
         }
+        LOADER.done(LOADER.EVENT.SHARE_READY)
     }
 
     function setCurrentShare(id){
@@ -76,7 +89,6 @@ var SHARE = (($)=>{
 
         console.log('creating new share')
 
-
         let code = EDITORS.get('normal').editor.getValue()
         if(typeof code !== 'string' || code.length === 0){
             UTIL.alert('Cannot share empty code!')
@@ -87,7 +99,7 @@ var SHARE = (($)=>{
 
         let data = {
             code: 'v2',
-            settings: STORAGE.asString()
+            settings: STORAGE.configurationAsString()
         }
 
         $.post(BASE_URL + '/api/create', data).done((data)=>{
@@ -95,6 +107,8 @@ var SHARE = (($)=>{
                 let json = JSON.parse(data)
                 let id = json.key
                 setCurrentShare(id)
+
+                HISTORY.addMyShareKey(id, json.token, STORAGE.getConfiguration('title'))
             } catch (e){
                 console.error(e)
                 UTIL.alert('Cannot share via ponybin. Please contact me.')
@@ -107,38 +121,97 @@ var SHARE = (($)=>{
         })
     }
 
-    function doReceive(){
-        if(!currentShare){
+    function updateSharedCode(sharekey, token, callback){
+        if(typeof callback !== 'function'){
+            throw new Error('updateSharedCode expects callback function')
+        }
+
+        ENGINE.saveCodesInStorage()
+
+        REPORTER.report(REPORTER.REPORT_TYPE_IDS.updateCode)
+
+        console.log('updating share')
+       
+        $('#ponybin-create-overlay').show()
+
+        let data = {
+            code: 'v2',
+            settings: STORAGE.configurationAsString(),
+            key: sharekey,
+            token: token
+        }
+
+        $.post(BASE_URL + '/api/update', data).done((data)=>{
+            try {
+                let json = JSON.parse(data)
+                if(json.status === 'ok'){
+                    callback(true, json.luabin)
+                }
+            } catch(ex) {
+                callback(false)
+            }
+        }).fail((e)=>{
+            callback(false)
+            console.error(e)
+            UTIL.alert('Cannot update via ponybin. Please contact me!')
+        }).always(()=>{
+            $('#ponybin-create-overlay').hide()
+        })
+    }
+
+    function doReceive(sharekey, callback){
+        if(!sharekey){
             UTIL.alert('Cannot get data from ponybin. Please contact me.')
             return
         }
         REPORTER.report(REPORTER.REPORT_TYPE_IDS.receiveShareCode)
-        
-        console.log('receiving share', currentShare)
+
+        console.log('receiving share', sharekey)
         $('#ponybin-receive-overlay').show()
 
         $.post(BASE_URL + '/api/get', {
-            key: currentShare
+            key: sharekey
         }).done((data)=>{
             try {
                 let json = JSON.parse(data)
 
                 if(typeof json.luabin === 'object'){
-                    STORAGE.setFromShare(currentShare, json.luabin)
+                    STORAGE.setFromShare(sharekey, json.luabin)
+                    if(typeof callback === 'function'){
+                        callback(true)
+                    }
                 } else {
                     throw 'invalid luabin format'
                 }
             } catch (e){
+                if(typeof callback === 'function'){
+                    callback(false)
+                }
                 console.error(e)
                 UTIL.alert('Cannot get data from ponybin. Please contact me!')
             }
         }).fail((e)=>{
+            if(typeof callback === 'function'){
+                callback(false)
+            }
             console.error(e)
             UTIL.alert('Cannot get data from ponybin. Is the share key correct?')
         }).always(()=>{
             $('#ponybin-receive-overlay').hide()
-            LOADER.done(LOADER.EVENT.SHARE_READY)
         })
+    }
+
+    function removeIdFromURL(){
+        let params = new URLSearchParams( document.location.search)
+        params.delete('id')
+        let query = params.toString()
+        window.history.pushState(null, document.title, document.location.pathname + (query.length > 0 ? '?' + query : ''))
+    }
+
+    return {
+        doReceive: doReceive,
+        updateSharedCode: updateSharedCode,
+        removeIdFromURL: removeIdFromURL
     }
 
 })(jQuery)

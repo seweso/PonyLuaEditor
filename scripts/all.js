@@ -24,12 +24,15 @@ LOADER = (($)=>{
         PAGE_READY: 'Page Loaded',
 
         STORAGE_READY: 'Storage',
+        HISTORY_READY: 'History',
 
         SHARE_READY: 'Share',
 
         UI_READY: 'User Interface',
         GIVEAWAY_READY: 'Giveaway',
         LUA_EMULATOR_READY: 'Lua Emulator',
+
+        UTIL_READY: 'Util',
 
         STORMWORKS_LUA_API_READY: 'Stormworks Lua API',
 
@@ -97,7 +100,7 @@ LOADER = (($)=>{
                     }
                 }
             }
-            if( allEventsDone() ){
+            if( allEventsDone() && doneEvents.indexOf(EVENT_ALL_DONE) === -1 ){
                 done(EVENT_ALL_DONE)
             }
         }, 1)
@@ -116,7 +119,7 @@ LOADER = (($)=>{
     }
 
     function allEventsDone(){
-        return doneEvents.length === Object.keys(EVENT).length
+        return doneEvents.length === Object.keys(EVENT).length || doneEvents.indexOf(EVENT_ALL_DONE) >= 0
     }
 
     return {
@@ -126,157 +129,6 @@ LOADER = (($)=>{
         onAllDone: (cb)=>{ on(EVENT_ALL_DONE, cb) },
         getDoneEvents: ()=>{ return doneEvents },
         allEventsDone: allEventsDone
-    }
-})(jQuery)
-;
-UTIL = (($)=>{
-    "use strict";
-
-    window.onerror = (errorMsg, url, lineNumber)=>{
-        alert("Unexpected error occured:<br>Please contact me!<br><br>" + url + '<br><br>' + lineNumber + '<br><br>' + errorMsg)
-        return false;
-    }
-
-    /* time: milliseconds until highlight is removed again (optional) */
-    function highlight(elem, time){
-        if(elem instanceof HTMLElement){
-            $(elem).addClass('highlighted')
-
-            setTimeout(()=>{
-                unHighlight(elem)
-            }, typeof time === 'number' ? time : (10 * 1000) )
-        }
-    }
-
-    function unHighlight(elem){
-        if(elem instanceof HTMLElement){
-            $(elem).removeClass('highlighted')
-        }
-    }
-
-
-    function message(title, text){
-        return new Promise((fulfill, reject)=>{
-            $('#message .title').html(title)
-            $('#message .message').html(text)
-            $('#message').show()
-            $('#message .ok').on('click', ()=>{
-                $('#message .ok').off('click')
-                $('#message').hide()
-                fulfill(true)
-            })
-        })
-    }
-
-     function confirm(text){
-        return new Promise((fulfill, reject)=>{
-            $('#confirm .message').html(text)
-            $('#confirm').show()
-            $('#confirm .yes').on('click', ()=>{
-                $('#confirm .yes, #confirm .no').off('click')
-                $('#confirm').hide()
-                fulfill(true)
-            })
-            $('#confirm .no').on('click', ()=>{
-                $('#confirm .yes, #confirm .no').off('click')
-                $('#confirm').hide()
-                fulfill(false)
-            })
-        })
-    }    
-
-    function alert(text){
-        return new Promise((fulfill, reject)=>{
-            $('#alert .message').html(text)
-            $('#alert').show()
-            $('#alert .ok').on('click', ()=>{
-                $('#alert .ok').off('click')
-                $('#alert').hide()
-                fulfill(true)
-            })
-        })
-    }
-
-    /* custom_remove_time is optional (time in milliseconds) */
-    function hint(title, text, custom_remove_time){
-        let h = $('<div class="hint"><span class="close icon-cancel-circle"></span><h4>'+title+'</h4><div>'+(text+'').replace('\n', '<br>')+'</div></div>')
-        
-        h.find('h4').on('click', ()=>{
-            h.find('div').css('display', 'inline-block')
-        })
-
-        h.find('.close').on('click', ()=>{
-            h.remove()
-        })
-        $('#hints-container').prepend(h)
-
-        if(typeof custom_remove_time !== 'number'){
-            /* remove hint after 30 seconds */
-            custom_remove_time = 1000 * 30
-        }
-
-        setTimeout(()=>{
-            h.fadeOut(()=>{
-                h.remove()
-            })
-        }, custom_remove_time)
-
-        UI.viewables()['viewable_hints'].focusSelf()
-    }
-
-    /*
-        type defines the color
-    */
-    function addNavigationHint(text, type, custom_remove_time){
-        const TYPE_COLORS = {
-            error: {
-                fill: '#EA5151',
-                text: '#fff'
-            },
-            warning: {
-                fill: '#F2E132',
-                text: '#222'
-            },
-            success: {
-                fill: '#46C948',
-                text: '#fff'
-            },
-            neutral: {
-                fill: '#ddd',
-                text: '#222'
-            }
-        }
-
-        if(! TYPE_COLORS[type]){
-            console.error('invalid navigation hint type', type)
-            return
-        }
-
-        let h = $('<div class="navigation_hint" style="background-color: ' + TYPE_COLORS[type].fill + '; color: ' + TYPE_COLORS[type].text + '"></div>').html(text)
-
-        $('.navigation_hints').html('')
-        $('.navigation_hints').append(h)
-
-        if(typeof custom_remove_time !== 'number'){
-            /* remove hint after 3 seconds */
-            custom_remove_time = 1000 * 3
-        }
-
-        setTimeout(()=>{
-            h.fadeOut(()=>{
-                h.remove()
-            })
-        }, custom_remove_time)
-    }
-
-    return {
-        highlight: highlight,
-        unHighlight: unHighlight,
-        message: message,
-        confirm: confirm,
-        alert: alert,
-        hint: hint,
-        addNavigationHint: addNavigationHint
     }
 })(jQuery)
 ;
@@ -291,6 +143,7 @@ TRANSLATE = (()=>{
     const TRANSLATIONS = {
         "viewable_monitor": {en: "Monitor"},
         "viewable_settings": {en: "Settings"},
+        "viewable_history": {en: "History"},
         "viewable_console": {en: "Console"},
         "viewable_hints": {en: "Hints"},
         "viewable_properties": {en: "Properties"},
@@ -305,6 +158,7 @@ TRANSLATE = (()=>{
         "viewable_editor_unminified": {en: "Unminifier"},
         "viewable_editor_uibuilder": {en: "UI Builder"},
         "viewable_editor_uibuilder_code": {en: "UI Generated Code"},
+        
         /* views */
         "top_left": {en: "Top Left"},
         "top_right": {en: "Top Right"},
@@ -384,7 +238,8 @@ REPORTER = (()=>{
         'shareCode': 10,
         'receiveShareCode': 11,
         'generateUIBuilderCode': 12,
-        'pauseScript': 15
+        'pauseScript': 15,
+        'updateCode': 17,
     }
 
     function report(typeID, data){
@@ -847,7 +702,7 @@ var MAP = (($)=>{
                     if(i == 300000 && shownMapWarning){
                         shownMapWarning = false
                         setTimeout(()=>{
-                            UTIL.hint("Warning", "Map drawing takes a long time, reduce zoom for better performance", 10 * 1000)
+                            UTIL.hintImportant("Warning", "Map drawing takes a long time, reduce zoom for better performance", 10 * 1000)
                         }, 1)
                     }
 
@@ -6005,8 +5860,7 @@ VERSION_KEEPER = (()=>{
     function onUnableToCheck(){
         UTIL.addNavigationHint('Unable to check version', 'warning')
         setState('Offline', '#000', '#fff')
-
-        $('#share').hide()
+        $('.ide').attr('offline', true)
     }
 
     function onUpToDate(){
@@ -6018,7 +5872,7 @@ VERSION_KEEPER = (()=>{
         UTIL.addNavigationHint('Version outdated. <a href="https://gitlab.com/stormworks-tools/editor/-/archive/master/editor-master.zip" download style="color: #fff; font-weight: bold">Download latest version here</a>', 'error')
         setState('Outdated', '#EA5151', '#fff')
 
-        $('#share').hide()
+        $('.ide').attr('offline', true)
     }
 
     function setState(text, color_fill, color_text){
@@ -6139,7 +5993,7 @@ var GIVEAWAY = (($)=>{
             }
             let claimed_by = $('#giveaway-container').find('.claimed_by').val()
             if(typeof claimed_by !== 'string' || claimed_by.length === 0){
-                $('#giveaway-container').find('.error').html('Please enter your discord tag id or your email.').show()
+                $('#giveaway-container').find('.error').text('Please enter your discord tag id or your email.').show()
             } else {
                 $('#giveaway-container').find('.cancel, .send').hide()
                 $('#giveaway-container').find('.error').hide()
@@ -6153,7 +6007,7 @@ var GIVEAWAY = (($)=>{
                     $('#giveaway-container').find('.close').show()
                 }).fail(()=>{
                     $('#giveaway-container').find('.progress').hide()
-                    $('#giveaway-container').find('.error').html('could not claim giveaway, please reload the page.').show()
+                    $('#giveaway-container').find('.error').text('Could not claim giveaway, please reload the page.').show()
                     $('#giveaway-container').find('.reload, .close').show()
                 })
             }
@@ -6161,7 +6015,7 @@ var GIVEAWAY = (($)=>{
             console.error(ex)
             $('#giveaway-container').find('.progress, .success, .cancel, .send').hide()
             $('#giveaway-container').find('.reload, .close').show()
-            $('#giveaway-container').find('.error').html('could not claim giveaway, please reload the page.').show()            
+            $('#giveaway-container').find('.error').text('Could not claim giveaway, please reload the page.').show()            
         }
     }
 })(jQuery)
@@ -6532,7 +6386,7 @@ var LUA_EMULATOR = (($)=>{
         if(match && match[1]){
             let line = parseInt(match[1])
             if(!isNaN(line)){
-                EDITORS.getActiveEditor().markError(line, err)
+                EDITORS.getActiveEditor().markError(line, err, true)
             }
         }
 
@@ -7408,27 +7262,12 @@ STORAGE = (()=>{
     function init(){
         let y = localStorage.getItem('yyy')
         if(y){
-            try {
-                let parsed = JSON.parse(y)
-
-                if(parsed.version === VERSION){
-                    processStorage(parsed)
-                } else {
-                    console.info('Storage: found old configuration, updating ...')
-                    let updated = updateConfiguration(parsed, parsed.version)
-                    processStorage(updated)
-                }
-            } catch (ex){
-                console.warn('Storage: invalid configuration, using default configuration')
-                processStorage()
-            }
+            set(y)
         } else if (localStorage.getItem('general')) {
             console.info('Storage: found outdated configuration, converting ...')
-            localStorage.clear()
-            let converted = convertOldConfiguration()
-            processStorage(converted)
-        } else {            
-            processStorage()
+            set( convertOldConfiguration() )
+        } else {
+            set()
         }
     }
 
@@ -7494,6 +7333,8 @@ STORAGE = (()=>{
             loaderNotified = true
             LOADER.done(LOADER.EVENT.STORAGE_READY)
         }
+
+        saveConfiguration()
     }
 
     function saveConfiguration(){
@@ -7556,25 +7397,44 @@ STORAGE = (()=>{
         return currentNode[keyParts[0]]
     }
 
-    function asString(){
+    function configurationAsString(){
         return localStorage.getItem('yyy')
+    }
+
+    /* conf must be a json string or parsed json string */
+    function set(conf){
+        if(!conf){
+            console.warn('Storage: invalid configuration, using default configuration')
+            processStorage()
+            return
+        }
+        try {
+            if(typeof conf === 'string'){
+                conf = JSON.parse(conf)
+            }
+
+            if(conf.version === VERSION){
+                processStorage(conf)
+            } else {
+                console.info('Storage: found old configuration, updating ...')
+                let updated = updateConfiguration(conf, conf.version)
+                processStorage(updated)
+            }
+        } catch(ex) {
+            console.warn('Storage: invalid configuration, using default configuration')
+            processStorage()
+        }
     }
 
     function setFromShare(key, confJSON){
 
         let parsedSettings = parseOrUndefined(confJSON.settings)
 
-        if(parsedSettings && parsedSettings.version){
-            if(parsedSettings.version === VERSION){
-                processStorage(parsedSettings)
-            } else {
-                console.info('Storage: found old configuration, updating ...')
-                let updated = updateConfiguration(parsedSettings, parsedSettings.version)
-                processStorage(updated)
-            }
+        if(parsedSettings){
+            set(parsedSettings)
         } else {
             /* old shared information */
-
+            console.info('share is old version, updating...')
             setFromShare(key, {
                 settings: JSON.stringify({
                     version: '1',
@@ -7619,8 +7479,437 @@ STORAGE = (()=>{
     return {
         setConfiguration: setConfiguration,
         getConfiguration: getConfiguration,
-        asString: asString,
-        setFromShare: setFromShare
+        configurationAsString: configurationAsString,
+        setFromShare: setFromShare,
+        set: set
+    } 
+})()
+;
+HISTORY = (()=>{
+    "use strict";
+   
+    /* configuration might be an empty object, contain parts of a full configuration, or a complete configuration */
+    let history = {
+        entries: []
+    }
+
+    let dom
+
+    LOADER.on(LOADER.EVENT.UI_READY, init)
+
+    function init(){
+        let y = localStorage.getItem('yyy_history')
+        if(y){
+            try {
+                let parsed = JSON.parse(y)
+                if(parsed && parsed instanceof Object){
+                    history = parsed
+                } else {
+                    throw new Error('invalid history format')
+                }
+            } catch (ex){
+                console.warn('History: invalid history')
+            }
+        }
+
+
+        // build UI
+        dom = $('[viewable="viewable_history"]')
+
+        for(let e of history.entries){
+            makeDomHistory(e, true)
+        }
+        sortDomHistory()
+
+        let relatedId = STORAGE.getConfiguration('related-history-entry')
+        markRelatedHistoryEntry( relatedId )
+
+        $('#code-title').val(STORAGE.getConfiguration('title'))
+
+        calculateStorageSize()
+
+        $('#history-help, #history-help-controls').on('click', (evt)=>{
+            evt.originalEvent.stopPropagation()
+            UTIL.message('History Help',
+                'Clicking this button will save a copy of the current state fo the ide in your browsers storage. You can access this copy via the history tab.'
+                + '<br>Click "Load" to load the copy, "Update" to overwrite the copy with the current state of the ide, "Trash Icon" will remove it entirely.'
+                + '<br>'
+                + '<br>If you click share, your browser will be able to overwrite that shared code, so you can effectively publish update of your code.'
+                + '<br>If you delete cookies/website storage or uninstall your browser, you will not be able to update those sharecodes anymore!'
+                + '<br>You can click "Export My Shared Codes" to get a backup of your own shared codes. You can always use "Import My Shared Codes" together with this backup, to be able to update your own shared codes again.'
+            )
+        })
+
+        $('#history-export').on('click', exportHistory)
+        $('#history-import').on('click', importHistory)
+
+        LOADER.done(LOADER.EVENT.HISTORY_READY)
+    }
+
+    function makeDomHistory(e, dontSort){
+        let entry = $('<div class="history_entry" type="' + e.type + '" entry-id="' + e.id + '"></div>')
+        entry.append(
+            $('<div class="title"></div>')
+        )
+        let type = $('<div class="type"></div>')
+        if(e.type === 'sharekey'){
+            type.text(e.content.id).append(
+                $('<button class="share_link_open"><span class="icon-share2"></span></button>').on('click', ()=>{
+                    window.open('https://lua.flaffipony.rocks?id=' + e.content.id)
+                }).attr('title', 'https://lua.flaffipony.rocks?id=' + e.content.id)
+            )
+        } else {
+            type.text('Local')
+        }
+        entry.append(type)
+        entry.append(
+            $('<div class="time"></div>')
+        )
+        let loadButton = $('<button class="load">Load</button>').on('click', ()=>{
+            loadHistoryEntry(e)
+        })
+        let updateButton = $('<button class="special_button update">Update</button>').on('click', ()=>{
+            updateHistoryEntry(e)
+        })
+        let deleteButton = $('<button class="special_button delete"><span class="icon-bin delete"></span></button>').on('click', ()=>{
+            deleteHistoryEntry(e)
+        })
+
+        if(e.type === 'sharekey' && ! e.content.token){
+            updateButton.hide()
+            deleteButton.append('&nbsp;Ref')
+        }
+
+        entry.append(
+            $('<div class="buttons"></div>').append(loadButton).append(updateButton).append(deleteButton)
+        )
+        dom.find('.entries').prepend(entry)
+        updateDomHistory(e, dontSort)
+    }
+
+    function updateDomHistory(e, dontSort){
+        let entry = dom.find('.history_entry[entry-id="' + e.id + '"]')
+
+        entry.find('.title').text( (e.title || 'untitled') )
+
+        let d = new Date(e.time)
+        entry.find('.time').html('').append(
+            $('<span>' + d.toLocaleDateString() + '</span><span>' + d.toLocaleTimeString() + '</span>')
+        )
+
+        if(dontSort !== true){
+            sortDomHistory()
+        }
+    }
+
+    function sortDomHistory(){
+        history.entries.sort((a,b)=>{
+            if(a.time > b.time){
+                return -1
+            }
+
+            if(a.time < b.time){
+                return 1
+            }
+
+            return 0
+        })
+
+        console.log('sorted', history.entries)
+
+        let rowCounter = 1
+        for(let e of history.entries){
+            let entry = dom.find('.history_entry[entry-id="' + e.id + '"]')
+            entry.children().attr('style', 'grid-row: ' + rowCounter + ' / ' + rowCounter)
+            rowCounter++
+        }
+    }
+
+
+    function loadHistoryEntry(entry){
+        UTIL.confirm('Discard current code and settings and load historical code?').then((res)=>{
+            if(res){
+                console.log('loading history entry', entry)
+                SHARE.removeIdFromURL()
+                if(entry.type === 'code'){
+                    STORAGE.set(entry.content)
+
+                    STORAGE.setConfiguration('related-history-entry', entry.id)
+
+                    markRelatedHistoryEntry(entry.id)
+
+                    // TODO rework this to not use page reload
+                    YYY.makeNoExitConfirm()
+                    document.location.reload()
+                } else if(entry.type === 'sharekey'){
+                    SHARE.doReceive(entry.content.id, (success)=>{
+                        if(success){
+                            entry.title = STORAGE.getConfiguration('title')
+                            updateDomHistory(entry)
+                            updateLocalStorage()
+
+                            STORAGE.setConfiguration('related-history-entry', entry.id)
+
+                            markRelatedHistoryEntry(entry.id)
+
+                            // TODO rework this to not use page reload
+                            YYY.makeNoExitConfirm()
+                            document.location.reload()
+                        } else {
+                            entry.title = 'invalid key'
+                            updateDomHistory(entry)
+                            updateLocalStorage()
+
+                            STORAGE.setConfiguration('related-history-entry', entry.id)
+
+                            markRelatedHistoryEntry(entry.id)
+                        }
+                    })
+                }
+            }
+        })
+    }
+
+    function updateLocalStorage(){
+        localStorage.setItem('yyy_history', JSON.stringify(history))
+
+        calculateStorageSize()
+    }
+
+    function calculateStorageSize(){
+        let localStorageSize = 0
+        for(let k in localStorage){
+            if(localStorage.hasOwnProperty(k)){
+                localStorageSize += localStorage[k].length
+            }
+        }
+
+        let usedPercent = Math.floor(localStorageSize/5000000 * 100)
+
+        $('#storage-used').text( usedPercent + ' %' )
+
+        if(usedPercent > 90){
+            $('#storage-used').addClass('warning')
+            UTIL.alert('Please remove some of your old codes in the history, your storage is almost full!', 'Storage Warning')
+        } else {
+            $('#storage-used').removeClass('warning')
+        }
+    }
+
+    function markRelatedHistoryEntry(id){
+        dom.find('.history_entry.related').removeClass('related')
+        if(id){
+            dom.find('.history_entry[entry-id="' + id + '"]').addClass('related')
+        }
+    }
+
+    function addOthersShareKey(sharekey, title){
+        createNewEntry('sharekey', {id: sharekey}, title)
+
+        UI.viewables()['viewable_history'].addNotification()
+    }
+
+    function addMyShareKey(sharekey, token, title){
+        createNewEntry('sharekey', {id: sharekey, token: token}, title)
+
+        UI.viewables()['viewable_history'].addNotification()
+    }
+
+    function addCurrentCode(){
+        createNewEntry('code', STORAGE.configurationAsString(), STORAGE.getConfiguration('title'))
+
+        UI.viewables()['viewable_history'].focusSelf()
+    }
+
+    function createNewEntry(type, content, title){
+        const id = new Date().getTime()
+        let entry = {
+            id: id,
+            type: type,
+            content: content,
+            title: title,
+            time: new Date().getTime()
+        }
+        history.entries.push(entry)
+
+        makeDomHistory(entry)
+
+        STORAGE.setConfiguration('related-history-entry', id)
+        markRelatedHistoryEntry(id)
+
+        updateLocalStorage()
+    }
+
+    function updateHistoryEntry(e){
+        let text
+        if(e.type === "sharekey"){
+            if(!e.content.token){
+                UTIL.alert('You cannot update a shared code of someone else!')
+                return
+            }
+            text = 'Do you want to update the shared code? This will update it for everyone and cannot be undone!'
+        } else if (e.type === "code"){
+            text = 'Do you want to update the historical code? This action cannot be undone!'
+        } else {
+            throw new Error('unexpected history entry type "' + e.type + '"')
+        }
+
+        UTIL.confirm(text).then((res)=>{
+            if(res){
+                console.log('updating entry', e)
+
+                ENGINE.saveCodesInStorage()
+                if(e.type === "sharekey"){
+                    SHARE.updateSharedCode(e.content.id, e.content.token, (success, res)=>{
+                        if(success){
+                            UTIL.success('Shared code updated successful.')
+                            e.content = {id: res.key, token: res.token}
+                            e.title = STORAGE.getConfiguration('title')
+                            e.time = new Date().getTime()
+                            updateDomHistory(e)
+                            updateLocalStorage()
+
+                            markRelatedHistoryEntry(e.id)
+                        } else {
+                            UTIL.fail('Shared code was not updated, please try again later.')
+                        }
+                    })
+                } else if (e.type === "code"){
+                    e.content = JSON.parse(STORAGE.configurationAsString())
+                    e.title = STORAGE.getConfiguration('title')
+                    e.time = new Date().getTime()
+                    updateDomHistory(e)
+                    updateLocalStorage()
+
+                    markRelatedHistoryEntry(e.id)
+                } else {
+                    throw new Error('unexpected history entry type "' + e.type + '"')
+                }
+            }
+        })
+    }
+
+    function deleteHistoryEntry(e){
+        let text
+        if(e.type === "sharekey"){
+            if(e.content.token){
+                text = 'You will lose access to this shared code, you will not be able to update it anymore!'
+            } else {
+                text = 'Do you want to remove the reference for this shared code? The code itself stays online!'
+            }
+        } else if (e.type === "code"){
+            text = 'Do you want to remove this historical code? This action cannot be undone!'
+        } else {
+            throw new Error('unexpected history entry type "' + e.type + '"')
+        }
+
+        UTIL.confirm(text).then((res)=>{
+            if(res){
+                console.log('deleting entry', e)
+
+                for(let i in history.entries){
+                    if(history.entries[i].id === e.id){
+                        history.entries.splice(i,1)
+                        dom.find('.history_entry[entry-id="' + e.id + '"]').remove()
+                        sortDomHistory()
+                        updateLocalStorage()
+                        return
+                    }
+                }
+            }
+        })
+    }
+
+    function exportHistory(){
+        let exp = []
+
+        for(let e of history.entries){
+            if(e.type === 'sharekey' && e.content.token){
+                exp.push({
+                    id: e.content.id,
+                    token: e.content.token,
+                    title: e.title
+                })
+            }
+        }
+
+        //let enc = new TextEncoder()
+        let blob = new Blob([JSON.stringify(exp)], {type: 'text/json'})
+
+        let filename = 'lua.flaffipony.rocks my sharecode export.json'
+
+        if(window.navigator.msSaveOrOpenBlob) {
+            window.navigator.msSaveBlob(blob, filename)
+        } else {
+            let elem = $('<a/>')
+                .attr('href', window.URL.createObjectURL(blob))
+                .attr('download', filename)
+            elem.appendTo(document.body)
+            elem.get(0).click()
+            elem.hide()
+        }
+    }
+
+    let importHistoryInput
+    function importHistory(){
+        importHistoryInput = $('<input type="file" accept=".json" style="position: absolute; left: -999999px; top: -1000px;">')
+            .appendTo(document.body)
+        importHistoryInput.get(0).click()
+
+        $(window).on('focus', cleanUpImportHistory)
+
+        importHistoryInput.on('change', ()=>{
+            let files = importHistoryInput.get(0).files
+
+            if(files[0] instanceof File){
+                var reader = new FileReader()
+                reader.readAsText(files[0], "UTF-8")
+                reader.onload = function (evt) {                    
+                    try {
+                        let parsed = JSON.parse(evt.target.result)
+                        if(parsed instanceof Array === false){
+                            invalidHistory()
+                        } else {
+                            let count = 0
+                            for(let e of parsed){
+                                if(typeof e.id === 'string' && typeof e.token === 'string'){
+                                    addMyShareKey(e.id, e.token, e.title)
+                                    count++
+                                }
+                            }
+                            UTIL.success('Added ' + count + ' keys to history.', 'Import successful')
+                        }
+                    } catch (ex){
+                        console.error(ex)
+                        invalidHistory()
+                    }
+                }
+                reader.onerror = function (evt) {
+                    invalidHistory()
+                }
+            } else {                
+                cleanUpImportHistory()
+            }
+
+        })
+
+        function invalidHistory(){
+            UTIL.alert('Invalid history, cannot import!')  
+            cleanUpImportHistory()                  
+        }
+    }
+
+    function cleanUpImportHistory(){        
+        $(window).off('focus', cleanUpImportHistory)
+        setTimeout(()=>{
+            importHistoryInput.remove()
+        }, 1000)
+    }
+
+    return {
+        addOthersShareKey: addOthersShareKey,
+        addMyShareKey: addMyShareKey,
+        addCurrentCode: addCurrentCode
     } 
 })()
 ;
@@ -7658,7 +7947,7 @@ var SHARE = (($)=>{
                 'margin-right': '10px'
             }, 200)
         
-            $('#share .docreate').html('Share again')
+            $('#share .docreate').text('Share again')
 
             setTimeout(()=>{
                 $('#share .more').css('overflow', 'visible')
@@ -7678,11 +7967,24 @@ var SHARE = (($)=>{
         let params = new URLSearchParams( document.location.search)
         let paramid = params.get('id')
         if(paramid){
-            setCurrentShare(paramid)
-            setTimeout(doReceive, 1000)
-        } else {
-            LOADER.done(LOADER.EVENT.SHARE_READY)
+            setTimeout(()=>{
+                UTIL.confirm('Do you want to add your previous code to the history? The shared code will overwrite any previous code/settings. Pressing NO will result in you losing your previous code.').then((res)=>{
+                    if(res){
+                        HISTORY.addCurrentCode()
+                    }
+
+                    setCurrentShare(paramid)
+                    doReceive(currentShare, (success)=>{
+                        if(success){
+                            HISTORY.addOthersShareKey(paramid, STORAGE.getConfiguration('title'))
+                        } else {
+                            HISTORY.addOthersShareKey(paramid, 'invalid key')
+                        }
+                    })
+                })
+            }, 1000)
         }
+        LOADER.done(LOADER.EVENT.SHARE_READY)
     }
 
     function setCurrentShare(id){
@@ -7702,7 +8004,6 @@ var SHARE = (($)=>{
 
         console.log('creating new share')
 
-
         let code = EDITORS.get('normal').editor.getValue()
         if(typeof code !== 'string' || code.length === 0){
             UTIL.alert('Cannot share empty code!')
@@ -7713,7 +8014,7 @@ var SHARE = (($)=>{
 
         let data = {
             code: 'v2',
-            settings: STORAGE.asString()
+            settings: STORAGE.configurationAsString()
         }
 
         $.post(BASE_URL + '/api/create', data).done((data)=>{
@@ -7721,6 +8022,8 @@ var SHARE = (($)=>{
                 let json = JSON.parse(data)
                 let id = json.key
                 setCurrentShare(id)
+
+                HISTORY.addMyShareKey(id, json.token, STORAGE.getConfiguration('title'))
             } catch (e){
                 console.error(e)
                 UTIL.alert('Cannot share via ponybin. Please contact me.')
@@ -7733,38 +8036,97 @@ var SHARE = (($)=>{
         })
     }
 
-    function doReceive(){
-        if(!currentShare){
+    function updateSharedCode(sharekey, token, callback){
+        if(typeof callback !== 'function'){
+            throw new Error('updateSharedCode expects callback function')
+        }
+
+        ENGINE.saveCodesInStorage()
+
+        REPORTER.report(REPORTER.REPORT_TYPE_IDS.updateCode)
+
+        console.log('updating share')
+       
+        $('#ponybin-create-overlay').show()
+
+        let data = {
+            code: 'v2',
+            settings: STORAGE.configurationAsString(),
+            key: sharekey,
+            token: token
+        }
+
+        $.post(BASE_URL + '/api/update', data).done((data)=>{
+            try {
+                let json = JSON.parse(data)
+                if(json.status === 'ok'){
+                    callback(true, json.luabin)
+                }
+            } catch(ex) {
+                callback(false)
+            }
+        }).fail((e)=>{
+            callback(false)
+            console.error(e)
+            UTIL.alert('Cannot update via ponybin. Please contact me!')
+        }).always(()=>{
+            $('#ponybin-create-overlay').hide()
+        })
+    }
+
+    function doReceive(sharekey, callback){
+        if(!sharekey){
             UTIL.alert('Cannot get data from ponybin. Please contact me.')
             return
         }
         REPORTER.report(REPORTER.REPORT_TYPE_IDS.receiveShareCode)
-        
-        console.log('receiving share', currentShare)
+
+        console.log('receiving share', sharekey)
         $('#ponybin-receive-overlay').show()
 
         $.post(BASE_URL + '/api/get', {
-            key: currentShare
+            key: sharekey
         }).done((data)=>{
             try {
                 let json = JSON.parse(data)
 
                 if(typeof json.luabin === 'object'){
-                    STORAGE.setFromShare(currentShare, json.luabin)
+                    STORAGE.setFromShare(sharekey, json.luabin)
+                    if(typeof callback === 'function'){
+                        callback(true)
+                    }
                 } else {
                     throw 'invalid luabin format'
                 }
             } catch (e){
+                if(typeof callback === 'function'){
+                    callback(false)
+                }
                 console.error(e)
                 UTIL.alert('Cannot get data from ponybin. Please contact me!')
             }
         }).fail((e)=>{
+            if(typeof callback === 'function'){
+                callback(false)
+            }
             console.error(e)
             UTIL.alert('Cannot get data from ponybin. Is the share key correct?')
         }).always(()=>{
             $('#ponybin-receive-overlay').hide()
-            LOADER.done(LOADER.EVENT.SHARE_READY)
         })
+    }
+
+    function removeIdFromURL(){
+        let params = new URLSearchParams( document.location.search)
+        params.delete('id')
+        let query = params.toString()
+        window.history.pushState(null, document.title, document.location.pathname + (query.length > 0 ? '?' + query : ''))
+    }
+
+    return {
+        doReceive: doReceive,
+        updateSharedCode: updateSharedCode,
+        removeIdFromURL: removeIdFromURL
     }
 
 })(jQuery)
@@ -7791,7 +8153,7 @@ UI = (($)=>{
         top_left: ['viewable_editor_normal', 'viewable_editor_minified', 'viewable_editor_unminified', 'viewable_editor_uibuilder', 'viewable_editor_uibuilder_code'],
         top_right: ['viewable_documentation', 'viewable_properties', 'viewable_inputs', 'viewable_outputs', 'viewable_examples', 'viewable_learn', 'viewable_official_manuals'],
         bottom_left: ['viewable_console', 'viewable_hints'],
-        bottom_right: ['viewable_monitor', 'viewable_settings']
+        bottom_right: ['viewable_monitor', 'viewable_settings', 'viewable_history']
     }
 
     let config = {
@@ -7975,6 +8337,20 @@ UI = (($)=>{
         $('#ide-server-mode').prop('checked', STORAGE.getConfiguration('settings.servermode') || false).trigger('change')
 
 
+
+        function checkOfferFullscreenMode(){
+            if($(window).width() < 768){
+                $('#fullscreen-offer').show()
+
+                setTimeout(()=>{
+                    $('#fullscreen-offer').hide()
+                }, 1000 * 10)
+            }
+        }
+
+        $(window).on('resize', checkOfferFullscreenMode)
+        checkOfferFullscreenMode()
+
         LOADER.done(LOADER.EVENT.UI_READY)
     }
 
@@ -8040,6 +8416,240 @@ UI = (($)=>{
 
 
 
+;
+UTIL = (($)=>{
+    "use strict";
+
+    let dialogCounter = 0
+
+    LOADER.on(LOADER.EVENT.UI_READY, init)
+
+    function init(){
+
+        LOADER.done(LOADER.EVENT.UTIL_READY, init)
+    }
+
+    window.onerror = (errorMsg, url, lineNumber)=>{
+        if(typeof errorMsg === 'string' && errorMsg.indexOf('NS_BINDING_ABORTED') >= 0){
+            /* debug error */
+            return false
+        }
+        alert("Unexpected error occured:<br>Please contact me!<br><br>" + url + '<br><br>' + lineNumber + '<br><br>' + errorMsg)
+        return false;
+    }
+
+    /* time: milliseconds until highlight is removed again (optional) */
+    function highlight(elem, time){
+        if(elem instanceof HTMLElement){
+            $(elem).addClass('highlighted')
+
+            setTimeout(()=>{
+                unHighlight(elem)
+            }, typeof time === 'number' ? time : (10 * 1000) )
+        }
+    }
+
+    function unHighlight(elem){
+        if(elem instanceof HTMLElement){
+            $(elem).removeClass('highlighted')
+        }
+    }
+
+
+    function message(title, text){
+        return new Promise((fulfill, reject)=>{
+            makeDialog('message', title, text, {ok: 'OK'}, ()=>{
+                fulfill(true)
+            })
+        })
+    }
+
+    function fail(text, customTitle){
+        return new Promise((fulfill, reject)=>{
+            makeDialog('fail', customTitle ? customTitle : 'Failed:', text, {ok: 'OK'}, ()=>{
+                fulfill(true)
+            })
+        })
+    }
+
+    function success(text, customTitle){
+        return new Promise((fulfill, reject)=>{
+            makeDialog('success', customTitle ? customTitle : 'Success:', text, {ok: 'OK'}, ()=>{
+                fulfill(true)
+            })
+        })
+    }
+
+    function confirm(text, customTitle){
+        return new Promise((fulfill, reject)=>{
+            makeDialog('confirm', customTitle ? customTitle : 'Confirm Action:', text, {yes: 'Yes', no: 'No'}, (btn)=>{
+                fulfill(btn == 'yes')
+            })
+        })
+    }    
+
+    function alert(text, customTitle){
+        return new Promise((fulfill, reject)=>{
+            makeDialog('alert', customTitle ? customTitle : 'Alert:', text, {ok: 'OK'}, ()=>{
+                fulfill(true)
+            })
+        })
+    }
+
+    function makeDialog(type, title, text, buttons, callback){
+        if(typeof callback !== 'function'){
+            throw new Error('callback must be a function')
+        }
+
+        let dialog = $('<div class="dialog ' + type + '"/>').css('z-index', 800 + dialogCounter)
+        $(window).on('keydown keyup keypress', dialogPrevent)
+        let inner = $('<div class="inner"/>')
+        dialog.append(inner)
+
+        inner.append(
+            $('<h3 class="title">').text(title)
+        )
+
+        inner.append(
+            $('<div class="message">').html(text)
+        )
+
+        let btns = $('<div class="buttons">')
+
+        for(let k of Object.keys(buttons)){
+            btns.append(
+                $('<button btn-key="' + k + '">').text(buttons[k]).on('click', ()=>{
+                    dialog.remove()
+                    $(window).off('keydown keyup keypress', dialogPrevent)
+                    callback(k)
+                })
+            )
+        }
+        inner.append(btns)
+
+        dialog.appendTo(document.body)
+
+        dialogCounter++
+
+        function dialogPrevent(evt){
+            if((evt.originalEvent.ctrlKey || evt.originalEvent.metaKey) && evt.originalEvent.key === 'r' || evt.originalEvent.key === 'F5'){
+                /* allow page reload */
+            } else {
+                evt.originalEvent.preventDefault()
+                evt.originalEvent.stopPropagation()
+            }
+
+            if(evt.originalEvent.key == 'Enter'){
+                if(buttons['ok']){
+                    dialog.remove()
+                    $(window).off('keydown keyup keypress', dialogPrevent)
+                    callback('ok')
+                } else if (buttons['yes']){
+                    dialog.remove()
+                    $(window).off('keydown keyup keypress', dialogPrevent)
+                    callback('yes')
+                }
+            }
+        }
+    }
+
+    /* custom_remove_time is optional (time in milliseconds) */
+    function hint(title, text, custom_remove_time){
+        makeHint('#636874', title, text, custom_remove_time)
+    }
+
+    /* custom_remove_time is optional (time in milliseconds) */
+    function hintImportant(title, text, custom_remove_time){
+        makeHint('#ac3d31', title, text, custom_remove_time)
+        UI.viewables()['viewable_hints'].focusSelf()
+    }
+
+    /* custom_remove_time is optional (time in milliseconds) */
+    function makeHint(background, title, text, custom_remove_time){
+        let h = $('<div class="hint"><span class="close icon-cancel-circle"></span><h4>'+title+'</h4><div>'+(text+'').replace('\n', '<br>')+'</div></div>')
+        
+        h.find('h4').css('background', background).on('click', ()=>{
+            h.find('div').css('display', 'inline-block')
+        })
+
+        h.find('.close').on('click', ()=>{
+            h.remove()
+        })
+        $('#hints-container').prepend(h)
+
+        if(typeof custom_remove_time !== 'number'){
+            /* remove hint after 30 seconds */
+            custom_remove_time = 1000 * 30
+        }
+
+        setTimeout(()=>{
+            h.fadeOut(()=>{
+                h.remove()
+            })
+            UI.viewables()['viewable_hints'].removeNotification(not)
+        }, custom_remove_time)
+
+        let not = UI.viewables()['viewable_hints'].addNotification()
+    }
+
+    /*
+        type defines the color
+    */
+    function addNavigationHint(text, type, custom_remove_time){
+        const TYPE_COLORS = {
+            error: {
+                fill: '#EA5151',
+                text: '#fff'
+            },
+            warning: {
+                fill: '#F2E132',
+                text: '#222'
+            },
+            success: {
+                fill: '#46C948',
+                text: '#fff'
+            },
+            neutral: {
+                fill: '#ddd',
+                text: '#222'
+            }
+        }
+
+        if(! TYPE_COLORS[type]){
+            console.error('invalid navigation hint type', type)
+            return
+        }
+
+        let h = $('<div class="navigation_hint" style="background-color: ' + TYPE_COLORS[type].fill + '; color: ' + TYPE_COLORS[type].text + '"></div>').html(text)
+
+        $('.navigation_hints').html('')
+        $('.navigation_hints').append(h)
+
+        if(typeof custom_remove_time !== 'number'){
+            /* remove hint after 3 seconds */
+            custom_remove_time = 1000 * 3
+        }
+
+        setTimeout(()=>{
+            h.fadeOut(()=>{
+                h.remove()
+            })
+        }, custom_remove_time)
+    }    
+
+    return {
+        highlight: highlight,
+        unHighlight: unHighlight,
+        message: message,
+        fail: fail,
+        success: success,
+        confirm: confirm,
+        alert: alert,
+        hint: hint,
+        hintImportant: hintImportant,
+        addNavigationHint: addNavigationHint
+    }
+})(jQuery)
 ;
 class DynamicSizedViewableContent {
     /* if only_width === true, then only the width will be adjusted to match the viewables width, the height will change to keep the aspect ratio */
@@ -8146,8 +8756,55 @@ class Viewable extends SimpleEventor {
         this.dom = $(domElement)
 
         this.DEBUG_NAME = this.name()
+
+        this.notifications = {}
+        this.notificationsNextId = 1
+
+        this.onGainFocus(()=>{
+            this.resetNotifications()
+        })
+        this.onViewChange(()=>{
+            this.notificationsDom = $('<span class="notifications_counter"/>').hide()
+            let selectDom = this.getSelectDom()
+            if(selectDom){
+                selectDom.append(this.notificationsDom)
+            }
+        })
     }
 
+    updateNofificationsCounter(){
+        if(this.notificationsDom){
+            let count = Object.keys(this.notifications).length
+            this.notificationsDom.text(count)
+            if(count == 0){
+                this.notificationsDom.hide()
+            } else {
+                this.notificationsDom.show()
+            }
+        }
+    }
+
+    resetNotifications(){
+        this.notifications = {}
+        this.updateNofificationsCounter()
+    }
+
+    /* returns notificationId that you need to remove the notification again */
+    addNotification(){
+        if(this.isFocused()){
+            return 0
+        }
+        let id = this.notificationsNextId
+        this.notifications[id] = true
+        this.notificationsNextId++
+        this.updateNofificationsCounter()
+        return id
+    }
+
+    removeNotification(notificationId){
+        delete this.notifications[notificationId]
+        this.updateNofificationsCounter()
+    }
 
     moveToView(view, dontFocus){
         let curView = this.myCurrentView()
@@ -8182,6 +8839,11 @@ class Viewable extends SimpleEventor {
         if(currView){
             return currView.dom.find('[select-viewable="' + this.name() + '"]')
         }
+    }
+
+    isFocused(){
+        let currView = this.myCurrentView()
+        return currView && currView.getSelectedViewableName() == this.name()
     }
 
     name(){
@@ -8609,11 +9271,11 @@ var UI_BUILDER = (($)=>{
 
         $('#ui-builder-zoom').on('change', ()=>{
             recalculateSize()
-            $('[for="ui-builder-zoom"] span').html($('#ui-builder-zoom').val() + 'x')
+            $('[for="ui-builder-zoom"] span').text($('#ui-builder-zoom').val() + 'x')
         })
 
         recalculateSize()
-        $('[for="ui-builder-zoom"] span').html($('#ui-builder-zoom').val() + 'x')
+        $('[for="ui-builder-zoom"] span').text($('#ui-builder-zoom').val() + 'x')
 
 
         container.append('<div class="controls" mode="move"></div>')
@@ -9279,7 +9941,7 @@ var UI_BUILDER = (($)=>{
                 .css({
                     color: makeValidHexOrEmpty(this.settings.color.value)
                 })
-                .html(this.settings.text.value)
+                .text(this.settings.text.value)
 
             this.content.css('cssText', 'display: flex; flex-direction: column; justify-content: center; align-items: center;')
         }
@@ -9350,7 +10012,7 @@ var UI_BUILDER = (($)=>{
                 .css({
                     color: makeValidHexOrEmpty(this.settings.color.value)
                 })
-                .html(this.settings.text.value)
+                .text(this.settings.text.value)
         }
 
         refreshPosition(){
@@ -10957,12 +11619,28 @@ class Editor extends DynamicSizedViewableContent {
         this.autocomplete = new Autocomplete(this.editor, this.dom)
 
         this.oldHeight = 0
+
+        this.lastEditorChange = new Date().getTime()
+        this.lastEditorChangeChecked = false
         
         this.editor.on('change', ()=>{
             this.refreshCharacterCount()
             this.editor.getSession().setAnnotations([])
+
+            this.lastEditorChange = new Date().getTime()
+            this.lastEditorChangeChecked = false
         })
         this.refreshCharacterCount()
+
+        let that = this
+        this.syntaxCheckInterval = setInterval(()=>{
+            let now = new Date().getTime()
+            if(now - that.lastEditorChange > 2000 && that.lastEditorChangeChecked === false){
+                that.lastEditorChangeChecked = true
+
+                that.performSyntaxCheck()
+            }
+        }, 1000)
 
         this.editor.selection.on('changeCursor', ()=>{
             this.refreshPositionHint()
@@ -11040,7 +11718,7 @@ class Editor extends DynamicSizedViewableContent {
         
         let max = STORAGE.getConfiguration('settings.servermode') ? 131072 : 4096
 
-        this.viewable.dom.find('.charactercount').html(chars + '/' + max)
+        this.viewable.dom.find('.charactercount').text(chars + '/' + max)
         if(chars >= max){
              this.viewable.dom.find('.charactercount').addClass('limit')
         } else {
@@ -11052,25 +11730,36 @@ class Editor extends DynamicSizedViewableContent {
         let pos = this.editor.getCursorPosition()
         let chars = this.editor.session.doc.positionToIndex(pos)
         
-        this.viewable.dom.find('.selection-information').html('Line ' + (pos.row + 1) + ', Column ' + (pos.column + 1) + ', Char ' + chars)
+        this.viewable.dom.find('.selection-information').text('Line ' + (pos.row + 1) + ', Column ' + (pos.column + 1) + ', Char ' + chars)
     }
 
     countCharacters(str){
         return typeof str === 'string' ? str.length : 0
     }
 
-    markError(line, text){
-        this.editor.gotoLine(line, 0, true)
+    markError(line, text, goto){
         this.editor.getSession().setAnnotations([{
           row: line-1,
           column: 0,
           text: text, 
           type: "error"
         }])
+        if(goto){
+            this.editor.gotoLine(line, 0, true)
+        }
     }
 
     unmarkError(){
         this.editor.getSession().setAnnotations([])
+    }    
+
+    performSyntaxCheck(){
+        try {
+            let ast = luaparse.parse(this.editor.getValue())
+            this.unmarkError()
+        } catch (ex) {
+            this.markError(ex.line, ex.message)
+        }
     }
 }
 
@@ -11781,7 +12470,7 @@ var DOCUMENTATION = ((global, $)=>{
             for(let i in args){
                 let a = args[i]
 
-                let currentArg = $('<div class="arg">').html(a.name)
+                let currentArg = $('<div class="arg">').text(a.name)
 
                 let help_text = ''
 
@@ -13938,7 +14627,7 @@ YYY = (($)=>{
 
     let isCustomMinifiedCode = false
 
-    LOADER.on(LOADER.EVENT.UI_READY, init)
+    LOADER.on(LOADER.EVENT.UTIL_READY, init)
 
     function init(){
         /* navigation menu */
@@ -13964,10 +14653,11 @@ YYY = (($)=>{
         ENGINE.refresh()
 
         UTIL.hint('Latest Changes', makeListText([
+            'syntax check while coding',
             'detect infinite loops',
             'offline version know checks for updates and notifies user',
             'offline version can now use the share feature (if online and up to date)',
-            'input numbers can not only oszilate, but also rotate now',
+            'input numbers can not only oscilate, but also rotate now',
             'unminifier does not remove the "#" symbol'
         ]))
 
@@ -13975,11 +14665,16 @@ YYY = (($)=>{
             return '<ul><li>' + entries.join('</li><li>') + '</li></ul>'
         }
         
+        UTIL.hint('New Feature', 'History of your recent codes and opened shared codes')
+        UTIL.hint('New Feature', 'Edit your own shared codes and publish updates')
+
         LOADER.done(LOADER.EVENT.OTHERS_READY)
     }
 
     return {
-        noExitConfirm: noExitConfirm,
+        noExitConfirm: ()=>{
+            return noExitConfirm
+        },
         makeNoExitConfirm: ()=>{
             noExitConfirm = true
         },
@@ -13992,7 +14687,7 @@ YYY = (($)=>{
 
 
 window.onbeforeunload = function (e) {
-    if(YYY.noExitConfirm){
+    if(YYY.noExitConfirm()){
         return
     }
     e = e || window.event;
@@ -14064,18 +14759,6 @@ ENGINE = (($)=>{
         $('#step').on('click', doStep)
 
         $('#stop').prop('disabled', true).on('click', stop)
-        $('#reset').on('click', ()=>{
-            UTIL.confirm('Are you sure? This will also remove the code in the editor!').then((result)=>{
-                if(result === true){
-                    localStorage.clear()
-                    YYY.makeNoExitConfirm()
-                    document.location = document.location.href.split('?')[0]
-                }
-            }).catch(()=>{
-                /* do nothing */
-            })
-        })
-
 
         $('#timeBetweenTicks').on('input', ()=>{
             refreshTimeBetweenTicks()
@@ -14099,6 +14782,26 @@ ENGINE = (($)=>{
 
         $('#save').on('click', ()=>{
             saveCodesInStorage()
+        })
+
+        $('#save-to-history').on('click', ()=>{
+            saveCodesInStorage()
+            HISTORY.addCurrentCode()
+        })
+
+        $('#reset').on('click', ()=>{
+            UTIL.confirm('Remove all current settings and code, but keep history?').then((res)=>{
+                if(res){
+                    STORAGE.set()
+                    // TODO rework this to not use page reload
+                    YYY.makeNoExitConfirm()
+                    document.location.reload()
+                }
+            })
+        })
+
+        $('#code-title').on('change', ()=>{
+            STORAGE.setConfiguration('title', $('#code-title').val())
         })
 
         
@@ -14173,7 +14876,7 @@ ENGINE = (($)=>{
     function refreshTimeBetweenTicks(is_change){
         let val = $('#timeBetweenTicks').val()
         timeBetweenTicks = val
-        $('#timeBetweenTicksVal').html(Math.round(1000/val*0.96))
+        $('#timeBetweenTicksVal').text(Math.round(1000/val*0.96))
         if(running && is_change){
             clearDrawAndTickInterval()
             setDrawAndTickInterval()
@@ -14183,7 +14886,7 @@ ENGINE = (($)=>{
     function refreshTimeBetweenDraws(is_change){
         let val = $('#timeBetweenDraws').val()
         timeBetweenDraws = val
-        $('#timeBetweenDrawsVal').html(Math.round(1000/val*0.96))
+        $('#timeBetweenDrawsVal').text(Math.round(1000/val*0.96))
         if(running && is_change){
             clearDrawAndTickInterval()
             setDrawAndTickInterval()
@@ -14197,14 +14900,14 @@ ENGINE = (($)=>{
         LUA_EMULATOR.notifyPaused()
 
         $('#step').prop('disabled', false)
-        $('#pause').html('Resume')
+        $('#pause').text('Resume')
     }
 
     function unpauseScript(){
         LUA_EMULATOR.notifyUnPaused()
         
         $('#step').prop('disabled', true)
-        $('#pause').html('Pause')
+        $('#pause').text('Pause')
         
         /* make sure the button is updated before the next tick can happen */
         setTimeout(()=>{
@@ -14293,7 +14996,7 @@ ENGINE = (($)=>{
     }
 
     function stop(){
-        $('#pause').prop('disabled', true).html('Pause')
+        $('#pause').prop('disabled', true).text('Pause')
         $('#step').prop('disabled', true)
         $('#stop').prop('disabled', true)
         clearDrawAndTickInterval()
@@ -14368,7 +15071,7 @@ ENGINE = (($)=>{
 
         checkLongExecutionTimes(average)
 
-        $('#ticktime').html( Math.round(Math.min(1000/timeBetweenTicks*0.96, 1000/(average/tickTimes.length))))
+        $('#ticktime').text( Math.round(Math.min(1000/timeBetweenTicks*0.96, 1000/(average/tickTimes.length))))
 
         CONSOLE.notifiyTickOrDrawOver()
     }
@@ -14406,7 +15109,7 @@ ENGINE = (($)=>{
 
         checkLongExecutionTimes(average)
 
-        $('#drawtime').html( Math.round(Math.min(drawAnimationFrame? 60 : (1000/timeBetweenDraws*0.96), 1000/(average/drawTimes.length))))
+        $('#drawtime').text( Math.round(Math.min(drawAnimationFrame? 60 : (1000/timeBetweenDraws*0.96), 1000/(average/drawTimes.length))))
 
         CONSOLE.notifiyTickOrDrawOver()
 
@@ -14447,6 +15150,7 @@ ENGINE = (($)=>{
         }
 
         STORAGE.setConfiguration('editors', codes)
+        SHARE.removeIdFromURL()
 
         UI_BUILDER.save()
     }
@@ -14598,7 +15302,7 @@ var INPUT = (($)=>{
 
     function refreshBoolsAddSelect(){
         dom_bools.find('.bool').prop('selected', false)
-        let i = dom_bools.find('.bool:last-of-type label').html()
+        let i = dom_bools.find('.bool:last-of-type label').text()
         i = parseInt(i)
         i = isNaN(i) ? 0 : i
         dom_bools_add.find('option[value="' + (i+1) + '"]').prop('selected', true)
@@ -14606,7 +15310,7 @@ var INPUT = (($)=>{
 
     function refreshNumbersAddSelect(){
         dom_numbers.find('.number').prop('selected', false)
-        let i = dom_numbers.find('.number:last-of-type label').html()
+        let i = dom_numbers.find('.number:last-of-type label').text()
         i = parseInt(i)
         i = isNaN(i) ? 0 : i
         dom_numbers_add.find('option[value="' + (i+1) + '"]').prop('selected', true)
@@ -14741,7 +15445,7 @@ var INPUT = (($)=>{
 
             numbers[label.toString()].val = val
             $(number).parent().parent().find('.change input[type="number"], .change input[type="range"]').val(val)
-            $(number).parent().parent().find('.slidervalue').html(val)
+            $(number).parent().parent().find('.slidervalue').text(val)
         } else {
             addNewNumber(label, val, config)
         }
@@ -14825,7 +15529,7 @@ var INPUT = (($)=>{
                 directioncheck: directioncheck.prop('checked')
             }
             number.find('.change input[type="range"], .change input[type="number"]').val(n).attr('step', numbers[label].sliderstep)
-            number.find('.slidervalue').html(n)
+            number.find('.slidervalue').text(n)
             refreshNumbersAddSelect()
         }, (e)=>{
             numbers[label] = null
@@ -14991,7 +15695,7 @@ var INPUT = (($)=>{
                     numbers[label].val = val
                 }
                 number.find('.change input:not(.user_label)').val(val)
-                number.find('.slidervalue').html(val)
+                number.find('.slidervalue').text(val)
                 refreshNumbersAddSelect()
             } else if(rotatecheck.prop('checked')){
                 let val = number.find('.change input[type="number"]').val()
@@ -15018,7 +15722,7 @@ var INPUT = (($)=>{
                     numbers[label].val = val
                 }
                 number.find('.change input:not(.user_label)').val(val)
-                number.find('.slidervalue').html(val)
+                number.find('.slidervalue').text(val)
                 refreshNumbersAddSelect()
             }
         })
@@ -15252,10 +15956,10 @@ var OUTPUT = ((global, $)=>{
 
     function refresh(){
         for(let k of Object.keys(bools)){
-            bools[k].html(inputBools[k] === true ? 'true' : 'false')
+            bools[k].text(inputBools[k] === true ? 'true' : 'false')
         }
         for(let k of Object.keys(numbers)){
-            numbers[k].html(inputNumbers[k])
+            numbers[k].text(inputNumbers[k])
         }
     }
 
@@ -15607,7 +16311,7 @@ var CANVAS = ((global, $)=>{
             MAP.setZoomFactor(val)
             setZoomFactor(val)
 
-            $('.monitor_info .zoom').html(val+'x')
+            $('.monitor_info .zoom').text(val+'x')
             
             STORAGE.setConfiguration('settings.zoomfactor', val)
         })
@@ -15723,7 +16427,7 @@ var CANVAS = ((global, $)=>{
             } else if (ENGINE.isRunning() && !enableTouchscreenHintShown){
                 enableTouchscreenHintShown = true
 
-                UTIL.hint("Touchscreen not enabled", "In order to use the touchscreen functionality, enable the touchscreen in the settings tab.")
+                UTIL.hintImportant("Touchscreen not enabled", "In order to use the touchscreen functionality, enable the touchscreen in the settings tab.")
             }
         }
     }
@@ -15925,8 +16629,8 @@ var CANVAS = ((global, $)=>{
         width = unzoom(dim.width)
         height = unzoom(dim.height)
 
-        $('.monitor_info .width').html(width)
-        $('.monitor_info .height').html(height)
+        $('.monitor_info .width').text(width)
+        $('.monitor_info .height').text(height)
 
         let overflowSize = (showOverflow ? 32 : 0)
 

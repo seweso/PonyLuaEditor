@@ -9,6 +9,7 @@ TRANSLATE = (()=>{
     const TRANSLATIONS = {
         "viewable_monitor": {en: "Monitor"},
         "viewable_settings": {en: "Settings"},
+        "viewable_history": {en: "History"},
         "viewable_console": {en: "Console"},
         "viewable_hints": {en: "Hints"},
         "viewable_properties": {en: "Properties"},
@@ -23,6 +24,7 @@ TRANSLATE = (()=>{
         "viewable_editor_unminified": {en: "Unminifier"},
         "viewable_editor_uibuilder": {en: "UI Builder"},
         "viewable_editor_uibuilder_code": {en: "UI Generated Code"},
+        
         /* views */
         "top_left": {en: "Top Left"},
         "top_right": {en: "Top Right"},

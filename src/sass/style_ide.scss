@@ -12,6 +12,7 @@
 @import "_chapters.scss";
 @import "_view.scss";
 @import "_viewable.scss";
+@import "_fullscreen.scss";
 @import "ponybin.scss";
 
 
@@ -22,6 +23,18 @@
     overflow: hidden;
     display: flex;
     flex-direction: column;
+
+    &[offline]{
+        #share {
+            display: none !important;
+        }
+
+        .history_entry[type="sharekey"] .buttons {
+            .load, .update {
+                display: none !important;
+            }
+        }
+    }
 
     &[mode="server"] {
         
@@ -68,10 +81,11 @@
             .controls_group {
                 padding: 5px;
                 display: inline-block;
+                color: var(--color-text-light-foreground);
 
                 &:not(:last-child) {
-                    border-right: 1px solid var(--color-text-light-foreground);
-                    padding-right: 25px;
+                    border-right: 3px solid var(--color-accent);
+                    padding-right: 10px;
                 }
 
                 button {
@@ -85,7 +99,15 @@
                 }
 
                 &:not(:last-child) {
-                    margin-right: 25px;
+                    margin-right: 10px;
+                }
+            }
+
+            #history-help-controls {
+                margin-left: 10px;
+
+                &:hover {
+                    color: var(--color-text-dark-foreground);
                 }
             }
 
@@ -94,9 +116,20 @@
 
                 &.saved {
                     background: #4d835f;
-                    border-color: #fff;
-                    color: #fff;
+                    border-color: var(--color-text-light-foreground);
+                    color: var(--color-text-light-foreground);
                 }
+            }
+
+            #code-title {
+                padding: 4px 6px;
+                font-size: 14px;
+                margin-right: 10px;
+                background: transparent;
+                border: 1px solid var(--color-text-light-foreground);
+                border-radius: 4px;
+                color: var(--color-text-light-foreground);
+                width: 160px;
             }
         }
 

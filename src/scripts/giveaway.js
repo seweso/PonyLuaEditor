@@ -35,7 +35,7 @@ var GIVEAWAY = (($)=>{
             }
             let claimed_by = $('#giveaway-container').find('.claimed_by').val()
             if(typeof claimed_by !== 'string' || claimed_by.length === 0){
-                $('#giveaway-container').find('.error').html('Please enter your discord tag id or your email.').show()
+                $('#giveaway-container').find('.error').text('Please enter your discord tag id or your email.').show()
             } else {
                 $('#giveaway-container').find('.cancel, .send').hide()
                 $('#giveaway-container').find('.error').hide()
@@ -49,7 +49,7 @@ var GIVEAWAY = (($)=>{
                     $('#giveaway-container').find('.close').show()
                 }).fail(()=>{
                     $('#giveaway-container').find('.progress').hide()
-                    $('#giveaway-container').find('.error').html('could not claim giveaway, please reload the page.').show()
+                    $('#giveaway-container').find('.error').text('Could not claim giveaway, please reload the page.').show()
                     $('#giveaway-container').find('.reload, .close').show()
                 })
             }
@@ -57,7 +57,7 @@ var GIVEAWAY = (($)=>{
             console.error(ex)
             $('#giveaway-container').find('.progress, .success, .cancel, .send').hide()
             $('#giveaway-container').find('.reload, .close').show()
-            $('#giveaway-container').find('.error').html('could not claim giveaway, please reload the page.').show()            
+            $('#giveaway-container').find('.error').text('Could not claim giveaway, please reload the page.').show()            
         }
     }
 })(jQuery)

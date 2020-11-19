@@ -100,7 +100,7 @@ var MAP = (($)=>{
                     if(i == 300000 && shownMapWarning){
                         shownMapWarning = false
                         setTimeout(()=>{
-                            UTIL.hint("Warning", "Map drawing takes a long time, reduce zoom for better performance", 10 * 1000)
+                            UTIL.hintImportant("Warning", "Map drawing takes a long time, reduce zoom for better performance", 10 * 1000)
                         }, 1)
                     }
 
