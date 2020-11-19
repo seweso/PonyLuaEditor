@@ -8511,7 +8511,7 @@ UTIL = (($)=>{
         )
 
         inner.append(
-            $('<div class="message">').text(text)
+            $('<div class="message">').html(text)
         )
 
         let btns = $('<div class="buttons">')
