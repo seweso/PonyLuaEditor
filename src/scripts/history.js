@@ -324,6 +324,7 @@ HISTORY = (()=>{
                     if(history.entries[i].id === e.id){
                         history.entries.splice(i,1)
                         dom.find('.history_entry[entry-id="' + e.id + '"]').remove()
+                        sortDomHistory()
                         updateLocalStorage()
                         return
                     }
