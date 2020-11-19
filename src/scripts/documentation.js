@@ -161,7 +161,7 @@ var DOCUMENTATION = ((global, $)=>{
             for(let i in args){
                 let a = args[i]
 
-                let currentArg = $('<div class="arg">').html(a.name)
+                let currentArg = $('<div class="arg">').text(a.name)
 
                 let help_text = ''
 

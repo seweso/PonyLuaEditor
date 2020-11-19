@@ -55,10 +55,10 @@ var OUTPUT = ((global, $)=>{
 
     function refresh(){
         for(let k of Object.keys(bools)){
-            bools[k].html(inputBools[k] === true ? 'true' : 'false')
+            bools[k].text(inputBools[k] === true ? 'true' : 'false')
         }
         for(let k of Object.keys(numbers)){
-            numbers[k].html(inputNumbers[k])
+            numbers[k].text(inputNumbers[k])
         }
     }
 

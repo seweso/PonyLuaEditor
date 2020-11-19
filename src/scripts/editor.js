@@ -112,7 +112,7 @@ class Editor extends DynamicSizedViewableContent {
         
         let max = STORAGE.getConfiguration('settings.servermode') ? 131072 : 4096
 
-        this.viewable.dom.find('.charactercount').html(chars + '/' + max)
+        this.viewable.dom.find('.charactercount').text(chars + '/' + max)
         if(chars >= max){
              this.viewable.dom.find('.charactercount').addClass('limit')
         } else {
@@ -124,7 +124,7 @@ class Editor extends DynamicSizedViewableContent {
         let pos = this.editor.getCursorPosition()
         let chars = this.editor.session.doc.positionToIndex(pos)
         
-        this.viewable.dom.find('.selection-information').html('Line ' + (pos.row + 1) + ', Column ' + (pos.column + 1) + ', Char ' + chars)
+        this.viewable.dom.find('.selection-information').text('Line ' + (pos.row + 1) + ', Column ' + (pos.column + 1) + ', Char ' + chars)
     }
 
     countCharacters(str){

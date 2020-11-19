@@ -59,11 +59,11 @@ var UI_BUILDER = (($)=>{
 
         $('#ui-builder-zoom').on('change', ()=>{
             recalculateSize()
-            $('[for="ui-builder-zoom"] span').html($('#ui-builder-zoom').val() + 'x')
+            $('[for="ui-builder-zoom"] span').text($('#ui-builder-zoom').val() + 'x')
         })
 
         recalculateSize()
-        $('[for="ui-builder-zoom"] span').html($('#ui-builder-zoom').val() + 'x')
+        $('[for="ui-builder-zoom"] span').text($('#ui-builder-zoom').val() + 'x')
 
 
         container.append('<div class="controls" mode="move"></div>')
@@ -729,7 +729,7 @@ var UI_BUILDER = (($)=>{
                 .css({
                     color: makeValidHexOrEmpty(this.settings.color.value)
                 })
-                .html(this.settings.text.value)
+                .text(this.settings.text.value)
 
             this.content.css('cssText', 'display: flex; flex-direction: column; justify-content: center; align-items: center;')
         }
@@ -800,7 +800,7 @@ var UI_BUILDER = (($)=>{
                 .css({
                     color: makeValidHexOrEmpty(this.settings.color.value)
                 })
-                .html(this.settings.text.value)
+                .text(this.settings.text.value)
         }
 
         refreshPosition(){

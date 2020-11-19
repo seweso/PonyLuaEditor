@@ -172,7 +172,7 @@ ENGINE = (($)=>{
     function refreshTimeBetweenTicks(is_change){
         let val = $('#timeBetweenTicks').val()
         timeBetweenTicks = val
-        $('#timeBetweenTicksVal').html(Math.round(1000/val*0.96))
+        $('#timeBetweenTicksVal').text(Math.round(1000/val*0.96))
         if(running && is_change){
             clearDrawAndTickInterval()
             setDrawAndTickInterval()
@@ -182,7 +182,7 @@ ENGINE = (($)=>{
     function refreshTimeBetweenDraws(is_change){
         let val = $('#timeBetweenDraws').val()
         timeBetweenDraws = val
-        $('#timeBetweenDrawsVal').html(Math.round(1000/val*0.96))
+        $('#timeBetweenDrawsVal').text(Math.round(1000/val*0.96))
         if(running && is_change){
             clearDrawAndTickInterval()
             setDrawAndTickInterval()
@@ -196,14 +196,14 @@ ENGINE = (($)=>{
         LUA_EMULATOR.notifyPaused()
 
         $('#step').prop('disabled', false)
-        $('#pause').html('Resume')
+        $('#pause').text('Resume')
     }
 
     function unpauseScript(){
         LUA_EMULATOR.notifyUnPaused()
         
         $('#step').prop('disabled', true)
-        $('#pause').html('Pause')
+        $('#pause').text('Pause')
         
         /* make sure the button is updated before the next tick can happen */
         setTimeout(()=>{
@@ -292,7 +292,7 @@ ENGINE = (($)=>{
     }
 
     function stop(){
-        $('#pause').prop('disabled', true).html('Pause')
+        $('#pause').prop('disabled', true).text('Pause')
         $('#step').prop('disabled', true)
         $('#stop').prop('disabled', true)
         clearDrawAndTickInterval()
@@ -367,7 +367,7 @@ ENGINE = (($)=>{
 
         checkLongExecutionTimes(average)
 
-        $('#ticktime').html( Math.round(Math.min(1000/timeBetweenTicks*0.96, 1000/(average/tickTimes.length))))
+        $('#ticktime').text( Math.round(Math.min(1000/timeBetweenTicks*0.96, 1000/(average/tickTimes.length))))
 
         CONSOLE.notifiyTickOrDrawOver()
     }
@@ -405,7 +405,7 @@ ENGINE = (($)=>{
 
         checkLongExecutionTimes(average)
 
-        $('#drawtime').html( Math.round(Math.min(drawAnimationFrame? 60 : (1000/timeBetweenDraws*0.96), 1000/(average/drawTimes.length))))
+        $('#drawtime').text( Math.round(Math.min(drawAnimationFrame? 60 : (1000/timeBetweenDraws*0.96), 1000/(average/drawTimes.length))))
 
         CONSOLE.notifiyTickOrDrawOver()
 

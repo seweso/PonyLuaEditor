@@ -122,7 +122,7 @@ var INPUT = (($)=>{
 
     function refreshBoolsAddSelect(){
         dom_bools.find('.bool').prop('selected', false)
-        let i = dom_bools.find('.bool:last-of-type label').html()
+        let i = dom_bools.find('.bool:last-of-type label').text()
         i = parseInt(i)
         i = isNaN(i) ? 0 : i
         dom_bools_add.find('option[value="' + (i+1) + '"]').prop('selected', true)
@@ -130,7 +130,7 @@ var INPUT = (($)=>{
 
     function refreshNumbersAddSelect(){
         dom_numbers.find('.number').prop('selected', false)
-        let i = dom_numbers.find('.number:last-of-type label').html()
+        let i = dom_numbers.find('.number:last-of-type label').text()
         i = parseInt(i)
         i = isNaN(i) ? 0 : i
         dom_numbers_add.find('option[value="' + (i+1) + '"]').prop('selected', true)
@@ -265,7 +265,7 @@ var INPUT = (($)=>{
 
             numbers[label.toString()].val = val
             $(number).parent().parent().find('.change input[type="number"], .change input[type="range"]').val(val)
-            $(number).parent().parent().find('.slidervalue').html(val)
+            $(number).parent().parent().find('.slidervalue').text(val)
         } else {
             addNewNumber(label, val, config)
         }
@@ -349,7 +349,7 @@ var INPUT = (($)=>{
                 directioncheck: directioncheck.prop('checked')
             }
             number.find('.change input[type="range"], .change input[type="number"]').val(n).attr('step', numbers[label].sliderstep)
-            number.find('.slidervalue').html(n)
+            number.find('.slidervalue').text(n)
             refreshNumbersAddSelect()
         }, (e)=>{
             numbers[label] = null
@@ -515,7 +515,7 @@ var INPUT = (($)=>{
                     numbers[label].val = val
                 }
                 number.find('.change input:not(.user_label)').val(val)
-                number.find('.slidervalue').html(val)
+                number.find('.slidervalue').text(val)
                 refreshNumbersAddSelect()
             } else if(rotatecheck.prop('checked')){
                 let val = number.find('.change input[type="number"]').val()
@@ -542,7 +542,7 @@ var INPUT = (($)=>{
                     numbers[label].val = val
                 }
                 number.find('.change input:not(.user_label)').val(val)
-                number.find('.slidervalue').html(val)
+                number.find('.slidervalue').text(val)
                 refreshNumbersAddSelect()
             }
         })

@@ -32,7 +32,7 @@ var SHARE = (($)=>{
                 'margin-right': '10px'
             }, 200)
         
-            $('#share .docreate').html('Share again')
+            $('#share .docreate').text('Share again')
 
             setTimeout(()=>{
                 $('#share .more').css('overflow', 'visible')

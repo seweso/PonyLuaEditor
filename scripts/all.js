@@ -5993,7 +5993,7 @@ var GIVEAWAY = (($)=>{
             }
             let claimed_by = $('#giveaway-container').find('.claimed_by').val()
             if(typeof claimed_by !== 'string' || claimed_by.length === 0){
-                $('#giveaway-container').find('.error').html('Please enter your discord tag id or your email.').show()
+                $('#giveaway-container').find('.error').text('Please enter your discord tag id or your email.').show()
             } else {
                 $('#giveaway-container').find('.cancel, .send').hide()
                 $('#giveaway-container').find('.error').hide()
@@ -6007,7 +6007,7 @@ var GIVEAWAY = (($)=>{
                     $('#giveaway-container').find('.close').show()
                 }).fail(()=>{
                     $('#giveaway-container').find('.progress').hide()
-                    $('#giveaway-container').find('.error').html('could not claim giveaway, please reload the page.').show()
+                    $('#giveaway-container').find('.error').text('Could not claim giveaway, please reload the page.').show()
                     $('#giveaway-container').find('.reload, .close').show()
                 })
             }
@@ -6015,7 +6015,7 @@ var GIVEAWAY = (($)=>{
             console.error(ex)
             $('#giveaway-container').find('.progress, .success, .cancel, .send').hide()
             $('#giveaway-container').find('.reload, .close').show()
-            $('#giveaway-container').find('.error').html('could not claim giveaway, please reload the page.').show()            
+            $('#giveaway-container').find('.error').text('Could not claim giveaway, please reload the page.').show()            
         }
     }
 })(jQuery)
@@ -7946,7 +7946,7 @@ var SHARE = (($)=>{
                 'margin-right': '10px'
             }, 200)
         
-            $('#share .docreate').html('Share again')
+            $('#share .docreate').text('Share again')
 
             setTimeout(()=>{
                 $('#share .more').css('overflow', 'visible')
@@ -9256,11 +9256,11 @@ var UI_BUILDER = (($)=>{
 
         $('#ui-builder-zoom').on('change', ()=>{
             recalculateSize()
-            $('[for="ui-builder-zoom"] span').html($('#ui-builder-zoom').val() + 'x')
+            $('[for="ui-builder-zoom"] span').text($('#ui-builder-zoom').val() + 'x')
         })
 
         recalculateSize()
-        $('[for="ui-builder-zoom"] span').html($('#ui-builder-zoom').val() + 'x')
+        $('[for="ui-builder-zoom"] span').text($('#ui-builder-zoom').val() + 'x')
 
 
         container.append('<div class="controls" mode="move"></div>')
@@ -9926,7 +9926,7 @@ var UI_BUILDER = (($)=>{
                 .css({
                     color: makeValidHexOrEmpty(this.settings.color.value)
                 })
-                .html(this.settings.text.value)
+                .text(this.settings.text.value)
 
             this.content.css('cssText', 'display: flex; flex-direction: column; justify-content: center; align-items: center;')
         }
@@ -9997,7 +9997,7 @@ var UI_BUILDER = (($)=>{
                 .css({
                     color: makeValidHexOrEmpty(this.settings.color.value)
                 })
-                .html(this.settings.text.value)
+                .text(this.settings.text.value)
         }
 
         refreshPosition(){
@@ -11703,7 +11703,7 @@ class Editor extends DynamicSizedViewableContent {
         
         let max = STORAGE.getConfiguration('settings.servermode') ? 131072 : 4096
 
-        this.viewable.dom.find('.charactercount').html(chars + '/' + max)
+        this.viewable.dom.find('.charactercount').text(chars + '/' + max)
         if(chars >= max){
              this.viewable.dom.find('.charactercount').addClass('limit')
         } else {
@@ -11715,7 +11715,7 @@ class Editor extends DynamicSizedViewableContent {
         let pos = this.editor.getCursorPosition()
         let chars = this.editor.session.doc.positionToIndex(pos)
         
-        this.viewable.dom.find('.selection-information').html('Line ' + (pos.row + 1) + ', Column ' + (pos.column + 1) + ', Char ' + chars)
+        this.viewable.dom.find('.selection-information').text('Line ' + (pos.row + 1) + ', Column ' + (pos.column + 1) + ', Char ' + chars)
     }
 
     countCharacters(str){
@@ -12455,7 +12455,7 @@ var DOCUMENTATION = ((global, $)=>{
             for(let i in args){
                 let a = args[i]
 
-                let currentArg = $('<div class="arg">').html(a.name)
+                let currentArg = $('<div class="arg">').text(a.name)
 
                 let help_text = ''
 
@@ -14861,7 +14861,7 @@ ENGINE = (($)=>{
     function refreshTimeBetweenTicks(is_change){
         let val = $('#timeBetweenTicks').val()
         timeBetweenTicks = val
-        $('#timeBetweenTicksVal').html(Math.round(1000/val*0.96))
+        $('#timeBetweenTicksVal').text(Math.round(1000/val*0.96))
         if(running && is_change){
             clearDrawAndTickInterval()
             setDrawAndTickInterval()
@@ -14871,7 +14871,7 @@ ENGINE = (($)=>{
     function refreshTimeBetweenDraws(is_change){
         let val = $('#timeBetweenDraws').val()
         timeBetweenDraws = val
-        $('#timeBetweenDrawsVal').html(Math.round(1000/val*0.96))
+        $('#timeBetweenDrawsVal').text(Math.round(1000/val*0.96))
         if(running && is_change){
             clearDrawAndTickInterval()
             setDrawAndTickInterval()
@@ -14885,14 +14885,14 @@ ENGINE = (($)=>{
         LUA_EMULATOR.notifyPaused()
 
         $('#step').prop('disabled', false)
-        $('#pause').html('Resume')
+        $('#pause').text('Resume')
     }
 
     function unpauseScript(){
         LUA_EMULATOR.notifyUnPaused()
         
         $('#step').prop('disabled', true)
-        $('#pause').html('Pause')
+        $('#pause').text('Pause')
         
         /* make sure the button is updated before the next tick can happen */
         setTimeout(()=>{
@@ -14981,7 +14981,7 @@ ENGINE = (($)=>{
     }
 
     function stop(){
-        $('#pause').prop('disabled', true).html('Pause')
+        $('#pause').prop('disabled', true).text('Pause')
         $('#step').prop('disabled', true)
         $('#stop').prop('disabled', true)
         clearDrawAndTickInterval()
@@ -15056,7 +15056,7 @@ ENGINE = (($)=>{
 
         checkLongExecutionTimes(average)
 
-        $('#ticktime').html( Math.round(Math.min(1000/timeBetweenTicks*0.96, 1000/(average/tickTimes.length))))
+        $('#ticktime').text( Math.round(Math.min(1000/timeBetweenTicks*0.96, 1000/(average/tickTimes.length))))
 
         CONSOLE.notifiyTickOrDrawOver()
     }
@@ -15094,7 +15094,7 @@ ENGINE = (($)=>{
 
         checkLongExecutionTimes(average)
 
-        $('#drawtime').html( Math.round(Math.min(drawAnimationFrame? 60 : (1000/timeBetweenDraws*0.96), 1000/(average/drawTimes.length))))
+        $('#drawtime').text( Math.round(Math.min(drawAnimationFrame? 60 : (1000/timeBetweenDraws*0.96), 1000/(average/drawTimes.length))))
 
         CONSOLE.notifiyTickOrDrawOver()
 
@@ -15287,7 +15287,7 @@ var INPUT = (($)=>{
 
     function refreshBoolsAddSelect(){
         dom_bools.find('.bool').prop('selected', false)
-        let i = dom_bools.find('.bool:last-of-type label').html()
+        let i = dom_bools.find('.bool:last-of-type label').text()
         i = parseInt(i)
         i = isNaN(i) ? 0 : i
         dom_bools_add.find('option[value="' + (i+1) + '"]').prop('selected', true)
@@ -15295,7 +15295,7 @@ var INPUT = (($)=>{
 
     function refreshNumbersAddSelect(){
         dom_numbers.find('.number').prop('selected', false)
-        let i = dom_numbers.find('.number:last-of-type label').html()
+        let i = dom_numbers.find('.number:last-of-type label').text()
         i = parseInt(i)
         i = isNaN(i) ? 0 : i
         dom_numbers_add.find('option[value="' + (i+1) + '"]').prop('selected', true)
@@ -15430,7 +15430,7 @@ var INPUT = (($)=>{
 
             numbers[label.toString()].val = val
             $(number).parent().parent().find('.change input[type="number"], .change input[type="range"]').val(val)
-            $(number).parent().parent().find('.slidervalue').html(val)
+            $(number).parent().parent().find('.slidervalue').text(val)
         } else {
             addNewNumber(label, val, config)
         }
@@ -15514,7 +15514,7 @@ var INPUT = (($)=>{
                 directioncheck: directioncheck.prop('checked')
             }
             number.find('.change input[type="range"], .change input[type="number"]').val(n).attr('step', numbers[label].sliderstep)
-            number.find('.slidervalue').html(n)
+            number.find('.slidervalue').text(n)
             refreshNumbersAddSelect()
         }, (e)=>{
             numbers[label] = null
@@ -15680,7 +15680,7 @@ var INPUT = (($)=>{
                     numbers[label].val = val
                 }
                 number.find('.change input:not(.user_label)').val(val)
-                number.find('.slidervalue').html(val)
+                number.find('.slidervalue').text(val)
                 refreshNumbersAddSelect()
             } else if(rotatecheck.prop('checked')){
                 let val = number.find('.change input[type="number"]').val()
@@ -15707,7 +15707,7 @@ var INPUT = (($)=>{
                     numbers[label].val = val
                 }
                 number.find('.change input:not(.user_label)').val(val)
-                number.find('.slidervalue').html(val)
+                number.find('.slidervalue').text(val)
                 refreshNumbersAddSelect()
             }
         })
@@ -15941,10 +15941,10 @@ var OUTPUT = ((global, $)=>{
 
     function refresh(){
         for(let k of Object.keys(bools)){
-            bools[k].html(inputBools[k] === true ? 'true' : 'false')
+            bools[k].text(inputBools[k] === true ? 'true' : 'false')
         }
         for(let k of Object.keys(numbers)){
-            numbers[k].html(inputNumbers[k])
+            numbers[k].text(inputNumbers[k])
         }
     }
 
@@ -16296,7 +16296,7 @@ var CANVAS = ((global, $)=>{
             MAP.setZoomFactor(val)
             setZoomFactor(val)
 
-            $('.monitor_info .zoom').html(val+'x')
+            $('.monitor_info .zoom').text(val+'x')
             
             STORAGE.setConfiguration('settings.zoomfactor', val)
         })
@@ -16614,8 +16614,8 @@ var CANVAS = ((global, $)=>{
         width = unzoom(dim.width)
         height = unzoom(dim.height)
 
-        $('.monitor_info .width').html(width)
-        $('.monitor_info .height').html(height)
+        $('.monitor_info .width').text(width)
+        $('.monitor_info .height').text(height)
 
         let overflowSize = (showOverflow ? 32 : 0)
 
