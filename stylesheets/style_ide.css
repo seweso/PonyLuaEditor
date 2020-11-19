@@ -236,47 +236,14 @@ a:hover {
   .dialog .inner {
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     background: var(--color-text-dark-background);
     color: var(--color-text-dark-foreground);
     padding: 20px;
     border-radius: 3px;
-    box-shadow: 2px 2px 3px #555; }
-  .dialog#confirm .inner {
-    border: 3px solid #b80a66; }
-  .dialog#confirm .title {
-    color: #b80a66; }
-  .dialog#confirm .buttons button {
-    background: #b80a66;
-    color: #fff; }
-    .dialog#confirm .buttons button:hover {
-      background: #c63a84; }
-  .dialog#success .inner {
-    border: 3px solid #6FBA34; }
-  .dialog#success .title {
-    color: #6FBA34; }
-  .dialog#success .buttons button {
-    background: #6FBA34;
-    color: #fff; }
-    .dialog#success .buttons button:hover {
-      background: #8bc75c; }
-  .dialog#fail .inner {
-    border: 3px solid #DF0000; }
-  .dialog#fail .title {
-    color: #DF0000; }
-  .dialog#fail .buttons button {
-    background: #DF0000;
-    color: #fff; }
-    .dialog#fail .buttons button:hover {
-      background: #e53232; }
-  .dialog#alert .inner {
-    border: 3px solid #E5CE44; }
-  .dialog#alert .title {
-    color: #E5CE44; }
-  .dialog#alert .buttons button {
-    background: #E5CE44;
-    color: #fff; }
-    .dialog#alert .buttons button:hover {
-      background: #ead769; }
+    box-shadow: 2px 2px 3px #555;
+    min-width: 350px;
+    min-height: 200px; }
   .dialog .title {
     margin: 0;
     color: var(--color-accent);
@@ -290,6 +257,42 @@ a:hover {
     justify-content: center; }
     .dialog .buttons button {
       margin: 0 10px; }
+  .dialog.confirm .inner {
+    border: 3px solid #b80a66; }
+  .dialog.confirm .title {
+    color: #b80a66; }
+  .dialog.confirm .buttons button {
+    background: #b80a66;
+    color: #fff; }
+    .dialog.confirm .buttons button:hover {
+      background: #c63a84; }
+  .dialog.success .inner {
+    border: 3px solid #6FBA34; }
+  .dialog.success .title {
+    color: #6FBA34; }
+  .dialog.success .buttons button {
+    background: #6FBA34;
+    color: #fff; }
+    .dialog.success .buttons button:hover {
+      background: #8bc75c; }
+  .dialog.fail .inner {
+    border: 3px solid #DF0000; }
+  .dialog.fail .title {
+    color: #DF0000; }
+  .dialog.fail .buttons button {
+    background: #DF0000;
+    color: #fff; }
+    .dialog.fail .buttons button:hover {
+      background: #e53232; }
+  .dialog.alert .inner {
+    border: 3px solid #E5CE44; }
+  .dialog.alert .title {
+    color: #E5CE44; }
+  .dialog.alert .buttons button {
+    background: #E5CE44;
+    color: #fff; }
+    .dialog.alert .buttons button:hover {
+      background: #ead769; }
 
 .code_container .code_information {
   padding: 3px 8px;

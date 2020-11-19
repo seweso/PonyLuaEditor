@@ -8405,6 +8405,8 @@ UI = (($)=>{
 UTIL = (($)=>{
     "use strict";
 
+    let dialogCounter = 0
+
     LOADER.on(LOADER.EVENT.UI_READY, init)
 
     function init(){
@@ -8441,12 +8443,7 @@ UTIL = (($)=>{
 
     function message(title, text){
         return new Promise((fulfill, reject)=>{
-            $('#message .title').html(title)
-            $('#message .message').html(text)
-            $('#message').show()
-            $('#message .ok').on('click', ()=>{
-                $('#message .ok').off('click')
-                $('#message').hide()
+            makeDialog('message', title, text, {ok: 'OK'}, ()=>{
                 fulfill(true)
             })
         })
@@ -8454,12 +8451,7 @@ UTIL = (($)=>{
 
     function fail(text, customTitle){
         return new Promise((fulfill, reject)=>{
-            $('#fail .title').html(customTitle ? customTitle : 'Failed:')
-            $('#fail .message').html(text)
-            $('#fail').show()
-            $('#fail .ok').on('click', ()=>{
-                $('#fail .ok').off('click')
-                $('#fail').hide()
+            makeDialog('fail', customTitle ? customTitle : 'Failed:', text, {ok: 'OK'}, ()=>{
                 fulfill(true)
             })
         })
@@ -8467,45 +8459,60 @@ UTIL = (($)=>{
 
     function success(text, customTitle){
         return new Promise((fulfill, reject)=>{
-            $('#success .title').html(customTitle ? customTitle : 'Success:')
-            $('#success .message').html(text)
-            $('#success').show()
-            $('#success .ok').on('click', ()=>{
-                $('#success .ok').off('click')
-                $('#success').hide()
+            makeDialog('success', customTitle ? customTitle : 'Success:', text, {ok: 'OK'}, ()=>{
                 fulfill(true)
             })
         })
     }
 
-    function confirm(text){
+    function confirm(text, customTitle){
         return new Promise((fulfill, reject)=>{
-            $('#confirm .message').html(text)
-            $('#confirm').show()
-            $('#confirm .yes').on('click', ()=>{
-                $('#confirm .yes, #confirm .no').off('click')
-                $('#confirm').hide()
-                fulfill(true)
-            })
-            $('#confirm .no').on('click', ()=>{
-                $('#confirm .yes, #confirm .no').off('click')
-                $('#confirm').hide()
-                fulfill(false)
+            makeDialog('confirm', customTitle ? customTitle : 'Confirm Action:', text, {yes: 'Yes', no: 'No'}, (btn)=>{
+                fulfill(btn == 'yes')
             })
         })
     }    
 
     function alert(text, customTitle){
         return new Promise((fulfill, reject)=>{
-            $('#alert .title').html(customTitle ? customTitle : 'Alert:')
-            $('#alert .message').html(text)
-            $('#alert').show()
-            $('#alert .ok').on('click', ()=>{
-                $('#alert .ok').off('click')
-                $('#alert').hide()
+            makeDialog('alert', customTitle ? customTitle : 'Alert:', text, {ok: 'OK'}, ()=>{
                 fulfill(true)
             })
         })
+    }
+
+    function makeDialog(type, title, text, buttons, callback){
+        if(typeof callback !== 'function'){
+            throw new Error('callback must be a function')
+        }
+
+        let dialog = $('<div class="dialog ' + type + '"/>').css('z-index', 800 + dialogCounter)
+        let inner = $('<div class="inner"/>')
+        dialog.append(inner)
+
+        inner.append(
+            $('<h3 class="title">').text(title)
+        )
+
+        inner.append(
+            $('<div class="message">').text(text)
+        )
+
+        let btns = $('<div class="buttons">')
+
+        for(let k of Object.keys(buttons)){
+            btns.append(
+                $('<button btn-key="' + k + '">').text(buttons[k]).on('click', ()=>{
+                    dialog.remove()
+                    callback(k)
+                })
+            )
+        }
+        inner.append(btns)
+
+        dialog.appendTo(document.body)
+
+        dialogCounter++
     }
 
     /* custom_remove_time is optional (time in milliseconds) */
