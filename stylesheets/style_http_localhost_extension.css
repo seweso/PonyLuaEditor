@@ -127,7 +127,8 @@ body {
     position: relative;
     width: 50%;
     height: 100%;
-    cursor: pointer; }
+    cursor: pointer;
+    z-index: 3; }
     #navigation .center svg {
       position: absolute;
       top: 0;
