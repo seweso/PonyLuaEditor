@@ -159,7 +159,7 @@ a:hover {
   color: var(--color-text-dark-foreground);
   cursor: pointer;
   transition: all 0.2s ease 0s;
-  margin-right: 20px; }
+  margin-left: 20px; }
   #help-button img {
     height: 100%; }
   #help-button span {
@@ -647,8 +647,15 @@ body {
       font-size: 45px;
       cursor: pointer;
       line-height: 41px; }
-    #navigation .left .version_state {
-      margin-left: 30px;
+  #navigation .right {
+    justify-content: flex-end; }
+    #navigation .right .logo_container {
+      height: 100%; }
+      #navigation .right .logo_container img {
+        height: 100%;
+        width: auto; }
+    #navigation .right .version_state {
+      margin-right: 30px;
       border-radius: 10000px;
       border: 2px solid;
       font-weight: bold;
@@ -657,13 +664,6 @@ body {
       justify-content: center;
       align-items: center;
       padding: 5px 15px; }
-  #navigation .right {
-    justify-content: flex-end; }
-    #navigation .right .logo_container {
-      height: 100%; }
-      #navigation .right .logo_container img {
-        height: 100%;
-        width: auto; }
   #navigation .center {
     position: relative;
     width: 50%;
