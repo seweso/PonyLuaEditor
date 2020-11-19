@@ -169,7 +169,7 @@ var CANVAS = ((global, $)=>{
             } else if (ENGINE.isRunning() && !enableTouchscreenHintShown){
                 enableTouchscreenHintShown = true
 
-                UTIL.hint("Touchscreen not enabled", "In order to use the touchscreen functionality, enable the touchscreen in the settings tab.")
+                UTIL.hintImportant("Touchscreen not enabled", "In order to use the touchscreen functionality, enable the touchscreen in the settings tab.")
             }
         }
     }

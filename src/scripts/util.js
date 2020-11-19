@@ -136,9 +136,20 @@ UTIL = (($)=>{
 
     /* custom_remove_time is optional (time in milliseconds) */
     function hint(title, text, custom_remove_time){
+        makeHint('#636874', title, text, custom_remove_time)
+    }
+
+    /* custom_remove_time is optional (time in milliseconds) */
+    function hintImportant(title, text, custom_remove_time){
+        makeHint('#ac3d31', title, text, custom_remove_time)
+        UI.viewables()['viewable_hints'].focusSelf()
+    }
+
+    /* custom_remove_time is optional (time in milliseconds) */
+    function makeHint(background, title, text, custom_remove_time){
         let h = $('<div class="hint"><span class="close icon-cancel-circle"></span><h4>'+title+'</h4><div>'+(text+'').replace('\n', '<br>')+'</div></div>')
         
-        h.find('h4').on('click', ()=>{
+        h.find('h4').css('background', background).on('click', ()=>{
             h.find('div').css('display', 'inline-block')
         })
 
@@ -216,6 +227,7 @@ UTIL = (($)=>{
         confirm: confirm,
         alert: alert,
         hint: hint,
+        hintImportant: hintImportant,
         addNavigationHint: addNavigationHint
     }
 })(jQuery)

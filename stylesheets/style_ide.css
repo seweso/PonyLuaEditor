@@ -1008,8 +1008,8 @@ body {
       flex-direction: row;
       align-items: center; }
       [view] .select [select-viewable] .notifications_counter {
-        background: var(--color-warning-red-background);
-        color: var(--color-warning-red-foreground);
+        background: #ea5a5a;
+        color: #fff;
         border-radius: 10000px;
         font-size: 12px;
         line-height: 12px;
