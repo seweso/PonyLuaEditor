@@ -108,7 +108,7 @@ var SHARE = (($)=>{
                 let id = json.key
                 setCurrentShare(id)
 
-                HISTORY.addMyShareKey(id, json.token)
+                HISTORY.addMyShareKey(id, json.token, STORAGE.getConfiguration('title'))
             } catch (e){
                 console.error(e)
                 UTIL.alert('Cannot share via ponybin. Please contact me.')

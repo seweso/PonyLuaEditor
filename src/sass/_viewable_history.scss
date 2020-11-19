@@ -1,14 +1,52 @@
 [viewable="viewable_history"] {
 
-    .storage {
-        text-align: center;
-        margin-bottom: 5px;
+    .heading {
+        display: flex;
+        flex-direction: column;
+        padding: 10px;
 
-        #storage-used {
-            font-weight: bold;
+        & > * {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
 
-            &.warning {
-                color: red;
+        button {
+            margin: 0;
+        }
+
+        #history-help {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            background: var(--color-text-dark-background);
+            color: var(--color-text-dark-foreground);
+            border-radius: 10000px;
+            padding: 4px 8px;  
+            cursor: pointer;
+
+            span {
+                margin-left: 6px;
+            }
+
+            &:hover {
+                background: var(--color-text-darker-background);
+                color: var(--color-text-darker-foreground);
+            }
+        }
+
+        .storage {
+            margin: 15px 0 0;
+            justify-content: center;
+            text-align: center;
+
+            #storage-used {
+                font-weight: bold;
+
+                &.warning {
+                    color: red;
+                }
             }
         }
     }

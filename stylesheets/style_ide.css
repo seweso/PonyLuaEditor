@@ -1277,13 +1277,39 @@ body {
       padding: 10px;
       color: var(--color-text-light-foreground); }
 
-[viewable="viewable_history"] .storage {
-  text-align: center;
-  margin-bottom: 5px; }
-  [viewable="viewable_history"] .storage #storage-used {
-    font-weight: bold; }
-    [viewable="viewable_history"] .storage #storage-used.warning {
-      color: red; }
+[viewable="viewable_history"] .heading {
+  display: flex;
+  flex-direction: column;
+  padding: 10px; }
+  [viewable="viewable_history"] .heading > * {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between; }
+  [viewable="viewable_history"] .heading button {
+    margin: 0; }
+  [viewable="viewable_history"] .heading #history-help {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background: var(--color-text-dark-background);
+    color: var(--color-text-dark-foreground);
+    border-radius: 10000px;
+    padding: 4px 8px;
+    cursor: pointer; }
+    [viewable="viewable_history"] .heading #history-help span {
+      margin-left: 6px; }
+    [viewable="viewable_history"] .heading #history-help:hover {
+      background: var(--color-text-darker-background);
+      color: var(--color-text-darker-foreground); }
+  [viewable="viewable_history"] .heading .storage {
+    margin: 15px 0 0;
+    justify-content: center;
+    text-align: center; }
+    [viewable="viewable_history"] .heading .storage #storage-used {
+      font-weight: bold; }
+      [viewable="viewable_history"] .heading .storage #storage-used.warning {
+        color: red; }
 
 [viewable="viewable_history"] .entries {
   position: relative;
@@ -1567,6 +1593,10 @@ body {
           margin-right: 10px; }
         .ide .ide_bar .ide_controls .controls_group:not(:last-child) {
           margin-right: 10px; }
+      .ide .ide_bar .ide_controls #history-help-controls {
+        margin-left: 10px; }
+        .ide .ide_bar .ide_controls #history-help-controls:hover {
+          color: var(--color-text-dark-foreground); }
       .ide .ide_bar .ide_controls #save {
         transition: all 0.5s ease 0s; }
         .ide .ide_bar .ide_controls #save.saved {

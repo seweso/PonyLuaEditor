@@ -145,7 +145,7 @@ You can also minify code, find tutorials and examples or use the ui builder to c
                 <div class="controls_group">
                     <label for="code-title">Name:</label>
                     <input type="text" name="code-title" id="code-title" placeholder="e.g. Fuel Display">
-                    <button id="save-to-history" title="Add to history">Add to history</button>
+                    <button id="save-to-history" title="Add to history">Add to history<span id="history-help-controls" class="icon-question"></span></button>
                     <div id="share">
                         <button class="docreate special_button">
                             Share
@@ -254,8 +254,15 @@ You can also minify code, find tutorials and examples or use the ui builder to c
         </div>
 
         <div viewable="viewable_history">
-            <div class="storage">
-                Storage used: <span id="storage-used">?</span>
+            <div class="heading">
+                <div>
+                    <div id="history-help">Help <span class="icon-question"></span></div>
+                    <button id="history-export">Export My Shared Keys</button>
+                    <button id="history-import">Import My Shared Keys</button>
+                </div>
+                <div class="storage">
+                    Storage used: <span id="storage-used">?</span>
+                </div>
             </div>
             <div class="entries">
                 
