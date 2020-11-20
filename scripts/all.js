@@ -5859,7 +5859,7 @@ EASTEREGG = (()=>{
 		let now = new Date()
 		let month = now.getMonth() + 1
 		let day = now.getDate()
-		return params.has('easteregg') || (month == 11 && day >= 11) || (month == 4 && day >= 1 && day <= 2)
+		return params.has('easteregg') || (month == 12 && day >= 24) || (month == 4 && day >= 1 && day <= 2)
 	}
 
 	function start(evt){
