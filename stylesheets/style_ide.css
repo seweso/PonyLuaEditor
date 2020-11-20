@@ -744,7 +744,7 @@ body {
     left: 10vw;
     height: 60px;
     width: 80vw;
-    z-index: 2;
+    z-index: 4;
     display: flex;
     flex-direction: row;
     justify-content: center;
