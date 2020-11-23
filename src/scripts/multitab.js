@@ -31,7 +31,7 @@ MULTITAB = (()=>{
     function showMultitabWarning(){
         if(! warningShown){
             warningShown = true
-            UTIL.alert('Multiple tabs running Pony IDE, only the last saved state will be persistent!')
+            UTIL.alert('Multiple tabs running Pony IDE, only the last saved state will be persistent!<br>History is synced live')
         }
     }
 

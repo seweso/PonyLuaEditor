@@ -56,6 +56,27 @@ HISTORY = (()=>{
         $('#history-export').on('click', exportHistory)
         $('#history-import').on('click', importHistory)
 
+
+        MULTITAB.onMessage('history-new', (entryJSON)=>{
+            try {
+                let parsed = JSON.parse(entryJSON)
+                history.entries.push(parsed)
+                makeDomHistory(parsed, true)
+            } catch (ex) {
+                console.error('could not import from history-new', ex)
+            }
+        })
+
+        MULTITAB.onMessage('history-update', (entryJSON)=>{
+            try {
+                let parsed = JSON.parse(entryJSON)
+                updateDomHistory(parsed)
+            } catch (ex) {
+                console.error('could not import from history-update', ex)
+            }
+        })
+
+
         LOADER.done(LOADER.EVENT.HISTORY_READY)
     }
 
@@ -251,6 +272,8 @@ HISTORY = (()=>{
         markRelatedHistoryEntry(id)
 
         updateLocalStorage()
+
+        MULTITAB.postMessage('history-new', JSON.stringify(entry))
     }
 
     function updateHistoryEntry(e){
@@ -282,6 +305,8 @@ HISTORY = (()=>{
                             updateDomHistory(e)
                             updateLocalStorage()
 
+                            MULTITAB.postMessage('history-update', JSON.stringify(e))
+
                             markRelatedHistoryEntry(e.id)
                         } else {
                             UTIL.fail('Shared code was not updated, please try again later.')
@@ -293,6 +318,8 @@ HISTORY = (()=>{
                     e.time = new Date().getTime()
                     updateDomHistory(e)
                     updateLocalStorage()
+
+                    MULTITAB.postMessage('history-update', JSON.stringify(e))
 
                     markRelatedHistoryEntry(e.id)
                 } else {
