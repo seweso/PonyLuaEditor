@@ -13,7 +13,7 @@ function buildScripts(){
     let suffix = '.js'
     let order = [ 'loader',
         /* scripts without LOADER */
-        'translate','reporter','http_localhost','paint','map','luaparse','luamin','luaminy','luamax','minmax','easteregg','christmas',
+        'translate','reporter','http_localhost','paint','map','luaparse','luamin','luaminy','luamax','minmax','easteregg','christmas','multitab',
 
         /* scripts requiring LOADER */
         'version','help','giveaway','lua_emulator','stormworks_lua_api','storage','history','share','ui','util','ui_helpers','ui_builder','lua_console',
