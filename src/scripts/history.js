@@ -45,11 +45,16 @@ HISTORY = (()=>{
             evt.originalEvent.stopPropagation()
             UTIL.message('History Help',
                 'Clicking this button will save a copy of the current state fo the ide in your browsers storage. You can access this copy via the history tab.'
+                + '<br>'
                 + '<br>Click "Load" to load the copy, "Update" to overwrite the copy with the current state of the ide, "Trash Icon" will remove it entirely.'
                 + '<br>'
                 + '<br>If you click share, your browser will be able to overwrite that shared code, so you can effectively publish update of your code.'
-                + '<br>If you delete cookies/website storage or uninstall your browser, you will not be able to update those sharecodes anymore!'
-                + '<br>You can click "Export My Shared Codes" to get a backup of your own shared codes. You can always use "Import My Shared Codes" together with this backup, to be able to update your own shared codes again.'
+                + '<br><br><br>'
+                + '<b>Backup so you do not lose write access to your own shared codes</b>'
+                + '<br>If you delete cookies/website storage or uninstall your browser, you will not be able to update those shared codes anymore!'
+                + '<br>'
+                + '<br>You can click "Export My Shared Codes" to get a backup of your own shared codes.'
+                + '<br>You can always use "Import My Shared Codes" together with this backup, to be able to update your own shared codes again.'
             )
         })
 
