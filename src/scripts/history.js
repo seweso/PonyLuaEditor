@@ -61,7 +61,7 @@ HISTORY = (()=>{
             try {
                 let parsed = JSON.parse(entryJSON)
                 history.entries.push(parsed)
-                makeDomHistory(parsed, true)
+                makeDomHistory(parsed)
             } catch (ex) {
                 console.error('could not import from history-new', ex)
             }
