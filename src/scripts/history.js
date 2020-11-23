@@ -39,6 +39,8 @@ HISTORY = (()=>{
 
         $('#code-title').val(STORAGE.getConfiguration('title'))
 
+        updatePageTitle()
+
         calculateStorageSize()
 
         $('#history-help, #history-help-controls').on('click', (evt)=>{
@@ -212,7 +214,18 @@ HISTORY = (()=>{
     function updateLocalStorage(){
         localStorage.setItem('yyy_history', JSON.stringify(history))
 
+        updatePageTitle()
+
         calculateStorageSize()
+    }
+
+    function updatePageTitle(){
+        let codeTitle = STORAGE.getConfiguration('title')
+        if(typeof codeTitle !== 'string' || codeTitle.length === 0){
+            document.title =  'Pony IDE'
+        } else {
+            document.title = codeTitle
+        }
     }
 
     function calculateStorageSize(){
@@ -454,6 +467,7 @@ HISTORY = (()=>{
     return {
         addOthersShareKey: addOthersShareKey,
         addMyShareKey: addMyShareKey,
-        addCurrentCode: addCurrentCode
+        addCurrentCode: addCurrentCode,
+        updatePageTitle: updatePageTitle
     } 
 })()

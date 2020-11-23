@@ -7710,6 +7710,8 @@ HISTORY = (()=>{
 
         $('#code-title').val(STORAGE.getConfiguration('title'))
 
+        updatePageTitle()
+
         calculateStorageSize()
 
         $('#history-help, #history-help-controls').on('click', (evt)=>{
@@ -7883,7 +7885,18 @@ HISTORY = (()=>{
     function updateLocalStorage(){
         localStorage.setItem('yyy_history', JSON.stringify(history))
 
+        updatePageTitle()
+
         calculateStorageSize()
+    }
+
+    function updatePageTitle(){
+        let codeTitle = STORAGE.getConfiguration('title')
+        if(typeof codeTitle !== 'string' || codeTitle.length === 0){
+            document.title =  'Pony IDE'
+        } else {
+            document.title = codeTitle
+        }
     }
 
     function calculateStorageSize(){
@@ -8125,7 +8138,8 @@ HISTORY = (()=>{
     return {
         addOthersShareKey: addOthersShareKey,
         addMyShareKey: addMyShareKey,
-        addCurrentCode: addCurrentCode
+        addCurrentCode: addCurrentCode,
+        updatePageTitle: updatePageTitle
     } 
 })()
 ;
@@ -14871,7 +14885,7 @@ YYY = (($)=>{
         UTIL.hint('Latest Changes', makeListText([
             'syntax check while coding',
             'detect infinite loops',
-            'offline version know checks for updates and notifies user',
+            'offline version now checks for updates and notifies user',
             'offline version can now use the share feature (if online and up to date)',
             'input numbers can not only oscilate, but also rotate now',
             'unminifier does not remove the "#" symbol'
@@ -15380,6 +15394,8 @@ ENGINE = (($)=>{
 
         STORAGE.setConfiguration('editors', codes)
         SHARE.removeIdFromURL()
+
+        HISTORY.updatePageTitle()
 
         UI_BUILDER.save()
     }

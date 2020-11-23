@@ -33,7 +33,7 @@ YYY = (($)=>{
         UTIL.hint('Latest Changes', makeListText([
             'syntax check while coding',
             'detect infinite loops',
-            'offline version know checks for updates and notifies user',
+            'offline version now checks for updates and notifies user',
             'offline version can now use the share feature (if online and up to date)',
             'input numbers can not only oscilate, but also rotate now',
             'unminifier does not remove the "#" symbol'

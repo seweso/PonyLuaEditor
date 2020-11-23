@@ -448,6 +448,8 @@ ENGINE = (($)=>{
         STORAGE.setConfiguration('editors', codes)
         SHARE.removeIdFromURL()
 
+        HISTORY.updatePageTitle()
+
         UI_BUILDER.save()
     }
 
