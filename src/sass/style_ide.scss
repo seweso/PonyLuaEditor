@@ -261,3 +261,23 @@
     }
 }
 
+.animation_flash {
+    animation-name: animation-flash;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes animation-flash {
+    0% {
+        background: var(--color-accent-dark);
+    }
+
+    50% {
+        background: #ea5a5a;
+    }
+
+    100% {
+        background: var(--color-accent-dark);
+    }
+}
+

@@ -14879,6 +14879,19 @@ YYY = (($)=>{
         UTIL.hint('New Feature', 'History of your recent codes and opened shared codes')
         UTIL.hint('New Feature', 'Edit your own shared codes and publish updates')
 
+        $('[select-viewable="viewable_history"]').addClass('animation_flash')
+
+        UI.viewables()['viewable_history'].onGainFocus(()=>{
+            let selDom = UI.viewables()['viewable_history'].getSelectDom()
+            if(selDom){
+                selDom.removeClass('animation_flash')
+            }  
+        })
+
+        setTimeout(()=>{
+            $('[select-viewable="viewable_history"]').removeClass('animation_flash')
+        }, 1000 * 20)
+
         LOADER.done(LOADER.EVENT.OTHERS_READY)
     }
 
