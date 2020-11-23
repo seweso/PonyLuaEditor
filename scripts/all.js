@@ -240,6 +240,7 @@ REPORTER = (()=>{
         'generateUIBuilderCode': 12,
         'pauseScript': 15,
         'updateCode': 17,
+        'saveToHistory': 18,
     }
 
     function report(typeID, data){
@@ -7939,6 +7940,8 @@ HISTORY = (()=>{
     }
 
     function addCurrentCode(){
+        REPORTER.report(REPORTER.REPORT_TYPE_IDS.saveToHistory)
+        
         createNewEntry('code', STORAGE.configurationAsString(), STORAGE.getConfiguration('title'))
 
         UI.viewables()['viewable_history'].focusSelf()

@@ -268,6 +268,8 @@ HISTORY = (()=>{
     }
 
     function addCurrentCode(){
+        REPORTER.report(REPORTER.REPORT_TYPE_IDS.saveToHistory)
+        
         createNewEntry('code', STORAGE.configurationAsString(), STORAGE.getConfiguration('title'))
 
         UI.viewables()['viewable_history'].focusSelf()

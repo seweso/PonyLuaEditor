@@ -15,6 +15,7 @@ REPORTER = (()=>{
         'generateUIBuilderCode': 12,
         'pauseScript': 15,
         'updateCode': 17,
+        'saveToHistory': 18,
     }
 
     function report(typeID, data){
