@@ -282,6 +282,32 @@ HISTORY = (()=>{
             title: title,
             time: new Date().getTime()
         }
+
+        /* if new entry is a sharekey:
+            without a token: update existing history entries
+            with a token: update existing if a entry already has the token, otherwise add new entry
+         */
+        let found = false
+        for(let e of history.entries){
+            if(e.type === entry.type && e.type === 'sharekey'){
+                if(e.content.id === entry.content.id){
+                    if( !entry.content.token || entry.content.token && e.content.token){
+                        /* entry already in history, just update it */
+                        e.time = entry.time
+                        e.title = entry.title
+                        updateDomHistory(e)
+                        
+
+                        found = true
+                    }  
+                }
+            }
+        }
+
+        if(found){
+            return
+        }
+
         history.entries.push(entry)
 
         makeDomHistory(entry)
