@@ -18,6 +18,7 @@ ENGINE = (($)=>{
     let isDoingStep = false
 
     let ignoreLongExecutionTimes = false
+    let ignoreInfiniteLoops = false
 
     let totalStartsInTheSession = 0
 
@@ -429,6 +430,21 @@ ENGINE = (($)=>{
         }
     }
 
+    function notifyInfiniteLoopDetected(){
+        if(!ignoreInfiniteLoops){
+            CONSOLE.print('Error: Pony IDE stopped the script because of unusually many function tools (might be an infinite loop).', CONSOLE.COLOR.ERROR)
+            
+            stop()
+            setTimeout(()=>{
+                UTIL.confirm('Script stopped because of possible infinite loop. Do you want to ignore that in the future?').then((ret)=>{
+                    if(ret){
+                        ignoreInfiniteLoops = true
+                    }
+                })
+            }, 100)
+        }
+    }
+
     function saveCodesInStorage(){
         $('#save').addClass('saved')
         setTimeout(()=>{
@@ -471,7 +487,8 @@ ENGINE = (($)=>{
         stop: stop,
         isRunning: ()=>{ return running },
         pauseScript: pauseScript,
-        saveCodesInStorage: saveCodesInStorage
+        saveCodesInStorage: saveCodesInStorage,
+        notifyInfiniteLoopDetected: notifyInfiniteLoopDetected
     }
 
 })(jQuery)

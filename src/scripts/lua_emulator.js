@@ -436,8 +436,8 @@ var LUA_EMULATOR = (($)=>{
 
     function onLuaFunctionCall(){
         luaFunctionCalls ++
-        if(luaFunctionCalls > 100){
-            throw new Error('infinite loop')
+        if(luaFunctionCalls == 500){
+            ENGINE.notifyInfiniteLoopDetected()
         } else if (startTime > 0 && new Date().getTime() - startTime > 1000){
             throw new Error('execution time of 1000ms exceeded')
         }

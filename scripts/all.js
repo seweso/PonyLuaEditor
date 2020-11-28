@@ -6644,8 +6644,8 @@ var LUA_EMULATOR = (($)=>{
 
     function onLuaFunctionCall(){
         luaFunctionCalls ++
-        if(luaFunctionCalls > 100){
-            throw new Error('infinite loop')
+        if(luaFunctionCalls == 500){
+            ENGINE.notifyInfiniteLoopDetected()
         } else if (startTime > 0 && new Date().getTime() - startTime > 1000){
             throw new Error('execution time of 1000ms exceeded')
         }
@@ -14994,6 +14994,7 @@ ENGINE = (($)=>{
     let isDoingStep = false
 
     let ignoreLongExecutionTimes = false
+    let ignoreInfiniteLoops = false
 
     let totalStartsInTheSession = 0
 
@@ -15405,6 +15406,21 @@ ENGINE = (($)=>{
         }
     }
 
+    function notifyInfiniteLoopDetected(){
+        if(!ignoreInfiniteLoops){
+            CONSOLE.print('Error: Pony IDE stopped the script because of unusually many function tools (might be an infinite loop).', CONSOLE.COLOR.ERROR)
+            
+            stop()
+            setTimeout(()=>{
+                UTIL.confirm('Script stopped because of possible infinite loop. Do you want to ignore that in the future?').then((ret)=>{
+                    if(ret){
+                        ignoreInfiniteLoops = true
+                    }
+                })
+            }, 100)
+        }
+    }
+
     function saveCodesInStorage(){
         $('#save').addClass('saved')
         setTimeout(()=>{
@@ -15447,7 +15463,8 @@ ENGINE = (($)=>{
         stop: stop,
         isRunning: ()=>{ return running },
         pauseScript: pauseScript,
-        saveCodesInStorage: saveCodesInStorage
+        saveCodesInStorage: saveCodesInStorage,
+        notifyInfiniteLoopDetected: notifyInfiniteLoopDetected
     }
 
 })(jQuery)
