@@ -10290,7 +10290,7 @@ var UI_BUILDER = (($)=>{
                         + 'screen.drawRectF(' + this.x + ', ' + this.y + ', ' + this.width + ', ' + this.height + ')\nend\n'
                         + 'if ' + this.id + 'Toggled then\n' + luaBuildSetColor(this.settings.colorOn.value) + '\n'
                         + 'else\n' + luaBuildSetColor(this.settings.color.value) + '\nend\n'
-                        + 'screen.drawTextBox(' + this.x + ', ' + this.y + ', ' + this.width + ', ' + this.height + ', "' + this.settings.text.value + '", 0, 0)',
+                        + 'screen.drawTextBox(' + this.x + ', ' + this.y + ', ' + this.width + ', ' + this.height + ', text, 0, 0)',
                     onTick: superRet.onTick + '\n'
                         + 'if (isP1 and isInRect(' + this.x + ',' + this.y + ',' + this.width + ',' + this.height + ',in1X,in1Y)) or (isP2 and isInRect(' + this.x + ',' + this.y + ',' + this.width + ',' + this.height + ',in2X,in2Y)) then\n'
                         + this.id + 'ToggledP=true\n'
@@ -10311,7 +10311,7 @@ var UI_BUILDER = (($)=>{
                         + 'screen.drawRectF(' + this.x + ', ' + this.y + ', ' + this.width + ', ' + this.height + ')\nend\n'
                         + 'if ' + this.id + 'Toggled then\n' + luaBuildSetColor(this.settings.colorOn.value) + '\n'
                         + 'else\n' + luaBuildSetColor(this.settings.color.value) + '\nend\n'
-                        + 'screen.drawTextBox(' + this.x + ', ' + this.y + ', ' + this.width + ', ' + this.height + ', "' + this.settings.text.value + '", 0, 0)',
+                        + 'screen.drawTextBox(' + this.x + ', ' + this.y + ', ' + this.width + ', ' + this.height + ', text, 0, 0)',
                     onTick: superRet.onTick + '\n'
                         + 'if (isP1 and isInRect(' + this.x + ',' + this.y + ',' + this.width + ',' + this.height + ',in1X,in1Y)) or (isP2 and isInRect(' + this.x + ',' + this.y + ',' + this.width + ',' + this.height + ',in2X,in2Y)) then\n'
                         + this.id + 'Toggled=true\n'
