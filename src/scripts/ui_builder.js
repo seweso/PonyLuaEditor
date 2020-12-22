@@ -228,16 +228,16 @@ var UI_BUILDER = (($)=>{
 
         applySettings(settings){
             if(typeof settings.x === 'number'){
-                this.x = settings.x
+                this.x = Math.round(settings.x)
             }
             if(typeof settings.y === 'number'){
-                this.y = settings.y
+                this.y = Math.round(settings.y)
             }
             if(typeof settings.width === 'number'){
-                this.width = settings.width
+                this.width = Math.round(settings.width)
             }
             if(typeof settings.height === 'number'){
-                this.height = settings.height
+                this.height = Math.round(settings.height)
             }
             for(let s in settings){
                 if(typeof this.settings[s] !== 'undefined' && this.settings[s] != null){
