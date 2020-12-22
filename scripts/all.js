@@ -9948,6 +9948,11 @@ var UI_BUILDER = (($)=>{
                 this.height = this.minHeight
             }
 
+            this.width = Math.round(this.width)
+            this.height = Math.round(this.height)
+            this.x = Math.round(this.x)
+            this.y = Math.round(this.y)
+
             this.dom.css({
                 left: uiZoom(this.x),
                 top: uiZoom(this.y),
