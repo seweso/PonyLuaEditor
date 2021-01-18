@@ -7499,6 +7499,8 @@ STORAGE = (()=>{
     }
 
     function updateConfiguration(conf, version){
+        alert('not implemented, please contact the developer of this page!');
+        return;
         switch(version){
             case "1": {
                 /* fill this once we get a new version */
@@ -7615,7 +7617,7 @@ STORAGE = (()=>{
 
         let parsedSettings = parseOrUndefined(confJSON.settings)
 
-        if(parsedSettings){
+        if(parsedSettings && typeof confJSON.code !== 'string'){
             set(parsedSettings)
         } else {
             /* old shared information */
