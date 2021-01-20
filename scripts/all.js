@@ -7522,8 +7522,6 @@ STORAGE = (()=>{
         }
 
         saveConfiguration()
-
-        ENGINE.loadCodesFromStorage();
     }
 
     function saveConfiguration(){
@@ -7655,6 +7653,10 @@ STORAGE = (()=>{
                 })
             })
         }
+        
+        
+        //TODO: maybe need to reload everything, not only the codes?
+        ENGINE.loadCodesFromStorage();
 
         function parseOrUndefined(json){
             try {
