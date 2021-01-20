@@ -7617,7 +7617,7 @@ STORAGE = (()=>{
 
         let parsedSettings = parseOrUndefined(confJSON.settings)
 
-        if(confJSON.code === 'v2'){
+        if(confJSON.code === 'v2' || confJSON.code === undefined){
             set(parsedSettings);
         } else {
             /* old shared information */
