@@ -488,6 +488,7 @@ ENGINE = (($)=>{
         isRunning: ()=>{ return running },
         pauseScript: pauseScript,
         saveCodesInStorage: saveCodesInStorage,
+        loadCodesFromStorage: loadCodesFromStorage,
         notifyInfiniteLoopDetected: notifyInfiniteLoopDetected
     }
 

@@ -89,6 +89,9 @@ STORAGE = (()=>{
         }
 
         saveConfiguration()
+
+        //TODO: maybe need to reload everything, not only the codes?
+        ENGINE.loadCodesFromStorage();
     }
 
     function saveConfiguration(){
