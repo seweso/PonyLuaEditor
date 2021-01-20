@@ -7617,8 +7617,8 @@ STORAGE = (()=>{
 
         let parsedSettings = parseOrUndefined(confJSON.settings)
 
-        if(parsedSettings || confJSON.code === 'v2'){
-            set(parsedSettings)
+        if(confJSON.code === 'v2'){
+            set(parsedSettings);
         } else {
             /* old shared information */
             console.info('share is old version, updating...')
