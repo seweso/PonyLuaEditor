@@ -413,7 +413,10 @@ var CANVAS = ((global, $)=>{
 
     const SIZES = {
         "1x1": {width: 32, height: 32},
+        "2x1": {width: 64, height: 32},
+        "3x1": {width: 96, height: 32},
         "2x2": {width: 64, height: 64},
+        "3x2": {width: 96, height: 64},
         "3x3": {width: 96, height: 96},
         "5x3": {width: 160, height: 96},
         "9x5": {width: 288, height: 160}

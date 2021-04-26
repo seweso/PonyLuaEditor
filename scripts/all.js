@@ -14923,12 +14923,7 @@ YYY = (($)=>{
         ENGINE.refresh()
 
         UTIL.hint('Latest Changes', makeListText([
-            'syntax check while coding',
-            'detect infinite loops',
-            'offline version now checks for updates and notifies user',
-            'offline version can now use the share feature (if online and up to date)',
-            'input numbers can not only oscilate, but also rotate now',
-            'unminifier does not remove the "#" symbol'
+            'support new monitor sizes'
         ]))
 
         function makeListText(entries){
@@ -16974,7 +16969,10 @@ var CANVAS = ((global, $)=>{
 
     const SIZES = {
         "1x1": {width: 32, height: 32},
+        "2x1": {width: 64, height: 32},
+        "3x1": {width: 96, height: 32},
         "2x2": {width: 64, height: 64},
+        "3x2": {width: 96, height: 64},
         "3x3": {width: 96, height: 96},
         "5x3": {width: 160, height: 96},
         "9x5": {width: 288, height: 160}
