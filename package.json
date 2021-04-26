@@ -1,0 +1,26 @@
+{
+  "name": "editor",
+  "version": "see version.js",
+  "description": "this only holds information to install the gulp build tools! See README",
+  "main": "gulpfile.js",
+  "dependencies": {
+    "gulp-concat": "^2.6.1",
+    "gulp-sass": "^4.1.0",
+    "gulp": "^4.0.2",
+    "node-sass": "^4.14.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@gitlab.com/stormworks-tools/editor.git"
+  },
+  "author": "CrazyFluffyPony",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://gitlab.com/stormworks-tools/editor/issues"
+  },
+  "homepage": "https://gitlab.com/stormworks-tools/editor#readme"
+}

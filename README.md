@@ -29,41 +29,38 @@ You can always enfore it by doing a checkout on the current select branch (e.g. 
 
 
 ### Gulp
+REQUIRES Node.js Version 12
 
-install gulp
+install gulp build tools
 ```
 npm install --global gulp-cli
 ```
 
 setup gulp in project
 ```
-npm install --save-dev gulp
-```
-
-
-create `gulpfile.js`
-
-```javascript
-function defaultTask(cb){
-    
-    cb()
-}
-
-exports.default = defaultTask
+npm install
 ```
 
 run gulp
 ```
-gulp
+gulp scripts
 ```
+To generate scripts out of the `src` folder
 
-
-
-
-### Gulp-Concat
 ```
-npm install --save-dev gulp-concat
+gulp sass
 ```
+To generate stylesheets out of the `src` folder
+
+```
+gulp watch
+```
+To watch filechanges. Both (scripts and sass) will be generated everytime a file changes and right after you started `gulp watch`
+
+
+
+
+### Gulp - Scripts
 
 Source javascript files are inside src/scripts
 All of them are concatenated and written into scripts/all.js
@@ -71,7 +68,6 @@ Any libraries should be placed directly into scripts/lib/
 You must register any new script inside gulpfile.js
 
 
-### Gulp-Sass
-```
-npm install node-sass gulp-sass --save-dev
-```
+### Gulp - Sass
+Source stylesheets are inside src/sass
+All of them are written in the sass language
