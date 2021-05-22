@@ -14,6 +14,9 @@ MULTITAB = (()=>{
     $(window).on('load', init)
 
     function init(){
+        if(!BroadcastChannel){
+            return UTIL.hint('Unsupported', 'Your browser does not support communication between tabs. If you have multiple tabs of "Pony IDE", it will not synchronize them automatically!')
+        }
         broadC = new BroadcastChannel('pony_ide')
         broadC.onmessage = handleBroadcastMessage
 
