@@ -32,10 +32,8 @@ function buildScripts(){
 
 
 /* Build Stylesheets */
-var sass = require('gulp-sass');
- 
-sass.compiler = require('node-sass');
- 
+var sass = require('gulp-dart-sass');
+
 gulp.task('sass', function () {
     return buildStylesheets()
 })
