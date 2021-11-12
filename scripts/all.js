@@ -4383,6 +4383,50 @@ var MAP = (($)=>{
         return currentIdentifier;
     };
 
+    var temporaryIdentifiers = {}
+    var generateTemporaryIdentifier = function(originalName, library){
+        if(temporaryIdentifiers[originalName]){
+            temporaryIdentifiers[originalName].usedCount ++
+        } else {
+            temporaryIdentifiers[originalName] = {
+                identifier: 'TEMPORARY_IDENTIFIER_' + Object.keys(temporaryIdentifiers).length + '_TEMPORARY_IDENTIFIER',
+                originalName: originalName,
+                library: library,
+                usedCount: 0
+            }
+        }
+
+        return temporaryIdentifiers[originalName].identifier
+    }
+
+    var replaceTemporaryIdentifiersInText = function(text){
+        let returnText = '' + text
+
+        let sortedTemporaryIdentifiers = []
+
+        for(let k of Object.keys(temporaryIdentifiers)){
+            sortedTemporaryIdentifiers.push(temporaryIdentifiers[k])
+        }
+
+        sortedTemporaryIdentifiers.sort((a, b)=>{
+            if(a.usedCount < b.usedCount){
+                return 1
+            }
+
+            if(a.usedCount > b.usedCount){
+                return -1
+            }
+
+            return 0
+        })
+
+        for(let ti of sortedTemporaryIdentifiers){
+            returnText = returnText.replaceAll(new RegExp(ti.identifier, 'g'), generateIdentifier(ti.originalName, ti.library))
+        }
+
+        return returnText
+    }
+
     /*--------------------------------------------------------------------------*/
 
     var joinStatements = function(a, b, separator) {
@@ -4473,7 +4517,7 @@ var MAP = (($)=>{
             let r2 = !options.preserveIdentifiers
 
             result = (typeof r1 !== 'number' || r1 <= 0) && r2
-                ? generateIdentifier(expression.name, options ? options.library : undefined)
+                ? generateTemporaryIdentifier(expression.name, options ? options.library : undefined)
                 : expression.name;
 
         } else if (
@@ -4607,7 +4651,7 @@ var MAP = (($)=>{
                 each(expression.parameters, function(parameter, needsComma) {
                     // `Identifier`s have a `name`, `VarargLiteral`s have a `value`
                     result += parameter.name
-                        ? generateIdentifier(parameter.name)
+                        ? generateTemporaryIdentifier(parameter.name)
                         : parameter.value;
                     if (needsComma) {
                         result += ',';
@@ -4688,7 +4732,7 @@ var MAP = (($)=>{
             // left-hand side
             each(statement.variables, function(variable, needsComma) {
                 // Variables in a `LocalStatement` are always local, duh
-                result += generateIdentifier(variable.name);
+                result += generateTemporaryIdentifier(variable.name);
                 if (needsComma) {
                     result += ',';
                 }
@@ -4775,7 +4819,7 @@ var MAP = (($)=>{
                 each(statement.parameters, function(parameter, needsComma) {
                     // `Identifier`s have a `name`, `VarargLiteral`s have a `value`
                     result += parameter.name
-                        ? generateIdentifier(parameter.name)
+                        ? generateTemporaryIdentifier(parameter.name)
                         : parameter.value;
                     if (needsComma) {
                         result += ',';
@@ -4794,7 +4838,7 @@ var MAP = (($)=>{
 
             each(statement.variables, function(variable, needsComma) {
                 // The variables in a `ForGenericStatement` are always local
-                result += generateIdentifier(variable.name);
+                result += generateTemporaryIdentifier(variable.name);
                 if (needsComma) {
                     result += ',';
                 }
@@ -4816,7 +4860,7 @@ var MAP = (($)=>{
         } else if (statementType == 'ForNumericStatement') {
 
             // The variables in a `ForNumericStatement` are always local
-            result = 'for ' + generateIdentifier(statement.variable.name) + '=';
+            result = 'for ' + generateTemporaryIdentifier(statement.variable.name) + '=';
             result += formatExpression(statement.start) + ',' +
                 formatExpression(statement.end);
 
@@ -4831,12 +4875,12 @@ var MAP = (($)=>{
         } else if (statementType == 'LabelStatement') {
 
             // The identifier names in a `LabelStatement` can safely be renamed
-            result = '::' + generateIdentifier(statement.label.name) + '::';
+            result = '::' + generateTemporaryIdentifier(statement.label.name) + '::';
 
         } else if (statementType == 'GotoStatement') {
 
             // The identifier names in a `GotoStatement` can safely be renamed
-            result = 'goto ' + generateIdentifier(statement.label.name);
+            result = 'goto ' + generateTemporaryIdentifier(statement.label.name);
 
         } else {
 
@@ -4858,6 +4902,7 @@ var MAP = (($)=>{
         identifierMap = {};
         libIdentifierMap = {};
         identifiersInUse = [];
+        temporaryIdentifiers = {}
         // This is a shortcut to help generate the first identifier (`a`) faster
         currentIdentifier = '9';
 
@@ -4872,7 +4917,7 @@ var MAP = (($)=>{
             throw Error('Missing required AST property: `globals`');
         }*/
 
-        return formatStatementList(ast.body);
+        return replaceTemporaryIdentifiersInText(formatStatementList(ast.body))
     };
 
     /*--------------------------------------------------------------------------*/
