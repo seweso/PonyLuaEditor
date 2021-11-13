@@ -30,16 +30,18 @@ YYY = (($)=>{
 
         ENGINE.refresh()
 
+        /*
         UTIL.hint('Latest Changes', makeListText([
             'support new monitor sizes'
         ]))
+        */
 
         function makeListText(entries){
             return '<ul><li>' + entries.join('</li><li>') + '</li></ul>'
         }
         
-        UTIL.hint('New Feature', 'History of your recent codes and opened shared codes')
-        UTIL.hint('New Feature', 'Edit your own shared codes and publish updates')
+        UTIL.hint('New Feature', 'Rotate Monitors')
+        UTIL.hint('Improvement', 'Minification is more efficient (now checks which variable names are used most often)')
 
         $('[select-viewable="viewable_history"]').addClass('animation_flash')
 

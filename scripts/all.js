@@ -14970,16 +14970,18 @@ YYY = (($)=>{
 
         ENGINE.refresh()
 
+        /*
         UTIL.hint('Latest Changes', makeListText([
             'support new monitor sizes'
         ]))
+        */
 
         function makeListText(entries){
             return '<ul><li>' + entries.join('</li><li>') + '</li></ul>'
         }
         
-        UTIL.hint('New Feature', 'History of your recent codes and opened shared codes')
-        UTIL.hint('New Feature', 'Edit your own shared codes and publish updates')
+        UTIL.hint('New Feature', 'Rotate Monitors')
+        UTIL.hint('Improvement', 'Minification is more efficient (now checks which variable names are used most often)')
 
         $('[select-viewable="viewable_history"]').addClass('animation_flash')
 
@@ -16646,6 +16648,11 @@ var CANVAS = ((global, $)=>{
             STORAGE.setConfiguration('settings.monitorSize', $('#monitor-size').val())
         })
 
+        $('#monitor-rotation').on('change', (e)=>{
+            STORAGE.setConfiguration('settings.monitorRotation', $('#monitor-rotation').val())
+            recalculateCanvas()
+        })
+
         $('#show-overflow').on('change', (e)=>{
             STORAGE.setConfiguration('settings.showOverflow', $('#show-overflow').prop('checked'))
         })
@@ -16726,6 +16733,7 @@ var CANVAS = ((global, $)=>{
         /* load config from STORAGE */
         setConfigVal($('#zoomfactor'), 'settings.zoomfactor', 1)
         setConfigVal($('#monitor-size'), 'settings.monitorSize', '1x1')
+        setConfigVal($('#monitor-rotation'), 'settings.monitorRotation', '0')
         setConfigVal($('#show-overflow'), 'settings.showOverflow', true)
         setConfigVal($('#enable-touchscreen'), 'settings.touchscreenEnabled', false)
         setConfigVal($('#enable-touchscreen-secondary'), 'settings.touchscreenSecondaryEnabled', false)
@@ -16991,9 +16999,38 @@ var CANVAS = ((global, $)=>{
         $canvas.get(0).height = canvasHeight
         ctx.restore()
 
-        $('#monitor').css({width: canvasWidth, height: canvasHeight})
-        
-        $('#overflow').css('display', showOverflow ? '' : 'none')
+
+        let rotation = parseInt(STORAGE.getConfiguration('settings.monitorRotation'))
+        $('#monitor').css({
+            width: rotation % 180 === 0 ? canvasWidth : canvasHeight,
+            height: rotation % 180 === 0 ? canvasHeight : canvasWidth
+        })
+
+        let translateXY = 'translate('
+        switch(rotation){
+            case 0: {
+                translateXY += '0%, 0%'
+            }; break;
+            case 90: {
+                translateXY += '0%, -100%'
+            }; break;
+            case 180: {
+                translateXY += '-100%, -100%'
+            }; break;
+            case 270: {
+                translateXY += '-100%, 0%'
+            }; break;
+        }
+        translateXY += ')'
+
+        $canvas.css({
+            transform: 'rotate(' + rotation + 'deg) ' + translateXY,
+            'transform-origin': 'top left'
+        })
+        $('#overflow').css({
+            display: showOverflow ? '' : 'none',
+        })
+
         PAINT._restoreLastColorUsed()
     }
 
@@ -17018,12 +17055,12 @@ var CANVAS = ((global, $)=>{
     const SIZES = {
         "1x1": {width: 32, height: 32},
         "2x1": {width: 64, height: 32},
-        "3x1": {width: 96, height: 32},
         "2x2": {width: 64, height: 64},
+        "3x1": {width: 96, height: 32},
         "3x2": {width: 96, height: 64},
         "3x3": {width: 96, height: 96},
         "5x3": {width: 160, height: 96},
-        "9x5": {width: 288, height: 160}
+        "9x5": {width: 288, height: 160},
     }
 
     function getCanvasDimensions(size){
