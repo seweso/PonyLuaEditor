@@ -82,6 +82,14 @@ body {
         cursor: pointer;
         z-index: 3;
 
+        &:hover {
+            svg {
+                filter: brightness(200%);
+                animation-name: light-blink;
+                animation-duration: 0.5s;
+            }
+        }
+
         svg {
             position: absolute;
             top: 0;

@@ -281,3 +281,20 @@
     }
 }
 
+@keyframes light-blink {
+    0% {
+        filter: brightness(200%);
+    }
+
+    20% {
+        filter: brightness(200%);
+    }
+
+    21% {
+        filter: none;
+    }
+
+    100% {
+        filter: brightness(200%);
+    }
+}
