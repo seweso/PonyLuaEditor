@@ -908,6 +908,10 @@ var MAP = (($)=>{
 })(jQuery)
 
 ;
+/*
+  https://github.com/fstirlitz/luaparse/blob/master/luaparse.js
+*/
+
 /* global exports:true, module:true, require:true, define:true, global:true */
 
 (function (root, name, factory) {
