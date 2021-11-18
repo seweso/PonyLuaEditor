@@ -904,7 +904,6 @@ body {
   position: absolute;
   top: 0;
   left: 10vw;
-  height: 60px;
   width: 80vw;
   z-index: 4;
   display: flex;
