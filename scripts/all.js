@@ -16773,6 +16773,32 @@ var CANVAS = ((global, $)=>{
                     }
                     let pX = unzoom(mouseX - $('#monitor').offset().left - left)
                     let pY = unzoom(mouseY - $('#monitor').offset().top - top)
+
+                    //adjust for rotated monitor
+                    switch('' + (STORAGE.getConfiguration('settings.monitorRotation') || 0) ){
+                        case '0': {
+                            pX = pX
+                            pY = pY
+                        }; break;
+
+                        case '90': {
+                            let tempX = pX
+                            pX = pY
+                            pY = height - tempX
+                        }; break;
+
+                        case '180': {
+                            pX = width - pX
+                            pY = height - pY
+                        }; break;
+
+                        case '270': {
+                            let tempX = pX
+                            pX = width - pY
+                            pY = tempX
+                        }; break;
+                    }
+
                     if(pX > 0 && pX < width && pY > 0 && pY < height){
                         touchpoints.push({
                             key: evt.originalEvent.key,
@@ -17091,7 +17117,6 @@ var CANVAS = ((global, $)=>{
         zoomFactor = _zoomFactor
         recalculateCanvas()
     }
-
 
     return {
         ctx: ()=>{return ctx},
