@@ -8761,6 +8761,13 @@ UI = (($)=>{
         },
         isMobileView: ()=>{
             return isMobileView
+        },
+        supportsTouch: ()=>{
+            try {
+                return !!TouchEvent
+            } catch (ignored){
+                return false
+            }
         }
     }
 
@@ -10004,13 +10011,13 @@ var UI_BUILDER = (($)=>{
                 evt.preventDefault()
                 if(MODE === MODE_SETTINGS){
                     this.openSettings(evt)
-                } else if(MODE === MODE_MOVE && (evt.originalEvent.button === 0 || evt.originalEvent instanceof TouchEvent)){
+                } else if(MODE === MODE_MOVE && (evt.originalEvent.button === 0 || (UI.supportsTouch() && evt.originalEvent instanceof TouchEvent)) ){
                     this.activateDrag(evt)
-                } else if (MODE === MODE_RESIZE && (evt.originalEvent.button === 0 || evt.originalEvent instanceof TouchEvent)){
+                } else if (MODE === MODE_RESIZE && (evt.originalEvent.button === 0 || (UI.supportsTouch() && evt.originalEvent instanceof TouchEvent)) ){
                     this.activateResize(evt)
-                } else if (MODE === MODE_DELETE && (evt.originalEvent.button === 0 || evt.originalEvent instanceof TouchEvent)){
+                } else if (MODE === MODE_DELETE && (evt.originalEvent.button === 0 || (UI.supportsTouch() && evt.originalEvent instanceof TouchEvent)) ){
                     this.delete()
-                } else if (MODE === MODE_ZINDEX && (evt.originalEvent.button === 0 || evt.originalEvent instanceof TouchEvent)){
+                } else if (MODE === MODE_ZINDEX && (evt.originalEvent.button === 0 || (UI.supportsTouch() && evt.originalEvent instanceof TouchEvent)) ){
                     moveElementZindexToFront(this)
                 }
             })
@@ -10026,15 +10033,28 @@ var UI_BUILDER = (($)=>{
         activateDrag(evt){
             this.deactivate()
 
-            this.offX = window.scrollX + (evt.originalEvent instanceof TouchEvent ? evt.originalEvent.touches[0].clientX : evt.clientX) - uiZoom(this.x)
-            this.offY = window.scrollY + (evt.originalEvent instanceof TouchEvent ? evt.originalEvent.touches[0].clientY : evt.clientY) - uiZoom(this.y)
+            if(UI.supportsTouch()){
+                this.offX = window.scrollX + (evt.originalEvent instanceof TouchEvent ? evt.originalEvent.touches[0].clientX : evt.clientX) - uiZoom(this.x)
+                this.offY = window.scrollY + (evt.originalEvent instanceof TouchEvent ? evt.originalEvent.touches[0].clientY : evt.clientY) - uiZoom(this.y)
+            } else {
+                this.offX = window.scrollX + evt.clientX - uiZoom(this.x)
+                this.offY = window.scrollY + evt.clientY - uiZoom(this.y)
+            }
 
-            $(gcontainer).on('mousemove touchmove', (evt)=>{
+            let func = (evt)=>{
                 evt.preventDefault()
-                this.x = uiUnzoom((window.scrollX + (evt.originalEvent instanceof TouchEvent ? evt.originalEvent.touches[0].clientX : evt.clientX)) - this.offX)
-                this.y = uiUnzoom((window.scrollY + (evt.originalEvent instanceof TouchEvent ? evt.originalEvent.touches[0].clientY : evt.clientY)) - this.offY)
+                if(UI.supportsTouch()){
+                    this.x = uiUnzoom((window.scrollX + (evt.originalEvent instanceof TouchEvent ? evt.originalEvent.touches[0].clientX : evt.clientX)) - this.offX)
+                    this.y = uiUnzoom((window.scrollY + (evt.originalEvent instanceof TouchEvent ? evt.originalEvent.touches[0].clientY : evt.clientY)) - this.offY)
+                } else {
+                    this.x = uiUnzoom((window.scrollX + evt.clientX) - this.offX)
+                    this.y = uiUnzoom((window.scrollY + evt.clientY) - this.offY)
+                }
                 this.refreshPosition()
-            })
+            }
+
+            $(gcontainer).on('mousemove touchmove', func)
+            this.dom.on('mousemove touchmove', func)
 
             $(gcontainer).on('mouseup touchend touchcancel', ()=>{
                 this.deactivate()
@@ -10044,15 +10064,28 @@ var UI_BUILDER = (($)=>{
         activateResize(evt){
             this.deactivate()
 
-            this.offX = (window.scrollX + (evt.originalEvent instanceof TouchEvent ? evt.originalEvent.touches[0].clientX : evt.clientX)) - uiZoom(this.width)
-            this.offY = (window.scrollY + (evt.originalEvent instanceof TouchEvent ? evt.originalEvent.touches[0].clientY : evt.clientY)) - uiZoom(this.height)
+            if(UI.supportsTouch()){
+                this.offX = (window.scrollX + (evt.originalEvent instanceof TouchEvent ? evt.originalEvent.touches[0].clientX : evt.clientX)) - uiZoom(this.width)
+                this.offY = (window.scrollY + (evt.originalEvent instanceof TouchEvent ? evt.originalEvent.touches[0].clientY : evt.clientY)) - uiZoom(this.height)
+            } else {
+                this.offX = (window.scrollX + evt.clientX) - uiZoom(this.width)
+                this.offY = (window.scrollY + evt.clientY) - uiZoom(this.height)
+            }
 
-            $(gcontainer).on('mousemove touchmove', (evt)=>{
+            let func = (evt)=>{
                 evt.preventDefault()
-                this.width = uiUnzoom((window.scrollX + (evt.originalEvent instanceof TouchEvent ? evt.originalEvent.touches[0].clientX : evt.clientX)) - this.offX)
-                this.height = uiUnzoom((window.scrollY + (evt.originalEvent instanceof TouchEvent ? evt.originalEvent.touches[0].clientY : evt.clientY)) - this.offY)
+                if(UI.supportsTouch()){
+                    this.width = uiUnzoom((window.scrollX + (evt.originalEvent instanceof TouchEvent ? evt.originalEvent.touches[0].clientX : evt.clientX)) - this.offX)
+                    this.height = uiUnzoom((window.scrollY + (evt.originalEvent instanceof TouchEvent ? evt.originalEvent.touches[0].clientY : evt.clientY)) - this.offY)
+                } else {
+                    this.width = uiUnzoom((window.scrollX + evt.clientX) - this.offX)
+                    this.height = uiUnzoom((window.scrollY + evt.clientY) - this.offY)
+                }
                 this.refreshPosition()
-            })
+            }
+
+            $(gcontainer).on('mousemove touchmove', func)
+            this.dom.on('mousemove touchmove', func)
 
             $(gcontainer).on('mouseup touchend touchcancel', ()=>{
                 this.deactivate()
@@ -10061,6 +10094,7 @@ var UI_BUILDER = (($)=>{
 
         deactivate(){
             $(gcontainer).off('mousemove touchmove mouseup touchend touchcancel')
+            this.dom.off('mousemove touchmove mouseup touchend touchcancel')
             this.closeSettings()
         }
 
@@ -15072,8 +15106,8 @@ YYY = (($)=>{
             return '<ul><li>' + entries.join('</li><li>') + '</li></ul>'
         }
         
-        UTIL.hint('New Feature', 'Rotate Monitors')
-        UTIL.hint('Improvement', 'Minification is more efficient (now checks which variable names are used most often)')
+        UTIL.hint('New Feature', 'Touch (Mobile) support for UI Builder and Monitor')
+        UTIL.hint('Improvement', 'Improved layout for mobile devices (<1024px width in landscape)')
 
         $('[select-viewable="viewable_history"]').addClass('animation_flash')
 
@@ -16870,7 +16904,7 @@ var CANVAS = ((global, $)=>{
     function handleKeyDown(evt){
         if(mouseIsOverMonitor){
             if(ENGINE.isRunning() && $('#enable-touchscreen').prop('checked')){
-                if(evt.originalEvent instanceof TouchEvent){
+                if((UI.supportsTouch() && evt.originalEvent instanceof TouchEvent)){
                     evt.originalEvent.key = 'q'
                 } else if(evt.originalEvent.button === 0){
                     evt.originalEvent.key = 'e'
@@ -16928,14 +16962,22 @@ var CANVAS = ((global, $)=>{
 
     function handleKeyUp(evt){
         if(ENGINE.isRunning() && $('#enable-touchscreen').prop('checked')){
-            if(evt.originalEvent instanceof TouchEvent){
+            if((UI.supportsTouch() && evt.originalEvent instanceof TouchEvent)){
                 evt.originalEvent.key = 'q'
+                if(!mouseIsOverMonitor){
+                    touchpoints = []
+                    calculateTouchscreenInput()
+                    return
+                }
+                mouseIsOverMonitor = false
             } else if(evt.originalEvent.button === 0 && mouseIsOverMonitor){
                 evt.originalEvent.key = 'e'
             }
             if(evt.originalEvent.key === 'q' || evt.originalEvent.key === 'e'){
-                evt.preventDefault()
-                evt.stopImmediatePropagation()
+                try {
+                    evt.preventDefault()
+                    evt.stopImmediatePropagation()
+                } catch (ignored){}
 
                 if(touchpoints[0] && touchpoints[0].key === evt.originalEvent.key){
                     let tmp = touchpoints[1]

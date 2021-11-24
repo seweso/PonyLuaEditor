@@ -310,6 +310,13 @@ UI = (($)=>{
         },
         isMobileView: ()=>{
             return isMobileView
+        },
+        supportsTouch: ()=>{
+            try {
+                return !!TouchEvent
+            } catch (ignored){
+                return false
+            }
         }
     }
 

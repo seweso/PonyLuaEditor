@@ -172,7 +172,7 @@ var CANVAS = ((global, $)=>{
     function handleKeyDown(evt){
         if(mouseIsOverMonitor){
             if(ENGINE.isRunning() && $('#enable-touchscreen').prop('checked')){
-                if(evt.originalEvent instanceof TouchEvent){
+                if((UI.supportsTouch() && evt.originalEvent instanceof TouchEvent)){
                     evt.originalEvent.key = 'q'
                 } else if(evt.originalEvent.button === 0){
                     evt.originalEvent.key = 'e'
@@ -230,14 +230,22 @@ var CANVAS = ((global, $)=>{
 
     function handleKeyUp(evt){
         if(ENGINE.isRunning() && $('#enable-touchscreen').prop('checked')){
-            if(evt.originalEvent instanceof TouchEvent){
+            if((UI.supportsTouch() && evt.originalEvent instanceof TouchEvent)){
                 evt.originalEvent.key = 'q'
+                if(!mouseIsOverMonitor){
+                    touchpoints = []
+                    calculateTouchscreenInput()
+                    return
+                }
+                mouseIsOverMonitor = false
             } else if(evt.originalEvent.button === 0 && mouseIsOverMonitor){
                 evt.originalEvent.key = 'e'
             }
             if(evt.originalEvent.key === 'q' || evt.originalEvent.key === 'e'){
-                evt.preventDefault()
-                evt.stopImmediatePropagation()
+                try {
+                    evt.preventDefault()
+                    evt.stopImmediatePropagation()
+                } catch (ignored){}
 
                 if(touchpoints[0] && touchpoints[0].key === evt.originalEvent.key){
                     let tmp = touchpoints[1]

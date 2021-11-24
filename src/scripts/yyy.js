@@ -40,8 +40,8 @@ YYY = (($)=>{
             return '<ul><li>' + entries.join('</li><li>') + '</li></ul>'
         }
         
-        UTIL.hint('New Feature', 'Rotate Monitors')
-        UTIL.hint('Improvement', 'Minification is more efficient (now checks which variable names are used most often)')
+        UTIL.hint('New Feature', 'Touch (Mobile) support for UI Builder and Monitor')
+        UTIL.hint('Improvement', 'Improved layout for mobile devices (<1024px width in landscape)')
 
         $('[select-viewable="viewable_history"]').addClass('animation_flash')
 
