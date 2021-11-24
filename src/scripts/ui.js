@@ -225,7 +225,7 @@ UI = (($)=>{
         function checkForMobileView(){
             let orientation = (screen.orientation || {}).type || screen.mozOrientation || screen.msOrientation;
 
-            if(orientation.startsWith('landscape') && $(window).width() <= 767){
+            if(orientation.startsWith('landscape') && $(window).width() <= 1023){
                 if(!isMobileView){
                     //adjust views for special mobile view
                     isMobileView = true

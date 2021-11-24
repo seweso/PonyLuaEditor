@@ -1,16 +1,6 @@
 
 @media screen and (max-width: 1023px) {
 
-    #ui-builder-container {
-        flex-direction: column;
-
-        & > *:not(:last-child) {
-            margin: 0 0 20px 0;
-        }
-    }
-}
-
-@media screen and (max-width: 767px) {
     /* adjust navigation height */
     body {
         padding-top: $navigation-height-small;
@@ -90,6 +80,18 @@
             }
         }
     }
+
+    #ui-builder-container {
+        flex-direction: column;
+
+        & > *:not(:last-child) {
+            margin: 0 0 20px 0;
+        }
+    }
+}
+
+@media screen and (max-width: 767px) {
+
 }
 
 @media screen and (max-width: 359px) {

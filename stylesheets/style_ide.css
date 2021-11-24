@@ -2198,14 +2198,6 @@ body {
   }
 }
 @media screen and (max-width: 1023px) {
-  #ui-builder-container {
-    flex-direction: column;
-  }
-  #ui-builder-container > *:not(:last-child) {
-    margin: 0 0 20px 0;
-  }
-}
-@media screen and (max-width: 767px) {
   /* adjust navigation height */
   body {
     padding-top: 35px;
@@ -2267,5 +2259,12 @@ body {
   }
   body.mobile_view [view] .select [select-viewable] .moveto {
     opacity: 1;
+  }
+
+  #ui-builder-container {
+    flex-direction: column;
+  }
+  #ui-builder-container > *:not(:last-child) {
+    margin: 0 0 20px 0;
   }
 }
