@@ -124,6 +124,12 @@ body {
   cursor: pointer;
   line-height: 41px;
 }
+#navigation .left .reload_page {
+  color: #fff;
+  font-size: 20px;
+  line-height: 28px;
+  margin-left: 11px;
+}
 #navigation .right {
   justify-content: flex-end;
 }
@@ -299,4 +305,77 @@ body {
   justify-content: space-evenly;
   align-items: center;
   flex-wrap: wrap;
+}
+
+@media screen and (max-width: 1023px) {
+  #ui-builder-container {
+    flex-direction: column;
+  }
+  #ui-builder-container > *:not(:last-child) {
+    margin: 0 0 20px 0;
+  }
+}
+@media screen and (max-width: 767px) {
+  /* adjust navigation height */
+  body {
+    padding-top: 35px;
+  }
+
+  #navigation {
+    height: 35px;
+    font-size: 12px;
+  }
+  #navigation .left, #navigation .right {
+    padding: 0 10px;
+  }
+  #navigation .left #menu-open {
+    font-size: 22px;
+    line-height: 26px;
+  }
+  #navigation #help-button img {
+    height: 12px;
+    margin-right: 4px;
+  }
+  #navigation #help-button span {
+    font-size: 12px;
+    margin: 0;
+  }
+  #navigation .center {
+    width: 40%;
+    font-size: 80%;
+  }
+  #navigation .center .content span {
+    font-size: 24px;
+  }
+  #navigation .main .part:not(:last-child) {
+    margin-bottom: 20px;
+  }
+  #navigation .reload_page {
+    display: inline-block;
+  }
+
+  .ide {
+    height: calc(100vh - 35px);
+  }
+  .ide .ide_bar {
+    height: 80px;
+  }
+  .ide .ide_bar .ide_mode_switch {
+    height: 1.5em;
+  }
+
+  [viewable=viewable_documentation] {
+    padding: 45px 5px 5px 5px;
+  }
+  [viewable=viewable_documentation] .documentation_searchbar {
+    height: 30px;
+  }
+
+  body.mobile_view [view] .select {
+    max-height: 2em;
+    overflow-y: auto;
+  }
+  body.mobile_view [view] .select [select-viewable] .moveto {
+    opacity: 1;
+  }
 }

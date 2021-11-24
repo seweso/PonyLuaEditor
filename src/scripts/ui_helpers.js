@@ -253,7 +253,9 @@ class View extends SimpleEventor {
             select.append(choose)
 
             for(let v in UI.views()){
-                if(v === this.name()){
+                if(v === this.name()
+                    || (UI.isMobileView() && (v === 'bottom_left' || v === 'bottom_right') )
+                ){
                     continue
                 }
                 let view = UI.views()[v]

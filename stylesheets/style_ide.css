@@ -416,15 +416,13 @@ a:hover {
 #ui-builder {
   border-radius: 3px;
   color: var(--color-text-light-foreground);
-  padding: 10px;
-  margin: 20px;
+  padding: 5px;
   position: relative;
 }
 
 #ui-builder-container {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
   margin-bottom: 20px;
 }
 #ui-builder-container > * {
@@ -793,6 +791,12 @@ body {
   font-size: 45px;
   cursor: pointer;
   line-height: 41px;
+}
+#navigation .left .reload_page {
+  color: #fff;
+  font-size: 20px;
+  line-height: 28px;
+  margin-left: 11px;
 }
 #navigation .right {
   justify-content: flex-end;
@@ -1357,6 +1361,8 @@ body {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  max-width: 100%;
+  flex-wrap: wrap;
   padding: 6px 6px;
   cursor: pointer;
 }
@@ -2189,5 +2195,77 @@ body {
   }
   100% {
     filter: brightness(200%);
+  }
+}
+@media screen and (max-width: 1023px) {
+  #ui-builder-container {
+    flex-direction: column;
+  }
+  #ui-builder-container > *:not(:last-child) {
+    margin: 0 0 20px 0;
+  }
+}
+@media screen and (max-width: 767px) {
+  /* adjust navigation height */
+  body {
+    padding-top: 35px;
+  }
+
+  #navigation {
+    height: 35px;
+    font-size: 12px;
+  }
+  #navigation .left, #navigation .right {
+    padding: 0 10px;
+  }
+  #navigation .left #menu-open {
+    font-size: 22px;
+    line-height: 26px;
+  }
+  #navigation #help-button img {
+    height: 12px;
+    margin-right: 4px;
+  }
+  #navigation #help-button span {
+    font-size: 12px;
+    margin: 0;
+  }
+  #navigation .center {
+    width: 40%;
+    font-size: 80%;
+  }
+  #navigation .center .content span {
+    font-size: 24px;
+  }
+  #navigation .main .part:not(:last-child) {
+    margin-bottom: 20px;
+  }
+  #navigation .reload_page {
+    display: inline-block;
+  }
+
+  .ide {
+    height: calc(100vh - 35px);
+  }
+  .ide .ide_bar {
+    height: 80px;
+  }
+  .ide .ide_bar .ide_mode_switch {
+    height: 1.5em;
+  }
+
+  [viewable=viewable_documentation] {
+    padding: 45px 5px 5px 5px;
+  }
+  [viewable=viewable_documentation] .documentation_searchbar {
+    height: 30px;
+  }
+
+  body.mobile_view [view] .select {
+    max-height: 2em;
+    overflow-y: auto;
+  }
+  body.mobile_view [view] .select [select-viewable] .moveto {
+    opacity: 1;
   }
 }

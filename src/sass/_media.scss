@@ -1,12 +1,98 @@
 
-@media (max-width: 1023px) {
+@media screen and (max-width: 1023px) {
+
+    #ui-builder-container {
+        flex-direction: column;
+
+        & > *:not(:last-child) {
+            margin: 0 0 20px 0;
+        }
+    }
+}
+
+@media screen and (max-width: 767px) {
+    /* adjust navigation height */
+    body {
+        padding-top: $navigation-height-small;
+    }
+
+    #navigation {
+        height: $navigation-height-small;
+        font-size: 12px;
+
+        .left, .right {
+            padding: 0 10px;
+        }
+
+        .left #menu-open {
+            font-size: 22px;
+            line-height: 26px;
+        }
+
+        #help-button {
+
+            img {
+                height: 12px;
+                margin-right: 4px;
+            }
+
+            span {
+                font-size: 12px;
+                margin: 0;
+            }
+        }
+
+        .center {
+            width:  40%;
+            font-size: 80%;
+
+            .content span {
+                font-size: 24px;
+            }
+        }
+
+        .main .part:not(:last-child) {
+            margin-bottom: 20px;
+        }
+
+        .reload_page {
+            display: inline-block;
+        }
+    }
+
+    .ide {
+        height: calc(100vh - $navigation-height-small);
+
+        .ide_bar {
+            height: 80px;
+
+            .ide_mode_switch {
+                height: 1.5em
+            }
+        }
+    }
+
+    [viewable=viewable_documentation] {
+        padding: 45px 5px 5px 5px;
+
+        .documentation_searchbar {
+            height: 30px;
+        }
+    }
+
+    body.mobile_view {
+        [view] .select {
+            max-height: 2em;
+            overflow-y: auto;
+
+            [select-viewable] .moveto {
+                opacity: 1;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 359px) {
     
 }
 
-@media (max-width: 767) {
-    
-}
-
-@media (max-width: 359) {
-    
-}

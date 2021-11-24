@@ -2,15 +2,13 @@
 #ui-builder {
     border-radius: 3px;
     color: var(--color-text-light-foreground);
-    padding: 10px;
-    margin: 20px;
+    padding: 5px;
     position: relative;
 }
 
 #ui-builder-container {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
     margin-bottom: 20px;
 
     & > * {        

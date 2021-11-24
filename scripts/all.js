@@ -8483,6 +8483,9 @@ UI = (($)=>{
         }
     }
 
+    let isMobileView = false
+
+
     LOADER.on(LOADER.EVENT.PAGE_READY, ()=>{
         $('.ide').addClass('deactivated')
     })
@@ -8588,6 +8591,7 @@ UI = (($)=>{
 
         $(window).on('resize', setSplittersFromConfig)
 
+
         setSplittersFromConfig()
 
         if(conf){
@@ -8661,12 +8665,42 @@ UI = (($)=>{
 
                 setTimeout(()=>{
                     $('#fullscreen-offer').hide()
-                }, 1000 * 10)
+                }, 1000 * 3)
             }
         }
 
         $(window).on('resize', checkOfferFullscreenMode)
         checkOfferFullscreenMode()
+
+
+        function checkForMobileView(){
+            let orientation = (screen.orientation || {}).type || screen.mozOrientation || screen.msOrientation;
+
+            if(orientation.startsWith('landscape') && $(window).width() <= 767){
+                if(!isMobileView){
+                    //adjust views for special mobile view
+                    isMobileView = true
+                    $('body').addClass('mobile_view')
+
+                    // move viewables from bottom views into top views
+                    let viewablesBottomLeft = views.bottom_left.getViewables()
+                    for(let v of Object.keys(viewablesBottomLeft)){
+                        viewablesBottomLeft[v].moveToView(views.top_left, false)
+                    }
+                    splitterHorizontalLeft.setRelative(0,1)
+
+                    let viewablesBottomRight = views.bottom_right.getViewables()
+                    for(let v of Object.keys(viewablesBottomRight)){
+                        viewablesBottomRight[v].moveToView(views.top_right, false)
+                    }
+                    splitterHorizontalRight.setRelative(0,1)
+                }
+            }
+        }
+
+        screen.orientation.addEventListener('change', checkForMobileView)
+        $(window).on('resize ', checkForMobileView)
+        checkForMobileView()
 
         LOADER.done(LOADER.EVENT.UI_READY)
     }
@@ -8724,6 +8758,9 @@ UI = (($)=>{
         },
         isServerMode: ()=>{
             return isServerMode
+        },
+        isMobileView: ()=>{
+            return isMobileView
         }
     }
 
@@ -9223,7 +9260,9 @@ class View extends SimpleEventor {
             select.append(choose)
 
             for(let v in UI.views()){
-                if(v === this.name()){
+                if(v === this.name()
+                    || (UI.isMobileView() && (v === 'bottom_left' || v === 'bottom_right') )
+                ){
                     continue
                 }
                 let view = UI.views()[v]
