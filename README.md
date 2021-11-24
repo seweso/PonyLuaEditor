@@ -21,7 +21,7 @@ Generated with https://realfavicongenerator.net/
 ### git hooks for versioning
 
 after you cloned this repository, run
-```sh setup_git_hook.sh```
+```sh setup_git_hooks.sh```
 
 This will enable the git hooks, so it sets the content of version.js to the current commit hash.
 
