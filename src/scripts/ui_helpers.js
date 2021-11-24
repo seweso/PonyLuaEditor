@@ -406,10 +406,13 @@ class Splitter extends SimpleEventor {
         this.x = 0
         this.y = 0
 
+        this.disabled = false
+
         if(type !== 'vertical' && type !== 'horizontal'){
             throw 'unssupported Splitter type "' + type + '"'
         }
         
+        // normal mouse
         this.dom.on('mouseenter', (evt)=>{
             this.isHover = true
 
@@ -452,8 +455,53 @@ class Splitter extends SimpleEventor {
             }
         })
 
+        // touchscreen
+        this.dom.on('touchstart', (evt)=>{
+            this.isHover = true
+            this.isDragging = true
+            this.dragStartX = evt.originalEvent.touches[0].pageX
+            this.dragStartY = evt.originalEvent.touches[0].pageY
+
+            this.update(true)
+        })
+
+        this.dom.on('touchmove', (evt)=>{
+            if(this.isDragging){
+                evt.originalEvent.stopPropagation()
+                this.x = this.x - (this.dragStartX - evt.originalEvent.touches[0].pageX)
+                this.y = this.y - (this.dragStartY - evt.originalEvent.touches[0].pageY)
+
+                this.dragStartX = evt.originalEvent.touches[0].pageX
+                this.dragStartY = evt.originalEvent.touches[0].pageY
+
+
+                this.checkLimits()
+
+            }
+
+            this.update()
+        })
+
+        this.dom.on('touchcancel touchend', (evt)=>{
+            if(this.isDragging){
+                this.isDragging = false
+                this.isHover = false
+
+                this.update(true)
+
+                this.dispatchEvent('dragend')
+            }
+        })
+
         Splitters.push(this)
 
+        this.update()
+    }
+
+    disable(){
+        this.dom.hide()
+        this.disabled = true
+        this.checkLimits()
         this.update()
     }
 
@@ -477,21 +525,26 @@ class Splitter extends SimpleEventor {
     }
 
     checkLimits(){
-        if(this.x < UI.VIEW_MIN_SIZE){
-            this.x = UI.VIEW_MIN_SIZE
-        }
-        if(this.x > UI.flexview().width() - UI.VIEW_MIN_SIZE){
-            this.x = UI.flexview().width() - UI.VIEW_MIN_SIZE
-        }
-        if(this.y > UI.flexview().height() - UI.VIEW_MIN_SIZE){
-            this.y = UI.flexview().height() - UI.VIEW_MIN_SIZE
-        }
+        if(this.disabled){
+            this.x = this.type === 'vertical' ? UI.flexview().width() : 0
+            this.y = this.type === 'horizontal' ? UI.flexview().height() : 0
+        } else {
+            if(this.x < UI.VIEW_MIN_SIZE){
+                this.x = UI.VIEW_MIN_SIZE
+            }
+            if(this.x > UI.flexview().width() - UI.VIEW_MIN_SIZE){
+                this.x = UI.flexview().width() - UI.VIEW_MIN_SIZE
+            }
+            if(this.y > UI.flexview().height() - UI.VIEW_MIN_SIZE){
+                this.y = UI.flexview().height() - UI.VIEW_MIN_SIZE
+            }
 
-        /* only use one axis for each type */
-        if(this.type === 'vertical'){
-            this.y = 0
-        } else if(this.type === 'horizontal'){
-            this.x = 0
+            /* only use one axis for each type */
+            if(this.type === 'vertical'){
+                this.y = 0
+            } else if(this.type === 'horizontal'){
+                this.x = 0
+            }
         }
     }
 

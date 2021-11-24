@@ -47,6 +47,7 @@ var UI_BUILDER = (($)=>{
 
     function init(container){
         gcontainer = container
+
         container.append('<div class="element_list"></div>')
 
         canvas_container = $('<div class="canvas_container" mode="move"></div>')
@@ -365,7 +366,7 @@ var UI_BUILDER = (($)=>{
                 elem.find('.settings').append(set)
             }
 
-            elem.find('.settings').on('mousedown', (evt)=>{
+            elem.find('.settings').on('mousedown touchstart', (evt)=>{
                 evt.stopPropagation()
             })
 
@@ -374,16 +375,21 @@ var UI_BUILDER = (($)=>{
                 this.closeSettings()
             })
 
-            elem.on('mousedown', (evt)=>{
+            elem.on('mousedown touchstart', (evt)=>{
+                if(evt.originalEvent.target !== elem.get(0) && evt.originalEvent.bubbles !== true){
+                    return
+                }
+
+                evt.preventDefault()
                 if(MODE === MODE_SETTINGS){
                     this.openSettings(evt)
-                } else if(MODE === MODE_MOVE && evt.originalEvent.button === 0){
+                } else if(MODE === MODE_MOVE && (evt.originalEvent.button === 0 || evt.originalEvent instanceof TouchEvent)){
                     this.activateDrag(evt)
-                } else if (MODE === MODE_RESIZE && evt.originalEvent.button === 0){
+                } else if (MODE === MODE_RESIZE && (evt.originalEvent.button === 0 || evt.originalEvent instanceof TouchEvent)){
                     this.activateResize(evt)
-                } else if (MODE === MODE_DELETE && evt.originalEvent.button === 0){
+                } else if (MODE === MODE_DELETE && (evt.originalEvent.button === 0 || evt.originalEvent instanceof TouchEvent)){
                     this.delete()
-                } else if (MODE === MODE_ZINDEX && evt.originalEvent.button === 0){
+                } else if (MODE === MODE_ZINDEX && (evt.originalEvent.button === 0 || evt.originalEvent instanceof TouchEvent)){
                     moveElementZindexToFront(this)
                 }
             })
@@ -397,53 +403,43 @@ var UI_BUILDER = (($)=>{
         }
 
         activateDrag(evt){
-            this.offX = window.scrollX + evt.clientX - uiZoom(this.x)
-            this.offY = window.scrollY + evt.clientY - uiZoom(this.y)
+            this.deactivate()
 
-            this.dragLambda = (evt)=>{
-                this.drag(evt)
-            }
-            $(gcontainer).on('mousemove', this.dragLambda)
-            $(gcontainer).on('mouseup', this.deactivateDrag)
-        }
+            this.offX = window.scrollX + (evt.originalEvent instanceof TouchEvent ? evt.originalEvent.touches[0].clientX : evt.clientX) - uiZoom(this.x)
+            this.offY = window.scrollY + (evt.originalEvent instanceof TouchEvent ? evt.originalEvent.touches[0].clientY : evt.clientY) - uiZoom(this.y)
 
-        drag(evt){
-            this.x = uiUnzoom((window.scrollX + evt.clientX) - this.offX)
-            this.y = uiUnzoom((window.scrollY + evt.clientY) - this.offY)
-            this.refreshPosition()
-        }
+            $(gcontainer).on('mousemove touchmove', (evt)=>{
+                evt.preventDefault()
+                this.x = uiUnzoom((window.scrollX + (evt.originalEvent instanceof TouchEvent ? evt.originalEvent.touches[0].clientX : evt.clientX)) - this.offX)
+                this.y = uiUnzoom((window.scrollY + (evt.originalEvent instanceof TouchEvent ? evt.originalEvent.touches[0].clientY : evt.clientY)) - this.offY)
+                this.refreshPosition()
+            })
 
-        deactivateDrag(){
-            $(gcontainer).off('mousemove', this.dragLambda)
-            $(gcontainer).off('mouseup', this.deactivateDrag)
+            $(gcontainer).on('mouseup touchend touchcancel', ()=>{
+                this.deactivate()
+            })
         }
 
         activateResize(evt){
-            this.offX = (window.scrollX + evt.clientX) - uiZoom(this.width)
-            this.offY = (window.scrollY + evt.clientY) - uiZoom(this.height)
+            this.deactivate()
 
-            this.resizeLambda = (evt)=>{
-                this.resize(evt)
-            }
-            $(gcontainer).on('mousemove', this.resizeLambda)
-            $(gcontainer).on('mouseup', this.deactivateResize)
-        }
+            this.offX = (window.scrollX + (evt.originalEvent instanceof TouchEvent ? evt.originalEvent.touches[0].clientX : evt.clientX)) - uiZoom(this.width)
+            this.offY = (window.scrollY + (evt.originalEvent instanceof TouchEvent ? evt.originalEvent.touches[0].clientY : evt.clientY)) - uiZoom(this.height)
 
-        resize(evt){
-            this.width = uiUnzoom((window.scrollX + evt.clientX) - this.offX)
-            this.height = uiUnzoom((window.scrollY + evt.clientY) - this.offY)
+            $(gcontainer).on('mousemove touchmove', (evt)=>{
+                evt.preventDefault()
+                this.width = uiUnzoom((window.scrollX + (evt.originalEvent instanceof TouchEvent ? evt.originalEvent.touches[0].clientX : evt.clientX)) - this.offX)
+                this.height = uiUnzoom((window.scrollY + (evt.originalEvent instanceof TouchEvent ? evt.originalEvent.touches[0].clientY : evt.clientY)) - this.offY)
+                this.refreshPosition()
+            })
 
-            this.refreshPosition()
-        }
-
-        deactivateResize(){
-            $(gcontainer).off('mousemove', this.resizeLambda)
-            $(gcontainer).off('mouseup', this.deactivateResize)
+            $(gcontainer).on('mouseup touchend touchcancel', ()=>{
+                this.deactivate()
+            })
         }
 
         deactivate(){
-            this.deactivateDrag()
-            this.deactivateResize()
+            $(gcontainer).off('mousemove touchmove mouseup touchend touchcancel')
             this.closeSettings()
         }
 
@@ -530,12 +526,12 @@ var UI_BUILDER = (($)=>{
             this.closeHandler = ()=>{
                 this.closeSettings()
             }
-            $(gcontainer).on('mousedown', this.closeHandler)
+            $(gcontainer).on('mousedown touchstart', this.closeHandler)
         }
 
         closeSettings(){
             this.dom.removeClass('settings_open')
-            $(gcontainer).off('mousedown', this.closeHandler)
+            $(gcontainer).off('mousedown touchstart', this.closeHandler)
         }
 
         delete(){

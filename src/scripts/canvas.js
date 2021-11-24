@@ -77,7 +77,7 @@ var CANVAS = ((global, $)=>{
             }
         })
         
-        /* touchscreen */
+        /* touchscreen for mouse */
         $('#monitor').on('mouseenter', ()=>{
             mouseIsOverMonitor = true
         })
@@ -93,6 +93,26 @@ var CANVAS = ((global, $)=>{
                 mouseY = evt.originalEvent.clientY + $(global).scrollTop()
             }
         })
+
+        /* touchscreen for touch */
+        $('#monitor').on('touchstart', (evt)=>{
+            mouseIsOverMonitor = true
+            mouseX = evt.originalEvent.touches[0].clientX
+            mouseY = evt.originalEvent.touches[0].clientY + $(global).scrollTop()
+        })
+        $(window).on('touchend', ()=>{
+            mouseIsOverMonitor = false
+        })
+        $(window).on('touchcancel', ()=>{
+            mouseIsOverMonitor = false
+        })
+        $(window).on('touchmove', (evt)=>{
+            if(mouseIsOverMonitor){
+                mouseX = evt.originalEvent.touches[0].clientX
+                mouseY = evt.originalEvent.touches[0].clientY + $(global).scrollTop()
+            }
+        })
+
         $('#enable-touchscreen, #enable-touchscreen-secondary').on('change', ()=>{
             /* wait until secondaryTouchEnabled is set properly */
             setTimeout(()=>{
@@ -111,8 +131,8 @@ var CANVAS = ((global, $)=>{
             STORAGE.setConfiguration('settings.touchscreenSecondaryEnabled', secondaryTouchEnabled)
         })
 
-        $(window).on('keydown mousedown', handleKeyDown)
-        $(window).on('keyup mouseup', handleKeyUp)
+        $(window).on('keydown mousedown touchstart', handleKeyDown)
+        $(window).on('keyup mouseup touchend', handleKeyUp)
 
         let params = new URLSearchParams( document.location.search)
         let paramBigmonitor = params.get('bigmonitor')
@@ -152,7 +172,9 @@ var CANVAS = ((global, $)=>{
     function handleKeyDown(evt){
         if(mouseIsOverMonitor){
             if(ENGINE.isRunning() && $('#enable-touchscreen').prop('checked')){
-                if(evt.originalEvent.button === 0){
+                if(evt.originalEvent instanceof TouchEvent){
+                    evt.originalEvent.key = 'q'
+                } else if(evt.originalEvent.button === 0){
                     evt.originalEvent.key = 'e'
                 }
                 if(evt.originalEvent.key === 'q' || evt.originalEvent.key === 'e'){
@@ -208,9 +230,10 @@ var CANVAS = ((global, $)=>{
 
     function handleKeyUp(evt){
         if(ENGINE.isRunning() && $('#enable-touchscreen').prop('checked')){
-            if(evt.originalEvent.button === 0 && mouseIsOverMonitor){
+            if(evt.originalEvent instanceof TouchEvent){
+                evt.originalEvent.key = 'q'
+            } else if(evt.originalEvent.button === 0 && mouseIsOverMonitor){
                 evt.originalEvent.key = 'e'
-                console.log('mouseup')
             }
             if(evt.originalEvent.key === 'q' || evt.originalEvent.key === 'e'){
                 evt.preventDefault()

@@ -10,7 +10,7 @@ UI = (($)=>{
 
     let isServerMode = false
 
-    const VIEW_VIEW_MIN_SIZE = 100
+    const VIEW_MIN_SIZE = 100
     const SPLITTER_WIDTH = 6 /* this needs to be changed together with the css */
 
     const MY_CONFIGURATION_NAME = 'ui'
@@ -236,13 +236,13 @@ UI = (($)=>{
                     for(let v of Object.keys(viewablesBottomLeft)){
                         viewablesBottomLeft[v].moveToView(views.top_left, false)
                     }
-                    splitterHorizontalLeft.setRelative(0,1)
+                    splitterHorizontalLeft.disable()
 
                     let viewablesBottomRight = views.bottom_right.getViewables()
                     for(let v of Object.keys(viewablesBottomRight)){
                         viewablesBottomRight[v].moveToView(views.top_right, false)
                     }
-                    splitterHorizontalRight.setRelative(0,1)
+                    splitterHorizontalRight.disable()
                 }
             }
         }
@@ -294,7 +294,7 @@ UI = (($)=>{
         viewables: ()=>{
             return viewables
         },
-        VIEW_VIEW_MIN_SIZE: VIEW_VIEW_MIN_SIZE,
+        VIEW_MIN_SIZE: VIEW_MIN_SIZE,
         SPLITTER_WIDTH: SPLITTER_WIDTH,
         verticalSplitterPosition: ()=>{
             return splitterVertical.x
