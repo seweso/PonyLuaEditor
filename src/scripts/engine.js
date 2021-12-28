@@ -87,7 +87,7 @@ ENGINE = (($)=>{
         })
 
         $('#reset').on('click', ()=>{
-            UTIL.confirm('Remove all current settings and code, but keep history?').then((res)=>{
+            UTIL.confirm('Remove all current settings and code, but keep "History" and "My Library"?').then((res)=>{
                 if(res){
                     STORAGE.set()
                     // TODO rework this to not use page reload
