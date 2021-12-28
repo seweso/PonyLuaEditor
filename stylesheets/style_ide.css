@@ -583,6 +583,19 @@ a:hover {
 #ui-builder-container .controls[mode=zindex] .control.zindex {
   color: var(--color-accent);
 }
+#ui-builder-container .controls[mode=colorcopy] .control.colorcopy {
+  color: var(--color-accent);
+}
+#ui-builder-container .controls[mode=colorcopy] .control.colorcopy .selected_color {
+  display: block;
+  width: 0.8em;
+  height: 0.8em;
+  margin-left: 0.4em;
+  border-radius: 1000000px;
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAARBAMAAADJQ1rJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAGUExURQAAAP///6XZn90AAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAUSURBVBjTY2CEAgYGARgYjGKMDACXRQTJ/sxqTAAAAABJRU5ErkJggg==");
+  background-size: 40px;
+  background-repeat: repeat;
+}
 #ui-builder-container .element_layer_list {
   display: flex;
   flex-direction: column-reverse;

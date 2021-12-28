@@ -14,6 +14,7 @@ var UI_BUILDER = (($)=>{
     let MODE_SETTINGS = 'settings'
     let MODE_DELETE = 'delete'
     let MODE_ZINDEX = 'zindex'
+    let MODE_COLORCOPY = 'colorcopy'
 
     let MODE = MODE_MOVE
 
@@ -73,6 +74,7 @@ var UI_BUILDER = (($)=>{
         container.find('.controls').append('<div class="control settings"><span class="icon-equalizer"></span>&nbsp;Setup</div>')
         container.find('.controls').append('<div class="control delete"><span class="icon-cancel-circle"></span>&nbsp;Delete</div>')
         container.find('.controls').append('<div class="control zindex"><span class="icon-stack"></span>&nbsp;To Top</div>')
+        container.find('.controls').append('<div class="control colorcopy"><span class="icon-eyedropper"></span>&nbsp;Color&nbsp;<span class="selected_color"></span></div>')
 
         container.find('.controls .control.move').on('click', ()=>{
             deactivateAllElements()
@@ -98,6 +100,11 @@ var UI_BUILDER = (($)=>{
             deactivateAllElements()
             container.find('.controls, .canvas_container').attr('mode', MODE_ZINDEX)
             MODE = MODE_ZINDEX
+        })
+        container.find('.controls .control.colorcopy').on('click', ()=>{
+            deactivateAllElements()
+            container.find('.controls, .canvas_container').attr('mode', MODE_COLORCOPY)
+            MODE = MODE_COLORCOPY
         })
 
 
@@ -391,6 +398,8 @@ var UI_BUILDER = (($)=>{
                     this.delete()
                 } else if (MODE === MODE_ZINDEX && (evt.originalEvent.button === 0 || (UI.supportsTouch() && evt.originalEvent instanceof TouchEvent)) ){
                     moveElementZindexToFront(this)
+                } else if (MODE === MODE_COLORCOPY && (evt.originalEvent.button === 0 || (UI.supportsTouch() && evt.originalEvent instanceof TouchEvent)) ){
+                    colorCopy(this)
                 }
             })
 
@@ -1675,6 +1684,19 @@ var UI_BUILDER = (($)=>{
         element.zindex = allElements[originalZindex - 1 + 1].zindex
         allElements[originalZindex - 1 + 1].zindex = originalZindex
         resortAllElements()
+    }
+
+    let selectedColorForCopy = undefined
+    function colorCopy(element){
+        if(selectedColorForCopy){
+            element.settings.background.value = selectedColorForCopy
+            element.refresh()
+            selectedColorForCopy = undefined
+           gcontainer.find('.control.colorcopy .selected_color').css('background-image', '')
+        } else {
+            selectedColorForCopy = element.settings.background.value
+            gcontainer.find('.control.colorcopy .selected_color').css('background', selectedColorForCopy)
+        }
     }
 
 
