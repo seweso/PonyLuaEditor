@@ -11731,6 +11731,15 @@ var EXAMPLES = (($)=>{
 				content: '-- get number of a number property called "blubb"\npropertyText = property.getText("blubb")'
 			}]
 		},{
+			title: 'input delay, output delay',
+			contents: [{
+				type: 'text',
+				content: 'The input composite connected to the lua script is DELAYED a couple of ticks (depending on the number of logic components between e.g. the button and the lua script). Same applied to the output. You can artifically delay the input in this IDE\'s settings to simulate ingame delay.'
+			},{
+				type: 'text',
+				content: 'How to accurately counting delay:\nThe delay in ticks is equal to the number of logic connections (or lines) between the lua script input circle and the sensor/button output circle. Microcontroller inputs and outputs do not count (so if you connect a button output to a microcontroller input, and inside the microcontroller connect that same input to a logic node, the delay is ONLY 1, even if you might think it must be 2 because of two lines.'
+			}]
+		},{
 			title: 'Draw stuff onto the screen',
 			contents: [{
 				type: 'text',
