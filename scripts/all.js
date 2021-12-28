@@ -12077,6 +12077,7 @@ class Editor extends DynamicSizedViewableContent {
         this.editor.setTheme("ace/theme/pony_ide")
         this.editor.session.setMode("ace/mode/lua")
         this.editor.session.setUseSoftTabs(false)
+        this.editor.setOption('wrap', true)
 
         this.dom.append( $('<div class="code_lock">') )
         this.dom.append( $('<div class="autocompletion_container">') )
