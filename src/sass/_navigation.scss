@@ -34,7 +34,7 @@ body {
         justify-content: center;
         width: 25%;
         height: 70%;
-        padding: 0 30px;
+        padding: 0 20px;
     }
 
     .left {
@@ -42,17 +42,22 @@ body {
 
         #menu-open {
             color: var(--color-accent);
-            font-size: 45px;
+            font-size: 25px;
             cursor: pointer;
-
             line-height: 41px;
+            transition: all 0.2s ease 0s;
+
+            &:hover {
+                color: #fff;
+            }
         }
 
         .reload_page {
             color: #fff;
             font-size: 20px;
-            line-height: 28px;
-            margin-left: 11px;
+            line-height: 100%;
+            margin-left: 15px;
+            transform: translateY(0.5em);
         }
     }
 
