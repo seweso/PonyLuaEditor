@@ -80,6 +80,31 @@ window.onbeforeunload = function (e) {
     }
     e = e || window.event;
 
+    //for electron
+    let isElectron = (()=>{
+        // Renderer process
+        if (typeof window !== 'undefined' && typeof window.process === 'object' && window.process.type === 'renderer') {
+            return true;
+        }
+
+        // Main process
+        if (typeof process !== 'undefined' && typeof process.versions === 'object' && !!process.versions.electron) {
+            return true;
+        }
+
+        // Detect the user agent when the `nodeIntegration` option is set to true
+        if (typeof navigator === 'object' && typeof navigator.userAgent === 'string' && navigator.userAgent.indexOf('Electron') >= 0) {
+            return true;
+        }
+
+        return false;
+    })()
+    if(isElectron){
+        UTIL.message('Click again to leave without saving.')
+        YYY.makeNoExitConfirm()
+        return false
+    }
+
     // For IE and Firefox prior to version 4
     if (e) {
         e.returnValue = 'Really want to leave?';

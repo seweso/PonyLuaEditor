@@ -5940,9 +5940,30 @@ CHRISTMAS = (()=>{
             return
         }
 
-        let style = '.center:after {content: ""; background: url("images/christmas.png"); background-size: 100% 100%; position: absolute; bottom: 0; left: 0; width: calc(100vw - 600px); height: 145%; background-size: 100% 100%; transform: translateX(calc((50vw - 600px) / -2));}'
-            + '.center svg {display: none}'
-            + '.center .content span {background: #000a; padding: 0px 20px; border-radius: 5px;}'
+        let style = `
+        .center:after {
+            content: "";
+            background: url("images/christmas.png");
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: calc(100vw - 600px);
+            height: 100%;
+            background-size: 100% 100%;
+            transform: translateX(calc((50vw - 600px) / -2));
+            background-position: bottom;
+        }
+
+        .center svg {
+            display: none
+        }
+
+        .center .content span {
+            background: #000a;
+            padding: 0px 20px;
+            border-radius: 5px;
+        }
+        `
 
         $(document.body).append( $('<style>').text(style) )
     }
@@ -15145,6 +15166,31 @@ window.onbeforeunload = function (e) {
         return
     }
     e = e || window.event;
+
+    //for electron
+    let isElectron = (()=>{
+        // Renderer process
+        if (typeof window !== 'undefined' && typeof window.process === 'object' && window.process.type === 'renderer') {
+            return true;
+        }
+
+        // Main process
+        if (typeof process !== 'undefined' && typeof process.versions === 'object' && !!process.versions.electron) {
+            return true;
+        }
+
+        // Detect the user agent when the `nodeIntegration` option is set to true
+        if (typeof navigator === 'object' && typeof navigator.userAgent === 'string' && navigator.userAgent.indexOf('Electron') >= 0) {
+            return true;
+        }
+
+        return false;
+    })()
+    if(isElectron){
+        UTIL.message('Click again to leave without saving.')
+        YYY.makeNoExitConfirm()
+        return false
+    }
 
     // For IE and Firefox prior to version 4
     if (e) {
