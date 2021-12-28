@@ -387,6 +387,8 @@ var LUA_EMULATOR = (($)=>{
             namespaces = {}
             fresh = false
 
+            startTime = 0
+
             CONSOLE.reset()
 
             stepCount = 0
