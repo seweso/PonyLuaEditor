@@ -24,6 +24,7 @@ TRANSLATE = (()=>{
         "viewable_editor_unminified": {en: "Unminifier"},
         "viewable_editor_uibuilder": {en: "UI Builder"},
         "viewable_editor_uibuilder_code": {en: "UI Generated Code"},
+        "viewable_library": {en: "My Library"},
         
         /* views */
         "top_left": {en: "Top Left"},

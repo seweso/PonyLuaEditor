@@ -50,7 +50,8 @@ LOADER = (($)=>{
         INPUTS_READY: 'Inputs',
         OUTPUTS_READY: 'Outputs',
         PROPERTIES_READY: 'Properties',
-        CANVAS_READY: 'Canvas'
+        CANVAS_READY: 'Canvas',
+        LIBRARY_READY: 'Library'
     }
 
     const EVENT_ALL_DONE = 'all_done'

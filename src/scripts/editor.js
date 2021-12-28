@@ -30,12 +30,12 @@ class Editor extends DynamicSizedViewableContent {
         let that = this
         this.syntaxCheckInterval = setInterval(()=>{
             let now = new Date().getTime()
-            if(now - that.lastEditorChange > 2000 && that.lastEditorChangeChecked === false){
+            if(now - that.lastEditorChange > 500 && that.lastEditorChangeChecked === false){
                 that.lastEditorChangeChecked = true
 
                 that.performSyntaxCheck()
             }
-        }, 1000)
+        }, 200)
 
         this.editor.selection.on('changeCursor', ()=>{
             this.refreshPositionHint()

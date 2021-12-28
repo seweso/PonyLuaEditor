@@ -233,10 +233,27 @@ STORAGE = (()=>{
             }
         }
     }
+
+    /* those values are not included in a shared configuration, they are also not automatically reset when clicking "reset" button */
+    function getUnSharedValue(name){
+        let ret = localStorage.getItem(name)
+        try {
+            let parsed = JSON.parse(ret)
+            return parsed
+        } catch (ex){
+            return undefined
+        }
+    }
+
+    function setUnSharedValue(name, value){
+        localStorage.setItem(name, JSON.stringify(value))
+    }
     
     return {
         setConfiguration: setConfiguration,
         getConfiguration: getConfiguration,
+        setUnShared: setUnSharedValue,
+        getUnShared: getUnSharedValue,
         configurationAsString: configurationAsString,
         setFromShare: setFromShare,
         set: set

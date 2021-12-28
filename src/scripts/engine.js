@@ -463,6 +463,9 @@ ENGINE = (($)=>{
         }
 
         STORAGE.setConfiguration('editors', codes)
+
+        LIBRARY.saveToStorage()
+
         SHARE.removeIdFromURL()
 
         HISTORY.updatePageTitle()

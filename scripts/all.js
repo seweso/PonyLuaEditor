@@ -50,7 +50,8 @@ LOADER = (($)=>{
         INPUTS_READY: 'Inputs',
         OUTPUTS_READY: 'Outputs',
         PROPERTIES_READY: 'Properties',
-        CANVAS_READY: 'Canvas'
+        CANVAS_READY: 'Canvas',
+        LIBRARY_READY: 'Library'
     }
 
     const EVENT_ALL_DONE = 'all_done'
@@ -158,6 +159,7 @@ TRANSLATE = (()=>{
         "viewable_editor_unminified": {en: "Unminifier"},
         "viewable_editor_uibuilder": {en: "UI Builder"},
         "viewable_editor_uibuilder_code": {en: "UI Generated Code"},
+        "viewable_library": {en: "My Library"},
         
         /* views */
         "top_left": {en: "Top Left"},
@@ -6279,6 +6281,34 @@ var GIVEAWAY = (($)=>{
 })(jQuery)
 
 ;
+LIBRARY = (($)=>{
+	"use strict";
+
+    LOADER.on(LOADER.EVENT.EDITORS_READY, init)
+
+    function init(){
+
+    	let code = STORAGE.getUnShared('library')
+
+    	if(typeof code === 'string'){
+    		EDITORS.get('library').editor.setValue(code)
+    	}
+
+        LOADER.done(LOADER.EVENT.LIBRARY_READY)
+    }
+
+	function saveToStorage(){
+		let code = EDITORS.get('library').editor.getValue()
+
+		STORAGE.setUnShared('library', code)
+	}
+
+	return {
+		saveToStorage: saveToStorage
+	}
+
+})(jQuery)
+;
 var LUA_EMULATOR = (($)=>{
     
     const DO_LOG = false
@@ -7739,10 +7769,27 @@ STORAGE = (()=>{
             }
         }
     }
+
+    /* those values are not included in a shared configuration, they are also not automatically reset when clicking "reset" button */
+    function getUnSharedValue(name){
+        let ret = localStorage.getItem(name)
+        try {
+            let parsed = JSON.parse(ret)
+            return parsed
+        } catch (ex){
+            return undefined
+        }
+    }
+
+    function setUnSharedValue(name, value){
+        localStorage.setItem(name, JSON.stringify(value))
+    }
     
     return {
         setConfiguration: setConfiguration,
         getConfiguration: getConfiguration,
+        setUnShared: setUnSharedValue,
+        getUnShared: getUnSharedValue,
         configurationAsString: configurationAsString,
         setFromShare: setFromShare,
         set: set
@@ -8491,7 +8538,7 @@ UI = (($)=>{
         top_left: ['viewable_editor_normal', 'viewable_editor_minified', 'viewable_editor_unminified', 'viewable_editor_uibuilder', 'viewable_editor_uibuilder_code'],
         top_right: ['viewable_documentation', 'viewable_properties', 'viewable_inputs', 'viewable_outputs', 'viewable_examples', 'viewable_learn', 'viewable_official_manuals'],
         bottom_left: ['viewable_console', 'viewable_hints'],
-        bottom_right: ['viewable_monitor', 'viewable_settings', 'viewable_history']
+        bottom_right: ['viewable_monitor', 'viewable_settings', 'viewable_history', 'viewable_library']
     }
 
     let config = {
@@ -12110,12 +12157,12 @@ class Editor extends DynamicSizedViewableContent {
         let that = this
         this.syntaxCheckInterval = setInterval(()=>{
             let now = new Date().getTime()
-            if(now - that.lastEditorChange > 2000 && that.lastEditorChangeChecked === false){
+            if(now - that.lastEditorChange > 500 && that.lastEditorChangeChecked === false){
                 that.lastEditorChangeChecked = true
 
                 that.performSyntaxCheck()
             }
-        }, 1000)
+        }, 200)
 
         this.editor.selection.on('changeCursor', ()=>{
             this.refreshPositionHint()
@@ -15678,6 +15725,9 @@ ENGINE = (($)=>{
         }
 
         STORAGE.setConfiguration('editors', codes)
+
+        LIBRARY.saveToStorage()
+
         SHARE.removeIdFromURL()
 
         HISTORY.updatePageTitle()
