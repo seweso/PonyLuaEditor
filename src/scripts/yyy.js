@@ -39,10 +39,18 @@ YYY = (($)=>{
         function makeListText(entries){
             return '<ul><li>' + entries.join('</li><li>') + '</li></ul>'
         }
-        
-        UTIL.hint('New Feature', 'Delay input data (0 - 60 ticks)')
-        UTIL.hint('New Feature', 'Touch (Mobile) support for UI Builder and Monitor')
-        UTIL.hint('Improvement', 'Improved layout for mobile devices (<1024px width in landscape)')
+
+        UTIL.hint('Improvements', makeListText([
+            'Improved layout for mobile devices (<1024px width in landscape)',
+            'Improved highlighting of keywords and functions'
+        ]))
+
+        UTIL.hintImportant('New Features', makeListText([
+            'Custom delay of input data (0 - 60 ticks)',
+            'Added My Library tab so users can manage their own private little helper functions',
+            'Touch (Mobile) support for UI Builder and Monitor',
+            'Copy color mode for UI Builder'
+        ]))
 
         $('[select-viewable="viewable_history"]').addClass('animation_flash')
 
