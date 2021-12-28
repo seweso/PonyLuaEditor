@@ -1799,7 +1799,7 @@ body {
 [viewable=viewable_monitor] #canvas {
   z-index: 1;
   background: #000;
-  filter: brightness(258%);
+  filter: brightness(279%) contrast(96%) saturate(80%);
 }
 
 #ui-builder-container .canvas_container .element.line svg {
