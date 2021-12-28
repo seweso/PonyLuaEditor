@@ -40,6 +40,7 @@ YYY = (($)=>{
             return '<ul><li>' + entries.join('</li><li>') + '</li></ul>'
         }
         
+        UTIL.hint('New Feature', 'Delay input data (0 - 60 ticks)')
         UTIL.hint('New Feature', 'Touch (Mobile) support for UI Builder and Monitor')
         UTIL.hint('Improvement', 'Improved layout for mobile devices (<1024px width in landscape)')
 

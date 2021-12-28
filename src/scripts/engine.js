@@ -285,6 +285,7 @@ ENGINE = (($)=>{
             }
             LUA_EMULATOR.bluescreenError(LUA_EMULATOR.l(), 'error', err)
         }
+        INPUT.reset()
         OUTPUT.reset()
 
         setDrawAndTickInterval()

@@ -4,6 +4,10 @@ var INPUT = (($)=>{
     let bools = {}
     let numbers = {}
 
+    let currentDelayVal = 0
+    let queueBools
+    let queueNumbers
+
     let dom
     let dom_bools
     let dom_bools_add
@@ -14,12 +18,29 @@ var INPUT = (($)=>{
 
     const SUPPORTED_INPUT_KEYS = ['e', 'q', 1, 2, 3, 4, 5, 6, 7, 8, 9, 'a', 'b', 'c', 'd', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
 
-    LOADER.on(LOADER.EVENT.CANVAS_READY, init)
+    LOADER.on(LOADER.EVENT.ENGINE_READY, init)
 
     function init(){
 
         $(window).on('keydown', handleKeyDown)
         $(window).on('keyup', handleKeyUp)
+
+
+        let storeDelay = parseInt(STORAGE.getConfiguration('settings.inputTickDelay'))
+        if(isNaN(storeDelay) || storeDelay < 0 || storeDelay > 60){
+            storeDelay = 0
+        }
+        $('#inputTickDelay').val(storeDelay)
+        $('#inputTickDelayVal').text(storeDelay)
+
+        $('#inputTickDelay').on('change input', (e)=>{
+            let val = parseInt($('#inputTickDelay').val())
+            if(isNaN(val)){
+                val = 0
+            }
+            $('#inputTickDelayVal').text(val)
+            STORAGE.setConfiguration('settings.inputTickDelay', val)
+        })
 
         bools = {}
         numbers = {}
@@ -80,6 +101,8 @@ var INPUT = (($)=>{
                 addNewNumber(parseInt(k), val, n)
             }
         }
+
+        resetQueues()
 
         initiating = false
 
@@ -470,7 +493,6 @@ var INPUT = (($)=>{
         sortNumbers()
     }
 
-
     $(window).on('lua_tick', doTick)
 
     function doTick(){
@@ -546,6 +568,8 @@ var INPUT = (($)=>{
                 refreshNumbersAddSelect()
             }
         })
+
+        updateQueues()
     }
 
     function precise(float, precision){
@@ -694,21 +718,63 @@ var INPUT = (($)=>{
         }
     }
 
-    function reset(){
-        dom_bools.find('.bool').remove()
-        bools = {}
-        refreshBoolsAddSelect()
+    function getBoolQueueValue(label){
+        return currentDelayVal === 0 ? getBool(label) : getQueueValue(queueBools, label, 'boolean', false)
+    }
 
-        dom_numbers.find('number').remove()
-        numbers = {}
-        refreshNumbersAddSelect()
+    function getNumberQueueValue(label){
+        return currentDelayVal === 0 ? getNumber(label) : getQueueValue(queueNumbers, label, 'number', 0)
+    }
+
+    function getQueueValue(queue, label, type, defaultValue){
+        let ret = queue[0][label.toString()]
+        if(typeof ret !== type){
+            return defaultValue
+        } else {
+            return ret
+        }
+    }
+
+    function updateQueues(){
+        updateQueue(queueBools, bools)
+        updateQueue(queueNumbers, numbers)
+
+        function updateQueue(queue, values){
+            queue.splice(0, 1)//remove first entry
+            let currentValues = {}
+            for(let k of Object.keys(values)){
+                currentValues[k] = values[k].val
+            }
+            queue.push(currentValues)
+        }
+    }
+
+    function resetQueues(){
+        currentDelayVal = $('#inputTickDelay').val()
+
+        currentDelayVal = parseInt(currentDelayVal)
+        if(isNaN(currentDelayVal) || currentDelayVal < 0 || currentDelayVal > 60){
+            currentDelayVal = 0
+        }
+        STORAGE.setConfiguration('settings.inputTickDelay', currentDelayVal)
+
+        queueBools = []
+        initQueue(queueBools, currentDelayVal)
+        queueNumbers = []
+        initQueue(queueNumbers, currentDelayVal)
+
+        function initQueue(queue, delay){
+            for(let i = 0; i < delay; i++){
+                queue[i] = {}
+            }
+        }
     }
 
     return {
-        reset: reset,
-        getBool: getBool,
+        reset: resetQueues,
+        getBoolValue: getBoolQueueValue,
         getBoolLabel: getBoolLabel,
-        getNumber: getNumber,
+        getNumberValue: getNumberQueueValue,
         getNumberLabel: getNumberLabel,
         setBool: setBool,
         setNumber: setNumber,

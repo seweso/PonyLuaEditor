@@ -587,7 +587,7 @@ STORMWORKS_LUA_API = (($)=>{
                 fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 1, 'expected integer')
                 return
             }
-            return INPUT.getBool(i)
+            return INPUT.getBoolValue(i)
         }
         LUA_EMULATOR.makeFunctionAvailableInLua(getBool, 'input')
 
@@ -604,7 +604,7 @@ STORMWORKS_LUA_API = (($)=>{
                 fengari.lauxlib.luaL_argerror(LUA_EMULATOR.l(), 1, 'expected integer')
                 return
             }
-            return INPUT.getNumber(i)
+            return INPUT.getNumberValue(i)
         }
         LUA_EMULATOR.makeFunctionAvailableInLua(getNumber, 'input')        
     }
