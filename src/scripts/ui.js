@@ -201,6 +201,7 @@ UI = (($)=>{
             }
             DOCUMENTATION.refresh()
             EXAMPLES.refresh()
+            EDITORS.forceRefresh()
             EDITORS.refreshCharacterCounts()
         })
 

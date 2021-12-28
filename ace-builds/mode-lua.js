@@ -14,7 +14,7 @@ var LuaHighlightRules = function() {
     var builtinConstants = ("true|false|nil|_G|_VERSION");
 
     var functions = (
-        "pause|timer|start|stop|print|printColor|tostring|unpack|next|tonumber|type|pairs|ipairs|"+
+        "tostring|unpack|next|tonumber|type|pairs|ipairs|"+
 
         "foreachi|maxn|foreach|"+
         "math|"+
@@ -22,15 +22,7 @@ var LuaHighlightRules = function() {
         "table|"+
         "concat|insert|move|pack|remove|sort|unpack|"+
         "string|"+
-        "byte|char|dump|find|format|gmatch|gsub|len|lower|match|packsize|reverse|sub|upper|"+
-
-        "screen|getWidth|getHeight|setColor|drawClear|drawLine|drawCircle|drawCircleF|drawRect|drawRectF|"+
-        "drawTriangle|drawTriangleF|drawText|drawTextBox|drawMap|"+
-        "map|setMapColorOcean|setMapColorShallows|setMapColorLand|setMapColorGrass|setMapColorSand|setMapColorSnow|screenToMap|mapToScreen|"+
-        "input|getBool|getNumber|"+
-        "output|setBool|setNumber|"+
-        "property|getBool|getNumber|getText|"+
-        "async|httpGet"
+        "byte|char|dump|find|format|gmatch|gsub|len|lower|match|packsize|reverse|sub|upper|"
     );
 
     var stdLibaries = ("");

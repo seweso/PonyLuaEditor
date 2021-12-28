@@ -243,7 +243,7 @@ var DOCUMENTATION = ((global, $)=>{
         })
 
         container.find('.documentation_searchbar input').on('change', ()=>{
-            searchDocumenation(container.find('.documentation_searchbar input').val())
+            searchDocumentation(container.find('.documentation_searchbar input').val())
         })
 
 
@@ -398,7 +398,7 @@ var DOCUMENTATION = ((global, $)=>{
         return entries
     }
 
-    function searchDocumenation(searchString){
+    function searchDocumentation(searchString){
         if(searchString === ''){
             $('#documentation .node').removeClass('fuze_hidden').addClass('contracted').css('order', '')
             return

@@ -382,6 +382,9 @@ a:hover {
 }
 
 /* editor fullscreen */
+.ace_editor {
+  /* keyword markup */
+}
 .ace_editor.fullscreen {
   position: fixed;
   top: 0;
@@ -411,6 +414,15 @@ a:hover {
 }
 .ace_editor .font_minus {
   right: 75px;
+}
+.ace_editor .ace_keyword_dev {
+  color: #d67118;
+}
+.ace_editor .ace_keyword_stormworks {
+  color: #0b5394;
+}
+.ace_editor .ace_keyword_library {
+  color: #8fce00;
 }
 
 #ui-builder {

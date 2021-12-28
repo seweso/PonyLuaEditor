@@ -6284,6 +6284,8 @@ var GIVEAWAY = (($)=>{
 LIBRARY = (($)=>{
 	"use strict";
 
+	let libraryAst
+
     LOADER.on(LOADER.EVENT.EDITORS_READY, init)
 
     function init(){
@@ -6292,9 +6294,33 @@ LIBRARY = (($)=>{
 
     	if(typeof code === 'string'){
     		EDITORS.get('library').editor.setValue(code)
+    		updateLibraryAST()
     	}
 
+    	EDITORS.get('library').editor.on('blur', updateLibraryAST)
+
+    	EDITOR_KEYWORD_MANAGER.registerKeywordHandler((keyword)=>{
+    		if(libraryAst && libraryAst.body instanceof Array){
+    			for(let entry of libraryAst.body){
+    				if(entry.identifier && entry.identifier.name === keyword){
+    					return 'keyword_library'
+    				}
+    			}
+    		}
+    	})
+
         LOADER.done(LOADER.EVENT.LIBRARY_READY)
+    }
+
+    function updateLibraryAST(){
+    	try {
+    		libraryAst = luaparse.parse( EDITORS.get('library').editor.getValue() )
+    	} catch (ex){
+    		libraryAst = undefined
+    	}
+    	setTimeout(()=>{
+    		EDITORS.forceRefresh()
+    	}, 10)
     }
 
 	function saveToStorage(){
@@ -8720,6 +8746,7 @@ UI = (($)=>{
             }
             DOCUMENTATION.refresh()
             EXAMPLES.refresh()
+            EDITORS.forceRefresh()
             EDITORS.refreshCharacterCounts()
         })
 
@@ -12125,6 +12152,114 @@ EXAMPLES_DEFINITION_SERVER = (()=>{
 })()
 
 ;
+
+EDITOR_KEYWORD_MANAGER = (()=>{
+    "use strict";
+
+    const keywordHandlers = []
+
+    LOADER.on(LOADER.EVENT.PAGE_READY, init)
+
+    function init(){
+        ace.require('ace/mode/text_highlight_rules').TextHighlightRules.prototype.createKeywordMapper = function(map, defaultToken, ignoreCase, splitChar){
+            // all default lua keywords
+            registerKeywordHandler(
+                (()=>{
+                    let keywords = this.$keywords = Object.create(null);
+                    Object.keys(map).forEach(function(className) {
+                        let a = map[className];
+                        if (ignoreCase)
+                            a = a.toLowerCase();
+                        let list = a.split(splitChar || "|");
+                        for (let i = list.length; i--; )
+                            keywords[list[i]] = className;
+                    });
+                    if (Object.getPrototypeOf(keywords)) {
+                        keywords.__proto__ = null;
+                    }
+                    this.$keywordList = Object.keys(keywords);
+                    map = null;
+
+                    return function(value) {return keywords[value]};
+                })()
+            )
+
+
+            // call handlers
+             return ignoreCase
+                    ? function(value) {return handleKeywordSearch(value.toLowerCase()) || defaultToken; }
+                    : function(value) {return handleKeywordSearch(value) || defaultToken; };
+        }
+
+        /* check for keywords in documentation */
+        registerKeywordHandler(value => {
+            return checkNode(DOCUMENTATION.getRaw())
+
+            function checkNode(node, lib){
+
+                if(node.children){
+
+                    if(node.lib){
+                        lib = node.lib
+                        if(lib === 'lua'){
+                            return //skip and ignore default lua keywords
+                        }
+                    }
+
+                    for(let k of Object.keys(node.children)){
+                        if(k === value){
+                            if(node.children[k].lib){
+                                lib = node.children[k].lib
+                            }
+                            switch(lib){
+                                case 'stormworks': {
+                                    return 'keyword_stormworks'
+                                }; break;
+                                case 'dev': {
+                                    return 'keyword_dev'
+                                }; break;
+                            }
+                        } else {
+                            let ret = checkNode(node.children[k], lib)
+                            if(ret){
+                                return ret
+                            }
+                        }
+                    }
+                }
+            }
+        })
+    }
+
+    function handleKeywordSearch(keyword){
+        for(let handler of keywordHandlers){
+            let ret = handler(keyword)
+            if(ret){
+                return ret
+            }
+        }
+    }
+
+
+    /* markup is dot seperated classes. Example: "test.me" will result in <span class="ace_test ace_me"> */
+    function addKeyword(name, markup){
+        EDITORS.getActiveEditor().editor.session.$mode.$highlightRules.$keywords[name] = markup
+    }
+
+    function registerKeywordHandler(callback){
+        if(typeof callback !== 'function'){
+            throw new Error('callback must be a function')
+        }
+
+        keywordHandlers.push(callback)
+    }
+
+    return {
+        registerKeywordHandler: registerKeywordHandler
+    }
+
+})()
+
 class Editor extends DynamicSizedViewableContent {
     constructor(container, viewable){
         super(container, viewable)
@@ -12283,6 +12418,10 @@ class Editor extends DynamicSizedViewableContent {
             this.markError(ex.line, ex.message)
         }
     }
+
+    forceRefresh(){
+        this.editor.setValue(this.editor.getValue())
+    }
 }
 
 EDITORS = (()=>{
@@ -12384,6 +12523,12 @@ EDITORS = (()=>{
         }
     }
 
+    function forceRefresh(){
+        for(let e of Object.keys(editors)){
+            editors[e].forceRefresh()
+        }
+    }
+
     return {
         registerEditor: registerEditor,
         setActiveEditor: setActiveEditor,
@@ -12393,7 +12538,8 @@ EDITORS = (()=>{
         refreshCharacterCounts: refreshCharacterCounts,
         increaseEditorFontSize: increaseEditorFontSize,
         decreaseEditorFontSize: decreaseEditorFontSize,
-        resetErrorMarkers: resetErrorMarkers
+        resetErrorMarkers: resetErrorMarkers,
+        forceRefresh: forceRefresh
     }
 })()
 
@@ -13074,7 +13220,7 @@ var DOCUMENTATION = ((global, $)=>{
         })
 
         container.find('.documentation_searchbar input').on('change', ()=>{
-            searchDocumenation(container.find('.documentation_searchbar input').val())
+            searchDocumentation(container.find('.documentation_searchbar input').val())
         })
 
 
@@ -13229,7 +13375,7 @@ var DOCUMENTATION = ((global, $)=>{
         return entries
     }
 
-    function searchDocumenation(searchString){
+    function searchDocumentation(searchString){
         if(searchString === ''){
             $('#documentation .node').removeClass('fuze_hidden').addClass('contracted').css('order', '')
             return
