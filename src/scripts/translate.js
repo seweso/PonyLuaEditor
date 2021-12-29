@@ -25,6 +25,7 @@ TRANSLATE = (()=>{
         "viewable_editor_uibuilder": {en: "UI Builder"},
         "viewable_editor_uibuilder_code": {en: "UI Generated Code"},
         "viewable_library": {en: "My Library"},
+        "viewable_colorpicker": {en: "Colorpicker"},
         
         /* views */
         "top_left": {en: "Top Left"},

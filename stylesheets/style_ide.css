@@ -1848,6 +1848,107 @@ body {
   margin-bottom: 5px;
 }
 
+[viewable=viewable_colorpicker] {
+  position: relative;
+  display: flex;
+  flex-flow: row wrap;
+  align-content: flex-start;
+  width: 100%;
+  height: 100%;
+}
+[viewable=viewable_colorpicker] .color_preset_container, [viewable=viewable_colorpicker] .color_slot_container, [viewable=viewable_colorpicker] .color_select_container {
+  margin: 0.5em;
+  min-width: 5em;
+}
+[viewable=viewable_colorpicker] .color_slot_container {
+  position: sticky;
+  top: -4px;
+  margin: -4px 0 0 0 !important;
+  padding-top: 4px;
+  display: flex;
+  flex-flow: row wrap;
+  align-content: flex-start;
+  width: 100%;
+  background: var(--color-text-lighter-background);
+  z-index: 99;
+}
+[viewable=viewable_colorpicker] .color_slot_container .color_slot {
+  width: 2em;
+  height: 2em;
+  margin: 0.5em;
+}
+[viewable=viewable_colorpicker] .color_preset_container {
+  display: flex;
+  flex-flow: row wrap;
+  align-content: flex-start;
+  width: calc(100% - 251px - 2em);
+  min-width: 100px;
+}
+[viewable=viewable_colorpicker] .color_preset_container .color_preset {
+  width: 1.5em;
+  height: 1.5em;
+  margin: 0.25em;
+}
+[viewable=viewable_colorpicker] .color_preset_container span {
+  display: inline-block;
+  width: 100%;
+  margin-bottom: 0.2em;
+  text-align: center;
+}
+[viewable=viewable_colorpicker] .color_select_container .picker_wrapper {
+  background: none;
+  padding: 0;
+}
+[viewable=viewable_colorpicker] .color_select_container .picker_sample, [viewable=viewable_colorpicker] .color_select_container .picker_done {
+  display: none;
+}
+[viewable=viewable_colorpicker] .color_select_container .picker_slider, [viewable=viewable_colorpicker] .color_select_container .picker_sl, [viewable=viewable_colorpicker] .color_select_container .picker_wrapper {
+  box-shadow: none;
+}
+[viewable=viewable_colorpicker] .color_select_container .picker_selector {
+  border-radius: 100%;
+}
+[viewable=viewable_colorpicker] .selectable_circle {
+  position: relative;
+  border: 0.2m solid transparent;
+  border-radius: 100%;
+  cursor: pointer;
+}
+[viewable=viewable_colorpicker] .selectable_circle:before {
+  content: "";
+  display: block;
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  border: 0 solid #fff;
+  border-radius: 100%;
+  background: inherit;
+}
+[viewable=viewable_colorpicker] .selectable_circle:after {
+  content: "";
+  display: block;
+  position: absolute;
+  z-index: 1;
+  top: 1px;
+  left: 1px;
+  height: calc(100% - 2px);
+  width: calc(100% - 2px);
+  border-radius: 100%;
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUBAMAAAB/pwA+AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAGUExURf///wAAAFXC034AAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAWSURBVBjTYwADQRCgB5NuFjEwMDAAANtyBqXVH2kBAAAAAElFTkSuQmCC");
+  background-size: 10px;
+  background-repeat: repeat;
+  background-blend-mode: color;
+  background-color: inherit;
+}
+[viewable=viewable_colorpicker] .selectable_circle:hover:before, [viewable=viewable_colorpicker] .selectable_circle.selected:before {
+  top: -0.2em;
+  left: -0.2em;
+  border-width: 0.2em;
+}
+
 #fullscreen-offer {
   position: fixed;
   top: 0;
