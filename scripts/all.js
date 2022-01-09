@@ -6421,8 +6421,7 @@ COLORPICKER = (($)=>{
     	for(let c of COLOR_PRESET){
     		let hex = rgbToHex(c[0], c[1], c[2])
     		let $preset = $('<div class="color_preset selectable_circle">').css('background-color', hex).on('click', ()=>{
-    			picker.setColor(hex)
-    			setColorForSlot(hex, selectedSlot)
+    			setColor(hex)
     		})
 
     		container.find('.color_preset_container').append($preset)
@@ -6467,9 +6466,9 @@ COLORPICKER = (($)=>{
     		let $input = $('<input type="text">')
     		$format.append($input)
 
-    		$format.on('click', ()=>{
+    		/*$format.on('click', ()=>{
     			UTIL.copyElementToClipboard($input)
-    		})
+    		})*/
 
     		$input.on('change', (evt)=>{
     			evt.preventDefault()
@@ -6667,10 +6666,10 @@ COLORPICKER = (($)=>{
     	let ret = hexToRgba(maybeHex)
 
     	if(!ret){
-    		ret = '#ffffff00'
+    		return '#ffffff00'
     	}
 
-    	return ret
+    	return rgbToHex(ret.r, ret.g, ret.b, ret.a)
     }
 
     function componentToHex(c) {
