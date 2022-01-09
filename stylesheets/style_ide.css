@@ -1358,13 +1358,13 @@ body {
   position: relative;
   display: flex;
   flex-direction: column;
-  padding: 55px 5px 5px 5px;
+  padding: 45px 5px 5px 5px;
 }
 [viewable=viewable_documentation] .documentation_searchbar {
   position: absolute;
   top: 5px;
   left: 5px;
-  height: 40px;
+  height: 30px;
   border-radius: 10000px;
   background: var(--color-accent);
   display: flex;
@@ -1376,7 +1376,7 @@ body {
   padding: 3px 4px 3px 15px;
   background: transparent;
   color: var(--color-text-light-foreground);
-  font-size: 20px;
+  font-size: 18px;
   outline: none;
 }
 [viewable=viewable_documentation] .documentation_searchbar input::placeholder {
