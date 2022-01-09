@@ -31,20 +31,89 @@ COLORPICKER = (($)=>{
 
 	const COLOR_FORMATS = [
 		{
+			label: '',
+			noColorCorrection: true,
+			convert: (hex)=>{ return hex },
+			parseInput: (input)=>{
+				let m = input.match(/^[\s]*#(([0-9a-fA-F]{3})|([0-9a-fA-F]{4})|([0-9a-fA-F]{6})|([0-9a-fA-F]{8}))[\s]*$/)
+
+				if(m){
+					let hex = m[1].toLowerCase().split('')
+
+					switch(hex.length){
+						case 3: {
+							return `#${hex[0]}${hex[0]}${hex[1]}${hex[1]}${hex[2]}${hex[2]}ff`
+						}
+						case 4: {
+							return `#${hex[0]}${hex[0]}${hex[1]}${hex[1]}${hex[2]}${hex[2]}${hex[3]}${hex[3]}`
+						}
+						case 6: {
+							return `#${hex.join('')}ff`
+						}
+						case 8: {
+							return `#${hex.join('')}`
+						}
+					}
+				}
+			}
+		},{
 			label: 'hex',
-			convert: (hex)=>{ return hex }
+			convert: (hex)=>{ return hex },
+			parseInput: (input)=>{
+				let m = input.match(/^[\s]*#(([0-9a-fA-F]{3})|([0-9a-fA-F]{4})|([0-9a-fA-F]{6})|([0-9a-fA-F]{8}))[\s]*$/)
+
+				if(m){
+					let hex = m[1].toLowerCase().split('')
+
+					switch(hex.length){
+						case 3: {
+							return `#${hex[0]}${hex[0]}${hex[1]}${hex[1]}${hex[2]}${hex[2]}ff`
+						}
+						case 4: {
+							return `#${hex[0]}${hex[0]}${hex[1]}${hex[1]}${hex[2]}${hex[2]}${hex[3]}${hex[3]}`
+						}
+						case 6: {
+							return `#${hex.join('')}ff`
+						}
+						case 8: {
+							return `#${hex.join('')}`
+						}
+					}
+				}
+			}
 		},
 		{
 			label: 'rgb',
-			convert: (hex)=>{ let ret = hexToRgb(hex); return ret ? `${ret.r},${ret.g},${ret.b}` : ''}
+			convert: (hex)=>{ let ret = hexToRgb(hex); return ret ? `${ret.r},${ret.g},${ret.b}` : ''},
+			parseInput: (input)=>{
+				let m = input.match(/^[\s]*([\d]{1,3})[\s]*,[\s]*([\d]{1,3})[\s]*,[\s]*([\d]{1,3})[\s]*[\s]*$/)
+
+				if(m){
+					return rgbToHex(sanitize0to255(m[1]), sanitize0to255(m[2]), sanitize0to255(m[3]))
+				}
+			}
 		},
 		{
 			label: 'rgba',
-			convert: (hex)=>{ let ret = hexToRgba(hex); return ret ? `${ret.r},${ret.g},${ret.b},${ret.a}` : ''}
+			convert: (hex)=>{ let ret = hexToRgba(hex); return ret ? `${ret.r},${ret.g},${ret.b},${ret.a}` : ''},
+			parseInput: (input)=>{
+				let m = input.match(/^[\s]*([\d]{1,3})[\s]*,[\s]*([\d]{1,3})[\s]*,[\s]*([\d]{1,3})[\s]*,[\s]*([\d]{1,3})[\s]*[\s]*$/)
+
+				if(m){
+					return rgbToHex(sanitize0to255(m[1]), sanitize0to255(m[2]), sanitize0to255(m[3]), sanitize0to255(m[4]))
+				}
+			}
 		},
 		{
 			label: 'Lua',
-			convert: (hex)=>{ let ret = hexToRgba(hex); return ret ? `screen.setColor(${ret.r},${ret.g},${ret.b},${ret.a})` : ''}
+			convert: (hex)=>{ let ret = hexToRgba(hex); return ret ? `screen.setColor(${ret.r},${ret.g},${ret.b},${ret.a})` : ''},
+			parseInput: (input)=>{
+				let m = input.match(/^[\s]*screen[\s]*.[\s]*setColor[\s]*\([\s]*([\d]{1,3})[\s]*,[\s]*([\d]{1,3})[\s]*,[\s]*([\d]{1,3})[\s]*(,[\s]*([\d]{1,3})[\s]*)?[\s]*\)[\s]*$/)
+
+				if(m){
+					return rgbToHex(sanitize0to255(m[1]), sanitize0to255(m[2]), sanitize0to255(m[3]), m[5] ? sanitize0to255(m[5]) : 255)
+				}
+			}
 		}
 	]
 
@@ -55,6 +124,8 @@ COLORPICKER = (($)=>{
 
 	let colorSlots = []
 	let selectedSlot = 0
+
+	let formatChangeLocked = false //used to prevent changes of color before current change propagated through the dom
 
     LOADER.on(LOADER.EVENT.UI_READY, init)
 
@@ -82,9 +153,9 @@ COLORPICKER = (($)=>{
 		for(let i=0; i<10; i++){
 			let s = store[i]
 			if(s && s.match(/\#[a-zA-Z0-9]{8}/)){
-				colorSlots[i] = newColorSlot(s, i)
+				colorSlots[i] = newColorSlot(normalizeHexOrTransparent(s), i)
 			} else {
-				colorSlots[i] = newColorSlot('#fff0', i)
+				colorSlots[i] = newColorSlot('#ffffff00', i)
 			}
 		}
 
@@ -102,35 +173,95 @@ COLORPICKER = (($)=>{
     	// formats
 
     	for(let f of COLOR_FORMATS){
-    		let $format = $('<div class="color_format">')
+    		let $format = $('<div class="color_format">').attr('format', f.label)
     		f.dom = $format
 
     		let $label = $('<label>').text(f.label)
     		$format.append($label)
 
-    		let $val = $('<input type="text">')
-    		$format.append($val)
+    		let $input = $('<input type="text">')
+    		$format.append($input)
 
     		$format.on('click', ()=>{
-    			UTIL.copyElementToClipboard($val)
-    			//UTIL.copyToClipboard(f.convert(getCurrentColor()), $format)
+    			UTIL.copyElementToClipboard($input)
     		})
+
+    		$input.on('change', (evt)=>{
+    			evt.preventDefault()
+    			evt.stopImmediatePropagation()
+    			if(formatChangeLocked){return}
+
+				lockFormatChange()
+    			parseInput()
+    		})
+    		$input.on('keyup', (evt)=>{
+    			evt.preventDefault()
+    			evt.stopImmediatePropagation()
+    			if(formatChangeLocked){return}
+
+    			if(evt.originalEvent.key === 'Enter'){
+    				lockFormatChange()
+    				parseInput()
+    			}
+    		})
+
+    		function parseInput(){
+    			let inp = $input.val()
+    			let hex = f.parseInput($input.val())
+
+   				console.log('parseInput', inp, '=>', hex)
+
+    			if(hex){
+    				if(f.noColorCorrection !== true && useColorCorrection){
+    					let ret = invertGammaFix( hexToRgba(hex) )
+
+    					if(!ret){
+    						$format.addClass('invalid')
+    						return
+    					}
+
+    					hex = rgbToHex(ret.r, ret.g, ret.b, ret.a)
+    				}
+    				setColor(hex)
+    				$format.removeClass('invalid')
+    			} else {
+    				$format.addClass('invalid')
+    			}
+    		}
 
     		container.find('.color_formats_container').append($format)
     	}
-    	container.find('.color_formats_correction').on('change', ()=>{
-    		updateColorCorrection(container.find('.color_formats_correction').prop('checked'))
+
+    	container.find('.color_formats_correction input').on('change', ()=>{
+    		updateColorCorrection(container.find('.color_formats_correction input').prop('checked'))
     	})
+    	container.find('.color_formats_correction').insertAfter( container.find('.color_formats_container .color_format').get(0) )
 
 		selectColorSlot(0)
 
         LOADER.done(LOADER.EVENT.COLORPICKER_READY)
     }
 
+    function lockFormatChange(){
+    	formatChangeLocked = true
+    	setTimeout(()=>{
+    		if(formatChangeLocked){
+    			formatChangeLocked = false
+    		}
+    	}, 500)
+    }
+
     function getCurrentSlotColor(){
     	return colorSlots[selectedSlot].attr('color')
     }
 
+    /* includes updating color picker */
+    function setColor(hex){
+    	picker.setColor(hex)
+    	updateColor(hex)
+    }
+
+    /* without updating color picker */
     function updateColor(hex){
 		setColorForSlot(hex, selectedSlot)
 		saveToStorage()
@@ -145,14 +276,17 @@ COLORPICKER = (($)=>{
 	function refreshColorFormats(){
 		let hex = getCurrentSlotColor()
 
-		if(useColorCorrection){
-			let {r,g,b,a} = gammaFix( hexToRgba(hex) )
-			hex = rgbToHex(r,g,b,a)
-		}
+		let {r,g,b,a} = gammaFix( hexToRgba(hex) )
+		let colorCorrectedHex = rgbToHex(r,g,b,a)
+
+
 
     	for(let f of COLOR_FORMATS){
     		if(f.dom){
-    			f.dom.find('input').val(f.convert(hex))
+    			f.dom.find('input').val(f.convert(
+    				f.noColorCorrection !== true && useColorCorrection ? colorCorrectedHex : hex
+    			))
+    			f.dom.removeClass('invalid')
     		}
     	}
 	}
@@ -213,10 +347,49 @@ COLORPICKER = (($)=>{
 		return color
 	}
 
+	/* inverts gammaFix()
+
+		returns undefined if results in invalid rgb color => above 255)
+	*/
+	function invertGammaFix(color){
+		const A = 0.66 // 0 to 1 for gamma compression
+		const Y = 2.35 // 2.2 to 2.4
+
+		for(let k of Object.keys(color)){
+			if(k === 'a'){
+				continue
+			}
+			color[k] = (color[k] * (255**Y) / (A ** Y)) ** (1 / (Y+1))
+			if(color[k] > 255){
+				return undefined
+			}
+		}
+
+		return color
+	}
+
     /* conversions */
 
+	function sanitize0to255(numb){
+		let parsed = parseInt(numb)
+		if(isNaN(parsed)){
+			parsed = 255
+		}
+		return Math.max(0, Math.min(255, Math.round(parsed)) )
+	}
+
+    function normalizeHexOrTransparent(maybeHex){
+    	let ret = hexToRgba(maybeHex)
+
+    	if(!ret){
+    		ret = '#ffffff00'
+    	}
+
+    	return ret
+    }
+
     function componentToHex(c) {
-		let hex = Math.floor(c).toString(16);
+		let hex = Math.round(c).toString(16);
 		return hex.length == 1 ? "0" + hex : hex;
 	}
 

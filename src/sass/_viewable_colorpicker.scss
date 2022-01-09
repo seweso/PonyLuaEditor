@@ -79,7 +79,12 @@
 
 	.color_formats_container {
 
+		.color_formats_correction {
+			white-space: nowrap;
+		}
+
 		.color_format {
+			position: relative;
 			display: inline-block;
 			margin: 0.4em;
 			cursor: copy;
@@ -97,6 +102,33 @@
 				color: #b5b5b5;
 				padding: 0.1em 0.2em;
 				cursor: copy;
+			}
+
+			&.invalid:after {
+			    content: "!";
+			    position: absolute;
+			    top: 50%;
+			    transform: translateY(-55%);
+			    right: 0.2em;
+			    display: inline-block;
+			    background: #b41b1b;
+			    color: #fff;
+			    border-radius: 100%;
+			    width: 1.2em;
+			    height: 1.2em;
+			    line-height: 1.2em;
+			    text-align: center;
+			    font-weight: bolder;
+			    font-size: 0.8em;
+			}
+			&[format=""] {
+				label {
+					display: none;
+				}
+
+				input {
+					font-size: 1.2em;
+				}
 			}
 		}
 	}
