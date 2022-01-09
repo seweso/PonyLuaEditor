@@ -6,3 +6,23 @@
     border: none !important;
     background: var(--color-special) !important;
 }
+
+.copy_to_clipboard_hint {
+    position: fixed;
+    background: #000;
+    padding: 0.2em 0.4em;
+    color: #ddd;
+    border-radius: 0.2em;
+    font-size: 0.8em;
+
+    &:after {
+        content: '';
+        position: absolute;
+        top: -1em;
+        left: 0.2em;
+        border-top: 0.5em solid transparent;
+        border-right: 0.5em solid transparent;
+        border-bottom: 0.5em solid #000;
+        border-left: 0.5em solid transparent;
+    }
+}

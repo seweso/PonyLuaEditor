@@ -46,6 +46,7 @@ YYY = (($)=>{
         ]))
 
         UTIL.hintImportant('New Features', makeListText([
+            'Colorpicker with monitor color correction and game color presets',
             'Custom delay of input data (0 - 60 ticks)',
             'Added My Library tab so users can manage their own private little helper functions',
             'Touch (Mobile) support for UI Builder and Monitor',

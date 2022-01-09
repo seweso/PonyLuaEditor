@@ -218,6 +218,47 @@ UTIL = (($)=>{
         }, custom_remove_time)
     }    
 
+    function copyToClipboard(text){
+        let input = $('<input style="position: fixed: left: -99999px;">').val(text)
+        input.appendTo('body')
+
+        input.get(0).select();
+        document.execCommand('copy');
+
+        input.remove()
+    }
+
+    function copyElementToClipboard(element){
+        let $el = $(element)
+        let text = $el.prop('tagName') === 'INPUT' ? $el.val() : $el.text()
+
+        let input = $('<input style="position: fixed: left: -99999px;">').val(text)
+        input.appendTo('body')
+
+        input.get(0).select();
+        document.execCommand('copy');
+
+        input.remove()
+
+        let pos = $el.offset()
+
+        let $hint = $('<div class="copy_to_clipboard_hint">').text('Copied to clipboard').css({
+            top: pos.top + $el.height(),
+            left: pos.left + $el.width() / 2
+        })
+
+        $('.copy_to_clipboard_hint').hide()
+
+        $('body').append($hint)
+
+        setTimeout(()=>{
+            $hint.remove()
+        }, 3000)
+
+        $el.focus().select()
+
+    }
+
     return {
         highlight: highlight,
         unHighlight: unHighlight,
@@ -228,6 +269,8 @@ UTIL = (($)=>{
         alert: alert,
         hint: hint,
         hintImportant: hintImportant,
-        addNavigationHint: addNavigationHint
+        addNavigationHint: addNavigationHint,
+        copyToClipboard: copyToClipboard,
+        copyElementToClipboard: copyElementToClipboard
     }
 })(jQuery)

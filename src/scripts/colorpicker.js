@@ -29,6 +29,27 @@ COLORPICKER = (($)=>{
 		[36,60,85]
 	]
 
+	const COLOR_FORMATS = [
+		{
+			label: 'hex',
+			convert: (hex)=>{ return hex }
+		},
+		{
+			label: 'rgb',
+			convert: (hex)=>{ let ret = hexToRgb(hex); return ret ? `${ret.r},${ret.g},${ret.b}` : ''}
+		},
+		{
+			label: 'rgba',
+			convert: (hex)=>{ let ret = hexToRgba(hex); return ret ? `${ret.r},${ret.g},${ret.b},${ret.a}` : ''}
+		},
+		{
+			label: 'Lua',
+			convert: (hex)=>{ let ret = hexToRgba(hex); return ret ? `screen.setColor(${ret.r},${ret.g},${ret.b},${ret.a})` : ''}
+		}
+	]
+
+	let useColorCorrection = true
+
 	let container
 	let picker
 
@@ -70,17 +91,71 @@ COLORPICKER = (($)=>{
     	picker = new Picker({
     		parent: container.find('.color_select_container').get(0),
     		onChange: (color)=>{
-	    		setColorForSlot(color.hex, selectedSlot)
-	    		saveToStorage()
+	    		updateColor(color.hex)
 	    	},
 	    	popup: false,
-	    	editor: false
+	    	editor: false,
+	    	color: colorSlots[0].attr('color')
+    	})
+
+
+    	// formats
+
+    	for(let f of COLOR_FORMATS){
+    		let $format = $('<div class="color_format">')
+    		f.dom = $format
+
+    		let $label = $('<label>').text(f.label)
+    		$format.append($label)
+
+    		let $val = $('<input type="text">')
+    		$format.append($val)
+
+    		$format.on('click', ()=>{
+    			UTIL.copyElementToClipboard($val)
+    			//UTIL.copyToClipboard(f.convert(getCurrentColor()), $format)
+    		})
+
+    		container.find('.color_formats_container').append($format)
+    	}
+    	container.find('.color_formats_correction').on('change', ()=>{
+    		updateColorCorrection(container.find('.color_formats_correction').prop('checked'))
     	})
 
 		selectColorSlot(0)
 
         LOADER.done(LOADER.EVENT.COLORPICKER_READY)
     }
+
+    function getCurrentSlotColor(){
+    	return colorSlots[selectedSlot].attr('color')
+    }
+
+    function updateColor(hex){
+		setColorForSlot(hex, selectedSlot)
+		saveToStorage()
+		refreshColorFormats()
+    }
+
+    function updateColorCorrection(use){
+    	useColorCorrection = use
+    	refreshColorFormats()
+    }
+
+	function refreshColorFormats(){
+		let hex = getCurrentSlotColor()
+
+		if(useColorCorrection){
+			let {r,g,b,a} = gammaFix( hexToRgba(hex) )
+			hex = rgbToHex(r,g,b,a)
+		}
+
+    	for(let f of COLOR_FORMATS){
+    		if(f.dom){
+    			f.dom.find('input').val(f.convert(hex))
+    		}
+    	}
+	}
 
     function selectColorSlot(index){
     	selectedSlot = index
@@ -118,6 +193,28 @@ COLORPICKER = (($)=>{
     	STORAGE.setConfiguration('settings.colorSlots', toSave)
     }
 
+    function getCurrentColor(){
+    	return colorSlots[selectedSlot].attr('color')
+    }
+
+
+    /* fix gamma for game monitors */
+	function gammaFix(color){
+		const A = 0.66 // 0 to 1 for gamma compression
+		const Y = 2.35 // 2.2 to 2.4
+
+		for(let k of Object.keys(color)){
+			if(k === 'a'){
+				continue
+			}
+			color[k] = ( (A * color[k]) ** Y) / (255**Y) * color[k]
+		}
+
+		return color
+	}
+
+    /* conversions */
+
     function componentToHex(c) {
 		let hex = Math.floor(c).toString(16);
 		return hex.length == 1 ? "0" + hex : hex;
@@ -128,27 +225,26 @@ COLORPICKER = (($)=>{
 	}
 
 	function hexToRgb(hex) {
-		let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+		let result = hexToRgba(hex);
 		return result ? {
-		r: parseInt(result[1], 16),
-		g: parseInt(result[2], 16),
-		b: parseInt(result[3], 16)
+			r: result.r,
+			g: result.g,
+			b: result.b
 		} : undefined;
 	}
 
-	function gammaFix(color){
-		const A = 0.66 // 0 to 1 for gamma compression
-		const Y = 2.35 // 2.2 to 2.4
-
-		for(let k of Object.keys(color)){
-			color[k] = ( (A * color[k]) ^ Y) / (255^Y) * color[k]
-		}
-
-		return color
+	function hexToRgba(hex) {
+		let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})?$/i.exec(hex);
+		return result ? {
+			r: parseInt(result[1], 16),
+			g: parseInt(result[2], 16),
+			b: parseInt(result[3], 16),
+			a: parseInt(result[4] || 255, 16)
+		} : undefined;
 	}
 
 	return {
-		getColoris: ()=>{return coloris}
+
 	}
 
 })(jQuery)
