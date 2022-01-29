@@ -31,14 +31,12 @@ var INPUT = (($)=>{
             storeDelay = 0
         }
         $('#inputTickDelay').val(storeDelay)
-        $('#inputTickDelayVal').text(storeDelay)
 
         $('#inputTickDelay').on('change input', (e)=>{
             let val = parseInt($('#inputTickDelay').val())
             if(isNaN(val)){
                 val = 0
             }
-            $('#inputTickDelayVal').text(val)
             STORAGE.setConfiguration('settings.inputTickDelay', val)
         })
 
