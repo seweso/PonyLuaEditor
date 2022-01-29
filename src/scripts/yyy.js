@@ -42,7 +42,8 @@ YYY = (($)=>{
 
         UTIL.hint('Improvements', makeListText([
             'Improved layout for mobile devices (<1024px width in landscape)',
-            'Improved highlighting of keywords and functions'
+            'Improved highlighting of keywords and functions',
+            'Improved documentation search'
         ]))
 
         UTIL.hintImportant('New Features', makeListText([
