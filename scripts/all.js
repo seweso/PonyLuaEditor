@@ -6617,6 +6617,8 @@ COLORPICKER = (($)=>{
     }
 
     function loadSlotsFromStorage(){
+    	container.find('.color_slot').remove()
+
     	let store = STORAGE.getConfiguration('settings.colorSlots')
     	if(!store || store instanceof Array === false){
     		store = []
