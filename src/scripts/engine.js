@@ -79,20 +79,10 @@ ENGINE = (($)=>{
             STORAGE.setConfiguration('settings.timeBetweenDraws', $('#timeBetweenDraws').val())
         })
 
-        $('#save').on('click', ()=>{
-            for(let cb of saveCallbacks){
-                try {
-                    cb()
-                } catch (err){
-                    console.error(err)
-                }
-            }
-
-            saveCodesInStorage()
-        })
+        $('#save').on('click', triggerSave)
 
         $('#save-to-history').on('click', ()=>{
-            saveCodesInStorage()
+            triggerSave()
             HISTORY.addCurrentCode()
         })
 
@@ -117,7 +107,7 @@ ENGINE = (($)=>{
                 evt.preventDefault()
                 evt.stopPropagation()
 
-                saveCodesInStorage()
+                triggerSave()
             } else if( evt.originalEvent.key === 'e' && (evt.originalEvent.ctrlKey || evt.originalEvent.metaKey)){
                 evt.preventDefault()
                 evt.stopPropagation()
@@ -152,6 +142,18 @@ ENGINE = (($)=>{
         loadCodesFromStorage()
 
         LOADER.done(LOADER.EVENT.ENGINE_READY)
+    }
+
+    function triggerSave(){
+        for(let cb of saveCallbacks){
+            try {
+                cb()
+            } catch (err){
+                console.error(err)
+            }
+        }
+
+        saveCodesInStorage()
     }
 
     /* gets called when save button is pressed */
@@ -244,7 +246,7 @@ ENGINE = (($)=>{
 
     function start(){
         lockUI()
-        saveCodesInStorage()
+        triggerSave()
 
         let code = EDITORS.getActiveEditor().editor.getValue()
 
@@ -510,7 +512,7 @@ ENGINE = (($)=>{
         stop: stop,
         isRunning: ()=>{ return running },
         pauseScript: pauseScript,
-        saveCodesInStorage: saveCodesInStorage,
+        triggerSave: triggerSave,
         loadCodesFromStorage: loadCodesFromStorage,
         notifyInfiniteLoopDetected: notifyInfiniteLoopDetected
     }

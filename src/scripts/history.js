@@ -340,7 +340,7 @@ HISTORY = (()=>{
             if(res){
                 console.log('updating entry', e)
 
-                ENGINE.saveCodesInStorage()
+                ENGINE.triggerSave()
                 if(e.type === "sharekey"){
                     SHARE.updateSharedCode(e.content.id, e.content.token, (success, res)=>{
                         if(success){

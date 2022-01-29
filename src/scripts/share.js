@@ -83,7 +83,7 @@ var SHARE = (($)=>{
     }
 
     function doCreate(){
-        ENGINE.saveCodesInStorage()
+        ENGINE.triggerSave()
 
         REPORTER.report(REPORTER.REPORT_TYPE_IDS.shareCode)
 
@@ -126,7 +126,7 @@ var SHARE = (($)=>{
             throw new Error('updateSharedCode expects callback function')
         }
 
-        ENGINE.saveCodesInStorage()
+        ENGINE.triggerSave()
 
         REPORTER.report(REPORTER.REPORT_TYPE_IDS.updateCode)
 
