@@ -23,6 +23,7 @@ ENGINE = (($)=>{
     let totalStartsInTheSession = 0
 
     let saveCallbacks = []
+    let loadCallbacks = []
 
     LOADER.on(LOADER.EVENT.UI_READY, init)
 
@@ -163,6 +164,27 @@ ENGINE = (($)=>{
         }
 
         saveCallbacks.push(callback)
+    }
+
+    function triggerLoad(){
+        for(let cb of loadCallbacks){
+            try {
+                cb()
+            } catch (err){
+                console.error(err)
+            }
+        }
+
+        loadCodesFromStorage()
+    }
+
+    /* gets called when storage was set to new configuration (e.g. after loading share) */
+    function addLoadCallback(callback){
+        if(typeof callback !== 'function'){
+            throw new Error('callback must be a function')
+        }
+
+        loadCallbacks.push(callback)
     }
 
     function refresh(){
@@ -507,13 +529,14 @@ ENGINE = (($)=>{
 
     return {
         addSaveCallback: addSaveCallback,
+        addLoadCallback: addLoadCallback,
         refresh: refresh,
         errorStop: errorStop,
         stop: stop,
         isRunning: ()=>{ return running },
         pauseScript: pauseScript,
         triggerSave: triggerSave,
-        loadCodesFromStorage: loadCodesFromStorage,
+        triggerLoad: triggerLoad,
         notifyInfiniteLoopDetected: notifyInfiniteLoopDetected
     }
 

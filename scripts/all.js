@@ -6420,7 +6420,11 @@ COLORPICKER = (($)=>{
     	container = $('#colorpicker')
 
     	ENGINE.addSaveCallback(()=>{
-    		saveToStorage()
+    		saveSlotsToStorage()
+    	})
+
+    	ENGINE.addLoadCallback(()=>{
+    		loadSlotsFromStorage()
     	})
 
 		// preset colors
@@ -6440,19 +6444,8 @@ COLORPICKER = (($)=>{
     		})
     	)
 
-    	// saved color slots
-    	let store = STORAGE.getConfiguration('settings.colorSlots')
-    	if(!store || store instanceof Array === false){
-    		store = []
-    	}
+    	loadSlotsFromStorage()
 
-    	for(let colorHex of store){
-    		if(colorHex && colorHex.match(/\#[a-zA-Z0-9]{8}/)){
-				addColorSlot(normalizeHexOrTransparent(colorHex))
-			} else {
-				addColorSlot('#ffffff00')
-			}
-    	}
 
     	picker = new Picker({
     		parent: container.find('.color_select_container').get(0),
@@ -6614,13 +6607,28 @@ COLORPICKER = (($)=>{
     	return $slot
     }
 
-    function saveToStorage(){
+    function saveSlotsToStorage(){
     	let toSave = []
     	for(let k of Object.keys(colorSlots)){
     		let slot = colorSlots[k]
     		toSave.push( slot.attr('color') )
     	}
     	STORAGE.setConfiguration('settings.colorSlots', toSave)
+    }
+
+    function loadSlotsFromStorage(){
+    	let store = STORAGE.getConfiguration('settings.colorSlots')
+    	if(!store || store instanceof Array === false){
+    		store = []
+    	}
+
+    	for(let colorHex of store){
+    		if(colorHex && colorHex.match(/\#[a-zA-Z0-9]{8}/)){
+				addColorSlot(normalizeHexOrTransparent(colorHex))
+			} else {
+				addColorSlot('#ffffff00')
+			}
+    	}
     }
 
     /* fix gamma for game monitors */
@@ -8218,8 +8226,7 @@ STORAGE = (()=>{
         }
         
         
-        //TODO: maybe need to reload everything, not only the codes?
-        ENGINE.loadCodesFromStorage();
+        ENGINE.triggerLoad();
 
         function parseOrUndefined(json){
             try {
@@ -15939,6 +15946,7 @@ ENGINE = (($)=>{
     let totalStartsInTheSession = 0
 
     let saveCallbacks = []
+    let loadCallbacks = []
 
     LOADER.on(LOADER.EVENT.UI_READY, init)
 
@@ -16079,6 +16087,27 @@ ENGINE = (($)=>{
         }
 
         saveCallbacks.push(callback)
+    }
+
+    function triggerLoad(){
+        for(let cb of loadCallbacks){
+            try {
+                cb()
+            } catch (err){
+                console.error(err)
+            }
+        }
+
+        loadCodesFromStorage()
+    }
+
+    /* gets called when storage was set to new configuration (e.g. after loading share) */
+    function addLoadCallback(callback){
+        if(typeof callback !== 'function'){
+            throw new Error('callback must be a function')
+        }
+
+        loadCallbacks.push(callback)
     }
 
     function refresh(){
@@ -16423,13 +16452,14 @@ ENGINE = (($)=>{
 
     return {
         addSaveCallback: addSaveCallback,
+        addLoadCallback: addLoadCallback,
         refresh: refresh,
         errorStop: errorStop,
         stop: stop,
         isRunning: ()=>{ return running },
         pauseScript: pauseScript,
         triggerSave: triggerSave,
-        loadCodesFromStorage: loadCodesFromStorage,
+        triggerLoad: triggerLoad,
         notifyInfiniteLoopDetected: notifyInfiniteLoopDetected
     }
 

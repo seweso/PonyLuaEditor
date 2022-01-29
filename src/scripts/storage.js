@@ -222,8 +222,7 @@ STORAGE = (()=>{
         }
         
         
-        //TODO: maybe need to reload everything, not only the codes?
-        ENGINE.loadCodesFromStorage();
+        ENGINE.triggerLoad();
 
         function parseOrUndefined(json){
             try {

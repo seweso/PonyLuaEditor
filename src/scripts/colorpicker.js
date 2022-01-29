@@ -135,7 +135,11 @@ COLORPICKER = (($)=>{
     	container = $('#colorpicker')
 
     	ENGINE.addSaveCallback(()=>{
-    		saveToStorage()
+    		saveSlotsToStorage()
+    	})
+
+    	ENGINE.addLoadCallback(()=>{
+    		loadSlotsFromStorage()
     	})
 
 		// preset colors
@@ -155,19 +159,8 @@ COLORPICKER = (($)=>{
     		})
     	)
 
-    	// saved color slots
-    	let store = STORAGE.getConfiguration('settings.colorSlots')
-    	if(!store || store instanceof Array === false){
-    		store = []
-    	}
+    	loadSlotsFromStorage()
 
-    	for(let colorHex of store){
-    		if(colorHex && colorHex.match(/\#[a-zA-Z0-9]{8}/)){
-				addColorSlot(normalizeHexOrTransparent(colorHex))
-			} else {
-				addColorSlot('#ffffff00')
-			}
-    	}
 
     	picker = new Picker({
     		parent: container.find('.color_select_container').get(0),
@@ -329,13 +322,28 @@ COLORPICKER = (($)=>{
     	return $slot
     }
 
-    function saveToStorage(){
+    function saveSlotsToStorage(){
     	let toSave = []
     	for(let k of Object.keys(colorSlots)){
     		let slot = colorSlots[k]
     		toSave.push( slot.attr('color') )
     	}
     	STORAGE.setConfiguration('settings.colorSlots', toSave)
+    }
+
+    function loadSlotsFromStorage(){
+    	let store = STORAGE.getConfiguration('settings.colorSlots')
+    	if(!store || store instanceof Array === false){
+    		store = []
+    	}
+
+    	for(let colorHex of store){
+    		if(colorHex && colorHex.match(/\#[a-zA-Z0-9]{8}/)){
+				addColorSlot(normalizeHexOrTransparent(colorHex))
+			} else {
+				addColorSlot('#ffffff00')
+			}
+    	}
     }
 
     /* fix gamma for game monitors */
