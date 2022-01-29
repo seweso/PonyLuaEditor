@@ -13894,16 +13894,6 @@ var DOCUMENTATION = ((global, $)=>{
             let res = fuse.search(searchString)
             console.log('search results', res)
 
-            /*res.sort((a,b)=>{
-                if(a.score > b.score){
-                    return -1
-                }
-                if (a.score < b.score) {
-                    return 1
-                }
-                return 0
-            })*/
-
             let partOrders = {}
 
             let count = 1
@@ -13920,7 +13910,7 @@ var DOCUMENTATION = ((global, $)=>{
                     $('#documentation .node[fusename="' + p + '"]').removeClass('fuze_hidden contracted').css('order', partOrders[p])
                 }
 
-                $('#documentation .node[fusename="' + r.item.fusename + '"]').removeClass('fuze_hidden contracted').css('order', count)
+                $('#documentation .node[fusename="' + r.item.fusename + '"]').removeClass('fuze_hidden contracted').css('order', count).find('.node').removeClass('fuze_hidden')
 
                 count++
             }
