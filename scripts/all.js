@@ -13750,13 +13750,10 @@ var DOCUMENTATION = ((global, $)=>{
         let bottom = $('<div class="bottom">')
         me.append(bottom)
 
-
-        if(node.children || topNode){
-            me.addClass('contracted')
-            top.on('click', ()=>{
-                me.toggleClass('contracted')
-            })
-        }
+        me.addClass('contracted')
+        top.on('click', ()=>{
+            me.toggleClass('contracted')
+        })
 
         let definition = $('<div class="definition">')
         top.prepend(definition)
