@@ -1891,10 +1891,50 @@ body {
   background: var(--color-text-lighter-background);
   z-index: 99;
 }
-[viewable=viewable_colorpicker] .color_slot_container .color_slot {
+[viewable=viewable_colorpicker] .color_slot_container .color_slot, [viewable=viewable_colorpicker] .color_slot_container .color_slot_add {
   width: 2em;
   height: 2em;
   margin: 0.5em;
+}
+[viewable=viewable_colorpicker] .color_slot_container .color_slot {
+  position: relative;
+}
+[viewable=viewable_colorpicker] .color_slot_container .color_slot .color_slot_delete {
+  position: absolute;
+  display: none;
+  top: -1em;
+  right: -1em;
+  padding: 0.5em;
+  background: var(--color-text-light-foreground);
+  color: var(--color-text-light-background);
+  font-size: 0.6em;
+  border-radius: 100%;
+  z-index: 3;
+  transition: all 0.2s ease 0s;
+}
+[viewable=viewable_colorpicker] .color_slot_container .color_slot .color_slot_delete:hover {
+  background: var(--color-text-light-background);
+  color: var(--color-text-light-foreground);
+}
+[viewable=viewable_colorpicker] .color_slot_container .color_slot:hover .color_slot_delete {
+  display: block;
+}
+[viewable=viewable_colorpicker] .color_slot_container .color_slot_add {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  border: 0.2em solid var(--color-text-light-background);
+  color: var(--color-text-light-background);
+  border-radius: 100%;
+  cursor: pointer;
+  transition: all 0.2s ease 0s;
+}
+[viewable=viewable_colorpicker] .color_slot_container .color_slot_add .icon-plus {
+  font-size: 0.8em;
+}
+[viewable=viewable_colorpicker] .color_slot_container .color_slot_add:hover {
+  border-color: var(--color-text-dark-background);
+  color: var(--color-text-dark-background);
 }
 [viewable=viewable_colorpicker] .combo_container {
   display: inline-flex;
@@ -1932,6 +1972,44 @@ body {
 [viewable=viewable_colorpicker] .color_select_container .picker_selector {
   border-radius: 100%;
 }
+[viewable=viewable_colorpicker] .color_formats_container {
+  display: flex;
+  flex-flow: wrap row;
+  align-items: center;
+}
+[viewable=viewable_colorpicker] .color_formats_container .color_preview {
+  position: relative;
+  display: inline-block;
+  width: 3em;
+  height: 1.8em;
+  margin: 0.4em;
+}
+[viewable=viewable_colorpicker] .color_formats_container .color_preview:before {
+  content: "";
+  display: block;
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: inherit;
+}
+[viewable=viewable_colorpicker] .color_formats_container .color_preview:after {
+  content: "";
+  display: block;
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUBAMAAAB/pwA+AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAGUExURf///wAAAFXC034AAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAWSURBVBjTYwADQRCgB5NuFjEwMDAAANtyBqXVH2kBAAAAAElFTkSuQmCC");
+  background-size: 10px;
+  background-repeat: repeat;
+  background-blend-mode: color;
+  background-color: inherit;
+}
 [viewable=viewable_colorpicker] .color_formats_container .color_formats_correction {
   white-space: nowrap;
 }
@@ -1947,12 +2025,14 @@ body {
   margin-right: 0.5em;
   cursor: copy;
 }
+[viewable=viewable_colorpicker] .color_formats_container .color_format label .icon-copy {
+  margin-left: 0.5em;
+}
 [viewable=viewable_colorpicker] .color_formats_container .color_format input {
   border: 0.1em solid #222;
   background: #000a;
   color: #b5b5b5;
   padding: 0.1em 0.2em;
-  cursor: copy;
 }
 [viewable=viewable_colorpicker] .color_formats_container .color_format.invalid:after {
   content: "!";
@@ -1970,9 +2050,6 @@ body {
   text-align: center;
   font-weight: bolder;
   font-size: 0.8em;
-}
-[viewable=viewable_colorpicker] .color_formats_container .color_format[format=""] label {
-  display: none;
 }
 [viewable=viewable_colorpicker] .color_formats_container .color_format[format=""] input {
   font-size: 1.2em;
@@ -2016,6 +2093,10 @@ body {
   top: -0.2em;
   left: -0.2em;
   border-width: 0.2em;
+}
+
+.mobile_view .color_slot_delete {
+  display: block !important;
 }
 
 #fullscreen-offer {

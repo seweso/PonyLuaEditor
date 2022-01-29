@@ -122,15 +122,21 @@ COLORPICKER = (($)=>{
 	let container
 	let picker
 
-	let colorSlots = []
-	let selectedSlot = 0
+	let colorSlots = {}
+	let slotIdCounter = 0
+
+	let currentColor = '#ffffff00'
 
 	let formatChangeLocked = false //used to prevent changes of color before current change propagated through the dom
 
-    LOADER.on(LOADER.EVENT.UI_READY, init)
+    LOADER.on(LOADER.EVENT.ENGINE_READY, init)
 
     function init(){
     	container = $('#colorpicker')
+
+    	ENGINE.addSaveCallback(()=>{
+    		saveToStorage()
+    	})
 
 		// preset colors
     	for(let c of COLOR_PRESET){
@@ -143,20 +149,25 @@ COLORPICKER = (($)=>{
     	}
 
 
+    	$('.color_slot_container').append(
+    		$('<div class="color_slot_add"><span class="icon-plus"></span></div>').on('click', ()=>{
+    			addColorSlot(currentColor)
+    		})
+    	)
+
     	// saved color slots
     	let store = STORAGE.getConfiguration('settings.colorSlots')
     	if(!store || store instanceof Array === false){
     		store = []
     	}
 
-		for(let i=0; i<10; i++){
-			let s = store[i]
-			if(s && s.match(/\#[a-zA-Z0-9]{8}/)){
-				colorSlots[i] = newColorSlot(normalizeHexOrTransparent(s), i)
+    	for(let colorHex of store){
+    		if(colorHex && colorHex.match(/\#[a-zA-Z0-9]{8}/)){
+				addColorSlot(normalizeHexOrTransparent(colorHex))
 			} else {
-				colorSlots[i] = newColorSlot('#ffffff00', i)
+				addColorSlot('#ffffff00')
 			}
-		}
+    	}
 
     	picker = new Picker({
     		parent: container.find('.color_select_container').get(0),
@@ -165,25 +176,28 @@ COLORPICKER = (($)=>{
 	    	},
 	    	popup: false,
 	    	editor: false,
-	    	color: colorSlots[0].attr('color')
+	    	color: currentColor
     	})
 
 
     	// formats
 
+
+    	container.find('.color_formats_container').append('<div class="color_preview">')
+
     	for(let f of COLOR_FORMATS){
     		let $format = $('<div class="color_format">').attr('format', f.label)
     		f.dom = $format
 
-    		let $label = $('<label>').text(f.label)
+    		let $label = $('<label>').text(f.label).append('<span class="icon-copy">')
     		$format.append($label)
 
     		let $input = $('<input type="text">')
     		$format.append($input)
 
-    		/*$format.on('click', ()=>{
-    			UTIL.copyElementToClipboard($input)
-    		})*/
+    		$label.on('click', ()=>{
+				UTIL.copyElementToClipboard($input)
+			})
 
     		$input.on('change', (evt)=>{
     			evt.preventDefault()
@@ -207,8 +221,6 @@ COLORPICKER = (($)=>{
     		function parseInput(){
     			let inp = $input.val()
     			let hex = f.parseInput($input.val())
-
-   				console.log('parseInput', inp, '=>', hex)
 
     			if(hex){
     				if(f.noColorCorrection !== true && useColorCorrection){
@@ -236,7 +248,7 @@ COLORPICKER = (($)=>{
     	})
     	container.find('.color_formats_correction').insertAfter( container.find('.color_formats_container .color_format').get(0) )
 
-		selectColorSlot(0)
+    	updateColor(currentColor)
 
         LOADER.done(LOADER.EVENT.COLORPICKER_READY)
     }
@@ -250,10 +262,6 @@ COLORPICKER = (($)=>{
     	}, 500)
     }
 
-    function getCurrentSlotColor(){
-    	return colorSlots[selectedSlot].attr('color')
-    }
-
     /* includes updating color picker */
     function setColor(hex){
     	picker.setColor(hex)
@@ -262,9 +270,9 @@ COLORPICKER = (($)=>{
 
     /* without updating color picker */
     function updateColor(hex){
-		setColorForSlot(hex, selectedSlot)
-		saveToStorage()
+    	currentColor = hex
 		refreshColorFormats()
+		container.find('.color_preview').css('background', hex)
     }
 
     function updateColorCorrection(use){
@@ -273,7 +281,7 @@ COLORPICKER = (($)=>{
     }
 
 	function refreshColorFormats(){
-		let hex = getCurrentSlotColor()
+		let hex = currentColor
 
 		let {r,g,b,a} = gammaFix( hexToRgba(hex) )
 		let colorCorrectedHex = rgbToHex(r,g,b,a)
@@ -290,46 +298,45 @@ COLORPICKER = (($)=>{
     	}
 	}
 
-    function selectColorSlot(index){
-    	selectedSlot = index
-    	picker.setColor( colorSlots[index].attr('color') )
-
-    	container.find('.color_slot_container .color_slot.selected').removeClass('selected')
-    	container.find(`.color_slot_container .color_slot[slot="${index}"]`).addClass('selected')
+    function addColorSlot(hex){
+    	newColorSlot(hex, slotIdCounter++)
     }
 
-    function setColorForSlot(hex, index){
-    	colorSlots[index].attr('color', hex).css('background-color', hex)
+    function deleteColorSlot(slotId){
+		colorSlots[slotId].remove()
+		delete colorSlots[slotId]
     }
 
-    function newColorSlot(hex, index){
-    	let $slot = $('<div class="color_slot selectable_circle">').attr('slot', index)
+    function newColorSlot(hex, slotId){
+    	let $slot = $('<div class="color_slot selectable_circle">').attr('slot-id', slotId)
 
-    	colorSlots[index] = $slot
+    	$slot.append(
+    		$('<div class="icon-cross color_slot_delete">').on('click', ()=>{
+    			deleteColorSlot(slotId)
+    		})
+    	)
+
+    	colorSlots[slotId] = $slot
 
     	$slot.on('click', ()=>{
-    		selectColorSlot(index)
+    		setColor($slot.attr('color'))
     	})
 
-    	container.find('.color_slot_container').append($slot)
+    	$slot.insertBefore(container.find('.color_slot_add'))
 
-    	setColorForSlot(hex, index)
+    	$slot.attr('color', hex).css('background-color', hex)
 
     	return $slot
     }
 
     function saveToStorage(){
     	let toSave = []
-    	for(let cs of colorSlots){
-    		toSave.push( cs.attr('color') )
+    	for(let k of Object.keys(colorSlots)){
+    		let slot = colorSlots[k]
+    		toSave.push( slot.attr('color') )
     	}
     	STORAGE.setConfiguration('settings.colorSlots', toSave)
     }
-
-    function getCurrentColor(){
-    	return colorSlots[selectedSlot].attr('color')
-    }
-
 
     /* fix gamma for game monitors */
 	function gammaFix(color){

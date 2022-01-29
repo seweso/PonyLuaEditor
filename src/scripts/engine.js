@@ -22,6 +22,8 @@ ENGINE = (($)=>{
 
     let totalStartsInTheSession = 0
 
+    let saveCallbacks = []
+
     LOADER.on(LOADER.EVENT.UI_READY, init)
 
     function init(){
@@ -78,6 +80,14 @@ ENGINE = (($)=>{
         })
 
         $('#save').on('click', ()=>{
+            for(let cb of saveCallbacks){
+                try {
+                    cb()
+                } catch (err){
+                    console.error(err)
+                }
+            }
+
             saveCodesInStorage()
         })
 
@@ -144,6 +154,14 @@ ENGINE = (($)=>{
         LOADER.done(LOADER.EVENT.ENGINE_READY)
     }
 
+    /* gets called when save button is pressed */
+    function addSaveCallback(callback){
+        if(typeof callback !== 'function'){
+            throw new Error('callback must be a function')
+        }
+
+        saveCallbacks.push(callback)
+    }
 
     function refresh(){
         setConfigVal($('#timeBetweenTicks'), 'settings.timeBetweenTicks', 16)
@@ -485,7 +503,8 @@ ENGINE = (($)=>{
         }
     }
 
-    return {        
+    return {
+        addSaveCallback: addSaveCallback,
         refresh: refresh,
         errorStop: errorStop,
         stop: stop,
