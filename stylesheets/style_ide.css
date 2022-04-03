@@ -1980,8 +1980,8 @@ body {
 [viewable=viewable_colorpicker] .color_formats_container .color_preview {
   position: relative;
   display: inline-block;
-  width: 3em;
-  height: 1.8em;
+  width: 6em;
+  height: 3.6em;
   margin: 0.4em;
 }
 [viewable=viewable_colorpicker] .color_formats_container .color_preview:before {
@@ -2005,7 +2005,7 @@ body {
   height: 100%;
   width: 100%;
   background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUBAMAAAB/pwA+AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAGUExURf///wAAAFXC034AAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAWSURBVBjTYwADQRCgB5NuFjEwMDAAANtyBqXVH2kBAAAAAElFTkSuQmCC");
-  background-size: 10px;
+  background-size: 40px;
   background-repeat: repeat;
   background-blend-mode: color;
   background-color: inherit;
