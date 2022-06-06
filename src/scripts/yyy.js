@@ -40,19 +40,7 @@ YYY = (($)=>{
             return '<ul><li>' + entries.join('</li><li>') + '</li></ul>'
         }
 
-        UTIL.hint('Improvements', makeListText([
-            'Improved layout for mobile devices (<1024px width in landscape)',
-            'Improved highlighting of keywords and functions',
-            'Improved documentation search'
-        ]))
-
-        UTIL.hintImportant('New Features', makeListText([
-            'Colorpicker with monitor color correction and game color presets',
-            'Custom delay of input data (0 - 60 ticks)',
-            'Added My Library tab so users can manage their own private little helper functions',
-            'Touch (Mobile) support for UI Builder and Monitor',
-            'Copy color mode for UI Builder'
-        ]))
+        UTIL.hintImportant('Bugfixes', 'Fixed a bug that prevented you from sharing code and accessing old codes. Sorry for that guys!')
 
         $('[select-viewable="viewable_history"]').addClass('animation_flash')
 
