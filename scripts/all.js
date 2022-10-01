@@ -5224,9 +5224,10 @@ var MAP = (($)=>{
         } else if (expressionType == 'UnaryExpression') {
 
             operator = expression.operator;
+
             currentPrecedence = PRECEDENCE['unary' + operator];
 
-            result += operator + formatExpression(expression.argument, {
+            result += operator + ' ' + formatExpression(expression.argument, {
                     'precedence': currentPrecedence
                 })
 
