@@ -3,3 +3,4 @@ beta
 compass/.sass-cache
 /version.js
 /package-lock.json
+scripts/all.js
