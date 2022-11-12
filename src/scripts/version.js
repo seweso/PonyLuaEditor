@@ -8,6 +8,7 @@ VERSION_KEEPER = (()=>{
         let isBeta = document.location.pathname.indexOf('/beta') === 0
         let isOffline = document.location.host === 'lvh.me' || document.location.host === 'localhost' || document.location.protocol === 'file:'
         let isOriginal = document.location.host === 'lua.flaffipony.rocks'
+        let isStormNet = document.location.port == 18146 && document.location.pathname.indexOf('/PonyEditor/') === 0
 
         if(isOffline){
             let s = document.createElement('script')
@@ -17,6 +18,8 @@ VERSION_KEEPER = (()=>{
             document.body.appendChild(s)
         } else if(isBeta){
             setState('Beta', '#408DE3', '#fff')
+        } else if(isStormNet){
+            setState('Weird stormnet ;)', '#21F0D2', '#fff')
         } else if(!isOriginal){
             setState('Weird domain ;)', '#F021D2', '#fff')
         }
