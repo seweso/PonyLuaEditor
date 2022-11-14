@@ -222,9 +222,17 @@ UI = (($)=>{
         $(window).on('resize', checkOfferFullscreenMode)
         checkOfferFullscreenMode()
 
-
+        function getScreenOrientation()
+        {
+            if (window.innerHeight > window.innerWidth)
+                return "portrait";
+            else
+                return "landscape";
+        }
+        
+        
         function checkForMobileView(){
-            let orientation = (screen.orientation || {}).type || screen.mozOrientation || screen.msOrientation;
+            let orientation = getScreenOrientation();
 
             if(orientation.startsWith('landscape') && $(window).width() <= 1023){
                 if(!isMobileView){
@@ -248,7 +256,7 @@ UI = (($)=>{
             }
         }
 
-        screen.orientation.addEventListener('change', checkForMobileView)
+        //screen.orientation.addEventListener('change', checkForMobileView)
         $(window).on('resize ', checkForMobileView)
         checkForMobileView()
 
