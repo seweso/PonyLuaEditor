@@ -93,24 +93,24 @@ var CANVAS = ((global, $)=>{
                 mouseY = evt.originalEvent.clientY + $(global).scrollTop()
             }
         })
-
+        
         /* touchscreen for touch */
         $('#monitor').on('touchstart', (evt)=>{
             mouseIsOverMonitor = true
             mouseX = evt.originalEvent.touches[0].clientX
             mouseY = evt.originalEvent.touches[0].clientY + $(global).scrollTop()
         })
-        $(window).on('touchend', ()=>{
-            mouseIsOverMonitor = false
+        $(window).on('touchend', (evt)=>{
+            mouseIsOverMonitor = false            
         })
-        $(window).on('touchcancel', ()=>{
-            mouseIsOverMonitor = false
+        $(window).on('touchcancel', (evt)=>{
+            mouseIsOverMonitor = false            
         })
         $(window).on('touchmove', (evt)=>{
             if(mouseIsOverMonitor){
                 mouseX = evt.originalEvent.touches[0].clientX
                 mouseY = evt.originalEvent.touches[0].clientY + $(global).scrollTop()
-            }
+            }            
         })
 
         $('#enable-touchscreen, #enable-touchscreen-secondary').on('change', ()=>{
@@ -130,6 +130,16 @@ var CANVAS = ((global, $)=>{
             secondaryTouchEnabled = $('#enable-touchscreen-secondary').prop('checked')
             STORAGE.setConfiguration('settings.touchscreenSecondaryEnabled', secondaryTouchEnabled)
         })
+
+        function absorbEvent(event) {
+            event.returnValue = false;
+        }
+        let div1 = document.querySelector("#canvas");
+        div1.addEventListener("touchstart", absorbEvent);
+        div1.addEventListener("touchend", absorbEvent);
+        div1.addEventListener("touchmove", absorbEvent);
+        div1.addEventListener("touchcancel", absorbEvent);      
+        
 
         $(window).on('keydown mousedown touchstart', handleKeyDown)
         $(window).on('keyup mouseup touchend', handleKeyUp)
