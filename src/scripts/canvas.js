@@ -131,6 +131,7 @@ var CANVAS = ((global, $)=>{
             STORAGE.setConfiguration('settings.touchscreenSecondaryEnabled', secondaryTouchEnabled)
         })
 
+        // Todo rewrite code style to match current code
         function absorbEvent(event) {
             event.returnValue = false;
         }
@@ -138,11 +139,12 @@ var CANVAS = ((global, $)=>{
         div1.addEventListener("touchstart", absorbEvent);
         div1.addEventListener("touchend", absorbEvent);
         div1.addEventListener("touchmove", absorbEvent);
-        div1.addEventListener("touchcancel", absorbEvent);      
-        
+        div1.addEventListener("touchcancel", absorbEvent);              
 
         $(window).on('keydown mousedown touchstart', handleKeyDown)
         $(window).on('keyup mouseup touchend', handleKeyUp)
+        
+        $("#canvas").on('touchmove mousemove touchstart touchend', handleMove)
 
         let params = new URLSearchParams( document.location.search)
         let paramBigmonitor = params.get('bigmonitor')
@@ -179,6 +181,51 @@ var CANVAS = ((global, $)=>{
         LOADER.done(LOADER.EVENT.CANVAS_READY)
     }
 
+    function handleMove(e) {
+        // TODO Check for multi-touch support checkmark
+        if(!ENGINE.isRunning() || !$('#enable-touchscreen').prop('checked')) {
+            return;
+        }
+        
+        var rect = e.target.getBoundingClientRect();
+        var touch = e;
+        if(UI.supportsTouch() && e.originalEvent instanceof TouchEvent) {
+            touch = e.originalEvent.touches[0];
+        } 
+        
+        if (!touch) {
+            return;
+        }
+        var x = unzoom(touch.clientX - rect.left);
+        var y = unzoom(touch.clientY - rect.top);
+                
+        if(touchpoints[0]) {
+            touchpoints[0].x = x;
+            touchpoints[0].y = y;
+        }        
+                
+        if(UI.supportsTouch() && e.originalEvent instanceof TouchEvent && e.originalEvent.touches[1]){
+            var touch = e.originalEvent.touches[1];
+
+            var x = unzoom(touch.clientX - rect.left);
+            var y = unzoom(touch.clientY - rect.top);
+
+            var tp = touchpoints[1] 
+            if (!tp) {
+                touchpoints.push({
+                    key: 'e',
+                    x: x,
+                    y: y
+                })
+            } else {
+                tp.x = x;
+                tp.y = y;                
+            }
+        }
+        calculateTouchscreenInput();
+    }
+    
+    
     function handleKeyDown(evt){
         if(mouseIsOverMonitor){
             if(ENGINE.isRunning() && $('#enable-touchscreen').prop('checked')){
@@ -241,13 +288,13 @@ var CANVAS = ((global, $)=>{
     function handleKeyUp(evt){
         if(ENGINE.isRunning() && $('#enable-touchscreen').prop('checked')){
             if((UI.supportsTouch() && evt.originalEvent instanceof TouchEvent)){
-                evt.originalEvent.key = 'q'
-                if(!mouseIsOverMonitor){
+                if (touchpoints[1]) {
+                    touchpoints = [touchpoints[0]]    
+                } else {
                     touchpoints = []
-                    calculateTouchscreenInput()
-                    return
-                }
-                mouseIsOverMonitor = false
+                }                
+                calculateTouchscreenInput()
+                return
             } else if(evt.originalEvent.button === 0 && mouseIsOverMonitor){
                 evt.originalEvent.key = 'e'
             }
