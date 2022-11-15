@@ -238,8 +238,10 @@ var CANVAS = ((global, $)=>{
                     if(touchpoints[0] && touchpoints[0].key === evt.originalEvent.key || touchpoints[1] && touchpoints[1].key === evt.originalEvent.key){
                         return
                     }
-                    let pX = unzoom(mouseX - $('#monitor').offset().left - left)
-                    let pY = unzoom(mouseY - $('#monitor').offset().top - top)
+                    const pos = getPos(evt, evt.changedTouches[0]);
+                    
+                    let pX = pos.x;
+                    let pY = pos.y;
 
                     //adjust for rotated monitor
                     switch('' + (STORAGE.getConfiguration('settings.monitorRotation') || 0) ){
