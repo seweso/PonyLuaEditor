@@ -144,7 +144,7 @@ var CANVAS = ((global, $)=>{
         $(window).on('keydown mousedown touchstart', handleKeyDown)
         $(window).on('keyup mouseup touchend', handleKeyUp)
         
-        $("#canvas").on('touchmove mousemove touchstart touchend', handleMove)
+        $("#canvas").on('touchmove mousemove touchstart', handleMove)
 
         let params = new URLSearchParams( document.location.search)
         let paramBigmonitor = params.get('bigmonitor')
@@ -185,52 +185,50 @@ var CANVAS = ((global, $)=>{
         // TODO Check for multi-touch support checkmark
         if(!ENGINE.isRunning() || !$('#enable-touchscreen').prop('checked')) {
             return;
-        }
-        
-        var rect = e.target.getBoundingClientRect();
+        }        
         var touch = e;
         if(UI.supportsTouch() && e.originalEvent instanceof TouchEvent) {
             touch = e.originalEvent.touches[0];
-        } 
-        
+        }         
         if (!touch) {
             return;
         }
-        var x = unzoom(touch.clientX - rect.left);
-        var y = unzoom(touch.clientY - rect.top);
+        
+        var pos = getPos(e, touch);
                 
         if(touchpoints[0]) {
-            touchpoints[0].x = x;
-            touchpoints[0].y = y;
+            touchpoints[0].x = pos.x;
+            touchpoints[0].y = pos.y;
         }        
                 
         if(UI.supportsTouch() && e.originalEvent instanceof TouchEvent && e.originalEvent.touches[1]){
             var touch = e.originalEvent.touches[1];
-
-            var x = unzoom(touch.clientX - rect.left);
-            var y = unzoom(touch.clientY - rect.top);
-
+            var pos = getPos(e, touch);
             var tp = touchpoints[1] 
             if (!tp) {
+                const key = (touchpoints.find(element => element.key === 'e')) ? 'q' : 'e';
                 touchpoints.push({
-                    key: 'e',
-                    x: x,
-                    y: y
+                    key: key,
+                    x: pos.x,
+                    y: pos.y
                 })
             } else {
-                tp.x = x;
-                tp.y = y;                
+                tp.x = pos.x;
+                tp.y = pos.y;                
             }
         }
         calculateTouchscreenInput();
-    }
-    
+    }    
     
     function handleKeyDown(evt){
         if(mouseIsOverMonitor){
             if(ENGINE.isRunning() && $('#enable-touchscreen').prop('checked')){
                 if((UI.supportsTouch() && evt.originalEvent instanceof TouchEvent)){
-                    evt.originalEvent.key = 'q'
+                    if (touchpoints.find(element => element.key === 'e')) {
+                        evt.originalEvent.key = 'q'    
+                    } else {
+                        evt.originalEvent.key = 'e'
+                    }                    
                 } else if(evt.originalEvent.button === 0){
                     evt.originalEvent.key = 'e'
                 }
@@ -289,7 +287,12 @@ var CANVAS = ((global, $)=>{
         if(ENGINE.isRunning() && $('#enable-touchscreen').prop('checked')){
             if((UI.supportsTouch() && evt.originalEvent instanceof TouchEvent)){
                 if (touchpoints[1]) {
-                    touchpoints = [touchpoints[0]]    
+                    const pos = getPos(evt, evt.originalEvent.changedTouches[0]);
+                    if (distance(pos, touchpoints[0]) < distance(pos, touchpoints[1])) {
+                        touchpoints = [touchpoints[1]]    
+                    } else {
+                        touchpoints = [touchpoints[0]]
+                    }
                 } else {
                     touchpoints = []
                 }                
@@ -319,7 +322,6 @@ var CANVAS = ((global, $)=>{
     }
 
     function calculateTouchscreenInput(){
-        
         if($('#enable-touchscreen').prop('checked')){
             INPUT.setNumber(1, width, {
                 val:  width,
@@ -339,9 +341,12 @@ var CANVAS = ((global, $)=>{
                 sliderstep: 1,
                 oscilatecheck: false
             })
+            
+            const eTouch = touchpoints.find(element => element.key === 'e'); // Touch 1
+            const qTouch = touchpoints.find(element => element.key === 'q'); // Touch 2
 
-            if(touchpoints[0]){
-                let touchpoints0X = Math.floor(touchpoints[0].x)
+            if(eTouch){
+                let touchpoints0X = Math.floor(eTouch.x)
                 INPUT.setNumber(3, touchpoints0X, {
                     val:  touchpoints0X,
                     userLabel: LABELS.NUMBER[3],
@@ -352,7 +357,7 @@ var CANVAS = ((global, $)=>{
                     oscilatecheck: false
                 })
 
-                let touchpoints0Y = Math.floor(touchpoints[0].y)
+                let touchpoints0Y = Math.floor(eTouch.y)
                 INPUT.setNumber(4, touchpoints0Y, {
                     val:  touchpoints0Y,
                     userLabel: LABELS.NUMBER[4],
@@ -399,8 +404,8 @@ var CANVAS = ((global, $)=>{
             }
 
             if(secondaryTouchEnabled){
-                if(touchpoints[1]){
-                    let touchpoints1X = Math.floor(touchpoints[1].x)
+                if(qTouch){
+                    let touchpoints1X = Math.floor(qTouch.x)
                     INPUT.setNumber(5, touchpoints1X, {
                         val:  touchpoints1X,
                         userLabel: LABELS.NUMBER[5],
@@ -411,7 +416,7 @@ var CANVAS = ((global, $)=>{
                         oscilatecheck: false
                     })
 
-                    let touchpoints1Y = Math.floor(touchpoints[1].y)
+                    let touchpoints1Y = Math.floor(qTouch.y)
                     INPUT.setNumber(6, touchpoints1Y, {
                         val:  touchpoints1Y,
                         userLabel: LABELS.NUMBER[6],
@@ -583,6 +588,18 @@ var CANVAS = ((global, $)=>{
         }
     }
 
+    function getPos(evt, touch) {
+        var rect = evt.target.getBoundingClientRect();
+        return {
+            x: unzoom(touch.clientX - rect.left),
+            y: unzoom(touch.clientY - rect.top)
+        }
+    }
+    
+    function distance(pos1, pos2) {
+        return Math.sqrt((pos1.x - pos2.x) ** 2 + (pos1.y - pos2.y) ** 2);
+    }
+    
     function zoom(val){
         return val * zoomFactor
     }
