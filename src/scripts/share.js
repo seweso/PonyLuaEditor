@@ -79,7 +79,7 @@ var SHARE = (($)=>{
         } else {
             $('#share').removeClass('has_share')
         }
-        $('#share .currentshare').val(BASE_URL + '/?id=' + currentShare)
+        $('#share .currentshare').val(geCurrentUrlWithId(currentShare))
     }
 
     function doCreate(){
@@ -206,6 +206,14 @@ var SHARE = (($)=>{
         params.delete('id')
         let query = params.toString()
         window.history.pushState(null, document.title, document.location.pathname + (query.length > 0 ? '?' + query : ''))
+    }
+    
+    function geCurrentUrlWithId(id) {
+        let params = new URLSearchParams( document.location.search);
+        params.delete('id');
+        params.append("id", id);
+        let query = params.toString();
+        return window.location.origin + document.location.pathname + (query.length > 0 ? '?' + query : '');
     }
 
     return {
