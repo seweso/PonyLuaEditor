@@ -22,6 +22,7 @@ var CANVAS = ((global, $)=>{
 
     let isTouchDown = false
 
+    let lastMouseEvent = null
     let mouseIsOverMonitor = false
     let mouseX = 0
     let mouseY = 0
@@ -88,6 +89,7 @@ var CANVAS = ((global, $)=>{
             mouseIsOverMonitor = false
         })
         $('#monitor').on('mousemove', (evt)=>{
+            lastMouseEvent = evt.originalEvent;
             if(mouseIsOverMonitor){
                 mouseX = evt.originalEvent.clientX
                 mouseY = evt.originalEvent.clientY + $(global).scrollTop()
@@ -223,22 +225,27 @@ var CANVAS = ((global, $)=>{
     function handleKeyDown(evt){
         if(mouseIsOverMonitor){
             if(ENGINE.isRunning() && $('#enable-touchscreen').prop('checked')){
+                let touch = lastMouseEvent;
                 if((UI.supportsTouch() && evt.originalEvent instanceof TouchEvent)){
+                    touch = evt.changedTouches[0];
                     if (touchpoints.find(element => element.key === 'e')) {
                         evt.originalEvent.key = 'q'    
                     } else {
                         evt.originalEvent.key = 'e'
                     }                    
                 } else if(evt.originalEvent.button === 0){
+                    // Mouse click
+                    touch = evt.originalEvent;
                     evt.originalEvent.key = 'e'
                 }
                 if(evt.originalEvent.key === 'q' || evt.originalEvent.key === 'e'){
+                    // Keyboard click (or touch / mouse click as keyboard event)
                     evt.preventDefault()
                     evt.stopImmediatePropagation()
                     if(touchpoints[0] && touchpoints[0].key === evt.originalEvent.key || touchpoints[1] && touchpoints[1].key === evt.originalEvent.key){
                         return
                     }
-                    const pos = getPos(evt, evt.changedTouches[0]);
+                    const pos = getPos(evt, touch);
                     
                     let pX = pos.x;
                     let pY = pos.y;
