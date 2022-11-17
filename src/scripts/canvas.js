@@ -248,32 +248,7 @@ var CANVAS = ((global, $)=>{
                     const pos = getPos(evt, touch);
                     
                     let pX = pos.x;
-                    let pY = pos.y;
-
-                    //adjust for rotated monitor
-                    switch('' + (STORAGE.getConfiguration('settings.monitorRotation') || 0) ){
-                        case '0': {
-                            pX = pX
-                            pY = pY
-                        }; break;
-
-                        case '90': {
-                            let tempX = pX
-                            pX = pY
-                            pY = height - tempX
-                        }; break;
-
-                        case '180': {
-                            pX = width - pX
-                            pY = height - pY
-                        }; break;
-
-                        case '270': {
-                            let tempX = pX
-                            pX = width - pY
-                            pY = tempX
-                        }; break;
-                    }
+                    let pY = pos.y;                   
 
                     if(pX > 0 && pX < width && pY > 0 && pY < height){
                         touchpoints.push({
@@ -598,11 +573,21 @@ var CANVAS = ((global, $)=>{
     }
 
     function getPos(evt, touch) {
-        var rect = evt.target.getBoundingClientRect();
-        return {
+        const rect = evt.target.getBoundingClientRect();
+        const p = {
             x: unzoom(touch.clientX - rect.left),
             y: unzoom(touch.clientY - rect.top)
+        };
+
+        //adjust for rotated monitor 
+        switch('' + (STORAGE.getConfiguration('settings.monitorRotation') || 0) ){
+            case '0':   return p;
+            case '90':  return { x: p.y, y: height - p.x};
+            case '180': return { x: width - p.x, y: height - p.y};
+            case '270': return { x: width - p.y, y: p.x};
         }
+        
+        console.error("unknown rotation");
     }
     
     function distance(pos1, pos2) {
