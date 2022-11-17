@@ -104,8 +104,13 @@ var OUTPUT = ((global, $)=>{
 
         if(! numbers[index]){
             addNewNumber(index, val)
+            STORMNET.SetDouble(index, val);
         }
 
+        if (inputNumbers[index] !== val) {
+            STORMNET.SetDouble(index, val);
+        }
+        
         inputNumbers[index] = val
     }
     

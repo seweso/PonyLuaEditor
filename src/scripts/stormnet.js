@@ -11,15 +11,7 @@ var connection = new signalR
     .withUrl("/signalR")
     .build();
 
-connection.start().then(function () {
-    console.log("connected");
-}).catch(function (err) {
-    console.error(err.toString());
-});
-
-connection.on("ReceiveMessage", function ( message) {
-   console.log("ReceiveMessage " + message);
-});
+connection.start();
 
 connection.on("GetDouble", function ( i, d) {
     INPUT.setNumber(i+1, d, {
@@ -32,3 +24,10 @@ connection.on("GetDouble", function ( i, d) {
         oscilatecheck: false
     })
 });
+
+let STORMNET = {
+    async SetDouble(i, d) {
+        await connection.invoke("UpdateFromPony", i, d);
+    }  
+};
+
