@@ -2,6 +2,9 @@
 
 //const {signalR} = require("../../scripts/lib/signalr");
 
+// TODO: Turn on/off with setting?
+// TODO Create class / module?
+
 let params = new URLSearchParams(document.location.search);
 let SignalR_Url = params.get('SignalR_Url');
 let SignalR_Token = params.get('SignalR_Token');
