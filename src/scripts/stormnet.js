@@ -27,9 +27,9 @@ connection.onreconnected(async function () {
 })
 
 connection.on("GetDouble", function ( i, d) {
-    INPUT.setNumber(i+1, d, {
+    INPUT.setNumber(i, d, {
         val:  d,
-        userLabel: "StormNet-" + (i+1),
+        userLabel: "StormNet-" + i,
         slidercheck: true,
         slidermin: -10000000,
         slidermax: 10000000,
