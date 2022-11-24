@@ -18,6 +18,7 @@ var connection = new signalR
     .withUrl(SignalR_Url)
     .build();
 
+// TODO: Don't start right away (wait for input to be ready?)
 connection.start().then(async function () {
     await connection.invoke("SetToken", SignalR_Token);
 })
@@ -26,7 +27,7 @@ connection.onreconnected(async function () {
     await connection.invoke("SetToken", SignalR_Token);
 })
 
-connection.on("GetDouble", function ( i, d) {
+connection.on("SetDouble", function ( i, d) {
     INPUT.setNumber(i, d, {
         val:  d,
         userLabel: "StormNet-" + i,
@@ -38,9 +39,21 @@ connection.on("GetDouble", function ( i, d) {
     })
 });
 
+connection.on("SetBool", function ( i, b) {
+    INPUT.setBool(i, b, {
+        val:  b,
+        userLabel: "StormNet-" + i,
+        type: 'push',
+        key: 'e'
+    })    
+});
+
 let STORMNET = {
     async SetDouble(i, d) {
-        await connection.invoke("UpdateFromPony", i, d);
-    }  
+        await connection.invoke("UpdateDoubleFromPony", i, d);
+    },
+    async SetBool(i, b) {
+        await connection.invoke("UpdateBoolFromPony", i, b);
+    }
 };
 

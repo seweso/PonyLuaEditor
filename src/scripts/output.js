@@ -87,8 +87,13 @@ var OUTPUT = ((global, $)=>{
             throw new Error('second argument must be a boolean!')
         }
 
-        if(! bools[index]){
+        if(!bools[index]){
             addNewBool(index, val)
+            STORMNET.SetBool(index, val);
+        }
+
+        if (inputBools[index] !== val) {
+            STORMNET.SetBool(index, val);
         }
 
         inputBools[index] = val
@@ -102,7 +107,7 @@ var OUTPUT = ((global, $)=>{
             throw new Error('second argument must be a number!')
         }
 
-        if(! numbers[index]){
+        if(!numbers[index]){
             addNewNumber(index, val)
             STORMNET.SetDouble(index, val);
         }
