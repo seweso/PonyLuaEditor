@@ -21,7 +21,7 @@
                 //monitorDiv.innerHTML = "Aap " + monitorDiv.clientWidth + " x " + monitorDiv.clientHeight;    
 
                 // Scroll down for full screen effect
-                window.scrollBy(0,100);
+                window.scrollBy(0, 100);
             }
             new ResizeObserver(sizeChanged).observe(monitorDiv);
             sizeChanged();  
@@ -47,12 +47,14 @@
             ctx.beginPath();
             ctx.arc(10, 15, 10, 20, 2 * Math.PI);
             ctx.stroke();   
+            window.onscroll = sizeChanged;
+            sizeChanged();             
         }
   </script>
   <style>
     body {
         background-color: black;
-        height: 200vh;
+        height: 300vh;
     }
     #monitor {
         background-color: black;
