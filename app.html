@@ -18,13 +18,35 @@
             // Observe change in size
             function sizeChanged() {
                 // Debug info
-                monitorDiv.innerHTML = "Aap " + monitorDiv.clientWidth + " x " + monitorDiv.clientHeight;    
+                //monitorDiv.innerHTML = "Aap " + monitorDiv.clientWidth + " x " + monitorDiv.clientHeight;    
 
                 // Scroll down for full screen effect
                 window.scrollBy(0,100);
             }
             new ResizeObserver(sizeChanged).observe(monitorDiv);
             sizeChanged();  
+
+            // Draw test on canvas
+            // Get the canvas element and its context
+            const canvas = document.getElementById('canvas');
+            const ctx = canvas.getContext('2d');
+
+            // Set the line width and stroke style
+            ctx.lineWidth = 1;
+            ctx.strokeStyle = '#000000';
+
+            // Begin a new path
+            ctx.beginPath();
+
+            // Draw a pixelated line
+            ctx.moveTo(10, 10);
+            ctx.lineTo(50, 50);   
+            ctx.stroke();            
+
+            // Draw a pixelated circle
+            ctx.beginPath();
+            ctx.arc(10, 15, 10, 20, 2 * Math.PI);
+            ctx.stroke();   
         }
   </script>
   <style>
@@ -45,10 +67,16 @@
         font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
         font-size: large;
     }
+    canvas {
+        background-color: red;
+        image-rendering: pixelated;
+        zoom:1600%;
+    }
   </style>  
 </head>
 <body>
-    <div id="monitor">        
-    </div>
+    <div id="monitor"> 
+        <canvas id="canvas" width="400" height="400"></canvas>
+   </div>
 </body>
 </html>
