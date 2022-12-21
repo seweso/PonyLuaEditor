@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1" />
+  <script type="text/javascript">
+        window.onload = function() {
+            function absorbEvent(event) {
+                event.returnValue = false;
+            }
+            // Absorb all touch event to prevent zoomies
+            let div1 = document.querySelector("#monitor");
+            div1.addEventListener("touchstart", absorbEvent);
+            div1.addEventListener("touchend", absorbEvent);
+            div1.addEventListener("touchmove", absorbEvent);
+            div1.addEventListener("touchcancel", absorbEvent);  
+
+            // Scroll down for full screen effect
+            window.scrollBy(0,100)
+        }
+  </script>
+  <style>
+    body {
+      background-color: red;
+    }
+    #monitor {
+        background-color: blue;
+        position: fixed;
+        top:0;
+        left:0;
+        right:0;
+        bottom:0;
+    }
+    html.noScroll, html.noScroll > body{
+        overflow:none;
+    }   
+  </style>  
+</head>
+<body>
+  <!-- Add your HTML content here -->
+  Test3
+  <div id="monitor">
+    Bla
+  </div>
+</body>
+</html>
