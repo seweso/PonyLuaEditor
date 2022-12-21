@@ -1,57 +1,54 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1; user-scalable=no;" />
+  <!-- 
+    Features of this page:
+    - Full screen when rotated on iPhone
+    - No scrolling or zooming (not even at the edges)
+    - Full screen "monitor" div
+    - Debugging: Show size of monitor div
+  -->
+  <meta name="viewport" content="width=device-width, viewport-fit=cover" />
   <script type="text/javascript">
         window.onload = function() {
-            function absorbEvent(event) {
-                event.returnValue = false;
-            }
             // Absorb all touch event to prevent zoomies
-            let div1 = document.querySelector("#monitor");
-            div1.addEventListener("touchstart", absorbEvent);
-            div1.addEventListener("touchend", absorbEvent);
-            div1.addEventListener("touchmove", absorbEvent);
-            div1.addEventListener("touchcancel", absorbEvent);  
+            let monitorDiv = document.querySelector("#monitor");
+            monitorDiv.ontouchmove = e => e.returnValue = false;
 
             // Observe change in size
             function sizeChanged() {
                 // Debug info
-                div1.innerHTML = "Aap " + div1.clientWidth + " x " + div1.clientHeight;    
-            }
-            new ResizeObserver(sizeChanged).observe(div1);
-            sizeChanged();
+                monitorDiv.innerHTML = "Aap " + monitorDiv.clientWidth + " x " + monitorDiv.clientHeight;    
 
-            // Scroll down for full screen effect
-            window.scrollBy(0,100);
+                // Scroll down for full screen effect
+                window.scrollBy(0,100);
+            }
+            new ResizeObserver(sizeChanged).observe(monitorDiv);
+            sizeChanged();  
         }
   </script>
   <style>
     body {
-        background-color: red;
-    }
-    #overflow {
-        background-color: green;
-        height: 9000px;
+        background-color: black;
+        height: 200vh;
     }
     #monitor {
-        background-color: blue;
+        background-color: black;
         position: fixed;
         top:0;
         left:0;
         right:0;
         bottom:0;
+        padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+
+        color:white;
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        font-size: large;
     }
-    html.noScroll, html.noScroll > body{
-        overflow:none;
-    }   
   </style>  
 </head>
 <body>
-  <div id="overflow">
-    <div id="monitor">
-        Aap
+    <div id="monitor">        
     </div>
-  </div>
 </body>
 </html>
