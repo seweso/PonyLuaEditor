@@ -14,8 +14,16 @@
             div1.addEventListener("touchmove", absorbEvent);
             div1.addEventListener("touchcancel", absorbEvent);  
 
+            // Observe change in size
+            function sizeChanged() {
+                // Debug info
+                div1.innerHTML = "Aap " + div1.clientWidth + " x " + div1.clientHeight;    
+            }
+            new ResizeObserver(sizeChanged).observe(div1);
+            sizeChanged();
+
             // Scroll down for full screen effect
-            window.scrollBy(0,100)
+            window.scrollBy(0,100);
         }
   </script>
   <style>
