@@ -58,12 +58,8 @@
 
             // Observe change in size
             function sizeChanged() {
-                // Debug info
-                //monitorDiv.innerHTML = ;    
-
                 // Scroll down for full screen effect
                 window.scrollBy(0, 100);
-
 
                 // Change canvas width / height                
                 if (monitorDiv.clientWidth < monitorDiv.clientHeight) {
@@ -119,11 +115,13 @@
     #monitor {
         background-color: orange;
         position: fixed;
+        
         top:0;
         left:0;
         right:0;
         bottom:0;
         /*padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);*/
+        
 
         color:white;
         font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
@@ -138,7 +136,7 @@
         left: 0;
         margin: auto;
         overflow: auto;
-        position: fixed;
+        position: absolute;
         right: 0;
         top: 0;
         -o-object-fit: contain;
