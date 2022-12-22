@@ -11,7 +11,7 @@
     -->
     <meta charset="utf-8">
 
-    <title>Pony IDE</title>
+    <title>Pony Apps</title>
     <meta name="title" content="Pony Apps">
     <meta name="description" content="Runs Lua fullscreen Apps for Stormworks: Build and Rescue. \nUse your stormworks Lua knowledge to create apps to control your stormworks creations. ">
 
@@ -25,7 +25,6 @@
     <meta name="msapplication-TileColor" content="#000000">
     <meta name="msapplication-config" content="/favicon/browserconfig.xml?v=lkvjrKOM3xPNY">
     <meta name="theme-color" content="#000000">
-
 
 
     <!-- OG SECTION -->
@@ -48,22 +47,25 @@
   <script type="text/javascript">
         window.onload = function() {
             // Absorb all touch event to prevent zoomies
-            let monitorDiv = document.querySelector("#monitor");
+            const monitorDiv = document.querySelector("#monitor");
             monitorDiv.ontouchmove = e => e.returnValue = false;
+
+            const canvas = document.getElementById('canvas');
+            canvas.ontouchmove = e => e.returnValue = false;
+
+            const width = 288;
+            const height = 160;
 
             // Observe change in size
             function sizeChanged() {
                 // Debug info
-                //monitorDiv.innerHTML = "Aap " + monitorDiv.clientWidth + " x " + monitorDiv.clientHeight;    
+                //monitorDiv.innerHTML = ;    
 
                 // Scroll down for full screen effect
                 window.scrollBy(0, 100);
 
-                const width = 160;
-                const height = 96;
 
-                // Change canvas width / height
-                const canvas = document.getElementById('canvas');
+                // Change canvas width / height                
                 if (monitorDiv.clientWidth < monitorDiv.clientHeight) {
                     canvas.width = height;
                     canvas.height = width;
@@ -92,7 +94,13 @@
                 // Draw a pixelated circle
                 ctx.beginPath();
                 ctx.arc(10, 15, 10, 20, 2 * Math.PI);
-                ctx.stroke();                  
+                ctx.stroke(); 
+                
+                // Draw text
+                ctx.font = '8px "Screen Mono", "Lucida Console", Monaco, monospace';
+                ctx.fillText("Screen " + monitorDiv.clientWidth + " x " + monitorDiv.clientHeight, 20, 40);
+                ctx.fillText("Monitor " + canvas.width + " x " + canvas.height, 20, 50);
+
             }
             new ResizeObserver(sizeChanged).observe(monitorDiv);
             sizeChanged();   
@@ -101,10 +109,12 @@
         }
   </script>
   <style>
+    * {
+        touch-action: none;
+    }
     body {
         background-color: grey;
-        height: 300vh;
-        touch-action: none;
+        height: 300vh;        
     }
     #monitor {
         background-color: orange;
