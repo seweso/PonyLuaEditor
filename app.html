@@ -59,14 +59,17 @@
                 // Scroll down for full screen effect
                 window.scrollBy(0, 100);
 
+                const width = 160;
+                const height = 96;
+
                 // Change canvas width / height
                 const canvas = document.getElementById('canvas');
                 if (monitorDiv.clientWidth < monitorDiv.clientHeight) {
-                    canvas.width = 160;
-                    canvas.height = 288;
+                    canvas.width = height;
+                    canvas.height = width;
                 } else {
-                    canvas.width = 288;
-                    canvas.height = 160;
+                    canvas.width = width;
+                    canvas.height = height;
                 }                
 
                 // Draw test on canvas
@@ -118,8 +121,20 @@
     }
     canvas {
         image-rendering: pixelated;
-        height: 100%;
-    }
+
+        max-width: 100%;
+        max-height: 100%;
+        bottom: 0;
+        left: 0;
+        margin: auto;
+        overflow: auto;
+        position: fixed;
+        right: 0;
+        top: 0;
+        -o-object-fit: contain;
+        object-fit: contain;
+        zoom: 900%
+    }    
     @media (orientation: landscape) {
         canvas {
             background-color: red;            
