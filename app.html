@@ -1,163 +1,60 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <!-- 
-        Features of this page (compared to IDE):
-        - Full screen when rotated on iPhone
-        - No scrolling or zooming (not even at the edges)
-        - Full screen "monitor" div
-        - Auto starts scripts
-        - Does not show IDE warnings
-    -->
-    <meta charset="utf-8">
+<html class="no-js" lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+  	<title>Cross-device Address Bar Hide</title>
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Pony Apps</title>
-    <meta name="title" content="Pony Apps">
-    <meta name="description" content="Runs Lua fullscreen Apps for Stormworks: Build and Rescue. \nUse your stormworks Lua knowledge to create apps to control your stormworks creations. ">
+    <script type="text/javascript">
+/* https://github.com/scottjehl/Hide-Address-Bar */
 
-    <!-- favicon -->
-    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png?v=lkvjrKOM3xPNY">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png?v=lkvjrKOM3xPNY">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png?v=lkvjrKOM3xPNY">
-    <link rel="manifest" href="/favicon/site.webmanifest?v=lkvjrKOM3xPNY">
-    <link rel="mask-icon" href="/favicon/safari-pinned-tab.svg?v=lkvjrKOM3xPNY" color="#117cff">
-    <link rel="shortcut icon" href="/favicon/favicon.ico?v=lkvjrKOM3xPNY">
-    <meta name="msapplication-TileColor" content="#000000">
-    <meta name="msapplication-config" content="/favicon/browserconfig.xml?v=lkvjrKOM3xPNY">
-    <meta name="theme-color" content="#000000">
-
-
-    <!-- OG SECTION -->
-    <link rel="stylesheet" type="text/css" href="stylesheets/iconfont.css">
-
-
-   <!-- external libs -->
-   <script src="scripts/lib/jquery.js" type="text/javascript"></script>
-   <script src="scripts/lib/fengari_web.js" type="text/javascript" id="fengari-script" ></script>
-   <script src="scripts/lib/fuse.js" type="text/javascript"></script>
-   <script src="scripts/lib/vanilla_picker.js" type="text/javascript"></script>
-   <script src="scripts/lib/signalr.js" type="text/javascript"></script>
-   
-   <script src="ace-builds/ace.js" type="text/javascript"></script>
-   <script src="ace-builds/ext-language_tools.js" type="text/javascript"></script>
-   
-
-
-  <meta name="viewport" content="width=device-width, viewport-fit=cover" />
-  <script type="text/javascript">
-        window.onload = function() {
-            // Absorb all touch event to prevent zoomies
-            const monitorDiv = document.querySelector("#monitor");
-            monitorDiv.ontouchmove = e => e.returnValue = false;
-
-            const canvas = document.getElementById('canvas');
-            canvas.ontouchmove = e => e.returnValue = false;
-
-            const width = 288;
-            const height = 160;
-
-            // Observe change in size
-            function sizeChanged() {
-                // Scroll down for full screen effect
-                window.scrollBy(0, 100);
-
-                // Change canvas width / height                
-                if (monitorDiv.clientWidth < monitorDiv.clientHeight) {
-                    canvas.width = height;
-                    canvas.height = width;
-                } else {
-                    canvas.width = width;
-                    canvas.height = height;
-                }                
-
-                // Draw test on canvas
-                const ctx = canvas.getContext('2d');
-
-                // Set the line width and stroke style
-                ctx.lineWidth = 1;
-                ctx.strokeStyle = '#000000';
-
-                // Begin a new path
-                ctx.beginPath();
-
-                // Draw a pixelated line
-                ctx.moveTo(0, 0);
-                ctx.lineTo(canvas.width, canvas.height);   
-                ctx.lineTo(canvas.width, 0);   
-                ctx.lineTo(0, canvas.height);   
-                ctx.stroke();            
-
-                // Draw a pixelated circle
-                ctx.beginPath();
-                ctx.arc(10, 15, 10, 20, 2 * Math.PI);
-                ctx.stroke(); 
-                
-                // Draw text
-                ctx.font = '8px "Screen Mono", "Lucida Console", Monaco, monospace';
-                ctx.fillText("Screen " + monitorDiv.clientWidth + " x " + monitorDiv.clientHeight, 20, 40);
-                ctx.fillText("Monitor " + canvas.width + " x " + canvas.height, 20, 50);
-
-            }
-            new ResizeObserver(sizeChanged).observe(monitorDiv);
-            sizeChanged();   
-            window.onscroll = sizeChanged;
-            sizeChanged();             
+/*! Normalized address bar hiding for iOS & Android (c) @scottjehl MIT License */
+(function( win ){
+	var doc = win.document;
+	
+	// If there's a hash, or addEventListener is undefined, stop here
+	if( !location.hash && win.addEventListener ){
+		
+		//scroll to 1
+		win.scrollTo( 0, 1 );
+		var scrollTop = 1,
+			getScrollTop = function(){
+				return win.pageYOffset || doc.compatMode === "CSS1Compat" && doc.documentElement.scrollTop || doc.body.scrollTop || 0;
+			},
+		
+			//reset to 0 on bodyready, if needed
+			bodycheck = setInterval(function(){
+				if( doc.body ){
+					clearInterval( bodycheck );
+					scrollTop = getScrollTop();
+					win.scrollTo( 0, scrollTop === 1 ? 0 : 1 );
+				}	
+			}, 15 );
+		
+		win.addEventListener( "load", function(){
+			setTimeout(function(){
+				//at load, if user hasn't scrolled more than 20 or so...
+				if( getScrollTop() < 20 ){
+					//reset to hide addr bar at onload
+					win.scrollTo( 0, scrollTop === 1 ? 0 : 1 );
+				}
+			}, 0);
+		}, false );
+	}
+})( this );        
+    </script>
+   <style>
+        /* DEMO ONLY for this short page - remove in live code */
+        body { 
+            min-height: 1600px;
         }
-  </script>
-  <style>
-    * {
-        touch-action: none;
-    }
-    body {
-        background-color: grey;
-        height: 300vh;        
-    }
-    #monitor {
-        background-color: orange;
-        position: fixed;
-        
-        top:0;
-        left:0;
-        right:0;
-        bottom:0;
-        /*padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);*/
-        
+   </style>  
+ 
 
-        color:white;
-        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-        font-size: large;
-    }
-    canvas {
-        image-rendering: pixelated;
-
-        max-width: 100%;
-        max-height: 100%;
-        bottom: 0;
-        left: 0;
-        margin: auto;
-        overflow: auto;
-        position: absolute;
-        right: 0;
-        top: 0;
-        -o-object-fit: contain;
-        object-fit: contain;
-        zoom: 900%
-    }    
-    @media (orientation: landscape) {
-        canvas {
-            background-color: red;            
-        }
-    }
-    @media (orientation: portrait) {
-        canvas {
-            background-color: green;
-        }
-    }
-  </style>  
 </head>
-<body>
-    <div id="monitor"> 
-        <canvas id="canvas"></canvas>
-   </div>
-</body>
+  <body>
+	<p>The script on this page should hide the address bar on iOS and Android.</p>
+  </body>
 </html>
