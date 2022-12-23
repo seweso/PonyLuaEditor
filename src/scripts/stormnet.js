@@ -18,10 +18,14 @@ var connection = new signalR
     .withUrl(SignalR_Url)
     .build();
 
-// TODO: Don't start right away (wait for input to be ready?)
-connection.start().then(async function () {
-    await connection.invoke("SetToken", SignalR_Token);
+LOADER.on(LOADER.EVENT.INPUTS_READY, () => {
+    console.log("Stormnet starting...")
+    connection.start().then(async function () {
+        await connection.invoke("SetToken", SignalR_Token);
+    })
 })
+
+
 
 connection.onreconnected(async function () {
     await connection.invoke("SetToken", SignalR_Token);
