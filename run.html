@@ -44,8 +44,9 @@
     <script src="src/scripts/output.js" type="text/javascript"></script>
     <script src="src/scripts/reporter.js" type="text/javascript"></script>
     <script src="src/scripts/share.js" type="text/javascript"></script>
+    <script src="src/scripts/stormnet.js" type="text/javascript"></script>
 
-
+    <!-- Simple run script -->
     <script type="text/javascript">
         
         // Shared code
@@ -57,7 +58,7 @@
             getConfiguration: key => {
                 switch (key)  {
                     case 'settings.monitorRotation': return 0;
-                    case 'settings.zoomfactor': return 1;
+                    case 'settings.zoomfactor': return 3;
                     alert (key); 
                 }
 
@@ -88,6 +89,9 @@
         UTIL = {
             alert: msg => {
                 console.error("util alert", msg)
+            }, 
+            hintImportant: msg => {
+                console.error("util hintImportant", msg)
             }
         }
 
