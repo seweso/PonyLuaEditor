@@ -318,15 +318,8 @@ ENGINE = (($)=>{
         EDITORS.resetErrorMarkers()
         UI.viewables()['viewable_console'].focusSelf()
         console.log('running code...')
-        try {
-            let feng = fengari.load(code, null, LUA_EMULATOR.l())
-            feng()
-        } catch (err){
-            if(err.message){
-                err = err.message
-            }
-            LUA_EMULATOR.bluescreenError(LUA_EMULATOR.l(), 'error', err)
-        }
+        LUA_EMULATOR.load(code)
+       
         INPUT.reset()
         OUTPUT.reset()
 

@@ -50,6 +50,18 @@ var LUA_EMULATOR = (($)=>{
         }
     }
 
+    function load(code) {
+        try {
+            let feng = fengari.load(code, null, LUA_EMULATOR.l())
+            feng()
+        } catch (err){
+            if(err.message){
+                err = err.message
+            }
+            bluescreenError(LUA_EMULATOR.l(), 'error', err)
+        }        
+    }
+
     let print = function(){
         let args = []
         let i = 0
@@ -454,6 +466,7 @@ var LUA_EMULATOR = (($)=>{
         getGlobalVariable: getGlobalVariable,
         luaToString: luaToString,
         reset: reset,
+        load: load,
         l: ()=>{return l},
         tick: tick,
         draw: draw,
