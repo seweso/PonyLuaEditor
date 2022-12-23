@@ -52,6 +52,7 @@
         // Shared code
         const id = 'wzSGQ3dsy9';
         let code = null;
+        let timer = null;
 
         // Mock storage
         STORAGE = {
@@ -65,6 +66,9 @@
             },
             setConfiguration: (key, value) => {
                 console.log('setConfiguration', key, value)
+
+                $('#monitor-size').val('9x5')
+                $('#enable-touchscreen').prop('checked', true)
             },
             setFromShare: (key, value) => {
                 console.log('setFromShare', key, value)
@@ -79,6 +83,12 @@
             }
         }
         
+        // Mock UI
+        UI = {
+            supportsTouch: () => {return true}
+        }
+
+
         // Mock console
         CONSOLE = {
             print: msg => {
@@ -139,10 +149,14 @@
             INPUT.reset()
             OUTPUT.reset()
 
-            LUA_EMULATOR.tick()
-            window.requestAnimationFrame(LUA_EMULATOR.draw)
-
-            LOADER.done('all_done')
+            // Run lua + update canvas
+            timer = setInterval(()=>{
+                LUA_EMULATOR.tick()
+                OUTPUT.refresh()
+                CANVAS.reset()
+                LUA_EMULATOR.draw()
+                //window.requestAnimationFrame(LUA_EMULATOR.draw)      
+            }, 16 * 1.1)
         }
         LOADER.on(LOADER.EVENT.STORAGE_READY, runCode);
 
@@ -343,7 +357,7 @@
             <div class="setting multi_setting" id="enable-touchscreen-container">
                 <div>
                     <label for="enable-touchscreen">Enable Touchscreen</label>
-                    <input type="checkbox" id="enable-touchscreen" name="enable-touchscreen">
+                    <input type="checkbox" id="enable-touchscreen" name="enable-touchscreen" checked="true">
                 </div>
                 <div>
                     <label for="enable-touchscreen-secondary">Enable Secondary Input</label>
