@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+
+    <title>Pony IDE</title>
+    <meta name="title" content="Pony IDE">
+    <meta name="description" content="Create, Minify, Run, Debug and Share your Lua scripts for Stormworks: Build and Rescue. \nYou can also find tutorials, examples and documentation or use the ui builder for Lua without coding skills!">
+
+
+    <!-- favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png?v=lkvjrKOM3xPNY">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png?v=lkvjrKOM3xPNY">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png?v=lkvjrKOM3xPNY">
+    <link rel="manifest" href="/favicon/site.webmanifest?v=lkvjrKOM3xPNY">
+    <link rel="mask-icon" href="/favicon/safari-pinned-tab.svg?v=lkvjrKOM3xPNY" color="#117cff">
+    <link rel="shortcut icon" href="/favicon/favicon.ico?v=lkvjrKOM3xPNY">
+    <meta name="msapplication-TileColor" content="#000000">
+    <meta name="msapplication-config" content="/favicon/browserconfig.xml?v=lkvjrKOM3xPNY">
+    <meta name="theme-color" content="#000000">
+
+    <!-- OG SECTION -->
+    <link rel="stylesheet" type="text/css" href="stylesheets/style_ide.css">
+    <link rel="stylesheet" type="text/css" href="stylesheets/iconfont.css">
+
+    <!-- external libs -->
+    <script src="scripts/lib/jquery.js" type="text/javascript"></script>
+    <script src="scripts/lib/fengari_web.js" type="text/javascript" id="fengari-script" ></script>
+    <script src="scripts/lib/fuse.js" type="text/javascript"></script>
+    <script src="scripts/lib/vanilla_picker.js" type="text/javascript"></script>
+    <script src="scripts/lib/signalr.js" type="text/javascript"></script>
+    
+    <script src="ace-builds/ace.js" type="text/javascript"></script>
+    <script src="ace-builds/ext-language_tools.js" type="text/javascript"></script>
+    
+    <!-- my scripts -->
+    <script src="src/scripts/loader.js" type="text/javascript"></script>
+    <script src="src/scripts/lua_emulator.js" type="text/javascript"></script>
+    <script src="src/scripts/stormworks_lua_api.js" type="text/javascript"></script>
+    <script src="src/scripts/canvas.js" type="text/javascript"></script>
+    <script src="src/scripts/map.js" type="text/javascript"></script>
+    <script src="src/scripts/paint.js" type="text/javascript"></script>
+    <script src="src/scripts/input.js" type="text/javascript"></script>
+    <script src="src/scripts/output.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        // Mock storage
+        STORAGE = {
+            getConfiguration: key => {
+                switch (key)  {
+                    case 'settings.monitorRotation': return 0;
+                    case 'settings.zoomfactor': return 1;
+                    alert (key); 
+                }
+
+            },
+            setConfiguration: (key, value) => {
+                // Do nothing
+            }
+        }
+        
+        // Mock console
+        CONSOLE = {
+            print: msg => {
+                console.log("from Lua print", msg)
+            }
+        }    
+
+        // Mock engine
+        ENGINE = {
+            init: () => {
+                LOADER.done(LOADER.EVENT.ENGINE_READY)
+            },
+            isRunning: () => { return true },
+            errorStop: () => {
+                console.log('errorStop')
+            }
+        }
+        LOADER.on(LOADER.EVENT.LUA_EMULATOR_READY, ENGINE.init);
+
+        // Old loading indicator
+        LOADER.on(LOADER.EVENT.PAGE_READY, ()=>{
+            $('.ide').addClass('deactivated')
+        })
+        LOADER.onAllDone(()=>{
+            $('.ide').removeClass('deactivated')
+        })
+
+        // Start script
+        function start() {
+            CANVAS.reset()
+            CANVAS.resetTouchpoints()
+            MAP.reset()
+            PAINT._reset()
+            console.log('running code...')
+            LUA_EMULATOR.load("print('test')")
+            INPUT.reset()
+            OUTPUT.reset()
+        }
+        LOADER.on(LOADER.EVENT.CANVAS_READY, start);
+
+        
+    </script>
+  
+
+</head>
+<body>
+    <div id="navigation">
+        <div class="left">
+            <span id="menu-open">Menu</span>
+            <div id="help-button">
+                <img src="images/help.png">
+                <span>Help</span>
+            </div>
+            <span class="icon-spinner11 reload_page" onclick="document.location.reload()"></span>
+        </div>
+        <div class="center">
+            <svg
+                xmlns:dc="http://purl.org/dc/elements/1.1/"
+                xmlns:cc="http://creativecommons.org/ns#"
+                xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+                xmlns:svg="http://www.w3.org/2000/svg"
+                xmlns="http://www.w3.org/2000/svg"
+                width="120mm"
+                height="22mm"
+                viewBox="0 0 120 22"
+                version="1.1"
+                preserveAspectRatio="none">
+                <g transform="translate(5.5, -10)">
+                    <path
+                    id="fill"
+                    d="M 0,10 l 8,20 H 100 l 8,-20 h -116"
+                    />
+                </g>
+                <g transform="translate(5.5, -10)">
+                    <defs>
+                        <filter id="glow">
+                            <fegaussianblur class="blur" result="coloredBlur" stddeviation="2"></fegaussianblur>
+                            <femerge>
+                                <femergenode in="coloredBlur"></femergenode>
+                                <femergenode in="coloredBlur"></femergenode>
+                                <femergenode in="coloredBlur"></femergenode>
+                                <femergenode in="SourceGraphic"></femergenode>
+                            </femerge>
+                        </filter>
+                    </defs>
+                    <path
+                    style="filter: url(#glow)"
+                    id="border"
+                    d="M 0,10 l 8,20 H 100 l 8,-20"
+                    />
+                </g>
+            </svg>
+            <div class="content">
+                <span class="not_open">Pony IDE</span>
+                <span class="on_open">close</span>
+            </div>
+        </div>
+        <div class="right">
+            <div class="version_state"></div>
+            <div class="logo_container">
+                <img src="images/logo.png"/>
+            </div>
+        </div>
+        <div class="main">
+                <div class="part">
+                    <a href="http-allow-localhost">How to use Stormworks HTTP API</a>
+                </div>
+                <div class="part">
+                    <a href="https://gitlab.com/stormworks-tools/editor" target="_blank" rel="noopener noreferrer">View source code</a>
+                </div>
+                <div class="part">
+                    <a id="download-offline" href="https://gitlab.com/stormworks-tools/editor/-/archive/master/editor-master.zip" download="" rel="nofollow">Download for offline use</a>                    
+                </div>
+                <div class="part">
+                    <a href="https://stormworks.flaffipony.rocks/" target="_blank" rel="noopener noreferrer">All Stormworks Tools</a>
+                </div>
+                <div class="part">
+                    <span style="margin-bottom: 10px">Discord: CrazyFluffyPony#0587</span>
+                    <a href="mailto://crazyfluffypony@gmail.com">crazyfluffypony@gmail.com</a>
+                </div>
+        </div>
+        <div class="navigation_hints"></div>
+    </div>
+
+    <div class="ide">
+        <div class="ide_bar">
+            <div class="ide_controls">
+                <div class="controls_group">
+                    <button id="save" title="Save"><span class="icon-floppy-disk"></span></button> 
+                    <button id="reset" title="Reset">Reset</button>
+                </div>
+                <div class="controls_group engine_controls">
+                    <button id="start" title="Start"><span class="icon-play3"></span></button>
+                    <button id="pause" class="special_button" title="Pause"><span class="icon-pause2"></span></button>
+                    <button id="step" class="special_button" title="Step forward"><span class="icon-next2"></span></button>
+                    <button id="stop" title="Stop"><span class="icon-stop2"></span></button>   
+                </div>
+                <div class="controls_group">
+                    <label for="code-title">Name:</label>
+                    <input type="text" name="code-title" id="code-title" placeholder="e.g. Fuel Display">
+                    <button id="save-to-history" title="Add to history">Add to history<span id="history-help-controls" class="icon-question"></span></button>
+                    <div id="share">
+                        <button class="docreate special_button">
+                            Share
+                        </button>
+                        <div class="more">
+                            <div class="currentshare_container">
+                                <input type="text" class="currentshare" name="currentshare"/>
+                                <span class="copy_share_to_clipboard">Copy</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="ide_bar_right">
+                <div class="ide_mode_switch">
+                    <input type="checkbox" name="ide-server-mode" id="ide-server-mode"/><label for="ide-server-mode"></label>
+                </div>
+                <div class="ide_stats">
+                    <span>Average TPS: <span id="ticktime">0</span></span>
+                    <span>Average FPS: <span id="drawtime">0</span></span>
+                </div>
+            </div>
+        </div>
+        <div class="ide_flex_view">
+            <div view="top_left"></div>
+            <div view="top_right"></div>
+            <div view="bottom_left"></div>
+            <div view="bottom_right"></div>
+
+            <div splitter="vertical"></div>
+            <div splitter="horizontal_left"></div>
+            <div splitter="horizontal_right"></div>
+        </div>
+    </div>
+
+    
+    
+
+    <!--
+        INVISIBLE STUFF
+    -->
+
+    <div style="display: none;">
+        <div id="monitor-container" viewable="viewable_monitor">
+            <div id="monitor">
+                <canvas id="canvas"></canvas>
+                <div id="overflow"></div>
+            </div>
+            <div class="monitor_info">
+                <div>
+                    <label>Width:</label>
+                    <span class="width">0</span>
+                </div>
+                <div>
+                    <label>Height:</label>
+                    <span class="height">0</span>
+                </div>
+                <div>
+                    <label>Zoom:</label><span class="zoom">3x</span>
+                    <input type="range" min="1" max="10" id="zoomfactor" name="zoomfactor" value="1">
+                </div>
+            </div>
+            <canvas id="render-canvas"></canvas>
+            <canvas id="unzoomed-canvas"></canvas>
+        </div>
+
+        <div viewable="viewable_settings">
+            <div class="setting">
+                <label for="monitor-size">Monitor</label>
+                <select id="monitor-size" name="monitor-size">
+                    <option value="1x1">1x1</option>
+                    <option value="2x1">2x1</option>
+                    <option value="2x2">2x2</option>
+                    <option value="3x1">3x1</option>
+                    <option value="3x2">3x2</option>
+                    <option value="3x3">3x3</option>
+                    <option value="5x3">5x3</option>
+                    <option value="9x5">9x5</option>
+                </select>
+            </div>
+            <div class="setting">
+                <label for="monitor-rotation">Rotate Monitor</label>
+                <select id="monitor-rotation" name="monitor-rotation">
+                    <option value="0">0°</option>
+                    <option value="90">90°</option>
+                    <option value="180">180°</option>
+                    <option value="270">270°</option>
+                </select>
+            </div>
+            <div class="setting">
+                <label for="show-overflow">Show overflow</label>
+                <input type="checkbox" id="show-overflow" name="show-overflow" checked>
+            </div>
+            <div class="setting multi_setting" id="enable-touchscreen-container">
+                <div>
+                    <label for="enable-touchscreen">Enable Touchscreen</label>
+                    <input type="checkbox" id="enable-touchscreen" name="enable-touchscreen">
+                </div>
+                <div>
+                    <label for="enable-touchscreen-secondary">Enable Secondary Input</label>
+                    <input type="checkbox" id="enable-touchscreen-secondary" name="enable-touchscreen-secondary" checked="true">
+                </div>
+            </div>
+            <div class="setting">
+                <label>Ticks per second:</label>
+                <div>
+                    <span id="timeBetweenTicksVal">60</span>
+                    <input type="range" min="16" max="250" value="16" id="timeBetweenTicks">
+                </div>
+            </div>
+            <div class="setting">
+                <label>Input Tick Delay:</label>
+                <div>
+                    <input type="number" min="0" max="60" value="0" id="inputTickDelay">
+                </div>
+            </div>
+            <div class="setting"> 
+                <label>Frames per Second:</label>
+                <div>
+                    <span id="timeBetweenDrawsVal">50</span>
+                    <input type="range" min="16" max="250" value="16" id="timeBetweenDraws">
+                </div>
+            </div>
+        </div>
+
+        <div viewable="viewable_history">
+            <div class="heading">
+                <div>
+                    <button id="history-export">Export My Shared Keys</button>
+                    <div id="history-help">Help <span class="icon-question"></span></div>
+                    <button id="history-import">Import My Shared Keys</button>
+                </div>
+                <div class="storage">
+                    Storage used: <span id="storage-used">?</span>
+                </div>
+            </div>
+            <div class="entries">
+                
+            </div>
+        </div>
+
+        <div id="out" viewable="viewable_console">
+            <div id="console">
+                <div id="console-inner"></div>
+                <span class="console_clear icon-bin"></span>
+            </div>
+        </div>
+
+
+        <div id="hints-container" viewable="viewable_hints"></div>
+
+        <div id="property" class="value_list" viewable="viewable_properties"></div>
+
+        <div id="input" class="value_list" viewable="viewable_inputs"></div>
+
+        <div id="output" class="value_list" viewable="viewable_outputs"></div>
+
+        <div id="documentation" viewable="viewable_documentation"></div>
+
+        <div viewable="viewable_official_manuals">
+            <div class="division">
+                <h2>Official Lua Language Manual</h2>
+                <p>
+                    <a href="https://www.lua.org/manual/5.3/" target="_blank" rel="noopener noreferrer">https://www.lua.org/manual/5.3/</a>
+                </p>
+            </div>
+            <div class="division">
+                <h2>Stormworks Lua Manual</h2>
+                <p>
+                    Please visit the official wiki: <a href="https://stormworks.gamepedia.com/Wiki/Guides/Lua">Stormworks Wiki Guide for Lua</a>
+                </p>
+            </div>
+            <div class="division">
+                <h2>Official Game Tutorial</h2>
+                <p>
+                    This scripting API is very powerful and as such there are some important reminders to take note of:<br>
+                    <ul><li>Your script has a max execution time of 1000 milliseconds, however it is still possible to create scripts that significantly slow down the game. It is your responsibility to ensure your script runs efficiently.</li><li>Random number functions are provided by the Lua math library. Use of randomness in your scripts is likey to cause desync in multiplayer, so use these functions at your own risk</li><li>When your vehicle despawns and respawns, your script will be executed "fresh" and any state stored within the script will be lost. We recommend keeping your script as stateless as possible, and making use of existing logic components (e.g. memory register) to store values that you with to persist</li><li>Your scripts run as a "black box" with only the logic inputs/outputs being synced in multiplayer. Keep in mind that complex logic in your script may behave differently for different players in a multiplayer session.</li><li>A number of safeguards are in place to sandbox your script, however it is still possible to write scripts that will potentially crash your game. If you crash your game with a script it\'s likely that you\'re doing something (very) wrong. This is your own responsibility. If you suspect you have encountered a legitimate bug, please report it on the Stormworks issue tracker (accessible from the pause-menu).</li><li>Malicious and harmful scripts will not be tolerated on the Stormworks Steam Workshop</li><li>ONLY SERVER LUA: Any variables saved to a lua table named g_savedata will be saved out and loaded from a per-save lua_data.xml, you can use this to make your scripts persistent</li></ul>
+                </p>
+            </div>
+        </div>
+
+        <div viewable="viewable_examples">
+            <div id="examples" class="chapters"></div>
+        </div>
+
+        <div viewable="viewable_learn">
+            <h2>Learn by topic</h2>
+            <div id="learn" class="chapters"></div>
+            <h2>Team Insanity - Lua Guide</h2>
+            <div youtube-embed="Uv5NTZtQe9Q"></div>
+            <div youtube-embed="hq7IPjkFQ0Q"></div>
+            <div youtube-embed="ayqjaHnwbRo"></div>
+            <div youtube-embed="K-D8ivPhaQE"></div>
+        </div>
+
+        <div id="editor" viewable="viewable_editor_normal">
+            <div class="code_container">
+                <div>
+                    <button id="minify">Minify</button>
+                    <select id="minify-type">
+                        <optgroup label="Conservative">
+                            <option value="conservative-with-line-breaks">Consv. with line breaks</option>
+                            <option value="conservative-no-line-breaks">Consv. no line breaks</option>
+                        </optgroup>
+                        <optgroup label="Agressive">
+                            <option value="agressive-with-line-breaks">Agrs. with line breaks</option>
+                            <option value="agressive-no-line-breaks">Agrs. no line breaks</option>
+                        </optgroup>
+                    </select>
+                    <span id="minify-help" class="icon-question"></span>
+                </div>
+                <div class="code_information">
+                    <span class="selection-information">Line 0, Column 0, Char 0</span>
+                    <span class="autocompletition-hint">Autocomplete: right click, Ctrl+Space or Command+Space</span>
+                    <span class="charactercount">0/4096</span>
+                </div>
+                <div id="code" code-field="normal">
+function onTick()
+    -- your code
+end
+
+function onDraw()
+    -- your code
+end
+
+function httpReply(port, request_body, response_body)
+    -- your code
+    --
+    -- IMPORTANT: You must follow these steps to enable http support in this Lua IDE:
+    -- the first time you run asyn.httpGet() a popup will explain you what to do
+    --
+end
+</div>
+            </div>
+        </div>
+
+        <div id="minified-editor" viewable="viewable_editor_minified">
+            <div class="code_container">
+                <div>
+                    <button id="unminify">Unminify (beta)</button>
+
+                    <div class="custom_hint" style="display: none;">
+                        You are using custom minified code! It will be overwritten when minifying the next time!<br>When sharing the original code as well as the custom minified code will be shared.
+                    </div>
+                </div>
+                <div class="code_information">
+                    <span class="selection-information">Line 0, Column 0, Char 0</span>
+                    <span class="autocompletition-hint">Autocomplete: right click, Ctrl+Space or Command+Space</span>
+                    <span class="charactercount">0/4096</span>
+                </div>
+                <div id="minified-code" code-field="minified"></div>
+            </div>
+        </div>
+
+        <div id="unminified-editor" viewable="viewable_editor_unminified">
+            <div class="code_container">
+                <div class="code_information">
+                    <span class="selection-information">Line 0, Column 0, Char 0</span>
+                    <span class="autocompletition-hint">Autocomplete: right click, Ctrl+Space or Command+Space</span>
+                    <span class="charactercount">0/4096</span>
+                </div>
+                <div id="unminified-code" code-field="unminified"></div>
+            </div>
+        </div>
+
+        <div id="ui-builder" viewable="viewable_editor_uibuilder">
+            <div id="ui-builder-container"></div>
+            <div id="ui-builder-controls">
+                <div class="ui_builder_zoom controls_container">
+                    <label for="ui-builder-zoom">UI Builder Zoom: <span>1x</span></label>
+                    <input type="range" min="1" max="10" value="1" name="ui-builder-zoom" id="ui-builder-zoom">
+                </div>
+                <div class="controls_container">
+                    <button id="generate-ui-builder-lua-code">Generate Lua Code</button>
+                </div>
+            </div>
+        </div>
+
+        <div viewable="viewable_editor_uibuilder_code">
+            <div class="code_container">
+                <div class="code_information">
+                    <span class="selection-information">Line 0, Column 0, Char 0</span>
+                    <span class="autocompletition-hint">Autocomplete: right click, Ctrl+Space or Command+Space</span>
+                    <span class="charactercount">0/4096</span>
+                </div>
+                <div id="ui-builder-code" code-field="uibuilder"></div>
+            </div>
+        </div>
+
+        <div id="library" viewable="viewable_library">
+            <div class="code_container">
+                <div class="code_information">
+                    <div>
+                        Your code library (persistent and not shared)
+                    </div>
+                </div>
+                <div id="library-code" code-field="library">
+function myLibraryFunction()
+    -- write your utility functions in this tab here, and just copy them over into the editor when needed
+    -- they will be highlighted green, so you know you should not change them in the normal editor, but instead in this tab
+    -- perfect if you have code that is used in multiple projects
+end
+</div>
+            </div>
+        </div>
+    
+        <div id="colorpicker" viewable="viewable_colorpicker">
+            <div class="color_slot_container"></div>
+            <div class="color_select_container"></div>
+            <div class="combo_container">
+                <div class="color_preset_container"><span>Game Preset:</span></div>
+                <div class="color_formats_container">
+                    <label class="color_formats_correction"><input type="checkbox" checked>Apply Monitor Correction</label>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <img src="images/map.png" id="map" style="display: none;">
+
+    <div style="display: none" id="ponybin-create-overlay" class="ponybin_overlay">
+        <div class="inner">
+            <div class="circle">
+                <p>Pushing code to Ponybin<span dot="1">.</span><span dot="2">.</span><span dot="3">.</span></p>
+            </div>
+        </div>
+    </div>
+    <div style="display: none" id="ponybin-receive-overlay" class="ponybin_overlay">
+        <div class="inner">
+            <div class="circle">
+                <p>Receiving code from Ponybin<span dot="1">.</span><span dot="2">.</span><span dot="3">.</span></p>
+            </div>
+        </div>
+    </div>
+
+    <div style="display: none;" id="giveaway-container" class="dialog">
+        <div class="inner">
+            <h3 class="title">Pony has a giveaway for you!</h3>
+            <div class="message"></div>
+            <div class="claimed_by_container">
+                <label>Your Discord Tag or email (so i can send you the giveaway):</label>
+                <input type="text" name="giveaway-claimed-by" class="claimed_by" placeholder="CrazyFluffyPony#0587">
+            </div>
+            <div class="error" style="display: none;">Error occured</div>
+            <div class="progress" style="display: none;">Claiming ...</div>
+            <div class="success" style="display: none;">
+                You claimed the giveaway!<br>I will contact you soon!
+            </div>
+            <div class="buttons">
+                <button class="cancel">Cancel</button>
+                <button class="reload" style="display: none;">Reload</button>
+                <button class="send">Send</button>
+                <button class="close" style="display: none;">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="help-container">
+        <div class="inner">
+            <div class="inner_content">
+                <p>The most important things are explained in the video below. The other things can be discovered while working with the IDE, it's just software, you cannot break it.</p>
+                <p>In case you actually break it, find a bug or have any suggestions / feedback, i'm happy to hear your feedback.</p>
+                <p><i>Discord: CrazyFluffyPony#0587</i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="mailto://crazyfluffypony@gmail.com">crazyfluffypony@gmail.com</a></p>
+                <p>Sincerly, Pony</p>
+                <div youtube-embed="lqPr2j6pgeQ"></div>
+                <h3>Chapters</h3>
+                <ul>
+                    <li><span class="time">0:00</span> Changes compared to the old Lua IDE</li>
+                    <li><span class="time">1:03</span> Introduction into the resizable and customizable UI</li>
+                    <li><span class="time">1:49</span> Persistent Storage</li>
+                    <li><span class="time">2:10</span> Code Editors and Minifying</li>
+                    <li><span class="time">3:06</span> UI Builder</li>
+                    <li><span class="time">4:35</span> Monitor</li>
+                    <li><span class="time">5:20</span> Executing Code</li>
+                    <li><span class="time">6:58</span> Touchscreen</li>
+                    <li><span class="time">7:41</span> Documentation and Autocompletion</li>
+                    <li><span class="time">8:41</span> Properties, Inputs, Outputs</li>
+                    <li><span class="time">9:40</span> Learn and Examples and Manuals</li>
+                    <li><span class="time">10:40</span> Server Mode / Mission Lua</li>
+                    <li><span class="time">11:17</span> Share Code</li>
+                    <li><span class="time">11:50</span> Contact, Download Offline, Source Code, HTTP API</li>
+                </ul>
+                <br>
+                <h3>Shortcuts / Hotkeys</h3>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>Ctrl + s</td>
+                            <td>Save everything</td>
+                        </tr>
+                        <tr>
+                            <td>Ctrl + e</td>
+                            <td>Start, continue (when paused) or stop script</td>
+                        </tr>
+                        <tr>
+                            <td>Ctrl + p</td>
+                            <td>Pause / unpause script</td>
+                        </tr>
+                        <tr>
+                            <td>Ctrl + &rarr;</td>
+                            <td>Step forward (when paused)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="close">close</div>
+        </div>
+    </div>
+
+
+    <div id="fullscreen-offer" style="display: none">
+        <button onclick="document.body.requestFullscreen()"><span class="icon-enlarge"></span>Enter Fullscreen</button>
+    </div>
+
+    <script type="text/javascript" src="https://stormworks.flaffipony.rocks/embed_carsas_commands.js"></script>
+</body>
+</html>
