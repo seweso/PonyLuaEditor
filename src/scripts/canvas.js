@@ -484,10 +484,10 @@ var CANVAS = ((global, $)=>{
 
 
         let rotation = parseInt(STORAGE.getConfiguration('settings.monitorRotation'))
-        $('#monitor').css({
-            width: rotation % 180 === 0 ? canvasWidth : canvasHeight,
-            height: rotation % 180 === 0 ? canvasHeight : canvasWidth
-        })
+        // $('#monitor').css({
+        //     width: rotation % 180 === 0 ? canvasWidth : canvasHeight,
+        //     height: rotation % 180 === 0 ? canvasHeight : canvasWidth
+        // })
 
         let translateXY = 'translate('
         switch(rotation){
@@ -544,6 +544,7 @@ var CANVAS = ((global, $)=>{
         "3x3": {width: 96, height: 96},
         "5x3": {width: 160, height: 96},
         "9x5": {width: 288, height: 160},
+        "5x9": {width: 160, height: 288}, // For apps only
     }
 
     function getCanvasDimensions(size){
@@ -610,7 +611,8 @@ var CANVAS = ((global, $)=>{
         resetTouchpoints: resetTouchpoints,
         mouseIsOverMonitor: ()=>{
             return mouseIsOverMonitor
-        }
+        }, 
+        SIZES: SIZES
     }
 
 })(window, jQuery)
