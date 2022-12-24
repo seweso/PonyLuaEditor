@@ -188,22 +188,8 @@ ENGINE = (($)=>{
     }
 
     function refresh(){
-        setConfigVal($('#timeBetweenTicks'), 'settings.timeBetweenTicks', 16)
-        setConfigVal($('#timeBetweenDraws'), 'settings.timeBetweenDraws', 16)
-
-        function setConfigVal(elem, confName, defaultValue){
-            let v = STORAGE.getConfiguration(confName)
-
-            let setterFunc
-            if(typeof defaultValue === 'boolean'){
-                setterFunc = (vv)=>{elem.prop('checked', vv)}
-            } else {
-                setterFunc = (vv)=>{elem.val(vv)}
-            }
-            
-            setterFunc( ( v !== undefined && v !== null ) ? v : defaultValue )
-            elem.trigger('change')
-        }
+        STORAGE.setConfigVal($('#timeBetweenTicks'), 'settings.timeBetweenTicks', 16)
+        STORAGE.setConfigVal($('#timeBetweenDraws'), 'settings.timeBetweenDraws', 16)
 
         CANVAS.refresh()        
 

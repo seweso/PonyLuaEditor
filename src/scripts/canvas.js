@@ -159,26 +159,12 @@ var CANVAS = ((global, $)=>{
 
 
         /* load config from STORAGE */
-        setConfigVal($('#zoomfactor'), 'settings.zoomfactor', 1)
-        setConfigVal($('#monitor-size'), 'settings.monitorSize', '1x1')
-        setConfigVal($('#monitor-rotation'), 'settings.monitorRotation', '0')
-        setConfigVal($('#show-overflow'), 'settings.showOverflow', true)
-        setConfigVal($('#enable-touchscreen'), 'settings.touchscreenEnabled', false)
-        setConfigVal($('#enable-touchscreen-secondary'), 'settings.touchscreenSecondaryEnabled', false)
-
-        function setConfigVal(elem, confName, defaultValue){
-            let v = STORAGE.getConfiguration(confName)
-
-            let setterFunc
-            if(typeof defaultValue === 'boolean'){
-                setterFunc = (vv)=>{elem.prop('checked', vv)}
-            } else {
-                setterFunc = (vv)=>{elem.val(vv)}
-            }
-            
-            setterFunc( ( v !== undefined && v !== null ) ? v : defaultValue )
-            elem.trigger('change')
-        }
+        STORAGE.setConfigVal($('#zoomfactor'), 'settings.zoomfactor', 1)
+        STORAGE.setConfigVal($('#monitor-size'), 'settings.monitorSize', '1x1')
+        STORAGE.setConfigVal($('#monitor-rotation'), 'settings.monitorRotation', '0')
+        STORAGE.setConfigVal($('#show-overflow'), 'settings.showOverflow', true)
+        STORAGE.setConfigVal($('#enable-touchscreen'), 'settings.touchscreenEnabled', false)
+        STORAGE.setConfigVal($('#enable-touchscreen-secondary'), 'settings.touchscreenSecondaryEnabled', false)
         
         LOADER.done(LOADER.EVENT.CANVAS_READY)
     }

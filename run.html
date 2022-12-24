@@ -51,8 +51,9 @@
         // Mock storage
         STORAGE = {
             getConfiguration: key => {
+                // TODO: Only used for initial values
                 switch (key)  {
-                    case 'settings.monitorRotation': return 0;
+                    case 'settings.monitorRotation': return document.body.clientWidth < document.body.clientHeight ? 90 : 0;
                     case 'settings.zoomfactor': return 4;
                     case 'settings.showOverflow': return false;      
                     case 'settings.monitorSize': return '9x5';    
@@ -75,6 +76,26 @@
                 // Set code
                 code = settings.editors.normal
                 LOADER.done(LOADER.EVENT.STORAGE_READY)
+            }, 
+            setConfigVal: (elem, confName, defaultValue) => {
+                // TODO: Duplicate func 
+                let v = STORAGE.getConfiguration(confName)
+                v = ( v !== undefined && v !== null ) ? v : defaultValue 
+
+                let oldV
+                let setterFunc
+                if(typeof defaultValue === 'boolean'){
+                    oldV = elem.prop('checked')
+                    setterFunc = (vv)=>{elem.prop('checked', vv)}
+                } else {
+                    oldV = elem.val()
+                    setterFunc = (vv)=>{elem.val(vv)}
+                }
+
+                if (v != oldV) {
+                    setterFunc(v)
+                    elem.trigger('change')
+                }                
             }
         }
         
@@ -141,6 +162,10 @@
             LUA_EMULATOR.draw()
         }
 
+        function sizeChanged() {
+            STORAGE.setConfigVal($('#monitor-rotation'), 'settings.monitorRotation', 0)
+        }
+
         // Run code
         function runCode() {
             CANVAS.reset()
@@ -154,6 +179,8 @@
 
             // Run lua + update canvas
             timer = setInterval(tick, 16 * 1.1)
+
+            new ResizeObserver(sizeChanged).observe(document.body);
         }
         LOADER.on(LOADER.EVENT.STORAGE_READY, runCode);        
     </script>

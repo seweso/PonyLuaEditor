@@ -128,6 +128,20 @@ STORAGE = (()=>{
         }
     }
 
+    function setConfigVal(elem, confName, defaultValue){
+        let v = STORAGE.getConfiguration(confName)
+
+        let setterFunc
+        if(typeof defaultValue === 'boolean'){
+            setterFunc = (vv)=>{elem.prop('checked', vv)}
+        } else {
+            setterFunc = (vv)=>{elem.val(vv)}
+        }
+        
+        setterFunc( ( v !== undefined && v !== null ) ? v : defaultValue )
+        elem.trigger('change')
+    }
+
     /* 
         name can include "." which allows access to nested settings
         e.g. settings.timeBetweenDraws
@@ -251,6 +265,7 @@ STORAGE = (()=>{
     return {
         setConfiguration: setConfiguration,
         getConfiguration: getConfiguration,
+        setConfigVal: setConfigVal,
         setUnShared: setUnSharedValue,
         getUnShared: getUnSharedValue,
         configurationAsString: configurationAsString,
