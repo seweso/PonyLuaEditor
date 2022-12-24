@@ -44,7 +44,7 @@
     <script type="text/javascript">
         
         // Shared code
-        const id = 'wzSGQ3dsy9';
+        const id = 'X1qORUm3lD' // 'wzSGQ3dsy9';
         let code = null;
         let timer = null;
 
@@ -53,16 +53,20 @@
             getConfiguration: key => {
                 switch (key)  {
                     case 'settings.monitorRotation': return 0;
-                    case 'settings.zoomfactor': return 3;
-                    alert (key); 
+                    case 'settings.zoomfactor': return 4;
+                    case 'settings.showOverflow': return false;      
+                    case 'settings.monitorSize': return '9x5';    
+                    case 'settings.touchscreenEnabled': return true;     
+                    case 'settings.touchscreenSecondaryEnabled': return true;
+                    case 'settings.inputTickDelay': return 0;
+                    case 'inputs': return {
+                            bools: {},
+                            numbers: {}
+                        }
                 }
-
+                console.error("getConfiguration missing key", key)
             },
             setConfiguration: (key, value) => {
-                console.log('setConfiguration', key, value)
-
-                $('#monitor-size').val('9x5')
-                $('#enable-touchscreen').prop('checked', true)
             },
             setFromShare: (key, value) => {
                 console.log('setFromShare', key, value)
@@ -209,7 +213,7 @@
             </div>
             <div class="setting">
                 <label for="show-overflow">Show overflow</label>
-                <input type="checkbox" id="show-overflow" name="show-overflow" checked>
+                <input type="checkbox" id="show-overflow" name="show-overflow">
             </div>
             <div class="setting multi_setting" id="enable-touchscreen-container">
                 <div>
