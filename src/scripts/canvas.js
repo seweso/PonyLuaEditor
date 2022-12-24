@@ -133,7 +133,7 @@ var CANVAS = ((global, $)=>{
             STORAGE.setConfiguration('settings.touchscreenSecondaryEnabled', secondaryTouchEnabled)
         })
 
-        // Todo rewrite code style to match current code
+        // TODO rewrite code style to match current code (or already coverted in app.html?)
         function absorbEvent(event) {
             event.returnValue = false;
         }

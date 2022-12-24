@@ -38,6 +38,10 @@
             font-family: "Screen Mono";
             src: url("fonts/CG_pixel_4x5_mono.ttf");
         }
+        body {
+            background-color: grey;
+            height: 300vh;        
+        }
         #monitor {
             background-color: orange;
             position: fixed;
@@ -91,7 +95,7 @@
                 // TODO: Only used for initial values
                 switch (key)  {
                     case 'settings.monitorRotation': return 0; // TODO return monitorDiv.clientWidth < monitorDiv.clientHeight ? 90 : 0;
-                    case 'settings.zoomfactor': return 4;
+                    case 'settings.zoomfactor': return 10;
                     case 'settings.showOverflow': return false;      
                     case 'settings.monitorSize': return monitorDiv.clientWidth < monitorDiv.clientHeight ? '5x9' : '9x5';    
                     case 'settings.touchscreenEnabled': return true;     
@@ -192,6 +196,9 @@
 
         function sizeChanged() {
             STORAGE.setConfigVal($('#monitor-size'), 'settings.monitorSize', '1x1')
+
+            // Scroll down for full screen effect
+            window.scrollBy(0, 100);
         }
 
         // Run code
