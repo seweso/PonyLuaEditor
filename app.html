@@ -216,6 +216,7 @@
 
             // Check monitor orientation
             new ResizeObserver(sizeChanged).observe(monitorDiv);
+            //TODO window.onscroll = sizeChanged;
         }
         LOADER.on(LOADER.EVENT.STORAGE_READY, runCode);        
     </script>
