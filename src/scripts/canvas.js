@@ -24,9 +24,6 @@ var CANVAS = ((global, $)=>{
 
     let lastMouseEvent = null
     let mouseIsOverMonitor = false
-    let mouseX = 0
-    let mouseY = 0
-
     let touchpoints = []
 
     let secondaryTouchEnabled = true
@@ -90,29 +87,17 @@ var CANVAS = ((global, $)=>{
         })
         $('#monitor').on('mousemove', (evt)=>{
             lastMouseEvent = evt.originalEvent;
-            if(mouseIsOverMonitor){
-                mouseX = evt.originalEvent.clientX
-                mouseY = evt.originalEvent.clientY + $(global).scrollTop()
-            }
         })
         
         /* touchscreen for touch */
         $('#monitor').on('touchstart', (evt)=>{
             mouseIsOverMonitor = true
-            mouseX = evt.originalEvent.touches[0].clientX
-            mouseY = evt.originalEvent.touches[0].clientY + $(global).scrollTop()
         })
         $(window).on('touchend', (evt)=>{
             mouseIsOverMonitor = false            
         })
         $(window).on('touchcancel', (evt)=>{
             mouseIsOverMonitor = false            
-        })
-        $(window).on('touchmove', (evt)=>{
-            if(mouseIsOverMonitor){
-                mouseX = evt.originalEvent.touches[0].clientX
-                mouseY = evt.originalEvent.touches[0].clientY + $(global).scrollTop()
-            }            
         })
 
         $('#enable-touchscreen, #enable-touchscreen-secondary').on('change', ()=>{
@@ -134,6 +119,7 @@ var CANVAS = ((global, $)=>{
         })
 
         // TODO rewrite code style to match current code (or already coverted in app.html?)
+        
         function absorbEvent(event) {
             event.returnValue = false;
         }
@@ -143,9 +129,12 @@ var CANVAS = ((global, $)=>{
         div1.addEventListener("touchmove", absorbEvent);
         div1.addEventListener("touchcancel", absorbEvent);              
 
-        $(window).on('keydown mousedown touchstart', handleKeyDown)
-        $(window).on('keyup mouseup touchend', handleKeyUp)
+
+        $(window).on('keydown', handleKeyDown)
+        $(window).on('keyup', handleKeyUp)
         
+        $("#canvas").on('mousedown touchstart', handleKeyDown)
+        $("#canvas").on('mouseup touchend', handleKeyUp)
         $("#canvas").on('touchmove mousemove touchstart', handleMove)
 
         let params = new URLSearchParams( document.location.search)
@@ -170,8 +159,11 @@ var CANVAS = ((global, $)=>{
     }
 
     function handleMove(e) {
+        e.returnValue = false;
+
         // TODO Check for multi-touch support checkmark
         if(!ENGINE.isRunning() || !$('#enable-touchscreen').prop('checked')) {
+            console.log("sadkjfhjsdkfghsjkdfh")
             return;
         }        
         var touch = e;
@@ -179,6 +171,7 @@ var CANVAS = ((global, $)=>{
             touch = e.originalEvent.touches[0];
         }         
         if (!touch) {
+            console.log("sdfgdgfhsdfasrdgt")
             return;
         }
         
@@ -209,6 +202,8 @@ var CANVAS = ((global, $)=>{
     }    
     
     function handleKeyDown(evt){
+        evt.returnValue = false;
+
         if(mouseIsOverMonitor){
             if(ENGINE.isRunning() && $('#enable-touchscreen').prop('checked')){
                 let touch = lastMouseEvent;
@@ -226,7 +221,7 @@ var CANVAS = ((global, $)=>{
                 }
                 if(evt.originalEvent.key === 'q' || evt.originalEvent.key === 'e'){
                     // Keyboard click (or touch / mouse click as keyboard event)
-                    evt.preventDefault()
+                    // TODO: evt.preventDefault()                    
                     evt.stopImmediatePropagation()
                     if(touchpoints[0] && touchpoints[0].key === evt.originalEvent.key || touchpoints[1] && touchpoints[1].key === evt.originalEvent.key){
                         return
@@ -254,6 +249,8 @@ var CANVAS = ((global, $)=>{
     }
 
     function handleKeyUp(evt){
+        evt.returnValue = false;
+
         if(ENGINE.isRunning() && $('#enable-touchscreen').prop('checked')){
             if((UI.supportsTouch() && evt.originalEvent instanceof TouchEvent)){
                 if (touchpoints[1]) {
@@ -484,6 +481,7 @@ var CANVAS = ((global, $)=>{
 
 
         let rotation = parseInt(STORAGE.getConfiguration('settings.monitorRotation'))
+        // TODO Fix rotation 
         // $('#monitor').css({
         //     width: rotation % 180 === 0 ? canvasWidth : canvasHeight,
         //     height: rotation % 180 === 0 ? canvasHeight : canvasWidth
@@ -560,7 +558,19 @@ var CANVAS = ((global, $)=>{
     }
 
     function getPos(evt, touch) {
-        const rect = evt.target.getBoundingClientRect();
+        const rect = evt.target.getBoundingClientRect();        
+        
+        if (evt.type === "mousemove") {
+            var x = evt.offsetX;
+            var y = evt.offsetY;
+            console.log("Mouse position: (" + x + ", " + y + ")");
+          } else if (evt.type === "touchmove") {
+            var touch = evt.touches[0];
+            var x = touch.clientX - rect.left;
+            var y = touch.clientY - rect.top;
+            console.log("Touch position: (" + x + ", " + y + ")");
+          }
+
         const p = {
             x: unzoom(touch.clientX - rect.left),
             y: unzoom(touch.clientY - rect.top)
