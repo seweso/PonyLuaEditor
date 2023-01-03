@@ -24,14 +24,15 @@
 
             // Mouse move
             function handleMove(event) {
+                var zoomX = event.target.width / event.target.clientWidth;
                 if (event.type === "mousemove") {
-                    x = event.offsetX;
-                    y = event.offsetY;
+                    x = event.offsetX * zoomX;
+                    y = event.offsetY * zoomX;
                 } else if (event.type === "touchmove") {
                     var touch = event.touches[0];
                     var rect = event.target.getBoundingClientRect();
-                    x = touch.clientX - rect.left;
-                    y = touch.clientY - rect.top;
+                    x = (touch.clientX - rect.left) * zoomX;
+                    y = (touch.clientY - rect.top) * zoomX
                 }
                 sizeChanged();
             }
@@ -61,8 +62,6 @@
                     canvas.height = height;
                 }                
 
-                var zoomX = canvas.width / canvas.clientWidth;
-
                 // Draw test on canvas
                 const ctx = canvas.getContext('2d');
 
@@ -89,11 +88,11 @@
                 ctx.font = Math.round(8 * zoom) + 'px "Screen Mono", "Lucida Console", Monaco, monospace';
                 ctx.fillText("Screen " + monitorDiv.clientWidth + " x " + monitorDiv.clientHeight, 20 * zoom, 40 * zoom);
                 ctx.fillText("Monitor " + canvas.width + " x " + canvas.height, 20 * zoom, 50 * zoom);
-                ctx.fillText("X,y " + Math.round(x* zoomX) + ", " + Math.round(y* zoomX), 20 * zoom, 60 * zoom);
+                ctx.fillText("X,y " + Math.round(x) + ", " + Math.round(y), 20 * zoom, 60 * zoom);
 
                 ctx.fillStyle = "#0000FF";
                 ctx.beginPath();
-                ctx.arc(x * zoomX, y * zoomX, 10 * zoom, 0, 2 * Math.PI);
+                ctx.arc(x, y, 10 * zoom, 0, 2 * Math.PI);
                 ctx.fill();
             }
             new ResizeObserver(sizeChanged).observe(monitorDiv);
