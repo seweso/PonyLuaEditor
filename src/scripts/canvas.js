@@ -163,7 +163,6 @@ var CANVAS = ((global, $)=>{
 
         // TODO Check for multi-touch support checkmark
         if(!ENGINE.isRunning() || !$('#enable-touchscreen').prop('checked')) {
-            console.log("sadkjfhjsdkfghsjkdfh")
             return;
         }        
         var touch = e;
@@ -171,7 +170,6 @@ var CANVAS = ((global, $)=>{
             touch = e.originalEvent.touches[0];
         }         
         if (!touch) {
-            console.log("sdfgdgfhsdfasrdgt")
             return;
         }
         
@@ -560,20 +558,23 @@ var CANVAS = ((global, $)=>{
     function getPos(evt, touch) {
         const rect = evt.target.getBoundingClientRect();        
         
+        var x = -1;
+        var y = -1;
+        var zoomX = evt.target.width / evt.target.clientWidth;
         if (evt.type === "mousemove") {
-            var x = evt.offsetX;
-            var y = evt.offsetY;
-            console.log("Mouse position: (" + x + ", " + y + ")");
-          } else if (evt.type === "touchmove") {
+            x = evt.offsetX * zoomX;
+            y = evt.offsetY * zoomX;
+        } else if (evt.type === "touchmove") {
             var touch = evt.touches[0];
-            var x = touch.clientX - rect.left;
-            var y = touch.clientY - rect.top;
-            console.log("Touch position: (" + x + ", " + y + ")");
-          }
+            x = (touch.clientX - rect.left) * zoomX;
+            y = (touch.clientY - rect.top) * zoomX
+        }
+        console.log("new", Math.round(x/10), Math.round(y/10)); 
 
+        // TODO Fix ugly code
         const p = {
-            x: unzoom(touch.clientX - rect.left),
-            y: unzoom(touch.clientY - rect.top)
+            x: x,
+            y: y
         };
 
         //adjust for rotated monitor 
@@ -592,10 +593,12 @@ var CANVAS = ((global, $)=>{
     }
     
     function zoom(val){
+        // TODO remove
         return val * zoomFactor
     }
 
     function unzoom(val){
+        // TODO remove
         return val / zoomFactor
     }
 
