@@ -159,8 +159,6 @@ var CANVAS = ((global, $)=>{
     }
 
     function handleMove(e) {
-        e.returnValue = false;
-
         // TODO Check for multi-touch support checkmark
         if(!ENGINE.isRunning() || !$('#enable-touchscreen').prop('checked')) {
             return;
@@ -200,8 +198,6 @@ var CANVAS = ((global, $)=>{
     }    
     
     function handleKeyDown(evt){
-        evt.returnValue = false;
-
         if(mouseIsOverMonitor){
             if(ENGINE.isRunning() && $('#enable-touchscreen').prop('checked')){
                 let touch = lastMouseEvent;
@@ -219,7 +215,7 @@ var CANVAS = ((global, $)=>{
                 }
                 if(evt.originalEvent.key === 'q' || evt.originalEvent.key === 'e'){
                     // Keyboard click (or touch / mouse click as keyboard event)
-                    // TODO: evt.preventDefault()                    
+                    evt.preventDefault()                    
                     evt.stopImmediatePropagation()
                     if(touchpoints[0] && touchpoints[0].key === evt.originalEvent.key || touchpoints[1] && touchpoints[1].key === evt.originalEvent.key){
                         return
@@ -247,8 +243,6 @@ var CANVAS = ((global, $)=>{
     }
 
     function handleKeyUp(evt){
-        evt.returnValue = false;
-
         if(ENGINE.isRunning() && $('#enable-touchscreen').prop('checked')){
             if((UI.supportsTouch() && evt.originalEvent instanceof TouchEvent)){
                 if (touchpoints[1]) {
