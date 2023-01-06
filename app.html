@@ -77,8 +77,20 @@
     <!-- Simple run script -->
     <script type="text/javascript">
         
-        // Shared code
-        const id = new URLSearchParams( document.location.search).get('id'); // 'X1qORUm3lD' // 'wzSGQ3dsy9';
+        // Get code id from url
+        const urlParams = new URLSearchParams(window.location.search);
+        let id = urlParams.get('id2'); // 'X1qORUm3lD' // 'wzSGQ3dsy9'; // TODO Use id instead of id2 (refactor share.js?)
+
+        // Load documentation when no id is supplied
+        if (!id) {
+            id = "qjzIPO504r";
+
+            // Set id in url
+            urlParams.set('id2', id);
+            let query = urlParams.toString()
+            window.history.pushState(null, document.title, document.location.pathname + (query.length > 0 ? '?' + query : ''))      
+        }
+
         let code = null;
         let timer = null;
         let monitorDiv = null;
