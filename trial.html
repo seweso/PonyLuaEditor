@@ -87,8 +87,8 @@
                 // Draw text
                 ctx.font = Math.round(8 * zoom) + 'px "Screen Mono", "Lucida Console", Monaco, monospace';
                 ctx.fillText("Screen " + monitorDiv.clientWidth + " x " + monitorDiv.clientHeight, 20 * zoom, 40 * zoom);
-                ctx.fillText("Monitor " + canvas.width + " x " + canvas.height, 20 * zoom, 50 * zoom);
-                ctx.fillText("X,y " + Math.round(x) + ", " + Math.round(y), 20 * zoom, 60 * zoom);
+                ctx.fillText("Monitor " + canvas.width/zoom + " x " + canvas.height/zoom, 20 * zoom, 50 * zoom);
+                ctx.fillText("X,y " + Math.round(x/zoom) + ", " + Math.round(y/zoom), 20 * zoom, 60 * zoom);
 
                 ctx.fillStyle = "#0000FF";
                 ctx.beginPath();
