@@ -556,23 +556,18 @@ var CANVAS = ((global, $)=>{
     }
 
     function getPos(evt, touch) {
-        
-        var x = -1;
-        var y = -1;
-        
-        if (touch.offsetX) {
-            x = touch.offsetX;
-            y = touch.offsetY;
-        } else {
-            const rect = evt.target.getBoundingClientRect();        
-            x = touch.clientX - rect.left;
-            y = touch.clientY - rect.top;
-        }        
+        // Calculate raw position (mouse + touch)
+        const rect = evt.target.getBoundingClientRect();        
+        const rawP = {
+            x: touch.clientX - rect.left,
+            y: touch.clientY - rect.top           
+        };
 
-        var zoomX = evt.target.width / evt.target.clientWidth;
+        // Convert to canvas pixels (correct for css-zoom & zoom factor)
+        var cssZoom = evt.target.clientWidth / evt.target.width;
         const p = {
-            x: Math.round(unzoom(x * zoomX)),
-            y: Math.round(unzoom(y * zoomX))
+            x: Math.round(unzoom(rawP.x / cssZoom)),
+            y: Math.round(unzoom(rawP.y / cssZoom))
         };
 
         console.log("new", p); 
