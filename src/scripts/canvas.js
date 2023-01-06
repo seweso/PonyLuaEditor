@@ -543,6 +543,9 @@ var CANVAS = ((global, $)=>{
     }
 
     function getPos(touch) {
+        // TODO: Support for overflow back
+
+
         // Calculate raw position (mouse + touch)
         const rect = canvas.getBoundingClientRect();        
         const rawP = {
