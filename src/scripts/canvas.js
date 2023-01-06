@@ -169,7 +169,7 @@ var CANVAS = ((global, $)=>{
             return;
         }
         
-        var pos = getPos(e, touch);
+        var pos = getPos(touch);
                 
         if(touchpoints[0]) {
             touchpoints[0].x = pos.x;
@@ -178,7 +178,7 @@ var CANVAS = ((global, $)=>{
                 
         if(UI.supportsTouch() && e.originalEvent instanceof TouchEvent && e.originalEvent.touches[1]){
             var touch = e.originalEvent.touches[1];
-            var pos = getPos(e, touch);
+            var pos = getPos(touch);
             var tp = touchpoints[1] 
             if (!tp) {
                 const key = (touchpoints.find(element => element.key === 'e')) ? 'q' : 'e';
@@ -213,12 +213,12 @@ var CANVAS = ((global, $)=>{
                 }
                 if(evt.originalEvent.key === 'q' || evt.originalEvent.key === 'e'){
                     // Keyboard click (or touch / mouse click as keyboard event)
-                    evt.preventDefault()                    
+                    // TODO: evt.preventDefault()                    
                     evt.stopImmediatePropagation()
                     if(touchpoints[0] && touchpoints[0].key === evt.originalEvent.key || touchpoints[1] && touchpoints[1].key === evt.originalEvent.key){
                         return
                     }
-                    const pos = getPos(evt, touch);
+                    const pos = getPos(touch);
                     
                     let pX = pos.x;
                     let pY = pos.y;                   
@@ -244,7 +244,7 @@ var CANVAS = ((global, $)=>{
         if(ENGINE.isRunning() && $('#enable-touchscreen').prop('checked')){
             if((UI.supportsTouch() && evt.originalEvent instanceof TouchEvent)){
                 if (touchpoints[1]) {
-                    const pos = getPos(evt, evt.originalEvent.changedTouches[0]);
+                    const pos = getPos(evt.originalEvent.changedTouches[0]);
                     if (distance(pos, touchpoints[0]) < distance(pos, touchpoints[1])) {
                         touchpoints = [touchpoints[1]]    
                     } else {
@@ -547,7 +547,7 @@ var CANVAS = ((global, $)=>{
         }
     }
 
-    function getPos(evt, touch) {
+    function getPos(touch) {
         // Calculate raw position (mouse + touch)
         const rect = canvas.getBoundingClientRect();        
         const rawP = {
