@@ -13,6 +13,7 @@ var CANVAS = ((global, $)=>{
     let enableTouchscreenHintShown = false
 
     let $canvas
+    let canvas
     let ctx
 
     let top = 0
@@ -24,9 +25,6 @@ var CANVAS = ((global, $)=>{
 
     let lastMouseEvent = null
     let mouseIsOverMonitor = false
-    let mouseX = 0
-    let mouseY = 0
-
     let touchpoints = []
 
     let secondaryTouchEnabled = true
@@ -90,29 +88,17 @@ var CANVAS = ((global, $)=>{
         })
         $('#monitor').on('mousemove', (evt)=>{
             lastMouseEvent = evt.originalEvent;
-            if(mouseIsOverMonitor){
-                mouseX = evt.originalEvent.clientX
-                mouseY = evt.originalEvent.clientY + $(global).scrollTop()
-            }
         })
         
         /* touchscreen for touch */
         $('#monitor').on('touchstart', (evt)=>{
             mouseIsOverMonitor = true
-            mouseX = evt.originalEvent.touches[0].clientX
-            mouseY = evt.originalEvent.touches[0].clientY + $(global).scrollTop()
         })
         $(window).on('touchend', (evt)=>{
             mouseIsOverMonitor = false            
         })
         $(window).on('touchcancel', (evt)=>{
             mouseIsOverMonitor = false            
-        })
-        $(window).on('touchmove', (evt)=>{
-            if(mouseIsOverMonitor){
-                mouseX = evt.originalEvent.touches[0].clientX
-                mouseY = evt.originalEvent.touches[0].clientY + $(global).scrollTop()
-            }            
         })
 
         $('#enable-touchscreen, #enable-touchscreen-secondary').on('change', ()=>{
@@ -454,7 +440,8 @@ var CANVAS = ((global, $)=>{
 
     function refresh(){
         $canvas = $('#canvas')
-        ctx = $canvas.get(0).getContext('2d')
+        canvas = $canvas.get(0)
+        ctx = canvas.getContext('2d')
         recalculateCanvas()        
     }
 
@@ -462,7 +449,6 @@ var CANVAS = ((global, $)=>{
         let size = $('#monitor-size').val()
         let showOverflow = $('#show-overflow').prop('checked')
         let dim = getCanvasDimensions(size)
-
 
         width = unzoom(dim.width)
         height = unzoom(dim.height)
@@ -479,8 +465,8 @@ var CANVAS = ((global, $)=>{
         let canvasHeight = dim.height + overflowSize * 2
 
         ctx.save()
-        $canvas.get(0).width = canvasWidth
-        $canvas.get(0).height = canvasHeight
+        canvas.width = canvasWidth
+        canvas.height = canvasHeight
         ctx.restore()
 
 
@@ -524,7 +510,7 @@ var CANVAS = ((global, $)=>{
             console.log('resetting canvas')
         }
 
-        ctx.clearRect(0, 0, $canvas.get(0).width, $canvas.get(0).height)
+        ctx.clearRect(0, 0, canvas.width, canvas.height)
     }
 
     function resetTouchpoints(){        
@@ -562,10 +548,18 @@ var CANVAS = ((global, $)=>{
     }
 
     function getPos(evt, touch) {
-        const rect = evt.target.getBoundingClientRect();
+        // Calculate raw position (mouse + touch)
+        const rect = canvas.getBoundingClientRect();        
+        const rawP = {
+            x: touch.clientX - rect.left,
+            y: touch.clientY - rect.top           
+        };
+
+        // Convert to canvas pixels (correct for css-zoom & zoom factor)
+        var cssZoom = canvas.clientWidth / canvas.width;
         const p = {
-            x: unzoom(touch.clientX - rect.left),
-            y: unzoom(touch.clientY - rect.top)
+            x: Math.round(unzoom(rawP.x / cssZoom)),
+            y: Math.round(unzoom(rawP.y / cssZoom))
         };
 
         //adjust for rotated monitor 
@@ -603,10 +597,10 @@ var CANVAS = ((global, $)=>{
         width: ()=>{return width},
         height: ()=>{return height},
         realWidth: ()=>{
-            return $canvas.get(0).width
+            return canvas.width
         },
         realHeight: ()=>{
-            return $canvas.get(0).height
+            return canvas.height
         },
         reset: reset,
         refresh: refresh,
