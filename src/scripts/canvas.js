@@ -213,21 +213,16 @@ var CANVAS = ((global, $)=>{
                 }
                 if(evt.originalEvent.key === 'q' || evt.originalEvent.key === 'e'){
                     // Keyboard click (or touch / mouse click as keyboard event)
-                    // TODO: evt.preventDefault()                    
                     evt.stopImmediatePropagation()
                     if(touchpoints[0] && touchpoints[0].key === evt.originalEvent.key || touchpoints[1] && touchpoints[1].key === evt.originalEvent.key){
                         return
                     }
                     const pos = getPos(touch);
-                    
-                    let pX = pos.x;
-                    let pY = pos.y;                   
-
-                    if(pX > 0 && pX < width && pY > 0 && pY < height){
+                    if(pos.x > 0 && pos.x < width && pos.y > 0 && pos.y < height){
                         touchpoints.push({
                             key: evt.originalEvent.key,
-                            x: pX,
-                            y: pY
+                            x: pos.x,
+                            y: pos.y
                         })
                     }
                 }
