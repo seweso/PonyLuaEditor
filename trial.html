@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- 
+        Features of this page (compared to IDE):
+        - Full screen when rotated on iPhone
+        - No scrolling or zooming (not even at the edges)
+        - Full screen "monitor" div
+        - Auto starts scripts
+        - Does not show IDE warnings
+    -->
+    <meta charset="utf-8">
+
+    <title>Pony Apps</title>
+    <meta name="title" content="Pony Apps">
+    <meta name="description" content="Runs Lua fullscreen Apps for Stormworks: Build and Rescue. \nUse your stormworks Lua knowledge to create apps to control your stormworks creations. ">
+
+   <!-- external libs -->
+   <script src="https://code.jquery.com/jquery-3.6.3.js" type="text/javascript"></script>
+   
+  <meta name="viewport" content="width=device-width, viewport-fit=cover" />
+  <script type="text/javascript">
+        window.onload = function() {
+
+            // Mouse move
+            function handleMove(event) {
+                var zoomX = event.target.width / event.target.clientWidth;
+                if (event.type === "mousemove") {
+                    x = event.offsetX * zoomX;
+                    y = event.offsetY * zoomX;
+                } else if (event.type === "touchmove") {
+                    var touch = event.touches[0];
+                    var rect = event.target.getBoundingClientRect();
+                    x = (touch.clientX - rect.left) * zoomX;
+                    y = (touch.clientY - rect.top) * zoomX
+                }
+                sizeChanged();
+            }
+
+            const monitorDiv = document.getElementById('monitor');
+            const canvas = document.getElementById('canvas');
+
+            $(canvas, monitorDiv).on("mousemove touchmove", handleMove);            
+
+            const zoom = 10
+            const width = 288 * zoom;
+            const height = 160 * zoom;
+            var x = -1;
+            var y = -1;
+
+            // Observe change in size
+            function sizeChanged() {
+                // Scroll down for full screen effect
+                window.scrollBy(0, 100);
+
+                // Change canvas width / height                
+                if (monitorDiv.clientWidth < monitorDiv.clientHeight) {
+                    canvas.width = height;
+                    canvas.height = width;
+                } else {
+                    canvas.width = width;
+                    canvas.height = height;
+                }                
+
+                // Draw test on canvas
+                const ctx = canvas.getContext('2d');
+
+                // Set the line width and stroke style
+                ctx.lineWidth = zoom;
+                ctx.strokeStyle = '#000000';
+
+                // Begin a new path
+                ctx.beginPath();
+
+                // Draw a pixelated line
+                ctx.moveTo(0, 0);
+                ctx.lineTo(canvas.width, canvas.height);   
+                ctx.lineTo(canvas.width, 0);   
+                ctx.lineTo(0, canvas.height);   
+                ctx.stroke();            
+
+                // Draw a pixelated circle
+                ctx.beginPath();
+                ctx.arc(10*zoom, 15*zoom, 10 * zoom, 20, 2 * Math.PI);
+                ctx.stroke(); 
+                
+                // Draw text
+                ctx.font = Math.round(8 * zoom) + 'px "Screen Mono", "Lucida Console", Monaco, monospace';
+                ctx.fillText("Screen " + monitorDiv.clientWidth + " x " + monitorDiv.clientHeight, 20 * zoom, 40 * zoom);
+                ctx.fillText("Monitor " + canvas.width + " x " + canvas.height, 20 * zoom, 50 * zoom);
+                ctx.fillText("X,y " + Math.round(x) + ", " + Math.round(y), 20 * zoom, 60 * zoom);
+
+                ctx.fillStyle = "#0000FF";
+                ctx.beginPath();
+                ctx.arc(x, y, 10 * zoom, 0, 2 * Math.PI);
+                ctx.fill();
+            }
+            new ResizeObserver(sizeChanged).observe(monitorDiv);
+            window.onscroll = sizeChanged;
+            sizeChanged();             
+        }
+  </script>
+  <style>
+    * {
+        touch-action: none;
+    }
+    body {
+        background-color: grey;
+        height: 300vh;        
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+    #monitor {
+        background-color: orange;
+        position: fixed;
+        
+        top:0;
+        left:0;
+        right:0;
+        bottom:0;
+        /*padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);*/
+        
+
+        color:white;
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        font-size: large;
+    }
+    canvas {
+        image-rendering: pixelated;
+
+        max-width: 100%;
+        max-height: 100%;
+        bottom: 0;
+        left: 0;
+        margin: auto;
+        overflow: auto;
+        position: absolute;
+        right: 0;
+        top: 0;
+        -o-object-fit: contain;
+        object-fit: contain;        
+    }    
+    @media (orientation: landscape) {
+        canvas {
+            background-color: red;            
+        }
+    }
+    @media (orientation: portrait) {
+        canvas {
+            background-color: green;
+        }
+    }
+  </style>  
+</head>
+<body>
+    <div id="monitor"> 
+        <canvas id="canvas"></canvas>
+    </div>
+</body>
+</html>
