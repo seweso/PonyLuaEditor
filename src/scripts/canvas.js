@@ -556,26 +556,26 @@ var CANVAS = ((global, $)=>{
     }
 
     function getPos(evt, touch) {
-        const rect = evt.target.getBoundingClientRect();        
         
         var x = -1;
         var y = -1;
-        var zoomX = evt.target.width / evt.target.clientWidth;
-        if (evt.type === "mousemove") {
-            x = evt.offsetX * zoomX;
-            y = evt.offsetY * zoomX;
-        } else if (evt.type === "touchmove") {
-            var touch = evt.touches[0];
-            x = (touch.clientX - rect.left) * zoomX;
-            y = (touch.clientY - rect.top) * zoomX
-        }
-        console.log("new", Math.round(x/10), Math.round(y/10)); 
+        
+        if (touch.offsetX) {
+            x = touch.offsetX;
+            y = touch.offsetY;
+        } else {
+            const rect = evt.target.getBoundingClientRect();        
+            x = touch.clientX - rect.left;
+            y = touch.clientY - rect.top;
+        }        
 
-        // TODO Fix ugly code
+        var zoomX = evt.target.width / evt.target.clientWidth;
         const p = {
-            x: x,
-            y: y
+            x: Math.round(unzoom(x * zoomX)),
+            y: Math.round(unzoom(y * zoomX))
         };
+
+        console.log("new", p); 
 
         //adjust for rotated monitor 
         switch('' + (STORAGE.getConfiguration('settings.monitorRotation') || 0) ){
@@ -593,12 +593,10 @@ var CANVAS = ((global, $)=>{
     }
     
     function zoom(val){
-        // TODO remove
         return val * zoomFactor
     }
 
     function unzoom(val){
-        // TODO remove
         return val / zoomFactor
     }
 
