@@ -24,6 +24,9 @@ var CANVAS = ((global, $)=>{
 
     let lastMouseEvent = null
     let mouseIsOverMonitor = false
+    let mouseX = 0
+    let mouseY = 0
+
     let touchpoints = []
 
     let secondaryTouchEnabled = true
@@ -87,17 +90,29 @@ var CANVAS = ((global, $)=>{
         })
         $('#monitor').on('mousemove', (evt)=>{
             lastMouseEvent = evt.originalEvent;
+            if(mouseIsOverMonitor){
+                mouseX = evt.originalEvent.clientX
+                mouseY = evt.originalEvent.clientY + $(global).scrollTop()
+            }
         })
         
         /* touchscreen for touch */
         $('#monitor').on('touchstart', (evt)=>{
             mouseIsOverMonitor = true
+            mouseX = evt.originalEvent.touches[0].clientX
+            mouseY = evt.originalEvent.touches[0].clientY + $(global).scrollTop()
         })
         $(window).on('touchend', (evt)=>{
             mouseIsOverMonitor = false            
         })
         $(window).on('touchcancel', (evt)=>{
             mouseIsOverMonitor = false            
+        })
+        $(window).on('touchmove', (evt)=>{
+            if(mouseIsOverMonitor){
+                mouseX = evt.originalEvent.touches[0].clientX
+                mouseY = evt.originalEvent.touches[0].clientY + $(global).scrollTop()
+            }            
         })
 
         $('#enable-touchscreen, #enable-touchscreen-secondary').on('change', ()=>{
@@ -129,12 +144,9 @@ var CANVAS = ((global, $)=>{
         div1.addEventListener("touchmove", absorbEvent);
         div1.addEventListener("touchcancel", absorbEvent);              
 
-
-        $(window).on('keydown', handleKeyDown)
-        $(window).on('keyup', handleKeyUp)
+        $(window).on('keydown mousedown touchstart', handleKeyDown)
+        $(window).on('keyup mouseup touchend', handleKeyUp)
         
-        $("#canvas").on('mousedown touchstart', handleKeyDown)
-        $("#canvas").on('mouseup touchend', handleKeyUp)
         $("#canvas").on('touchmove mousemove touchstart', handleMove)
 
         let params = new URLSearchParams( document.location.search)
@@ -550,21 +562,11 @@ var CANVAS = ((global, $)=>{
     }
 
     function getPos(evt, touch) {
-        // Calculate raw position (mouse + touch)
-        const rect = evt.target.getBoundingClientRect();        
-        const rawP = {
-            x: touch.clientX - rect.left,
-            y: touch.clientY - rect.top           
-        };
-
-        // Convert to canvas pixels (correct for css-zoom & zoom factor)
-        var cssZoom = evt.target.clientWidth / evt.target.width;
+        const rect = evt.target.getBoundingClientRect();
         const p = {
-            x: Math.round(unzoom(rawP.x / cssZoom)),
-            y: Math.round(unzoom(rawP.y / cssZoom))
+            x: unzoom(touch.clientX - rect.left),
+            y: unzoom(touch.clientY - rect.top)
         };
-
-        console.log("new", p); 
 
         //adjust for rotated monitor 
         switch('' + (STORAGE.getConfiguration('settings.monitorRotation') || 0) ){
