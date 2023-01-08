@@ -1,0 +1,42 @@
+@font-face {
+    font-family: "Screen Mono";
+    src: url("../fonts/CG_pixel_4x5_mono.ttf");
+}
+body {
+    background-color: black;
+    height: 300vh;        
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;            
+}
+#monitor {
+    position: fixed;
+    
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    /*padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);*/
+
+    color:white;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: large;
+}
+canvas {
+    image-rendering: pixelated;
+
+    max-width: 100%;
+    max-height: 100%;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    overflow: auto;
+    position: absolute;
+    right: 0;
+    top: 0;
+    -o-object-fit: contain;
+    object-fit: contain;
+}    
