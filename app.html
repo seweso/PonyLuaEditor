@@ -149,10 +149,9 @@
                     setterFunc = (vv)=>{elem.val(vv)}
                 }
 
-                if (v != oldV) {
-                    setterFunc(v)
-                    elem.trigger('change')
-                }                
+                // Always fire events (else stuff breaks)
+                setterFunc(v)
+                elem.trigger('change')    
             }
         }
         
